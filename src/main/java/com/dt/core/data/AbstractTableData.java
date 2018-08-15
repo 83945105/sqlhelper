@@ -19,9 +19,9 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
-    private T table;
+    private T tableModel;
 
-    private Class tableClass;
+    private Class<T> tableClass;
 
     protected String tableName;
 
@@ -42,18 +42,18 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
     public AbstractTableData(Class<T> tableClass) {
         this.tableClass = tableClass;
         try {
-            this.table = tableClass.newInstance();
+            this.tableModel = tableClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        this.tableName = this.table.getTableName();
-        this.tableAlias = this.table.getTableAlias();
-        this.primaryKeyName = this.table.getPrimaryKeyName();
-        this.primaryKeyAlias = this.table.getPrimaryKeyAlias();
+        this.tableName = this.tableModel.getTableName();
+        this.tableAlias = this.tableModel.getTableAlias();
+        this.primaryKeyName = this.tableModel.getPrimaryKeyName();
+        this.primaryKeyAlias = this.tableModel.getPrimaryKeyAlias();
     }
 
-    public T getTable() {
-        return this.table;
+    public T getTableModel() {
+        return this.tableModel;
     }
 
     public String getTableName() {
@@ -148,7 +148,7 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
         this.sortDataList.add(sortDataList);
     }
 
-    public Class getTableClass() {
+    public Class<T> getTableClass() {
         return this.tableClass;
     }
 

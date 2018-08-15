@@ -1,5 +1,6 @@
 package com.dt.core.norm;
 
+import com.dt.beans.Pagination;
 import com.dt.core.bean.*;
 import com.dt.core.data.*;
 
@@ -75,7 +76,7 @@ public interface Data<M extends Model<M, ML, MO, MC, MS, MG>,
     /**
      * 添加连接表数据集合
      *
-     * @param joinTableData
+     * @param joinTableData 连接表数据
      */
     void addJoinTableData(JoinTableData joinTableData);
 
@@ -163,12 +164,32 @@ public interface Data<M extends Model<M, ML, MO, MC, MS, MG>,
      */
     void addSortDataList(List<SortData> sortDataList);
 
-    Integer getLimitStart();
+    /**
+     * 获取分页对象
+     *
+     * @return 分页对象
+     */
+    Pagination getPagination();
 
+    /**
+     * 设置分页对象
+     *
+     * @param pagination 分页对象
+     */
+    void setPagination(Pagination pagination);
+
+    /**
+     * 设置分页开始号
+     *
+     * @param limitStart 分页开始号
+     */
     void setLimitStart(Integer limitStart);
 
-    Integer getLimitEnd();
-
+    /**
+     * 设置分页结束号
+     *
+     * @param limitEnd 分页结束号
+     */
     void setLimitEnd(Integer limitEnd);
 
 }

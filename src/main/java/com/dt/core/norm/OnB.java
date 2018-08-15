@@ -17,6 +17,12 @@ public interface OnB<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> {
 
-    OnBuilder<M, ML, MO, MC, MS, MG> apply(MO table);
+    /**
+     * 接收处理On条件模组
+     *
+     * @param onModel On条件模组
+     * @return On条件构建器
+     */
+    OnBuilder<M, ML, MO, MC, MS, MG> apply(MO onModel);
 
 }

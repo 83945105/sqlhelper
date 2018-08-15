@@ -6,7 +6,6 @@ import com.dt.core.data.MainTableData;
 import com.dt.core.data.SortData;
 import com.dt.core.norm.Model;
 import com.dt.core.norm.Sort;
-import com.dt.core.parser.SortParser;
 
 import java.util.List;
 
@@ -24,20 +23,18 @@ public class SortEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends LimitEngine<M, ML, MO, MC, MS, MG> {
 
-    private SortParser sortParser = SortParser.getInstance();
-
-    SortEngine(Class<M> mainClass) {
-        super(mainClass);
+    SortEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+        super(mainClass, dataBaseType);
     }
 
-    SortEngine(Class<M> mainClass, String tableName) {
-        super(mainClass, tableName);
+    SortEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+        super(mainClass, tableName, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
     public SortEngine<M, ML, MO, MC, MS, MG> sort(Sort<M, ML, MO, MC, MS, MG> sort) {
         MainTableData mainTableData = this.data.getMainTableData();
-        MS ms = (MS) mainTableData.getTable().getSort();
+        MS ms = (MS) mainTableData.getTableModel().getSortModel();
         ms.getSortBuilder().setOwnerTableData(mainTableData);
         List<SortData> sortDataList = sort.apply(ms).getSortBuilder().getSortDataList();
         mainTableData.addSortDataList(sortDataList);
@@ -53,7 +50,7 @@ public class SortEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> SortEngine<M, ML, MO, MC, MS, MG> sort(Class<T> sortClass, String alias, Sort<T, TL, TO, TC, TS, TG> sort) {
         JoinTableData joinTableData = this.data.getJoinTableData(alias, sortClass);
-        TS ts = (TS) joinTableData.getTable().getSort();
+        TS ts = (TS) joinTableData.getTableModel().getSortModel();
         ts.getSortBuilder().setOwnerTableData(joinTableData);
         List<SortData> sortDataList = sort.apply(ts).getSortBuilder().getSortDataList();
         joinTableData.addSortDataList(sortDataList);
@@ -68,11 +65,6 @@ public class SortEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> SortEngine<M, ML, MO, MC, MS, MG> sort(Class<T> sortClass, Sort<T, TL, TO, TC, TS, TG> sort) {
         return sort(sortClass, null, sort);
-    }
-
-    @Override
-    public String getSortSql() {
-        return this.sortParser.parse(this.getData().getSortDataList());
     }
 
 }

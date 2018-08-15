@@ -371,7 +371,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTable().getOn();
+        TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
@@ -391,7 +391,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.NOT_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTable().getOn();
+        TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
@@ -411,7 +411,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.GREATER);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTable().getOn();
+        TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
@@ -431,7 +431,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.GREATER_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTable().getOn();
+        TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
@@ -451,7 +451,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.LESS);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTable().getOn();
+        TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
@@ -471,7 +471,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.LESS_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTable().getOn();
+        TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());

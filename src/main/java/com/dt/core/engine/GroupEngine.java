@@ -5,7 +5,6 @@ import com.dt.core.data.GroupData;
 import com.dt.core.data.AbstractTableData;
 import com.dt.core.norm.Group;
 import com.dt.core.norm.Model;
-import com.dt.core.parser.GroupParser;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,14 +23,12 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends SortEngine<M, ML, MO, MC, MS, MG> {
 
-    private GroupParser groupParser = GroupParser.getInstance();
-
-    GroupEngine(Class<M> mainClass) {
-        super(mainClass);
+    GroupEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+        super(mainClass, dataBaseType);
     }
 
-    GroupEngine(Class<M> mainClass, String tableName) {
-        super(mainClass, tableName);
+    GroupEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+        super(mainClass, tableName, dataBaseType);
     }
 
     public GroupEngine<M, ML, MO, MC, MS, MG> group(String... columnNames) {
@@ -104,7 +101,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
 
     @SuppressWarnings("unchecked")
     public GroupEngine<M, ML, MO, MC, MS, MG> group(Group<M, ML, MO, MC, MS, MG> group) {
-        List<String> columns = group.apply((MG) this.data.getMainTableData().getTable().getGroup()).getColumns();
+        List<String> columns = group.apply((MG) this.data.getMainTableData().getTableModel().getGroupModel()).getColumns();
         return group(columns);
     }
 
@@ -115,7 +112,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, String alias, Group<T, TL, TO, TC, TS, TG> group) {
-        List<String> columns = group.apply((TG) this.data.getJoinTableData(alias, groupClass).getTable().getGroup()).getColumns();
+        List<String> columns = group.apply((TG) this.data.getJoinTableData(alias, groupClass).getTableModel().getGroupModel()).getColumns();
         return group(alias, groupClass, columns);
     }
 
@@ -126,11 +123,6 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, Group<T, TL, TO, TC, TS, TG> group) {
         return group(groupClass, null, group);
-    }
-
-    @Override
-    public String getGroupSql() {
-        return this.groupParser.parse(this.getData().getGroupDataList());
     }
 
 }

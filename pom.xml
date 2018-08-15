@@ -5,7 +5,7 @@
 
     <groupId>com.github.83945105</groupId>
     <artifactId>sqlhelper</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
     <name>sqlhelper</name>
@@ -47,7 +47,9 @@
         <reflectasm.version>1.11.3</reflectasm.version>
         <slf4j.version>1.7.25</slf4j.version>
         <mysql-connector-java.version>5.1.45</mysql-connector-java.version>
+        <ehcache.version>3.5.2</ehcache.version>
         <jansi.version>1.11</jansi.version>
+        <spring-beans.version>5.0.8.RELEASE</spring-beans.version>
     </properties>
 
     <dependencies>
@@ -78,9 +80,19 @@
             <version>${mysql-connector-java.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>
             <version>${jansi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring-beans.version}</version>
         </dependency>
     </dependencies>
 

@@ -20,7 +20,7 @@ public class MySqlEngine {
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> JoinEngine<T, TL, TO, TC, TS, TG> main(String tableName, Class<T> mainClass) {
-        return new JoinEngine<>(mainClass, tableName);
+        return new JoinEngine<>(mainClass, tableName, DataBaseType.MYSQL);
     }
 
     public static <T extends Model<T, TL, TO, TC, TS, TG>,
@@ -38,7 +38,7 @@ public class MySqlEngine {
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnEngine<T, TL, TO, TC, TS, TG> column(String tableName, Class<T> columnClass) {
-        return new ColumnEngine<>(columnClass, tableName);
+        return new ColumnEngine<>(columnClass, tableName, DataBaseType.MYSQL);
     }
 
     public static <T extends Model<T, TL, TO, TC, TS, TG>,

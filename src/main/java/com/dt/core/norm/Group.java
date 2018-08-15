@@ -17,6 +17,12 @@ public interface Group<T extends Model<T, TL, TO, TC, TS, TG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
-    TG apply(TG table);
+    /**
+     * 接收处理分组模型
+     *
+     * @param groupModel 分组模型
+     * @return 分组模型
+     */
+    TG apply(TG groupModel);
 
 }

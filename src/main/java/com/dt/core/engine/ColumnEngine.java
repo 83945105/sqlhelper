@@ -5,7 +5,6 @@ import com.dt.core.data.MainTableData;
 import com.dt.core.data.VirtualFieldData;
 import com.dt.core.norm.Column;
 import com.dt.core.norm.Model;
-import com.dt.core.parser.ColumnParser;
 
 import java.util.Map;
 
@@ -23,22 +22,20 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereEngine<M, ML, MO, MC, MS, MG> {
 
-    private ColumnParser columnParser = ColumnParser.getInstance();
-
-    public ColumnEngine(Class<M> mainClass) {
-        super(mainClass);
+    public ColumnEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+        super(mainClass, dataBaseType);
     }
 
-    ColumnEngine(Class<M> mainClass, String tableName) {
-        super(mainClass, tableName);
+    ColumnEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+        super(mainClass, tableName, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
     public ColumnEngine<M, ML, MO, MC, MS, MG> column(Column<M, ML, MO, MC, MS, MG> column) {
         MainTableData tableData = this.data.getMainTableData();
-        Map<String, String> columns = column.apply((ML) tableData.getTable().getColumn()).getColumnAliasMap();
-        if(columns.size() == 0) {
-            columns = tableData.getTable().getColumnAliasMap();
+        Map<String, String> columns = column.apply((ML) tableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        if (columns.size() == 0) {
+            columns = tableData.getTableModel().getColumnAliasMap();
         }
         tableData.addColumnAliasMap(columns);
         this.data.addColumnData(tableData);
@@ -80,14 +77,6 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     @Override
     public Map<String, String> getColumnAliasMap() {
         return this.data.getMainTableData().getColumnAliasMap();
-    }
-
-    @Override
-    public String getColumnSql() {
-        return this.columnParser.parse(this.getData().getMainTableData(),
-                this.getData().getFunctionColumnDataList(),
-                this.getData().getVirtualFieldDataSet(),
-                this.getData().getColumnDataSet());
     }
 
 }

@@ -22,7 +22,7 @@ public class BeanUtils {
      *
      * @param property      属性名
      * @param isBooleanType 是否是boolean类型属性
-     * @return get方法名
+     * @return getter方法名
      */
     public static String getGetterMethodName(String property, boolean isBooleanType) {
         if (property == null || property.trim().length() == 0) {
@@ -52,7 +52,7 @@ public class BeanUtils {
      * 根据属性名称获取对应的setter方法名称
      *
      * @param property 属性名称
-     * @return
+     * @return setter方法名
      */
     public static String getSetterMethodName(String property) {
         if (property == null || property.trim().trim().length() == 0) {
@@ -90,4 +90,5 @@ public class BeanUtils {
             methodAccess.invoke(object, setterName, value.toString());
         }
     }
+
 }

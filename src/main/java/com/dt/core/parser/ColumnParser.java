@@ -38,7 +38,7 @@ public final class ColumnParser {
         Map<String, String> columnAliasMap;
         String tableAlias;
         if (!hasF && !hasV && !hasC) {
-            columnAliasMap = mainTableData.getTable().getColumnAliasMap();
+            columnAliasMap = mainTableData.getTableModel().getColumnAliasMap();
             tableAlias = mainTableData.getTableAlias();
             for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
                 sql.append(",")
@@ -124,7 +124,7 @@ public final class ColumnParser {
             for (AbstractTableData tableData : columnDataSet) {
                 columnAliasMap = tableData.getColumnAliasMap();
                 if (columnAliasMap.size() == 0) {
-                    columnAliasMap = tableData.getTable().getColumnAliasMap();
+                    columnAliasMap = tableData.getTableModel().getColumnAliasMap();
                     tableAlias = tableData.getTableAlias();
                     if (tableData.getTableClass() == mainTableData.getTableClass()) {
                         for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {

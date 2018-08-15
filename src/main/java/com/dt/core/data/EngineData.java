@@ -5,8 +5,10 @@ import com.dt.core.bean.*;
 import com.dt.core.exception.TableDataException;
 import com.dt.core.norm.Data;
 import com.dt.core.norm.Model;
+import org.springframework.beans.BeanUtils;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 数据引擎
@@ -22,9 +24,10 @@ public final class EngineData<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> implements Data<M, ML, MO, MC, MS, MG> {
 
+    private DataBaseType dataBaseType;
+    private Map<String, Class> aliasClassCache = new ConcurrentHashMap<>();
     private MainTableData<M, ML, MO, MC, MS, MG> mainMainTableData;
-    private Map<String, JoinTableData> joinTableDataAliasMap = new LinkedHashMap<>();
-    private Map<String, Boolean> alias = new HashMap<>();
+    private Map<String, JoinTableData> joinTableDataAliasMap;
     private Set<AbstractTableData> columnDataSet;
     private Set<VirtualFieldData> virtualFieldDataSet;
     private List<FunctionColumnData> functionColumnDataList;
@@ -32,6 +35,10 @@ public final class EngineData<M extends Model<M, ML, MO, MC, MS, MG>,
     private List<GroupData> groupDataList;
     private List<List<SortData>> sortDataList;
     private Pagination pagination;
+
+    public EngineData(DataBaseType dataBaseType) {
+        this.dataBaseType = dataBaseType;
+    }
 
     @Override
     public MainTableData<M, ML, MO, MC, MS, MG> getMainTableData() {
@@ -52,35 +59,34 @@ public final class EngineData<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinTableData<J, JL, JO, JC, JS, JG> getJoinTableData(String alias, Class<J> joinClass) {
         if (this.joinTableDataAliasMap == null) {
-            throw new TableDataException("no alias table [" + alias + "] joined");
+            throw new TableDataException("the alias table [" + alias + "] is not joined.");
         }
         if (alias == null || alias.trim().length() == 0) {
-            try {
-                alias = joinClass.newInstance().getTableAlias();
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            alias = BeanUtils.instantiateClass(joinClass).getTableAlias();
         }
         if (alias == null || alias.trim().length() == 0) {
             throw new TableDataException("alias can not be null or empty.");
         }
-        if (this.alias.get(alias) == null) {
-            throw new TableDataException("the alias table [" + alias + "] is not join");
+        if (this.aliasClassCache.get(alias) == null) {
+            throw new TableDataException("the alias table [" + alias + "] is not joined.");
         }
         JoinTableData joinTableData = this.joinTableDataAliasMap.get(alias);
         if (joinTableData == null) {
-            throw new TableDataException("no alias table [" + alias + "] joined");
+            throw new TableDataException("the alias table [" + alias + "] has not joinTableData.");
         }
         return joinTableData;
     }
 
     @Override
     public void addJoinTableData(JoinTableData joinTableData) {
-        if (this.alias.get(joinTableData.getTableAlias()) != null) {
+        if (this.aliasClassCache.get(joinTableData.getTableAlias()) != null) {
             throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
         }
+        if (this.joinTableDataAliasMap == null) {
+            this.joinTableDataAliasMap = new LinkedHashMap<>();
+        }
         this.joinTableDataAliasMap.put(joinTableData.getTableAlias(), joinTableData);
-        this.alias.put(joinTableData.getTableAlias(), true);
+        this.aliasClassCache.put(joinTableData.getTableAlias(), joinTableData.getTableClass());
     }
 
     @Override
@@ -185,28 +191,36 @@ public final class EngineData<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public Integer getLimitStart() {
-        return this.pagination.getLimitStart();
+    public Pagination getPagination() {
+        return this.pagination;
+    }
+
+    @Override
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
     }
 
     @Override
     public void setLimitStart(Integer limitStart) {
         if (this.pagination == null) {
-            this.pagination = new Pagination();
+            this.pagination = new Pagination(this.dataBaseType);
         }
         this.pagination.setLimitStart(limitStart);
     }
 
     @Override
-    public Integer getLimitEnd() {
-        return this.pagination.getLimitEnd();
-    }
-
-    @Override
     public void setLimitEnd(Integer limitEnd) {
         if (this.pagination == null) {
-            this.pagination = new Pagination();
+            this.pagination = new Pagination(this.dataBaseType);
         }
         this.pagination.setLimitEnd(limitEnd);
+    }
+
+    public DataBaseType getDataBaseType() {
+        return dataBaseType;
+    }
+
+    public void setDataBaseType(DataBaseType dataBaseType) {
+        this.dataBaseType = dataBaseType;
     }
 }

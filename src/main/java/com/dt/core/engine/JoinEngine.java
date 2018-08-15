@@ -3,11 +3,8 @@ package com.dt.core.engine;
 import com.dt.core.bean.*;
 import com.dt.core.data.JoinTableData;
 import com.dt.core.data.MainTableData;
-import com.dt.core.data.ParseData;
-import com.dt.core.norm.Data;
 import com.dt.core.norm.Model;
 import com.dt.core.norm.OnA;
-import com.dt.core.parser.JoinParser;
 
 /**
  * 连接引擎
@@ -23,14 +20,12 @@ public class JoinEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends ColumnIntactEngine<M, ML, MO, MC, MS, MG> {
 
-    private JoinParser joinParser = JoinParser.getInstance();
-
-    public JoinEngine(Class<M> mainClass) {
-        super(mainClass);
+    public JoinEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+        super(mainClass, dataBaseType);
     }
 
-    JoinEngine(Class<M> mainClass, String tableName) {
-        super(mainClass, tableName);
+    JoinEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+        super(mainClass, tableName, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,9 +45,9 @@ public class JoinEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         joinTableData.setTableAlias(alias);
         joinTableData.setJoinType(joinType);
         OnLink<J, JL, JO, JC, JS, JG> onLink = new OnLink<>();
-        JO jo = (JO) joinTableData.getTable().getOn();
+        JO jo = (JO) joinTableData.getTableModel().getOnModel();
         jo.setData(this.data);
-        MO mo = (MO) mainTableData.getTable().getOn();
+        MO mo = (MO) mainTableData.getTableModel().getOnModel();
         OnLink link = on.apply(onLink, jo, mo);
         joinTableData.addLinkOnDataMap(link.getLinkOnDataMap());
         this.data.addJoinTableData(joinTableData);
@@ -224,11 +219,6 @@ public class JoinEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinEngine<M, ML, MO, MC, MS, MG> rightJoin(Class<J> joinClass,
                                                                                                       OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, null, JoinType.RIGHT, on);
-    }
-
-    @Override
-    public ParseData getJoinParseData() {
-        return this.joinParser.parse(this.data.getJoinTableDataAliasMap());
     }
 
 }

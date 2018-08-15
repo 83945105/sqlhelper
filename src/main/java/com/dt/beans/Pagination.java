@@ -43,6 +43,10 @@ public class Pagination {
     public Pagination() {
     }
 
+    public Pagination(DataBaseType dataBaseType) {
+        this.dataBaseType = dataBaseType;
+    }
+
     public Pagination(int currentPage, int pageSize) {
         this.setCurrentPage(currentPage);
         this.setPageSize(pageSize);

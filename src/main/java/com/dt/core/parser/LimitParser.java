@@ -1,5 +1,6 @@
 package com.dt.core.parser;
 
+import com.dt.beans.Pagination;
 import com.dt.core.data.ParseData;
 
 import java.util.ArrayList;
@@ -23,21 +24,15 @@ public final class LimitParser {
         return LIMIT_PARSER;
     }
 
-    public ParseData parse(Integer limitStart, Integer limitEnd) {
-        if (limitStart == null) {
+    public ParseData parse(Pagination pagination) {
+        if (pagination == null) {
             return null;
         }
         ParseData parseData = new ParseData();
         List<Object> args = new ArrayList<>();
-        if (limitEnd == null) {
-            parseData.setSql("limit ?");
-            args.add(limitStart);
-            parseData.setArgs(args);
-            return parseData;
-        }
         parseData.setSql("limit ?, ?");
-        args.add(limitStart);
-        args.add(limitEnd);
+        args.add(pagination.getLimitStart());
+        args.add(pagination.getLimitEnd());
         parseData.setArgs(args);
         return parseData;
     }

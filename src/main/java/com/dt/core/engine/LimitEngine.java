@@ -3,11 +3,9 @@ package com.dt.core.engine;
 import com.dt.core.bean.*;
 import com.dt.core.data.EngineData;
 import com.dt.core.data.MainTableData;
-import com.dt.core.data.ParseData;
 import com.dt.core.norm.Data;
 import com.dt.core.norm.Engine;
 import com.dt.core.norm.Model;
-import com.dt.core.parser.LimitParser;
 
 /**
  * 分页引擎
@@ -23,20 +21,20 @@ public class LimitEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> implements Engine {
 
-    private LimitParser limitParser = LimitParser.getInstance();
-
-    protected Data<M, ML, MO, MC, MS, MG> data = new EngineData<>();
+    protected Data<M, ML, MO, MC, MS, MG> data;
 
     @SuppressWarnings("unchecked")
-    LimitEngine(Class<M> mainClass) {
+    LimitEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         MainTableData data = new MainTableData(mainClass);
+        this.data = new EngineData<>(dataBaseType);
         this.data.setMainTableData(data);
     }
 
     @SuppressWarnings("unchecked")
-    LimitEngine(Class<M> mainClass, String tableName) {
+    LimitEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
         MainTableData data = new MainTableData(mainClass);
         data.setTableName(tableName);
+        this.data = new EngineData<>(dataBaseType);
         this.data.setMainTableData(data);
     }
 
@@ -55,8 +53,8 @@ public class LimitEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public Model getTable() {
-        return this.data.getMainTableData().getTable();
+    public Model getTableModel() {
+        return this.data.getMainTableData().getTableModel();
     }
 
     @Override
@@ -84,8 +82,4 @@ public class LimitEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this.data.getMainTableData().getPrimaryKeyAlias();
     }
 
-    @Override
-    public ParseData getLimitParseData() {
-        return this.limitParser.parse(this.getData().getLimitStart(), this.getData().getLimitEnd());
-    }
 }

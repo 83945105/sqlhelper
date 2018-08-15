@@ -17,5 +17,11 @@ public interface Sort<T extends Model<T, TL, TO, TC, TS, TG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
-    TS apply(TS table);
+    /**
+     * 接收处理排序模组
+     *
+     * @param sortModel 排序模组
+     * @return 排序模组
+     */
+    TS apply(TS sortModel);
 }

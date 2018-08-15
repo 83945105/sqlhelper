@@ -36,10 +36,7 @@ public abstract class AbstractJdbcSource {
         try {
             Class.forName(this.driverClassName);
             this.connection = DriverManager.getConnection(url, username, password);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            return false;
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
             return false;
         }

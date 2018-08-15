@@ -109,7 +109,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     }
 
     @Override
-    public ColumnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getColumn() {
+    public ColumnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getColumnModel() {
         return new Column();
     }
 
@@ -155,7 +155,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     [/]}
 
     @Override
-    public OnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getOn() {
+    public OnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getOnModel() {
         return new On();
     }
 
@@ -181,7 +181,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     [/]}
 
     @Override
-    public Where getWhere() {
+    public Where getWhereModel() {
         return new Where();
     }
 
@@ -207,7 +207,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     [/]}
 
     @Override
-    public GroupModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getGroup() {
+    public GroupModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getGroupModel() {
         return new Group();
     }
 
@@ -235,7 +235,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     [/]}
 
     @Override
-    public SortModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getSort() {
+    public SortModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getSortModel() {
         return new Sort();
     }
 

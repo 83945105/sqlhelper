@@ -4,11 +4,9 @@ import com.dt.core.bean.*;
 import com.dt.core.data.JoinTableData;
 import com.dt.core.data.LinkWhereData;
 import com.dt.core.data.MainTableData;
-import com.dt.core.data.ParseData;
 import com.dt.core.norm.ConditionA;
 import com.dt.core.norm.ConditionB;
 import com.dt.core.norm.Model;
-import com.dt.core.parser.WhereParser;
 
 import java.util.List;
 
@@ -26,20 +24,18 @@ public class WhereEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends GroupEngine<M, ML, MO, MC, MS, MG> {
 
-    private WhereParser whereParser = WhereParser.getInstance();
-
-    WhereEngine(Class<M> mainClass) {
-        super(mainClass);
+    WhereEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+        super(mainClass, dataBaseType);
     }
 
-    WhereEngine(Class<M> mainClass, String tableName) {
-        super(mainClass, tableName);
+    WhereEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+        super(mainClass, tableName, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
     public WhereEngine<M, ML, MO, MC, MS, MG> where(ConditionA<M, ML, MO, MC, MS, MG> condition) {
         MainTableData mainTableData = this.data.getMainTableData();
-        MC mc = (MC) mainTableData.getTable().getWhere();
+        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.data), mc);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
@@ -57,9 +53,9 @@ public class WhereEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, String alias, ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
         MainTableData mainTableData = this.data.getMainTableData();
         JoinTableData joinTableData = this.data.getJoinTableData(alias, conditionClass);
-        MC mc = (MC) mainTableData.getTable().getWhere();
+        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
-        TC tc = (TC) joinTableData.getTable().getWhere();
+        TC tc = (TC) joinTableData.getTableModel().getWhereModel();
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.data), tc, mc);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
@@ -75,11 +71,6 @@ public class WhereEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
         return where(conditionClass, null, condition);
-    }
-
-    @Override
-    public ParseData getWhereParseData() {
-        return this.whereParser.parse(this.getData().getLinkWhereDataListList());
     }
 
 }

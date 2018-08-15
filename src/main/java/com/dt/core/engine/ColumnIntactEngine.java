@@ -7,7 +7,6 @@ import com.dt.core.data.MainTableData;
 import com.dt.core.data.VirtualFieldData;
 import com.dt.core.norm.Column;
 import com.dt.core.norm.Model;
-import com.dt.core.parser.ColumnParser;
 
 import java.util.Map;
 
@@ -25,22 +24,20 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereEngine<M, ML, MO, MC, MS, MG> {
 
-    private ColumnParser columnParser = ColumnParser.getInstance();
-
-    ColumnIntactEngine(Class<M> mainClass) {
-        super(mainClass);
+    ColumnIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+        super(mainClass, dataBaseType);
     }
 
-    ColumnIntactEngine(Class<M> mainClass, String tableName) {
-        super(mainClass, tableName);
+    ColumnIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+        super(mainClass, tableName, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
     public ColumnIntactEngine<M, ML, MO, MC, MS, MG> column(Column<M, ML, MO, MC, MS, MG> column) {
         MainTableData tableData = this.data.getMainTableData();
-        Map<String, String> columns = column.apply((ML) tableData.getTable().getColumn()).getColumnAliasMap();
-        if(columns.size() == 0) {
-            columns = tableData.getTable().getColumnAliasMap();
+        Map<String, String> columns = column.apply((ML) tableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        if (columns.size() == 0) {
+            columns = tableData.getTableModel().getColumnAliasMap();
         }
         tableData.addColumnAliasMap(columns);
         this.data.addColumnData(tableData);
@@ -55,9 +52,9 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> column(Class<T> columnClass, String alias, Column<T, TL, TO, TC, TS, TG> column) {
         JoinTableData joinTableData = this.data.getJoinTableData(alias, columnClass);
-        Map<String, String> columns = column.apply((TL) joinTableData.getTable().getColumn()).getColumnAliasMap();
-        if(columns.size() == 0) {
-            columns = joinTableData.getTable().getColumnAliasMap();
+        Map<String, String> columns = column.apply((TL) joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        if (columns.size() == 0) {
+            columns = joinTableData.getTableModel().getColumnAliasMap();
         }
         joinTableData.addColumnAliasMap(columns);
         this.data.addColumnData(joinTableData);
@@ -108,7 +105,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     @SuppressWarnings("unchecked")
     public ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(FunctionColumnType functionColumnType, Column<M, ML, MO, MC, MS, MG> column) {
         MainTableData tableData = this.data.getMainTableData();
-        Map<String, String> columns = column.apply((ML) tableData.getTable().getColumn()).getColumnAliasMap();
+        Map<String, String> columns = column.apply((ML) tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         this.data.addFunctionColumnData(new FunctionColumnData(tableData, functionColumnType, columns));
         return this;
     }
@@ -121,7 +118,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(Class<T> columnClass, String alias, FunctionColumnType functionColumnType, Column<T, TL, TO, TC, TS, TG> column) {
         JoinTableData joinTableData = this.data.getJoinTableData(alias, columnClass);
-        Map<String, String> columns = column.apply((TL) joinTableData.getTable().getColumn()).getColumnAliasMap();
+        Map<String, String> columns = column.apply((TL) joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
         this.data.addFunctionColumnData(new FunctionColumnData(joinTableData, functionColumnType, columns));
         return this;
     }
@@ -138,14 +135,6 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     @Override
     public Map<String, String> getColumnAliasMap() {
         return this.data.getMainTableData().getColumnAliasMap();
-    }
-
-    @Override
-    public String getColumnSql() {
-        return this.columnParser.parse(this.getData().getMainTableData(),
-                this.getData().getFunctionColumnDataList(),
-                this.getData().getVirtualFieldDataSet(),
-                this.getData().getColumnDataSet());
     }
 
 }
