@@ -1,0 +1,263 @@
+package [[${setting.packagePath}]];
+
+import com.dt.core.bean.*;
+import com.dt.core.norm.Model;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implements Model<[[${setting.tableAlias}+${setting.templateSuffix}]], [[${setting.tableAlias}+${setting.templateSuffix}]].Column, [[${setting.tableAlias}+${setting.templateSuffix}]].On, [[${setting.tableAlias}+${setting.templateSuffix}]].Where, [[${setting.tableAlias}+${setting.templateSuffix}]].Sort, [[${setting.tableAlias}+${setting.templateSuffix}]].Group> {
+
+    /**
+     * 表名
+     */
+    public static final String tableName = [('"' + ${setting.tableName} + '"')];
+    /**
+     * 表别名
+     */
+    public static final String tableAlias = [('"' + ${setting.tableAlias} + '"')];
+[# th:if="${setting.primaryKeyColumnInfo != null}"]
+    /**
+     * 主键名
+     */
+    public static final String primaryKeyName = [('"' + ${setting.primaryKeyColumnInfo.name} + '"')];
+    /**
+     * 主键别名
+     */
+    public static final String primaryKeyAlias = [('"' + ${setting.primaryKeyColumnInfo.alias} + '"')];
+[/]
+[# th:if="${setting.primaryKeyColumnInfo == null}"]
+    /**
+     * 主键名
+     */
+    public static final String primaryKeyName = [('null')];
+    /**
+     * 主键别名
+     */
+    public static final String primaryKeyAlias = [('null')];
+[/]
+[# th:each="columnInfo : ${columnInfoCollection}"]
+    /**
+     * [(${columnInfo.comment})]
+     */
+    [('public static final String '+ ${columnInfo.alias} + ' = "' + ${columnInfo.name} + '";')]
+    /**
+     * [(${columnInfo.comment})]
+     */
+    [('public static final String '+ ${columnInfo.alias} + '_alias = "' + ${columnInfo.alias} + '";')]
+[/]
+    /**
+     * 字段-别名 集合
+     */
+    public static final Map<String, String> COLUMN_ALIAS_MAP = new LinkedHashMap<>();
+    /**
+     * 别名-字段 集合
+     */
+    public static final Map<String, String> ALIAS_COLUMN_MAP = new LinkedHashMap<>();
+
+    static {[# th:each="columnInfo : ${columnInfoCollection}"]
+        [('COLUMN_ALIAS_MAP.put(' + ${columnInfo.alias} + ', ' + ${columnInfo.alias} + '_alias);')]
+        [('ALIAS_COLUMN_MAP.put(' + ${columnInfo.alias} + '_alias, ' + ${columnInfo.alias} + ');')]
+    [/]}
+
+    /**
+     * 表名
+     */
+    @Override
+    public String getTableName() {
+        return tableName;
+    }
+
+    /**
+     * 表别名
+     */
+    @Override
+    public String getTableAlias() {
+        return tableAlias;
+    }
+
+    /**
+     * 主键名
+     */
+    @Override
+    public String getPrimaryKeyName() {
+        return primaryKeyName;
+    }
+
+    /**
+     * 主键别名
+     */
+    @Override
+    public String getPrimaryKeyAlias() {
+        return primaryKeyAlias;
+    }
+
+    /**
+     * 列名-别名 集合
+     */
+    @Override
+    public Map<String, String> getColumnAliasMap() {
+        return COLUMN_ALIAS_MAP;
+    }
+
+    /**
+     * 别名-列名 集合
+     */
+    @Override
+    public Map<String, String> getAliasColumnMap() {
+        return ALIAS_COLUMN_MAP;
+    }
+
+    @Override
+    public ColumnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getColumn() {
+        return new Column();
+    }
+
+    public static final class Column extends ColumnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> {
+
+        private Column() {
+        }
+
+        /**
+         * 主键
+         */
+        public Column primaryKey() {
+            this.addColumnAlias([[${setting.tableAlias}+${setting.templateSuffix}]].primaryKeyName, [[${setting.tableAlias}+${setting.templateSuffix}]].primaryKeyAlias);
+            return this;
+        }
+
+        /**
+         * 主键
+         * @param alias 别名
+         */
+        public Column primaryKey(String alias) {
+            this.addColumnAlias([[${setting.tableAlias}+${setting.templateSuffix}]].primaryKeyName, alias);
+            return this;
+        }
+    [# th:each="columnInfo : ${columnInfoCollection}"]
+        /**
+         * [[${columnInfo.comment}]]
+         */
+        [('public Column '+ ${columnInfo.alias} +'() {')]
+            [('this.addColumnAlias(' + ${setting.tableAlias}+${setting.templateSuffix} + '.' + ${columnInfo.alias} + ', ' + ${setting.tableAlias}+${setting.templateSuffix} + '.' + ${columnInfo.alias} + '_alias);')]
+            [['return this;']]
+        [['}']]
+
+        /**
+         * [[${columnInfo.comment}]]
+         * @param alias 别名
+         */
+        [('public Column '+ ${columnInfo.alias} +'(String alias) {')]
+            [('this.addColumnAlias(' + ${setting.tableAlias}+${setting.templateSuffix} + '.' + ${columnInfo.alias} + ', alias);')]
+            [['return this;']]
+        [['}']]
+
+    [/]}
+
+    @Override
+    public OnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getOn() {
+        return new On();
+    }
+
+    public static final class On extends OnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> {
+
+        private On() {
+        }
+
+        /**
+         * 主键
+         */
+        public OnBuilder<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> primaryKey() {
+            return this.onBuilder.handler([[${setting.tableAlias}+${setting.templateSuffix}]].tableName, [[${setting.tableAlias}+${setting.templateSuffix}]].tableAlias, [[${setting.tableAlias}+${setting.templateSuffix}]].primaryKeyName);
+        }
+    [# th:each="columnInfo : ${columnInfoCollection}"]
+        /**
+         * [[${columnInfo.comment}]]
+         */
+        [('public OnBuilder<' + ${setting.tableAlias}+${setting.templateSuffix} + ', Column, On, Where, Sort, Group> ' + ${columnInfo.alias} + '() {')]
+            [('return this.onBuilder.handler(' + ${setting.tableAlias}+${setting.templateSuffix} + '.tableName, ' + ${setting.tableAlias}+${setting.templateSuffix} + '.tableAlias, ' + ${setting.tableAlias}+${setting.templateSuffix} + '.' + ${columnInfo.alias} + ');')]
+        [['}']]
+
+    [/]}
+
+    @Override
+    public Where getWhere() {
+        return new Where();
+    }
+
+    public static final class Where extends WhereModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> {
+
+        private Where() {
+        }
+
+        /**
+         * 主键
+         */
+        public WhereBuilder<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> primaryKey() {
+            return this.whereBuilder.handler([[${setting.tableAlias}+${setting.templateSuffix}]].tableName, [[${setting.tableAlias}+${setting.templateSuffix}]].tableAlias, [[${setting.tableAlias}+${setting.templateSuffix}]].primaryKeyName);
+        }
+    [# th:each="columnInfo : ${columnInfoCollection}"]
+        /**
+         * [[${columnInfo.comment}]]
+         */
+        [('public WhereBuilder<' + ${setting.tableAlias}+${setting.templateSuffix} + ', Column, On, Where, Sort, Group> ' + ${columnInfo.alias} + '() {')]
+            [('return this.whereBuilder.handler(' + ${setting.tableAlias}+${setting.templateSuffix} + '.tableName, ' + ${setting.tableAlias}+${setting.templateSuffix} + '.tableAlias, ' + ${setting.tableAlias}+${setting.templateSuffix} + '.' + ${columnInfo.alias} + ');')]
+        [['}']]
+
+    [/]}
+
+    @Override
+    public GroupModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getGroup() {
+        return new Group();
+    }
+
+    public static final class Group extends GroupModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> {
+
+        private Group() {
+        }
+
+        /**
+         * 主键
+         */
+        public Group primaryKey() {
+            this.addColumn([[${setting.tableAlias}+${setting.templateSuffix}]].primaryKeyName);
+            return this;
+        }
+    [# th:each="columnInfo : ${columnInfoCollection}"]
+        /**
+         * [[${columnInfo.comment}]]
+         */
+        [('public Group ' + ${columnInfo.alias} + '() {')]
+            [('this.addColumn(' + ${setting.tableAlias}+${setting.templateSuffix} + '.' + ${columnInfo.alias} + ');')]
+            [['return this;']]
+        [['}']]
+
+    [/]}
+
+    @Override
+    public SortModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getSort() {
+        return new Sort();
+    }
+
+    public static final class Sort extends SortModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> {
+
+        private Sort() {
+        }
+
+        /**
+         * 主键
+         */
+        public SortBuilder<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> primaryKey() {
+            return this.sortBuilder.handler([[${setting.tableAlias}+${setting.templateSuffix}]].primaryKeyName);
+        }
+    [# th:each="columnInfo : ${columnInfoCollection}"]
+        /**
+         * [[${columnInfo.comment}]]
+         */
+        [('public SortBuilder<' + ${setting.tableAlias}+${setting.templateSuffix} + ', Column, On, Where, Sort, Group> ' + ${columnInfo.alias} + '() {')]
+            [('return this.sortBuilder.handler(' + ${setting.tableAlias}+${setting.templateSuffix} + '.' + ${columnInfo.alias} + ');')]
+        [['}']]
+
+    [/]}
+
+}
