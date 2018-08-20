@@ -35,9 +35,9 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         if (columnNames == null || columnNames.length == 0) {
             return this;
         }
-        AbstractTableData tableData = this.data.getMainTableData();
+        AbstractTableData tableData = this.sqlData.getMainTableData();
         tableData.addGroupColumns(columnNames);
-        this.data.addGroupData(new GroupData(tableData, columnNames));
+        this.sqlData.addGroupData(new GroupData(tableData, columnNames));
         return this;
     }
 
@@ -45,9 +45,9 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         if (columnNames == null || columnNames.size() == 0) {
             return this;
         }
-        AbstractTableData tableData = this.data.getMainTableData();
+        AbstractTableData tableData = this.sqlData.getMainTableData();
         tableData.addGroupColumns(columnNames);
-        this.data.addGroupData(new GroupData(tableData, columnNames.toArray(new String[columnNames.size()])));
+        this.sqlData.addGroupData(new GroupData(tableData, columnNames.toArray(new String[columnNames.size()])));
         return this;
     }
 
@@ -60,9 +60,9 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         if (columnNames == null || columnNames.length == 0) {
             return this;
         }
-        AbstractTableData tableData = this.data.getJoinTableData(alias, columnClass);
+        AbstractTableData tableData = this.sqlData.getJoinTableData(alias, columnClass);
         tableData.addGroupColumns(columnNames);
-        this.data.addGroupData(new GroupData(tableData, columnNames));
+        this.sqlData.addGroupData(new GroupData(tableData, columnNames));
         return this;
     }
 
@@ -75,9 +75,9 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         if (columnNames == null || columnNames.size() == 0) {
             return this;
         }
-        AbstractTableData tableData = this.data.getJoinTableData(alias, columnClass);
+        AbstractTableData tableData = this.sqlData.getJoinTableData(alias, columnClass);
         tableData.addGroupColumns(columnNames);
-        this.data.addGroupData(new GroupData(tableData, columnNames.toArray(new String[columnNames.size()])));
+        this.sqlData.addGroupData(new GroupData(tableData, columnNames.toArray(new String[columnNames.size()])));
         return this;
     }
 
@@ -101,7 +101,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
 
     @SuppressWarnings("unchecked")
     public GroupEngine<M, ML, MO, MC, MS, MG> group(Group<M, ML, MO, MC, MS, MG> group) {
-        List<String> columns = group.apply((MG) this.data.getMainTableData().getTableModel().getGroupModel()).getColumns();
+        List<String> columns = group.apply((MG) this.sqlData.getMainTableData().getTableModel().getGroupModel()).getColumns();
         return group(columns);
     }
 
@@ -112,7 +112,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, String alias, Group<T, TL, TO, TC, TS, TG> group) {
-        List<String> columns = group.apply((TG) this.data.getJoinTableData(alias, groupClass).getTableModel().getGroupModel()).getColumns();
+        List<String> columns = group.apply((TG) this.sqlData.getJoinTableData(alias, groupClass).getTableModel().getGroupModel()).getColumns();
         return group(alias, groupClass, columns);
     }
 

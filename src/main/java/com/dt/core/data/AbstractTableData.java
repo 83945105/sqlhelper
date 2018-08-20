@@ -1,6 +1,5 @@
 package com.dt.core.data;
 
-import com.dt.core.bean.*;
 import com.dt.core.norm.Model;
 
 import java.util.*;
@@ -12,12 +11,7 @@ import java.util.*;
  * @version 1.0
  * @since 2018/7/10
  */
-public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
-        TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-        TO extends OnModel<T, TL, TO, TC, TS, TG>,
-        TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-        TS extends SortModel<T, TL, TO, TC, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
+public abstract class AbstractTableData<T extends Model> {
 
     private T tableModel;
 
@@ -31,13 +25,13 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
 
     private String primaryKeyAlias;
 
-    private Map<String, String> columnAliasMap = new LinkedHashMap<>();
+    private Map<String, String> columnAliasMap;
 
-    private List<LinkWhereData> linkWhereDataList = new ArrayList<>();
+    private List<LinkWhereData> linkWhereDataList;
 
-    private List<String> groupColumns = new ArrayList<>();
+    private List<String> groupColumns;
 
-    private List<List<SortData>> sortDataList = new ArrayList<>();
+    private List<List<SortData>> sortDataList;
 
     public AbstractTableData(Class<T> tableClass) {
         this.tableClass = tableClass;
@@ -108,6 +102,9 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
         if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
             return;
         }
+        if (this.linkWhereDataList == null) {
+            this.linkWhereDataList = new ArrayList<>();
+        }
         this.linkWhereDataList.addAll(linkWhereDataList);
     }
 
@@ -116,10 +113,16 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
     }
 
     public void addColumnAlias(String columnName, String alias) {
+        if (this.columnAliasMap == null) {
+            this.columnAliasMap = new LinkedHashMap<>();
+        }
         this.columnAliasMap.put(columnName, alias);
     }
 
     public void addColumnAliasMap(Map<String, String> selectColumns) {
+        if (this.columnAliasMap == null) {
+            this.columnAliasMap = new LinkedHashMap<>();
+        }
         this.columnAliasMap.putAll(selectColumns);
     }
 
@@ -131,6 +134,9 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
         if (groupColumns == null || groupColumns.size() == 0) {
             return;
         }
+        if (this.groupColumns == null) {
+            this.groupColumns = new ArrayList<>();
+        }
         this.groupColumns.addAll(groupColumns);
     }
 
@@ -138,12 +144,18 @@ public abstract class AbstractTableData<T extends Model<T, TL, TO, TC, TS, TG>,
         if (groupColumns == null || groupColumns.length == 0) {
             return;
         }
+        if (this.groupColumns == null) {
+            this.groupColumns = new ArrayList<>();
+        }
         Collections.addAll(this.groupColumns, groupColumns);
     }
 
     public void addSortDataList(List<SortData> sortDataList) {
         if (sortDataList == null || sortDataList.size() == 0) {
             return;
+        }
+        if (this.sortDataList == null) {
+            this.sortDataList = new ArrayList<>();
         }
         this.sortDataList.add(sortDataList);
     }

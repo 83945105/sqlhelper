@@ -24,7 +24,7 @@ public class JoinEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(mainClass, dataBaseType);
     }
 
-    JoinEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+    public JoinEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
         super(mainClass, tableName, dataBaseType);
     }
 
@@ -39,18 +39,18 @@ public class JoinEngine<M extends Model<M, ML, MO, MC, MS, MG>,
                                                                                                  String alias,
                                                                                                  JoinType joinType,
                                                                                                  OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
-        MainTableData<M, ML, MO, MC, MS, MG> mainTableData = this.data.getMainTableData();
-        JoinTableData<J, JL, JO, JC, JS, JG> joinTableData = new JoinTableData<>(joinClass);
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        JoinTableData<J> joinTableData = new JoinTableData<>(joinClass);
         joinTableData.setTableName(tableName);
         joinTableData.setTableAlias(alias);
         joinTableData.setJoinType(joinType);
         OnLink<J, JL, JO, JC, JS, JG> onLink = new OnLink<>();
         JO jo = (JO) joinTableData.getTableModel().getOnModel();
-        jo.setData(this.data);
+        jo.setSqlData(this.sqlData);
         MO mo = (MO) mainTableData.getTableModel().getOnModel();
         OnLink link = on.apply(onLink, jo, mo);
         joinTableData.addLinkOnDataMap(link.getLinkOnDataMap());
-        this.data.addJoinTableData(joinTableData);
+        this.sqlData.addJoinTableData(joinTableData);
         return this;
     }
 

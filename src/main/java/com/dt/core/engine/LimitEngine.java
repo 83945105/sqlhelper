@@ -1,10 +1,9 @@
 package com.dt.core.engine;
 
 import com.dt.core.bean.*;
-import com.dt.core.data.EngineData;
+import com.dt.core.data.FinalSqlData;
 import com.dt.core.data.MainTableData;
-import com.dt.core.norm.Data;
-import com.dt.core.norm.Engine;
+import com.dt.core.data.SqlData;
 import com.dt.core.norm.Model;
 
 /**
@@ -19,67 +18,60 @@ public class LimitEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> implements Engine {
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends SqlEngine<M> {
 
-    protected Data<M, ML, MO, MC, MS, MG> data;
+    protected FinalSqlData<M> sqlData;
 
-    @SuppressWarnings("unchecked")
     LimitEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        MainTableData data = new MainTableData(mainClass);
-        this.data = new EngineData<>(dataBaseType);
-        this.data.setMainTableData(data);
+        super(mainClass, dataBaseType);
     }
 
-    @SuppressWarnings("unchecked")
     LimitEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        MainTableData data = new MainTableData(mainClass);
-        data.setTableName(tableName);
-        this.data = new EngineData<>(dataBaseType);
-        this.data.setMainTableData(data);
+        super(mainClass, tableName, dataBaseType);
     }
 
-    public Engine limit(int start, Integer end) {
-        this.data.setLimitStart(start);
-        this.data.setLimitEnd(end);
+    public SqlEngine limit(int start, Integer end) {
+        this.sqlData.setLimitStart(start);
+        this.sqlData.setLimitEnd(end);
         return this;
     }
 
-    public Engine limit(int start) {
+    public SqlEngine limit(int start) {
         return limit(start, null);
     }
 
-    public Data<M, ML, MO, MC, MS, MG> getData() {
-        return this.data;
+    public SqlData<M> getData() {
+        return this.sqlData;
     }
 
-    @Override
+/*    @Override
     public Model getTableModel() {
-        return this.data.getMainTableData().getTableModel();
+        return this.sqlData.getMainTableData().getTableModel();
     }
 
     @Override
     public Class getTableClass() {
-        return this.data.getMainTableData().getTableClass();
+        return this.sqlData.getMainTableData().getTableClass();
     }
 
     @Override
     public String getTableName() {
-        return this.data.getMainTableData().getTableName();
+        return this.sqlData.getMainTableData().getTableName();
     }
 
     @Override
     public String getTableAlias() {
-        return this.data.getMainTableData().getTableAlias();
+        return this.sqlData.getMainTableData().getTableAlias();
     }
 
     @Override
     public String getPrimaryKeyName() {
-        return this.data.getMainTableData().getPrimaryKeyName();
+        return this.sqlData.getMainTableData().getPrimaryKeyName();
     }
 
     @Override
     public String getPrimaryKeyAlias() {
-        return this.data.getMainTableData().getPrimaryKeyAlias();
-    }
+        return this.sqlData.getMainTableData().getPrimaryKeyAlias();
+    }*/
 
 }

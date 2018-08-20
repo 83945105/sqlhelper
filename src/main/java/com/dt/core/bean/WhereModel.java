@@ -1,6 +1,6 @@
 package com.dt.core.bean;
 
-import com.dt.core.norm.Data;
+import com.dt.core.data.SqlData;
 import com.dt.core.norm.Model;
 
 /**
@@ -18,16 +18,16 @@ public class WhereModel<T extends Model<T, TL, TO, TC, TS, TG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
-    private Data data;
+    private SqlData sqlData;
 
     protected WhereBuilder<T, TL, TO, TC, TS, TG> whereBuilder = new WhereBuilder<>((TC) this);
 
-    public Data getData() {
-        return data;
+    public SqlData getData() {
+        return sqlData;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setData(SqlData sqlData) {
+        this.sqlData = sqlData;
     }
 
     public WhereBuilder<T, TL, TO, TC, TS, TG> getWhereBuilder() {

@@ -1,4 +1,4 @@
-package com.dt.core.converter;
+package com.dt.beans;
 
 /**
  * 列名-属性名 转换器接口
@@ -12,16 +12,16 @@ public interface ColumnFieldConverter {
     /**
      * 列名转为属性名
      *
-     * @param column 列名
+     * @param columnName 列名
      * @return 属性名
      */
-    String columnToField(String column);
+    String columnNameToFieldName(String columnName);
 
     /**
      * 属性名转为列名
      *
-     * @param field 属性名
+     * @param fieldName 属性名
      * @return 列名
      */
-    String fieldToColumn(String field);
+    String fieldNameToColumnName(String fieldName);
 }

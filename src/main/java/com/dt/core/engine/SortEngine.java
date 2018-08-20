@@ -33,12 +33,12 @@ public class SortEngine<M extends Model<M, ML, MO, MC, MS, MG>,
 
     @SuppressWarnings("unchecked")
     public SortEngine<M, ML, MO, MC, MS, MG> sort(Sort<M, ML, MO, MC, MS, MG> sort) {
-        MainTableData mainTableData = this.data.getMainTableData();
+        MainTableData mainTableData = this.sqlData.getMainTableData();
         MS ms = (MS) mainTableData.getTableModel().getSortModel();
         ms.getSortBuilder().setOwnerTableData(mainTableData);
         List<SortData> sortDataList = sort.apply(ms).getSortBuilder().getSortDataList();
         mainTableData.addSortDataList(sortDataList);
-        this.data.addSortDataList(sortDataList);
+        this.sqlData.addSortDataList(sortDataList);
         return this;
     }
 
@@ -49,12 +49,12 @@ public class SortEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> SortEngine<M, ML, MO, MC, MS, MG> sort(Class<T> sortClass, String alias, Sort<T, TL, TO, TC, TS, TG> sort) {
-        JoinTableData joinTableData = this.data.getJoinTableData(alias, sortClass);
+        JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, sortClass);
         TS ts = (TS) joinTableData.getTableModel().getSortModel();
         ts.getSortBuilder().setOwnerTableData(joinTableData);
         List<SortData> sortDataList = sort.apply(ts).getSortBuilder().getSortDataList();
         joinTableData.addSortDataList(sortDataList);
-        this.data.addSortDataList(sortDataList);
+        this.sqlData.addSortDataList(sortDataList);
         return this;
     }
 

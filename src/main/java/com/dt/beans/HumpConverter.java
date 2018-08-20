@@ -1,4 +1,4 @@
-package com.dt.core.converter;
+package com.dt.beans;
 
 /**
  * 驼峰转换器
@@ -10,8 +10,8 @@ package com.dt.core.converter;
 public final class HumpConverter implements ColumnFieldConverter {
 
     @Override
-    public String columnToField(String column) {
-        String[] names = column.trim().split("_");
+    public String columnNameToFieldName(String columnName) {
+        String[] names = columnName.trim().split("_");
         StringBuilder sb = new StringBuilder();
         for (String name : names) {
             if (name.length() == 0) {
@@ -27,14 +27,14 @@ public final class HumpConverter implements ColumnFieldConverter {
     }
 
     @Override
-    public String fieldToColumn(String field) {
-        if (field == null || "".equals(field.trim())) {
+    public String fieldNameToColumnName(String fieldName) {
+        if (fieldName == null || "".equals(fieldName.trim())) {
             return null;
         }
-        int len = field.length();
+        int len = fieldName.length();
         StringBuilder sb = new StringBuilder(len);
         for (int i = 0; i < len; i++) {
-            char c = field.charAt(i);
+            char c = fieldName.charAt(i);
             if (Character.isUpperCase(c)) {
                 sb.append("_");
                 sb.append(Character.toLowerCase(c));

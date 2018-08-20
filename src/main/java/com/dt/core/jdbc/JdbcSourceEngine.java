@@ -1,6 +1,6 @@
 package com.dt.core.jdbc;
 
-import com.dt.core.converter.ColumnFieldConverter;
+import com.dt.beans.ColumnFieldConverter;
 import com.dt.core.model.ColumnInfo;
 
 import java.sql.ResultSetMetaData;
@@ -64,7 +64,7 @@ public class JdbcSourceEngine extends AbstractJdbcSource {
         while (this.resultSet.next()) {
             columnInfo = new ColumnInfo();
             columnInfo.setName(this.resultSet.getString(1));
-            columnInfo.setAlias(columnFieldConverter.columnToField(columnInfo.getName()));
+            columnInfo.setAlias(columnFieldConverter.columnNameToFieldName(columnInfo.getName()));
             break;
         }
         sql = "SHOW FULL COLUMNS FROM " + tableName;
@@ -92,7 +92,7 @@ public class JdbcSourceEngine extends AbstractJdbcSource {
         ResultSetMetaData resultSetMetaData = this.resultSet.getMetaData();
         for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
             String columnName = resultSetMetaData.getColumnName(i);
-            columnAndField.put(columnName, columnFieldConverter.columnToField(columnName));
+            columnAndField.put(columnName, columnFieldConverter.columnNameToFieldName(columnName));
         }
         return columnAndField;
     }
@@ -105,7 +105,7 @@ public class JdbcSourceEngine extends AbstractJdbcSource {
         ResultSetMetaData resultSetMetaData = this.resultSet.getMetaData();
         for (int i = 1; i <= resultSetMetaData.getColumnCount(); i++) {
             String columnName = resultSetMetaData.getColumnName(i);
-            fieldAndColumn.put(columnFieldConverter.columnToField(columnName), columnName);
+            fieldAndColumn.put(columnFieldConverter.columnNameToFieldName(columnName), columnName);
         }
         return fieldAndColumn;
     }
@@ -121,7 +121,7 @@ public class JdbcSourceEngine extends AbstractJdbcSource {
             columnInfo = new ColumnInfo();
             String columnName = resultSetMetaData.getColumnName(i);
             columnInfo.setName(columnName);
-            columnInfo.setAlias(columnFieldConverter.columnToField(columnName));
+            columnInfo.setAlias(columnFieldConverter.columnNameToFieldName(columnName));
             columnInfo.setCatalog(resultSetMetaData.getCatalogName(i));
             columnInfo.setLabel(resultSetMetaData.getColumnLabel(i));
             columnInfo.setCurrency(resultSetMetaData.isCurrency(i));

@@ -370,7 +370,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
                                                                      OnB<T, TL, TO, TC, TS, TG> on) {
         this.onData.setOnType(OnType.EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
+        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
@@ -390,7 +390,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO notEqualTo(String alias, Class<T> onClass, OnB<T, TL, TO, TC, TS, TG> on) {
         this.onData.setOnType(OnType.NOT_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
+        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
@@ -410,7 +410,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThan(String alias, Class<T> onClass, OnB<T, TL, TO, TC, TS, TG> on) {
         this.onData.setOnType(OnType.GREATER);
         this.onData.setOnValueType(OnValueType.JOIN);
-        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
+        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
@@ -430,7 +430,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThanAndEqualTo(String alias, Class<T> onClass, OnB<T, TL, TO, TC, TS, TG> on) {
         this.onData.setOnType(OnType.GREATER_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
+        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
@@ -450,7 +450,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThan(String alias, Class<T> onClass, OnB<T, TL, TO, TC, TS, TG> on) {
         this.onData.setOnType(OnType.LESS);
         this.onData.setOnValueType(OnValueType.JOIN);
-        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
+        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
@@ -470,7 +470,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThanAndEqualTo(String alias, Class<T> onClass, OnB<T, TL, TO, TC, TS, TG> on) {
         this.onData.setOnType(OnType.LESS_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getData().getJoinTableData(alias, onClass);
+        JoinTableData<T, TL, TO, TC, TS, TG> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TO to = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = on.apply(to).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());

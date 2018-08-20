@@ -26,19 +26,19 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(mainClass, dataBaseType);
     }
 
-    ColumnEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+    public ColumnEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
         super(mainClass, tableName, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
     public ColumnEngine<M, ML, MO, MC, MS, MG> column(Column<M, ML, MO, MC, MS, MG> column) {
-        MainTableData tableData = this.data.getMainTableData();
+        MainTableData tableData = this.sqlData.getMainTableData();
         Map<String, String> columns = column.apply((ML) tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         if (columns.size() == 0) {
             columns = tableData.getTableModel().getColumnAliasMap();
         }
         tableData.addColumnAliasMap(columns);
-        this.data.addColumnData(tableData);
+        this.sqlData.addColumnData(tableData);
         return this;
     }
 
@@ -46,7 +46,7 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.data.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldData(virtualFieldData);
         return this;
     }
 
@@ -54,7 +54,7 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.data.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldData(virtualFieldData);
         return this;
     }
 
@@ -62,7 +62,7 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.data.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldData(virtualFieldData);
         return this;
     }
 
@@ -70,13 +70,8 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.data.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldData(virtualFieldData);
         return this;
-    }
-
-    @Override
-    public Map<String, String> getColumnAliasMap() {
-        return this.data.getMainTableData().getColumnAliasMap();
     }
 
 }

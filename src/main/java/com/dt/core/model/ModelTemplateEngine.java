@@ -1,7 +1,7 @@
 package com.dt.core.model;
 
-import com.dt.core.converter.ColumnFieldConverter;
-import com.dt.core.converter.HumpConverter;
+import com.dt.beans.ColumnFieldConverter;
+import com.dt.beans.HumpConverter;
 import com.dt.core.jdbc.JdbcSourceEngine;
 import org.fusesource.jansi.Ansi;
 import org.thymeleaf.TemplateEngine;
@@ -70,7 +70,7 @@ public final class ModelTemplateEngine {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        this.generateTables.put(tableName, columnFieldConverter.columnToField(tableName));
+        this.generateTables.put(tableName, columnFieldConverter.columnNameToFieldName(tableName));
         return this;
     }
 

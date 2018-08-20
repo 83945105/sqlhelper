@@ -5,7 +5,7 @@ import com.dt.core.data.LinkWhereData;
 import com.dt.core.data.MainTableData;
 import com.dt.core.norm.ConditionA;
 import com.dt.core.norm.ConditionB;
-import com.dt.core.norm.Data;
+import com.dt.core.data.SqlData;
 import com.dt.core.norm.Model;
 
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> {
 
-    protected Data data;
+    protected SqlData sqlData;
 
-    WhereLink(Data data) {
-        this.data = data;
+    WhereLink(SqlData sqlData) {
+        this.sqlData = sqlData;
     }
 
     List<LinkWhereData> linkWhereDataList = new ArrayList<>();
@@ -61,10 +61,10 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
      */
     @SuppressWarnings("unchecked")
     public WhereLinkIntact<M, ML, MO, MC, MS, MG> and(ConditionA<M, ML, MO, MC, MS, MG> condition) {
-        MainTableData mainTableData = this.data.getMainTableData();
+        MainTableData mainTableData = this.sqlData.getMainTableData();
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
-        WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.data), mc);
+        WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
         LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
         linkWhereData.setLinkWhereDataList(whereLink.getLinkWhereDataList());
         this.linkWhereDataList.add(linkWhereData);
@@ -87,13 +87,13 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereLinkIntact<M, ML, MO, MC, MS, MG> and(Class<T> conditionClass,
                                                                                                      String alias,
                                                                                                      ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
-        MainTableData mainTableData = this.data.getMainTableData();
-        JoinTableData joinTableData = this.data.getJoinTableData(alias, conditionClass);
+        MainTableData mainTableData = this.sqlData.getMainTableData();
+        JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         TC tc = (TC) joinTableData.getTableModel().getWhereModel();
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
-        WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.data), tc, mc);
+        WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
         LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
         linkWhereData.setLinkWhereDataList(whereLink.getLinkWhereDataList());
         this.linkWhereDataList.add(linkWhereData);
