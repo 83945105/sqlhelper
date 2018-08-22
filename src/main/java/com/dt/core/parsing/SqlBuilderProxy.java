@@ -32,7 +32,7 @@ public class SqlBuilderProxy implements Query {
 
     @Override
     public Object queryOne() {
-        return null;
+        return this.sqlBuilder.queryOne();
     }
 
     @Override
