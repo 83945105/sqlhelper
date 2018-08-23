@@ -6,24 +6,24 @@ package com.dt.core.sql;
  * @author 白超
  * @date 2018/8/20
  */
-public interface Query extends Sql {
+public interface Query<T> extends Sql {
 
-    Object queryByPrimaryKey(Object keyValue);
+    T queryByPrimaryKey(Object keyValue);
 
-    Object queryOne();
+    T queryOne();
 
-    Object queryForList();
+    T queryForList();
 
-    Object queryCount();
+    T queryCount();
 
-    Object queryPairColumnInMap();
+    T queryPairColumnInMap();
 
-    Object queryPairColumnInMap(int keyIndex, int valueIndex);
+    T queryPairColumnInMap(int keyIndex, int valueIndex);
 
-    Object queryPairColumnInMap(String keyColumnName, String valueColumnName);
+    T queryPairColumnInMap(String keyColumnName, String valueColumnName);
 
-    Object queryForListInMap(int keyIndex);
+    T queryForListInMap(int keyIndex);
 
-    Object queryForListInMap(String keyColumnName);
+    T queryForListInMap(String keyColumnName);
 
 }

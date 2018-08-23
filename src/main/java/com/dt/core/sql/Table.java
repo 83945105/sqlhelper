@@ -6,14 +6,14 @@ package com.dt.core.sql;
  * @author 白超
  * @date 2018/8/20
  */
-public interface Table extends Sql {
+public interface Table<T> extends Sql {
 
-    int copyTable(String sourceTableName, String targetTableName);
+    T copyTable(String sourceTableName, String targetTableName);
 
-    int deleteTable(String tableName);
+    T deleteTable(String tableName);
 
-    int renameTable(String sourceTableName, String targetTableName);
+    T renameTable(String sourceTableName, String targetTableName);
 
-    boolean isTableExist(String tableName);
+    T isTableExist(String tableName);
 
 }

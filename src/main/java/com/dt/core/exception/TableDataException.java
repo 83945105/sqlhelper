@@ -7,7 +7,7 @@ package com.dt.core.exception;
  * @version 1.0
  * @since 2018/7/10
  */
-public class TableDataException extends DtException {
+public class TableDataException extends SqlException {
 
     public TableDataException() {
     }

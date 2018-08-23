@@ -4,8 +4,10 @@ import com.dt.core.bean.*;
 import com.dt.core.data.FinalSqlData;
 import com.dt.core.data.MainTableData;
 import com.dt.core.norm.Model;
-import com.dt.core.parsing.SqlBuilderProxy;
+import com.dt.core.build.SqlBuilder;
+import com.dt.core.build.SqlBuilderProxy;
 import com.dt.core.sql.Query;
+import com.dt.core.sql.Table;
 
 /**
  * 引擎
@@ -15,7 +17,7 @@ import com.dt.core.sql.Query;
  * @since 2018/7/10
  */
 @SuppressWarnings("unused")
-public class SqlEngine<M extends Model> implements Query {
+public class SqlEngine<M extends Model> implements Table<SqlBuilder>, Query<SqlBuilder> {
 
     protected FinalSqlData<M> sqlData;
 
@@ -37,47 +39,67 @@ public class SqlEngine<M extends Model> implements Query {
     }
 
     @Override
-    public Object queryByPrimaryKey(Object keyValue) {
+    public SqlBuilder copyTable(String sourceTableName, String targetTableName) {
+        return this.sqlBuilderProxy.copyTable(sourceTableName, targetTableName);
+    }
+
+    @Override
+    public SqlBuilder deleteTable(String tableName) {
+        return this.sqlBuilderProxy.deleteTable(tableName);
+    }
+
+    @Override
+    public SqlBuilder renameTable(String sourceTableName, String targetTableName) {
+        return this.sqlBuilderProxy.renameTable(sourceTableName, targetTableName);
+    }
+
+    @Override
+    public SqlBuilder isTableExist(String tableName) {
+        return this.sqlBuilderProxy.isTableExist(tableName);
+    }
+
+    @Override
+    public SqlBuilder queryByPrimaryKey(Object keyValue) {
         return this.sqlBuilderProxy.queryByPrimaryKey(keyValue);
     }
 
     @Override
-    public Object queryOne() {
+    public SqlBuilder queryOne() {
         return this.sqlBuilderProxy.queryOne();
     }
 
     @Override
-    public Object queryForList() {
+    public SqlBuilder queryForList() {
         return this.sqlBuilderProxy.queryForList();
     }
 
     @Override
-    public Object queryCount() {
+    public SqlBuilder queryCount() {
         return this.sqlBuilderProxy.queryCount();
     }
 
     @Override
-    public Object queryPairColumnInMap() {
+    public SqlBuilder queryPairColumnInMap() {
         return this.sqlBuilderProxy.queryPairColumnInMap();
     }
 
     @Override
-    public Object queryPairColumnInMap(int keyIndex, int valueIndex) {
+    public SqlBuilder queryPairColumnInMap(int keyIndex, int valueIndex) {
         return this.sqlBuilderProxy.queryPairColumnInMap(keyIndex, valueIndex);
     }
 
     @Override
-    public Object queryPairColumnInMap(String keyColumnName, String valueColumnName) {
+    public SqlBuilder queryPairColumnInMap(String keyColumnName, String valueColumnName) {
         return this.sqlBuilderProxy.queryPairColumnInMap(keyColumnName, valueColumnName);
     }
 
     @Override
-    public Object queryForListInMap(int keyIndex) {
+    public SqlBuilder queryForListInMap(int keyIndex) {
         return this.sqlBuilderProxy.queryForListInMap(keyIndex);
     }
 
     @Override
-    public Object queryForListInMap(String keyColumnName) {
+    public SqlBuilder queryForListInMap(String keyColumnName) {
         return this.sqlBuilderProxy.queryForListInMap(keyColumnName);
     }
 

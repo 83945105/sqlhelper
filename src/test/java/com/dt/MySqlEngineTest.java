@@ -11,8 +11,10 @@ public class MySqlEngineTest {
 
     @Test
     void method01() {
-        MySqlEngine.main(JurRoleModel.class)
+        String sql = MySqlEngine.main(JurRoleModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.createTime().equalTo("")));
+                        .and(mainTable.createTime().equalTo("")))
+                .queryByPrimaryKey("666").getPreparedStatementSql();
+        System.out.println(sql);
     }
 }

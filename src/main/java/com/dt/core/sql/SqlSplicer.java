@@ -18,8 +18,21 @@ public class SqlSplicer {
         this.sql = new StringBuilder(capacity);
     }
 
+    public SqlSplicer clear() {
+        this.sql.replace(0, this.sql.length(), "");
+        return this;
+    }
+
     public SqlSplicer append(String sqlPart) {
         this.sql.append(sqlPart);
         return this;
+    }
+
+    public String getSql() {
+        return this.sql.toString();
+    }
+
+    public int length() {
+        return this.sql.length();
     }
 }

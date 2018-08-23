@@ -20,8 +20,6 @@ public class LimitEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends SqlEngine<M> {
 
-    protected FinalSqlData<M> sqlData;
-
     LimitEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
     }
