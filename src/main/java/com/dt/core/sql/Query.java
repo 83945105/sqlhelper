@@ -8,22 +8,8 @@ package com.dt.core.sql;
  */
 public interface Query<T> extends Sql {
 
-    T queryByPrimaryKey(Object keyValue);
-
-    T queryOne();
-
-    T queryForList();
+    T query();
 
     T queryCount();
-
-    T queryPairColumnInMap();
-
-    T queryPairColumnInMap(int keyIndex, int valueIndex);
-
-    T queryPairColumnInMap(String keyColumnName, String valueColumnName);
-
-    T queryForListInMap(int keyIndex);
-
-    T queryForListInMap(String keyColumnName);
 
 }

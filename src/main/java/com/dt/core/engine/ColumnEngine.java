@@ -1,11 +1,13 @@
 package com.dt.core.engine;
 
 import com.dt.core.bean.*;
+import com.dt.core.build.SqlBuilder;
 import com.dt.core.data.MainTableData;
-import com.dt.core.data.VirtualFieldData;
 import com.dt.core.norm.Column;
 import com.dt.core.norm.Model;
+import com.dt.core.sql.Insert;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -20,7 +22,7 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereEngine<M, ML, MO, MC, MS, MG> {
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends SqlEngine<M> implements Insert<SqlBuilder> {
 
     public ColumnEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
@@ -42,36 +44,34 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public ColumnEngine<M, ML, MO, MC, MS, MG> virtualColumn(String value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
-        return this;
+    @Override
+    public SqlBuilder insertArgs(Object[] args) {
+        return this.sqlBuilderProxy.insertArgs(args);
     }
 
-    public ColumnEngine<M, ML, MO, MC, MS, MG> virtualColumn(int value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
-        return this;
+    @Override
+    public SqlBuilder insertArgs(Collection<?> args) {
+        return this.sqlBuilderProxy.insertArgs(args);
     }
 
-    public ColumnEngine<M, ML, MO, MC, MS, MG> virtualColumn(long value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
-        return this;
+    @Override
+    public SqlBuilder insertJavaBean(Object record) {
+        return this.sqlBuilderProxy.insertJavaBean(record);
     }
 
-    public ColumnEngine<M, ML, MO, MC, MS, MG> virtualColumn(double value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
-        return this;
+    @Override
+    public SqlBuilder insertJavaBeanSelective(Object record) {
+        return this.sqlBuilderProxy.insertJavaBeanSelective(record);
+    }
+
+    @Override
+    public SqlBuilder batchInsertJavaBeans(Object[] records) {
+        return this.sqlBuilderProxy.batchInsertJavaBeans(records);
+    }
+
+    @Override
+    public SqlBuilder batchInsertJavaBeans(Collection<?> records) {
+        return this.sqlBuilderProxy.batchInsertJavaBeans(records);
     }
 
 }

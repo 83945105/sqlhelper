@@ -1,7 +1,6 @@
 package com.dt.core.build;
 
-import com.dt.core.sql.Query;
-import com.dt.core.sql.Table;
+import com.dt.core.sql.*;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/15
  */
-public interface SqlBuilder extends Table<SqlBuilder>, Query<SqlBuilder> {
+public interface SqlBuilder extends Table<SqlBuilder>, QueryByPrimaryKey<SqlBuilder>, Query<SqlBuilder>, Insert<SqlBuilder>, UpdateByPrimaryKey<SqlBuilder>, Update<SqlBuilder>, DeleteByPrimaryKey<SqlBuilder>, Delete<SqlBuilder> {
 
     String getPreparedStatementSql();
 

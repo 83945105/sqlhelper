@@ -20,9 +20,9 @@ public interface Column<T extends Model<T, TL, TO, TC, TS, TG>,
     /**
      * 接收列模组
      *
-     * @param columnModel 列模组
+     * @param table 列模组
      * @return 列模组
      */
-    TL apply(TL columnModel);
+    TL apply(TL table);
 
 }

@@ -31,6 +31,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (i++ > 0) {
                 sqlSplicer.append(",");
+            } else {
+                sqlSplicer.append(" ");
             }
             sqlSplicer.append(mainTableData.getTableAlias())
                     .append(".`")
@@ -55,6 +57,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 }
                 if (i++ > 0) {
                     sqlSplicer.append(",");
+                } else {
+                    sqlSplicer.append(" ");
                 }
                 switch (fcData.getFunctionColumnType()) {
                     case MIN:
@@ -89,6 +93,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         for (VirtualFieldData data : this.sqlData.getVirtualFieldDataSet()) {
             if (i++ > 0) {
                 sqlSplicer.append(",");
+            } else {
+                sqlSplicer.append(" ");
             }
             value = data.getValue();
             alias = data.getAlias();
@@ -132,6 +138,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
                         if (i++ > 0) {
                             sqlSplicer.append(",");
+                        } else {
+                            sqlSplicer.append(" ");
                         }
                         sqlSplicer.append(tableAlias)
                                 .append(".`")
@@ -144,6 +152,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
                         if (i++ > 0) {
                             sqlSplicer.append(",");
+                        } else {
+                            sqlSplicer.append(" ");
                         }
                         sqlSplicer.append(tableAlias)
                                 .append(".`")
@@ -159,6 +169,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 }
                 if (i++ > 0) {
                     sqlSplicer.append(",");
+                } else {
+                    sqlSplicer.append(" ");
                 }
                 sqlSplicer.append(tableData.getTableAlias())
                         .append(".`")
@@ -487,7 +499,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         if (linkWhereDataListList == null || linkWhereDataListList.size() == 0) {
             return sqlSplicer;
         }
-        sqlSplicer.append("where ");
+        sqlSplicer.append(" where ");
         for (List<LinkWhereData> linkWhereDataList : linkWhereDataListList) {
             this.appendLinkWhereDataList(sqlSplicer, linkWhereDataList, LinkType.AND);
         }
@@ -499,7 +511,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         if (groupDataList == null || groupDataList.size() == 0) {
             return sqlSplicer;
         }
-        sqlSplicer.append("group by ");
+        sqlSplicer.append(" group by ");
         String alias;
         int i = 0;
         for (GroupData groupData : groupDataList) {
@@ -522,7 +534,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         if (sortDataList == null || sortDataList.size() == 0) {
             return sqlSplicer;
         }
-        sqlSplicer.append("order by ");
+        sqlSplicer.append(" order by ");
         int i = 0;
         for (List<SortData> sortData : sortDataList) {
             for (SortData data : sortData) {
@@ -530,8 +542,9 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     sqlSplicer.append(",");
                 }
                 sqlSplicer.append(data.getTableData().getTableAlias())
-                        .append(".'")
-                        .append(data.getColumnName());
+                        .append(".`")
+                        .append(data.getColumnName())
+                        .append("`");
                 switch (data.getSortType()) {
                     case ASC:
                         sqlSplicer.append(" asc");
@@ -552,9 +565,18 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         if (pagination == null) {
             return sqlSplicer;
         }
-        sqlSplicer.append("limit ?,?");
+        sqlSplicer.append(" limit ?,?");
         this.sqlArgs.add(pagination.getLimitStart());
         this.sqlArgs.add(pagination.getLimitEnd());
         return sqlSplicer;
+    }
+
+
+    protected Map<String, String> getColumnAliasMap() {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getColumnAliasMap();
+        if (columnAliasMap == null || columnAliasMap.size() == 0) {
+            columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        }
+        return columnAliasMap;
     }
 }

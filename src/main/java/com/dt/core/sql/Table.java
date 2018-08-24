@@ -1,19 +1,19 @@
 package com.dt.core.sql;
 
 /**
- * 表引擎
+ * 表
  *
  * @author 白超
  * @date 2018/8/20
  */
 public interface Table<T> extends Sql {
 
-    T copyTable(String sourceTableName, String targetTableName);
+    T copyTable(String targetTableName);
 
-    T deleteTable(String tableName);
+    T deleteTable();
 
-    T renameTable(String sourceTableName, String targetTableName);
+    T renameTable(String newTableName);
 
-    T isTableExist(String tableName);
+    T isTableExist();
 
 }

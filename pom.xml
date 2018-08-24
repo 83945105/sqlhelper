@@ -43,6 +43,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
+        <holygrail.version>0.3.0-SNAPSHOT</holygrail.version>
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
         <reflectasm.version>1.11.3</reflectasm.version>
         <slf4j.version>1.7.25</slf4j.version>
@@ -50,6 +51,7 @@
         <ehcache.version>3.5.2</ehcache.version>
         <jansi.version>1.11</jansi.version>
         <spring-beans.version>5.0.8.RELEASE</spring-beans.version>
+        <com.alibaba.fastjson.version>1.2.7</com.alibaba.fastjson.version>
     </properties>
 
     <dependencies>
@@ -58,6 +60,11 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.2.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.83945105</groupId>
+            <artifactId>holygrail</artifactId>
+            <version>${holygrail.version}</version>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -93,6 +100,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>${spring-beans.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${com.alibaba.fastjson.version}</version>
         </dependency>
     </dependencies>
 

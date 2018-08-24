@@ -20,8 +20,8 @@ public interface Sort<T extends Model<T, TL, TO, TC, TS, TG>,
     /**
      * 接收处理排序模组
      *
-     * @param sortModel 排序模组
+     * @param table 排序模组
      * @return 排序模组
      */
-    TS apply(TS sortModel);
+    TS apply(TS table);
 }

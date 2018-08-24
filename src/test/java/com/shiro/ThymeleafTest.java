@@ -40,7 +40,7 @@ public class ThymeleafTest {
 
             context = new Context();
 
-            SqlEngine engine = MySqlEngine.main(JurRoleModel.class)
+            SqlEngine engine = MySqlEngine.query(JurRoleModel.class)
                     .innerJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on.and(joinTable.roleId().equalTo(mainTable.id())))
                     .where((condition, mainTable) -> condition
                             .and(mainTable.id().equalTo("").createTime().greaterThan(""))

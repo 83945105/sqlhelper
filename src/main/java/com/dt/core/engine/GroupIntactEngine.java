@@ -16,22 +16,22 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
+public class GroupIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends SortEngine<M, ML, MO, MC, MS, MG> {
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends SortIntactEngine<M, ML, MO, MC, MS, MG> {
 
-    GroupEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+    GroupIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
     }
 
-    GroupEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+    GroupIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
         super(mainClass, tableName, dataBaseType);
     }
 
-    public GroupEngine<M, ML, MO, MC, MS, MG> group(String... columnNames) {
+    public GroupIntactEngine<M, ML, MO, MC, MS, MG> group(String... columnNames) {
         if (columnNames == null || columnNames.length == 0) {
             return this;
         }
@@ -41,7 +41,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public GroupEngine<M, ML, MO, MC, MS, MG> group(Collection<String> columnNames) {
+    public GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Collection<String> columnNames) {
         if (columnNames == null || columnNames.size() == 0) {
             return this;
         }
@@ -56,7 +56,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(String alias, Class<T> columnClass, String... columnNames) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupIntactEngine<M, ML, MO, MC, MS, MG> group(String alias, Class<T> columnClass, String... columnNames) {
         if (columnNames == null || columnNames.length == 0) {
             return this;
         }
@@ -71,7 +71,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(String alias, Class<T> columnClass, Collection<String> columnNames) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupIntactEngine<M, ML, MO, MC, MS, MG> group(String alias, Class<T> columnClass, Collection<String> columnNames) {
         if (columnNames == null || columnNames.size() == 0) {
             return this;
         }
@@ -86,7 +86,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(Class<T> columnClass, String... columnNames) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Class<T> columnClass, String... columnNames) {
         return group(null, columnClass, columnNames);
     }
 
@@ -95,12 +95,12 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(Class<T> columnClass, Collection<String> columnNames) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Class<T> columnClass, Collection<String> columnNames) {
         return group(null, columnClass, columnNames);
     }
 
     @SuppressWarnings("unchecked")
-    public GroupEngine<M, ML, MO, MC, MS, MG> group(Group<M, ML, MO, MC, MS, MG> group) {
+    public GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Group<M, ML, MO, MC, MS, MG> group) {
         List<String> columns = group.apply((MG) this.sqlData.getMainTableData().getTableModel().getGroupModel()).getColumns();
         return group(columns);
     }
@@ -111,7 +111,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, String alias, Group<T, TL, TO, TC, TS, TG> group) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, String alias, Group<T, TL, TO, TC, TS, TG> group) {
         List<String> columns = group.apply((TG) this.sqlData.getJoinTableData(alias, groupClass).getTableModel().getGroupModel()).getColumns();
         return group(alias, groupClass, columns);
     }
@@ -121,7 +121,7 @@ public class GroupEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, Group<T, TL, TO, TC, TS, TG> group) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, Group<T, TL, TO, TC, TS, TG> group) {
         return group(groupClass, null, group);
     }
 

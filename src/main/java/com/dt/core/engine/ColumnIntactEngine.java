@@ -1,12 +1,14 @@
 package com.dt.core.engine;
 
 import com.dt.core.bean.*;
+import com.dt.core.build.SqlBuilder;
 import com.dt.core.data.FunctionColumnData;
 import com.dt.core.data.JoinTableData;
 import com.dt.core.data.MainTableData;
 import com.dt.core.data.VirtualFieldData;
 import com.dt.core.norm.Column;
 import com.dt.core.norm.Model;
+import com.dt.core.sql.QueryByPrimaryKey;
 
 import java.util.Map;
 
@@ -22,7 +24,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereEngine<M, ML, MO, MC, MS, MG> {
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereIntactEngine<M, ML, MO, MC, MS, MG> implements QueryByPrimaryKey<SqlBuilder> {
 
     ColumnIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
@@ -130,6 +132,11 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(Class<T> columnClass, FunctionColumnType functionColumnType, Column<T, TL, TO, TC, TS, TG> column) {
         return functionColumn(columnClass, null, functionColumnType, column);
+    }
+
+    @Override
+    public SqlBuilder queryByPrimaryKey(Object keyValue) {
+        return this.sqlBuilderProxy.queryByPrimaryKey(keyValue);
     }
 
 }
