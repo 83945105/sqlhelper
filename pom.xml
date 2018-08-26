@@ -43,12 +43,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
+        <junit.jupiter.version>5.2.0</junit.jupiter.version>
+
         <holygrail.version>0.3.0-SNAPSHOT</holygrail.version>
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
-        <reflectasm.version>1.11.3</reflectasm.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <mysql-connector-java.version>5.1.45</mysql-connector-java.version>
-        <ehcache.version>3.5.2</ehcache.version>
         <jansi.version>1.11</jansi.version>
         <spring-beans.version>5.0.8.RELEASE</spring-beans.version>
         <com.alibaba.fastjson.version>1.2.7</com.alibaba.fastjson.version>
@@ -57,10 +56,18 @@
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.2.0</version>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>6.0.6</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>com.github.83945105</groupId>
             <artifactId>holygrail</artifactId>
@@ -70,26 +77,13 @@
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf</artifactId>
             <version>${thymeleaf.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.esotericsoftware</groupId>
-            <artifactId>reflectasm</artifactId>
-            <version>${reflectasm.version}</version>
-        </dependency>
-        <!--        <dependency>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-nop</artifactId>
-                    <version>${slf4j.version}</version>
-                </dependency>-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-            <version>${ehcache.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.fusesource.jansi</groupId>
@@ -106,6 +100,11 @@
             <artifactId>fastjson</artifactId>
             <version>${com.alibaba.fastjson.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.surefire</groupId>
+            <artifactId>surefire-junit47</artifactId>
+            <version>2.19</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -118,6 +117,17 @@
                     <encoding>UTF-8</encoding>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.0</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
                 </configuration>
             </plugin>
 

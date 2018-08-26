@@ -1,0 +1,94 @@
+package pub.avalon.sqlhelper.core.engine;
+
+import pub.avalon.beans.DataBaseType;
+import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.data.JoinTableData;
+import pub.avalon.sqlhelper.core.data.LinkWhereData;
+import pub.avalon.sqlhelper.core.data.MainTableData;
+import pub.avalon.sqlhelper.core.norm.ConditionA;
+import pub.avalon.sqlhelper.core.norm.ConditionB;
+import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.sql.Delete;
+import pub.avalon.sqlhelper.core.sql.Update;
+
+import java.util.List;
+
+/**
+ * 条件引擎
+ *
+ * @author 白超
+ * @version 1.0
+ * @since 2018/7/10
+ */
+public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
+        MO extends OnModel<M, ML, MO, MC, MS, MG>,
+        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
+        MS extends SortModel<M, ML, MO, MC, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends GroupIntactEngine<M, ML, MO, MC, MS, MG> implements Update<SqlBuilder>, Delete<SqlBuilder> {
+
+    WhereIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+        super(mainClass, dataBaseType);
+    }
+
+    WhereIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+        super(mainClass, tableName, dataBaseType);
+    }
+
+    @SuppressWarnings("unchecked")
+    public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(ConditionA<M, ML, MO, MC, MS, MG> condition) {
+        MainTableData mainTableData = this.sqlData.getMainTableData();
+        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        mc.getWhereBuilder().setOwnerTableData(mainTableData);
+        WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
+        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
+        mainTableData.addLinkWhereDataList(linkWhereDataList);
+        this.sqlData.addLinkWhereDataList(linkWhereDataList);
+        return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Model<T, TL, TO, TC, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
+            TO extends OnModel<T, TL, TO, TC, TS, TG>,
+            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
+            TS extends SortModel<T, TL, TO, TC, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, String alias, ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
+        MainTableData mainTableData = this.sqlData.getMainTableData();
+        JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
+        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        mc.getWhereBuilder().setOwnerTableData(mainTableData);
+        TC tc = (TC) joinTableData.getTableModel().getWhereModel();
+        tc.getWhereBuilder().setOwnerTableData(joinTableData);
+        WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
+        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
+        joinTableData.addLinkWhereDataList(linkWhereDataList);
+        this.sqlData.addLinkWhereDataList(linkWhereDataList);
+        return this;
+    }
+
+    public <T extends Model<T, TL, TO, TC, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
+            TO extends OnModel<T, TL, TO, TC, TS, TG>,
+            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
+            TS extends SortModel<T, TL, TO, TC, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
+        return where(conditionClass, null, condition);
+    }
+
+    @Override
+    public SqlBuilder updateJavaBean(Object javaBean) {
+        return this.sqlBuilderProxy.updateJavaBean(javaBean);
+    }
+
+    @Override
+    public SqlBuilder updateJavaBeanSelective(Object javaBean) {
+        return this.sqlBuilderProxy.updateJavaBeanSelective(javaBean);
+    }
+
+    @Override
+    public SqlBuilder delete() {
+        return this.sqlBuilderProxy.delete();
+    }
+}

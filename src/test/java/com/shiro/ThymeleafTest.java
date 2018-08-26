@@ -1,10 +1,7 @@
 package com.shiro;
 
-import com.dt.core.engine.SqlEngine;
-import com.dt.factory.MySqlEngine;
-import com.shiro.model.JurRoleModel;
-import com.shiro.model.JurRoleUserModel;
-import org.junit.jupiter.api.Test;
+import pub.avalon.sqlhelper.core.engine.SqlEngine;
+import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -15,7 +12,6 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
  */
 public class ThymeleafTest {
 
-    @Test
     void queryForListTest() {
 
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
@@ -40,7 +36,7 @@ public class ThymeleafTest {
 
             context = new Context();
 
-            SqlEngine engine = MySqlEngine.query(JurRoleModel.class)
+            SqlEngine engine = MySqlDynamicEngine.query(JurRoleModel.class)
                     .innerJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on.and(joinTable.roleId().equalTo(mainTable.id())))
                     .where((condition, mainTable) -> condition
                             .and(mainTable.id().equalTo("").createTime().greaterThan(""))
@@ -63,7 +59,6 @@ public class ThymeleafTest {
 
     }
 
-    @Test
     void textTemplateTest() {
 
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();

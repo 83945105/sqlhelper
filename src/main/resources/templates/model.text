@@ -1,7 +1,7 @@
 package [[${setting.packagePath}]];
 
-import com.dt.core.bean.*;
-import com.dt.core.norm.Model;
+import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
