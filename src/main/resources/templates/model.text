@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.norm.Model;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings("all")
 public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implements Model<[[${setting.tableAlias}+${setting.templateSuffix}]], [[${setting.tableAlias}+${setting.templateSuffix}]].Column, [[${setting.tableAlias}+${setting.templateSuffix}]].On, [[${setting.tableAlias}+${setting.templateSuffix}]].Where, [[${setting.tableAlias}+${setting.templateSuffix}]].Sort, [[${setting.tableAlias}+${setting.templateSuffix}]].Group> {
 
     /**
