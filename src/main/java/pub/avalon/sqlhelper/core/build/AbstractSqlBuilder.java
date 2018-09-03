@@ -24,7 +24,7 @@ public abstract class AbstractSqlBuilder implements SqlBuilder {
         if (this.logger.isDebugEnabled()) {
             logger.debug(Ansi.ansi().eraseScreen()
                     .fg(Ansi.Color.YELLOW)
-                    .a("GET PreparedStatementSQL [" + this.sqlSplicer.getSql() + "]")
+                    .a("GET PreparedStatementSQL  [" + this.sqlSplicer.getSql() + "]")
                     .reset());
         }
         return this.sqlSplicer.getSql();
