@@ -23,8 +23,10 @@ public abstract class AbstractSqlBuilder implements SqlBuilder {
     public String getPreparedStatementSql() {
         if (this.logger.isDebugEnabled()) {
             logger.debug(Ansi.ansi().eraseScreen()
+                    .fg(Ansi.Color.CYAN)
+                    .a("sqlhelper ")
                     .fg(Ansi.Color.YELLOW)
-                    .a("GET PreparedStatementSQL  [" + this.sqlSplicer.getSql() + "]")
+                    .a("PreparedStatementSQL  [" + this.sqlSplicer.getSql() + "]")
                     .reset());
         }
         return this.sqlSplicer.getSql();
@@ -34,8 +36,10 @@ public abstract class AbstractSqlBuilder implements SqlBuilder {
     public List<Object> getPreparedStatementArgs() {
         if (this.logger.isDebugEnabled()) {
             logger.debug(Ansi.ansi().eraseScreen()
+                    .fg(Ansi.Color.CYAN)
+                    .a("sqlhelper ")
                     .fg(Ansi.Color.RED)
-                    .a("GET PreparedStatementArgs " + this.sqlArgs.toString())
+                    .a("PreparedStatementArgs " + this.sqlArgs.toString())
                     .reset());
         }
         return this.sqlArgs;
