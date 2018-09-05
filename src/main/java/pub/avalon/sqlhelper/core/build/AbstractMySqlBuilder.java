@@ -68,6 +68,9 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 case COUNT:
                     sqlSplicer.append("count(");
                     break;
+                case SUM:
+                    sqlSplicer.append("sum(");
+                    break;
                 default:
                     throw new SqlException("the functionColumnType is wrong.");
             }

@@ -18,5 +18,9 @@ public enum FunctionColumnType {
     /**
      * 总数
      */
-    COUNT
+    COUNT,
+    /**
+     * 总和
+     */
+    SUM
 }
