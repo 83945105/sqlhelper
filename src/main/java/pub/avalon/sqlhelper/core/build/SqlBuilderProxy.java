@@ -21,13 +21,14 @@ public class SqlBuilderProxy implements Table<SqlBuilder>, QueryByPrimaryKey<Sql
     }
 
     public <M extends Model> SqlBuilderProxy(SqlData<M> sqlData) {
-        if (this.sqlBuilder == null) {
-            switch (sqlData.getDataBaseType()) {
-                case MYSQL:
-                    this.sqlBuilder = new MySqlDynamicBuilder<>(sqlData);
-                    break;
-                default:
-            }
+        switch (sqlData.getDataBaseType()) {
+            case MYSQL:
+                this.sqlBuilder = new MySqlDynamicBuilder<>(sqlData);
+                break;
+            case SQLSERVER:
+                this.sqlBuilder = new SqlServerDynamicBuilder<>(sqlData);
+                break;
+            default:
         }
     }
 
