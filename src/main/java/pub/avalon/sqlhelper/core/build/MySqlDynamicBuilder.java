@@ -21,13 +21,17 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     }
 
     @Override
-    public SqlBuilder copyTable(String targetTableName) {
+    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
         this.sqlSplicer.clear()
                 .append("create table ")
                 .append(targetTableName)
-                .append(" like ")
+                .append(" select * from ")
                 .append(this.sqlData.getMainTableData().getTableName());
         this.sqlArgs = new ArrayList<>(0);
+        if(copyData) {
+            return this;
+        }
+        this.sqlSplicer.append(" where 1 = 2");
         return this;
     }
 
@@ -52,7 +56,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     @Override
     public SqlBuilder isTableExist() {
         this.sqlSplicer.clear()
-                .append("select count(*) from information_schema.TABLES where table_name = '")
+                .append("select table_name from information_schema.TABLES where table_name = '")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("'");
         this.sqlArgs = new ArrayList<>(0);

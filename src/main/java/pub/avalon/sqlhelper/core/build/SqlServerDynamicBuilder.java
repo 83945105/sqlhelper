@@ -21,13 +21,17 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
-    public SqlBuilder copyTable(String targetTableName) {
+    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
         this.sqlSplicer.clear()
-                .append("create table ")
+                .append("select * into ")
                 .append(targetTableName)
-                .append(" like ")
+                .append(" from ")
                 .append(this.sqlData.getMainTableData().getTableName());
         this.sqlArgs = new ArrayList<>(0);
+        if (copyData) {
+            return this;
+        }
+        this.sqlSplicer.append(" where 1 = 2");
         return this;
     }
 
@@ -41,10 +45,11 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     @Override
     public SqlBuilder renameTable(String newTableName) {
         this.sqlSplicer.clear()
-                .append("rename table ")
+                .append("exec sp_rename '")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" to ")
-                .append(newTableName);
+                .append("', '")
+                .append(newTableName)
+                .append("'");
         this.sqlArgs = new ArrayList<>(0);
         return this;
     }
@@ -52,7 +57,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     @Override
     public SqlBuilder isTableExist() {
         this.sqlSplicer.clear()
-                .append("select count(*) from information_schema.TABLES where table_name = '")
+                .append("select [name] from sysobjects where type='u' and [name] = '")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("'");
         this.sqlArgs = new ArrayList<>(0);
@@ -102,8 +107,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlSplicer.clear();
         if (hasGroup) {
             this.sqlSplicer.append("select count(1) from (select ")
-                    .append(this.sqlData.getMainTableData().getTableAlias())
-                    .append(".* from ");
+                    .append(groupSql.replace(" group by ", ""))
+                    .append(" from ");
         } else {
             this.sqlSplicer.append("select count(1) from ");
         }

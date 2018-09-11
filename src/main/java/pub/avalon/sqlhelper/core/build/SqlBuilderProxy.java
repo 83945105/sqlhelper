@@ -33,8 +33,8 @@ public class SqlBuilderProxy implements Table<SqlBuilder>, QueryByPrimaryKey<Sql
     }
 
     @Override
-    public SqlBuilder copyTable(String targetTableName) {
-        return this.sqlBuilder.copyTable(targetTableName);
+    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
+        return this.sqlBuilder.copyTable(targetTableName, copyData);
     }
 
     @Override

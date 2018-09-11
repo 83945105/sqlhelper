@@ -12,9 +12,10 @@ public interface Table<T> extends Sql {
      * 复制表
      *
      * @param targetTableName 目标表名
+     * @param copyData        是否复制表数据
      * @return
      */
-    T copyTable(String targetTableName);
+    T copyTable(String targetTableName, boolean copyData);
 
     /**
      * 删除表

@@ -576,7 +576,22 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         if (limit == null) {
             return sqlSplicer;
         }
-        sqlSplicer.append(" limit ?,?");
+        SqlSplicer rowNumSql = new SqlSplicer(64);
+        rowNumSql.append("row_number() over(");
+        int len = rowNumSql.length();
+        this.appendSortSql(rowNumSql);
+        if (len == rowNumSql.length()) {
+            rowNumSql.append("order by ")
+                    .append(this.sqlData.getMainTableData().getTableAlias())
+                    .append(".[")
+                    .append(this.sqlData.getMainTableData().getPrimaryKeyName())
+                    .append("] asc");
+        }
+        rowNumSql.append(") n, ");
+
+        sqlSplicer.insert(7, rowNumSql.getSql())
+                .insert(0, "select * from (")
+                .append(") rn where rn.n >= ? and rn.n <= ?");
         this.sqlArgs.add(limit.getLimitStart());
         this.sqlArgs.add(limit.getLimitEnd());
         return sqlSplicer;

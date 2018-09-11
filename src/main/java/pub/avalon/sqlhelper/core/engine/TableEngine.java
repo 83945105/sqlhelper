@@ -28,8 +28,8 @@ public final class TableEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public SqlBuilder copyTable(String targetTableName) {
-        return this.sqlBuilderProxy.copyTable(targetTableName);
+    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
+        return this.sqlBuilderProxy.copyTable(targetTableName, copyData);
     }
 
     @Override
