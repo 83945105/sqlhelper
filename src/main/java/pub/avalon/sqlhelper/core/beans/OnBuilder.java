@@ -287,6 +287,46 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
+    public MO notInValue(Object[] values, ComparisonRule comparisonRule) {
+        if (values == null || values.length == 0) {
+            switch (comparisonRule) {
+                case NULL_SKIP:
+                    return this.handleModel;
+                case NOT_NULL:
+                    throw new ComparisonException("join table alias [" + this.onData.getOwnerTableAlias() + "] column [" + this.onData.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                default:
+                    return null;
+            }
+        }
+        this.onData.setOnType(OnType.NOT_IN);
+        this.onData.setOnValueType(OnValueType.VALUE);
+        this.onData.setValueCount(values.length);
+        this.onData.setTargetValue(values);
+        this.onDataList.add(this.onData);
+        return this.handleModel;
+    }
+
+    @Override
+    public MO notInValue(Collection<?> values, ComparisonRule comparisonRule) {
+        if (values == null || values.size() == 0) {
+            switch (comparisonRule) {
+                case NULL_SKIP:
+                    return this.handleModel;
+                case NOT_NULL:
+                    throw new ComparisonException("join table alias [" + this.onData.getOwnerTableAlias() + "] column [" + this.onData.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                default:
+                    return null;
+            }
+        }
+        this.onData.setOnType(OnType.NOT_IN);
+        this.onData.setOnValueType(OnValueType.VALUE);
+        this.onData.setValueCount(values.size());
+        this.onData.setTargetValue(values);
+        this.onDataList.add(this.onData);
+        return this.handleModel;
+    }
+
+    @Override
     public MO equalTo(OnBuilder onBuilder) {
         this.onData.setOnType(OnType.EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);

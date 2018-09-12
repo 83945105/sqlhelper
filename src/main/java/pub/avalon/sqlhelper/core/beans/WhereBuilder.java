@@ -271,6 +271,44 @@ public final class WhereBuilder<C extends Model<C, CL, CO, CC, CS, CG>,
         return this.handleModel;
     }
 
+    @Override
+    public CC notInValue(Object[] values, ComparisonRule comparisonRule) {
+        if (values == null || values.length == 0) {
+            switch (comparisonRule) {
+                case NULL_SKIP:
+                    return this.handleModel;
+                case NOT_NULL:
+                    throw new ComparisonException("table alias [" + this.whereData.getOwnerAlias() + "] column [" + this.whereData.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                default:
+                    return null;
+            }
+        }
+        this.whereData.setWhereType(WhereType.NOT_IN);
+        this.whereData.setValueCount(values.length);
+        this.whereData.setTargetValue(values);
+        this.whereDataList.add(this.whereData);
+        return this.handleModel;
+    }
+
+    @Override
+    public CC notInValue(Collection<?> values, ComparisonRule comparisonRule) {
+        if (values == null || values.size() == 0) {
+            switch (comparisonRule) {
+                case NULL_SKIP:
+                    return this.handleModel;
+                case NOT_NULL:
+                    throw new ComparisonException("table alias [" + this.whereData.getOwnerAlias() + "] column [" + this.whereData.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                default:
+                    return null;
+            }
+        }
+        this.whereData.setWhereType(WhereType.NOT_IN);
+        this.whereData.setValueCount(values.size());
+        this.whereData.setTargetValue(values);
+        this.whereDataList.add(this.whereData);
+        return this.handleModel;
+    }
+
     public void setOwnerTableData(AbstractTableData ownerTableData) {
         this.ownerTableData = ownerTableData;
     }

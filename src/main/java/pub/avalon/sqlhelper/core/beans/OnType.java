@@ -51,6 +51,10 @@ public enum OnType {
     /**
      * 在...内
      */
-    IN
+    IN,
+    /**
+     * 不在...内
+     */
+    NOT_IN
 
 }

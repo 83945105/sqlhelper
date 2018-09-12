@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.norm;
 
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 /**
@@ -80,6 +81,16 @@ public interface ComparisonOperator<T> {
     /**
      * 等于
      *
+     * @param value 比较值
+     * @return 条件对象
+     */
+    default T equalTo(BigDecimal value) {
+        return equalToValue(value, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 等于
+     *
      * @param value          比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -118,6 +129,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T equalTo(Double value, ComparisonRule comparisonRule) {
+        return equalToValue(value, comparisonRule);
+    }
+
+    /**
+     * 等于
+     *
+     * @param value          比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T equalTo(BigDecimal value, ComparisonRule comparisonRule) {
         return equalToValue(value, comparisonRule);
     }
 
@@ -173,6 +195,16 @@ public interface ComparisonOperator<T> {
     /**
      * 不等于
      *
+     * @param value 比较值
+     * @return 条件对象
+     */
+    default T notEqualTo(BigDecimal value) {
+        return notEqualToValue(value, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不等于
+     *
      * @param value          比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -211,6 +243,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T notEqualTo(Double value, ComparisonRule comparisonRule) {
+        return notEqualToValue(value, comparisonRule);
+    }
+
+    /**
+     * 不等于
+     *
+     * @param value          比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notEqualTo(BigDecimal value, ComparisonRule comparisonRule) {
         return notEqualToValue(value, comparisonRule);
     }
 
@@ -266,6 +309,16 @@ public interface ComparisonOperator<T> {
     /**
      * 大于
      *
+     * @param value 比较值
+     * @return 条件对象
+     */
+    default T greaterThan(BigDecimal value) {
+        return greaterThanValue(value, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 大于
+     *
      * @param value          比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -304,6 +357,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T greaterThan(Double value, ComparisonRule comparisonRule) {
+        return greaterThanValue(value, comparisonRule);
+    }
+
+    /**
+     * 大于
+     *
+     * @param value          比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T greaterThan(BigDecimal value, ComparisonRule comparisonRule) {
         return greaterThanValue(value, comparisonRule);
     }
 
@@ -359,6 +423,16 @@ public interface ComparisonOperator<T> {
     /**
      * 大于等于
      *
+     * @param value 比较值
+     * @return 条件对象
+     */
+    default T greaterThanAndEqualTo(BigDecimal value) {
+        return greaterThanAndEqualToValue(value, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 大于等于
+     *
      * @param value          比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -397,6 +471,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T greaterThanAndEqualTo(Double value, ComparisonRule comparisonRule) {
+        return greaterThanAndEqualToValue(value, comparisonRule);
+    }
+
+    /**
+     * 大于等于
+     *
+     * @param value          比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T greaterThanAndEqualTo(BigDecimal value, ComparisonRule comparisonRule) {
         return greaterThanAndEqualToValue(value, comparisonRule);
     }
 
@@ -452,6 +537,16 @@ public interface ComparisonOperator<T> {
     /**
      * 小于
      *
+     * @param value 比较值
+     * @return 条件对象
+     */
+    default T lessThan(BigDecimal value) {
+        return lessThanValue(value, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 小于
+     *
      * @param value          比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -490,6 +585,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T lessThan(Double value, ComparisonRule comparisonRule) {
+        return lessThanValue(value, comparisonRule);
+    }
+
+    /**
+     * 小于
+     *
+     * @param value          比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T lessThan(BigDecimal value, ComparisonRule comparisonRule) {
         return lessThanValue(value, comparisonRule);
     }
 
@@ -545,6 +651,16 @@ public interface ComparisonOperator<T> {
     /**
      * 小于等于
      *
+     * @param value 比较值
+     * @return 条件对象
+     */
+    default T lessThanAndEqualTo(BigDecimal value) {
+        return lessThanAndEqualToValue(value, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 小于等于
+     *
      * @param value          比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -583,6 +699,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T lessThanAndEqualTo(Double value, ComparisonRule comparisonRule) {
+        return lessThanAndEqualToValue(value, comparisonRule);
+    }
+
+    /**
+     * 小于等于
+     *
+     * @param value          比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T lessThanAndEqualTo(BigDecimal value, ComparisonRule comparisonRule) {
         return lessThanAndEqualToValue(value, comparisonRule);
     }
 
@@ -643,6 +770,17 @@ public interface ComparisonOperator<T> {
     /**
      * 介于
      *
+     * @param value       比较开始值
+     * @param secondValue 比较结束值
+     * @return 条件对象
+     */
+    default T between(BigDecimal value, BigDecimal secondValue) {
+        return betweenValue(value, secondValue, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 介于
+     *
      * @param value          比较开始值
      * @param secondValue    比较结束值
      * @param comparisonRule 比较规则
@@ -685,6 +823,18 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T between(Double value, Double secondValue, ComparisonRule comparisonRule) {
+        return betweenValue(value, secondValue, comparisonRule);
+    }
+
+    /**
+     * 介于
+     *
+     * @param value          比较开始值
+     * @param secondValue    比较结束值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T between(BigDecimal value, BigDecimal secondValue, ComparisonRule comparisonRule) {
         return betweenValue(value, secondValue, comparisonRule);
     }
 
@@ -740,6 +890,16 @@ public interface ComparisonOperator<T> {
     /**
      * 模糊查询
      *
+     * @param value 比较值
+     * @return 条件对象
+     */
+    default T like(BigDecimal value) {
+        return likeValue(value, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 模糊查询
+     *
      * @param value          比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -778,6 +938,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T like(Double value, ComparisonRule comparisonRule) {
+        return likeValue(value, comparisonRule);
+    }
+
+    /**
+     * 模糊查询
+     *
+     * @param value          比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T like(BigDecimal value, ComparisonRule comparisonRule) {
         return likeValue(value, comparisonRule);
     }
 
@@ -833,6 +1004,16 @@ public interface ComparisonOperator<T> {
     /**
      * 在...内
      *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T in(BigDecimal[] values) {
+        return inValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 在...内
+     *
      * @param values         比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -881,6 +1062,17 @@ public interface ComparisonOperator<T> {
      * @param comparisonRule 比较规则
      * @return 条件对象
      */
+    default T in(BigDecimal[] values, ComparisonRule comparisonRule) {
+        return inValue(values, comparisonRule);
+    }
+
+    /**
+     * 在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
     default T in(ComparisonRule comparisonRule, String... values) {
         return inValue(values, comparisonRule);
     }
@@ -915,6 +1107,17 @@ public interface ComparisonOperator<T> {
      * @return 条件对象
      */
     default T in(ComparisonRule comparisonRule, Double... values) {
+        return inValue(values, comparisonRule);
+    }
+
+    /**
+     * 在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T in(ComparisonRule comparisonRule, BigDecimal... values) {
         return inValue(values, comparisonRule);
     }
 
@@ -970,6 +1173,16 @@ public interface ComparisonOperator<T> {
     /**
      * 在...内
      *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T inB(Collection<BigDecimal> values) {
+        return inValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 在...内
+     *
      * @param values         比较值
      * @param comparisonRule 比较规则
      * @return 条件对象
@@ -1009,5 +1222,299 @@ public interface ComparisonOperator<T> {
      */
     default T inD(Collection<Double> values, ComparisonRule comparisonRule) {
         return inValue(values, comparisonRule);
+    }
+
+    /**
+     * 在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T inB(Collection<BigDecimal> values, ComparisonRule comparisonRule) {
+        return inValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    T notInValue(Object[] values, ComparisonRule comparisonRule);
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notIn(String[] values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notIn(Integer[] values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notIn(Long[] values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notIn(Double[] values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notIn(BigDecimal[] values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(String[] values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(Integer[] values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(Long[] values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(Double[] values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(BigDecimal[] values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(ComparisonRule comparisonRule, String... values) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(ComparisonRule comparisonRule, Integer... values) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(ComparisonRule comparisonRule, Long... values) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(ComparisonRule comparisonRule, Double... values) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notIn(ComparisonRule comparisonRule, BigDecimal... values) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    T notInValue(Collection<?> values, ComparisonRule comparisonRule);
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notInS(Collection<String> values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notInI(Collection<Integer> values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notInL(Collection<Long> values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notInD(Collection<Double> values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values 比较值
+     * @return 条件对象
+     */
+    default T notInB(Collection<BigDecimal> values) {
+        return notInValue(values, ComparisonRule.NULL_SKIP);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notInS(Collection<String> values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notInI(Collection<Integer> values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notInL(Collection<Long> values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notInD(Collection<Double> values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param values         比较值
+     * @param comparisonRule 比较规则
+     * @return 条件对象
+     */
+    default T notInB(Collection<BigDecimal> values, ComparisonRule comparisonRule) {
+        return notInValue(values, comparisonRule);
     }
 }
