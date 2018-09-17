@@ -1,12 +1,11 @@
 package pub.avalon.sqlhelper.core.beans;
 
-import pub.avalon.sqlhelper.core.data.JoinTableData;
-import pub.avalon.sqlhelper.core.data.LinkWhereData;
-import pub.avalon.sqlhelper.core.data.MainTableData;
+import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.norm.ConditionA;
 import pub.avalon.sqlhelper.core.norm.ConditionB;
-import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.norm.Model;
+
+import java.util.List;
 
 /**
  * 条件连接器
@@ -28,18 +27,24 @@ public final class WhereLinkIntact<M extends Model<M, ML, MO, MC, MS, MG>,
 
     /**
      * 或
+     *
      * @param whereModel 目标条件连接器
      * @return 当前条件连接器
      */
     public WhereLinkIntact<M, ML, MO, MC, MS, MG> or(WhereModel<?, ?, ?, ?, ?, ?> whereModel) {
         LinkWhereData linkWhereData = new LinkWhereData(LinkType.OR);
-        linkWhereData.setWhereDataList(whereModel.whereBuilder.getWhereDataList());
+        List<WhereData> whereDataList = whereModel.whereBuilder.getWhereDataList();
+        if (whereDataList == null || whereDataList.size() == 0) {
+            return this;
+        }
+        linkWhereData.setWhereDataList(whereDataList);
         this.linkWhereDataList.add(linkWhereData);
         return this;
     }
 
     /**
      * 或
+     *
      * @param condition 条件
      * @return 当前条件连接器
      */
@@ -50,16 +55,21 @@ public final class WhereLinkIntact<M extends Model<M, ML, MO, MC, MS, MG>,
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
         LinkWhereData linkWhereData = new LinkWhereData(LinkType.OR);
-        linkWhereData.setLinkWhereDataList(whereLink.getLinkWhereDataList());
+        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
+        if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
+            return this;
+        }
+        linkWhereData.setLinkWhereDataList(linkWhereDataList);
         this.linkWhereDataList.add(linkWhereData);
         return this;
     }
 
     /**
      * 或
+     *
      * @param conditionClass 目标条件类
-     * @param alias 目标条件别名
-     * @param condition 条件
+     * @param alias          目标条件别名
+     * @param condition      条件
      * @return 当前条件连接器
      */
     @SuppressWarnings("unchecked")
@@ -79,15 +89,20 @@ public final class WhereLinkIntact<M extends Model<M, ML, MO, MC, MS, MG>,
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
         LinkWhereData linkWhereData = new LinkWhereData(LinkType.OR);
-        linkWhereData.setLinkWhereDataList(whereLink.getLinkWhereDataList());
+        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
+        if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
+            return this;
+        }
+        linkWhereData.setLinkWhereDataList(linkWhereDataList);
         this.linkWhereDataList.add(linkWhereData);
         return this;
     }
 
     /**
      * 或
+     *
      * @param conditionClass 目标条件类
-     * @param condition 条件
+     * @param condition      条件
      * @return 当前条件连接器
      */
     public <T extends Model<T, TL, TO, TC, TS, TG>,

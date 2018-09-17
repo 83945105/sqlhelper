@@ -28,7 +28,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append(" select * from ")
                 .append(this.sqlData.getMainTableData().getTableName());
         this.sqlArgs = new ArrayList<>(0);
-        if(copyData) {
+        if (copyData) {
             return this;
         }
         this.sqlSplicer.append(" where 1 = 2");
@@ -58,7 +58,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.sqlSplicer.clear()
                 .append("select table_name from information_schema.TABLES where table_name = '")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("'");
+                .append("' and table_schema = (select database())");
         this.sqlArgs = new ArrayList<>(0);
         return this;
     }

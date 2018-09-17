@@ -55,7 +55,7 @@ public class MySqlDynamicTableTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table("jur_role", JurRoleModel.class)
                 .isTableExist();
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select table_name from information_schema.TABLES where table_name = 'jur_role'");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select table_name from information_schema.TABLES where table_name = 'jur_role' and table_schema = (select database())");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
     }
 
