@@ -20,7 +20,7 @@ public class MySqlDynamicTableTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(JurRoleModel.class)
                 .copyTable(tableName, false);
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "create table " + tableName + " select * from jur_role where 1 = 2");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "create table `" + tableName + "` like `jur_role`");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
 
         tableName = "jur_role_" + UUID.randomUUID().toString().replaceAll("-", "");
@@ -28,7 +28,7 @@ public class MySqlDynamicTableTest {
         sqlBuilder = MySqlDynamicEngine.table(JurRoleModel.class)
                 .copyTable(tableName, true);
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "create table " + tableName + " select * from jur_role");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "create table `" + tableName + "` like `jur_role`; insert into `" + tableName + "` select * from `jur_role`");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
     }
 

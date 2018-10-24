@@ -23,15 +23,20 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     @Override
     public SqlBuilder copyTable(String targetTableName, boolean copyData) {
         this.sqlSplicer.clear()
-                .append("create table ")
+                .append("create table `")
                 .append(targetTableName)
-                .append(" select * from ")
-                .append(this.sqlData.getMainTableData().getTableName());
+                .append("` like `")
+                .append(this.sqlData.getMainTableData().getTableName())
+                .append("`");
         this.sqlArgs = new ArrayList<>(0);
         if (copyData) {
+            this.sqlSplicer.append("; insert into `")
+                    .append(targetTableName)
+                    .append("` select * from `")
+                    .append(this.sqlData.getMainTableData().getTableName())
+                    .append("`");
             return this;
         }
-        this.sqlSplicer.append(" where 1 = 2");
         return this;
     }
 
