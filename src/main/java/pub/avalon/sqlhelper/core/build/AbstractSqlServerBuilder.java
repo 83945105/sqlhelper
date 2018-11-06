@@ -431,6 +431,30 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                         throw new SqlException("the value type can only be Array or Collection.");
                     }
                     continue;
+                case NOT_IN:
+                    count = whereData.getValueCount();
+                    sqlSplicer.append(" not in (");
+                    for (; count > 0; count--) {
+                        if (count == 1) {
+                            sqlSplicer.append("?");
+                        } else {
+                            sqlSplicer.append("?,");
+                        }
+                    }
+                    sqlSplicer.append(")");
+                    value = whereData.getTargetValue();
+                    if (value instanceof Collection) {
+                        for (Object arg : (Collection) value) {
+                            this.sqlArgs.add(arg);
+                        }
+                    } else if (value.getClass().isArray()) {
+                        for (Object arg : (Object[]) value) {
+                            this.sqlArgs.add(arg);
+                        }
+                    } else {
+                        throw new SqlException("the value type can only be Array or Collection.");
+                    }
+                    continue;
                 default:
                     throw new SqlException("the WhereType is wrong.");
             }
