@@ -10,7 +10,7 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/15
  */
-public interface SqlBuilder extends Table<SqlBuilder>, QueryByPrimaryKey<SqlBuilder>, Query<SqlBuilder>, Insert<SqlBuilder>, UpdateByPrimaryKey<SqlBuilder>, Update<SqlBuilder>, DeleteByPrimaryKey<SqlBuilder>, Delete<SqlBuilder> {
+public interface SqlBuilder extends Table, QueryByPrimaryKey, Query, Insert, UpdateByPrimaryKey, Update, DeleteByPrimaryKey, Delete {
 
     /**
      * 获取预编译SQL

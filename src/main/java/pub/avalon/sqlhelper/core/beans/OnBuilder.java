@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import pub.avalon.sqlhelper.core.data.AbstractTableData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.OnData;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
@@ -42,6 +43,26 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     private List<OnData> onDataList = new ArrayList<>();
 
     /**
+     * 获取OnData集合
+     *
+     * @return ArrayList {@link ArrayList}
+     */
+    public List<OnData> getOnDataList() {
+        List<OnData> onDataList = this.onDataList;
+        /**
+         * 每次取走onDataList,重置集合
+         */
+        this.onDataList = new ArrayList<>();
+        return onDataList;
+    }
+
+    private AbstractTableData ownerTableData;
+
+    public void setOwnerTableData(AbstractTableData ownerTableData) {
+        this.ownerTableData = ownerTableData;
+    }
+
+    /**
      * 用于新建OnData并预先存于一部分信息
      *
      * @param ownerTableName  所属表名
@@ -54,6 +75,10 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOwnerTableName(ownerTableName);
         this.onData.setOwnerTableAlias(ownerTableAlias);
         this.onData.setOwnerColumnName(ownerColumnName);
+        if (this.ownerTableData == null) {
+            return this;
+        }
+        this.onData.setOwnerTableAlias(this.ownerTableData.getTableAlias());
         return this;
     }
 
@@ -405,12 +430,12 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO equalTo(Class<T> onClass, String alias, OnB<T, TL, TO, TC, TS, TG> on) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO equalTo(Class<T> onClass, String alias, OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
         this.onData.setOnType(OnType.EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTableModel().getOnModel();
-        OnData targetOnData = on.apply(to).onData;
+        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
@@ -425,12 +450,12 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO notEqualTo(Class<T> onClass, String alias, OnB<T, TL, TO, TC, TS, TG> on) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO notEqualTo(Class<T> onClass, String alias, OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
         this.onData.setOnType(OnType.NOT_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTableModel().getOnModel();
-        OnData targetOnData = on.apply(to).onData;
+        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
@@ -445,12 +470,12 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThan(Class<T> onClass, String alias, OnB<T, TL, TO, TC, TS, TG> on) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThan(Class<T> onClass, String alias, OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
         this.onData.setOnType(OnType.GREATER);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTableModel().getOnModel();
-        OnData targetOnData = on.apply(to).onData;
+        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
@@ -465,12 +490,12 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThanAndEqualTo(Class<T> onClass, String alias, OnB<T, TL, TO, TC, TS, TG> on) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThanAndEqualTo(Class<T> onClass, String alias, OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
         this.onData.setOnType(OnType.GREATER_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTableModel().getOnModel();
-        OnData targetOnData = on.apply(to).onData;
+        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
@@ -485,12 +510,12 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThan(Class<T> onClass, String alias, OnB<T, TL, TO, TC, TS, TG> on) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThan(Class<T> onClass, String alias, OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
         this.onData.setOnType(OnType.LESS);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTableModel().getOnModel();
-        OnData targetOnData = on.apply(to).onData;
+        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
@@ -505,12 +530,12 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThanAndEqualTo(Class<T> onClass, String alias, OnB<T, TL, TO, TC, TS, TG> on) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThanAndEqualTo(Class<T> onClass, String alias, OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
         this.onData.setOnType(OnType.LESS_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO to = (TO) joinTableData.getTableModel().getOnModel();
-        OnData targetOnData = on.apply(to).onData;
+        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
@@ -518,12 +543,4 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         return this.handleModel;
     }
 
-    /**
-     * 获取OnData集合
-     *
-     * @return ArrayList {@link ArrayList}
-     */
-    public List<OnData> getOnDataList() {
-        return this.onDataList;
-    }
 }

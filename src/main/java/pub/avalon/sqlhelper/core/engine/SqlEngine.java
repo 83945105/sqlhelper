@@ -27,9 +27,18 @@ public class SqlEngine<M extends Model> {
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 
-    SqlEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
+    SqlEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
         MainTableData<M> data = new MainTableData<>(mainClass);
         data.setTableName(tableName);
+        this.sqlData = new FinalSqlData<>(dataBaseType);
+        this.sqlData.setMainTableData(data);
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
+    }
+
+    SqlEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        MainTableData<M> data = new MainTableData<>(mainClass);
+        data.setTableName(tableName);
+        data.setTableAlias(alias);
         this.sqlData = new FinalSqlData<>(dataBaseType);
         this.sqlData.setMainTableData(data);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);

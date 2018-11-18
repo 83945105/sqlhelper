@@ -4,7 +4,6 @@ import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.norm.On;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
+public final class OnLinkIntact<M extends Model<M, ML, MO, MC, MS, MG>,
         ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
@@ -25,53 +24,37 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
         TO extends OnModel<T, TL, TO, TC, TS, TG>,
         TC extends WhereModel<T, TL, TO, TC, TS, TG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
+        TG extends GroupModel<T, TL, TO, TC, TS, TG>> extends OnLink<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> {
 
-    protected SqlData sqlData;
-
-    protected Class<T> joinClass;
-
-    protected String alias;
-
-    public OnLink(SqlData sqlData, Class<T> joinClass, String alias) {
-        this.sqlData = sqlData;
-        this.joinClass = joinClass;
-        this.alias = alias;
-    }
-
-    protected List<LinkOnData> linkOnDataList = new ArrayList<>();
-
-    public List<LinkOnData> getLinkOnDataList() {
-        List<LinkOnData> list = this.linkOnDataList;
-        this.linkOnDataList = new ArrayList<>();
-        return list;
+    public OnLinkIntact(SqlData sqlData, Class<T> joinClass, String alias) {
+        super(sqlData, joinClass, alias);
     }
 
     /**
-     * 且条件
+     * 或条件
      *
      * @param onModel On模组
      * @return On条件连接器 {@link OnLinkIntact}
      */
-    public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> and(OnModel<T, TL, TO, TC, TS, TG> onModel) {
-        LinkOnData linkOnData = new LinkOnData(LinkType.AND);
+    public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> or(OnModel<T, TL, TO, TC, TS, TG> onModel) {
+        LinkOnData linkOnData = new LinkOnData(LinkType.OR);
         List<OnData> onDataList = onModel.onBuilder.getOnDataList();
         if (onDataList == null || onDataList.size() == 0) {
-            return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+            return this;
         }
         linkOnData.setOnDataList(onDataList);
         this.linkOnDataList.add(linkOnData);
-        return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+        return this;
     }
 
     /**
-     * 且条件
+     * 或条件
      *
      * @param on on处理
      * @return On条件连接器 {@link OnLinkIntact}
      */
     @SuppressWarnings("unchecked")
-    public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> and(On<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> on) {
+    public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> or(On<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> on) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         MO mo = (MO) mainTableData.getTableModel().getOnModel();
         mo.onBuilder.setOwnerTableData(mainTableData);
@@ -81,12 +64,12 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
         OnLink onLink = on.apply(new OnLinkIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
         List<LinkOnData> linkOnDataList = onLink.getLinkOnDataList();
         if (linkOnDataList == null || linkOnDataList.size() == 0) {
-            return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+            return this;
         }
-        LinkOnData linkOnData = new LinkOnData(LinkType.AND);
+        LinkOnData linkOnData = new LinkOnData(LinkType.OR);
         linkOnData.setLinkOnDataList(linkOnDataList);
         this.linkOnDataList.add(linkOnData);
-        return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+        return this;
     }
 
 }

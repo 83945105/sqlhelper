@@ -27,8 +27,12 @@ public class GroupIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(mainClass, dataBaseType);
     }
 
-    GroupIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        super(mainClass, tableName, dataBaseType);
+    GroupIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+        super(tableName, mainClass, dataBaseType);
+    }
+
+    GroupIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        super(tableName, mainClass, alias, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")

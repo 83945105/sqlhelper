@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.sql;
 
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
+
 import java.util.Collection;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Collection;
  * @author 白超
  * @date 2018/8/20
  */
-public interface Insert<T> extends Sql {
+public interface Insert extends Sql {
 
     /**
      * 插入参数
@@ -16,7 +18,7 @@ public interface Insert<T> extends Sql {
      * @param args 参数
      * @return
      */
-    T insertArgs(Collection<?> args);
+    SqlBuilder insertArgs(Collection<?> args);
 
     /**
      * 使用JavaBean插入
@@ -24,7 +26,7 @@ public interface Insert<T> extends Sql {
      * @param javaBean
      * @return
      */
-    T insertJavaBean(Object javaBean);
+    SqlBuilder insertJavaBean(Object javaBean);
 
     /**
      * 使用JavaBean插入
@@ -33,7 +35,7 @@ public interface Insert<T> extends Sql {
      * @param javaBean
      * @return
      */
-    T insertJavaBeanSelective(Object javaBean);
+    SqlBuilder insertJavaBeanSelective(Object javaBean);
 
     /**
      * 使用JavaBean批量插入
@@ -41,6 +43,6 @@ public interface Insert<T> extends Sql {
      * @param javaBeans
      * @return
      */
-    T batchInsertJavaBeans(Collection<?> javaBeans);
+    SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans);
 
 }

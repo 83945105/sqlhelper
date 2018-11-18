@@ -1,8 +1,8 @@
 package pub.avalon.sqlhelper.core.beans;
 
 import pub.avalon.sqlhelper.core.data.*;
-import pub.avalon.sqlhelper.core.norm.ConditionA;
-import pub.avalon.sqlhelper.core.norm.ConditionB;
+import pub.avalon.sqlhelper.core.norm.JoinCondition;
+import pub.avalon.sqlhelper.core.norm.MainCondition;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.ArrayList;
@@ -63,16 +63,16 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
      * @return 当前条件连接器
      */
     @SuppressWarnings("unchecked")
-    public WhereLinkIntact<M, ML, MO, MC, MS, MG> and(ConditionA<M, ML, MO, MC, MS, MG> condition) {
+    public WhereLinkIntact<M, ML, MO, MC, MS, MG> and(MainCondition<M, ML, MO, MC, MS, MG> condition) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
-        LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
         if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
             return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
         }
+        LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
         linkWhereData.setLinkWhereDataList(linkWhereDataList);
         this.linkWhereDataList.add(linkWhereData);
         return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
@@ -94,7 +94,7 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereLinkIntact<M, ML, MO, MC, MS, MG> and(Class<T> conditionClass,
                                                                                                      String alias,
-                                                                                                     ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
+                                                                                                     JoinCondition<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
@@ -102,11 +102,11 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
         TC tc = (TC) joinTableData.getTableModel().getWhereModel();
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
-        LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
         if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
             return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
         }
+        LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
         linkWhereData.setLinkWhereDataList(linkWhereDataList);
         this.linkWhereDataList.add(linkWhereData);
         return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
@@ -122,7 +122,7 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereLinkIntact<M, ML, MO, MC, MS, MG> and(Class<T> conditionClass, ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereLinkIntact<M, ML, MO, MC, MS, MG> and(Class<T> conditionClass, JoinCondition<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
         return and(conditionClass, null, condition);
     }
 

@@ -21,8 +21,12 @@ public final class UpdateEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(mainClass, dataBaseType);
     }
 
-    public UpdateEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        super(mainClass, tableName, dataBaseType);
+    public UpdateEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+        super(tableName, mainClass, dataBaseType);
+    }
+
+    public UpdateEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        super(tableName, mainClass, alias, dataBaseType);
     }
 
 }

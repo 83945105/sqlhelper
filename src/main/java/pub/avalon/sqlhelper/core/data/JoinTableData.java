@@ -3,9 +3,8 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.norm.Model;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 连接表数据
@@ -18,7 +17,7 @@ public final class JoinTableData<T extends Model> extends AbstractTableData<T> {
 
     private JoinType joinType = JoinType.INNER;
 
-    private Map<LinkType, List<OnData>> linkOnDataMap;
+    private List<LinkOnData> linkOnDataList;
 
     public JoinTableData(Class<T> tableClass) {
         super(tableClass);
@@ -32,18 +31,18 @@ public final class JoinTableData<T extends Model> extends AbstractTableData<T> {
         this.joinType = joinType;
     }
 
-    public Map<LinkType, List<OnData>> getLinkOnDataMap() {
-        return linkOnDataMap;
+    public List<LinkOnData> getLinkOnDataList() {
+        return linkOnDataList;
     }
 
-    public void addLinkOnDataMap(Map<LinkType, List<OnData>> linkOnDataMap) {
-        if (linkOnDataMap == null || linkOnDataMap.size() == 0) {
+    public void addLinkOnDataList(List<LinkOnData> linkOnDataList) {
+        if (linkOnDataList == null || linkOnDataList.size() == 0) {
             return;
         }
-        if (this.linkOnDataMap == null) {
-            this.linkOnDataMap = new LinkedHashMap<>();
+        if (this.linkOnDataList == null) {
+            this.linkOnDataList = new ArrayList<>();
         }
-        this.linkOnDataMap.putAll(linkOnDataMap);
+        this.linkOnDataList.addAll(linkOnDataList);
     }
 
 }

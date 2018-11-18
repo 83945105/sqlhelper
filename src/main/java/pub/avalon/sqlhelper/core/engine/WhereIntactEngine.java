@@ -6,8 +6,8 @@ import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.LinkWhereData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
-import pub.avalon.sqlhelper.core.norm.ConditionA;
-import pub.avalon.sqlhelper.core.norm.ConditionB;
+import pub.avalon.sqlhelper.core.norm.JoinCondition;
+import pub.avalon.sqlhelper.core.norm.MainCondition;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.sql.Delete;
 import pub.avalon.sqlhelper.core.sql.Update;
@@ -26,18 +26,22 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends GroupIntactEngine<M, ML, MO, MC, MS, MG> implements Update<SqlBuilder>, Delete<SqlBuilder> {
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends GroupIntactEngine<M, ML, MO, MC, MS, MG> implements Update, Delete {
 
     WhereIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
     }
 
-    WhereIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        super(mainClass, tableName, dataBaseType);
+    WhereIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+        super(tableName, mainClass, dataBaseType);
+    }
+
+    WhereIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        super(tableName, mainClass, alias, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
-    public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(ConditionA<M, ML, MO, MC, MS, MG> condition) {
+    public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(MainCondition<M, ML, MO, MC, MS, MG> condition) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
@@ -54,7 +58,7 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, String alias, ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, String alias, JoinCondition<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
@@ -73,7 +77,7 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, ConditionB<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, JoinCondition<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
         return where(conditionClass, null, condition);
     }
 

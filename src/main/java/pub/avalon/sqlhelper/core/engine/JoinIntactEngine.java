@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.norm.Model;
-import pub.avalon.sqlhelper.core.norm.OnA;
+import pub.avalon.sqlhelper.core.norm.On;
 
 /**
  * 连接引擎
@@ -25,8 +25,12 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(mainClass, dataBaseType);
     }
 
-    public JoinIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        super(mainClass, tableName, dataBaseType);
+    public JoinIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+        super(tableName, mainClass, dataBaseType);
+    }
+
+    public JoinIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        super(tableName, mainClass, alias, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
@@ -39,19 +43,21 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
                                                                                                        Class<J> joinClass,
                                                                                                        String alias,
                                                                                                        JoinType joinType,
-                                                                                                       OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                       On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         JoinTableData<J> joinTableData = new JoinTableData<>(joinClass);
         joinTableData.setTableName(tableName);
         joinTableData.setTableAlias(alias);
         joinTableData.setJoinType(joinType);
-        OnLink<J, JL, JO, JC, JS, JG> onLink = new OnLink<>();
-        JO jo = (JO) joinTableData.getTableModel().getOnModel();
-        jo.setSqlData(this.sqlData);
-        MO mo = (MO) mainTableData.getTableModel().getOnModel();
-        OnLink link = on.apply(onLink, jo, mo);
-        joinTableData.addLinkOnDataMap(link.getLinkOnDataMap());
         this.sqlData.addJoinTableData(joinTableData);
+        MO mo = (MO) mainTableData.getTableModel().getOnModel();
+        mo.getOnBuilder().setOwnerTableData(mainTableData);
+        OnLink<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> onLink = new OnLinkIntact<>(this.sqlData, joinClass, alias);
+        JO jo = (JO) joinTableData.getTableModel().getOnModel();
+        jo.getOnBuilder().setOwnerTableData(joinTableData);
+        jo.setSqlData(this.sqlData);
+        OnLink link = on.apply(onLink, jo, mo);
+        joinTableData.addLinkOnDataList(link.getLinkOnDataList());
         return this;
     }
 
@@ -63,7 +69,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> join(String tableName,
                                                                                                        Class<J> joinClass,
                                                                                                        JoinType joinType,
-                                                                                                       OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                       On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(tableName, joinClass, null, joinType, on);
     }
 
@@ -75,7 +81,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> join(Class<J> joinClass,
                                                                                                        String alias,
                                                                                                        JoinType joinType,
-                                                                                                       OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                       On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, alias, joinType, on);
     }
 
@@ -86,7 +92,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> join(Class<J> joinClass,
                                                                                                        JoinType joinType,
-                                                                                                       OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                       On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, null, joinType, on);
     }
 
@@ -98,7 +104,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> innerJoin(String tableName,
                                                                                                             Class<J> joinClass,
                                                                                                             String alias,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(tableName, joinClass, alias, JoinType.INNER, on);
     }
 
@@ -109,7 +115,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> innerJoin(String tableName,
                                                                                                             Class<J> joinClass,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(tableName, joinClass, null, JoinType.INNER, on);
     }
 
@@ -120,7 +126,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> innerJoin(Class<J> joinClass,
                                                                                                             String alias,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, alias, JoinType.INNER, on);
     }
 
@@ -130,7 +136,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JC extends WhereModel<J, JL, JO, JC, JS, JG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> innerJoin(Class<J> joinClass,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, null, JoinType.INNER, on);
     }
 
@@ -142,7 +148,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> leftJoin(String tableName,
                                                                                                            Class<J> joinClass,
                                                                                                            String alias,
-                                                                                                           OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                           On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(tableName, joinClass, alias, JoinType.LEFT, on);
     }
 
@@ -153,7 +159,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> leftJoin(String tableName,
                                                                                                            Class<J> joinClass,
-                                                                                                           OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                           On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(tableName, joinClass, null, JoinType.LEFT, on);
     }
 
@@ -164,7 +170,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> leftJoin(Class<J> joinClass,
                                                                                                            String alias,
-                                                                                                           OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                           On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, alias, JoinType.LEFT, on);
     }
 
@@ -174,7 +180,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JC extends WhereModel<J, JL, JO, JC, JS, JG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> leftJoin(Class<J> joinClass,
-                                                                                                           OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                           On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, null, JoinType.LEFT, on);
     }
 
@@ -186,7 +192,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> rightJoin(String tableName,
                                                                                                             Class<J> joinClass,
                                                                                                             String alias,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(tableName, joinClass, alias, JoinType.RIGHT, on);
     }
 
@@ -197,7 +203,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> rightJoin(String tableName,
                                                                                                             Class<J> joinClass,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(tableName, joinClass, null, JoinType.RIGHT, on);
     }
 
@@ -208,7 +214,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> rightJoin(Class<J> joinClass,
                                                                                                             String alias,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, alias, JoinType.RIGHT, on);
     }
 
@@ -218,7 +224,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             JC extends WhereModel<J, JL, JO, JC, JS, JG>,
             JS extends SortModel<J, JL, JO, JC, JS, JG>,
             JG extends GroupModel<J, JL, JO, JC, JS, JG>> JoinIntactEngine<M, ML, MO, MC, MS, MG> rightJoin(Class<J> joinClass,
-                                                                                                            OnA<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
+                                                                                                            On<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> on) {
         return join(null, joinClass, null, JoinType.RIGHT, on);
     }
 

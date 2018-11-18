@@ -30,4 +30,9 @@ public class OnModel<M extends Model<M, ML, MO, MC, MS, MG>,
     public void setSqlData(SqlData sqlData) {
         this.sqlData = sqlData;
     }
+
+    public OnBuilder<M, ML, MO, MC, MS, MG> getOnBuilder() {
+        return onBuilder;
+    }
+
 }

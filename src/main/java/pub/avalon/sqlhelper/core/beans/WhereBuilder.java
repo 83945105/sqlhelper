@@ -45,11 +45,18 @@ public final class WhereBuilder<C extends Model<C, CL, CO, CC, CS, CG>,
 
     private AbstractTableData ownerTableData;
 
+    public void setOwnerTableData(AbstractTableData ownerTableData) {
+        this.ownerTableData = ownerTableData;
+    }
+
     public WhereBuilder<C, CL, CO, CC, CS, CG> handler(String ownerTableName, String ownerAlias, String ownerColumnName) {
         this.whereData = new WhereData();
         this.whereData.setOwnerTableName(ownerTableName);
         this.whereData.setOwnerAlias(ownerAlias);
         this.whereData.setOwnerColumnName(ownerColumnName);
+        if (this.ownerTableData == null) {
+            return this;
+        }
         this.whereData.setOwnerAlias(this.ownerTableData.getTableAlias());
         return this;
     }
@@ -309,7 +316,4 @@ public final class WhereBuilder<C extends Model<C, CL, CO, CC, CS, CG>,
         return this.handleModel;
     }
 
-    public void setOwnerTableData(AbstractTableData ownerTableData) {
-        this.ownerTableData = ownerTableData;
-    }
 }

@@ -1,12 +1,14 @@
 package pub.avalon.sqlhelper.core.sql;
 
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
+
 /**
  * 更新
  *
  * @author 白超
  * @date 2018/8/20
  */
-public interface Update<T> extends Sql {
+public interface Update extends Sql {
 
     /**
      * 使用JavaBean更新
@@ -14,7 +16,7 @@ public interface Update<T> extends Sql {
      * @param javaBean
      * @return
      */
-    T updateJavaBean(Object javaBean);
+    SqlBuilder updateJavaBean(Object javaBean);
 
     /**
      * 使用JavaBean更新
@@ -23,6 +25,6 @@ public interface Update<T> extends Sql {
      * @param javaBean
      * @return
      */
-    T updateJavaBeanSelective(Object javaBean);
+    SqlBuilder updateJavaBeanSelective(Object javaBean);
 
 }

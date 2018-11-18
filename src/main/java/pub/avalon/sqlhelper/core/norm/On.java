@@ -10,7 +10,7 @@ import pub.avalon.sqlhelper.core.beans.*;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface OnA<M extends Model<M, ML, MO, MC, MS, MG>,
+public interface On<M extends Model<M, ML, MO, MC, MS, MG>,
         ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
@@ -31,6 +31,6 @@ public interface OnA<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param mainTable 主表的条件
      * @return
      */
-    OnLink<T, TL, TO, TC, TS, TG> apply(OnLink<T, TL, TO, TC, TS, TG> on, TO joinTable, MO mainTable);
+    OnLink<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> apply(OnLink<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> on, TO joinTable, MO mainTable);
 
 }

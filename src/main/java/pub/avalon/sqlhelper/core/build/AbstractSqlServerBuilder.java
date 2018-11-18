@@ -212,110 +212,159 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendJoinOnSql(SqlSplicer sqlSplicer, JoinTableData joinTableData) {
-        Map<LinkType, List<OnData>> onDataMap = joinTableData.getLinkOnDataMap();
+    private SqlSplicer appendOnDataList(SqlSplicer sqlSplicer, List<OnData> onDataList, LinkType linkType) {
+        if (onDataList == null || onDataList.size() == 0) {
+            return sqlSplicer;
+        }
+        if (linkType == LinkType.OR && onDataList.size() > 1) {
+            sqlSplicer.append("(");
+        }
         int i = 0;
-        for (Map.Entry<LinkType, List<OnData>> onEntry : onDataMap.entrySet()) {
-            if (i++ == 0) {
-                sqlSplicer.append(" on ");
-            } else {
-                switch (onEntry.getKey()) {
-                    case AND:
-                        sqlSplicer.append(" and ");
-                        break;
-                    case OR:
-                        sqlSplicer.append(" or ");
-                        break;
-                    default:
-                        continue;
-                }
+        for (OnData onData : onDataList) {
+            if (i++ > 0) {
+                sqlSplicer.append(" and ");
             }
-            int j = 0;
-            for (OnData onData : onEntry.getValue()) {
-                if (j++ > 0) {
-                    sqlSplicer.append(" and ");
-                }
-                sqlSplicer.append(joinTableData.getTableAlias())
-                        .append(".[")
-                        .append(onData.getOwnerColumnName())
-                        .append("]");
-                switch (onData.getOnType()) {
-                    case IS_NULL:
-                        sqlSplicer.append(" is null");
-                        continue;
-                    case IS_NOT_NULL:
-                        sqlSplicer.append(" is not null");
-                        continue;
-                    case EQUAL:
-                        sqlSplicer.append(" = ");
-                        break;
-                    case NOT_EQUAL:
-                        sqlSplicer.append(" != ");
-                        break;
-                    case GREATER:
-                        sqlSplicer.append(" > ");
-                        break;
-                    case GREATER_EQUAL:
-                        sqlSplicer.append(" >= ");
-                        break;
-                    case LESS:
-                        sqlSplicer.append(" < ");
-                        break;
-                    case LESS_EQUAL:
-                        sqlSplicer.append(" <= ");
-                        break;
-                    case BETWEEN:
-                        sqlSplicer.append(" between ? and ?");
-                        this.sqlArgs.add(onData.getTargetValue());
-                        this.sqlArgs.add(onData.getTargetSecondValue());
-                        continue;
-                    case LIKE:
-                        sqlSplicer.append(" like ?");
-                        this.sqlArgs.add(onData.getTargetValue());
-                        continue;
-                    case IN:
-                        int count = onData.getValueCount();
-                        sqlSplicer.append(" in (");
-                        for (; count > 0; count--) {
-                            if (count == 1) {
-                                sqlSplicer.append("?");
-                            } else {
-                                sqlSplicer.append("?,");
-                            }
-                        }
-                        sqlSplicer.append(")");
-                        Object value = onData.getTargetValue();
-                        if (value instanceof Collection) {
-                            for (Object arg : (Collection) value) {
-                                this.sqlArgs.add(arg);
-                            }
-                        } else if (value.getClass().isArray()) {
-                            for (Object arg : (Object[]) value) {
-                                this.sqlArgs.add(arg);
-                            }
+            sqlSplicer.append(onData.getOwnerTableAlias())
+                    .append(".[")
+                    .append(onData.getOwnerColumnName())
+                    .append("]");
+            switch (onData.getOnType()) {
+                case IS_NULL:
+                    sqlSplicer.append(" is null");
+                    continue;
+                case IS_NOT_NULL:
+                    sqlSplicer.append(" is not null");
+                    continue;
+                case EQUAL:
+                    sqlSplicer.append(" = ");
+                    break;
+                case NOT_EQUAL:
+                    sqlSplicer.append(" != ");
+                    break;
+                case GREATER:
+                    sqlSplicer.append(" > ");
+                    break;
+                case GREATER_EQUAL:
+                    sqlSplicer.append(" >= ");
+                    break;
+                case LESS:
+                    sqlSplicer.append(" < ");
+                    break;
+                case LESS_EQUAL:
+                    sqlSplicer.append(" <= ");
+                    break;
+                case BETWEEN:
+                    sqlSplicer.append(" between ? and ?");
+                    this.sqlArgs.add(onData.getTargetValue());
+                    this.sqlArgs.add(onData.getTargetSecondValue());
+                    continue;
+                case LIKE:
+                    sqlSplicer.append(" like ?");
+                    this.sqlArgs.add(onData.getTargetValue());
+                    continue;
+                case IN:
+                    int count = onData.getValueCount();
+                    sqlSplicer.append(" in (");
+                    for (; count > 0; count--) {
+                        if (count == 1) {
+                            sqlSplicer.append("?");
                         } else {
-                            throw new SqlException("the value type can only be Array or Collection.");
+                            sqlSplicer.append("?,");
                         }
+                    }
+                    sqlSplicer.append(")");
+                    Object value = onData.getTargetValue();
+                    if (value instanceof Collection) {
+                        this.sqlArgs.addAll((Collection) value);
+                    } else if (value.getClass().isArray()) {
+                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                    } else {
+                        throw new SqlException("the value type can only be Array or Collection.");
+                    }
+                    continue;
+                default:
+                    throw new SqlException("the WhereType is wrong.");
+            }
+            switch (onData.getOnValueType()) {
+                case VALUE:
+                    sqlSplicer.append("?");
+                    this.sqlArgs.add(onData.getTargetValue());
+                    continue;
+                case JOIN:
+                    sqlSplicer.append(onData.getTargetAlias())
+                            .append(".[")
+                            .append(onData.getTargetColumnName())
+                            .append("]");
+                    continue;
+                default:
+                    throw new SqlException("the OnValueType is wrong.");
+            }
+        }
+        if (linkType == LinkType.OR && onDataList.size() > 1) {
+            sqlSplicer.append(")");
+        }
+        return sqlSplicer;
+    }
+
+
+    private SqlSplicer appendLinkOnDataList(SqlSplicer sqlSplicer, List<LinkOnData> linkOnDataList, LinkType linkType, boolean checkBrackets) {
+
+        if (linkOnDataList == null || linkOnDataList.size() == 0) {
+            return sqlSplicer;
+        }
+        int length = sqlSplicer.length();
+        List<OnData> onDataList;
+        int i = 0;
+        boolean brackets = false;
+        for (LinkOnData linkOnData : linkOnDataList) {
+            onDataList = linkOnData.getOnDataList();
+            List<LinkOnData> childLinkOnDataList = linkOnData.getLinkOnDataList();
+            if (onDataList != null && onDataList.size() > 0) {
+                switch (linkOnData.getLinkType()) {
+                    case AND:
+                        if (i++ > 0) {
+                            sqlSplicer.append(" and ");
+                        }
+                        this.appendOnDataList(sqlSplicer, onDataList, LinkType.AND);
+                        continue;
+                    case OR:
+                        if (i++ > 0) {
+                            sqlSplicer.append(" or ");
+                            brackets = checkBrackets;
+                        }
+                        this.appendOnDataList(sqlSplicer, onDataList, LinkType.OR);
                         continue;
                     default:
-                        throw new SqlException("the WhereType is wrong.");
+                        throw new SqlException("the LinkType is wrong.");
                 }
-                switch (onData.getOnValueType()) {
-                    case VALUE:
-                        sqlSplicer.append("?");
-                        this.sqlArgs.add(onData.getTargetValue());
+            } else if (childLinkOnDataList != null && childLinkOnDataList.size() > 0) {
+                switch (linkOnData.getLinkType()) {
+                    case AND:
+                        if (i++ > 0) {
+                            sqlSplicer.append(" and ");
+                        }
+                        sqlSplicer = this.appendLinkOnDataList(sqlSplicer, childLinkOnDataList, LinkType.AND, true);
                         continue;
-                    case JOIN:
-                        sqlSplicer.append(onData.getTargetAlias())
-                                .append(".[")
-                                .append(onData.getTargetColumnName())
-                                .append("]");
+                    case OR:
+                        if (i++ > 0) {
+                            sqlSplicer.append(" or ");
+                            brackets = checkBrackets;
+                        }
+                        sqlSplicer = this.appendLinkOnDataList(sqlSplicer, childLinkOnDataList, LinkType.OR, true);
                         continue;
                     default:
-                        throw new SqlException("the OnValueType is wrong.");
+                        throw new SqlException("the LinkType is wrong.");
                 }
             }
         }
+        if (!checkBrackets) {
+            return sqlSplicer;
+        }
+        brackets = brackets || linkType == LinkType.OR && i > 1;
+        if (!brackets) {
+            return sqlSplicer;
+        }
+        sqlSplicer.insert(length, "(").append(")");
         return sqlSplicer;
     }
 
@@ -343,9 +392,10 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
             sqlSplicer.append(joinTableData.getTableName())
                     .append(" ")
                     .append(joinTableData.getTableAlias());
-            Map<LinkType, List<OnData>> onDataMap = joinTableData.getLinkOnDataMap();
-            if (onDataMap != null && onDataMap.size() > 0) {
-                this.appendJoinOnSql(sqlSplicer, joinTableData);
+            List<LinkOnData> linkOnDataList = joinTableData.getLinkOnDataList();
+            if (linkOnDataList != null && linkOnDataList.size() > 0) {
+                sqlSplicer.append(" on ");
+                this.appendLinkOnDataList(sqlSplicer, linkOnDataList, LinkType.AND, false);
             }
         }
         return sqlSplicer;

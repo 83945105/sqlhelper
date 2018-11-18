@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.model;
 
+import org.junit.jupiter.api.Test;
 import pub.avalon.beans.HumpConverter;
 import pub.avalon.sqlhelper.core.jdbc.JdbcSourceEngine;
 
@@ -10,21 +11,16 @@ import java.sql.SQLException;
  */
 public class ModelTemplateEngineTests {
 
-//    @Test
+    @Test
     void createModelsTest() throws SQLException {
         JdbcSourceEngine engine = JdbcSourceEngine.newMySqlEngine(
                 "com.mysql.cj.jdbc.Driver",
-                "jdbc:mysql://192.168.3.3:3306/sqlhelper-junit5?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai",
+                "jdbc:mysql://192.168.3.3:3306/shiro-manage-spring-2.x.x?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai",
                 "root", "root");
 
         new ModelTemplateEngine(engine, new HumpConverter())
-                .addTable("jur_res", "JurRes")
-                .addTable("jur_role", "JurRole")
-                .addTable("jur_role_res", "JurRoleRes")
-                .addTable("jur_role_user", "JurRoleUser")
-                .addTable("zuul_route", "ZuulRoute")
+                .addTable("aut_role", "JurRes")
                 .process("/", "com.shiro.model");
     }
-
 
 }

@@ -20,7 +20,7 @@ public class SqlServerDynamicEngine {
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> TableEngine<T, TL, TO, TC, TS, TG> table(String tableName, Class<T> mainClass) {
-        return new TableEngine<>(mainClass, tableName, DataBaseType.SQLSERVER);
+        return new TableEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
     }
 
     public static <T extends Model<T, TL, TO, TC, TS, TG>,
@@ -38,7 +38,7 @@ public class SqlServerDynamicEngine {
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> QueryEngine<T, TL, TO, TC, TS, TG> query(String tableName, Class<T> mainClass) {
-        return new QueryEngine<>(mainClass, tableName, DataBaseType.SQLSERVER);
+        return new QueryEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
     }
 
     public static <T extends Model<T, TL, TO, TC, TS, TG>,
@@ -56,7 +56,7 @@ public class SqlServerDynamicEngine {
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> InsertEngine<T, TL, TO, TC, TS, TG> insert(String tableName, Class<T> columnClass) {
-        return new InsertEngine<>(columnClass, tableName, DataBaseType.SQLSERVER);
+        return new InsertEngine<>(tableName, columnClass, DataBaseType.SQLSERVER);
     }
 
     public static <T extends Model<T, TL, TO, TC, TS, TG>,
@@ -74,7 +74,7 @@ public class SqlServerDynamicEngine {
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> UpdateEngine<T, TL, TO, TC, TS, TG> update(String tableName, Class<T> mainClass) {
-        return new UpdateEngine<>(mainClass, tableName, DataBaseType.SQLSERVER);
+        return new UpdateEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
     }
 
     public static <T extends Model<T, TL, TO, TC, TS, TG>,
@@ -92,7 +92,7 @@ public class SqlServerDynamicEngine {
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> DeleteEngine<T, TL, TO, TC, TS, TG> delete(String tableName, Class<T> mainClass) {
-        return new DeleteEngine<>(mainClass, tableName, DataBaseType.SQLSERVER);
+        return new DeleteEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
     }
 
     public static <T extends Model<T, TL, TO, TC, TS, TG>,

@@ -12,7 +12,7 @@ import java.util.Collection;
  * @author 白超
  * @date 2018/8/20
  */
-public class SqlBuilderProxy implements Table<SqlBuilder>, QueryByPrimaryKey<SqlBuilder>, Query<SqlBuilder>, Insert<SqlBuilder>, UpdateByPrimaryKey<SqlBuilder>, Update<SqlBuilder>, DeleteByPrimaryKey<SqlBuilder>, Delete<SqlBuilder> {
+public class SqlBuilderProxy implements Table, QueryByPrimaryKey, Query, Insert, UpdateByPrimaryKey, Update, DeleteByPrimaryKey, Delete {
 
     private SqlBuilder sqlBuilder;
 

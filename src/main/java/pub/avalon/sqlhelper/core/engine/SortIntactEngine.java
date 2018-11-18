@@ -28,8 +28,12 @@ public class SortIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(mainClass, dataBaseType);
     }
 
-    SortIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        super(mainClass, tableName, dataBaseType);
+    SortIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+        super(tableName, mainClass, dataBaseType);
+    }
+
+    SortIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        super(tableName, mainClass, alias, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")

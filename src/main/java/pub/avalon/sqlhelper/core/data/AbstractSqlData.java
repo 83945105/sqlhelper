@@ -54,6 +54,9 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     @SuppressWarnings("unchecked")
     public <J extends Model> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass) {
         if (this.joinTableDataAliasMap == null) {
+            if (alias == null) {
+                throw new TableDataException("the class table [" + joinClass + "] is not joined.");
+            }
             throw new TableDataException("the alias table [" + alias + "] is not joined.");
         }
         if (alias == null || alias.trim().length() == 0) {

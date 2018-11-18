@@ -1,16 +1,16 @@
 package pub.avalon.sqlhelper.core.norm;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.engine.QueryEngine;
+import pub.avalon.sqlhelper.core.sql.Query;
 
 /**
- * 条件
+ * 子查询
  *
  * @author 白超
- * @version 1.0
- * @since 2018/7/10
+ * @date 2018/11/18
  */
-@FunctionalInterface
-public interface ConditionB<M extends Model<M, ML, MO, MC, MS, MG>,
+public interface SubQuery<M extends Model<M, ML, MO, MC, MS, MG>,
         ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
@@ -24,12 +24,12 @@ public interface ConditionB<M extends Model<M, ML, MO, MC, MS, MG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
     /**
-     * 接收处理条件
+     * 子查询处理
      *
-     * @param condition 连接条件
-     * @param table     指定表条件
-     * @param mainTable 主表的条件
-     * @return 条件连接
+     * @param mainTable
+     * @param query
+     * @return
      */
-    WhereLink<M, ML, MO, MC, MS, MG> apply(WhereLink<M, ML, MO, MC, MS, MG> condition, TC table, MC mainTable);
+    Query apply(ML mainTable, QueryEngine<T, TL, TO, TC, TS, TG> query);
+
 }

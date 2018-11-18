@@ -7,10 +7,15 @@ import pub.avalon.sqlhelper.core.data.FunctionColumnData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.VirtualFieldData;
+import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.Column;
 import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.norm.SubQuery;
+import pub.avalon.sqlhelper.core.sql.Query;
 import pub.avalon.sqlhelper.core.sql.QueryByPrimaryKey;
 import pub.avalon.sqlhelper.core.sql.UpdateByPrimaryKey;
+import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
+import pub.avalon.sqlhelper.factory.SqlServerDynamicEngine;
 
 import java.util.Collection;
 import java.util.Map;
@@ -27,14 +32,18 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereIntactEngine<M, ML, MO, MC, MS, MG> implements QueryByPrimaryKey<SqlBuilder>, UpdateByPrimaryKey<SqlBuilder> {
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereIntactEngine<M, ML, MO, MC, MS, MG> implements QueryByPrimaryKey, UpdateByPrimaryKey {
 
     ColumnIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
     }
 
-    ColumnIntactEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        super(mainClass, tableName, dataBaseType);
+    ColumnIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+        super(tableName, mainClass, dataBaseType);
+    }
+
+    ColumnIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        super(tableName, mainClass, alias, dataBaseType);
     }
 
     @SuppressWarnings("unchecked")
@@ -139,6 +148,30 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(Class<T> columnClass, FunctionColumnType functionColumnType, Column<T, TL, TO, TC, TS, TG> column) {
         return functionColumn(columnClass, null, functionColumnType, column);
+    }
+
+    public <T extends Model<T, TL, TO, TC, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
+            TO extends OnModel<T, TL, TO, TC, TS, TG>,
+            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
+            TS extends SortModel<T, TL, TO, TC, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(String tableName, Class<T> mainClass, String alias, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
+        QueryEngine<T, TL, TO, TC, TS, TG> queryEngine;
+        switch (this.sqlData.getDataBaseType()) {
+            case MYSQL:
+                queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.MYSQL);
+                break;
+            case SQLSERVER:
+                queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.SQLSERVER);
+                break;
+            default:
+                throw new SqlException("SubQuery do not support this database type temporarily.");
+        }
+        MainTableData tableData = this.sqlData.getMainTableData();
+        ML ml = (ML) tableData.getTableModel().getColumnModel();
+        Query query = subQuery.apply(ml, queryEngine);
+        SqlBuilder sqlBuilder = query.query();
+        return this;
     }
 
     @Override

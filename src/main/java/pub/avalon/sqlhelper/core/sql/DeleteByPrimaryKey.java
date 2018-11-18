@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.sql;
 
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
+
 import java.util.Collection;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Collection;
  * @author 白超
  * @date 2018/8/20
  */
-public interface DeleteByPrimaryKey<T> extends Sql {
+public interface DeleteByPrimaryKey extends Sql {
 
     /**
      * 根据主键删除
@@ -16,7 +18,7 @@ public interface DeleteByPrimaryKey<T> extends Sql {
      * @param keyValue 主键值
      * @return
      */
-    T deleteByPrimaryKey(Object keyValue);
+    SqlBuilder deleteByPrimaryKey(Object keyValue);
 
     /**
      * 根据主键批量删除
@@ -24,6 +26,6 @@ public interface DeleteByPrimaryKey<T> extends Sql {
      * @param keyValues 主键值集合
      * @return
      */
-    T batchDeleteByPrimaryKeys(Collection<?> keyValues);
+    SqlBuilder batchDeleteByPrimaryKeys(Collection<?> keyValues);
 
 }

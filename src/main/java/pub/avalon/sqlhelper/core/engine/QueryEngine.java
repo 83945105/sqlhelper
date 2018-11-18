@@ -21,7 +21,11 @@ public final class QueryEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(mainClass, dataBaseType);
     }
 
-    public QueryEngine(Class<M> mainClass, String tableName, DataBaseType dataBaseType) {
-        super(mainClass, tableName, dataBaseType);
+    public QueryEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+        super(tableName, mainClass, dataBaseType);
+    }
+
+    public QueryEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+        super(tableName, mainClass, alias, dataBaseType);
     }
 }
