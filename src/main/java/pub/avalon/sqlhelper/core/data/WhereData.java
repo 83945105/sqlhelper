@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.WhereType;
+import pub.avalon.sqlhelper.core.beans.WhereValueType;
 
 /**
  * 条件数据
@@ -13,11 +14,19 @@ public final class WhereData {
 
     private String ownerTableName;
 
-    private String ownerAlias;
+    private String ownerTableAlias;
 
     private String ownerColumnName;
 
     private WhereType whereType = WhereType.EQUAL;
+
+    private WhereValueType whereValueType = WhereValueType.VALUE;
+
+    private String targetTableName;
+
+    private String targetTableAlias;
+
+    private String targetColumnName;
 
     private Object targetValue;
 
@@ -33,12 +42,12 @@ public final class WhereData {
         this.ownerTableName = ownerTableName;
     }
 
-    public String getOwnerAlias() {
-        return ownerAlias;
+    public String getOwnerTableAlias() {
+        return ownerTableAlias;
     }
 
-    public void setOwnerAlias(String ownerAlias) {
-        this.ownerAlias = ownerAlias;
+    public void setOwnerTableAlias(String ownerTableAlias) {
+        this.ownerTableAlias = ownerTableAlias;
     }
 
     public String getOwnerColumnName() {
@@ -55,6 +64,38 @@ public final class WhereData {
 
     public void setWhereType(WhereType whereType) {
         this.whereType = whereType;
+    }
+
+    public WhereValueType getWhereValueType() {
+        return whereValueType;
+    }
+
+    public void setWhereValueType(WhereValueType whereValueType) {
+        this.whereValueType = whereValueType;
+    }
+
+    public String getTargetTableName() {
+        return targetTableName;
+    }
+
+    public void setTargetTableName(String targetTableName) {
+        this.targetTableName = targetTableName;
+    }
+
+    public String getTargetTableAlias() {
+        return targetTableAlias;
+    }
+
+    public void setTargetTableAlias(String targetTableAlias) {
+        this.targetTableAlias = targetTableAlias;
+    }
+
+    public String getTargetColumnName() {
+        return targetColumnName;
+    }
+
+    public void setTargetColumnName(String targetColumnName) {
+        this.targetColumnName = targetColumnName;
     }
 
     public Object getTargetValue() {

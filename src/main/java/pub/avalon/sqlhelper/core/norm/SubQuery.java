@@ -30,6 +30,6 @@ public interface SubQuery<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param query
      * @return
      */
-    Query apply(ML mainTable, QueryEngine<T, TL, TO, TC, TS, TG> query);
+    Query apply(MC mainTable, QueryEngine<T, TL, TO, TC, TS, TG> query);
 
 }

@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.sql.Query;
 import pub.avalon.sqlhelper.core.sql.SqlSplicer;
 
 import java.util.*;
@@ -40,6 +41,29 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     .append("] [")
                     .append(entry.getValue())
                     .append("]");
+        }
+        return sqlSplicer;
+    }
+
+    private SqlSplicer appendSubQuerySql(SqlSplicer sqlSplicer) {
+        Map<String, Query> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
+        if (subQueryAliasMap == null) {
+            return sqlSplicer;
+        }
+        int i = 0;
+        for (Map.Entry<String, Query> entry : subQueryAliasMap.entrySet()) {
+            String alias = entry.getKey();
+            SqlBuilder sqlBuilder = entry.getValue().query();
+            if (this.aliasSingleValidator.get(alias) != null) {
+                throw new TableDataException("SubQueryColumn alias [" + alias + "] is already be used, please set another alias.");
+            }
+            if (i++ > 0) {
+                sqlSplicer.append(",(");
+            } else {
+                sqlSplicer.append(" (");
+            }
+            sqlSplicer.append(sqlBuilder.getPreparedStatementSql()).append(") ").append(alias);
+            this.sqlArgs.addAll(sqlBuilder.getPreparedStatementArgs());
         }
         return sqlSplicer;
     }
@@ -185,26 +209,34 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
     }
 
     protected SqlSplicer appendColumnSql(SqlSplicer sqlSplicer) {
+        Map<String, Query> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
         List<FunctionColumnData> functionColumnDataList = this.sqlData.getFunctionColumnDataList();
         Set<VirtualFieldData> virtualFieldDataSet = this.sqlData.getVirtualFieldDataSet();
         Set<AbstractTableData> columnDataSet = this.sqlData.getColumnDataSet();
+        boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
         boolean hasF = functionColumnDataList != null && functionColumnDataList.size() != 0;
         boolean hasV = virtualFieldDataSet != null && virtualFieldDataSet.size() != 0;
         boolean hasC = columnDataSet != null && columnDataSet.size() != 0;
-        if (!hasF && !hasV && !hasC) {
+        if (!hasS && !hasF && !hasV && !hasC) {
             return this.appendMainTableAllColumnSql(sqlSplicer);
         }
+        if (hasS) {
+            sqlSplicer = this.appendSubQuerySql(sqlSplicer);
+        }
         if (hasF) {
+            if (hasS) {
+                sqlSplicer.append(",");
+            }
             sqlSplicer = this.appendFunctionColumnSql(sqlSplicer);
         }
         if (hasV) {
-            if (hasF) {
+            if (hasS || hasF) {
                 sqlSplicer.append(",");
             }
             sqlSplicer = this.appendVirtualColumnSql(sqlSplicer);
         }
         if (hasC) {
-            if (hasF || hasV) {
+            if (hasS || hasF || hasV) {
                 sqlSplicer.append(",");
             }
             sqlSplicer = this.appendTableColumnSql(sqlSplicer);
@@ -282,6 +314,26 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                         throw new SqlException("the value type can only be Array or Collection.");
                     }
                     continue;
+                case NOT_IN:
+                    count = onData.getValueCount();
+                    sqlSplicer.append(" not in (");
+                    for (; count > 0; count--) {
+                        if (count == 1) {
+                            sqlSplicer.append("?");
+                        } else {
+                            sqlSplicer.append("?,");
+                        }
+                    }
+                    sqlSplicer.append(")");
+                    value = onData.getTargetValue();
+                    if (value instanceof Collection) {
+                        this.sqlArgs.addAll((Collection) value);
+                    } else if (value.getClass().isArray()) {
+                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                    } else {
+                        throw new SqlException("the value type can only be Array or Collection.");
+                    }
+                    continue;
                 default:
                     throw new SqlException("the WhereType is wrong.");
             }
@@ -291,7 +343,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     this.sqlArgs.add(onData.getTargetValue());
                     continue;
                 case JOIN:
-                    sqlSplicer.append(onData.getTargetAlias())
+                    sqlSplicer.append(onData.getTargetTableAlias())
                             .append(".[")
                             .append(onData.getTargetColumnName())
                             .append("]");
@@ -413,7 +465,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
             if (i++ > 0) {
                 sqlSplicer.append(" and ");
             }
-            sqlSplicer.append(whereData.getOwnerAlias())
+            sqlSplicer.append(whereData.getOwnerTableAlias())
                     .append(".[")
                     .append(whereData.getOwnerColumnName())
                     .append("]");
@@ -425,29 +477,23 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     sqlSplicer.append(" is not null");
                     continue;
                 case EQUAL:
-                    sqlSplicer.append(" = ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
+                    sqlSplicer.append(" = ");
+                    break;
                 case NOT_EQUAL:
-                    sqlSplicer.append(" != ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
+                    sqlSplicer.append(" != ");
+                    break;
                 case GREATER:
-                    sqlSplicer.append(" > ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
+                    sqlSplicer.append(" > ");
+                    break;
                 case GREATER_EQUAL:
-                    sqlSplicer.append(" >= ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
+                    sqlSplicer.append(" >= ");
+                    break;
                 case LESS:
-                    sqlSplicer.append(" < ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
+                    sqlSplicer.append(" < ");
+                    break;
                 case LESS_EQUAL:
-                    sqlSplicer.append(" <= ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
+                    sqlSplicer.append(" <= ");
+                    break;
                 case BETWEEN:
                     sqlSplicer.append(" between ? and ?");
                     this.sqlArgs.add(whereData.getTargetValue());
@@ -470,13 +516,9 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     sqlSplicer.append(")");
                     Object value = whereData.getTargetValue();
                     if (value instanceof Collection) {
-                        for (Object arg : (Collection) value) {
-                            this.sqlArgs.add(arg);
-                        }
+                        this.sqlArgs.addAll((Collection) value);
                     } else if (value.getClass().isArray()) {
-                        for (Object arg : (Object[]) value) {
-                            this.sqlArgs.add(arg);
-                        }
+                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
                     } else {
                         throw new SqlException("the value type can only be Array or Collection.");
                     }
@@ -494,19 +536,29 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     sqlSplicer.append(")");
                     value = whereData.getTargetValue();
                     if (value instanceof Collection) {
-                        for (Object arg : (Collection) value) {
-                            this.sqlArgs.add(arg);
-                        }
+                        this.sqlArgs.addAll((Collection) value);
                     } else if (value.getClass().isArray()) {
-                        for (Object arg : (Object[]) value) {
-                            this.sqlArgs.add(arg);
-                        }
+                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
                     } else {
                         throw new SqlException("the value type can only be Array or Collection.");
                     }
                     continue;
                 default:
                     throw new SqlException("the WhereType is wrong.");
+            }
+            switch (whereData.getWhereValueType()) {
+                case VALUE:
+                    sqlSplicer.append("?");
+                    this.sqlArgs.add(whereData.getTargetValue());
+                    continue;
+                case JOIN:
+                    sqlSplicer.append(whereData.getTargetTableAlias())
+                            .append(".[")
+                            .append(whereData.getTargetColumnName())
+                            .append("]");
+                    continue;
+                default:
+                    throw new SqlException("the WhereValueType is wrong.");
             }
         }
         if (linkType == LinkType.OR && whereDataList.size() > 1) {

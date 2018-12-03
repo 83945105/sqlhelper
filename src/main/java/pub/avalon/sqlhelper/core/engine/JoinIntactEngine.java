@@ -52,6 +52,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         this.sqlData.addJoinTableData(joinTableData);
         MO mo = (MO) mainTableData.getTableModel().getOnModel();
         mo.getOnBuilder().setOwnerTableData(mainTableData);
+        mo.setSqlData(this.sqlData);
         OnLink<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> onLink = new OnLinkIntact<>(this.sqlData, joinClass, alias);
         JO jo = (JO) joinTableData.getTableModel().getOnModel();
         jo.getOnBuilder().setOwnerTableData(joinTableData);

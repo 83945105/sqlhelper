@@ -45,6 +45,7 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MainTableData mainTableData = this.sqlData.getMainTableData();
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
+        mc.setSqlData(this.sqlData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
         mainTableData.addLinkWhereDataList(linkWhereDataList);
@@ -62,8 +63,10 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MainTableData mainTableData = this.sqlData.getMainTableData();
         JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        mc.setSqlData(this.sqlData);
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         TC tc = (TC) joinTableData.getTableModel().getWhereModel();
+        tc.setSqlData(this.sqlData);
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();

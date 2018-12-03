@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 /**
@@ -17,9 +18,20 @@ public class WhereModel<T extends Model<T, TL, TO, TC, TS, TG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
+    private SqlData sqlData;
+
     protected WhereBuilder<T, TL, TO, TC, TS, TG> whereBuilder = new WhereBuilder<>((TC) this);
+
+    public SqlData getSqlData() {
+        return sqlData;
+    }
+
+    public void setSqlData(SqlData sqlData) {
+        this.sqlData = sqlData;
+    }
 
     public WhereBuilder<T, TL, TO, TC, TS, TG> getWhereBuilder() {
         return whereBuilder;
     }
+
 }

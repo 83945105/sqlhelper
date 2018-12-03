@@ -357,7 +357,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnValueType(OnValueType.JOIN);
         OnData targetOnData = onBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(targetOnData.getOwnerTableAlias());
+        this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -369,7 +369,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnValueType(OnValueType.JOIN);
         OnData targetOnData = onBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(targetOnData.getOwnerTableAlias());
+        this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -381,7 +381,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnValueType(OnValueType.JOIN);
         OnData targetOnData = onBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(targetOnData.getOwnerTableAlias());
+        this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -393,7 +393,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnValueType(OnValueType.JOIN);
         OnData targetOnData = onBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(targetOnData.getOwnerTableAlias());
+        this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -405,7 +405,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnValueType(OnValueType.JOIN);
         OnData targetOnData = onBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(targetOnData.getOwnerTableAlias());
+        this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -417,7 +417,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnValueType(OnValueType.JOIN);
         OnData targetOnData = onBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(targetOnData.getOwnerTableAlias());
+        this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -437,7 +437,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         TO onModel = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(joinTableData.getTableAlias());
+        this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -457,7 +457,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         TO onModel = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(joinTableData.getTableAlias());
+        this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -477,7 +477,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         TO onModel = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(joinTableData.getTableAlias());
+        this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -497,7 +497,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         TO onModel = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(joinTableData.getTableAlias());
+        this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -517,7 +517,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         TO onModel = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(joinTableData.getTableAlias());
+        this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;
@@ -537,7 +537,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         TO onModel = (TO) joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
-        this.onData.setTargetAlias(joinTableData.getTableAlias());
+        this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
         this.onDataList.add(this.onData);
         return this.handleModel;

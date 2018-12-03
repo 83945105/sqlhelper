@@ -24,7 +24,7 @@ public final class OnData {
 
     private String targetTableName;
 
-    private String targetAlias;
+    private String targetTableAlias;
 
     private String targetColumnName;
 
@@ -82,12 +82,12 @@ public final class OnData {
         this.targetTableName = targetTableName;
     }
 
-    public String getTargetAlias() {
-        return targetAlias;
+    public String getTargetTableAlias() {
+        return targetTableAlias;
     }
 
-    public void setTargetAlias(String targetAlias) {
-        this.targetAlias = targetAlias;
+    public void setTargetTableAlias(String targetTableAlias) {
+        this.targetTableAlias = targetTableAlias;
     }
 
     public String getTargetColumnName() {

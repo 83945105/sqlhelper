@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.sql.Query;
 
 import java.util.*;
 
@@ -59,6 +60,13 @@ public interface SqlData<M extends Model> {
      * @return 函数列数据集合
      */
     List<FunctionColumnData> getFunctionColumnDataList();
+
+    /**
+     * 获取子查询键值对
+     *
+     * @return 子查询集合
+     */
+    Map<String, Query> getSubQueryAliasMap();
 
     /**
      * 获取连接条件数据集合

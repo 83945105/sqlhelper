@@ -6,6 +6,7 @@ import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
 import org.springframework.beans.BeanUtils;
+import pub.avalon.sqlhelper.core.sql.Query;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,9 +24,11 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     private Map<String, Class> aliasClassCache = new ConcurrentHashMap<>();
     private MainTableData<M> mainMainTableData;
     private Map<String, JoinTableData> joinTableDataAliasMap;
+    private Map<String, JoinTableData> subQueryJoinTableDataAliasMap;
     private Set<AbstractTableData> columnDataSet;
     private Set<VirtualFieldData> virtualFieldDataSet;
     private List<FunctionColumnData> functionColumnDataList;
+    private Map<String, Query> subQueryAliasMap;
     private List<List<LinkWhereData>> linkWhereDataListList;
     private List<GroupData> groupDataList;
     private List<List<SortData>> sortDataList;
@@ -53,7 +56,7 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     @Override
     @SuppressWarnings("unchecked")
     public <J extends Model> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass) {
-        if (this.joinTableDataAliasMap == null) {
+        if (this.joinTableDataAliasMap == null && this.subQueryJoinTableDataAliasMap == null) {
             if (alias == null) {
                 throw new TableDataException("the class table [" + joinClass + "] is not joined.");
             }
@@ -68,7 +71,13 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
         if (this.aliasClassCache.get(alias) == null) {
             throw new TableDataException("the alias table [" + alias + "] is not joined.");
         }
-        JoinTableData joinTableData = this.joinTableDataAliasMap.get(alias);
+        JoinTableData joinTableData = null;
+        if (this.joinTableDataAliasMap != null) {
+            joinTableData = this.joinTableDataAliasMap.get(alias);
+        }
+        if (joinTableData == null && this.subQueryJoinTableDataAliasMap != null) {
+            joinTableData = this.subQueryJoinTableDataAliasMap.get(alias);
+        }
         if (joinTableData == null) {
             throw new TableDataException("the alias table [" + alias + "] has not joinTableData.");
         }
@@ -76,19 +85,7 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     }
 
     /**
-     * 设置连接表数据
-     *
-     * @param alias     别名
-     * @param joinClass 连接表模组类
-     */
-    public <J extends Model> void setJoinTableData(String alias, Class<J> joinClass) {
-        JoinTableData<J> joinTableData = new JoinTableData<>(joinClass);
-        joinTableData.setTableAlias(alias);
-        this.addJoinTableData(joinTableData);
-    }
-
-    /**
-     * 添加连接表数据集合
+     * 添加连接表数据
      *
      * @param joinTableData 连接表数据
      */
@@ -103,6 +100,22 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
         this.aliasClassCache.put(joinTableData.getTableAlias(), joinTableData.getTableClass());
     }
 
+    /**
+     * 添加子查询连接表数据
+     *
+     * @param joinTableData 连接表数据
+     */
+    public void addSubQueryJoinTableData(JoinTableData joinTableData) {
+        if (this.aliasClassCache.get(joinTableData.getTableAlias()) != null) {
+            throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
+        }
+        if (this.subQueryJoinTableDataAliasMap == null) {
+            this.subQueryJoinTableDataAliasMap = new LinkedHashMap<>();
+        }
+        this.subQueryJoinTableDataAliasMap.put(joinTableData.getTableAlias(), joinTableData);
+        this.aliasClassCache.put(joinTableData.getTableAlias(), joinTableData.getTableClass());
+    }
+
     @Override
     public Map<String, JoinTableData> getJoinTableDataAliasMap() {
         return joinTableDataAliasMap;
@@ -114,9 +127,9 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     }
 
     /**
-     * 添加列数据集合
+     * 添加列数据
      *
-     * @param columnData 列数据集合
+     * @param columnData 列数据
      */
     public void addColumnData(AbstractTableData columnData) {
         if (columnData == null) {
@@ -154,9 +167,9 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     }
 
     /**
-     * 添加函数列数据集合
+     * 添加函数列数据
      *
-     * @param functionColumnData 函数列数据集合
+     * @param functionColumnData 函数列数据
      */
     public void addFunctionColumnData(FunctionColumnData functionColumnData) {
         if (functionColumnData == null) {
@@ -166,6 +179,27 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
             this.functionColumnDataList = new ArrayList<>();
         }
         this.functionColumnDataList.add(functionColumnData);
+    }
+
+    @Override
+    public Map<String, Query> getSubQueryAliasMap() {
+        return subQueryAliasMap;
+    }
+
+    /**
+     * 添加子查询
+     *
+     * @param alias 子查询别名
+     * @param query 子查询
+     */
+    public void addSubQueryAliasMap(String alias, Query query) {
+        if (alias == null || alias.trim().length() == 0) {
+            throw new TableDataException("subQuery alias can not be null or empty.");
+        }
+        if (this.subQueryAliasMap == null) {
+            this.subQueryAliasMap = new LinkedHashMap<>();
+        }
+        this.subQueryAliasMap.put(alias, query);
     }
 
     @Override
@@ -194,9 +228,9 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     }
 
     /**
-     * 添加分组数据集合
+     * 添加分组数据
      *
-     * @param groupData 分组数据集合
+     * @param groupData 分组数据
      */
     public void addGroupData(GroupData groupData) {
         if (groupData == null) {
@@ -277,4 +311,5 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     public void setDataBaseType(DataBaseType dataBaseType) {
         this.dataBaseType = dataBaseType;
     }
+
 }

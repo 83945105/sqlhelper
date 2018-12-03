@@ -14,8 +14,6 @@ import pub.avalon.sqlhelper.core.norm.SubQuery;
 import pub.avalon.sqlhelper.core.sql.Query;
 import pub.avalon.sqlhelper.core.sql.QueryByPrimaryKey;
 import pub.avalon.sqlhelper.core.sql.UpdateByPrimaryKey;
-import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import pub.avalon.sqlhelper.factory.SqlServerDynamicEngine;
 
 import java.util.Collection;
 import java.util.Map;
@@ -167,11 +165,41 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             default:
                 throw new SqlException("SubQuery do not support this database type temporarily.");
         }
+        for (Map.Entry<String, JoinTableData> entry : this.sqlData.getJoinTableDataAliasMap().entrySet()) {
+            queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
+        }
         MainTableData tableData = this.sqlData.getMainTableData();
-        ML ml = (ML) tableData.getTableModel().getColumnModel();
-        Query query = subQuery.apply(ml, queryEngine);
-        SqlBuilder sqlBuilder = query.query();
+        MC mc = (MC) tableData.getTableModel().getWhereModel();
+        Query query = subQuery.apply(mc, queryEngine);
+        this.sqlData.addSubQueryAliasMap(columnAlias, query);
         return this;
+    }
+
+    public <T extends Model<T, TL, TO, TC, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
+            TO extends OnModel<T, TL, TO, TC, TS, TG>,
+            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
+            TS extends SortModel<T, TL, TO, TC, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(String tableName, Class<T> mainClass, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
+        return this.subQuery(tableName, mainClass, null, subQuery, columnAlias);
+    }
+
+    public <T extends Model<T, TL, TO, TC, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
+            TO extends OnModel<T, TL, TO, TC, TS, TG>,
+            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
+            TS extends SortModel<T, TL, TO, TC, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(Class<T> mainClass, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
+        return this.subQuery(null, mainClass, null, subQuery, columnAlias);
+    }
+
+    public <T extends Model<T, TL, TO, TC, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
+            TO extends OnModel<T, TL, TO, TC, TS, TG>,
+            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
+            TS extends SortModel<T, TL, TO, TC, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(Class<T> mainClass, String alias, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
+        return this.subQuery(null, mainClass, alias, subQuery, columnAlias);
     }
 
     @Override
