@@ -165,8 +165,11 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             default:
                 throw new SqlException("SubQuery do not support this database type temporarily.");
         }
-        for (Map.Entry<String, JoinTableData> entry : this.sqlData.getJoinTableDataAliasMap().entrySet()) {
-            queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
+        Map<String, JoinTableData> joinTableDataAliasMap = this.sqlData.getJoinTableDataAliasMap();
+        if (joinTableDataAliasMap != null && joinTableDataAliasMap.size() > 0) {
+            for (Map.Entry<String, JoinTableData> entry : joinTableDataAliasMap.entrySet()) {
+                queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
+            }
         }
         MainTableData tableData = this.sqlData.getMainTableData();
         MC mc = (MC) tableData.getTableModel().getWhereModel();
