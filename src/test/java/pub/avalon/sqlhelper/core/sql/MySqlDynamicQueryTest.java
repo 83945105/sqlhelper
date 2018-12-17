@@ -328,7 +328,7 @@ public class MySqlDynamicQueryTest {
                                         .createTime().equalTo(mainTable.createTime()))
                                 .and(mainTable.createTime().equalTo(mt.createTime()))
                                 .and(mt.createTime().equalTo(JurRoleModel.class, JurRoleModel.Where::createTime)))
-                        .limit(1, 1), "subQuery")
+                        .limit(1, 1).query(), "subQuery")
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.createTime().equalTo("233")))

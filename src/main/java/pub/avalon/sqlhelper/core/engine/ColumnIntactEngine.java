@@ -11,7 +11,6 @@ import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.Column;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.norm.SubQuery;
-import pub.avalon.sqlhelper.core.sql.Query;
 import pub.avalon.sqlhelper.core.sql.QueryByPrimaryKey;
 import pub.avalon.sqlhelper.core.sql.UpdateByPrimaryKey;
 
@@ -173,8 +172,8 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         }
         MainTableData tableData = this.sqlData.getMainTableData();
         MC mc = (MC) tableData.getTableModel().getWhereModel();
-        Query query = subQuery.apply(mc, queryEngine);
-        this.sqlData.addSubQueryAliasMap(columnAlias, query);
+        SqlBuilder sqlBuilder = subQuery.apply(mc, queryEngine);
+        this.sqlData.addSubQueryAliasMap(columnAlias, sqlBuilder);
         return this;
     }
 

@@ -3,10 +3,10 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.beans.Pagination;
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
 import org.springframework.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.sql.Query;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,7 +28,7 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     private Set<AbstractTableData> columnDataSet;
     private Set<VirtualFieldData> virtualFieldDataSet;
     private List<FunctionColumnData> functionColumnDataList;
-    private Map<String, Query> subQueryAliasMap;
+    private Map<String, SqlBuilder> subQueryAliasMap;
     private List<List<LinkWhereData>> linkWhereDataListList;
     private List<GroupData> groupDataList;
     private List<List<SortData>> sortDataList;
@@ -182,24 +182,24 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     }
 
     @Override
-    public Map<String, Query> getSubQueryAliasMap() {
+    public Map<String, SqlBuilder> getSubQueryAliasMap() {
         return subQueryAliasMap;
     }
 
     /**
      * 添加子查询
      *
-     * @param alias 子查询别名
-     * @param query 子查询
+     * @param alias      子查询别名
+     * @param sqlBuilder 子查询
      */
-    public void addSubQueryAliasMap(String alias, Query query) {
+    public void addSubQueryAliasMap(String alias, SqlBuilder sqlBuilder) {
         if (alias == null || alias.trim().length() == 0) {
             throw new TableDataException("subQuery alias can not be null or empty.");
         }
         if (this.subQueryAliasMap == null) {
             this.subQueryAliasMap = new LinkedHashMap<>();
         }
-        this.subQueryAliasMap.put(alias, query);
+        this.subQueryAliasMap.put(alias, sqlBuilder);
     }
 
     @Override

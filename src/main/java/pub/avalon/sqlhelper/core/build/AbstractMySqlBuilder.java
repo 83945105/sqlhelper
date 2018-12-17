@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
-import pub.avalon.sqlhelper.core.sql.Query;
 import pub.avalon.sqlhelper.core.sql.SqlSplicer;
 
 import java.util.*;
@@ -46,14 +45,14 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     private SqlSplicer appendSubQuerySql(SqlSplicer sqlSplicer) {
-        Map<String, Query> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
+        Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
         if (subQueryAliasMap == null) {
             return sqlSplicer;
         }
         int i = 0;
-        for (Map.Entry<String, Query> entry : subQueryAliasMap.entrySet()) {
+        for (Map.Entry<String, SqlBuilder> entry : subQueryAliasMap.entrySet()) {
             String alias = entry.getKey();
-            SqlBuilder sqlBuilder = entry.getValue().query();
+            SqlBuilder sqlBuilder = entry.getValue();
             if (this.aliasSingleValidator.get(alias) != null) {
                 throw new TableDataException("SubQueryColumn alias [" + alias + "] is already be used, please set another alias.");
             }
@@ -209,7 +208,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendColumnSql(SqlSplicer sqlSplicer) {
-        Map<String, Query> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
+        Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
         List<FunctionColumnData> functionColumnDataList = this.sqlData.getFunctionColumnDataList();
         Set<VirtualFieldData> virtualFieldDataSet = this.sqlData.getVirtualFieldDataSet();
         Set<AbstractTableData> columnDataSet = this.sqlData.getColumnDataSet();

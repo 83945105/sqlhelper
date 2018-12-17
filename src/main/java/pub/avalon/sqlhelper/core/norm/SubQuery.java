@@ -1,8 +1,8 @@
 package pub.avalon.sqlhelper.core.norm;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.engine.QueryEngine;
-import pub.avalon.sqlhelper.core.sql.Query;
 
 /**
  * 子查询
@@ -30,6 +30,6 @@ public interface SubQuery<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param query
      * @return
      */
-    Query apply(MC mainTable, QueryEngine<T, TL, TO, TC, TS, TG> query);
+    SqlBuilder apply(MC mainTable, QueryEngine<T, TL, TO, TC, TS, TG> query);
 
 }
