@@ -41,10 +41,12 @@
 >
 > 1. <a href="#doc1">准备工作</a>
 > 2. <a href="#doc2">第一个demo，主键查询</a>
+> 3. <a href="#doc3">指定查询列</a>
+> 4. <a href="#doc4">条件查询</a>
 
 **<a name="doc1" href="#doc">1、准备工作</a>**
 
-使用本工具前，你需要先使用本工具提供的模板工具为每一张数据库表生成一个模型类，MySql示例代码如下：
+使用本工具前，先确保你的jdk版本不低于8，然后你需要先使用本工具提供的模板工具为每一张数据库表生成一个模型类，MySql示例代码如下：
 
 ```
         JdbcSourceEngine engine = JdbcSourceEngine.newMySqlEngine(
@@ -66,7 +68,7 @@
 
 **<a name="doc2" href="#doc">2、第一个demo，主键查询</a>**
 
-有了模型类后，我们就可以开始愉快的写代码了，我们先来个简单的MySql主键查询示例
+有了模型类后，我们就可以开始愉快的写代码了，我们先来个简单的MySql主键查询示例。
 
 ```
         //使用MySql动态引擎查询SysUserModel对应的表
@@ -81,16 +83,75 @@
         //TODO 或者可以使用我们集成好的项目 sqlhelper-spring 该项目提供了很多强大的通用增删改查接口
 ```
 
-产出的sql如下
+产出的sql如下：
 
 ```
-SELECT
-	SysUser.`ID` `id`,
-	SysUser.`USER_NAME` `userName`,
-	SysUser.`LOGIN_NAME` `loginName`
-FROM
+select
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userName`,
+	SysUser.`login_name` `loginName`
+from
 	sys_user SysUser 
-WHERE
+where
 	SysUser.`ID` = ?
 ```
 
+可以看到，生成的sql语句默认遵循了驼峰转换规则，同时我们查询了表中所有的字段，但是在实际开发中，我们可能只需要查询指定的字段，这种情况我们就得指定查询列，比如我们只需要查询出id、user_name列。
+
+**<a name="doc3" href="#doc">3、指定查询列</a>**
+
+```
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                //指定查询表的id、userName字段并给userName字段取个别名userNameAlias
+                .column(table -> table.id().userName("userNameAlias"))
+                .queryByPrimaryKey("主键ID");
+```
+
+产出的sql如下：
+
+```
+select
+	SysUser.`ID` `id`,
+	SysUser.`USER_NAME` `userNameAlias` 
+from
+	sys_user SysUser 
+where
+	SysUser.`ID` = ?
+```
+
+这样就可以仅查询指定列，同时展示了如何给列取别名，如果不取别名默认驼峰转换。
+
+**<a name="doc4" href="#doc">4、条件查询</a>**
+
+有时候我们需要将表的其它字段作为条件进行查询，先来个MySql的例子。
+
+```
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .column(table -> table.id().userName("userNameAlias"))
+                //使用where条件,你将有俩个参数可用。
+                //condition - 条件，第一次可以调出and条件，之后可以调出or条件
+                //mainTable - 主表,也就是你操作的出发表，这里为对应SysUserModel对应的表
+                .where((condition, mainTable) -> condition
+                        //添加一个and条件，条件为当主表的userName字段模糊匹配“白”开头的字符
+                        .and(mainTable.userName().like("白%")))
+                //查询，注意这里就用不了queryByPrimaryKey方法了
+                .query();
+```
+
+产出的sql如下：
+
+```
+select
+	SysUser.`ID` `id`,
+	SysUser.`USER_NAME` `userNameAlias` 
+from
+	sys_user SysUser 
+where
+	SysUser.`USER_NAME` like ?
+```
+
+看到这里，可能有人会问代码中的 `->`是什么，这个是从java8开始支持的lambda语法，如果你对lambda语法不熟悉，建议先去了解下lambda再开始阅读下文，接下来的例子将大量使用lambda语法，这也是为什么本工具要求的jdk版本不能低于8的原因，至于为什么设计成lambda风格，因为使用lambda可以让代码结构看起来比较像sql语句的格式，这与我们理念中的所见即所得的思想比较符合，实际上，如果你使用了如IntelliJ IDEA之类的编辑器，lambda写起来是十分迅速的。无需每一行代码都定义对象接收返回值，这样使用本工具写sql如行云流水一般迅速。
+
+![](./sqlhelper.gif)
+
+**上面的例子只是一个条件，那么多条件查询该如何写呢，**
