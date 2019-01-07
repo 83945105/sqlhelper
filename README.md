@@ -43,6 +43,7 @@
 > 2. <a href="#doc2">第一个demo，主键查询</a>
 > 3. <a href="#doc3">指定查询列</a>
 > 4. <a href="#doc4">条件查询</a>
+> 5. <a href="#doc5">复杂的条件查询</a>
 
 **<a name="doc1" href="#doc">1、准备工作</a>**
 
@@ -257,3 +258,34 @@ where
 	or SysUser.`LOGIN_NAME` = ?
 ```
 
+**<a name="doc5" href="#doc">5、复杂的条件查询</a>**
+
+在sql语句中，and和or条件是可以互相嵌套的，对于这一点工具也是支持的。
+
+```
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .column(table -> table.id().userName("userNameAlias"))
+                .where((condition, mainTable) -> condition
+                        // and条件继续使用lambda获取新的condition取名为cd(防止重名)、新的mainTable取名为mt
+                        // 同样or条件也支持, 这里就不举例了
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().like("1"))
+                                .or(mt.loginName().like("2")))
+                        .and(mainTable.userName().equalTo("3")))
+                .query();
+```
+
+产出的sql：
+
+```
+select
+	SysUser.`ID` `id`,
+	SysUser.`USER_NAME` `userNameAlias` 
+from
+	sys_user SysUser 
+where
+	( SysUser.`USER_NAME` like ? or SysUser.`LOGIN_NAME` like ? ) 
+	and SysUser.`USER_NAME` = ?
+```
+
+这样就实现了条件嵌套，功能上支持无限嵌套。
