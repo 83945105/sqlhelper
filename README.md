@@ -123,6 +123,45 @@ where
 
 **<a name="doc4" href="#doc">4、条件查询</a>**
 
+**基本条件**
+
+部分条件都有一个参数ComparisonRule，表示比较规则。
+
+|      方法名      |    sql运算符    |           方法名           | sql运算符  |
+| :--------------: | :-------------: | :------------------------: | :--------: |
+|      isNull      |     = null      |         isNotNull          |  != null   |
+|   equalToValue   |       = ?       |      notEqualToValue       |    != ?    |
+| greaterThanValue |       > ?       | greaterThanAndEqualToValue |    >= ?    |
+|  lessThanValue   |       < ?       |  lessThanAndEqualToValue   |    <= ?    |
+|   betweenValue   | between ? and ? |         likeValue          |   like ?   |
+|     inValue      |     in (?)      |         notInValue         | not in (?) |
+
+**其它条件**
+
+这些条件默认指定了ComparisonRule规则为NULL_SKIP，表示如果传入的参数为null则该条件不会被生成sql
+
+|   方法名    |    sql运算符    |        方法名         | sql运算符  |
+| :---------: | :-------------: | :-------------------: | :--------: |
+|   equalTo   |       = ?       |      notEqualTo       |    != ?    |
+| greaterThan |       > ?       | greaterThanAndEqualTo |    >= ?    |
+|  lessThan   |       < ?       |  lessThanAndEqualTo   |    <= ?    |
+|   between   | between ? and ? |         like          |   like ?   |
+|     in      |     in (?)      |         notIn         | not in (?) |
+
+**特殊条件**
+
+由于java语法原因，对于集合的操作，无法准确识别集合内元素类型，因此有了如下条件
+
+| 方法名 |            说明            | 方法名 |            说明            |
+| :----: | :------------------------: | :----: | :------------------------: |
+|  inS   |   参数为String类型的集合   | notInS |   参数为String类型的集合   |
+|  inI   |  参数为Integer类型的集合   | notInI |  参数为Integer类型的集合   |
+|  inL   |    参数为Long类型的集合    | notInL |    参数为Long类型的集合    |
+|  inD   |   参数为Double类型的集合   | notInD |   参数为Double类型的集合   |
+|  inB   | 参数为BigDecimal类型的集合 | notInB | 参数为BigDecimal类型的集合 |
+
+
+
 有时候我们需要将表的其它字段作为条件进行查询，先来个MySql的例子。
 
 ```
@@ -154,4 +193,67 @@ where
 
 ![](./sqlhelper.gif)
 
-**上面的例子只是一个条件，那么多条件查询该如何写呢，**
+**上面的例子只是一个条件，那么多条件查询该如何写呢**
+
+**and条件**
+
+```
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .column(table -> table.id().userName("userNameAlias"))
+                .where((condition, mainTable) -> condition
+                        //添加一个and条件 userName 等于 1
+                        .and(mainTable.userName().equalTo("1")
+                                //继续追加一个and条件 loginName 等于2
+                                .loginName().equalTo("2")))
+                .query();
+                
+        //你也可以这么写
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+        		.column(table -> table.id().userName("userNameAlias"))
+        		.where((condition, mainTable) -> condition
+        				//添加一个and条件 userName 等于 1
+        				.and(mainTable.userName().equalTo("1"))
+        						//继续追加一个and条件 loginName 等于2
+        						.and(mainTable.loginName().equalTo("2")))
+        		.query();
+```
+
+产出的sql：
+
+```
+select
+	SysUser.`ID` `id`,
+	SysUser.`USER_NAME` `userNameAlias` 
+from
+	sys_user SysUser 
+where
+	SysUser.`USER_NAME` = ? 
+	and SysUser.`LOGIN_NAME` = ?
+```
+
+**or条件**
+
+```
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .column(table -> table.id().userName("userNameAlias"))
+                .where((condition, mainTable) -> condition
+                        //添加一个and条件 userName 等于 1
+                        .and(mainTable.userName().equalTo("1"))
+                        //继续追加一个or条件 loginName 等于2
+                        .or(mainTable.loginName().equalTo("2")))
+                .query();
+```
+
+产出的sql：
+
+```
+select
+	SysUser.`ID` `id`,
+	SysUser.`USER_NAME` `userNameAlias` 
+from
+	sys_user SysUser 
+where
+	SysUser.`USER_NAME` = ? 
+	or SysUser.`LOGIN_NAME` = ?
+```
+
