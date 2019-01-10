@@ -21,7 +21,7 @@
 -  多数据库支持，可以一键切换sql语句生成方式，生成支持对应数据库语法的sql，不用担心换库问题。
 -  无需手动填入列名、字段名 ，再也不用担心写sql的过程中忘记表中有哪些字段。。。字段名叫啥了。。。也不用担心手抖写错了。。。
 -  支持多表连接操作、支持子查询、支持批量语句。
--  结构清晰，所见即所得，熟悉本工具之后，一眼望过去，你就知道你写的这段代码对应的sql是什么样子。后续维护加个条件啥的易如反掌。
+-  结构清晰，**所见即所得**，熟悉本工具之后，一眼望过去，你就知道你写的这段代码对应的sql是什么样子。后续维护加个条件啥的易如反掌。
 -  动态适配字段，啥？表加字段？删字段？改字段名？这都不是问题，本工具可以轻松解决这些开发中常见问题。
 -  支持动态表名，支持动态表之间连接操作。分表啥的不是问题。
 -  支持重写相关方法实现自定义产出sql格式，如果你感觉我们生产的sql写的太low。。。你可以以重写相关类的方式实现你自己的逻辑。
@@ -317,6 +317,41 @@ where
 select
 	SysUser.`id` `id`,
 	SysUser.`user_name` `userNameAlias` 
+from
+	sys_user SysUser
+	inner join user_role UserRole on UserRole.`user_id` = SysUser.`id` 
+where
+	SysUser.`user_name` like ?
+```
+
+**除了innerJoin外，还支持leftJoin、rightJoin，这里就不举例了**
+
+从产出的sql来看，我们只查询了主表的字段，那么如果我们想同时查询出连接表的字段该如何做呢？
+
+```
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .join(UserRoleModel.class, JoinType.INNER, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                //将column定位到连接表模型，指定要查询的列，注意，为了防止列名重复，必要字段请自行取别名，这里将连接表的主键id更名为userRoleId
+                .column(UserRoleModel.class, table -> table.id("userRoleId").roleId().roleName())
+                //注意，如果指定了column、functionColumn(见下文)、virtualColumn(见下文)等
+                //将默认不会查询主表字段，此时如果你想查询出主表字段需手动声明，这里的写法(table -> table)表示查询出主表所有字段
+                .column(table -> table)
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.userName().like("")))
+                .query();
+```
+
+产出的sql：
+
+```
+select
+	UserRole.`id` `userRoleId`,
+	UserRole.`role_id` `roleId`,
+	UserRole.`role_name` `roleName`,
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userName`,
+	SysUser.`login_name` `loginName` 
 from
 	sys_user SysUser
 	inner join user_role UserRole on UserRole.`user_id` = SysUser.`id` 
