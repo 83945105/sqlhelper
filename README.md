@@ -10,7 +10,7 @@
 
 ## 二、理念
 
-**首先本项目并不是一个ORM框架，我们不提供任何ORM框架功能，因为市面上已经有很多成熟的ORM框架，我们没必要去重复造轮子，我们只为了解决编写、维护sql语句这一个痛点，因此这只是一个单纯用于生产sql语句的工具。你可以将生产出的sql语句用于各种ORM框架。我们秉承着使用简单，零配置，所见即所得的思想进行开发。实际上，对于像Hibernate、MyBatis之类的框架也提供了相关编写sql语句的方式，如在实体Bean中加入注解，使用xml编写之类的方式，但这些方式无一例外都有一些痛点，我们会在下文详细说明这些问题。本工具并不是万能的，我们的目标是解决掉一个项目中90%的sql，对于一些复杂的sql如统计sql，我们不对其进行支持，当然这并不是因为实现不了，而是对于过于复杂的sql，使用本工具提供的方式反而会适得其反，我们永远遵循着所见即所得，简单明了，一目了然的思想，当你看完本文档应该能够明白。**
+**首先本项目并不是一个ORM框架，我们不提供任何ORM框架功能，因为市面上已经有很多成熟的ORM框架，我们没必要去重复造轮子，我们只为了解决编写、维护sql语句这一个痛点，因此这只是一个单纯用于生产sql语句的工具。你可以将生产出的sql语句用于各种ORM框架。我们秉承着使用简单，零配置，所见即所得的思想进行开发。实际上，对于像Hibernate、MyBatis之类的框架也提供了相关编写sql语句的方式，如在实体Bean中加入注解，使用xml编写之类的方式，但这些方式无一例外都有一些痛点，我们会在下文详细说明这些问题。本工具并不是万能的，我们的目标是解决掉一个项目中80%-90%的sql，对于一些复杂的sql如统计sql，我们不对其进行支持，当然这并不是因为实现不了，而是对于过于复杂的sql，使用本工具提供的方式反而会适得其反，我们永远遵循着所见即所得，简单明了，一目了然的思想，当你看完本文档应该能够明白。**
 
 
 
@@ -44,6 +44,7 @@
 > 3. <a href="#doc3">指定查询列</a>
 > 4. <a href="#doc4">条件查询</a>
 > 5. <a href="#doc5">复杂的条件查询</a>
+> 6. <a href="#doc6">连接查询</a>
 
 **<a name="doc1" href="#doc">1、准备工作</a>**
 
@@ -112,12 +113,12 @@ where
 
 ```
 select
-	SysUser.`ID` `id`,
-	SysUser.`USER_NAME` `userNameAlias` 
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userNameAlias` 
 from
 	sys_user SysUser 
 where
-	SysUser.`ID` = ?
+	SysUser.`id` = ?
 ```
 
 这样就可以仅查询指定列，同时展示了如何给列取别名，如果不取别名默认驼峰转换。
@@ -182,15 +183,15 @@ where
 
 ```
 select
-	SysUser.`ID` `id`,
-	SysUser.`USER_NAME` `userNameAlias` 
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userNameAlias` 
 from
 	sys_user SysUser 
 where
-	SysUser.`USER_NAME` like ?
+	SysUser.`user_name` like ?
 ```
 
-看到这里，可能有人会问代码中的 `->`是什么，这个是从java8开始支持的lambda语法，如果你对lambda语法不熟悉，建议先去了解下lambda再开始阅读下文，接下来的例子将大量使用lambda语法，这也是为什么本工具要求的jdk版本不能低于8的原因，至于为什么设计成lambda风格，因为使用lambda可以让代码结构看起来比较像sql语句的格式，这与我们理念中的所见即所得的思想比较符合，实际上，如果你使用了如IntelliJ IDEA之类的编辑器，lambda写起来是十分迅速的。无需每一行代码都定义对象接收返回值，这样使用本工具写sql如行云流水一般迅速。
+看到这里，可能有人会问代码中的 `->`是什么，这个是从java8开始支持的lambda语法，如果你对lambda语法不熟悉，建议先去了解下lambda再开始阅读下文，接下来的例子将大量使用lambda语法，这也是为什么本工具要求的jdk版本不能低于8的原因，至于为什么设计成lambda风格，因为使用lambda可以让代码结构看起来比较像sql语句的格式，这与我们理念中的所见即所得的思想比较符合，实际上，如果你使用了如IntelliJ IDEA之类的编辑器，lambda写起来是十分迅速的。无需每一行代码都定义对象接收返回值，这样使用本工具写sql将十分迅速流畅。
 
 ![](./sqlhelper.gif)
 
@@ -223,13 +224,13 @@ where
 
 ```
 select
-	SysUser.`ID` `id`,
-	SysUser.`USER_NAME` `userNameAlias` 
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userNameAlias` 
 from
 	sys_user SysUser 
 where
-	SysUser.`USER_NAME` = ? 
-	and SysUser.`LOGIN_NAME` = ?
+	SysUser.`user_name` = ? 
+	and SysUser.`login_name` = ?
 ```
 
 **or条件**
@@ -249,13 +250,13 @@ where
 
 ```
 select
-	SysUser.`ID` `id`,
-	SysUser.`USER_NAME` `userNameAlias` 
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userNameAlias` 
 from
 	sys_user SysUser 
 where
-	SysUser.`USER_NAME` = ? 
-	or SysUser.`LOGIN_NAME` = ?
+	SysUser.`user_name` = ? 
+	or SysUser.`login_name` = ?
 ```
 
 **<a name="doc5" href="#doc">5、复杂的条件查询</a>**
@@ -279,13 +280,47 @@ where
 
 ```
 select
-	SysUser.`ID` `id`,
-	SysUser.`USER_NAME` `userNameAlias` 
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userNameAlias` 
 from
 	sys_user SysUser 
 where
-	( SysUser.`USER_NAME` like ? or SysUser.`LOGIN_NAME` like ? ) 
-	and SysUser.`USER_NAME` = ?
+	( SysUser.`user_name` like ? or SysUser.`login_name` like ? ) 
+	and SysUser.`user_name` = ?
 ```
 
 这样就实现了条件嵌套，功能上支持无限嵌套。
+
+**<a name="doc6" href="#doc">6、连接查询</a>**
+
+本工具不仅仅支持单表操作,同样也支持多表连接操作，下面举个非常常见的内连接查询例子：
+
+```
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                // 连接UserRoleModel对应的表 , 设置连接类型为inner , 或者直接使用innerJoin可以省略该参数
+                .join(UserRoleModel.class, JoinType.INNER, (on, joinTable, mainTable) -> on
+                        // 从lambda函数获取参数 on - on条件、joinTable - 当前连接表(UserRoleModel对应的表)、mainTable - 主表(SysUserModel对应的表)
+                        // 表示内连接user_role表,连接条件是user_role表的user_id字段等于主表的id字段
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                // 使用innerJoin可以省略连接类型参数
+                //.innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                //        .and(joinTable.userId().equalTo(mainTable.id())))
+                .column(table -> table.id().userName("userNameAlias"))
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.userName().like("")))
+                .query();
+```
+
+产出的sql：
+
+```
+select
+	SysUser.`id` `id`,
+	SysUser.`user_name` `userNameAlias` 
+from
+	sys_user SysUser
+	inner join user_role UserRole on UserRole.`user_id` = SysUser.`id` 
+where
+	SysUser.`user_name` like ?
+```
+
