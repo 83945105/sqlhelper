@@ -188,6 +188,27 @@ public class MySqlDynamicQueryTest {
     }
 
     @Test
+    void TestJoinWhereAndOr() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
+                .rightJoin(JurRoleResModel.class, "JurRoleRes2", (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())))
+                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleId().lessThan(JurRoleResModel.class, "JurRoleRes2", JurRoleResModel.On::roleId)))
+                .where(JurRoleResModel.class, "JurRoleRes2", (condition, table, mainTable) -> condition
+                        .and((cd, mt) -> cd
+                                .and(table.role().equalTo("5"))
+                                .or(table.createTime().equalTo("6")))
+                        .and(table.resType().equalTo(3)))
+                .query();
+        System.out.println(sqlBuilder.getPreparedStatementSql());
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? right join jur_role_res JurRoleRes2 on JurRoleRes2.`role_id` = JurRole.`id` left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` and JurRoleUser.`role_id` < JurRoleRes2.`role_id` where (JurRoleRes2.`role` = ? or JurRoleRes2.`create_time` = ?) and JurRoleRes2.`res_type` = ?");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), "5");
+    }
+
+    @Test
     void TestGroup() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
                 .group(JurRoleModel.Group::createTime)
