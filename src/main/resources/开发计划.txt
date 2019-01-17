@@ -10,3 +10,4 @@
     2、lambda优化, 将lambda编写sql方式支持拆分为一行行代码方式
     3、支持非lambda查询方式, 实现传统方式查询如：使用工厂函数一次性创建出查询有可能用到的类,然后使用这些类进行创建相关查询条件,组合条件查询。
 三、where条件嵌套后, 改为只给予condition,给予mainTable参数,因为该mainTable参数模棱两可。
+四、新增如：pageQueryForColumn相关分页查询方法。
