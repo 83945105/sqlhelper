@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
+import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.SqlData;
@@ -33,13 +34,23 @@ public class LimitIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    public LimitIntactEngine limit(int start, Integer end) {
+    public LimitIntactEngine limitOne() {
+        this.sqlData.setLimit(1, 1);
+        return this;
+    }
+
+    public LimitIntactEngine limit(LimitHandler limit) {
+        this.sqlData.setLimit(limit);
+        return this;
+    }
+
+    public LimitIntactEngine limit(Integer start, Integer end) {
         this.sqlData.setLimitStart(start);
         this.sqlData.setLimitEnd(end);
         return this;
     }
 
-    public LimitIntactEngine limit(int total, int currentPage, int pageSize) {
+    public LimitIntactEngine limit(Integer total, Integer currentPage, Integer pageSize) {
         this.sqlData.setLimit(total, currentPage, pageSize);
         return this;
     }

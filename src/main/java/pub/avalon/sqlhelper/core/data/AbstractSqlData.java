@@ -1,12 +1,12 @@
 package pub.avalon.sqlhelper.core.data;
 
+import org.springframework.beans.BeanUtils;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
-import org.springframework.beans.BeanUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -271,11 +271,30 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     /**
      * 设置分页
      *
+     * @param limit
+     */
+    public void setLimit(LimitHandler limit) {
+        this.limit = limit;
+    }
+
+    /**
+     * 设置分页
+     *
+     * @param currentPage 当前页号
+     * @param pageSize    每页显示数量
+     */
+    public void setLimit(Integer currentPage, Integer pageSize) {
+        this.limit = new Pagination(this.dataBaseType, currentPage, pageSize);
+    }
+
+    /**
+     * 设置分页
+     *
      * @param total       总数
      * @param currentPage 当前页号
      * @param pageSize    每页显示数量
      */
-    public void setLimit(int total, int currentPage, int pageSize) {
+    public void setLimit(Integer total, Integer currentPage, Integer pageSize) {
         this.limit = new Pagination(this.dataBaseType, total, currentPage, pageSize);
     }
 
