@@ -34,6 +34,11 @@ public class LimitIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
+    public LimitIntactEngine limitTop(Integer num) {
+        this.sqlData.setLimit(1, num);
+        return this;
+    }
+
     public LimitIntactEngine limitOne() {
         this.sqlData.setLimit(1, 1);
         return this;
