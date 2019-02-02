@@ -40,6 +40,12 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
+    public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Where<M> where) {
+        MainTableData mainTableData = this.sqlData.getMainTableData();
+        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        return this;
+    }
+
     @SuppressWarnings("unchecked")
     public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(MainCondition<M, ML, MO, MC, MS, MG> condition) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
