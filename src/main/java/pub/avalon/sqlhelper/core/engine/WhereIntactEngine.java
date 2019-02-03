@@ -43,6 +43,11 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Where<M> where) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        mc.getWhereBuilder().setOwnerTableData(mainTableData);
+        mc.setSqlData(this.sqlData);
+
+
+
         return this;
     }
 
