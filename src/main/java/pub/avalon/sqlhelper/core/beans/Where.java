@@ -8,5 +8,12 @@ import pub.avalon.sqlhelper.core.norm.Model;
  */
 public class Where<M extends Model> {
 
+    public void addAnd() {
+
+    }
+
+    public void addOr() {
+
+    }
 
 }

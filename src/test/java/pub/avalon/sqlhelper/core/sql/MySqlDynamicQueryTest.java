@@ -1,11 +1,14 @@
 package pub.avalon.sqlhelper.core.sql;
 
-import com.shiro.*;
+import com.shiro.JurResModel;
+import com.shiro.JurRoleModel;
+import com.shiro.JurRoleResModel;
+import com.shiro.JurRoleUserModel;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.Where;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 /**
  * Created by 白超 on 2018/8/25.
@@ -363,6 +366,10 @@ public class MySqlDynamicQueryTest {
     void Test() {
 
         Where<JurRoleResModel> where = new Where<>();
+
+        where.addAnd();
+        where.addOr();
+
 
         SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
                 .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
