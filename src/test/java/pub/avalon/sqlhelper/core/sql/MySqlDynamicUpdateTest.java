@@ -71,9 +71,15 @@ public class MySqlDynamicUpdateTest {
     @Test
     void TestUpdateOrInsertJavaBeans() {
         List<JurRole> javaBeans = new ArrayList<>();
-        javaBeans.add(new JurRole());
-        javaBeans.add(new JurRole());
-        javaBeans.add(new JurRole());
+        JurRole role = new JurRole();
+        role.setRole("admin");
+        javaBeans.add(role);
+        role = new JurRole();
+        role.setRole("teacher");
+        javaBeans.add(role);
+        role = new JurRole();
+        role.setRole("student");
+        javaBeans.add(role);
 
         SqlBuilder sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
                 .updateOrInsertJavaBeans(javaBeans);

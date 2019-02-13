@@ -402,6 +402,8 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         SqlSplicer inSql = new SqlSplicer(32);
         List<Object> inArgs = new ArrayList<>(64);
         Set<Map.Entry<String, String>> entrySet = this.getColumnAliasMap().entrySet();
+        // 遍历所有bean,计算出where条件的sql和参数
+        // 计算出when条件sql
         for (Object javaBean : javaBeans) {
             if (javaBean instanceof Map) {
                 keyValue = ((Map) javaBean).get(primaryKeyAlias);
@@ -410,12 +412,6 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 }
                 inSql.append("?");
                 inArgs.add(keyValue);
-                for (Map.Entry<String, String> entry : entrySet) {
-                    if (entry.getValue().equals(primaryKeyAlias)) {
-                        continue;
-                    }
-                    this.sqlArgs.add(((Map) javaBean).get(entry.getKey()));
-                }
             } else {
                 keyValue = ClassUtil.getProperty(javaBean, primaryKeyAlias);
                 if (i++ > 0) {
@@ -423,12 +419,6 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 }
                 inSql.append("?");
                 inArgs.add(keyValue);
-                for (Map.Entry<String, String> entry : entrySet) {
-                    if (entry.getValue().equals(primaryKeyAlias)) {
-                        continue;
-                    }
-                    this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
-                }
             }
             if (keyValue == null) {
                 throw new SqlException("the primaryKey value can not be null.");
@@ -436,10 +426,13 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
             whenSql.append("when '").append(keyValue.toString()).append("' then ? ");
         }
         i = 0;
+        //遍历所有属性
         for (Map.Entry<String, String> entry : entrySet) {
+            // 主键略过
             if (entry.getValue().equals(primaryKeyAlias)) {
                 continue;
             }
+            // 非主键计算sql
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
@@ -453,7 +446,16 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                     .append("` ")
                     .append(whenSql.getSql())
                     .append(" end");
+            // 非主键计算参数
+            for (Object javaBean : javaBeans) {
+                if (javaBean instanceof Map) {
+                    this.sqlArgs.add(((Map) javaBean).get(entry.getValue()));
+                } else {
+                    this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
+                }
+            }
         }
+        //拼接上最后的where条件
         this.sqlSplicer.append(" where ")
                 .append(tableAlias)
                 .append(".`")

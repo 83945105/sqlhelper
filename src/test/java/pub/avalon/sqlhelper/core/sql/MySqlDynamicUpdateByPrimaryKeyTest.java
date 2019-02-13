@@ -4,6 +4,7 @@ import com.shiro.JurRole;
 import com.shiro.JurRoleModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pub.avalon.beans.Time;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 
@@ -83,12 +84,18 @@ public class MySqlDynamicUpdateByPrimaryKeyTest {
         List<JurRole> javaBeans = new ArrayList<>();
         JurRole jurRole = new JurRole();
         jurRole.setId("1");
+        jurRole.setRole("admin");
+        jurRole.setCreateTime("2012");
         javaBeans.add(jurRole);
         jurRole = new JurRole();
         jurRole.setId("2");
+        jurRole.setRole("teacher");
+        jurRole.setCreateTime("2013");
         javaBeans.add(jurRole);
         jurRole = new JurRole();
         jurRole.setId("3");
+        jurRole.setRole("student");
+        jurRole.setCreateTime("2014");
         javaBeans.add(jurRole);
 
         SqlBuilder sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
@@ -96,6 +103,12 @@ public class MySqlDynamicUpdateByPrimaryKeyTest {
 
         Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role JurRole set JurRole.`name`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`role`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`description`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`parent_id`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`parent_ids`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`type`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`index`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`status`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`create_time`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`update_time`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`delete_time`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`create_time_stamp`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`update_time_stamp`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`delete_time_stamp`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end where JurRole.`id` in (?,?,?)");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 45);
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(3), "admin");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(4), "teacher");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(5), "student");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(24), "2012");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(25), "2013");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(26), "2014");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(42), "1");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(43), "2");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(44), "3");
