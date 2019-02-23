@@ -1,10 +1,14 @@
 package pub.avalon.sqlhelper.core.sql;
 
-import com.shiro.*;
-import pub.avalon.sqlhelper.core.build.SqlBuilder;
-import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
+import com.shiro.JurResModel;
+import com.shiro.JurRoleModel;
+import com.shiro.JurRoleResModel;
+import com.shiro.JurRoleUserModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pub.avalon.sqlhelper.core.beans.Where;
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 
 /**
  * Created by 白超 on 2018/8/25.
@@ -357,6 +361,32 @@ public class MySqlDynamicQueryTest {
         Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select (select JurRes.`id` `id` from jur_res JurRes where JurRes.`create_time` = ? and JurRes.`create_time` = JurRoleRes.`create_time` and JurRoleRes.`create_time` = JurRes.`create_time` and JurRes.`create_time` = JurRole.`create_time` limit ?,?) subQuery, JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` = ?");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 666);
+    }
+
+    void Test() {
+
+        Where<JurRoleResModel> where = new Where<>();
+
+        where.addAnd();
+        where.addOr();
+
+
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
+                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
+                .subQuery(JurResModel.class, (mainTable, query) -> query
+                        .column(JurResModel.Column::id)
+                        .where((cd, mt) -> cd
+                                .and(mt.createTime().equalTo(666)
+                                        .createTime().equalTo(mainTable.createTime()))
+                                .and(mainTable.createTime().equalTo(mt.createTime()))
+                                .and(mt.createTime().equalTo(JurRoleModel.class, JurRoleModel.Where::createTime)))
+                        .limit(1, 1).query(), "subQuery")
+                .column(table -> table)
+                .where(where)
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.createTime().equalTo("233")))
+                .query();
     }
 
 }
