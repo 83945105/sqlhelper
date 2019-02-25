@@ -12,3 +12,4 @@
 三、where条件嵌套后, 改为只给予condition,给予mainTable参数,因为该mainTable参数模棱两可。
 四、新增如：pageQueryForColumn相关分页查询方法。
 五、新增处理字段功能，如：更新字段,将字段改为原始数值+1、原始数值+某字段。
+六、where条件支持子查询，如xx.id in (子查询)
