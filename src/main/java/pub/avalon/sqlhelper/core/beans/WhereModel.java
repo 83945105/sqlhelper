@@ -11,16 +11,16 @@ import pub.avalon.sqlhelper.core.norm.Model;
  * @version 1.0
  * @since 2018/7/10
  */
-public class WhereModel<T extends Model<T, TL, TO, TW, TS, TG>,
-        TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
-        TO extends OnModel<T, TL, TO, TW, TS, TG>,
-        TW extends WhereModel<T, TL, TO, TW, TS, TG>,
-        TS extends SortModel<T, TL, TO, TW, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TW, TS, TG>> {
+public class WhereModel<T extends Model<T, TC, TO, TW, TS, TG>,
+        TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
+        TO extends OnModel<T, TC, TO, TW, TS, TG>,
+        TW extends WhereModel<T, TC, TO, TW, TS, TG>,
+        TS extends SortModel<T, TC, TO, TW, TS, TG>,
+        TG extends GroupModel<T, TC, TO, TW, TS, TG>> {
 
     private SqlData<T> sqlData;
 
-    protected WhereBuilder<T, TL, TO, TW, TS, TG> whereBuilder = new WhereBuilder<>((TW) this);
+    protected WhereBuilder<T, TC, TO, TW, TS, TG> whereBuilder = new WhereBuilder<>((TW) this);
 
     public SqlData<T> getSqlData() {
         return sqlData;
@@ -30,7 +30,7 @@ public class WhereModel<T extends Model<T, TL, TO, TW, TS, TG>,
         this.sqlData = sqlData;
     }
 
-    public WhereBuilder<T, TL, TO, TW, TS, TG> getWhereBuilder() {
+    public WhereBuilder<T, TC, TO, TW, TS, TG> getWhereBuilder() {
         return whereBuilder;
     }
 

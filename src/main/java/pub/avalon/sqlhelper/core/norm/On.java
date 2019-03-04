@@ -10,18 +10,18 @@ import pub.avalon.sqlhelper.core.beans.*;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface On<M extends Model<M, ML, MO, MW, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
-        MO extends OnModel<M, ML, MO, MW, MS, MG>,
-        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
-        MS extends SortModel<M, ML, MO, MW, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MW, MS, MG>,
-        T extends Model<T, TL, TO, TW, TS, TG>,
-        TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
-        TO extends OnModel<T, TL, TO, TW, TS, TG>,
-        TW extends WhereModel<T, TL, TO, TW, TS, TG>,
-        TS extends SortModel<T, TL, TO, TW, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TW, TS, TG>> {
+public interface On<M extends Model<M, MC, MO, MW, MS, MG>,
+        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
+        MO extends OnModel<M, MC, MO, MW, MS, MG>,
+        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
+        MS extends SortModel<M, MC, MO, MW, MS, MG>,
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>,
+        T extends Model<T, TC, TO, TW, TS, TG>,
+        TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
+        TO extends OnModel<T, TC, TO, TW, TS, TG>,
+        TW extends WhereModel<T, TC, TO, TW, TS, TG>,
+        TS extends SortModel<T, TC, TO, TW, TS, TG>,
+        TG extends GroupModel<T, TC, TO, TW, TS, TG>> {
 
     /**
      * 构建On条件
@@ -31,6 +31,6 @@ public interface On<M extends Model<M, ML, MO, MW, MS, MG>,
      * @param mainTable 主表的条件
      * @return
      */
-    OnLink<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> apply(OnLink<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> on, TO joinTable, MO mainTable);
+    OnLink<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> apply(OnLink<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> on, TO joinTable, MO mainTable);
 
 }

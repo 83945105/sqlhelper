@@ -11,16 +11,16 @@ import pub.avalon.sqlhelper.core.norm.Model;
  * @version 1.0
  * @since 2018/7/10
  */
-public class OnModel<M extends Model<M, ML, MO, MW, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
-        MO extends OnModel<M, ML, MO, MW, MS, MG>,
-        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
-        MS extends SortModel<M, ML, MO, MW, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MW, MS, MG>> {
+public class OnModel<M extends Model<M, MC, MO, MW, MS, MG>,
+        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
+        MO extends OnModel<M, MC, MO, MW, MS, MG>,
+        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
+        MS extends SortModel<M, MC, MO, MW, MS, MG>,
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>> {
 
     private SqlData<M> sqlData;
 
-    protected OnBuilder<M, ML, MO, MW, MS, MG> onBuilder = new OnBuilder<>((MO) this);
+    protected OnBuilder<M, MC, MO, MW, MS, MG> onBuilder = new OnBuilder<>((MO) this);
 
     public SqlData<M> getSqlData() {
         return sqlData;
@@ -30,7 +30,7 @@ public class OnModel<M extends Model<M, ML, MO, MW, MS, MG>,
         this.sqlData = sqlData;
     }
 
-    public OnBuilder<M, ML, MO, MW, MS, MG> getOnBuilder() {
+    public OnBuilder<M, MC, MO, MW, MS, MG> getOnBuilder() {
         return onBuilder;
     }
 

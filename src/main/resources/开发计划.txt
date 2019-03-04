@@ -1,11 +1,11 @@
 一、增加合并行(group_concat)、合并列(concat)功能
 二、增加动态条件, 争取实现以下功能：
-    1、泛型优化,针对如：<M extends Model<M, ML, MO, MW, MS, MG>,
-                       ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
-                       MO extends OnModel<M, ML, MO, MW, MS, MG>,
-                       MW extends WhereModel<M, ML, MO, MW, MS, MG>,
-                       MS extends SortModel<M, ML, MO, MW, MS, MG>,
-                       MG extends GroupModel<M, ML, MO, MW, MS, MG>>
+    1、泛型优化,针对如：<M extends Model<M, MC, MO, MW, MS, MG>,
+                       MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
+                       MO extends OnModel<M, MC, MO, MW, MS, MG>,
+                       MW extends WhereModel<M, MC, MO, MW, MS, MG>,
+                       MS extends SortModel<M, MC, MO, MW, MS, MG>,
+                       MG extends GroupModel<M, MC, MO, MW, MS, MG>>
        的泛型类, new对象的时候,泛型可否使用泛型的一些可能存在的高级特性来实现嵌套传递,实现不需要声明这么多泛型类。
     2、lambda优化, 将lambda编写sql方式支持拆分为一行行代码方式
     3、支持非lambda查询方式, 实现传统方式查询如：使用工厂函数一次性创建出查询有可能用到的类,然后使用这些类进行创建相关查询条件,组合条件查询。

@@ -10,12 +10,12 @@ import pub.avalon.sqlhelper.core.beans.*;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface Column<T extends Model<T, TL, TO, TW, TS, TG>,
-        TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
-        TO extends OnModel<T, TL, TO, TW, TS, TG>,
-        TW extends WhereModel<T, TL, TO, TW, TS, TG>,
-        TS extends SortModel<T, TL, TO, TW, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TW, TS, TG>> {
+public interface Column<T extends Model<T, TC, TO, TW, TS, TG>,
+        TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
+        TO extends OnModel<T, TC, TO, TW, TS, TG>,
+        TW extends WhereModel<T, TC, TO, TW, TS, TG>,
+        TS extends SortModel<T, TC, TO, TW, TS, TG>,
+        TG extends GroupModel<T, TC, TO, TW, TS, TG>> {
 
     /**
      * 接收列模组
@@ -23,6 +23,6 @@ public interface Column<T extends Model<T, TL, TO, TW, TS, TG>,
      * @param table 列模组
      * @return 列模组
      */
-    TL apply(TL table);
+    TC apply(TC table);
 
 }

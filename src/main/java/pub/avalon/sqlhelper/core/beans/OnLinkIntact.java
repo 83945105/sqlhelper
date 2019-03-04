@@ -13,18 +13,18 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class OnLinkIntact<M extends Model<M, ML, MO, MW, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
-        MO extends OnModel<M, ML, MO, MW, MS, MG>,
-        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
-        MS extends SortModel<M, ML, MO, MW, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MW, MS, MG>,
-        T extends Model<T, TL, TO, TW, TS, TG>,
-        TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
-        TO extends OnModel<T, TL, TO, TW, TS, TG>,
-        TW extends WhereModel<T, TL, TO, TW, TS, TG>,
-        TS extends SortModel<T, TL, TO, TW, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TW, TS, TG>> extends OnLink<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> {
+public final class OnLinkIntact<M extends Model<M, MC, MO, MW, MS, MG>,
+        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
+        MO extends OnModel<M, MC, MO, MW, MS, MG>,
+        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
+        MS extends SortModel<M, MC, MO, MW, MS, MG>,
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>,
+        T extends Model<T, TC, TO, TW, TS, TG>,
+        TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
+        TO extends OnModel<T, TC, TO, TW, TS, TG>,
+        TW extends WhereModel<T, TC, TO, TW, TS, TG>,
+        TS extends SortModel<T, TC, TO, TW, TS, TG>,
+        TG extends GroupModel<T, TC, TO, TW, TS, TG>> extends OnLink<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> {
 
     public OnLinkIntact(SqlData<M> sqlData, Class<T> joinClass, String alias) {
         super(sqlData, joinClass, alias);
@@ -36,7 +36,7 @@ public final class OnLinkIntact<M extends Model<M, ML, MO, MW, MS, MG>,
      * @param onModel On模组
      * @return On条件连接器 {@link OnLinkIntact}
      */
-    public OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> or(OnModel<T, TL, TO, TW, TS, TG> onModel) {
+    public OnLinkIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> or(OnModel<T, TC, TO, TW, TS, TG> onModel) {
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
         List<OnData> onDataList = onModel.onBuilder.getAndResetOnDataList();
         if (onDataList == null || onDataList.size() == 0) {
@@ -53,7 +53,7 @@ public final class OnLinkIntact<M extends Model<M, ML, MO, MW, MS, MG>,
      * @param on on处理
      * @return On条件连接器 {@link OnLinkIntact}
      */
-    public OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> or(On<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> on) {
+    public OnLinkIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> or(On<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> on) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MO mo = mainTableData.getTableModel().getOnModel();
         mo.onBuilder.setOwnerTableData(mainTableData);

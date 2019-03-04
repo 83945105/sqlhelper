@@ -18,12 +18,12 @@ import java.util.Map;
  * @version 1.0
  * @since 2018/7/10
  */
-public class ColumnEngine<M extends Model<M, ML, MO, MW, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
-        MO extends OnModel<M, ML, MO, MW, MS, MG>,
-        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
-        MS extends SortModel<M, ML, MO, MW, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MW, MS, MG>> extends SqlEngine<M> implements Insert {
+public class ColumnEngine<M extends Model<M, MC, MO, MW, MS, MG>,
+        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
+        MO extends OnModel<M, MC, MO, MW, MS, MG>,
+        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
+        MS extends SortModel<M, MC, MO, MW, MS, MG>,
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends SqlEngine<M> implements Insert {
 
     public ColumnEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
@@ -37,7 +37,7 @@ public class ColumnEngine<M extends Model<M, ML, MO, MW, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    public ColumnEngine<M, ML, MO, MW, MS, MG> column(Column<M, ML, MO, MW, MS, MG> column) {
+    public ColumnEngine<M, MC, MO, MW, MS, MG> column(Column<M, MC, MO, MW, MS, MG> column) {
         MainTableData<M> tableData = this.sqlData.getMainTableData();
         Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         if (columns.size() == 0) {

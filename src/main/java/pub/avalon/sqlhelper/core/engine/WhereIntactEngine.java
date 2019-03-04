@@ -21,12 +21,12 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class WhereIntactEngine<M extends Model<M, ML, MO, MW, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
-        MO extends OnModel<M, ML, MO, MW, MS, MG>,
-        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
-        MS extends SortModel<M, ML, MO, MW, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MW, MS, MG>> extends GroupIntactEngine<M, ML, MO, MW, MS, MG> implements Update, Delete {
+public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
+        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
+        MO extends OnModel<M, MC, MO, MW, MS, MG>,
+        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
+        MS extends SortModel<M, MC, MO, MW, MS, MG>,
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends GroupIntactEngine<M, MC, MO, MW, MS, MG> implements Update, Delete {
 
     WhereIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
@@ -41,7 +41,7 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MW, MS, MG>,
     }
 
     //TODO 优化
-    public WhereIntactEngine<M, ML, MO, MW, MS, MG> where(Where<M> where) {
+    public WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Where<M> where) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
         mw.getWhereBuilder().setOwnerTableData(mainTableData);
@@ -51,23 +51,23 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MW, MS, MG>,
         return this;
     }
 
-    public WhereIntactEngine<M, ML, MO, MW, MS, MG> where(MainCondition<M, ML, MO, MW, MS, MG> condition) {
+    public WhereIntactEngine<M, MC, MO, MW, MS, MG> where(MainCondition<M, MC, MO, MW, MS, MG> condition) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
         mw.getWhereBuilder().setOwnerTableData(mainTableData);
         mw.setSqlData(this.sqlData);
-        WhereLink<M, ML, MO, MW, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mw);
+        WhereLink<M, MC, MO, MW, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mw);
         List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
-    public <T extends Model<T, TL, TO, TW, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
-            TO extends OnModel<T, TL, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
-            TS extends SortModel<T, TL, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TW, TS, TG>> WhereIntactEngine<M, ML, MO, MW, MS, MG> where(Class<T> conditionClass, String alias, JoinCondition<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> condition) {
+    public <T extends Model<T, TC, TO, TW, TS, TG>,
+            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
+            TO extends OnModel<T, TC, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
+            TS extends SortModel<T, TC, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TC, TO, TW, TS, TG>> WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Class<T> conditionClass, String alias, JoinCondition<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> condition) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MW mw = mainTableData.getTableModel().getWhereModel();
@@ -76,18 +76,18 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MW, MS, MG>,
         TW tw = joinTableData.getTableModel().getWhereModel();
         tw.setSqlData(this.sqlData.fission(joinTableData.getTableClass()));
         tw.getWhereBuilder().setOwnerTableData(joinTableData);
-        WhereLink<M, ML, MO, MW, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tw, mw);
+        WhereLink<M, MC, MO, MW, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tw, mw);
         List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
-    public <T extends Model<T, TL, TO, TW, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
-            TO extends OnModel<T, TL, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
-            TS extends SortModel<T, TL, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TW, TS, TG>> WhereIntactEngine<M, ML, MO, MW, MS, MG> where(Class<T> conditionClass, JoinCondition<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> condition) {
+    public <T extends Model<T, TC, TO, TW, TS, TG>,
+            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
+            TO extends OnModel<T, TC, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
+            TS extends SortModel<T, TC, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TC, TO, TW, TS, TG>> WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Class<T> conditionClass, JoinCondition<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> condition) {
         return where(conditionClass, null, condition);
     }
 
