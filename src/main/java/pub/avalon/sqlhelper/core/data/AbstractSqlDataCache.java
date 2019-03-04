@@ -150,48 +150,48 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
      */
     private class FissionSqlData<M extends Model> extends AbstractSqlDataCache<M> {
 
-        public FissionSqlData(DataBaseType dataBaseType, MainTableData<M> mainTableData) {
+        FissionSqlData(DataBaseType dataBaseType, MainTableData<M> mainTableData) {
             super(dataBaseType, mainTableData);
         }
 
         @Override
         public Set<AbstractTableData> getColumnDataSet() {
-            throw new SqlException("you can not use getColumnDataSet with FissionSqlData.");
+            throw new SqlException("you can not use getColumnDataSet for class FissionSqlData.");
         }
 
         @Override
         public Set<VirtualFieldData> getVirtualFieldDataSet() {
-            throw new SqlException("you can not use getVirtualFieldDataSet with FissionSqlData.");
+            throw new SqlException("you can not use getVirtualFieldDataSet for class FissionSqlData.");
         }
 
         @Override
         public List<FunctionColumnData> getFunctionColumnDataList() {
-            throw new SqlException("you can not use getFunctionColumnDataList with FissionSqlData.");
+            throw new SqlException("you can not use getFunctionColumnDataList for class FissionSqlData.");
         }
 
         @Override
         public Map<String, SqlBuilder> getSubQueryDataMap() {
-            throw new SqlException("you can not use getSubQueryDataMap with FissionSqlData.");
+            throw new SqlException("you can not use getSubQueryDataMap for class FissionSqlData.");
         }
 
         @Override
-        public List<List<LinkWhereData>> getLinkWhereDataListList() {
-            throw new SqlException("you can not use getLinkWhereDataListList with FissionSqlData.");
+        public List<List<WhereDataLinker>> getWhereDataLinkerListList() {
+            throw new SqlException("you can not use getWhereDataLinkerListList for class FissionSqlData.");
         }
 
         @Override
         public List<GroupData> getGroupDataList() {
-            throw new SqlException("you can not use getGroupDataList with FissionSqlData.");
+            throw new SqlException("you can not use getGroupDataList for class FissionSqlData.");
         }
 
         @Override
         public List<List<SortData>> getSortDataListList() {
-            throw new SqlException("you can not use getSortDataListList with FissionSqlData.");
+            throw new SqlException("you can not use getSortDataListList for class FissionSqlData.");
         }
 
         @Override
         public LimitHandler getLimitData() {
-            throw new SqlException("you can not use getLimitData with FissionSqlData.");
+            throw new SqlException("you can not use getLimitData for class FissionSqlData.");
         }
     }
 

@@ -11,17 +11,17 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class LinkWhereData {
+public final class WhereDataLinker {
 
     private LinkType linkType;
 
-    public LinkWhereData(LinkType linkType) {
+    public WhereDataLinker(LinkType linkType) {
         this.linkType = linkType;
     }
 
     private List<WhereData> whereDataList;
 
-    private List<LinkWhereData> linkWhereDataList;
+    private List<WhereDataLinker> whereDataLinkerList;
 
     public LinkType getLinkType() {
         return linkType;
@@ -35,11 +35,11 @@ public final class LinkWhereData {
         this.whereDataList = whereDataList;
     }
 
-    public List<LinkWhereData> getLinkWhereDataList() {
-        return linkWhereDataList;
+    public List<WhereDataLinker> getWhereDataLinkerList() {
+        return whereDataLinkerList;
     }
 
-    public void setLinkWhereDataList(List<LinkWhereData> linkWhereDataList) {
-        this.linkWhereDataList = linkWhereDataList;
+    public void setWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
+        this.whereDataLinkerList = whereDataLinkerList;
     }
 }

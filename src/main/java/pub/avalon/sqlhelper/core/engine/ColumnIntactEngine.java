@@ -31,15 +31,15 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereIntactEngine<M, ML, MO, MC, MS, MG> implements QueryByPrimaryKey, UpdateByPrimaryKey {
 
-    ColumnIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
+    public ColumnIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
     }
 
-    ColumnIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
+    public ColumnIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
         super(tableName, mainClass, dataBaseType);
     }
 
-    ColumnIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
+    public ColumnIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
         super(tableName, mainClass, alias, dataBaseType);
     }
 
@@ -166,8 +166,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
                 queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
             }
         }
-        MainTableData tableData = this.sqlData.getMainTableData();
-        MC mc = (MC) tableData.getTableModel().getWhereModel();
+        MC mc = this.sqlData.getMainTableData().getTableModel().getWhereModel();
         SqlBuilder sqlBuilder = subQuery.apply(mc, queryEngine);
         this.sqlData.addSubQueryData(columnAlias, sqlBuilder);
         return this;

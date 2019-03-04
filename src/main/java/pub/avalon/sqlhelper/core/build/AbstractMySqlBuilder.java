@@ -566,19 +566,19 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-    private SqlSplicer appendLinkWhereDataList(SqlSplicer sqlSplicer, List<LinkWhereData> linkWhereDataList, LinkType linkType, boolean checkBrackets) {
-        if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
+    private SqlSplicer appendWhereDataLinkerList(SqlSplicer sqlSplicer, List<WhereDataLinker> whereDataLinkerList, LinkType linkType, boolean checkBrackets) {
+        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
             return sqlSplicer;
         }
         int length = sqlSplicer.length();
         List<WhereData> whereDataList;
         int i = 0;
         boolean brackets = false;
-        for (LinkWhereData linkWhereData : linkWhereDataList) {
-            whereDataList = linkWhereData.getWhereDataList();
-            List<LinkWhereData> childLinkWhereDataList = linkWhereData.getLinkWhereDataList();
+        for (WhereDataLinker whereDataLinker : whereDataLinkerList) {
+            whereDataList = whereDataLinker.getWhereDataList();
+            List<WhereDataLinker> childWhereDataLinkerList = whereDataLinker.getWhereDataLinkerList();
             if (whereDataList != null && whereDataList.size() > 0) {
-                switch (linkWhereData.getLinkType()) {
+                switch (whereDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sqlSplicer.append(" and ");
@@ -595,20 +595,20 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     default:
                         throw new SqlException("the LinkType is wrong.");
                 }
-            } else if (childLinkWhereDataList != null && childLinkWhereDataList.size() > 0) {
-                switch (linkWhereData.getLinkType()) {
+            } else if (childWhereDataLinkerList != null && childWhereDataLinkerList.size() > 0) {
+                switch (whereDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sqlSplicer.append(" and ");
                         }
-                        sqlSplicer = this.appendLinkWhereDataList(sqlSplicer, childLinkWhereDataList, LinkType.AND, true);
+                        sqlSplicer = this.appendWhereDataLinkerList(sqlSplicer, childWhereDataLinkerList, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sqlSplicer.append(" or ");
                             brackets = checkBrackets;
                         }
-                        sqlSplicer = this.appendLinkWhereDataList(sqlSplicer, childLinkWhereDataList, LinkType.OR, true);
+                        sqlSplicer = this.appendWhereDataLinkerList(sqlSplicer, childWhereDataLinkerList, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -627,17 +627,17 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendWhereSql(SqlSplicer sqlSplicer) {
-        List<List<LinkWhereData>> linkWhereDataListList = this.sqlData.getLinkWhereDataListList();
-        if (linkWhereDataListList == null || linkWhereDataListList.size() == 0) {
+        List<List<WhereDataLinker>> whereDataLinkerListList = this.sqlData.getWhereDataLinkerListList();
+        if (whereDataLinkerListList == null || whereDataLinkerListList.size() == 0) {
             return sqlSplicer;
         }
         sqlSplicer.append(" where ");
         int i = 0;
-        for (List<LinkWhereData> linkWhereDataList : linkWhereDataListList) {
+        for (List<WhereDataLinker> whereDataLinkerList : whereDataLinkerListList) {
             if (i++ > 0) {
                 sqlSplicer.append(" and ");
             }
-            sqlSplicer = this.appendLinkWhereDataList(sqlSplicer, linkWhereDataList, LinkType.AND, linkWhereDataListList.size() > 1);
+            sqlSplicer = this.appendWhereDataLinkerList(sqlSplicer, whereDataLinkerList, LinkType.AND, whereDataLinkerListList.size() > 1);
         }
         return sqlSplicer;
     }

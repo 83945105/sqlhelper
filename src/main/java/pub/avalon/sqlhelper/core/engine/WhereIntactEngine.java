@@ -3,10 +3,9 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
-import pub.avalon.sqlhelper.core.data.FinalSqlData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
-import pub.avalon.sqlhelper.core.data.LinkWhereData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
+import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.norm.JoinCondition;
 import pub.avalon.sqlhelper.core.norm.MainCondition;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -58,8 +57,8 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         mc.setSqlData(this.sqlData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
-        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
-        this.sqlData.addLinkWhereDataList(linkWhereDataList);
+        List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
+        this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
@@ -78,8 +77,8 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         tc.setSqlData(this.sqlData.fission(joinTableData.getTableClass()));
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
-        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
-        this.sqlData.addLinkWhereDataList(linkWhereDataList);
+        List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
+        this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 

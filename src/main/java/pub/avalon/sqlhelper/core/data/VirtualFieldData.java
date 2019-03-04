@@ -9,7 +9,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2018/7/10
  */
-public class VirtualFieldData {
+public final class VirtualFieldData {
 
     private Object value;
 

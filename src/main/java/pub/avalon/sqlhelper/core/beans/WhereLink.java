@@ -22,20 +22,17 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> {
 
-    protected SqlData sqlData;
+    protected SqlData<M> sqlData;
 
-    WhereLink(SqlData sqlData) {
+    WhereLink(SqlData<M> sqlData) {
         this.sqlData = sqlData;
     }
 
-    protected List<LinkWhereData> linkWhereDataList = new ArrayList<>();
+    protected List<WhereDataLinker> whereDataLinkerList = new ArrayList<>();
 
-    public List<LinkWhereData> getLinkWhereDataList() {
-        List<LinkWhereData> list = this.linkWhereDataList;
-        /*
-          每次取走后重置集合
-         */
-        this.linkWhereDataList = new ArrayList<>();
+    public List<WhereDataLinker> getAndResetWhereDataLinkerList() {
+        List<WhereDataLinker> list = this.whereDataLinkerList;
+        this.whereDataLinkerList = new ArrayList<>();
         return list;
     }
 
@@ -46,13 +43,13 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
      * @return 当前条件连接器
      */
     public WhereLinkIntact<M, ML, MO, MC, MS, MG> and(WhereModel<?, ?, ?, ?, ?, ?> whereModel) {
-        LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
+        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
         List<WhereData> whereDataList = whereModel.whereBuilder.getAndResetWhereDataList();
         if (whereDataList == null || whereDataList.size() == 0) {
             return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
         }
-        linkWhereData.setWhereDataList(whereDataList);
-        this.linkWhereDataList.add(linkWhereData);
+        whereDataLinker.setWhereDataList(whereDataList);
+        this.whereDataLinkerList.add(whereDataLinker);
         return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
     }
 
@@ -64,16 +61,16 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
      */
     public WhereLinkIntact<M, ML, MO, MC, MS, MG> and(MainCondition<M, ML, MO, MC, MS, MG> condition) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        MC mc = mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
-        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
-        if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
+        List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
+        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
             return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
         }
-        LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
-        linkWhereData.setLinkWhereDataList(linkWhereDataList);
-        this.linkWhereDataList.add(linkWhereData);
+        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
+        whereDataLinker.setWhereDataLinkerList(whereDataLinkerList);
+        this.whereDataLinkerList.add(whereDataLinker);
         return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
     }
 
@@ -100,13 +97,13 @@ public class WhereLink<M extends Model<M, ML, MO, MC, MS, MG>,
         TC tc = joinTableData.getTableModel().getWhereModel();
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
-        List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
-        if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
+        List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
+        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
             return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
         }
-        LinkWhereData linkWhereData = new LinkWhereData(LinkType.AND);
-        linkWhereData.setLinkWhereDataList(linkWhereDataList);
-        this.linkWhereDataList.add(linkWhereData);
+        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
+        whereDataLinker.setWhereDataLinkerList(whereDataLinkerList);
+        this.whereDataLinkerList.add(whereDataLinker);
         return (WhereLinkIntact<M, ML, MO, MC, MS, MG>) this;
     }
 

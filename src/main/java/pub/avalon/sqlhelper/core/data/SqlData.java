@@ -78,11 +78,11 @@ public interface SqlData<M extends Model> {
     Map<String, SqlBuilder> getSubQueryDataMap();
 
     /**
-     * 获取连接条件数据集合
+     * 获取where条件连接器数据集合
      *
      * @return 连接条件数据集合
      */
-    List<List<LinkWhereData>> getLinkWhereDataListList();
+    List<List<WhereDataLinker>> getWhereDataLinkerListList();
 
     /**
      * 获取分组数据集合

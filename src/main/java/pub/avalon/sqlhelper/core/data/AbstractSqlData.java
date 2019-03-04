@@ -37,7 +37,7 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     /**
      * where条件数据
      */
-    private List<List<LinkWhereData>> linkWhereDataListList;
+    private List<List<WhereDataLinker>> whereDataLinkerListList;
     /**
      * group条件数据
      */
@@ -137,23 +137,23 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     }
 
     @Override
-    public List<List<LinkWhereData>> getLinkWhereDataListList() {
-        return this.linkWhereDataListList;
+    public List<List<WhereDataLinker>> getWhereDataLinkerListList() {
+        return this.whereDataLinkerListList;
     }
 
     /**
-     * 添加连接条件数据集合
+     * 添加连接器数据集合
      *
-     * @param linkWhereDataList 连接条件数据集合
+     * @param whereDataLinkerList 连接器数据集合
      */
-    public void addLinkWhereDataList(List<LinkWhereData> linkWhereDataList) {
-        if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
+    public void addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
+        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
             return;
         }
-        if (this.linkWhereDataListList == null) {
-            this.linkWhereDataListList = new ArrayList<>();
+        if (this.whereDataLinkerListList == null) {
+            this.whereDataLinkerListList = new ArrayList<>();
         }
-        this.linkWhereDataListList.add(linkWhereDataList);
+        this.whereDataLinkerListList.add(whereDataLinkerList);
     }
 
     @Override

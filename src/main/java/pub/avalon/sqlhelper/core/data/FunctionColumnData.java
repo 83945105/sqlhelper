@@ -30,32 +30,16 @@ public final class FunctionColumnData {
         return tableData;
     }
 
-    public void setTableData(AbstractTableData tableData) {
-        this.tableData = tableData;
-    }
-
     public FunctionColumnType getFunctionColumnType() {
         return functionColumnType;
-    }
-
-    public void setFunctionColumnType(FunctionColumnType functionColumnType) {
-        this.functionColumnType = functionColumnType;
     }
 
     public String getColumn() {
         return column;
     }
 
-    public void setColumn(String column) {
-        this.column = column;
-    }
-
     public String getAlias() {
         return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
     }
 
 }
