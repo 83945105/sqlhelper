@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
+import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.*;
  * @version 1.0
  * @since 2018/7/10
  */
+//TODO 优化 去除无用属性,简化逻辑
 public abstract class AbstractTableData<T extends Model> {
 
     private T tableModel;
@@ -27,18 +29,12 @@ public abstract class AbstractTableData<T extends Model> {
 
     private Map<String, String> columnAliasMap;
 
-    private List<LinkWhereData> linkWhereDataList;
-
-    private List<String> groupColumns;
-
-    private List<List<SortData>> sortDataList;
-
     public AbstractTableData(Class<T> tableClass) {
         this.tableClass = tableClass;
         try {
             this.tableModel = tableClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            throw new TableDataException(e);
         }
         this.tableName = this.tableModel.getTableName();
         this.tableAlias = this.tableModel.getTableAlias();
@@ -76,47 +72,12 @@ public abstract class AbstractTableData<T extends Model> {
         return this.primaryKeyName;
     }
 
-    public void setPrimaryKeyName(String primaryKeyName) {
-        if (primaryKeyName == null || "".equals(primaryKeyName)) {
-            return;
-        }
-        this.primaryKeyName = primaryKeyName;
-    }
-
     public String getPrimaryKeyAlias() {
         return this.primaryKeyAlias;
     }
 
-    public void setPrimaryKeyAlias(String primaryKeyAlias) {
-        if (primaryKeyAlias == null || "".equals(primaryKeyAlias)) {
-            return;
-        }
-        this.primaryKeyAlias = primaryKeyAlias;
-    }
-
-    public List<LinkWhereData> getLinkWhereDataList() {
-        return this.linkWhereDataList;
-    }
-
-    public void addLinkWhereDataList(List<LinkWhereData> linkWhereDataList) {
-        if (linkWhereDataList == null || linkWhereDataList.size() == 0) {
-            return;
-        }
-        if (this.linkWhereDataList == null) {
-            this.linkWhereDataList = new ArrayList<>();
-        }
-        this.linkWhereDataList.addAll(linkWhereDataList);
-    }
-
     public Map<String, String> getColumnAliasMap() {
         return this.columnAliasMap;
-    }
-
-    public void addColumnAlias(String columnName, String alias) {
-        if (this.columnAliasMap == null) {
-            this.columnAliasMap = new LinkedHashMap<>();
-        }
-        this.columnAliasMap.put(columnName, alias);
     }
 
     public void addColumnAliasMap(Map<String, String> selectColumns) {
@@ -124,40 +85,6 @@ public abstract class AbstractTableData<T extends Model> {
             this.columnAliasMap = new LinkedHashMap<>();
         }
         this.columnAliasMap.putAll(selectColumns);
-    }
-
-    public List<String> getGroupColumns() {
-        return this.groupColumns;
-    }
-
-    public void addGroupColumns(Collection<String> groupColumns) {
-        if (groupColumns == null || groupColumns.size() == 0) {
-            return;
-        }
-        if (this.groupColumns == null) {
-            this.groupColumns = new ArrayList<>();
-        }
-        this.groupColumns.addAll(groupColumns);
-    }
-
-    public void addGroupColumns(String[] groupColumns) {
-        if (groupColumns == null || groupColumns.length == 0) {
-            return;
-        }
-        if (this.groupColumns == null) {
-            this.groupColumns = new ArrayList<>();
-        }
-        Collections.addAll(this.groupColumns, groupColumns);
-    }
-
-    public void addSortDataList(List<SortData> sortDataList) {
-        if (sortDataList == null || sortDataList.size() == 0) {
-            return;
-        }
-        if (this.sortDataList == null) {
-            this.sortDataList = new ArrayList<>();
-        }
-        this.sortDataList.add(sortDataList);
     }
 
     public Class<T> getTableClass() {

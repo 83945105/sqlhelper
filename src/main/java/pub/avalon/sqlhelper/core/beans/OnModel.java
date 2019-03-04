@@ -18,16 +18,15 @@ public class OnModel<M extends Model<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
         MG extends GroupModel<M, ML, MO, MC, MS, MG>> {
 
-    private SqlData sqlData;
+    private SqlData<M> sqlData;
 
-    @SuppressWarnings("unchecked")
     protected OnBuilder<M, ML, MO, MC, MS, MG> onBuilder = new OnBuilder<>((MO) this);
 
-    public SqlData getSqlData() {
+    public SqlData<M> getSqlData() {
         return sqlData;
     }
 
-    public void setSqlData(SqlData sqlData) {
+    public void setSqlData(SqlData<M> sqlData) {
         this.sqlData = sqlData;
     }
 

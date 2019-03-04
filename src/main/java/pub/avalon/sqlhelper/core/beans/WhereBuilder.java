@@ -4,10 +4,7 @@ import pub.avalon.sqlhelper.core.data.AbstractTableData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.WhereData;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
-import pub.avalon.sqlhelper.core.norm.ComparisonOperator;
-import pub.avalon.sqlhelper.core.norm.Model;
-import pub.avalon.sqlhelper.core.norm.WhereModelValue;
-import pub.avalon.sqlhelper.core.norm.WhereComparisonOperator;
+import pub.avalon.sqlhelper.core.norm.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +22,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         MO extends OnModel<M, ML, MO, MC, MS, MG>,
         MC extends WhereModel<M, ML, MO, MC, MS, MG>,
         MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> implements ComparisonOperator<MC>, WhereComparisonOperator<M, ML, MO, MC, MS, MG> {
+        MG extends GroupModel<M, ML, MO, MC, MS, MG>> implements ComparisonOperator<MC>, WhereComparisonOperator<M, ML, MO, MC, MS, MG>, WhereComparisonOperatorSubQuery<M, ML, MO, MC, MS, MG> {
 
     private MC handleModel;
 
@@ -37,18 +34,21 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
 
     private List<WhereData> whereDataList = new ArrayList<>();
 
-    public List<WhereData> getWhereDataList() {
+    /**
+     * 获取并重置where条件数据集合
+     * 每次获取必须重置,防止条件重复
+     *
+     * @return where条件集合
+     */
+    List<WhereData> getAndResetWhereDataList() {
         List<WhereData> whereDataList = this.whereDataList;
-        /**
-         * 每次取走whereDataList,重置集合
-         */
         this.whereDataList = new ArrayList<>();
         return whereDataList;
     }
 
     private AbstractTableData ownerTableData;
 
-    public void setOwnerTableData(AbstractTableData ownerTableData) {
+    public void setOwnerTableData(AbstractTableData<M> ownerTableData) {
         this.ownerTableData = ownerTableData;
     }
 
@@ -392,7 +392,6 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -402,7 +401,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.whereData.setWhereType(WhereType.EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = (TC) joinTableData.getTableModel().getWhereModel();
+        TC whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -412,7 +411,6 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -422,7 +420,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.whereData.setWhereType(WhereType.NOT_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = (TC) joinTableData.getTableModel().getWhereModel();
+        TC whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -432,7 +430,6 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -442,7 +439,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.whereData.setWhereType(WhereType.GREATER);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = (TC) joinTableData.getTableModel().getWhereModel();
+        TC whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -452,7 +449,6 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -462,7 +458,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.whereData.setWhereType(WhereType.GREATER_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = (TC) joinTableData.getTableModel().getWhereModel();
+        TC whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -472,7 +468,6 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -482,7 +477,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.whereData.setWhereType(WhereType.LESS);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = (TC) joinTableData.getTableModel().getWhereModel();
+        TC whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -492,7 +487,6 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -502,12 +496,46 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.whereData.setWhereType(WhereType.LESS_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = (TC) joinTableData.getTableModel().getWhereModel();
+        TC whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
         this.whereData.setTargetColumnName(targetWhereData.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
+    }
+
+    //TODO 待编写
+    @Override
+    public <T extends Model<T, TL, TO, TC, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
+            TO extends OnModel<T, TL, TO, TC, TS, TG>,
+            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
+            TS extends SortModel<T, TL, TO, TC, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC equalTo(String tableName, Class<T> mainClass, String alias, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery) {
+        /*QueryEngine<T, TL, TO, TC, TS, TG> queryEngine;
+        switch (this.handleModel.getSqlData().getDataBaseType()) {
+            case MYSQL:
+                queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.MYSQL);
+                break;
+            case SQLSERVER:
+                queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.SQLSERVER);
+                break;
+            default:
+                throw new SqlException("SubQuery do not support this database type temporarily.");
+        }
+
+
+        Map<String, JoinTableData> joinTableDataAliasMap = this.sqlData.getJoinTableDataAliasMap();
+        if (joinTableDataAliasMap != null && joinTableDataAliasMap.size() > 0) {
+            for (Map.Entry<String, JoinTableData> entry : joinTableDataAliasMap.entrySet()) {
+                queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
+            }
+        }
+        MainTableData tableData = this.sqlData.getMainTableData();
+        MC mc = (MC) tableData.getTableModel().getWhereModel();
+        SqlBuilder sqlBuilder = subQuery.apply(mc, queryEngine);
+        this.sqlData.addSubQueryAliasMap(columnAlias, sqlBuilder);*/
+        return null;
     }
 }

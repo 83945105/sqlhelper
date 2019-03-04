@@ -13,25 +13,21 @@ import pub.avalon.sqlhelper.core.norm.Model;
  * @version 1.0
  * @since 2018/7/10
  */
-@SuppressWarnings("unused")
 public class SqlEngine<M extends Model> {
 
     protected FinalSqlData<M> sqlData;
 
-    protected SqlBuilderProxy sqlBuilderProxy;
+    SqlBuilderProxy sqlBuilderProxy;
 
     SqlEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        MainTableData<M> data = new MainTableData<>(mainClass);
-        this.sqlData = new FinalSqlData<>(dataBaseType);
-        this.sqlData.setMainTableData(data);
+        this.sqlData = new FinalSqlData<>(dataBaseType, new MainTableData<>(mainClass));
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 
     SqlEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
         MainTableData<M> data = new MainTableData<>(mainClass);
         data.setTableName(tableName);
-        this.sqlData = new FinalSqlData<>(dataBaseType);
-        this.sqlData.setMainTableData(data);
+        this.sqlData = new FinalSqlData<>(dataBaseType, data);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 
@@ -39,8 +35,7 @@ public class SqlEngine<M extends Model> {
         MainTableData<M> data = new MainTableData<>(mainClass);
         data.setTableName(tableName);
         data.setTableAlias(alias);
-        this.sqlData = new FinalSqlData<>(dataBaseType);
-        this.sqlData.setMainTableData(data);
+        this.sqlData = new FinalSqlData<>(dataBaseType, data);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 

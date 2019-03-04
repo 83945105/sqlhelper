@@ -18,15 +18,15 @@ public class WhereModel<T extends Model<T, TL, TO, TC, TS, TG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
-    private SqlData sqlData;
+    private SqlData<T> sqlData;
 
     protected WhereBuilder<T, TL, TO, TC, TS, TG> whereBuilder = new WhereBuilder<>((TC) this);
 
-    public SqlData getSqlData() {
+    public SqlData<T> getSqlData() {
         return sqlData;
     }
 
-    public void setSqlData(SqlData sqlData) {
+    public void setSqlData(SqlData<T> sqlData) {
         this.sqlData = sqlData;
     }
 

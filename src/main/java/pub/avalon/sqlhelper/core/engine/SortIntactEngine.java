@@ -36,18 +36,15 @@ public class SortIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    @SuppressWarnings("unchecked")
     public SortIntactEngine<M, ML, MO, MC, MS, MG> sort(Sort<M, ML, MO, MC, MS, MG> sort) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         MS ms = (MS) mainTableData.getTableModel().getSortModel();
         ms.getSortBuilder().setOwnerTableData(mainTableData);
         List<SortData> sortDataList = sort.apply(ms).getSortBuilder().getSortDataList();
-        mainTableData.addSortDataList(sortDataList);
         this.sqlData.addSortDataList(sortDataList);
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -58,7 +55,6 @@ public class SortIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         TS ts = (TS) joinTableData.getTableModel().getSortModel();
         ts.getSortBuilder().setOwnerTableData(joinTableData);
         List<SortData> sortDataList = sort.apply(ts).getSortBuilder().getSortDataList();
-        joinTableData.addSortDataList(sortDataList);
         this.sqlData.addSortDataList(sortDataList);
         return this;
     }

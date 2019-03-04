@@ -27,7 +27,6 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
     public static final String primaryKeyAlias = "id";
 
 
-
     /**
      * 主键
      */
@@ -37,35 +36,35 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
      */
     public static final String id_alias = "id";
     /**
-     * 
+     *
      */
     public static final String path = "path";
     /**
-     * 
+     *
      */
     public static final String path_alias = "path";
     /**
-     * 
+     *
      */
     public static final String serviceId = "service_id";
     /**
-     * 
+     *
      */
     public static final String serviceId_alias = "serviceId";
     /**
-     * 
+     *
      */
     public static final String serviceName = "service_name";
     /**
-     * 
+     *
      */
     public static final String serviceName_alias = "serviceName";
     /**
-     * 
+     *
      */
     public static final String url = "url";
     /**
-     * 
+     *
      */
     public static final String url_alias = "url";
     /**
@@ -77,11 +76,11 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
      */
     public static final String loginUrl_alias = "loginUrl";
     /**
-     * 
+     *
      */
     public static final String index = "index";
     /**
-     * 
+     *
      */
     public static final String index_alias = "index";
     /**
@@ -230,7 +229,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
     }
 
     @Override
-    public ColumnModel<ZuulRouteModel, Column, On, Where, Sort, Group> getColumnModel() {
+    public Column getColumnModel() {
         return new Column();
     }
 
@@ -249,13 +248,14 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 主键
+         *
          * @param alias 别名
          */
         public Column primaryKey(String alias) {
             this.addColumnAlias(ZuulRouteModel.primaryKeyName, alias);
             return this;
         }
-    
+
         /**
          * 主键
          */
@@ -266,6 +266,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 主键
+         *
          * @param alias 别名
          */
         public Column id(String alias) {
@@ -274,7 +275,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Column path() {
             this.addColumnAlias(ZuulRouteModel.path, ZuulRouteModel.path_alias);
@@ -282,7 +283,6 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column path(String alias) {
@@ -291,7 +291,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Column serviceId() {
             this.addColumnAlias(ZuulRouteModel.serviceId, ZuulRouteModel.serviceId_alias);
@@ -299,7 +299,6 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column serviceId(String alias) {
@@ -308,7 +307,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Column serviceName() {
             this.addColumnAlias(ZuulRouteModel.serviceName, ZuulRouteModel.serviceName_alias);
@@ -316,7 +315,6 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column serviceName(String alias) {
@@ -325,7 +323,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Column url() {
             this.addColumnAlias(ZuulRouteModel.url, ZuulRouteModel.url_alias);
@@ -333,7 +331,6 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column url(String alias) {
@@ -351,6 +348,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 登录地址
+         *
          * @param alias 别名
          */
         public Column loginUrl(String alias) {
@@ -359,7 +357,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Column index() {
             this.addColumnAlias(ZuulRouteModel.index, ZuulRouteModel.index_alias);
@@ -367,7 +365,6 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column index(String alias) {
@@ -385,6 +382,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 状态(00:正常,01:删除)-d:0
+         *
          * @param alias 别名
          */
         public Column status(String alias) {
@@ -402,6 +400,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 创建时间
+         *
          * @param alias 别名
          */
         public Column createTime(String alias) {
@@ -419,6 +418,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 修改时间
+         *
          * @param alias 别名
          */
         public Column updateTime(String alias) {
@@ -436,6 +436,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 删除时间
+         *
          * @param alias 别名
          */
         public Column deleteTime(String alias) {
@@ -453,6 +454,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 创建时间
+         *
          * @param alias 别名
          */
         public Column createTimeStamp(String alias) {
@@ -470,6 +472,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 修改时间
+         *
          * @param alias 别名
          */
         public Column updateTimeStamp(String alias) {
@@ -487,6 +490,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
 
         /**
          * 删除时间
+         *
          * @param alias 别名
          */
         public Column deleteTimeStamp(String alias) {
@@ -497,7 +501,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
     }
 
     @Override
-    public OnModel<ZuulRouteModel, Column, On, Where, Sort, Group> getOnModel() {
+    public On getOnModel() {
         return new On();
     }
 
@@ -512,7 +516,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         public OnBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.onBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.primaryKeyName);
         }
-    
+
         /**
          * 主键
          */
@@ -521,28 +525,28 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> path() {
             return this.onBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.path);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> serviceId() {
             return this.onBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.serviceId);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> serviceName() {
             return this.onBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.serviceName);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> url() {
             return this.onBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.url);
@@ -556,7 +560,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> index() {
             return this.onBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.index);
@@ -629,7 +633,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         public WhereBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.whereBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.primaryKeyName);
         }
-    
+
         /**
          * 主键
          */
@@ -638,28 +642,28 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> path() {
             return this.whereBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.path);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> serviceId() {
             return this.whereBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.serviceId);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> serviceName() {
             return this.whereBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.serviceName);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> url() {
             return this.whereBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.url);
@@ -673,7 +677,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> index() {
             return this.whereBuilder.handler(ZuulRouteModel.tableName, ZuulRouteModel.tableAlias, ZuulRouteModel.index);
@@ -731,7 +735,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
     }
 
     @Override
-    public GroupModel<ZuulRouteModel, Column, On, Where, Sort, Group> getGroupModel() {
+    public Group getGroupModel() {
         return new Group();
     }
 
@@ -747,7 +751,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
             this.addColumn(ZuulRouteModel.primaryKeyName);
             return this;
         }
-    
+
         /**
          * 主键
          */
@@ -757,7 +761,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Group path() {
             this.addColumn(ZuulRouteModel.path);
@@ -765,7 +769,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Group serviceId() {
             this.addColumn(ZuulRouteModel.serviceId);
@@ -773,7 +777,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Group serviceName() {
             this.addColumn(ZuulRouteModel.serviceName);
@@ -781,7 +785,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Group url() {
             this.addColumn(ZuulRouteModel.url);
@@ -797,7 +801,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public Group index() {
             this.addColumn(ZuulRouteModel.index);
@@ -863,7 +867,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
     }
 
     @Override
-    public SortModel<ZuulRouteModel, Column, On, Where, Sort, Group> getSortModel() {
+    public Sort getSortModel() {
         return new Sort();
     }
 
@@ -878,7 +882,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         public SortBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.sortBuilder.handler(ZuulRouteModel.primaryKeyName);
         }
-    
+
         /**
          * 主键
          */
@@ -887,28 +891,28 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> path() {
             return this.sortBuilder.handler(ZuulRouteModel.path);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> serviceId() {
             return this.sortBuilder.handler(ZuulRouteModel.serviceId);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> serviceName() {
             return this.sortBuilder.handler(ZuulRouteModel.serviceName);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> url() {
             return this.sortBuilder.handler(ZuulRouteModel.url);
@@ -922,7 +926,7 @@ public final class ZuulRouteModel implements Model<ZuulRouteModel, ZuulRouteMode
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<ZuulRouteModel, Column, On, Where, Sort, Group> index() {
             return this.sortBuilder.handler(ZuulRouteModel.index);

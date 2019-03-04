@@ -35,31 +35,27 @@ public class GroupIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    @SuppressWarnings("unchecked")
     public GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Group<M, ML, MO, MC, MS, MG> group) {
-        List<String> columns = group.apply((MG) this.sqlData.getMainTableData().getTableModel().getGroupModel()).getColumns();
+        List<String> columns = group.apply(this.sqlData.getMainTableData().getTableModel().getGroupModel()).getColumns();
         if (columns == null || columns.size() == 0) {
             return this;
         }
         AbstractTableData tableData = this.sqlData.getMainTableData();
-        tableData.addGroupColumns(columns);
         this.sqlData.addGroupData(new GroupData(tableData, columns));
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> GroupIntactEngine<M, ML, MO, MC, MS, MG> group(Class<T> groupClass, String alias, Group<T, TL, TO, TC, TS, TG> group) {
-        List<String> columns = group.apply((TG) this.sqlData.getJoinTableData(alias, groupClass).getTableModel().getGroupModel()).getColumns();
+        List<String> columns = group.apply(this.sqlData.getJoinTableData(alias, groupClass).getTableModel().getGroupModel()).getColumns();
         if (columns == null || columns.size() == 0) {
             return this;
         }
         AbstractTableData tableData = this.sqlData.getJoinTableData(alias, groupClass);
-        tableData.addGroupColumns(columns);
         this.sqlData.addGroupData(new GroupData(tableData, columns));
         return this;
     }

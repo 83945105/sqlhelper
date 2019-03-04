@@ -45,7 +45,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     private SqlSplicer appendSubQuerySql(SqlSplicer sqlSplicer) {
-        Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
+        Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryDataMap();
         if (subQueryAliasMap == null) {
             return sqlSplicer;
         }
@@ -208,7 +208,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendColumnSql(SqlSplicer sqlSplicer) {
-        Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryAliasMap();
+        Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryDataMap();
         List<FunctionColumnData> functionColumnDataList = this.sqlData.getFunctionColumnDataList();
         Set<VirtualFieldData> virtualFieldDataSet = this.sqlData.getVirtualFieldDataSet();
         Set<AbstractTableData> columnDataSet = this.sqlData.getColumnDataSet();
@@ -420,12 +420,12 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendJoinSql(SqlSplicer sqlSplicer) {
-        Map<String, JoinTableData> joinTableDataAliasMap = this.sqlData.getJoinTableDataAliasMap();
+        Map<String, JoinTableData<? extends Model>> joinTableDataAliasMap = this.sqlData.getJoinTableDataMap();
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
             return sqlSplicer;
         }
-        JoinTableData joinTableData;
-        for (Map.Entry<String, JoinTableData> entry : joinTableDataAliasMap.entrySet()) {
+        JoinTableData<? extends Model> joinTableData;
+        for (Map.Entry<String, JoinTableData<? extends Model>> entry : joinTableDataAliasMap.entrySet()) {
             joinTableData = entry.getValue();
             switch (joinTableData.getJoinType()) {
                 case INNER:
@@ -666,7 +666,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendSortSql(SqlSplicer sqlSplicer) {
-        List<List<SortData>> sortDataList = this.sqlData.getSortDataList();
+        List<List<SortData>> sortDataList = this.sqlData.getSortDataListList();
         if (sortDataList == null || sortDataList.size() == 0) {
             return sqlSplicer;
         }
@@ -697,7 +697,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendLimitSql(SqlSplicer sqlSplicer) {
-        LimitHandler limit = this.sqlData.getLimit();
+        LimitHandler limit = this.sqlData.getLimitData();
         if (limit == null) {
             return sqlSplicer;
         }

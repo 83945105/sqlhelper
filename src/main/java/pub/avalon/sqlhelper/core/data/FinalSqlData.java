@@ -9,7 +9,8 @@ import pub.avalon.sqlhelper.core.norm.Model;
  */
 public final class FinalSqlData<M extends Model> extends AbstractSqlData<M> {
 
-    public FinalSqlData(DataBaseType dataBaseType) {
-        super(dataBaseType);
+    public FinalSqlData(DataBaseType dataBaseType, MainTableData<M> mainTableData) {
+        super(dataBaseType, mainTableData);
     }
+
 }

@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.data.FinalSqlData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.LinkWhereData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
@@ -40,48 +41,44 @@ public class WhereIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
+    //TODO 优化
     public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Where<M> where) {
-        MainTableData mainTableData = this.sqlData.getMainTableData();
-        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        MC mc = mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         mc.setSqlData(this.sqlData);
-
 
 
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public WhereIntactEngine<M, ML, MO, MC, MS, MG> where(MainCondition<M, ML, MO, MC, MS, MG> condition) {
-        MainTableData mainTableData = this.sqlData.getMainTableData();
-        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        MC mc = mainTableData.getTableModel().getWhereModel();
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
         mc.setSqlData(this.sqlData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mc);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
-        mainTableData.addLinkWhereDataList(linkWhereDataList);
         this.sqlData.addLinkWhereDataList(linkWhereDataList);
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> WhereIntactEngine<M, ML, MO, MC, MS, MG> where(Class<T> conditionClass, String alias, JoinCondition<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> condition) {
-        MainTableData mainTableData = this.sqlData.getMainTableData();
-        JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
-        MC mc = (MC) mainTableData.getTableModel().getWhereModel();
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
+        MC mc = mainTableData.getTableModel().getWhereModel();
         mc.setSqlData(this.sqlData);
         mc.getWhereBuilder().setOwnerTableData(mainTableData);
-        TC tc = (TC) joinTableData.getTableModel().getWhereModel();
-        tc.setSqlData(this.sqlData);
+        TC tc = joinTableData.getTableModel().getWhereModel();
+        tc.setSqlData(this.sqlData.fission(joinTableData.getTableClass()));
         tc.getWhereBuilder().setOwnerTableData(joinTableData);
         WhereLink<M, ML, MO, MC, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tc, mc);
         List<LinkWhereData> linkWhereDataList = whereLink.getLinkWhereDataList();
-        joinTableData.addLinkWhereDataList(linkWhereDataList);
         this.sqlData.addLinkWhereDataList(linkWhereDataList);
         return this;
     }

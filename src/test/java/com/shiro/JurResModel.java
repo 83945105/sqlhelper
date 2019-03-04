@@ -27,7 +27,6 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
     public static final String primaryKeyAlias = "id";
 
 
-
     /**
      * ID-c:hidden
      */
@@ -101,11 +100,11 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
      */
     public static final String permission_alias = "permission";
     /**
-     * 
+     *
      */
     public static final String index = "index";
     /**
-     * 
+     *
      */
     public static final String index_alias = "index";
     /**
@@ -260,7 +259,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
     }
 
     @Override
-    public ColumnModel<JurResModel, Column, On, Where, Sort, Group> getColumnModel() {
+    public Column getColumnModel() {
         return new Column();
     }
 
@@ -279,13 +278,14 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 主键
+         *
          * @param alias 别名
          */
         public Column primaryKey(String alias) {
             this.addColumnAlias(JurResModel.primaryKeyName, alias);
             return this;
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -296,6 +296,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * ID-c:hidden
+         *
          * @param alias 别名
          */
         public Column id(String alias) {
@@ -313,6 +314,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 名称
+         *
          * @param alias 别名
          */
         public Column name(String alias) {
@@ -330,6 +332,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 资源类型
+         *
          * @param alias 别名
          */
         public Column type(String alias) {
@@ -347,6 +350,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * url
+         *
          * @param alias 别名
          */
         public Column url(String alias) {
@@ -364,6 +368,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 页面路径
+         *
          * @param alias 别名
          */
         public Column path(String alias) {
@@ -381,6 +386,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 资源描述
+         *
          * @param alias 别名
          */
         public Column description(String alias) {
@@ -398,6 +404,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 父id
+         *
          * @param alias 别名
          */
         public Column parentId(String alias) {
@@ -415,6 +422,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 祖先id
+         *
          * @param alias 别名
          */
         public Column parentIds(String alias) {
@@ -432,6 +440,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 权限
+         *
          * @param alias 别名
          */
         public Column permission(String alias) {
@@ -440,7 +449,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         }
 
         /**
-         * 
+         *
          */
         public Column index() {
             this.addColumnAlias(JurResModel.index, JurResModel.index_alias);
@@ -448,7 +457,6 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column index(String alias) {
@@ -466,6 +474,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 状态(00:正常,01:删除)-d:0
+         *
          * @param alias 别名
          */
         public Column status(String alias) {
@@ -483,6 +492,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 创建时间
+         *
          * @param alias 别名
          */
         public Column createTime(String alias) {
@@ -500,6 +510,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 修改时间
+         *
          * @param alias 别名
          */
         public Column updateTime(String alias) {
@@ -517,6 +528,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 删除时间
+         *
          * @param alias 别名
          */
         public Column deleteTime(String alias) {
@@ -534,6 +546,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 创建时间
+         *
          * @param alias 别名
          */
         public Column createTimeStamp(String alias) {
@@ -551,6 +564,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 修改时间
+         *
          * @param alias 别名
          */
         public Column updateTimeStamp(String alias) {
@@ -568,6 +582,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
 
         /**
          * 删除时间
+         *
          * @param alias 别名
          */
         public Column deleteTimeStamp(String alias) {
@@ -578,7 +593,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
     }
 
     @Override
-    public OnModel<JurResModel, Column, On, Where, Sort, Group> getOnModel() {
+    public On getOnModel() {
         return new On();
     }
 
@@ -593,7 +608,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         public OnBuilder<JurResModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.onBuilder.handler(JurResModel.tableName, JurResModel.tableAlias, JurResModel.primaryKeyName);
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -658,7 +673,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<JurResModel, Column, On, Where, Sort, Group> index() {
             return this.onBuilder.handler(JurResModel.tableName, JurResModel.tableAlias, JurResModel.index);
@@ -731,7 +746,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         public WhereBuilder<JurResModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.whereBuilder.handler(JurResModel.tableName, JurResModel.tableAlias, JurResModel.primaryKeyName);
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -796,7 +811,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<JurResModel, Column, On, Where, Sort, Group> index() {
             return this.whereBuilder.handler(JurResModel.tableName, JurResModel.tableAlias, JurResModel.index);
@@ -854,7 +869,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
     }
 
     @Override
-    public GroupModel<JurResModel, Column, On, Where, Sort, Group> getGroupModel() {
+    public Group getGroupModel() {
         return new Group();
     }
 
@@ -870,7 +885,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
             this.addColumn(JurResModel.primaryKeyName);
             return this;
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -944,7 +959,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         }
 
         /**
-         * 
+         *
          */
         public Group index() {
             this.addColumn(JurResModel.index);
@@ -1010,7 +1025,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
     }
 
     @Override
-    public SortModel<JurResModel, Column, On, Where, Sort, Group> getSortModel() {
+    public Sort getSortModel() {
         return new Sort();
     }
 
@@ -1025,7 +1040,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         public SortBuilder<JurResModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.sortBuilder.handler(JurResModel.primaryKeyName);
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -1090,7 +1105,7 @@ public final class JurResModel implements Model<JurResModel, JurResModel.Column,
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<JurResModel, Column, On, Where, Sort, Group> index() {
             return this.sortBuilder.handler(JurResModel.index);

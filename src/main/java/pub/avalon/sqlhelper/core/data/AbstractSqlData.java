@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import org.springframework.beans.BeanUtils;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.beans.Pagination;
@@ -9,7 +8,6 @@ import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Sql数据
@@ -18,107 +16,43 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 1.0
  * @since 2018/7/10
  */
-public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
+public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCache<M> {
 
-    private DataBaseType dataBaseType;
-    private Map<String, Class> aliasClassCache = new ConcurrentHashMap<>();
-    private MainTableData<M> mainMainTableData;
-    private Map<String, JoinTableData> joinTableDataAliasMap;
-    private Map<String, JoinTableData> subQueryJoinTableDataAliasMap;
+    /**
+     * 原始列数据
+     */
     private Set<AbstractTableData> columnDataSet;
+    /**
+     * 虚拟列数据
+     */
     private Set<VirtualFieldData> virtualFieldDataSet;
+    /**
+     * 函数列数据
+     */
     private List<FunctionColumnData> functionColumnDataList;
-    private Map<String, SqlBuilder> subQueryAliasMap;
+    /**
+     * 子查询数据
+     */
+    private Map<String, SqlBuilder> subQueryDataMap;
+    /**
+     * where条件数据
+     */
     private List<List<LinkWhereData>> linkWhereDataListList;
+    /**
+     * group条件数据
+     */
     private List<GroupData> groupDataList;
-    private List<List<SortData>> sortDataList;
-    private LimitHandler limit;
-
-    public AbstractSqlData(DataBaseType dataBaseType) {
-        this.dataBaseType = dataBaseType;
-    }
-
-    @Override
-    public MainTableData<M> getMainTableData() {
-        return this.mainMainTableData;
-    }
-
-
     /**
-     * 设置主表数据
-     *
-     * @param mainMainTableData 主表数据
+     * sort条件数据
      */
-    public void setMainTableData(MainTableData<M> mainMainTableData) {
-        this.mainMainTableData = mainMainTableData;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <J extends Model> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass) {
-        if (this.joinTableDataAliasMap == null && this.subQueryJoinTableDataAliasMap == null) {
-            if (alias == null) {
-                throw new TableDataException("the class table [" + joinClass + "] is not joined.");
-            }
-            throw new TableDataException("the alias table [" + alias + "] is not joined.");
-        }
-        if (alias == null || alias.trim().length() == 0) {
-            alias = BeanUtils.instantiateClass(joinClass).getTableAlias();
-        }
-        if (alias == null || alias.trim().length() == 0) {
-            throw new TableDataException("alias can not be null or empty.");
-        }
-        if (this.aliasClassCache.get(alias) == null) {
-            throw new TableDataException("the alias table [" + alias + "] is not joined.");
-        }
-        JoinTableData joinTableData = null;
-        if (this.joinTableDataAliasMap != null) {
-            joinTableData = this.joinTableDataAliasMap.get(alias);
-        }
-        if (joinTableData == null && this.subQueryJoinTableDataAliasMap != null) {
-            joinTableData = this.subQueryJoinTableDataAliasMap.get(alias);
-        }
-        if (joinTableData == null) {
-            throw new TableDataException("the alias table [" + alias + "] has not joinTableData.");
-        }
-        return joinTableData;
-    }
-
+    private List<List<SortData>> sortDataListList;
     /**
-     * 添加连接表数据
-     *
-     * @param joinTableData 连接表数据
+     * limit条件数据
      */
-    public void addJoinTableData(JoinTableData joinTableData) {
-        if (this.aliasClassCache.get(joinTableData.getTableAlias()) != null) {
-            throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
-        }
-        if (this.joinTableDataAliasMap == null) {
-            this.joinTableDataAliasMap = new LinkedHashMap<>();
-        }
-        this.joinTableDataAliasMap.put(joinTableData.getTableAlias(), joinTableData);
-        this.aliasClassCache.put(joinTableData.getTableAlias(), joinTableData.getTableClass());
-    }
+    private LimitHandler limitData;
 
-    /**
-     * 添加子查询连接表数据
-     *
-     * @param joinTableData 连接表数据
-     */
-    public void addSubQueryJoinTableData(JoinTableData joinTableData) {
-        if (this.aliasClassCache.get(joinTableData.getTableAlias()) != null) {
-            throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
-        }
-        if (this.subQueryJoinTableDataAliasMap == null) {
-            this.subQueryJoinTableDataAliasMap = new LinkedHashMap<>();
-        }
-        this.subQueryJoinTableDataAliasMap.put(joinTableData.getTableAlias(), joinTableData);
-        this.aliasClassCache.put(joinTableData.getTableAlias(), joinTableData.getTableClass());
-    }
-
-    @Override
-    public Map<String, JoinTableData> getJoinTableDataAliasMap() {
-        return joinTableDataAliasMap;
+    public AbstractSqlData(DataBaseType dataBaseType, MainTableData<M> mainTableData) {
+        super(dataBaseType, mainTableData);
     }
 
     @Override
@@ -182,24 +116,24 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     }
 
     @Override
-    public Map<String, SqlBuilder> getSubQueryAliasMap() {
-        return subQueryAliasMap;
+    public Map<String, SqlBuilder> getSubQueryDataMap() {
+        return subQueryDataMap;
     }
 
     /**
-     * 添加子查询
+     * 添加子查询数据
      *
      * @param alias      子查询别名
      * @param sqlBuilder 子查询
      */
-    public void addSubQueryAliasMap(String alias, SqlBuilder sqlBuilder) {
+    public void addSubQueryData(String alias, SqlBuilder sqlBuilder) {
         if (alias == null || alias.trim().length() == 0) {
             throw new TableDataException("subQuery alias can not be null or empty.");
         }
-        if (this.subQueryAliasMap == null) {
-            this.subQueryAliasMap = new LinkedHashMap<>();
+        if (this.subQueryDataMap == null) {
+            this.subQueryDataMap = new LinkedHashMap<>();
         }
-        this.subQueryAliasMap.put(alias, sqlBuilder);
+        this.subQueryDataMap.put(alias, sqlBuilder);
     }
 
     @Override
@@ -243,8 +177,8 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
     }
 
     @Override
-    public List<List<SortData>> getSortDataList() {
-        return this.sortDataList;
+    public List<List<SortData>> getSortDataListList() {
+        return this.sortDataListList;
     }
 
     /**
@@ -256,46 +190,46 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
         if (sortDataList == null || sortDataList.size() == 0) {
             return;
         }
-        if (this.sortDataList == null) {
-            this.sortDataList = new ArrayList<>();
+        if (this.sortDataListList == null) {
+            this.sortDataListList = new ArrayList<>();
         }
-        this.sortDataList.add(sortDataList);
+        this.sortDataListList.add(sortDataList);
     }
 
 
     @Override
-    public LimitHandler getLimit() {
-        return this.limit;
+    public LimitHandler getLimitData() {
+        return this.limitData;
     }
 
     /**
-     * 设置分页
+     * 设置分页数据
      *
-     * @param limit
+     * @param limitData 分页数据
      */
-    public void setLimit(LimitHandler limit) {
-        this.limit = limit;
+    public void setLimitData(LimitHandler limitData) {
+        this.limitData = limitData;
     }
 
     /**
-     * 设置分页
+     * 构建分页
      *
      * @param currentPage 当前页号
      * @param pageSize    每页显示数量
      */
-    public void setLimit(Integer currentPage, Integer pageSize) {
-        this.limit = new Pagination(this.dataBaseType, currentPage, pageSize);
+    public void buildLimitData(Integer currentPage, Integer pageSize) {
+        this.limitData = new Pagination(this.getDataBaseType(), currentPage, pageSize);
     }
 
     /**
-     * 设置分页
+     * 构建分页
      *
      * @param total       总数
      * @param currentPage 当前页号
      * @param pageSize    每页显示数量
      */
-    public void setLimit(Integer total, Integer currentPage, Integer pageSize) {
-        this.limit = new Pagination(this.dataBaseType, total, currentPage, pageSize);
+    public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+        this.limitData = new Pagination(this.getDataBaseType(), total, currentPage, pageSize);
     }
 
     /**
@@ -304,10 +238,10 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
      * @param limitStart 分页开始号
      */
     public void setLimitStart(Integer limitStart) {
-        if (this.limit == null) {
-            this.limit = new Pagination(this.dataBaseType);
+        if (this.limitData == null) {
+            this.limitData = new Pagination(this.getDataBaseType());
         }
-        this.limit.setLimitStart(limitStart);
+        this.limitData.setLimitStart(limitStart);
     }
 
     /**
@@ -316,19 +250,10 @@ public abstract class AbstractSqlData<M extends Model> implements SqlData<M> {
      * @param limitEnd 分页结束号
      */
     public void setLimitEnd(Integer limitEnd) {
-        if (this.limit == null) {
-            this.limit = new Pagination(this.dataBaseType);
+        if (this.limitData == null) {
+            this.limitData = new Pagination(this.getDataBaseType());
         }
-        this.limit.setLimitEnd(limitEnd);
-    }
-
-    @Override
-    public DataBaseType getDataBaseType() {
-        return dataBaseType;
-    }
-
-    public void setDataBaseType(DataBaseType dataBaseType) {
-        this.dataBaseType = dataBaseType;
+        this.limitData.setLimitEnd(limitEnd);
     }
 
 }

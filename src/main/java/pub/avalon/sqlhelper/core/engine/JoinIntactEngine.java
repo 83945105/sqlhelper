@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.data.FinalSqlData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -33,7 +34,6 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    @SuppressWarnings("unchecked")
     public <J extends Model<J, JL, JO, JC, JS, JG>,
             JL extends ColumnModel<J, JL, JO, JC, JS, JG>,
             JO extends OnModel<J, JL, JO, JC, JS, JG>,
@@ -50,13 +50,14 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         joinTableData.setTableAlias(alias);
         joinTableData.setJoinType(joinType);
         this.sqlData.addJoinTableData(joinTableData);
-        MO mo = (MO) mainTableData.getTableModel().getOnModel();
+        MO mo = mainTableData.getTableModel().getOnModel();
         mo.getOnBuilder().setOwnerTableData(mainTableData);
         mo.setSqlData(this.sqlData);
         OnLink<M, ML, MO, MC, MS, MG, J, JL, JO, JC, JS, JG> onLink = new OnLinkIntact<>(this.sqlData, joinClass, alias);
-        JO jo = (JO) joinTableData.getTableModel().getOnModel();
+        JO jo = joinTableData.getTableModel().getOnModel();
         jo.getOnBuilder().setOwnerTableData(joinTableData);
-        jo.setSqlData(this.sqlData);
+        //TODO 创建新的mainTable
+        jo.setSqlData(this.sqlData.fission(joinClass));
         OnLink link = on.apply(onLink, jo, mo);
         joinTableData.addLinkOnDataList(link.getLinkOnDataList());
         return this;

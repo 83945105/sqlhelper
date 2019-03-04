@@ -55,7 +55,7 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
      */
     public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> and(OnModel<T, TL, TO, TC, TS, TG> onModel) {
         LinkOnData linkOnData = new LinkOnData(LinkType.AND);
-        List<OnData> onDataList = onModel.onBuilder.getOnDataList();
+        List<OnData> onDataList = onModel.onBuilder.getAndResetOnDataList();
         if (onDataList == null || onDataList.size() == 0) {
             return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
         }
@@ -70,10 +70,9 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param on on处理
      * @return On条件连接器 {@link OnLinkIntact}
      */
-    @SuppressWarnings("unchecked")
     public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> and(On<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> on) {
-        MainTableData mainTableData = this.sqlData.getMainTableData();
-        MO mo = (MO) mainTableData.getTableModel().getOnModel();
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        MO mo = mainTableData.getTableModel().getOnModel();
         mo.onBuilder.setOwnerTableData(mainTableData);
         JoinTableData joinTableData = this.sqlData.getJoinTableData(this.alias, this.joinClass);
         TO to = (TO) joinTableData.getTableModel().getOnModel();

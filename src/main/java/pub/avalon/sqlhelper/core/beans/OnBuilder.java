@@ -43,15 +43,13 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     private List<OnData> onDataList = new ArrayList<>();
 
     /**
-     * 获取OnData集合
+     * 获取并重置on条件数据集合
+     * 每次获取必须重置,防止条件重复
      *
-     * @return ArrayList {@link ArrayList}
+     * @return on条件数据集合
      */
-    public List<OnData> getOnDataList() {
+    public List<OnData> getAndResetOnDataList() {
         List<OnData> onDataList = this.onDataList;
-        /**
-         * 每次取走onDataList,重置集合
-         */
         this.onDataList = new ArrayList<>();
         return onDataList;
     }
@@ -424,7 +422,6 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -434,7 +431,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        TO onModel = joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -444,7 +441,6 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -454,7 +450,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.NOT_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        TO onModel = joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -464,7 +460,6 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -474,7 +469,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.GREATER);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        TO onModel = joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -484,7 +479,6 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -494,7 +488,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.GREATER_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        TO onModel = joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -504,7 +498,6 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -514,7 +507,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.LESS);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        TO onModel = joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -524,7 +517,6 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
@@ -534,7 +526,7 @@ public final class OnBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.onData.setOnType(OnType.LESS_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TO onModel = (TO) joinTableData.getTableModel().getOnModel();
+        TO onModel = joinTableData.getTableModel().getOnModel();
         OnData targetOnData = onModelValue.apply(onModel).onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());

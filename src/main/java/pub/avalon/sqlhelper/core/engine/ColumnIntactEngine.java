@@ -43,10 +43,9 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    @SuppressWarnings("unchecked")
     public ColumnIntactEngine<M, ML, MO, MC, MS, MG> column(Column<M, ML, MO, MC, MS, MG> column) {
-        MainTableData tableData = this.sqlData.getMainTableData();
-        Map<String, String> columns = column.apply((ML) tableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        MainTableData<M> tableData = this.sqlData.getMainTableData();
+        Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         if (columns.size() == 0) {
             columns = tableData.getTableModel().getColumnAliasMap();
         }
@@ -55,15 +54,14 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> column(Class<T> columnClass, String alias, Column<T, TL, TO, TC, TS, TG> column) {
-        JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
-        Map<String, String> columns = column.apply((TL) joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
+        Map<String, String> columns = column.apply(joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
         if (columns.size() == 0) {
             columns = joinTableData.getTableModel().getColumnAliasMap();
         }
@@ -113,25 +111,23 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(FunctionColumnType functionColumnType, Column<M, ML, MO, MC, MS, MG> column) {
-        MainTableData tableData = this.sqlData.getMainTableData();
-        Map<String, String> columns = column.apply((ML) tableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        MainTableData<M> tableData = this.sqlData.getMainTableData();
+        Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         for (Map.Entry<String, String> entry : columns.entrySet()) {
             this.sqlData.addFunctionColumnData(new FunctionColumnData(tableData, functionColumnType, entry.getKey(), entry.getValue()));
         }
         return this;
     }
 
-    @SuppressWarnings("unchecked")
     public <T extends Model<T, TL, TO, TC, TS, TG>,
             TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
             TO extends OnModel<T, TL, TO, TC, TS, TG>,
             TC extends WhereModel<T, TL, TO, TC, TS, TG>,
             TS extends SortModel<T, TL, TO, TC, TS, TG>,
             TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(Class<T> columnClass, String alias, FunctionColumnType functionColumnType, Column<T, TL, TO, TC, TS, TG> column) {
-        JoinTableData joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
-        Map<String, String> columns = column.apply((TL) joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
+        Map<String, String> columns = column.apply(joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
         for (Map.Entry<String, String> entry : columns.entrySet()) {
             this.sqlData.addFunctionColumnData(new FunctionColumnData(joinTableData, functionColumnType, entry.getKey(), entry.getValue()));
         }
@@ -164,16 +160,16 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
             default:
                 throw new SqlException("SubQuery do not support this database type temporarily.");
         }
-        Map<String, JoinTableData> joinTableDataAliasMap = this.sqlData.getJoinTableDataAliasMap();
+        Map<String, JoinTableData<? extends Model>> joinTableDataAliasMap = this.sqlData.getJoinTableDataMap();
         if (joinTableDataAliasMap != null && joinTableDataAliasMap.size() > 0) {
-            for (Map.Entry<String, JoinTableData> entry : joinTableDataAliasMap.entrySet()) {
+            for (Map.Entry<String, JoinTableData<? extends Model>> entry : joinTableDataAliasMap.entrySet()) {
                 queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
             }
         }
         MainTableData tableData = this.sqlData.getMainTableData();
         MC mc = (MC) tableData.getTableModel().getWhereModel();
         SqlBuilder sqlBuilder = subQuery.apply(mc, queryEngine);
-        this.sqlData.addSubQueryAliasMap(columnAlias, sqlBuilder);
+        this.sqlData.addSubQueryData(columnAlias, sqlBuilder);
         return this;
     }
 

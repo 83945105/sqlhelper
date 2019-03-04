@@ -38,7 +38,7 @@ public final class OnLinkIntact<M extends Model<M, ML, MO, MC, MS, MG>,
      */
     public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> or(OnModel<T, TL, TO, TC, TS, TG> onModel) {
         LinkOnData linkOnData = new LinkOnData(LinkType.OR);
-        List<OnData> onDataList = onModel.onBuilder.getOnDataList();
+        List<OnData> onDataList = onModel.onBuilder.getAndResetOnDataList();
         if (onDataList == null || onDataList.size() == 0) {
             return this;
         }
@@ -53,7 +53,6 @@ public final class OnLinkIntact<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param on on处理
      * @return On条件连接器 {@link OnLinkIntact}
      */
-    @SuppressWarnings("unchecked")
     public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> or(On<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> on) {
         MainTableData mainTableData = this.sqlData.getMainTableData();
         MO mo = (MO) mainTableData.getTableModel().getOnModel();

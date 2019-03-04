@@ -27,7 +27,6 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
     public static final String primaryKeyAlias = "id";
 
 
-
     /**
      * ID-c:hidden
      */
@@ -101,11 +100,11 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
      */
     public static final String resType_alias = "resType";
     /**
-     * 
+     *
      */
     public static final String index = "index";
     /**
-     * 
+     *
      */
     public static final String index_alias = "index";
     /**
@@ -260,7 +259,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
     }
 
     @Override
-    public ColumnModel<JurRoleResModel, Column, On, Where, Sort, Group> getColumnModel() {
+    public Column getColumnModel() {
         return new Column();
     }
 
@@ -279,13 +278,14 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 主键
+         *
          * @param alias 别名
          */
         public Column primaryKey(String alias) {
             this.addColumnAlias(JurRoleResModel.primaryKeyName, alias);
             return this;
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -296,6 +296,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * ID-c:hidden
+         *
          * @param alias 别名
          */
         public Column id(String alias) {
@@ -313,6 +314,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 角色id
+         *
          * @param alias 别名
          */
         public Column roleId(String alias) {
@@ -330,6 +332,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 角色
+         *
          * @param alias 别名
          */
         public Column role(String alias) {
@@ -347,6 +350,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 角色名称
+         *
          * @param alias 别名
          */
         public Column roleName(String alias) {
@@ -364,6 +368,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 角色类型
+         *
          * @param alias 别名
          */
         public Column roleType(String alias) {
@@ -381,6 +386,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 资源id
+         *
          * @param alias 别名
          */
         public Column resId(String alias) {
@@ -398,6 +404,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 资源名称
+         *
          * @param alias 别名
          */
         public Column resName(String alias) {
@@ -415,6 +422,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 资源地址
+         *
          * @param alias 别名
          */
         public Column resUrl(String alias) {
@@ -432,6 +440,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 资源类型
+         *
          * @param alias 别名
          */
         public Column resType(String alias) {
@@ -440,7 +449,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         }
 
         /**
-         * 
+         *
          */
         public Column index() {
             this.addColumnAlias(JurRoleResModel.index, JurRoleResModel.index_alias);
@@ -448,7 +457,6 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column index(String alias) {
@@ -466,6 +474,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 状态(00:正常,01:删除)-d:0
+         *
          * @param alias 别名
          */
         public Column status(String alias) {
@@ -483,6 +492,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 创建时间
+         *
          * @param alias 别名
          */
         public Column createTime(String alias) {
@@ -500,6 +510,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 修改时间
+         *
          * @param alias 别名
          */
         public Column updateTime(String alias) {
@@ -517,6 +528,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 删除时间
+         *
          * @param alias 别名
          */
         public Column deleteTime(String alias) {
@@ -534,6 +546,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 创建时间
+         *
          * @param alias 别名
          */
         public Column createTimeStamp(String alias) {
@@ -551,6 +564,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 修改时间
+         *
          * @param alias 别名
          */
         public Column updateTimeStamp(String alias) {
@@ -568,6 +582,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
 
         /**
          * 删除时间
+         *
          * @param alias 别名
          */
         public Column deleteTimeStamp(String alias) {
@@ -578,7 +593,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
     }
 
     @Override
-    public OnModel<JurRoleResModel, Column, On, Where, Sort, Group> getOnModel() {
+    public On getOnModel() {
         return new On();
     }
 
@@ -593,7 +608,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         public OnBuilder<JurRoleResModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.onBuilder.handler(JurRoleResModel.tableName, JurRoleResModel.tableAlias, JurRoleResModel.primaryKeyName);
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -658,7 +673,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<JurRoleResModel, Column, On, Where, Sort, Group> index() {
             return this.onBuilder.handler(JurRoleResModel.tableName, JurRoleResModel.tableAlias, JurRoleResModel.index);
@@ -731,7 +746,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         public WhereBuilder<JurRoleResModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.whereBuilder.handler(JurRoleResModel.tableName, JurRoleResModel.tableAlias, JurRoleResModel.primaryKeyName);
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -796,7 +811,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<JurRoleResModel, Column, On, Where, Sort, Group> index() {
             return this.whereBuilder.handler(JurRoleResModel.tableName, JurRoleResModel.tableAlias, JurRoleResModel.index);
@@ -854,7 +869,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
     }
 
     @Override
-    public GroupModel<JurRoleResModel, Column, On, Where, Sort, Group> getGroupModel() {
+    public Group getGroupModel() {
         return new Group();
     }
 
@@ -870,7 +885,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
             this.addColumn(JurRoleResModel.primaryKeyName);
             return this;
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -944,7 +959,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         }
 
         /**
-         * 
+         *
          */
         public Group index() {
             this.addColumn(JurRoleResModel.index);
@@ -1010,7 +1025,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
     }
 
     @Override
-    public SortModel<JurRoleResModel, Column, On, Where, Sort, Group> getSortModel() {
+    public Sort getSortModel() {
         return new Sort();
     }
 
@@ -1025,7 +1040,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         public SortBuilder<JurRoleResModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.sortBuilder.handler(JurRoleResModel.primaryKeyName);
         }
-    
+
         /**
          * ID-c:hidden
          */
@@ -1090,7 +1105,7 @@ public final class JurRoleResModel implements Model<JurRoleResModel, JurRoleResM
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<JurRoleResModel, Column, On, Where, Sort, Group> index() {
             return this.sortBuilder.handler(JurRoleResModel.index);

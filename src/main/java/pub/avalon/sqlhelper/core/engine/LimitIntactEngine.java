@@ -35,17 +35,17 @@ public class LimitIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     public LimitIntactEngine limitTop(Integer num) {
-        this.sqlData.setLimit(1, num);
+        this.sqlData.buildLimitData(1, num);
         return this;
     }
 
     public LimitIntactEngine limitOne() {
-        this.sqlData.setLimit(1, 1);
+        this.sqlData.buildLimitData(1, 1);
         return this;
     }
 
     public LimitIntactEngine limit(LimitHandler limit) {
-        this.sqlData.setLimit(limit);
+        this.sqlData.setLimitData(limit);
         return this;
     }
 
@@ -56,7 +56,7 @@ public class LimitIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     public LimitIntactEngine limit(Integer total, Integer currentPage, Integer pageSize) {
-        this.sqlData.setLimit(total, currentPage, pageSize);
+        this.sqlData.buildLimitData(total, currentPage, pageSize);
         return this;
     }
 

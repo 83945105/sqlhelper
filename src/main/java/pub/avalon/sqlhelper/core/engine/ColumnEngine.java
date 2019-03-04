@@ -37,10 +37,9 @@ public class ColumnEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    @SuppressWarnings("unchecked")
     public ColumnEngine<M, ML, MO, MC, MS, MG> column(Column<M, ML, MO, MC, MS, MG> column) {
-        MainTableData tableData = this.sqlData.getMainTableData();
-        Map<String, String> columns = column.apply((ML) tableData.getTableModel().getColumnModel()).getColumnAliasMap();
+        MainTableData<M> tableData = this.sqlData.getMainTableData();
+        Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         if (columns.size() == 0) {
             columns = tableData.getTableModel().getColumnAliasMap();
         }
