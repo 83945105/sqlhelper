@@ -14,12 +14,12 @@ import java.util.Collection;
  * @author 白超
  * @date 2018/8/24
  */
-public class DeleteEngine<M extends Model<M, ML, MO, MC, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
-        MO extends OnModel<M, ML, MO, MC, MS, MG>,
-        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
-        MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends JoinIntactEngine<M, ML, MO, MC, MS, MG> implements DeleteByPrimaryKey {
+public class DeleteEngine<M extends Model<M, ML, MO, MW, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
+        MO extends OnModel<M, ML, MO, MW, MS, MG>,
+        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
+        MS extends SortModel<M, ML, MO, MW, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MW, MS, MG>> extends JoinIntactEngine<M, ML, MO, MW, MS, MG> implements DeleteByPrimaryKey {
 
     public DeleteEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);

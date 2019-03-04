@@ -11,12 +11,12 @@ import java.util.Map;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface Model<T extends Model<T, TL, TO, TC, TS, TG>,
-        TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-        TO extends OnModel<T, TL, TO, TC, TS, TG>,
-        TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-        TS extends SortModel<T, TL, TO, TC, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
+public interface Model<T extends Model<T, TL, TO, TW, TS, TG>,
+        TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+        TO extends OnModel<T, TL, TO, TW, TS, TG>,
+        TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+        TS extends SortModel<T, TL, TO, TW, TS, TG>,
+        TG extends GroupModel<T, TL, TO, TW, TS, TG>> {
 
     /**
      * 获取表名
@@ -79,7 +79,7 @@ public interface Model<T extends Model<T, TL, TO, TC, TS, TG>,
      *
      * @return Where条件模组
      */
-    TC getWhereModel();
+    TW getWhereModel();
 
     /**
      * 获取分组模组

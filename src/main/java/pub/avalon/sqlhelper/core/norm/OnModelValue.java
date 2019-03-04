@@ -10,12 +10,12 @@ import pub.avalon.sqlhelper.core.beans.*;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface OnModelValue<M extends Model<M, ML, MO, MC, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
-        MO extends OnModel<M, ML, MO, MC, MS, MG>,
-        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
-        MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> {
+public interface OnModelValue<M extends Model<M, ML, MO, MW, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
+        MO extends OnModel<M, ML, MO, MW, MS, MG>,
+        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
+        MS extends SortModel<M, ML, MO, MW, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MW, MS, MG>> {
 
     /**
      * 接收处理On条件模组
@@ -23,6 +23,6 @@ public interface OnModelValue<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModel On条件模组
      * @return On条件构建器
      */
-    OnBuilder<M, ML, MO, MC, MS, MG> apply(MO onModel);
+    OnBuilder<M, ML, MO, MW, MS, MG> apply(MO onModel);
 
 }

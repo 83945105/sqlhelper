@@ -10,12 +10,12 @@ import pub.avalon.sqlhelper.core.beans.*;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface MainCondition<M extends Model<M, ML, MO, MC, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
-        MO extends OnModel<M, ML, MO, MC, MS, MG>,
-        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
-        MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> {
+public interface MainCondition<M extends Model<M, ML, MO, MW, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
+        MO extends OnModel<M, ML, MO, MW, MS, MG>,
+        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
+        MS extends SortModel<M, ML, MO, MW, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MW, MS, MG>> {
 
     /**
      * 接收处理条件
@@ -24,5 +24,5 @@ public interface MainCondition<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param mainTable 主表的条件
      * @return 条件连接
      */
-    WhereLink<M, ML, MO, MC, MS, MG> apply(WhereLink<M, ML, MO, MC, MS, MG> condition, MC mainTable);
+    WhereLink<M, ML, MO, MW, MS, MG> apply(WhereLink<M, ML, MO, MW, MS, MG> condition, MW mainTable);
 }

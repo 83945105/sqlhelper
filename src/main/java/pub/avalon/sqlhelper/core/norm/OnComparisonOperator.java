@@ -9,13 +9,12 @@ import pub.avalon.sqlhelper.core.beans.*;
  * @version 1.0
  * @since 2018/7/10
  */
-@SuppressWarnings("unused")
-public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
-        MO extends OnModel<M, ML, MO, MC, MS, MG>,
-        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
-        MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> {
+public interface OnComparisonOperator<M extends Model<M, ML, MO, MW, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
+        MO extends OnModel<M, ML, MO, MW, MS, MG>,
+        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
+        MS extends SortModel<M, ML, MO, MW, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MW, MS, MG>> {
 
     /**
      * 等于
@@ -72,13 +71,13 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    default <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO equalTo(Class<T> onClass,
-                                                                     OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
+    default <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO equalTo(Class<T> onClass,
+                                                                     OnModelValue<T, TL, TO, TW, TS, TG> onModelValue) {
         return this.equalTo(onClass, null, onModelValue);
     }
 
@@ -90,14 +89,14 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO equalTo(Class<T> onClass,
+    <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO equalTo(Class<T> onClass,
                                                                      String alias,
-                                                                     OnModelValue<T, TL, TO, TC, TS, TG> onModelValue);
+                                                                     OnModelValue<T, TL, TO, TW, TS, TG> onModelValue);
 
     /**
      * 不等于
@@ -106,13 +105,13 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    default <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO notEqualTo(Class<T> onClass,
-                                                                        OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
+    default <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO notEqualTo(Class<T> onClass,
+                                                                        OnModelValue<T, TL, TO, TW, TS, TG> onModelValue) {
         return this.notEqualTo(onClass, null, onModelValue);
     }
 
@@ -124,14 +123,14 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO notEqualTo(Class<T> onClass,
+    <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO notEqualTo(Class<T> onClass,
                                                                         String alias,
-                                                                        OnModelValue<T, TL, TO, TC, TS, TG> onModelValue);
+                                                                        OnModelValue<T, TL, TO, TW, TS, TG> onModelValue);
 
     /**
      * 大于
@@ -140,13 +139,13 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    default <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThan(Class<T> onClass,
-                                                                         OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
+    default <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO greaterThan(Class<T> onClass,
+                                                                         OnModelValue<T, TL, TO, TW, TS, TG> onModelValue) {
         return this.greaterThan(onClass, null, onModelValue);
     }
 
@@ -158,14 +157,14 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThan(Class<T> onClass,
+    <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO greaterThan(Class<T> onClass,
                                                                          String alias,
-                                                                         OnModelValue<T, TL, TO, TC, TS, TG> onModelValue);
+                                                                         OnModelValue<T, TL, TO, TW, TS, TG> onModelValue);
 
     /**
      * 大于等于
@@ -174,13 +173,13 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    default <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThanAndEqualTo(Class<T> onClass,
-                                                                                   OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
+    default <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO greaterThanAndEqualTo(Class<T> onClass,
+                                                                                   OnModelValue<T, TL, TO, TW, TS, TG> onModelValue) {
         return this.greaterThanAndEqualTo(onClass, null, onModelValue);
     }
 
@@ -192,14 +191,14 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO greaterThanAndEqualTo(Class<T> onClass,
+    <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO greaterThanAndEqualTo(Class<T> onClass,
                                                                                    String alias,
-                                                                                   OnModelValue<T, TL, TO, TC, TS, TG> onModelValue);
+                                                                                   OnModelValue<T, TL, TO, TW, TS, TG> onModelValue);
 
     /**
      * 小于
@@ -208,13 +207,13 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    default <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThan(Class<T> onClass,
-                                                                      OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
+    default <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO lessThan(Class<T> onClass,
+                                                                      OnModelValue<T, TL, TO, TW, TS, TG> onModelValue) {
         return this.lessThan(onClass, null, onModelValue);
     }
 
@@ -226,14 +225,14 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThan(Class<T> onClass,
+    <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO lessThan(Class<T> onClass,
                                                                       String alias,
-                                                                      OnModelValue<T, TL, TO, TC, TS, TG> onModelValue);
+                                                                      OnModelValue<T, TL, TO, TW, TS, TG> onModelValue);
 
     /**
      * 小于等于
@@ -242,13 +241,13 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    default <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThanAndEqualTo(Class<T> onClass,
-                                                                                OnModelValue<T, TL, TO, TC, TS, TG> onModelValue) {
+    default <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO lessThanAndEqualTo(Class<T> onClass,
+                                                                                OnModelValue<T, TL, TO, TW, TS, TG> onModelValue) {
         return this.lessThanAndEqualTo(onClass, null, onModelValue);
     }
 
@@ -260,13 +259,13 @@ public interface OnComparisonOperator<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModelValue On处理
      * @return On条件模组
      */
-    <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MO lessThanAndEqualTo(Class<T> onClass,
+    <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MO lessThanAndEqualTo(Class<T> onClass,
                                                                                 String alias,
-                                                                                OnModelValue<T, TL, TO, TC, TS, TG> onModelValue);
+                                                                                OnModelValue<T, TL, TO, TW, TS, TG> onModelValue);
 
 }

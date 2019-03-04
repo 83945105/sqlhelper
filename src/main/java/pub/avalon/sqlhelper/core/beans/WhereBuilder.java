@@ -17,16 +17,16 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
-        MO extends OnModel<M, ML, MO, MC, MS, MG>,
-        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
-        MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> implements ComparisonOperator<MC>, WhereComparisonOperator<M, ML, MO, MC, MS, MG>, WhereComparisonOperatorSubQuery<M, ML, MO, MC, MS, MG> {
+public final class WhereBuilder<M extends Model<M, ML, MO, MW, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
+        MO extends OnModel<M, ML, MO, MW, MS, MG>,
+        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
+        MS extends SortModel<M, ML, MO, MW, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MW, MS, MG>> implements ComparisonOperator<MW>, WhereComparisonOperator<M, ML, MO, MW, MS, MG>, WhereComparisonOperatorSubQuery<M, ML, MO, MW, MS, MG> {
 
-    private MC handleModel;
+    private MW handleModel;
 
-    public WhereBuilder(MC handleModel) {
+    public WhereBuilder(MW handleModel) {
         this.handleModel = handleModel;
     }
 
@@ -52,7 +52,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
         this.ownerTableData = ownerTableData;
     }
 
-    public WhereBuilder<M, ML, MO, MC, MS, MG> handler(String ownerTableName, String ownerAlias, String ownerColumnName) {
+    public WhereBuilder<M, ML, MO, MW, MS, MG> handler(String ownerTableName, String ownerAlias, String ownerColumnName) {
         this.whereData = new WhereData();
         this.whereData.setOwnerTableName(ownerTableName);
         this.whereData.setOwnerTableAlias(ownerAlias);
@@ -65,7 +65,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC isNull() {
+    public MW isNull() {
         this.whereData.setWhereType(WhereType.IS_NULL);
         this.whereData.setValueCount(0);
         this.whereDataList.add(this.whereData);
@@ -73,7 +73,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC isNotNull() {
+    public MW isNotNull() {
         this.whereData.setWhereType(WhereType.IS_NOT_NULL);
         this.whereData.setValueCount(0);
         this.whereDataList.add(this.whereData);
@@ -81,7 +81,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC equalToValue(Object value, ComparisonRule comparisonRule) {
+    public MW equalToValue(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -100,7 +100,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC notEqualToValue(Object value, ComparisonRule comparisonRule) {
+    public MW notEqualToValue(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -119,7 +119,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC greaterThanValue(Object value, ComparisonRule comparisonRule) {
+    public MW greaterThanValue(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -138,7 +138,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC greaterThanAndEqualToValue(Object value, ComparisonRule comparisonRule) {
+    public MW greaterThanAndEqualToValue(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -157,7 +157,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC lessThanValue(Object value, ComparisonRule comparisonRule) {
+    public MW lessThanValue(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -176,7 +176,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC lessThanAndEqualToValue(Object value, ComparisonRule comparisonRule) {
+    public MW lessThanAndEqualToValue(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -195,7 +195,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC betweenValue(Object value, Object secondValue, ComparisonRule comparisonRule) {
+    public MW betweenValue(Object value, Object secondValue, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -225,7 +225,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC likeValue(Object value, ComparisonRule comparisonRule) {
+    public MW likeValue(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -244,7 +244,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC inValue(Object[] values, ComparisonRule comparisonRule) {
+    public MW inValue(Object[] values, ComparisonRule comparisonRule) {
         if (values == null || values.length == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -263,7 +263,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC inValue(Collection<?> values, ComparisonRule comparisonRule) {
+    public MW inValue(Collection<?> values, ComparisonRule comparisonRule) {
         if (values == null || values.size() == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -282,7 +282,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC notInValue(Object[] values, ComparisonRule comparisonRule) {
+    public MW notInValue(Object[] values, ComparisonRule comparisonRule) {
         if (values == null || values.length == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -301,7 +301,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC notInValue(Collection<?> values, ComparisonRule comparisonRule) {
+    public MW notInValue(Collection<?> values, ComparisonRule comparisonRule) {
         if (values == null || values.size() == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -320,7 +320,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC equalTo(WhereBuilder whereBuilder) {
+    public MW equalTo(WhereBuilder whereBuilder) {
         this.whereData.setWhereType(WhereType.EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         WhereData targetWhereData = whereBuilder.whereData;
@@ -332,7 +332,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC notEqualTo(WhereBuilder whereBuilder) {
+    public MW notEqualTo(WhereBuilder whereBuilder) {
         this.whereData.setWhereType(WhereType.NOT_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         WhereData targetWhereData = whereBuilder.whereData;
@@ -344,7 +344,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC greaterThan(WhereBuilder whereBuilder) {
+    public MW greaterThan(WhereBuilder whereBuilder) {
         this.whereData.setWhereType(WhereType.GREATER);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         WhereData targetWhereData = whereBuilder.whereData;
@@ -356,7 +356,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC greaterThanAndEqualTo(WhereBuilder whereBuilder) {
+    public MW greaterThanAndEqualTo(WhereBuilder whereBuilder) {
         this.whereData.setWhereType(WhereType.GREATER_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         WhereData targetWhereData = whereBuilder.whereData;
@@ -368,7 +368,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC lessThan(WhereBuilder whereBuilder) {
+    public MW lessThan(WhereBuilder whereBuilder) {
         this.whereData.setWhereType(WhereType.LESS);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         WhereData targetWhereData = whereBuilder.whereData;
@@ -380,7 +380,7 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public MC lessThanAndEqualTo(WhereBuilder whereBuilder) {
+    public MW lessThanAndEqualTo(WhereBuilder whereBuilder) {
         this.whereData.setWhereType(WhereType.LESS_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         WhereData targetWhereData = whereBuilder.whereData;
@@ -392,16 +392,16 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC equalTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TC, TS, TG> whereModelValue) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MW equalTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TW, TS, TG> whereModelValue) {
         this.whereData.setWhereType(WhereType.EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = joinTableData.getTableModel().getWhereModel();
+        TW whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -411,16 +411,16 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC notEqualTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TC, TS, TG> whereModelValue) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MW notEqualTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TW, TS, TG> whereModelValue) {
         this.whereData.setWhereType(WhereType.NOT_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = joinTableData.getTableModel().getWhereModel();
+        TW whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -430,16 +430,16 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC greaterThan(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TC, TS, TG> whereModelValue) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MW greaterThan(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TW, TS, TG> whereModelValue) {
         this.whereData.setWhereType(WhereType.GREATER);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = joinTableData.getTableModel().getWhereModel();
+        TW whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -449,16 +449,16 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC greaterThanAndEqualTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TC, TS, TG> whereModelValue) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MW greaterThanAndEqualTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TW, TS, TG> whereModelValue) {
         this.whereData.setWhereType(WhereType.GREATER_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = joinTableData.getTableModel().getWhereModel();
+        TW whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -468,16 +468,16 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC lessThan(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TC, TS, TG> whereModelValue) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MW lessThan(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TW, TS, TG> whereModelValue) {
         this.whereData.setWhereType(WhereType.LESS);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = joinTableData.getTableModel().getWhereModel();
+        TW whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -487,16 +487,16 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
     }
 
     @Override
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC lessThanAndEqualTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TC, TS, TG> whereModelValue) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MW lessThanAndEqualTo(Class<T> onClass, String alias, WhereModelValue<T, TL, TO, TW, TS, TG> whereModelValue) {
         this.whereData.setWhereType(WhereType.LESS_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
-        TC whereModel = joinTableData.getTableModel().getWhereModel();
+        TW whereModel = joinTableData.getTableModel().getWhereModel();
         WhereData targetWhereData = whereModelValue.apply(whereModel).whereData;
         this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
         this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
@@ -507,13 +507,13 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
 
     //TODO 待编写
     @Override
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> MC equalTo(String tableName, Class<T> mainClass, String alias, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery) {
-        /*QueryEngine<T, TL, TO, TC, TS, TG> queryEngine;
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> MW equalTo(String tableName, Class<T> mainClass, String alias, SubQuery<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> subQuery) {
+        /*QueryEngine<T, TL, TO, TW, TS, TG> queryEngine;
         switch (this.handleModel.getSqlData().getDataBaseType()) {
             case MYSQL:
                 queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.MYSQL);
@@ -533,8 +533,8 @@ public final class WhereBuilder<M extends Model<M, ML, MO, MC, MS, MG>,
             }
         }
         MainTableData tableData = this.sqlData.getMainTableData();
-        MC mc = (MC) tableData.getTableModel().getWhereModel();
-        SqlBuilder sqlBuilder = subQuery.apply(mc, queryEngine);
+        MW mw = (MW) tableData.getTableModel().getWhereModel();
+        SqlBuilder sqlBuilder = subQuery.apply(mw, queryEngine);
         this.sqlData.addSubQueryAliasMap(columnAlias, sqlBuilder);*/
         return null;
     }

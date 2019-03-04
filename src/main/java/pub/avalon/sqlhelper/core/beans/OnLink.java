@@ -14,18 +14,18 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
-        MO extends OnModel<M, ML, MO, MC, MS, MG>,
-        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
-        MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>,
-        T extends Model<T, TL, TO, TC, TS, TG>,
-        TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-        TO extends OnModel<T, TL, TO, TC, TS, TG>,
-        TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-        TS extends SortModel<T, TL, TO, TC, TS, TG>,
-        TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
+public class OnLink<M extends Model<M, ML, MO, MW, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
+        MO extends OnModel<M, ML, MO, MW, MS, MG>,
+        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
+        MS extends SortModel<M, ML, MO, MW, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MW, MS, MG>,
+        T extends Model<T, TL, TO, TW, TS, TG>,
+        TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+        TO extends OnModel<T, TL, TO, TW, TS, TG>,
+        TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+        TS extends SortModel<T, TL, TO, TW, TS, TG>,
+        TG extends GroupModel<T, TL, TO, TW, TS, TG>> {
 
     protected SqlData<M> sqlData;
 
@@ -53,15 +53,15 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param onModel On模组
      * @return On条件连接器 {@link OnLinkIntact}
      */
-    public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> and(OnModel<T, TL, TO, TC, TS, TG> onModel) {
+    public OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> and(OnModel<T, TL, TO, TW, TS, TG> onModel) {
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
         List<OnData> onDataList = onModel.onBuilder.getAndResetOnDataList();
         if (onDataList == null || onDataList.size() == 0) {
-            return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+            return (OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG>) this;
         }
         onDataLinker.setOnDataList(onDataList);
         this.onDataLinkerList.add(onDataLinker);
-        return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+        return (OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG>) this;
     }
 
     /**
@@ -70,7 +70,7 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
      * @param on on处理
      * @return On条件连接器 {@link OnLinkIntact}
      */
-    public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> and(On<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> on) {
+    public OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> and(On<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> on) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MO mo = mainTableData.getTableModel().getOnModel();
         mo.onBuilder.setOwnerTableData(mainTableData);
@@ -80,12 +80,12 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
         OnLink onLink = on.apply(new OnLinkIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
         List<OnDataLinker> onDataLinkerList = onLink.getAndResetOnDataLinkerList();
         if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
-            return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+            return (OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG>) this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
         onDataLinker.setOnDataLinkerList(onDataLinkerList);
         this.onDataLinkerList.add(onDataLinker);
-        return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
+        return (OnLinkIntact<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG>) this;
     }
 
 }

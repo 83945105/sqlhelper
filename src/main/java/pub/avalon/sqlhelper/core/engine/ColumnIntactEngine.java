@@ -24,12 +24,12 @@ import java.util.Map;
  * @version 1.0
  * @since 2018/7/10
  */
-public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
-        ML extends ColumnModel<M, ML, MO, MC, MS, MG>,
-        MO extends OnModel<M, ML, MO, MC, MS, MG>,
-        MC extends WhereModel<M, ML, MO, MC, MS, MG>,
-        MS extends SortModel<M, ML, MO, MC, MS, MG>,
-        MG extends GroupModel<M, ML, MO, MC, MS, MG>> extends WhereIntactEngine<M, ML, MO, MC, MS, MG> implements QueryByPrimaryKey, UpdateByPrimaryKey {
+public class ColumnIntactEngine<M extends Model<M, ML, MO, MW, MS, MG>,
+        ML extends ColumnModel<M, ML, MO, MW, MS, MG>,
+        MO extends OnModel<M, ML, MO, MW, MS, MG>,
+        MW extends WhereModel<M, ML, MO, MW, MS, MG>,
+        MS extends SortModel<M, ML, MO, MW, MS, MG>,
+        MG extends GroupModel<M, ML, MO, MW, MS, MG>> extends WhereIntactEngine<M, ML, MO, MW, MS, MG> implements QueryByPrimaryKey, UpdateByPrimaryKey {
 
     public ColumnIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
         super(mainClass, dataBaseType);
@@ -43,7 +43,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         super(tableName, mainClass, alias, dataBaseType);
     }
 
-    public ColumnIntactEngine<M, ML, MO, MC, MS, MG> column(Column<M, ML, MO, MC, MS, MG> column) {
+    public ColumnIntactEngine<M, ML, MO, MW, MS, MG> column(Column<M, ML, MO, MW, MS, MG> column) {
         MainTableData<M> tableData = this.sqlData.getMainTableData();
         Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         if (columns.size() == 0) {
@@ -54,12 +54,12 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> column(Class<T> columnClass, String alias, Column<T, TL, TO, TC, TS, TG> column) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> column(Class<T> columnClass, String alias, Column<T, TL, TO, TW, TS, TG> column) {
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
         Map<String, String> columns = column.apply(joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
         if (columns.size() == 0) {
@@ -70,16 +70,16 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> column(Class<T> columnClass, Column<T, TL, TO, TC, TS, TG> column) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> column(Class<T> columnClass, Column<T, TL, TO, TW, TS, TG> column) {
         return column(columnClass, null, column);
     }
 
-    public ColumnIntactEngine<M, ML, MO, MC, MS, MG> virtualColumn(String value, String alias) {
+    public ColumnIntactEngine<M, ML, MO, MW, MS, MG> virtualColumn(String value, String alias) {
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
@@ -87,7 +87,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public ColumnIntactEngine<M, ML, MO, MC, MS, MG> virtualColumn(int value, String alias) {
+    public ColumnIntactEngine<M, ML, MO, MW, MS, MG> virtualColumn(int value, String alias) {
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
@@ -95,7 +95,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public ColumnIntactEngine<M, ML, MO, MC, MS, MG> virtualColumn(long value, String alias) {
+    public ColumnIntactEngine<M, ML, MO, MW, MS, MG> virtualColumn(long value, String alias) {
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
@@ -103,7 +103,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public ColumnIntactEngine<M, ML, MO, MC, MS, MG> virtualColumn(double value, String alias) {
+    public ColumnIntactEngine<M, ML, MO, MW, MS, MG> virtualColumn(double value, String alias) {
         VirtualFieldData virtualFieldData = new VirtualFieldData();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
@@ -111,7 +111,7 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(FunctionColumnType functionColumnType, Column<M, ML, MO, MC, MS, MG> column) {
+    public ColumnIntactEngine<M, ML, MO, MW, MS, MG> functionColumn(FunctionColumnType functionColumnType, Column<M, ML, MO, MW, MS, MG> column) {
         MainTableData<M> tableData = this.sqlData.getMainTableData();
         Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
         for (Map.Entry<String, String> entry : columns.entrySet()) {
@@ -120,12 +120,12 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(Class<T> columnClass, String alias, FunctionColumnType functionColumnType, Column<T, TL, TO, TC, TS, TG> column) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> functionColumn(Class<T> columnClass, String alias, FunctionColumnType functionColumnType, Column<T, TL, TO, TW, TS, TG> column) {
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
         Map<String, String> columns = column.apply(joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
         for (Map.Entry<String, String> entry : columns.entrySet()) {
@@ -134,22 +134,22 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         return this;
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> functionColumn(Class<T> columnClass, FunctionColumnType functionColumnType, Column<T, TL, TO, TC, TS, TG> column) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> functionColumn(Class<T> columnClass, FunctionColumnType functionColumnType, Column<T, TL, TO, TW, TS, TG> column) {
         return functionColumn(columnClass, null, functionColumnType, column);
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(String tableName, Class<T> mainClass, String alias, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
-        QueryEngine<T, TL, TO, TC, TS, TG> queryEngine;
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> subQuery(String tableName, Class<T> mainClass, String alias, SubQuery<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> subQuery, String columnAlias) {
+        QueryEngine<T, TL, TO, TW, TS, TG> queryEngine;
         switch (this.sqlData.getDataBaseType()) {
             case MYSQL:
                 queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.MYSQL);
@@ -166,36 +166,36 @@ public class ColumnIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
                 queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
             }
         }
-        MC mc = this.sqlData.getMainTableData().getTableModel().getWhereModel();
-        SqlBuilder sqlBuilder = subQuery.apply(mc, queryEngine);
+        MW mw = this.sqlData.getMainTableData().getTableModel().getWhereModel();
+        SqlBuilder sqlBuilder = subQuery.apply(mw, queryEngine);
         this.sqlData.addSubQueryData(columnAlias, sqlBuilder);
         return this;
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(String tableName, Class<T> mainClass, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> subQuery(String tableName, Class<T> mainClass, SubQuery<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> subQuery, String columnAlias) {
         return this.subQuery(tableName, mainClass, null, subQuery, columnAlias);
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(Class<T> mainClass, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> subQuery(Class<T> mainClass, SubQuery<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> subQuery, String columnAlias) {
         return this.subQuery(null, mainClass, null, subQuery, columnAlias);
     }
 
-    public <T extends Model<T, TL, TO, TC, TS, TG>,
-            TL extends ColumnModel<T, TL, TO, TC, TS, TG>,
-            TO extends OnModel<T, TL, TO, TC, TS, TG>,
-            TC extends WhereModel<T, TL, TO, TC, TS, TG>,
-            TS extends SortModel<T, TL, TO, TC, TS, TG>,
-            TG extends GroupModel<T, TL, TO, TC, TS, TG>> ColumnIntactEngine<M, ML, MO, MC, MS, MG> subQuery(Class<T> mainClass, String alias, SubQuery<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> subQuery, String columnAlias) {
+    public <T extends Model<T, TL, TO, TW, TS, TG>,
+            TL extends ColumnModel<T, TL, TO, TW, TS, TG>,
+            TO extends OnModel<T, TL, TO, TW, TS, TG>,
+            TW extends WhereModel<T, TL, TO, TW, TS, TG>,
+            TS extends SortModel<T, TL, TO, TW, TS, TG>,
+            TG extends GroupModel<T, TL, TO, TW, TS, TG>> ColumnIntactEngine<M, ML, MO, MW, MS, MG> subQuery(Class<T> mainClass, String alias, SubQuery<M, ML, MO, MW, MS, MG, T, TL, TO, TW, TS, TG> subQuery, String columnAlias) {
         return this.subQuery(null, mainClass, alias, subQuery, columnAlias);
     }
 
