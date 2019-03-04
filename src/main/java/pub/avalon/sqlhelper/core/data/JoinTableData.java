@@ -17,7 +17,7 @@ public final class JoinTableData<T extends Model> extends AbstractTableData<T> {
 
     private JoinType joinType = JoinType.INNER;
 
-    private List<LinkOnData> linkOnDataList;
+    private List<OnDataLinker> onDataLinkerList;
 
     public JoinTableData(Class<T> tableClass) {
         super(tableClass);
@@ -31,18 +31,18 @@ public final class JoinTableData<T extends Model> extends AbstractTableData<T> {
         this.joinType = joinType;
     }
 
-    public List<LinkOnData> getLinkOnDataList() {
-        return linkOnDataList;
+    public List<OnDataLinker> getOnDataLinkerList() {
+        return onDataLinkerList;
     }
 
-    public void addLinkOnDataList(List<LinkOnData> linkOnDataList) {
-        if (linkOnDataList == null || linkOnDataList.size() == 0) {
+    public void addOnDataLinkerList(List<OnDataLinker> onDataLinkerList) {
+        if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
             return;
         }
-        if (this.linkOnDataList == null) {
-            this.linkOnDataList = new ArrayList<>();
+        if (this.onDataLinkerList == null) {
+            this.onDataLinkerList = new ArrayList<>();
         }
-        this.linkOnDataList.addAll(linkOnDataList);
+        this.onDataLinkerList.addAll(onDataLinkerList);
     }
 
 }

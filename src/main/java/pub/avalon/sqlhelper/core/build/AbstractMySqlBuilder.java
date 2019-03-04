@@ -358,20 +358,20 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
 
-    private SqlSplicer appendLinkOnDataList(SqlSplicer sqlSplicer, List<LinkOnData> linkOnDataList, LinkType linkType, boolean checkBrackets) {
+    private SqlSplicer appendOnDataLinkerList(SqlSplicer sqlSplicer, List<OnDataLinker> onDataLinkerList, LinkType linkType, boolean checkBrackets) {
 
-        if (linkOnDataList == null || linkOnDataList.size() == 0) {
+        if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
             return sqlSplicer;
         }
         int length = sqlSplicer.length();
         List<OnData> onDataList;
         int i = 0;
         boolean brackets = false;
-        for (LinkOnData linkOnData : linkOnDataList) {
-            onDataList = linkOnData.getOnDataList();
-            List<LinkOnData> childLinkOnDataList = linkOnData.getLinkOnDataList();
+        for (OnDataLinker onDataLinker : onDataLinkerList) {
+            onDataList = onDataLinker.getOnDataList();
+            List<OnDataLinker> childOnDataLinkerList = onDataLinker.getOnDataLinkerList();
             if (onDataList != null && onDataList.size() > 0) {
-                switch (linkOnData.getLinkType()) {
+                switch (onDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sqlSplicer.append(" and ");
@@ -388,20 +388,20 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     default:
                         throw new SqlException("the LinkType is wrong.");
                 }
-            } else if (childLinkOnDataList != null && childLinkOnDataList.size() > 0) {
-                switch (linkOnData.getLinkType()) {
+            } else if (childOnDataLinkerList != null && childOnDataLinkerList.size() > 0) {
+                switch (onDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sqlSplicer.append(" and ");
                         }
-                        sqlSplicer = this.appendLinkOnDataList(sqlSplicer, childLinkOnDataList, LinkType.AND, true);
+                        sqlSplicer = this.appendOnDataLinkerList(sqlSplicer, childOnDataLinkerList, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sqlSplicer.append(" or ");
                             brackets = checkBrackets;
                         }
-                        sqlSplicer = this.appendLinkOnDataList(sqlSplicer, childLinkOnDataList, LinkType.OR, true);
+                        sqlSplicer = this.appendOnDataLinkerList(sqlSplicer, childOnDataLinkerList, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -443,10 +443,10 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
             sqlSplicer.append(joinTableData.getTableName())
                     .append(" ")
                     .append(joinTableData.getTableAlias());
-            List<LinkOnData> linkOnDataList = joinTableData.getLinkOnDataList();
-            if (linkOnDataList != null && linkOnDataList.size() > 0) {
+            List<OnDataLinker> onDataLinkerList = joinTableData.getOnDataLinkerList();
+            if (onDataLinkerList != null && onDataLinkerList.size() > 0) {
                 sqlSplicer.append(" on ");
-                this.appendLinkOnDataList(sqlSplicer, linkOnDataList, LinkType.AND, false);
+                this.appendOnDataLinkerList(sqlSplicer, onDataLinkerList, LinkType.AND, false);
             }
         }
         return sqlSplicer;

@@ -27,23 +27,24 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
         TS extends SortModel<T, TL, TO, TC, TS, TG>,
         TG extends GroupModel<T, TL, TO, TC, TS, TG>> {
 
-    protected SqlData sqlData;
+    protected SqlData<M> sqlData;
 
     protected Class<T> joinClass;
 
     protected String alias;
 
-    public OnLink(SqlData sqlData, Class<T> joinClass, String alias) {
+    public OnLink(SqlData<M> sqlData, Class<T> joinClass, String alias) {
         this.sqlData = sqlData;
         this.joinClass = joinClass;
         this.alias = alias;
     }
 
-    protected List<LinkOnData> linkOnDataList = new ArrayList<>();
+    protected List<OnDataLinker> onDataLinkerList = new ArrayList<>();
 
-    public List<LinkOnData> getLinkOnDataList() {
-        List<LinkOnData> list = this.linkOnDataList;
-        this.linkOnDataList = new ArrayList<>();
+    //TODO 重命名
+    public List<OnDataLinker> getOnDataLinkerList() {
+        List<OnDataLinker> list = this.onDataLinkerList;
+        this.onDataLinkerList = new ArrayList<>();
         return list;
     }
 
@@ -54,13 +55,13 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
      * @return On条件连接器 {@link OnLinkIntact}
      */
     public OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG> and(OnModel<T, TL, TO, TC, TS, TG> onModel) {
-        LinkOnData linkOnData = new LinkOnData(LinkType.AND);
+        OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
         List<OnData> onDataList = onModel.onBuilder.getAndResetOnDataList();
         if (onDataList == null || onDataList.size() == 0) {
             return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
         }
-        linkOnData.setOnDataList(onDataList);
-        this.linkOnDataList.add(linkOnData);
+        onDataLinker.setOnDataList(onDataList);
+        this.onDataLinkerList.add(onDataLinker);
         return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
     }
 
@@ -74,17 +75,17 @@ public class OnLink<M extends Model<M, ML, MO, MC, MS, MG>,
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MO mo = mainTableData.getTableModel().getOnModel();
         mo.onBuilder.setOwnerTableData(mainTableData);
-        JoinTableData joinTableData = this.sqlData.getJoinTableData(this.alias, this.joinClass);
-        TO to = (TO) joinTableData.getTableModel().getOnModel();
+        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(this.alias, this.joinClass);
+        TO to = joinTableData.getTableModel().getOnModel();
         to.onBuilder.setOwnerTableData(joinTableData);
         OnLink onLink = on.apply(new OnLinkIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
-        List<LinkOnData> linkOnDataList = onLink.getLinkOnDataList();
-        if (linkOnDataList == null || linkOnDataList.size() == 0) {
+        List<OnDataLinker> onDataLinkerList = onLink.getOnDataLinkerList();
+        if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
             return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
         }
-        LinkOnData linkOnData = new LinkOnData(LinkType.AND);
-        linkOnData.setLinkOnDataList(linkOnDataList);
-        this.linkOnDataList.add(linkOnData);
+        OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
+        onDataLinker.setOnDataLinkerList(onDataLinkerList);
+        this.onDataLinkerList.add(onDataLinker);
         return (OnLinkIntact<M, ML, MO, MC, MS, MG, T, TL, TO, TC, TS, TG>) this;
     }
 

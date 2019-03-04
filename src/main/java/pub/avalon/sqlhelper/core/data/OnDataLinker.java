@@ -10,17 +10,17 @@ import java.util.List;
  * @author 白超
  * @date 2018/11/18
  */
-public final class LinkOnData {
+public final class OnDataLinker {
 
     private LinkType linkType;
 
-    public LinkOnData(LinkType linkType) {
+    public OnDataLinker(LinkType linkType) {
         this.linkType = linkType;
     }
 
     private List<OnData> onDataList;
 
-    private List<LinkOnData> linkOnDataList;
+    private List<OnDataLinker> onDataLinkerList;
 
     public LinkType getLinkType() {
         return linkType;
@@ -34,11 +34,11 @@ public final class LinkOnData {
         this.onDataList = onDataList;
     }
 
-    public List<LinkOnData> getLinkOnDataList() {
-        return linkOnDataList;
+    public List<OnDataLinker> getOnDataLinkerList() {
+        return onDataLinkerList;
     }
 
-    public void setLinkOnDataList(List<LinkOnData> linkOnDataList) {
-        this.linkOnDataList = linkOnDataList;
+    public void setOnDataLinkerList(List<OnDataLinker> onDataLinkerList) {
+        this.onDataLinkerList = onDataLinkerList;
     }
 }
