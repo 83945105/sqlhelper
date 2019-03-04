@@ -61,7 +61,7 @@ public final class OnLinkIntact<M extends Model<M, ML, MO, MC, MS, MG>,
         TO to = joinTableData.getTableModel().getOnModel();
         to.onBuilder.setOwnerTableData(joinTableData);
         OnLink onLink = on.apply(new OnLinkIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
-        List<OnDataLinker> onDataLinkerList = onLink.getOnDataLinkerList();
+        List<OnDataLinker> onDataLinkerList = onLink.getAndResetOnDataLinkerList();
         if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
             return this;
         }

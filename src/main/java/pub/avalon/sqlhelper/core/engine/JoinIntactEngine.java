@@ -59,7 +59,7 @@ public class JoinIntactEngine<M extends Model<M, ML, MO, MC, MS, MG>,
         //TODO 创建新的mainTable
         jo.setSqlData(this.sqlData.fission(joinClass));
         OnLink link = on.apply(onLink, jo, mo);
-        joinTableData.addOnDataLinkerList(link.getOnDataLinkerList());
+        joinTableData.addOnDataLinkerList(link.getAndResetOnDataLinkerList());
         return this;
     }
 

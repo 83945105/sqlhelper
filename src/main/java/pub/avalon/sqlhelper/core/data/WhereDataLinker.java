@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.beans.LinkType;
 import java.util.List;
 
 /**
- * 连接条件数据
+ * where条件连接器
  *
  * @author 白超
  * @version 1.0
