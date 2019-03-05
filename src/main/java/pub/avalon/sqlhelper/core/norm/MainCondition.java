@@ -24,5 +24,5 @@ public interface MainCondition<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param mainTable 主表的条件
      * @return 条件连接
      */
-    WhereLink<M, MC, MO, MW, MS, MG> apply(WhereLink<M, MC, MO, MW, MS, MG> condition, MW mainTable);
+    WhereLinker<M, MC, MO, MW, MS, MG> apply(WhereLinker<M, MC, MO, MW, MS, MG> condition, MW mainTable);
 }

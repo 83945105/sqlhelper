@@ -31,6 +31,6 @@ public interface On<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param mainTable 主表的条件
      * @return On条件连接器
      */
-    OnLink<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> apply(OnLink<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> on, TO joinTable, MO mainTable);
+    OnLinker<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> apply(OnLinker<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> on, TO joinTable, MO mainTable);
 
 }

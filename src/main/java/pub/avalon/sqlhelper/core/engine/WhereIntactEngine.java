@@ -56,8 +56,8 @@ public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         MW mw = mainTableData.getTableModel().getWhereModel();
         mw.getWhereBuilder().setOwnerTableData(mainTableData);
         mw.setSqlData(this.sqlData);
-        WhereLink<M, MC, MO, MW, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), mw);
-        List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
+        WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), mw);
+        List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
@@ -76,8 +76,8 @@ public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         TW tw = joinTableData.getTableModel().getWhereModel();
         tw.setSqlData(this.sqlData.fission(joinTableData.getTableClass()));
         tw.getWhereBuilder().setOwnerTableData(joinTableData);
-        WhereLink<M, MC, MO, MW, MS, MG> whereLink = condition.apply(new WhereLinkIntact<>(this.sqlData), tw, mw);
-        List<WhereDataLinker> whereDataLinkerList = whereLink.getAndResetWhereDataLinkerList();
+        WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), tw, mw);
+        List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
