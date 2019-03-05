@@ -84,12 +84,7 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         return (JoinTableData<J>) joinTableData;
     }
 
-    /**
-     * 添加连接表数据
-     *
-     * @param joinTableData 连接表数据
-     * @param <J>
-     */
+    @Override
     public <J extends Model> void addJoinTableData(JoinTableData<J> joinTableData) {
         if (this.joinTableAliasCache.get(joinTableData.getTableAlias()) != null) {
             // 同一个表别名不能使用2次
@@ -102,12 +97,7 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         this.joinTableDataMap.put(joinTableData.getTableAlias(), joinTableData);
     }
 
-    /**
-     * 添加子查询连接表数据
-     *
-     * @param joinTableData 连接表数据
-     * @param <J>
-     */
+    @Override
     public <J extends Model> void addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
         if (this.joinTableAliasCache.get(joinTableData.getTableAlias()) != null) {
             // 同一个表别名不能使用2次
@@ -132,9 +122,10 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
      * @param <T>
      * @return
      */
+    @Override
     public <T extends Model> SqlData<T> fission(Class<T> clazz) {
         FissionSqlData<T> fission = new FissionSqlData<T>(this.getDataBaseType(), new MainTableData<>(clazz));
-        this.joinTableDataMap.forEach((s, joinTableData) -> {
+        this.getJoinTableDataMap().forEach((s, joinTableData) -> {
             // 排除目标主表, 防止自身关联自身
             if (joinTableData.getTableClass() != clazz) {
                 fission.addJoinTableData(joinTableData);
@@ -192,6 +183,66 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         @Override
         public LimitHandler getLimitData() {
             throw new SqlException("you can not use getLimitData for class FissionSqlData.");
+        }
+
+        @Override
+        public void addColumnData(ColumnData columnData) {
+            throw new SqlException("you can not use addColumnData for class FissionSqlData.");
+        }
+
+        @Override
+        public void addVirtualFieldData(VirtualFieldData virtualFieldData) {
+            throw new SqlException("you can not use addVirtualFieldData for class FissionSqlData.");
+        }
+
+        @Override
+        public void addFunctionColumnData(FunctionColumnData functionColumnData) {
+            throw new SqlException("you can not use addFunctionColumnData for class FissionSqlData.");
+        }
+
+        @Override
+        public void addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
+            throw new SqlException("you can not use addWhereDataLinkerList for class FissionSqlData.");
+        }
+
+        @Override
+        public void addGroupData(GroupData groupData) {
+            throw new SqlException("you can not use addGroupData for class FissionSqlData.");
+        }
+
+        @Override
+        public void addSortDataList(List<SortData> sortDataList) {
+            throw new SqlException("you can not use addSortDataList for class FissionSqlData.");
+        }
+
+        @Override
+        public void setLimitData(LimitHandler limitData) {
+            throw new SqlException("you can not use setLimitData for class FissionSqlData.");
+        }
+
+        @Override
+        public void buildLimitData(Integer currentPage, Integer pageSize) {
+            throw new SqlException("you can not use buildLimitData for class FissionSqlData.");
+        }
+
+        @Override
+        public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+            throw new SqlException("you can not use buildLimitData for class FissionSqlData.");
+        }
+
+        @Override
+        public void setLimitStart(Integer limitStart) {
+            throw new SqlException("you can not use setLimitStart for class FissionSqlData.");
+        }
+
+        @Override
+        public void setLimitEnd(Integer limitEnd) {
+            throw new SqlException("you can not use setLimitEnd for class FissionSqlData.");
+        }
+
+        @Override
+        public void addSubQueryData(String alias, SqlBuilder sqlBuilder) {
+            throw new SqlException("you can not use addSubQueryData for class FissionSqlData.");
         }
     }
 

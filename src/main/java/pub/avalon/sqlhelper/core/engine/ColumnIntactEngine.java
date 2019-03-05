@@ -4,7 +4,6 @@ import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.*;
-import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.Column;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.norm.SubQuery;
@@ -144,25 +143,7 @@ public class ColumnIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> ColumnIntactEngine<M, MC, MO, MW, MS, MG> subQuery(String tableName, Class<T> mainClass, String alias, SubQuery<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> subQuery, String columnAlias) {
-        QueryEngine<T, TC, TO, TW, TS, TG> queryEngine;
-        switch (this.sqlData.getDataBaseType()) {
-            case MYSQL:
-                queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.MYSQL);
-                break;
-            case SQLSERVER:
-                queryEngine = new QueryEngine<>(tableName, mainClass, alias, DataBaseType.SQLSERVER);
-                break;
-            default:
-                throw new SqlException("SubQuery do not support this database type temporarily.");
-        }
-        Map<String, JoinTableData<? extends Model>> joinTableDataAliasMap = this.sqlData.getJoinTableDataMap();
-        if (joinTableDataAliasMap != null && joinTableDataAliasMap.size() > 0) {
-            for (Map.Entry<String, JoinTableData<? extends Model>> entry : joinTableDataAliasMap.entrySet()) {
-                queryEngine.sqlData.addSubQueryJoinTableData(entry.getValue());
-            }
-        }
-        MW mw = this.sqlData.getMainTableData().getTableModel().getWhereModel();
-        SqlBuilder sqlBuilder = subQuery.apply(mw, queryEngine);
+        SqlBuilder sqlBuilder = SubQuery.execute(this.sqlData, tableName, mainClass, alias, subQuery);
         this.sqlData.addSubQueryData(columnAlias, sqlBuilder);
         return this;
     }

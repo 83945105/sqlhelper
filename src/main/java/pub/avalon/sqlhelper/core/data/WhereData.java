@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.beans.WhereValueType;
+import pub.avalon.sqlhelper.core.build.SqlBuilder;
 
 /**
  * 条件数据
@@ -33,6 +34,8 @@ public final class WhereData {
     private Object targetSecondValue;
 
     private int valueCount;
+
+    private SqlBuilder targetSubQuery;
 
     public String getOwnerTableName() {
         return ownerTableName;
@@ -120,5 +123,13 @@ public final class WhereData {
 
     public void setValueCount(int valueCount) {
         this.valueCount = valueCount;
+    }
+
+    public SqlBuilder getTargetSubQuery() {
+        return targetSubQuery;
+    }
+
+    public void setTargetSubQuery(SqlBuilder targetSubQuery) {
+        this.targetSubQuery = targetSubQuery;
     }
 }

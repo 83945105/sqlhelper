@@ -4,6 +4,7 @@ import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.build.SqlBuilderProxy;
 import pub.avalon.sqlhelper.core.data.FinalSqlData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
+import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 /**
@@ -15,7 +16,7 @@ import pub.avalon.sqlhelper.core.norm.Model;
  */
 public class SqlEngine<M extends Model> {
 
-    protected FinalSqlData<M> sqlData;
+    protected SqlData<M> sqlData;
 
     SqlBuilderProxy sqlBuilderProxy;
 
@@ -39,4 +40,7 @@ public class SqlEngine<M extends Model> {
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 
+    public SqlData<M> getSqlData() {
+        return sqlData;
+    }
 }

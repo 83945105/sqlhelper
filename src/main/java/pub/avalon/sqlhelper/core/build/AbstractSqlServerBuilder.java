@@ -453,6 +453,270 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
+    private SqlSplicer appendWhereTypeSql(SqlSplicer sqlSplicer, WhereData whereData) {
+        switch (whereData.getWhereType()) {
+            case IS_NULL:
+                sqlSplicer.append(" is null");
+                break;
+            case IS_NOT_NULL:
+                sqlSplicer.append(" is not null");
+                break;
+            case BETWEEN:
+                sqlSplicer.append(" between ? and ?");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        this.sqlArgs.add(whereData.getTargetSecondValue());
+                        break;
+                    case JOIN:
+                        // TODO 后续添加
+                        throw new SqlException("暂不支持");
+                    case SUB_QUERY:
+                        // TODO 后续添加
+                        throw new SqlException("暂不支持");
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case EQUAL:
+                sqlSplicer.append(" = ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("?");
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        break;
+                    case JOIN:
+                        sqlSplicer.append(whereData.getTargetTableAlias())
+                                .append(".[")
+                                .append(whereData.getTargetColumnName())
+                                .append("]");
+                        break;
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case NOT_EQUAL:
+                sqlSplicer.append(" != ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("?");
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        break;
+                    case JOIN:
+                        sqlSplicer.append(whereData.getTargetTableAlias())
+                                .append(".[")
+                                .append(whereData.getTargetColumnName())
+                                .append("]");
+                        break;
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case GREATER:
+                sqlSplicer.append(" > ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("?");
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        break;
+                    case JOIN:
+                        sqlSplicer.append(whereData.getTargetTableAlias())
+                                .append(".[")
+                                .append(whereData.getTargetColumnName())
+                                .append("]");
+                        break;
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case GREATER_EQUAL:
+                sqlSplicer.append(" >= ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("?");
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        break;
+                    case JOIN:
+                        sqlSplicer.append(whereData.getTargetTableAlias())
+                                .append(".[")
+                                .append(whereData.getTargetColumnName())
+                                .append("]");
+                        break;
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case LESS:
+                sqlSplicer.append(" < ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("?");
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        break;
+                    case JOIN:
+                        sqlSplicer.append(whereData.getTargetTableAlias())
+                                .append(".[")
+                                .append(whereData.getTargetColumnName())
+                                .append("]");
+                        break;
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case LESS_EQUAL:
+                sqlSplicer.append(" <= ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("?");
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        break;
+                    case JOIN:
+                        sqlSplicer.append(whereData.getTargetTableAlias())
+                                .append(".[")
+                                .append(whereData.getTargetColumnName())
+                                .append("]");
+                        break;
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case LIKE:
+                sqlSplicer.append(" like ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("?");
+                        this.sqlArgs.add(whereData.getTargetValue());
+                        break;
+                    case JOIN:
+                        sqlSplicer.append(whereData.getTargetTableAlias())
+                                .append(".[")
+                                .append(whereData.getTargetColumnName())
+                                .append("]");
+                        break;
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case IN:
+                sqlSplicer.append(" in ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("(");
+                        int count = whereData.getValueCount();
+                        for (; count > 0; count--) {
+                            if (count == 1) {
+                                sqlSplicer.append("?");
+                            } else {
+                                sqlSplicer.append("?,");
+                            }
+                        }
+                        sqlSplicer.append(")");
+                        Object value = whereData.getTargetValue();
+                        if (value instanceof Collection) {
+                            this.sqlArgs.addAll((Collection) value);
+                        } else if (value.getClass().isArray()) {
+                            this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                        } else {
+                            throw new SqlException("the value type can only be Array or Collection.");
+                        }
+                        break;
+                    case JOIN:
+                        // TODO 后续添加
+                        throw new SqlException("暂不支持");
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            case NOT_IN:
+                sqlSplicer.append(" not in ");
+                switch (whereData.getWhereValueType()) {
+                    case VALUE:
+                        sqlSplicer.append("(");
+                        int count = whereData.getValueCount();
+                        for (; count > 0; count--) {
+                            if (count == 1) {
+                                sqlSplicer.append("?");
+                            } else {
+                                sqlSplicer.append("?,");
+                            }
+                        }
+                        sqlSplicer.append(")");
+                        Object value = whereData.getTargetValue();
+                        if (value instanceof Collection) {
+                            this.sqlArgs.addAll((Collection) value);
+                        } else if (value.getClass().isArray()) {
+                            this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                        } else {
+                            throw new SqlException("the value type can only be Array or Collection.");
+                        }
+                        break;
+                    case JOIN:
+                        // TODO 后续添加
+                        throw new SqlException("暂不支持");
+                    case SUB_QUERY:
+                        sqlSplicer.append("(")
+                                .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                                .append(")");
+                        this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                        break;
+                    default:
+                        throw new SqlException("the WhereValueType is wrong.");
+                }
+                break;
+            default:
+                throw new SqlException("the WhereType is wrong.");
+        }
+        return sqlSplicer;
+    }
+
     private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, List<WhereData> whereDataList, LinkType linkType) {
         if (whereDataList == null || whereDataList.size() == 0) {
             return sqlSplicer;
@@ -469,97 +733,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     .append(".[")
                     .append(whereData.getOwnerColumnName())
                     .append("]");
-            switch (whereData.getWhereType()) {
-                case IS_NULL:
-                    sqlSplicer.append(" is null");
-                    continue;
-                case IS_NOT_NULL:
-                    sqlSplicer.append(" is not null");
-                    continue;
-                case EQUAL:
-                    sqlSplicer.append(" = ");
-                    break;
-                case NOT_EQUAL:
-                    sqlSplicer.append(" != ");
-                    break;
-                case GREATER:
-                    sqlSplicer.append(" > ");
-                    break;
-                case GREATER_EQUAL:
-                    sqlSplicer.append(" >= ");
-                    break;
-                case LESS:
-                    sqlSplicer.append(" < ");
-                    break;
-                case LESS_EQUAL:
-                    sqlSplicer.append(" <= ");
-                    break;
-                case BETWEEN:
-                    sqlSplicer.append(" between ? and ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    this.sqlArgs.add(whereData.getTargetSecondValue());
-                    continue;
-                case LIKE:
-                    sqlSplicer.append(" like ?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
-                case IN:
-                    int count = whereData.getValueCount();
-                    sqlSplicer.append(" in (");
-                    for (; count > 0; count--) {
-                        if (count == 1) {
-                            sqlSplicer.append("?");
-                        } else {
-                            sqlSplicer.append("?,");
-                        }
-                    }
-                    sqlSplicer.append(")");
-                    Object value = whereData.getTargetValue();
-                    if (value instanceof Collection) {
-                        this.sqlArgs.addAll((Collection) value);
-                    } else if (value.getClass().isArray()) {
-                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
-                    } else {
-                        throw new SqlException("the value type can only be Array or Collection.");
-                    }
-                    continue;
-                case NOT_IN:
-                    count = whereData.getValueCount();
-                    sqlSplicer.append(" not in (");
-                    for (; count > 0; count--) {
-                        if (count == 1) {
-                            sqlSplicer.append("?");
-                        } else {
-                            sqlSplicer.append("?,");
-                        }
-                    }
-                    sqlSplicer.append(")");
-                    value = whereData.getTargetValue();
-                    if (value instanceof Collection) {
-                        this.sqlArgs.addAll((Collection) value);
-                    } else if (value.getClass().isArray()) {
-                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
-                    } else {
-                        throw new SqlException("the value type can only be Array or Collection.");
-                    }
-                    continue;
-                default:
-                    throw new SqlException("the WhereType is wrong.");
-            }
-            switch (whereData.getWhereValueType()) {
-                case VALUE:
-                    sqlSplicer.append("?");
-                    this.sqlArgs.add(whereData.getTargetValue());
-                    continue;
-                case JOIN:
-                    sqlSplicer.append(whereData.getTargetTableAlias())
-                            .append(".[")
-                            .append(whereData.getTargetColumnName())
-                            .append("]");
-                    continue;
-                default:
-                    throw new SqlException("the WhereValueType is wrong.");
-            }
+            this.appendWhereTypeSql(sqlSplicer, whereData);
         }
         if (linkType == LinkType.OR && whereDataList.size() > 1) {
             sqlSplicer.append(")");

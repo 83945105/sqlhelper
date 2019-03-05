@@ -363,6 +363,58 @@ public class MySqlDynamicQueryTest {
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 666);
     }
 
+    @Test
+    void TestWhereSubQuery() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
+                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
+                .column(table -> table)
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.createTime().equalTo(JurRoleModel.class, (mt, query) -> query
+                                .column(JurRoleModel.Column::id)
+                                .where((ct, m) -> ct
+                                        .and(m.name().equalTo("5")))
+                                .limitOne()
+                                .query())))
+                .query();
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` = (select JurRole.`id` `id` from jur_role JurRole where JurRole.`name` = ? limit ?,?)");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 3);
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "5");
+
+        sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
+                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
+                .column(table -> table)
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.createTime().like(JurRoleModel.class, (mt, query) -> query
+                                .column(JurRoleModel.Column::id)
+                                .where((ct, m) -> ct
+                                        .and(m.name().between("6", "7")))
+                                .limitOne()
+                                .query())))
+                .query();
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` like (select JurRole.`id` `id` from jur_role JurRole where JurRole.`name` between ? and ? limit ?,?)");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), "7");
+
+        sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
+                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
+                .column(table -> table)
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.createTime().like(JurRoleModel.class, (mt, query) -> query
+                                .column(JurRoleModel.Column::id)
+                                .where((ct, m) -> ct
+                                        .and(m.name().between("6", "7"))
+                                        .and(m.role().equalTo(JurRoleModel.class, JurRoleModel.Where::name)))
+                                .limitOne()
+                                .query())))
+                .query();
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` like (select JurRole.`id` `id` from jur_role JurRole where JurRole.`name` between ? and ? and JurRole.`role` = JurRole.`name` limit ?,?)");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), "7");
+    }
+
     void Test() {
 
         Where<JurRoleResModel> where = new Where<>();
