@@ -48,7 +48,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
      *
      * @return on条件数据集合
      */
-    public List<OnData> getAndResetOnDataList() {
+    List<OnData> getAndResetOnDataList() {
         List<OnData> onDataList = this.onDataList;
         this.onDataList = new ArrayList<>();
         return onDataList;

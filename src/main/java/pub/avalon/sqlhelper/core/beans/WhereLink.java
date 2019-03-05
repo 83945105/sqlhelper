@@ -28,7 +28,7 @@ public class WhereLink<M extends Model<M, MC, MO, MW, MS, MG>,
         this.sqlData = sqlData;
     }
 
-    protected List<WhereDataLinker> whereDataLinkerList = new ArrayList<>();
+    List<WhereDataLinker> whereDataLinkerList = new ArrayList<>();
 
     public List<WhereDataLinker> getAndResetWhereDataLinkerList() {
         List<WhereDataLinker> list = this.whereDataLinkerList;

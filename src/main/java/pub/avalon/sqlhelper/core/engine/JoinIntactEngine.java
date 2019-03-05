@@ -56,7 +56,6 @@ public class JoinIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         OnLink<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> onLink = new OnLinkIntact<>(this.sqlData, joinClass, alias);
         JO jo = joinTableData.getTableModel().getOnModel();
         jo.getOnBuilder().setOwnerTableData(joinTableData);
-        //TODO 创建新的mainTable
         jo.setSqlData(this.sqlData.fission(joinClass));
         OnLink link = on.apply(onLink, jo, mo);
         joinTableData.addOnDataLinkerList(link.getAndResetOnDataLinkerList());

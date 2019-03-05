@@ -29,17 +29,17 @@ public class OnLink<M extends Model<M, MC, MO, MW, MS, MG>,
 
     protected SqlData<M> sqlData;
 
-    protected Class<T> joinClass;
+    Class<T> joinClass;
 
     protected String alias;
 
-    public OnLink(SqlData<M> sqlData, Class<T> joinClass, String alias) {
+    OnLink(SqlData<M> sqlData, Class<T> joinClass, String alias) {
         this.sqlData = sqlData;
         this.joinClass = joinClass;
         this.alias = alias;
     }
 
-    protected List<OnDataLinker> onDataLinkerList = new ArrayList<>();
+    List<OnDataLinker> onDataLinkerList = new ArrayList<>();
 
     public List<OnDataLinker> getAndResetOnDataLinkerList() {
         List<OnDataLinker> list = this.onDataLinkerList;
@@ -77,7 +77,7 @@ public class OnLink<M extends Model<M, MC, MO, MW, MS, MG>,
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(this.alias, this.joinClass);
         TO to = joinTableData.getTableModel().getOnModel();
         to.onBuilder.setOwnerTableData(joinTableData);
-        OnLink onLink = on.apply(new OnLinkIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
+        OnLink<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> onLink = on.apply(new OnLinkIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
         List<OnDataLinker> onDataLinkerList = onLink.getAndResetOnDataLinkerList();
         if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
             return (OnLinkIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG>) this;
