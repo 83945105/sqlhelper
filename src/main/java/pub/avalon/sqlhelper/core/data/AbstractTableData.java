@@ -12,7 +12,6 @@ import java.util.*;
  * @version 1.0
  * @since 2018/7/10
  */
-//TODO 优化 去除无用属性,简化逻辑
 public abstract class AbstractTableData<T extends Model> {
 
     private T tableModel;
@@ -27,7 +26,7 @@ public abstract class AbstractTableData<T extends Model> {
 
     private String primaryKeyAlias;
 
-    private Map<String, String> columnAliasMap;
+    private ColumnData columnData;
 
     public AbstractTableData(Class<T> tableClass) {
         this.tableClass = tableClass;
@@ -44,6 +43,10 @@ public abstract class AbstractTableData<T extends Model> {
 
     public T getTableModel() {
         return this.tableModel;
+    }
+
+    public Class<T> getTableClass() {
+        return this.tableClass;
     }
 
     public String getTableName() {
@@ -76,19 +79,12 @@ public abstract class AbstractTableData<T extends Model> {
         return this.primaryKeyAlias;
     }
 
-    public Map<String, String> getColumnAliasMap() {
-        return this.columnAliasMap;
+    public ColumnData getColumnData() {
+        return columnData;
     }
 
-    public void addColumnAliasMap(Map<String, String> selectColumns) {
-        if (this.columnAliasMap == null) {
-            this.columnAliasMap = new LinkedHashMap<>();
-        }
-        this.columnAliasMap.putAll(selectColumns);
-    }
-
-    public Class<T> getTableClass() {
-        return this.tableClass;
+    public void setColumnData(ColumnData columnData) {
+        this.columnData = columnData;
     }
 
     @Override

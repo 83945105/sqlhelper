@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.build;
 
 import pub.avalon.sqlhelper.core.data.SqlData;
+import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.sql.*;
 
@@ -29,6 +30,7 @@ public class SqlBuilderProxy implements Table, QueryByPrimaryKey, Query, Insert,
                 this.sqlBuilder = new SqlServerDynamicBuilder<>(sqlData);
                 break;
             default:
+                throw new SqlException("SqlBuilder do not support this database type temporarily.");
         }
     }
 

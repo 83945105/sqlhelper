@@ -21,7 +21,7 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     /**
      * 原始列数据
      */
-    private Set<AbstractTableData> columnDataSet;
+    private Set<ColumnData> columnDataSet;
     /**
      * 虚拟列数据
      */
@@ -56,7 +56,7 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     }
 
     @Override
-    public Set<AbstractTableData> getColumnDataSet() {
+    public Set<ColumnData> getColumnDataSet() {
         return this.columnDataSet;
     }
 
@@ -65,7 +65,7 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
      *
      * @param columnData 列数据
      */
-    public void addColumnData(AbstractTableData columnData) {
+    public void addColumnData(ColumnData columnData) {
         if (columnData == null) {
             return;
         }

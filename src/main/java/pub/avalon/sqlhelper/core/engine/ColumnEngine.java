@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.data.ColumnData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.norm.Column;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -43,8 +44,7 @@ public class ColumnEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         if (columns.size() == 0) {
             columns = tableData.getTableModel().getColumnAliasMap();
         }
-        tableData.addColumnAliasMap(columns);
-        this.sqlData.addColumnData(tableData);
+        this.sqlData.addColumnData(new ColumnData(tableData, columns));
         return this;
     }
 

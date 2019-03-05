@@ -152,8 +152,9 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         String tableAlias;
         Class mainTableClass = this.sqlData.getMainTableData().getTableClass();
         int i = 0;
-        for (AbstractTableData tableData : this.sqlData.getColumnDataSet()) {
-            columnAliasMap = tableData.getColumnAliasMap();
+        for (ColumnData columnData : this.sqlData.getColumnDataSet()) {
+            columnAliasMap = columnData.getColumnAliasMap();
+            AbstractTableData tableData = columnData.getTableData();
             if (columnAliasMap.size() == 0) {
                 columnAliasMap = tableData.getTableModel().getColumnAliasMap();
                 tableAlias = tableData.getTableAlias();
@@ -211,7 +212,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryDataMap();
         List<FunctionColumnData> functionColumnDataList = this.sqlData.getFunctionColumnDataList();
         Set<VirtualFieldData> virtualFieldDataSet = this.sqlData.getVirtualFieldDataSet();
-        Set<AbstractTableData> columnDataSet = this.sqlData.getColumnDataSet();
+        Set<ColumnData> columnDataSet = this.sqlData.getColumnDataSet();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
         boolean hasF = functionColumnDataList != null && functionColumnDataList.size() != 0;
         boolean hasV = virtualFieldDataSet != null && virtualFieldDataSet.size() != 0;
@@ -709,9 +710,13 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
 
 
     protected Map<String, String> getColumnAliasMap() {
-        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getColumnAliasMap();
+        ColumnData columnData = this.sqlData.getMainTableData().getColumnData();
+        if (columnData == null) {
+            return this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        }
+        Map<String, String> columnAliasMap = columnData.getColumnAliasMap();
         if (columnAliasMap == null || columnAliasMap.size() == 0) {
-            columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+            return this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
         }
         return columnAliasMap;
     }

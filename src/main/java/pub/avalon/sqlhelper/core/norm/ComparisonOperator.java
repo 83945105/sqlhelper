@@ -12,7 +12,6 @@ import java.util.Collection;
  * @version 1.0
  * @since 2018/7/10
  */
-@SuppressWarnings("unused")
 public interface ComparisonOperator<T> {
 
     /**

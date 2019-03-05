@@ -128,7 +128,7 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
     /**
      * 分裂
      *
-     * @param clazz
+     * @param clazz 目标类Model.class
      * @param <T>
      * @return
      */
@@ -155,7 +155,7 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         }
 
         @Override
-        public Set<AbstractTableData> getColumnDataSet() {
+        public Set<ColumnData> getColumnDataSet() {
             throw new SqlException("you can not use getColumnDataSet for class FissionSqlData.");
         }
 

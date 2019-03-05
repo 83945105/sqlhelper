@@ -15,14 +15,14 @@ public interface SqlBuilder extends Table, QueryByPrimaryKey, Query, Insert, Upd
     /**
      * 获取预编译SQL
      *
-     * @return
+     * @return sql
      */
     String getPreparedStatementSql();
 
     /**
      * 获取预编译参数
      *
-     * @return
+     * @return 参数
      */
     List<Object> getPreparedStatementArgs();
 

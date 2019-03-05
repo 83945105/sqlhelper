@@ -3,10 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
-import pub.avalon.sqlhelper.core.data.FunctionColumnData;
-import pub.avalon.sqlhelper.core.data.JoinTableData;
-import pub.avalon.sqlhelper.core.data.MainTableData;
-import pub.avalon.sqlhelper.core.data.VirtualFieldData;
+import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.Column;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -49,8 +46,7 @@ public class ColumnIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         if (columns.size() == 0) {
             columns = tableData.getTableModel().getColumnAliasMap();
         }
-        tableData.addColumnAliasMap(columns);
-        this.sqlData.addColumnData(tableData);
+        this.sqlData.addColumnData(new ColumnData(tableData, columns));
         return this;
     }
 
@@ -65,8 +61,7 @@ public class ColumnIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         if (columns.size() == 0) {
             columns = joinTableData.getTableModel().getColumnAliasMap();
         }
-        joinTableData.addColumnAliasMap(columns);
-        this.sqlData.addColumnData(joinTableData);
+        this.sqlData.addColumnData(new ColumnData(joinTableData, columns));
         return this;
     }
 

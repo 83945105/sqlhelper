@@ -54,7 +54,7 @@ public interface SqlData<M extends Model> {
      *
      * @return 列数据集合
      */
-    Set<AbstractTableData> getColumnDataSet();
+    Set<ColumnData> getColumnDataSet();
 
     /**
      * 获取虚拟属性数据集合
