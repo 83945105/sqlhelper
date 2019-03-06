@@ -20,7 +20,7 @@ public class JdbcSourceEngine extends AbstractJdbcSource {
 
     private String dataBaseName;
 
-    private static final Pattern MYSQL_DATABASE_NAME_PATTERN = Pattern.compile("^jdbc:mysql://(.*?)/(.*?)(\\?useSSL=false)?$");
+    private static final Pattern MYSQL_DATABASE_NAME_PATTERN = Pattern.compile("^jdbc:mysql://(.*?)/(.*?)(\\?(.*?))?$");
 
     public static JdbcSourceEngine newMySqlEngine(String driverClassName, String url, String username, String password) {
         JdbcSourceEngine engine = new JdbcSourceEngine(driverClassName, url, username, password);
@@ -57,7 +57,7 @@ public class JdbcSourceEngine extends AbstractJdbcSource {
 
     public ColumnInfo getPrimaryKeyColumn(String tableName, ColumnFieldConverter columnFieldConverter) throws SQLException {
         link();
-        String sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name='" + tableName + "' AND COLUMN_KEY='PRI' LIMIT 1";
+        String sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '" + this.dataBaseName + "' AND TABLE_NAME='" + tableName + "' AND COLUMN_KEY='PRI' LIMIT 1";
         this.executeQuery(sql);
         ColumnInfo columnInfo = null;
         while (this.resultSet.next()) {

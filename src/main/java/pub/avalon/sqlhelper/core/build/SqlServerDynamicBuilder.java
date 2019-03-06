@@ -509,9 +509,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlSplicer.clear()
                 .append("delete from ")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" where ")
+                .append(" where [")
                 .append(this.sqlData.getMainTableData().getPrimaryKeyName())
-                .append(" = ?");
+                .append("] = ?");
         this.sqlArgs = new ArrayList<>(1);
         this.sqlArgs.add(keyValue);
         return this;

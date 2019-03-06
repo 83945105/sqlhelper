@@ -62,8 +62,9 @@
         		//添加要生成的表名和对应生成的类名
                 .addTable("表名", "类名")
                 .addTable("sys_user", "SysUser")
+                .addTable("user_role", "UserRole")
 				//开始处理,第一个参数为项目路径,第二个参数为包路径
-                .process("/", "pub.avalon.sys.model");         
+                .process("/", "pub.avalon.sqlhelper.readme.model");         
 ```
 
 注：模板实现使用了thymeleaf，如果你使用了spring boot，可能会和spring boot内置的spring-boot-start-thymeleaf包冲突，如果你不善于解决maven依赖冲突，你可以为生成模型类的这段代码单独创建一个项目，每次生成完模型类后手动copy至开发项目中。

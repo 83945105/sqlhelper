@@ -110,7 +110,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     }
 
     @Override
-    public ColumnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getColumnModel() {
+    public Column getColumnModel() {
         return new Column();
     }
 
@@ -156,7 +156,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     [/]}
 
     @Override
-    public OnModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getOnModel() {
+    public On getOnModel() {
         return new On();
     }
 
@@ -208,7 +208,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     [/]}
 
     @Override
-    public GroupModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getGroupModel() {
+    public Group getGroupModel() {
         return new Group();
     }
 
@@ -236,7 +236,7 @@ public final class [[${setting.tableAlias}+${setting.templateSuffix}]] implement
     [/]}
 
     @Override
-    public SortModel<[[${setting.tableAlias}+${setting.templateSuffix}]], Column, On, Where, Sort, Group> getSortModel() {
+    public Sort getSortModel() {
         return new Sort();
     }
 

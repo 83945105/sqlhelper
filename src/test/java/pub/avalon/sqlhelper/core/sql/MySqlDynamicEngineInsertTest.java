@@ -1,46 +1,41 @@
 package pub.avalon.sqlhelper.core.sql;
 
+import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import com.shiro.JurRole;
 import com.shiro.JurRoleModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pub.avalon.sqlhelper.readme.model.SysUserModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by 白超 on 2018/8/26.
+ * MySql动态引擎 - 新增 - 测试
  */
-public class MySqlDynamicInsertTest {
+public class MySqlDynamicEngineInsertTest extends AbstractTest {
 
     @Test
     void TestInsertArgs() {
-        List<Object> args = new ArrayList<>();
-        args.add("1");
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
+                .insertArgs(Arrays.asList(arg("1"), arg("2")));
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
-                .insertArgs(args);
+        setSqlBuilder(sqlBuilder, "insert into sys_user (`id`,`user_name`,`login_name`) values (?,?,?)");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into jur_role (`id`,`name`,`role`,`description`,`parent_id`,`parent_ids`,`type`,`index`,`status`,`create_time`,`update_time`,`delete_time`,`create_time_stamp`,`update_time_stamp`,`delete_time_stamp`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "1");
+        sqlBuilder = MySqlDynamicEngine.insert("sys_user", SysUserModel.class)
+                .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
 
-        sqlBuilder = MySqlDynamicEngine.insert("root_jur_role", JurRoleModel.class)
-                .insertArgs(args);
+        setSqlBuilder(sqlBuilder, "insert into sys_user (`id`,`user_name`,`login_name`) values (?,?,?)");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into root_jur_role (`id`,`name`,`role`,`description`,`parent_id`,`parent_ids`,`type`,`index`,`status`,`create_time`,`update_time`,`delete_time`,`create_time_stamp`,`update_time_stamp`,`delete_time_stamp`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "1");
-
+        // 插入指定列
         sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
                 .column(JurRoleModel.Column::id)
-                .insertArgs(args);
+                .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into jur_role (`id`) values (?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "1");
+        setSqlBuilder(sqlBuilder, "insert into jur_role (`id`) values (?)");
     }
 
     @Test
