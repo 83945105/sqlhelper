@@ -18,12 +18,12 @@ public class MySqlDynamicEngineDeleteByPrimaryKeyTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.delete(SysUserModel.class)
                 .deleteByPrimaryKey(arg());
 
-        setSqlBuilder(sqlBuilder, "delete from sys_user where `id` = ?");
+        setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
 
         sqlBuilder = MySqlDynamicEngine.delete("sys_user", SysUserModel.class)
                 .deleteByPrimaryKey(arg());
 
-        setSqlBuilder(sqlBuilder, "delete from sys_user where `id` = ?");
+        setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
     }
 
     @Test
@@ -31,6 +31,6 @@ public class MySqlDynamicEngineDeleteByPrimaryKeyTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.delete(SysUserModel.class)
                 .batchDeleteByPrimaryKeys(Arrays.asList(arg(), arg()));
 
-        setSqlBuilder(sqlBuilder, "delete from sys_user where id in (?,?)");
+        setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` in (?,?)");
     }
 }

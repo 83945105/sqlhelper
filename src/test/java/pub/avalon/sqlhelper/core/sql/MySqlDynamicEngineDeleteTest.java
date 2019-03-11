@@ -18,6 +18,6 @@ public class MySqlDynamicEngineDeleteTest extends AbstractTest {
                         .and(mainTable.userName().equalTo(arg())))
                 .delete();
 
-        setSqlBuilder(sqlBuilder, "delete SysUser from sys_user SysUser where SysUser.`user_name` = ?");
+        setSqlBuilder(sqlBuilder, "delete SysUser from `sys_user` SysUser where SysUser.`user_name` = ?");
     }
 }

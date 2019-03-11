@@ -23,19 +23,19 @@ public class MySqlDynamicEngineInsertTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
                 .insertArgs(Arrays.asList(arg("1"), arg("2")));
 
-        setSqlBuilder(sqlBuilder, "insert into sys_user (`id`,`user_name`,`login_name`) values (?,?,?)");
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
 
         sqlBuilder = MySqlDynamicEngine.insert("sys_user", SysUserModel.class)
                 .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
 
-        setSqlBuilder(sqlBuilder, "insert into sys_user (`id`,`user_name`,`login_name`) values (?,?,?)");
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
 
         // 插入指定列
         sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
                 .column(JurRoleModel.Column::id)
                 .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
 
-        setSqlBuilder(sqlBuilder, "insert into jur_role (`id`) values (?)");
+        setSqlBuilder(sqlBuilder, "insert into `jur_role` (`id`) values (?)");
     }
 
     @Test
@@ -45,7 +45,7 @@ public class MySqlDynamicEngineInsertTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
                 .insertJavaBean(javaBean);
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into jur_role (`id`,`name`,`role`,`description`,`parent_id`,`parent_ids`,`type`,`index`,`status`,`create_time`,`update_time`,`delete_time`,`create_time_stamp`,`update_time_stamp`,`delete_time_stamp`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into `jur_role` (`id`,`name`,`role`,`description`,`parent_id`,`parent_ids`,`type`,`index`,`status`,`create_time`,`update_time`,`delete_time`,`create_time_stamp`,`update_time_stamp`,`delete_time_stamp`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 15);
         Assertions.assertNull(sqlBuilder.getPreparedStatementArgs().get(0));
 
@@ -54,7 +54,7 @@ public class MySqlDynamicEngineInsertTest extends AbstractTest {
                 .column(table -> table.id().name())
                 .insertJavaBean(javaBean);
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into jur_role (`id`,`name`) values (?,?)");
+        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into `jur_role` (`id`,`name`) values (?,?)");
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
         Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "2");
     }

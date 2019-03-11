@@ -127,9 +127,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder insertArgs(Collection<?> args) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
-                .append("insert into ")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" (");
+                .append("] (");
         int i = 0;
         for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
             if (i++ > 0) {
@@ -154,9 +154,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder insertJavaBean(Object javaBean) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
-                .append("insert into ")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" (");
+                .append("] (");
         int i = 0;
         for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
             if (i++ > 0) {
@@ -507,9 +507,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     @Override
     public SqlBuilder deleteByPrimaryKey(Object keyValue) {
         this.sqlSplicer.clear()
-                .append("delete from ")
+                .append("delete from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" where [")
+                .append("] where [")
                 .append(this.sqlData.getMainTableData().getPrimaryKeyName())
                 .append("] = ?");
         this.sqlArgs = new ArrayList<>(1);
@@ -521,11 +521,11 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder batchDeleteByPrimaryKeys(Collection<?> keyValues) {
         this.sqlArgs = new ArrayList<>(keyValues.size());
         this.sqlSplicer.clear()
-                .append("delete from ")
+                .append("delete from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" where ")
+                .append("] where [")
                 .append(this.sqlData.getMainTableData().getPrimaryKeyName())
-                .append(" in (");
+                .append("] in (");
         int i = 0;
         for (Object keyValue : keyValues) {
             if (i++ > 0) {
@@ -545,9 +545,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlSplicer.clear()
                 .append("delete ")
                 .append(tableAlias)
-                .append(" from ")
+                .append(" from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);
