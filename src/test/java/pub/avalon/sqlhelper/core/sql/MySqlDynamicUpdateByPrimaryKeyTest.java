@@ -1,117 +1,106 @@
 package pub.avalon.sqlhelper.core.sql;
 
-import com.shiro.JurRole;
-import com.shiro.JurRoleModel;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pub.avalon.beans.Time;
+import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
+import pub.avalon.sqlhelper.readme.entity.SysUser;
+import pub.avalon.sqlhelper.readme.model.SysUserModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by 白超 on 2018/8/27.
+ * MySql动态引擎 - 更新 - 根据主键更新
  */
-public class MySqlDynamicUpdateByPrimaryKeyTest {
+public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
 
     @Test
     void TestUpdateArgsByPrimaryKey() {
         List<Object> args = new ArrayList<>();
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
-                .updateArgsByPrimaryKey("1", args);
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+                .updateArgsByPrimaryKey(arg(), args);
+        setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ?,`login_name` = ? where `id` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role set `name` = ?,`role` = ?,`description` = ?,`parent_id` = ?,`parent_ids` = ?,`type` = ?,`index` = ?,`status` = ?,`create_time` = ?,`update_time` = ?,`delete_time` = ?,`create_time_stamp` = ?,`update_time_stamp` = ?,`delete_time_stamp` = ? where `id` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "1");
-
-        sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
-                .column(JurRoleModel.Column::role)
-                .updateArgsByPrimaryKey("1", args);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role set `role` = ? where `id` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "1");
+        sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+                .column(SysUserModel.Column::userName)
+                .updateArgsByPrimaryKey(arg(), args);
+        setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
 
     @Test
     void TestUpdateJavaBeanByPrimaryKey() {
-        JurRole javaBean = new JurRole();
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
-                .updateJavaBeanByPrimaryKey("1", javaBean);
+        SysUser javaBean = new SysUser();
+        arg(javaBean.getUserName());
+        arg(javaBean.getLoginName());
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+                .updateJavaBeanByPrimaryKey(arg(), javaBean);
+        setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ?,`login_name` = ? where `id` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role set `name` = ?,`role` = ?,`description` = ?,`parent_id` = ?,`parent_ids` = ?,`type` = ?,`index` = ?,`status` = ?,`create_time` = ?,`update_time` = ?,`delete_time` = ?,`create_time_stamp` = ?,`update_time_stamp` = ?,`delete_time_stamp` = ? where `id` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 15);
-        Assertions.assertNull(sqlBuilder.getPreparedStatementArgs().get(0));
-
-        javaBean.setRole("admin");
-        javaBean.setCreateTime("");
-        sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
-                .column(JurRoleModel.Column::role)
-                .updateJavaBeanByPrimaryKey("1", javaBean);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role set `role` = ? where `id` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "admin");
+        javaBean = new SysUser();
+        arg(javaBean.getUserName());
+        sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+                .column(SysUserModel.Column::userName)
+                .updateJavaBeanByPrimaryKey(arg(), javaBean);
+        setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
 
     @Test
     void TestUpdateJavaBeanByPrimaryKeySelective() {
-        JurRole javaBean = new JurRole();
+        SysUser javaBean = new SysUser();
         javaBean.setId("666");
-        javaBean.setRole("admin");
+        javaBean.setUserName(arg());
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+                .updateJavaBeanByPrimaryKeySelective(arg(), javaBean);
+        setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
-                .updateJavaBeanByPrimaryKeySelective("1", javaBean);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role set `role` = ? where `id` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "admin");
-
-        javaBean.setCreateTime("");
-        sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
-                .column(JurRoleModel.Column::role)
-                .updateJavaBeanByPrimaryKeySelective("1", javaBean);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role set `role` = ? where `id` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "admin");
+        javaBean = new SysUser();
+        javaBean.setId("666");
+        javaBean.setUserName(arg());
+        javaBean.setLoginName("233");
+        sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+                .column(SysUserModel.Column::userName)
+                .updateJavaBeanByPrimaryKeySelective(arg(), javaBean);
+        setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
 
     @Test
     void TestBatchUpdateJavaBeansByPrimaryKeys() {
-        List<JurRole> javaBeans = new ArrayList<>();
-        JurRole jurRole = new JurRole();
-        jurRole.setId("1");
-        jurRole.setRole("admin");
-        jurRole.setCreateTime("2012");
-        javaBeans.add(jurRole);
-        jurRole = new JurRole();
-        jurRole.setId("2");
-        jurRole.setRole("teacher");
-        jurRole.setCreateTime("2013");
-        javaBeans.add(jurRole);
-        jurRole = new JurRole();
-        jurRole.setId("3");
-        jurRole.setRole("student");
-        jurRole.setCreateTime("2014");
-        javaBeans.add(jurRole);
+        List<SysUser> javaBeans = new ArrayList<>();
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(JurRoleModel.class)
+        SysUser sysUser = new SysUser();
+        sysUser.setId("1");
+        sysUser.setUserName("1-1");
+        sysUser.setLoginName("1-2");
+        javaBeans.add(sysUser);
+
+        sysUser = new SysUser();
+        sysUser.setId("2");
+        sysUser.setUserName("2-1");
+        sysUser.setLoginName("2-2");
+        javaBeans.add(sysUser);
+
+        sysUser = new SysUser();
+        sysUser.setId("3");
+        sysUser.setUserName("3-1");
+        sysUser.setLoginName("3-2");
+        javaBeans.add(sysUser);
+
+        arg("1-1");
+        arg("2-1");
+        arg("3-1");
+
+        arg("1-2");
+        arg("2-2");
+        arg("3-2");
+
+        arg("1");
+        arg("2");
+        arg("3");
+
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
                 .batchUpdateJavaBeansByPrimaryKeys(javaBeans);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "update jur_role JurRole set JurRole.`name`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`role`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`description`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`parent_id`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`parent_ids`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`type`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`index`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`status`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`create_time`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`update_time`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`delete_time`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`create_time_stamp`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`update_time_stamp`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end,JurRole.`delete_time_stamp`=case JurRole.`id` when '1' then ? when '2' then ? when '3' then ?  end where JurRole.`id` in (?,?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 45);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(3), "admin");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(4), "teacher");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(5), "student");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(24), "2012");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(25), "2013");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(26), "2014");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(42), "1");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(43), "2");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(44), "3");
+        setSqlBuilder(sqlBuilder, "update `sys_user` SysUser set SysUser.`user_name`=case SysUser.`id` when '1' then ? when '2' then ? when '3' then ?  end,SysUser.`login_name`=case SysUser.`id` when '1' then ? when '2' then ? when '3' then ?  end where SysUser.`id` in (?,?,?)");
     }
 
 }

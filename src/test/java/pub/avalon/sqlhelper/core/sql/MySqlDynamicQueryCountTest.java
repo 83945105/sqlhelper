@@ -1,292 +1,244 @@
 package pub.avalon.sqlhelper.core.sql;
 
+import org.junit.jupiter.api.Test;
+import pub.avalon.beans.DataBaseType;
+import pub.avalon.beans.Pagination;
+import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import com.shiro.JurRoleModel;
-import com.shiro.JurRoleResModel;
-import com.shiro.JurRoleUserModel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import pub.avalon.sqlhelper.readme.model.RoleResourceModel;
+import pub.avalon.sqlhelper.readme.model.SysUserModel;
+import pub.avalon.sqlhelper.readme.model.UserRoleModel;
 
 /**
- * Created by 白超 on 2018/8/25.
+ * MySql动态引擎 - 查询 - 总数查询
  */
-public class MySqlDynamicQueryCountTest {
+public class MySqlDynamicQueryCountTest extends AbstractTest {
 
     @Test
     void TestWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin")))
+                        .and(mainTable.loginName().equalTo(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser where SysUser.`login_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole where JurRole.`role` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "admin");
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin").createTime().equalTo(2)))
+                        .and(mainTable.userName().equalTo(arg())
+                                .loginName().equalTo(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole where JurRole.`role` = ? and JurRole.`create_time` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), 2);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin").createTime().equalTo(2))
-                        .or(mainTable.index().greaterThan(6)))
+                        .and(mainTable.loginName().equalTo(arg())
+                                .userName().equalTo(arg()))
+                        .or(mainTable.id().greaterThan(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser where SysUser.`login_name` = ? and SysUser.`user_name` = ? or SysUser.`id` > ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole where JurRole.`role` = ? and JurRole.`create_time` = ? or JurRole.`index` > ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 3);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin").createTime().equalTo(2))
-                        .or(mainTable.index().greaterThan(6).parentId().between(1, 2))
-                        .and(mainTable.parentId().like("233")))
+                        .and(mainTable.userName().equalTo(arg())
+                                .loginName().equalTo(arg()))
+                        .or(mainTable.userName().greaterThan(arg())
+                                .id().between(arg(), arg()))
+                        .and(mainTable.loginName().like(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ? or (SysUser.`user_name` > ? and SysUser.`id` between ? and ?) and SysUser.`login_name` like ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole where JurRole.`role` = ? and JurRole.`create_time` = ? or (JurRole.`index` > ? and JurRole.`parent_id` between ? and ?) and JurRole.`parent_id` like ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 6);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
-
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.role().notEqualTo("5"))
-                                .or(mainTable1.name().greaterThan(2)))
-                        .or(mainTable.index().greaterThan(6).parentId().between(1, 2))
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.name().equalTo(2))
-                                .or(mainTable1.role().equalTo(5))))
+                        .and((ct, mt) -> ct
+                                .and(mt.userName().notEqualTo(arg()))
+                                .or(mt.loginName().greaterThan(arg())))
+                        .or(mainTable.id().greaterThan(arg())
+                                .userName().between(arg(), arg()))
+                        .and((ct, mt) -> ct
+                                .and(mt.userName().equalTo(arg()))
+                                .or(mt.loginName().equalTo(arg()))))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser where (SysUser.`user_name` != ? or SysUser.`login_name` > ?) or (SysUser.`id` > ? and SysUser.`user_name` between ? and ?) and (SysUser.`user_name` = ? or SysUser.`login_name` = ?)");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole where (JurRole.`role` != ? or JurRole.`name` > ?) or (JurRole.`index` > ? and JurRole.`parent_id` between ? and ?) and (JurRole.`name` = ? or JurRole.`role` = ?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 7);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.role().notEqualTo("5"))
-                                .or(mainTable1.name().greaterThan(2)))
-                        .or(mainTable.index().greaterThan(6).parentId().between(1, 2))
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.name().equalTo(2))
-                                .or(mainTable1.role().equalTo(5))))
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().notEqualTo(arg()))
+                                .or(mt.loginName().greaterThan(arg())))
+                        .or(mainTable.id().greaterThan(arg())
+                                .id().between(arg(), arg()))
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().equalTo(arg()))
+                                .or(mt.loginName().equalTo(arg()))))
                 .where((condition, mainTable) -> condition
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.role().greaterThanAndEqualTo(8))
-                                .or(mainTable1.name().lessThanAndEqualTo(10))))
+                        .and((cd, mt) -> cd
+                                .and(mt.loginName().greaterThanAndEqualTo(arg()))
+                                .or(mt.userName().lessThanAndEqualTo(arg()))))
                 .queryCount();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole where ((JurRole.`role` != ? or JurRole.`name` > ?) or (JurRole.`index` > ? and JurRole.`parent_id` between ? and ?) and (JurRole.`name` = ? or JurRole.`role` = ?)) and (JurRole.`role` >= ? or JurRole.`name` <= ?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 9);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser where ((SysUser.`user_name` != ? or SysUser.`login_name` > ?) or (SysUser.`id` > ? and SysUser.`id` between ? and ?) and (SysUser.`user_name` = ? or SysUser.`login_name` = ?)) and (SysUser.`login_name` >= ? or SysUser.`user_name` <= ?)");
     }
 
     @Test
     void TestJoin() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().like(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` like ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).resourceName().equalTo(arg())))
+                .leftJoin(RoleResourceModel.class, "RR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`resource_name` = ? left join `role_resource` RR on RR.`role_id` = SysUser.`id`");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).resourceName().equalTo(arg())))
+                .leftJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .rightJoin(JurRoleResModel.class, "JurRoleRes2", (on, joinTable, mainTable) -> on
+                .rightJoin(RoleResourceModel.class, "CC", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` right join jur_role_res JurRoleRes2 on JurRoleRes2.`role_id` = JurRole.`id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`resource_name` = ? left join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` right join `role_resource` CC on CC.`role_id` = SysUser.`id`");
     }
 
     @Test
     void TestJoinAndWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .where(JurRoleResModel.class, (condition, table, mainTable) -> condition
-                        .and(table.resType().like("233")))
+                .where(UserRoleModel.class, (condition, table, mainTable) -> condition
+                        .and(table.roleName().like(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where UserRole.`role_name` like ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` where JurRoleRes.`res_type` like ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "233");
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())
+                                .roleName().equalTo(arg())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.name().notEqualTo(9))
-                        .or(mainTable.role().equalTo(10)))
-                .where(JurRoleResModel.class, (condition, table, mainTable) -> condition
-                        .and(table.resType().equalTo(11)))
+                        .and(mainTable.userName().notEqualTo(arg()))
+                        .or(mainTable.loginName().equalTo(arg())))
+                .where(UserRoleModel.class, (condition, table, mainTable) -> condition
+                        .and(table.roleName().equalTo(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? where (SysUser.`user_name` != ? or SysUser.`login_name` = ?) and UserRole.`role_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? where (JurRole.`name` != ? or JurRole.`role` = ?) and JurRoleRes.`res_type` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(3), 11);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()))
-                        .and(joinTable.roleId().equalTo(JurRoleResModel.class, JurRoleResModel.On::resId)))
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
+                .leftJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(UserRoleModel.class, UserRoleModel.On::roleId)))
+                .where(RoleResourceModel.class, (condition, table, mainTable) -> condition
+                        .and(table.resourceName().like(arg())))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = UserRole.`role_id` where RoleResource.`resource_name` like ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` and JurRoleUser.`role_id` = JurRoleRes.`res_id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .rightJoin(JurRoleResModel.class, "JurRoleRes2", (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
+                .rightJoin(UserRoleModel.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).roleId().lessThan(JurRoleResModel.class, "JurRoleRes2", JurRoleResModel.On::roleId)))
-                .where(JurRoleResModel.class, "JurRoleRes2", (condition, table, mainTable) -> condition
-                        .and(table.resType().equalTo(3)))
+                .leftJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())
+                                .roleId().lessThan(UserRoleModel.class, "UR", UserRoleModel.On::roleId)))
+                .where(UserRoleModel.class, "UR", (condition, table, mainTable) -> condition
+                        .and(table.roleName().equalTo(arg())))
                 .queryCount();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? right join jur_role_res JurRoleRes2 on JurRoleRes2.`role_id` = JurRole.`id` left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` and JurRoleUser.`role_id` < JurRoleRes2.`role_id` where JurRoleRes2.`res_type` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), 3);
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUser.`id` left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` < UR.`role_id` where UR.`role_name` = ?");
     }
 
     @Test
     void TestGroup() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .group(JurRoleModel.Group::createTime)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .group(SysUserModel.Group::id)
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser group by SysUser.id) C");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from (select JurRole.* from jur_role JurRole group by JurRole.create_time) C");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .group(table -> table.createTime().deleteTime())
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .group(table -> table.id().userName())
                 .queryCount();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from (select JurRole.* from jur_role JurRole group by JurRole.create_time,JurRole.delete_time) C");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser group by SysUser.id,SysUser.user_name) C");
     }
 
     @Test
     void TestGroupAndJoinAndWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .group(table -> table.createTime().deleteTime())
+                        .and(mainTable.userName().equalTo(arg())))
+                .group(table -> table.id().loginName())
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser where SysUser.`user_name` = ? group by SysUser.id,SysUser.login_name) C");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from (select JurRole.* from jur_role JurRole where JurRole.`role` = ? group by JurRole.create_time,JurRole.delete_time) C");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .group(table -> table.createTime().deleteTime())
-                .group(JurRoleResModel.class, JurRoleResModel.Group::resName)
+                        .and(mainTable.userName().equalTo(arg())))
+                .group(table -> table.id().id())
+                .group(UserRoleModel.class, UserRoleModel.Group::roleId)
                 .queryCount();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from (select JurRole.* from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` where JurRole.`role` = ? group by JurRole.create_time,JurRole.delete_time,JurRoleRes.res_name) C");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.id,SysUser.id,UserRole.role_id) C");
     }
 
     @Test
     void TestSort() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .sort(table -> table.createTime().asc())
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .sort(table -> table.id().asc())
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .sort(table -> table.createTime().asc().deleteTime().desc())
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .sort(table -> table.id().asc().userName().desc())
                 .queryCount();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser");
     }
 
     @Test
     void TestSortAndJoinAndWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .sort(table -> table.deleteTime().desc())
+                        .and(mainTable.userName().equalTo(arg())))
+                .sort(table -> table.id().desc())
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser where SysUser.`user_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole where JurRole.`role` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .sort(JurRoleResModel.class, table -> table.createTime().desc())
+                        .and(mainTable.userName().equalTo(arg())))
+                .sort(UserRoleModel.class, table -> table.roleId().desc())
                 .queryCount();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` where JurRole.`role` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
+        setSqlBuilder(sqlBuilder, "select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ?");
     }
 
     @Test
     void TestLimit() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .limit(0, 10)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .limit(arg(0), arg(10))
                 .queryCount();
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser limit ?,?) C");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .limit(200, 10, 20)
                 .queryCount();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select count(1) from jur_role JurRole");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        Pagination pagination = new Pagination(DataBaseType.MYSQL);
+        pagination.setTotal(200);
+        pagination.setCurrentPage(10);
+        pagination.setPageSize(20);
+        arg(pagination.getLimitStart());
+        arg(pagination.getLimitEnd());
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser limit ?,?) C");
     }
 }

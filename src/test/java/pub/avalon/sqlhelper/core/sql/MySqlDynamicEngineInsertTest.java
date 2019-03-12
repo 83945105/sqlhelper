@@ -1,12 +1,10 @@
 package pub.avalon.sqlhelper.core.sql;
 
+import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import com.shiro.JurRole;
-import com.shiro.JurRoleModel;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import pub.avalon.sqlhelper.readme.entity.SysUser;
 import pub.avalon.sqlhelper.readme.model.SysUserModel;
 
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * MySql动态引擎 - 新增 - 测试
+ * MySql动态引擎 - 新增 - 参数新增、实体类新增
  */
 public class MySqlDynamicEngineInsertTest extends AbstractTest {
 
@@ -22,81 +20,74 @@ public class MySqlDynamicEngineInsertTest extends AbstractTest {
     void TestInsertArgs() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
                 .insertArgs(Arrays.asList(arg("1"), arg("2")));
-
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
 
         sqlBuilder = MySqlDynamicEngine.insert("sys_user", SysUserModel.class)
                 .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
-
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
 
         // 插入指定列
-        sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
-                .column(JurRoleModel.Column::id)
+        sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
+                .column(SysUserModel.Column::id)
                 .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
-
-        setSqlBuilder(sqlBuilder, "insert into `jur_role` (`id`) values (?)");
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`) values (?)");
     }
 
     @Test
     void TestInsertJavaBean() {
-        JurRole javaBean = new JurRole();
-
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
+        SysUser javaBean = new SysUser();
+        javaBean.setId(arg("1"));
+        javaBean.setUserName(arg("2"));
+        javaBean.setLoginName(arg("3"));
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
                 .insertJavaBean(javaBean);
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into `jur_role` (`id`,`name`,`role`,`description`,`parent_id`,`parent_ids`,`type`,`index`,`status`,`create_time`,`update_time`,`delete_time`,`create_time_stamp`,`update_time_stamp`,`delete_time_stamp`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 15);
-        Assertions.assertNull(sqlBuilder.getPreparedStatementArgs().get(0));
+        javaBean = new SysUser();
+        javaBean.setId(arg("1"));
+        javaBean.setLoginName(arg("3"));
 
-        javaBean.setId("2");
-        sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
-                .column(table -> table.id().name())
+        sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
+                .column(table -> table.id().loginName())
                 .insertJavaBean(javaBean);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into `jur_role` (`id`,`name`) values (?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "2");
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`login_name`) values (?,?)");
     }
 
     @Test
     void TestInsertJavaBeanSelective() {
-        JurRole javaBean = new JurRole();
-        javaBean.setId("2");
-        javaBean.setRole("admin");
-
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
+        SysUser javaBean = new SysUser();
+        javaBean.setId(arg("1"));
+        javaBean.setUserName(arg("2"));
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
                 .insertJavaBeanSelective(javaBean);
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`) values (?,?)");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into jur_role (`id`,`role`) values (?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "2");
-
-        sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
-                .column(table -> table.id().name())
+        javaBean = new SysUser();
+        javaBean.setId(arg("1"));
+        javaBean.setUserName("2");
+        sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
+                .column(table -> table.id().loginName())
                 .insertJavaBeanSelective(javaBean);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into jur_role (`id`) values (?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "2");
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`) values (?)");
     }
 
     @Test
     void TestBatchInsertJavaBeans() {
+        List<SysUser> javaBeans = new ArrayList<>();
+        SysUser javaBean = new SysUser();
+        arg(javaBean.getId());
+        arg(javaBean.getUserName());
+        arg(javaBean.getLoginName());
+        javaBeans.add(javaBean);
+        javaBean = new SysUser();
+        javaBean.setId(arg());
+        javaBean.setUserName(arg());
+        arg(javaBean.getLoginName());
+        javaBeans.add(javaBean);
 
-        List<JurRole> javaBeans = new ArrayList<>();
-        javaBeans.add(new JurRole());
-        javaBeans.add(new JurRole());
-        JurRole role = new JurRole();
-        role.setId("666");
-        javaBeans.add(role);
-
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.insert(SysUserModel.class)
                 .batchInsertJavaBeans(javaBeans);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "insert into jur_role (`id`,`name`,`role`,`description`,`parent_id`,`parent_ids`,`type`,`index`,`status`,`create_time`,`update_time`,`delete_time`,`create_time_stamp`,`update_time_stamp`,`delete_time_stamp`) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?),(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 45);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(30), "666");
+        setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?),(?,?,?)");
     }
 
 }

@@ -9,7 +9,7 @@ import pub.avalon.sqlhelper.readme.model.SysUserModel;
 import java.util.Arrays;
 
 /**
- * MySql动态引擎 - 根据主键删除 - 测试
+ * MySql动态引擎 - 删除 - 主键删除
  */
 public class MySqlDynamicEngineDeleteByPrimaryKeyTest extends AbstractTest {
 
@@ -17,12 +17,10 @@ public class MySqlDynamicEngineDeleteByPrimaryKeyTest extends AbstractTest {
     void TestDeleteByPrimaryKey() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.delete(SysUserModel.class)
                 .deleteByPrimaryKey(arg());
-
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
 
         sqlBuilder = MySqlDynamicEngine.delete("sys_user", SysUserModel.class)
                 .deleteByPrimaryKey(arg());
-
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
     }
 
@@ -30,7 +28,6 @@ public class MySqlDynamicEngineDeleteByPrimaryKeyTest extends AbstractTest {
     void TestBatchDeleteByPrimaryKeys() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.delete(SysUserModel.class)
                 .batchDeleteByPrimaryKeys(Arrays.asList(arg(), arg()));
-
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` in (?,?)");
     }
 }

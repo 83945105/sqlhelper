@@ -442,8 +442,9 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 default:
                     continue;
             }
-            sqlSplicer.append(joinTableData.getTableName())
-                    .append(" ")
+            sqlSplicer.append("`")
+                    .append(joinTableData.getTableName())
+                    .append("` ")
                     .append(joinTableData.getTableAlias());
             List<OnDataLinker> onDataLinkerList = joinTableData.getOnDataLinkerList();
             if (onDataLinkerList != null && onDataLinkerList.size() > 0) {

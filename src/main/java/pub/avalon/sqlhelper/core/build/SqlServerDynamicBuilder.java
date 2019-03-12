@@ -37,7 +37,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
 
     @Override
     public SqlBuilder deleteTable() {
-        this.sqlSplicer.clear().append("drop table ").append(this.sqlData.getMainTableData().getTableName());
+        this.sqlSplicer.clear().append("drop table [").append(this.sqlData.getMainTableData().getTableName()).append("]");
         this.sqlArgs = new ArrayList<>(0);
         return this;
     }
@@ -68,9 +68,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder queryByPrimaryKey(Object keyValue) {
         this.sqlSplicer.clear().append("select");
         this.appendColumnSql(this.sqlSplicer);
-        this.sqlSplicer.append(" from ")
+        this.sqlSplicer.append(" from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" ")
+                .append("] ")
                 .append(this.sqlData.getMainTableData().getTableAlias())
                 .append(" where ")
                 .append(this.sqlData.getMainTableData().getTableAlias())
@@ -87,9 +87,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlArgs = new ArrayList<>(16);
         this.sqlSplicer.clear().append("select");
         this.appendColumnSql(this.sqlSplicer);
-        this.sqlSplicer.append(" from ")
+        this.sqlSplicer.append(" from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" ")
+                .append("] ")
                 .append(this.sqlData.getMainTableData().getTableAlias());
         this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);
@@ -103,22 +103,32 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder queryCount() {
         this.sqlArgs = new ArrayList<>(16);
         String groupSql = this.appendGroupSql(new SqlSplicer(32)).getSql();
+        String limitSql = this.appendLimitSql(new SqlSplicer(16)).getSql();
         boolean hasGroup = groupSql.length() > 0;
+        boolean hasLimit = limitSql.length() > 0;
         this.sqlSplicer.clear();
-        if (hasGroup) {
+        if (hasGroup || hasLimit) {
             this.sqlSplicer.append("select count(1) from (select ")
-                    .append(groupSql.replace(" group by ", ""))
-                    .append(" from ");
+                    .append(this.sqlData.getMainTableData().getTableAlias())
+                    .append(".[")
+                    .append(this.sqlData.getMainTableData().getPrimaryKeyName())
+                    .append("] from [");
         } else {
-            this.sqlSplicer.append("select count(1) from ");
+            this.sqlSplicer.append("select count(1) from [");
         }
         this.sqlSplicer.append(this.sqlData.getMainTableData().getTableName())
-                .append(" ")
+                .append("] ")
                 .append(this.sqlData.getMainTableData().getTableAlias());
         this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);
-        if (hasGroup) {
-            this.sqlSplicer.append(groupSql).append(") C");
+        if (hasGroup || hasLimit) {
+            if (hasGroup) {
+                this.sqlSplicer.append(groupSql);
+            }
+            if (hasLimit) {
+                this.sqlSplicer.append(limitSql);
+            }
+            this.sqlSplicer.append(") C");
         }
         return this;
     }
@@ -181,9 +191,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder insertJavaBeanSelective(Object javaBean) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
-                .append("insert into ")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" (");
+                .append("] (");
         int i = 0;
         Object value;
         for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
@@ -213,9 +223,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
         this.sqlArgs = new ArrayList<>(32 * javaBeans.size());
         this.sqlSplicer.clear()
-                .append("insert into ")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" (");
+                .append("] (");
         Set<Map.Entry<String, String>> entrySet = this.getColumnAliasMap().entrySet();
         int i = 0;
         for (Map.Entry<String, String> entry : entrySet) {
@@ -248,9 +258,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     @Override
     public SqlBuilder updateArgsByPrimaryKey(Object keyValue, Collection<?> args) {
         this.sqlSplicer.clear()
-                .append("update ")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" set ");
+                .append("] set ");
         String primaryKeyName = this.sqlData.getMainTableData().getPrimaryKeyName();
         int i = 0;
         for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
@@ -275,9 +285,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder updateJavaBeanByPrimaryKey(Object keyValue, Object javaBean) {
         this.sqlArgs = new ArrayList<>(37);
         this.sqlSplicer.clear()
-                .append("update ")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" set ");
+                .append("] set ");
         String primaryKeyName = this.sqlData.getMainTableData().getPrimaryKeyName();
         int i = 0;
         for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
@@ -301,9 +311,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object keyValue, Object javaBean) {
         this.sqlArgs = new ArrayList<>(37);
         this.sqlSplicer.clear()
-                .append("update ")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" set ");
+                .append("] set ");
         String primaryKeyName = this.sqlData.getMainTableData().getPrimaryKeyName();
         int i = 0;
         Object value;
@@ -333,9 +343,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update ")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
@@ -356,9 +366,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update ")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
@@ -384,9 +394,9 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlArgs = new ArrayList<>(128);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update ")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append(" ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");

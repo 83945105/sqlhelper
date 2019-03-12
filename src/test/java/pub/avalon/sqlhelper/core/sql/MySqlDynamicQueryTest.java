@@ -1,444 +1,342 @@
 package pub.avalon.sqlhelper.core.sql;
 
-import com.shiro.JurResModel;
-import com.shiro.JurRoleModel;
-import com.shiro.JurRoleResModel;
-import com.shiro.JurRoleUserModel;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pub.avalon.sqlhelper.core.beans.Where;
+import pub.avalon.beans.DataBaseType;
+import pub.avalon.beans.Pagination;
+import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
+import pub.avalon.sqlhelper.readme.model.RoleResourceModel;
+import pub.avalon.sqlhelper.readme.model.SysUserModel;
+import pub.avalon.sqlhelper.readme.model.UserRoleModel;
 
 /**
- * Created by 白超 on 2018/8/25.
+ * MySql动态引擎 - 查询 - 条件查询
  */
-public class MySqlDynamicQueryTest {
+public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin")))
+                        .and(mainTable.userName().equalTo(arg())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where JurRole.`role` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "admin");
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin").createTime().equalTo(2)))
+                        .and(mainTable.userName().equalTo(arg())
+                                .loginName().equalTo(arg())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where JurRole.`role` = ? and JurRole.`create_time` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), 2);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin").createTime().equalTo(2))
-                        .or(mainTable.index().greaterThan(6)))
+                        .and(mainTable.userName().equalTo(arg())
+                                .loginName().equalTo(arg()))
+                        .or(mainTable.id().greaterThan(arg())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ? or SysUser.`id` > ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where JurRole.`role` = ? and JurRole.`create_time` = ? or JurRole.`index` > ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 3);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo("admin").createTime().equalTo(2))
-                        .or(mainTable.index().greaterThan(6).parentId().between(1, 2))
-                        .and(mainTable.parentId().like("233")))
+                        .and(mainTable.userName().equalTo(arg())
+                                .loginName().equalTo(arg()))
+                        .or(mainTable.id().greaterThan(arg())
+                                .loginName().between(arg(), arg()))
+                        .and(mainTable.loginName().like(arg())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ? or (SysUser.`id` > ? and SysUser.`login_name` between ? and ?) and SysUser.`login_name` like ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where JurRole.`role` = ? and JurRole.`create_time` = ? or (JurRole.`index` > ? and JurRole.`parent_id` between ? and ?) and JurRole.`parent_id` like ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 6);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
-
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.role().notEqualTo("5"))
-                                .or(mainTable1.name().greaterThan(2)))
-                        .or(mainTable.index().greaterThan(6).parentId().between(1, 2))
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.name().equalTo(2))
-                                .or(mainTable1.role().equalTo(5))))
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().notEqualTo(arg()))
+                                .or(mt.loginName().greaterThan(arg())))
+                        .or(mainTable.id().greaterThan(arg())
+                                .userName().between(arg(), arg()))
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().equalTo(arg()))
+                                .or(mt.loginName().equalTo(arg()))))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where (SysUser.`user_name` != ? or SysUser.`login_name` > ?) or (SysUser.`id` > ? and SysUser.`user_name` between ? and ?) and (SysUser.`user_name` = ? or SysUser.`login_name` = ?)");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where (JurRole.`role` != ? or JurRole.`name` > ?) or (JurRole.`index` > ? and JurRole.`parent_id` between ? and ?) and (JurRole.`name` = ? or JurRole.`role` = ?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 7);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.role().notEqualTo("5"))
-                                .or(mainTable1.name().greaterThan(2)))
-                        .or(mainTable.index().greaterThan(6).parentId().between(1, 2))
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.name().equalTo(2))
-                                .or(mainTable1.role().equalTo(5))))
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().notEqualTo(arg()))
+                                .or(mt.userName().greaterThan(arg())))
+                        .or(mainTable.id().greaterThan(arg())
+                                .userName().between(arg(), arg()))
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().equalTo(arg()))
+                                .or(mt.loginName().equalTo(arg()))))
                 .where((condition, mainTable) -> condition
-                        .and((condition1, mainTable1) -> condition1
-                                .and(mainTable1.role().greaterThanAndEqualTo(8))
-                                .or(mainTable1.name().lessThanAndEqualTo(10))))
+                        .and((cd, mt) -> cd
+                                .and(mt.userName().greaterThanAndEqualTo(arg()))
+                                .or(mt.loginName().lessThanAndEqualTo(arg()))))
                 .query();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where ((JurRole.`role` != ? or JurRole.`name` > ?) or (JurRole.`index` > ? and JurRole.`parent_id` between ? and ?) and (JurRole.`name` = ? or JurRole.`role` = ?)) and (JurRole.`role` >= ? or JurRole.`name` <= ?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 9);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), 6);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where ((SysUser.`user_name` != ? or SysUser.`user_name` > ?) or (SysUser.`id` > ? and SysUser.`user_name` between ? and ?) and (SysUser.`user_name` = ? or SysUser.`login_name` = ?)) and (SysUser.`user_name` >= ? or SysUser.`login_name` <= ?)");
     }
 
     @Test
     void TestJoin() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
+                .leftJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id`");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
+                .leftJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .rightJoin(JurRoleResModel.class, "JurRoleRes2", (on, joinTable, mainTable) -> on
+                .rightJoin(UserRoleModel.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` right join jur_role_res JurRoleRes2 on JurRoleRes2.`role_id` = JurRole.`id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` right join `user_role` UR on UR.`role_id` = SysUser.`id`");
     }
 
     @Test
     void TestJoinAndWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .where(JurRoleResModel.class, (condition, table, mainTable) -> condition
-                        .and(table.resType().like("233")))
+                .where(UserRoleModel.class, (condition, table, mainTable) -> condition
+                        .and(table.roleName().like(arg())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where UserRole.`role_name` like ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` where JurRoleRes.`res_type` like ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "233");
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())
+                                .roleName().equalTo(arg())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.name().notEqualTo(9))
-                        .or(mainTable.role().equalTo(10)))
-                .where(JurRoleResModel.class, (condition, table, mainTable) -> condition
-                        .and(table.resType().equalTo(11)))
+                        .and(mainTable.userName().notEqualTo(arg()))
+                        .or(mainTable.loginName().equalTo(arg())))
+                .where(UserRoleModel.class, (condition, table, mainTable) -> condition
+                        .and(table.roleName().equalTo(arg())))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? where (SysUser.`user_name` != ? or SysUser.`login_name` = ?) and UserRole.`role_name` = ?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? where (JurRole.`name` != ? or JurRole.`role` = ?) and JurRoleRes.`res_type` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(3), 11);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
+                .leftJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()))
-                        .and(joinTable.roleId().equalTo(JurRoleResModel.class, JurRoleResModel.On::resId)))
+                        .and(joinTable.roleId().equalTo(UserRoleModel.class, UserRoleModel.On::roleId)))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` = UserRole.`role_id`");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` and JurRoleUser.`role_id` = JurRoleRes.`res_id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 1);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .rightJoin(JurRoleResModel.class, "JurRoleRes2", (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())
+                                .roleName().equalTo(arg())))
+                .rightJoin(UserRoleModel.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).roleId().lessThan(JurRoleResModel.class, "JurRoleRes2", JurRoleResModel.On::roleId)))
-                .where(JurRoleResModel.class, "JurRoleRes2", (condition, table, mainTable) -> condition
-                        .and(table.resType().equalTo(3)))
+                .leftJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())
+                                .roleId().lessThan(UserRoleModel.class, "UR", UserRoleModel.On::roleId)))
+                .where(UserRoleModel.class, "UR", (condition, table, mainTable) -> condition
+                        .and(table.roleName().equalTo(arg())))
                 .query();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? right join jur_role_res JurRoleRes2 on JurRoleRes2.`role_id` = JurRole.`id` left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` and JurRoleUser.`role_id` < JurRoleRes2.`role_id` where JurRoleRes2.`res_type` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), 3);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUser.`id` left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` < UR.`role_id` where UR.`role_name` = ?");
     }
 
     @Test
     void TestJoinWhereAndOr() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).resName().equalTo(1)))
-                .rightJoin(JurRoleResModel.class, "JurRoleRes2", (on, joinTable, mainTable) -> on
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())
+                                .roleName().equalTo(arg())))
+                .rightJoin(UserRoleModel.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .leftJoin(JurRoleUserModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).roleId().lessThan(JurRoleResModel.class, "JurRoleRes2", JurRoleResModel.On::roleId)))
-                .where(JurRoleResModel.class, "JurRoleRes2", (condition, table, mainTable) -> condition
+                .leftJoin(RoleResourceModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())
+                                .roleId().lessThan(UserRoleModel.class, "UR", UserRoleModel.On::roleId)))
+                .where(UserRoleModel.class, "UR", (condition, table, mainTable) -> condition
                         .and((cd, mt) -> cd
-                                .and(table.role().equalTo("5"))
-                                .or(table.createTime().equalTo("6")))
-                        .and(table.resType().equalTo(3)))
+                                .and(table.roleName().equalTo(arg()))
+                                .or(table.roleId().equalTo(arg())))
+                        .and(table.sortIndex().equalTo(arg())))
                 .query();
-        System.out.println(sqlBuilder.getPreparedStatementSql());
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` and JurRoleRes.`res_name` = ? right join jur_role_res JurRoleRes2 on JurRoleRes2.`role_id` = JurRole.`id` left join jur_role_user JurRoleUser on JurRoleUser.`role_id` = JurRole.`id` and JurRoleUser.`role_id` < JurRoleRes2.`role_id` where (JurRoleRes2.`role` = ? or JurRoleRes2.`create_time` = ?) and JurRoleRes2.`res_type` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), "5");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUser.`id` left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` < UR.`role_id` where (UR.`role_name` = ? or UR.`role_id` = ?) and UR.`sort_index` = ?");
     }
 
     @Test
     void TestGroup() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .group(JurRoleModel.Group::createTime)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .group(SysUserModel.Group::userName)
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.user_name");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole group by JurRole.create_time");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .group(table -> table.createTime().deleteTime())
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .group(table -> table.userName().id())
                 .query();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole group by JurRole.create_time,JurRole.delete_time");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.user_name,SysUser.id");
     }
 
     @Test
     void TestGroupAndJoinAndWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .group(table -> table.createTime().deleteTime())
+                        .and(mainTable.userName().equalTo(arg())))
+                .group(table -> table.id().loginName())
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? group by SysUser.id,SysUser.login_name");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where JurRole.`role` = ? group by JurRole.create_time,JurRole.delete_time");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .group(table -> table.createTime().deleteTime())
-                .group(JurRoleResModel.class, JurRoleResModel.Group::resName)
+                        .and(mainTable.userName().equalTo(arg())))
+                .group(table -> table.userName().id())
+                .group(UserRoleModel.class, UserRoleModel.Group::roleId)
                 .query();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` where JurRole.`role` = ? group by JurRole.create_time,JurRole.delete_time,JurRoleRes.res_name");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.user_name,SysUser.id,UserRole.role_id");
     }
 
     @Test
     void TestSort() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .sort(table -> table.createTime().asc())
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .sort(table -> table.id().asc())
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser order by SysUser.`id` asc");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole order by JurRole.`create_time` asc");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .sort(table -> table.createTime().asc().deleteTime().desc())
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .sort(table -> table.id().asc().userName().desc())
                 .query();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole order by JurRole.`create_time` asc,JurRole.`delete_time` desc");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser order by SysUser.`id` asc,SysUser.`user_name` desc");
     }
 
     @Test
     void TestSortAndJoinAndWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .sort(table -> table.deleteTime().desc())
+                        .and(mainTable.userName().equalTo(arg())))
+                .sort(table -> table.id().desc())
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? order by SysUser.`id` desc");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole where JurRole.`role` = ? order by JurRole.`delete_time` desc");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .innerJoin(JurRoleResModel.class, (on, joinTable, mainTable) -> on
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.role().equalTo(2)))
-                .sort(JurRoleResModel.class, table -> table.createTime().desc())
+                        .and(mainTable.id().equalTo(arg())))
+                .sort(UserRoleModel.class, table -> table.id().desc())
                 .query();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole inner join jur_role_res JurRoleRes on JurRoleRes.`role_id` = JurRole.`id` where JurRole.`role` = ? order by JurRoleRes.`create_time` desc");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 1);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 2);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`id` = ? order by UserRole.`id` desc");
     }
 
     @Test
     void TestLimit() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
-                .limit(0, 10)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .limit(arg(0), arg(10))
                 .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ?,?");
 
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole limit ?,?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 0);
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleModel.class)
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .limit(200, 10, 20)
                 .query();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRole.`id` `id`,JurRole.`name` `name`,JurRole.`role` `role`,JurRole.`description` `description`,JurRole.`parent_id` `parentId`,JurRole.`parent_ids` `parentIds`,JurRole.`type` `type`,JurRole.`index` `index`,JurRole.`status` `status`,JurRole.`create_time` `createTime`,JurRole.`update_time` `updateTime`,JurRole.`delete_time` `deleteTime`,JurRole.`create_time_stamp` `createTimeStamp`,JurRole.`update_time_stamp` `updateTimeStamp`,JurRole.`delete_time_stamp` `deleteTimeStamp` from jur_role JurRole limit ?,?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 2);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 180);
+        Pagination pagination = new Pagination(DataBaseType.MYSQL, 200, 10, 20);
+        arg(pagination.getLimitStart());
+        arg(pagination.getLimitEnd());
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ?,?");
     }
 
     @Test
     void TestJoinOn() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
-                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and((o, jt, mt) -> on
-                                .and(jt.id().equalTo(mt.roleId()))
-                                .or(jt.role().equalTo(mt.role())))
-                        .or(joinTable.id().equalTo(mainTable.roleId())))
+                                .and(jt.id().equalTo(mt.userName()))
+                                .or(jt.roleName().equalTo(mt.primaryKey())))
+                        .or(joinTable.id().equalTo(mainTable.loginName())))
                 .query();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on (JurRole.`id` = JurRoleRes.`role_id` or JurRole.`role` = JurRoleRes.`role`) or JurRole.`id` = JurRoleRes.`role_id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
-                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name`");
+
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                         .and((on1, jt1, mt1) -> on1
-                                .and(jt1.id().equalTo(mt1.roleId()).role().equalTo("teacher"))
-                                .or(jt1.role().equalTo(mt1.role()))
+                                .and(jt1.id().equalTo(mt1.userName()).roleId().equalTo(arg()))
+                                .or(jt1.roleName().equalTo(mt1.loginName()))
                                 .and((on2, jt2, mt2) -> on2
-                                        .and(jt2.id().equalTo("1").role().equalTo("admin"))))
-                        .or(joinTable.createTime().equalTo("666"))
-                        .or(joinTable.id().equalTo(mainTable.roleId())))
+                                        .and(jt2.id().equalTo(arg())
+                                                .roleName().equalTo(arg()))))
+                        .or(joinTable.roleName().equalTo(arg()))
+                        .or(joinTable.id().equalTo(mainTable.userName())))
                 .query();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on (JurRole.`id` = JurRoleRes.`role_id` and JurRole.`role` = ? or JurRole.`role` = JurRoleRes.`role` and JurRole.`id` = ? and JurRole.`role` = ?) or JurRole.`create_time` = ? or JurRole.`id` = JurRoleRes.`role_id`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(2), "admin");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on (UserRole.`id` = SysUser.`user_name` and UserRole.`role_id` = ? or UserRole.`role_name` = SysUser.`login_name` and UserRole.`id` = ? and UserRole.`role_name` = ?) or UserRole.`role_name` = ? or UserRole.`id` = SysUser.`user_name`");
     }
 
     @Test
     void TestSubQuery() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
-                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
-                .subQuery(JurResModel.class, (mainTable, query) -> query
-                        .column(JurResModel.Column::id)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .subQuery(UserRoleModel.class, "AA", (mainTable, query) -> query
+                        .column(UserRoleModel.Column::id)
                         .where((cd, mt) -> cd
-                                .and(mt.createTime().equalTo(666)
-                                        .createTime().equalTo(mainTable.createTime()))
-                                .and(mainTable.createTime().equalTo(mt.createTime()))
-                                .and(mt.createTime().equalTo(JurRoleModel.class, JurRoleModel.Where::createTime)))
-                        .limit(1, 1).query(), "subQuery")
+                                .and(mt.roleId().equalTo(arg())
+                                        .roleName().equalTo(mainTable.userName()))
+                                .and(mainTable.id().equalTo(mt.id()))
+                                .and(mt.sortIndex().equalTo(UserRoleModel.class, UserRoleModel.Where::id)))
+                        .limit(arg(1), arg(1)).query(), "subQuery")
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.createTime().equalTo("233")))
+                        .and(mainTable.userName().equalTo(arg())))
                 .query();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select (select JurRes.`id` `id` from jur_res JurRes where JurRes.`create_time` = ? and JurRes.`create_time` = JurRoleRes.`create_time` and JurRoleRes.`create_time` = JurRes.`create_time` and JurRes.`create_time` = JurRole.`create_time` limit ?,?) subQuery, JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` = ?");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), 666);
+        setSqlBuilder(sqlBuilder, "select (select AA.`id` `id` from `user_role` AA where AA.`role_id` = ? and AA.`role_name` = SysUser.`user_name` and SysUser.`id` = AA.`id` and AA.`sort_index` = UserRole.`id` limit ?,?) subQuery, SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` = ?");
     }
 
     @Test
     void TestWhereSubQuery() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
-                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.createTime().equalTo(JurRoleModel.class, (mt, query) -> query
-                                .column(JurRoleModel.Column::id)
+                        .and(mainTable.userName().like(UserRoleModel.class, (mt, query) -> query
+                                .column(UserRoleModel.Column::id)
                                 .where((ct, m) -> ct
-                                        .and(m.name().equalTo("5")))
+                                        .and(m.roleName().equalTo(arg())))
                                 .limitOne()
                                 .query())))
                 .query();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` = (select JurRole.`id` `id` from jur_role JurRole where JurRole.`name` = ? limit ?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 3);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(0), "5");
+        arg(0);
+        arg(1);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like (select UserRole.`id` `id` from `user_role` UserRole where UserRole.`role_name` = ? limit ?,?)");
 
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
-                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.createTime().like(JurRoleModel.class, (mt, query) -> query
-                                .column(JurRoleModel.Column::id)
+                        .and(mainTable.userName().like(UserRoleModel.class, (mt, query) -> query
+                                .column(UserRoleModel.Column::id)
                                 .where((ct, m) -> ct
-                                        .and(m.name().between("6", "7")))
+                                        .and(m.userId().between(arg(), arg())))
                                 .limitOne()
                                 .query())))
                 .query();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` like (select JurRole.`id` `id` from jur_role JurRole where JurRole.`name` between ? and ? limit ?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), "7");
-
-        sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
-                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
-                .column(table -> table)
-                .where((condition, mainTable) -> condition
-                        .and(mainTable.createTime().like(JurRoleModel.class, (mt, query) -> query
-                                .column(JurRoleModel.Column::id)
-                                .where((ct, m) -> ct
-                                        .and(m.name().between("6", "7"))
-                                        .and(m.role().equalTo(JurRoleModel.class, JurRoleModel.Where::name)))
-                                .limitOne()
-                                .query())))
-                .query();
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select JurRoleRes.`id` `id`,JurRoleRes.`role_id` `roleId`,JurRoleRes.`role` `role`,JurRoleRes.`role_name` `roleName`,JurRoleRes.`role_type` `roleType`,JurRoleRes.`res_id` `resId`,JurRoleRes.`res_name` `resName`,JurRoleRes.`res_url` `resUrl`,JurRoleRes.`res_type` `resType`,JurRoleRes.`index` `index`,JurRoleRes.`status` `status`,JurRoleRes.`create_time` `createTime`,JurRoleRes.`update_time` `updateTime`,JurRoleRes.`delete_time` `deleteTime`,JurRoleRes.`create_time_stamp` `createTimeStamp`,JurRoleRes.`update_time_stamp` `updateTimeStamp`,JurRoleRes.`delete_time_stamp` `deleteTimeStamp` from jur_role_res JurRoleRes inner join jur_role JurRole on JurRole.`create_time` = JurRoleRes.`role_id` where JurRoleRes.`create_time` like (select JurRole.`id` `id` from jur_role JurRole where JurRole.`name` between ? and ? and JurRole.`role` = JurRole.`name` limit ?,?)");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 4);
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().get(1), "7");
-    }
-
-    void Test() {
-
-        Where<JurRoleResModel> where = new Where<>();
-
-        where.addAnd();
-        where.addOr();
-
-
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(JurRoleResModel.class)
-                .innerJoin(JurRoleModel.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.createTime().equalTo(mainTable.roleId())))
-                .subQuery(JurResModel.class, (mainTable, query) -> query
-                        .column(JurResModel.Column::id)
-                        .where((cd, mt) -> cd
-                                .and(mt.createTime().equalTo(666)
-                                        .createTime().equalTo(mainTable.createTime()))
-                                .and(mainTable.createTime().equalTo(mt.createTime()))
-                                .and(mt.createTime().equalTo(JurRoleModel.class, JurRoleModel.Where::createTime)))
-                        .limit(1, 1).query(), "subQuery")
-                .column(table -> table)
-                .where(where)
-                .where((condition, mainTable) -> condition
-                        .and(mainTable.createTime().equalTo("233")))
-                .query();
+        arg(0);
+        arg(1);
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like (select UserRole.`id` `id` from `user_role` UserRole where UserRole.`user_id` between ? and ? limit ?,?)");
     }
 
 }

@@ -1,62 +1,46 @@
 package pub.avalon.sqlhelper.core.sql;
 
-import com.shiro.JurRoleModel;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-
-import java.util.UUID;
+import pub.avalon.sqlhelper.readme.model.SysUserModel;
 
 /**
- * Created by 白超 on 2018/9/11.
+ * MySql动态引擎 - 表格 - 操作
  */
-public class MySqlDynamicTableTest {
+public class MySqlDynamicTableTest extends AbstractTest {
 
     @Test
     void TestCopyTable() {
-        String tableName = "jur_role_" + UUID.randomUUID().toString().replaceAll("-", "");
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserModel.class)
+                .copyTable("copyTable", false);
+        setSqlBuilder(sqlBuilder, "create table `copyTable` like `sys_user`");
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(JurRoleModel.class)
-                .copyTable(tableName, false);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "create table `" + tableName + "` like `jur_role`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
-
-        tableName = "jur_role_" + UUID.randomUUID().toString().replaceAll("-", "");
-
-        sqlBuilder = MySqlDynamicEngine.table(JurRoleModel.class)
-                .copyTable(tableName, true);
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "create table `" + tableName + "` like `jur_role`; insert into `" + tableName + "` select * from `jur_role`");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        sqlBuilder = MySqlDynamicEngine.table(SysUserModel.class)
+                .copyTable("copyTable", true);
+        setSqlBuilder(sqlBuilder, "create table `copyTable` like `sys_user`; insert into `copyTable` select * from `sys_user`");
     }
 
     @Test
     void TestDeleteTable() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("jur_role_delete", JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserModel.class)
                 .deleteTable();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "drop table jur_role_delete");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        setSqlBuilder(sqlBuilder, "drop table `sys_user`");
     }
 
     @Test
     void TestRenameTable() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("jur_role", JurRoleModel.class)
-                .renameTable("jur_role_new");
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "rename table jur_role to jur_role_new");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserModel.class)
+                .renameTable("newTableName");
+        setSqlBuilder(sqlBuilder, "rename table `sys_user` to `newTableName`");
     }
 
     @Test
     void TestIsTableExist() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("jur_role", JurRoleModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserModel.class)
                 .isTableExist();
-
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementSql(), "select table_name from information_schema.TABLES where table_name = 'jur_role' and table_schema = (select database())");
-        Assertions.assertEquals(sqlBuilder.getPreparedStatementArgs().size(), 0);
+        setSqlBuilder(sqlBuilder, "select table_name from information_schema.TABLES where table_name = 'sys_user' and table_schema = (select database())");
     }
 
 }

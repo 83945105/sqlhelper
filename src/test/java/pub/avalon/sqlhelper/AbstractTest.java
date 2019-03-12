@@ -23,7 +23,7 @@ public abstract class AbstractTest {
     }
 
     protected String arg() {
-        String arg = "参数" + (AbstractTest.argListList.size() + 1);
+        String arg = "参数" + (AbstractTest.argListList.get(AbstractTest.argListList.size() - 1).size() + 1);
         return arg(arg);
     }
 

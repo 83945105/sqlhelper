@@ -30,6 +30,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
         new ModelTemplateEngine(engine, new HumpConverter())
                 .addTable("sys_user", "SysUser")
                 .addTable("user_role", "UserRole")
+                .addTable("role_resource", "RoleResource")
                 .process("/", "pub.avalon.sqlhelper.readme.model");
     }
 
@@ -45,7 +46,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
         //TODO 你可以将产出的预编译sql和参数传入如Spring JDBC的JdbcTemplate相关方法中使用
         //TODO 或者可以使用我们集成好的项目 sqlhelper-spring 该项目提供了很多强大的通用增删改查接口
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from sys_user SysUser where SysUser.`id` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`id` = ?");
     }
 
     /**
@@ -58,14 +59,14 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                 .column(table -> table.id().userName("userNameAlias"))
                 .queryByPrimaryKey(arg());
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from sys_user SysUser where SysUser.`id` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from `sys_user` SysUser where SysUser.`id` = ?");
 
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 //table表示查询所有字段，如果不指定任何column，默认也是这样
                 .column(table -> table)
                 .queryByPrimaryKey(arg());
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from sys_user SysUser where SysUser.`id` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`id` = ?");
     }
 
     /**
@@ -84,7 +85,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                 //查询，注意这里就用不了queryByPrimaryKey方法了
                 .query();
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from sys_user SysUser where SysUser.`user_name` like ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from `sys_user` SysUser where SysUser.`user_name` like ?");
 
         //上面的例子只是一个条件，那么多条件查询该如何写呢
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
@@ -96,7 +97,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                                 .loginName().equalTo(arg("2"))))
                 .query();
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from sys_user SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ?");
 
         //你也可以这么写
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
@@ -108,7 +109,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                         .and(mainTable.loginName().equalTo(arg("2"))))
                 .query();
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from sys_user SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ?");
 
         //or条件
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
@@ -120,7 +121,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                         .or(mainTable.loginName().equalTo(arg("2"))))
                 .query();
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from sys_user SysUser where SysUser.`user_name` = ? or SysUser.`login_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from `sys_user` SysUser where SysUser.`user_name` = ? or SysUser.`login_name` = ?");
 
     }
 
@@ -140,7 +141,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                         .and(mainTable.userName().equalTo(arg())))
                 .query();
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from sys_user SysUser where (SysUser.`user_name` like ? or SysUser.`login_name` like ?) and SysUser.`user_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from `sys_user` SysUser where (SysUser.`user_name` like ? or SysUser.`login_name` like ?) and SysUser.`user_name` = ?");
 
 
     }
@@ -164,7 +165,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                         .and(mainTable.userName().like(arg())))
                 .query();
 
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from sys_user SysUser inner join user_role UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userNameAlias` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like ?");
 
         //从产出的sql来看，我们只查询了主表的字段，那么如果我们想同时查询出连接表的字段该如何做呢？
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
@@ -179,7 +180,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                         .and(mainTable.userName().like(arg())))
                 .query();
 
-        setSqlBuilder(sqlBuilder, "select UserRole.`id` `userRoleId`,UserRole.`role_id` `roleId`,UserRole.`role_name` `roleName`,SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from sys_user SysUser inner join user_role UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like ?");
+        setSqlBuilder(sqlBuilder, "select UserRole.`id` `userRoleId`,UserRole.`role_id` `roleId`,UserRole.`role_name` `roleName`,SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like ?");
 
     }
 
