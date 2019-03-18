@@ -19,5 +19,9 @@ public enum WhereValueType {
     /**
      * 子查询
      */
-    SUB_QUERY
+    SUB_QUERY,
+    /**
+     * sql片段
+     */
+    SQL_PART
 }

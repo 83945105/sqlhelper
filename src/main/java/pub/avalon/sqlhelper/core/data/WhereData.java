@@ -37,6 +37,8 @@ public final class WhereData {
 
     private SqlBuilder targetSubQuery;
 
+    private String sqlPart;
+
     public String getOwnerTableName() {
         return ownerTableName;
     }
@@ -131,5 +133,13 @@ public final class WhereData {
 
     public void setTargetSubQuery(SqlBuilder targetSubQuery) {
         this.targetSubQuery = targetSubQuery;
+    }
+
+    public String getSqlPart() {
+        return sqlPart;
+    }
+
+    public void setSqlPart(String sqlPart) {
+        this.sqlPart = sqlPart;
     }
 }

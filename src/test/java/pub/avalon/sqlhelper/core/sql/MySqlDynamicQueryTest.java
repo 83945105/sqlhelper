@@ -339,4 +339,13 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like (select UserRole.`id` `id` from `user_role` UserRole where UserRole.`user_id` between ? and ? limit ?,?)");
     }
 
+    @Test
+    void TestWhereSqlPart() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.loginName().sqlPart("=NOW()")))
+                .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`login_name` =NOW()");
+    }
+
 }

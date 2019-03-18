@@ -65,6 +65,20 @@ public final class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         return this;
     }
 
+    /**
+     * sql片段
+     * 直接写入sql片段
+     *
+     * @param sqlPart
+     * @return
+     */
+    public MW sqlPart(String sqlPart) {
+        this.whereData.setWhereValueType(WhereValueType.SQL_PART);
+        this.whereData.setSqlPart(sqlPart);
+        this.whereDataList.add(this.whereData);
+        return this.handleModel;
+    }
+
     @Override
     public MW isNull() {
         this.whereData.setWhereType(WhereType.IS_NULL);
