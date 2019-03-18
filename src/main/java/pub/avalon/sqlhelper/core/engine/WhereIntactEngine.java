@@ -52,6 +52,9 @@ public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     }
 
     public WhereIntactEngine<M, MC, MO, MW, MS, MG> where(MainCondition<M, MC, MO, MW, MS, MG> condition) {
+        if (condition == null) {
+            return this;
+        }
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
         mw.getWhereBuilder().setOwnerTableData(mainTableData);
@@ -68,6 +71,9 @@ public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Class<T> conditionClass, String alias, JoinCondition<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> condition) {
+        if (condition == null) {
+            return this;
+        }
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MW mw = mainTableData.getTableModel().getWhereModel();
