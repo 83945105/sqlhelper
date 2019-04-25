@@ -67,8 +67,8 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
     /**
      * 等于
      *
-     * @param onClass         Where关联模组类
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param columnModelValue 列回调
      * @return Where条件模组
      */
     default <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -77,16 +77,16 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW equalTo(Class<T> onClass,
-                                                                     WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue) {
-        return this.equalTo(onClass, null, whereModelValue);
+                                                                     ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue) {
+        return this.equalTo(onClass, null, columnModelValue);
     }
 
     /**
      * 等于
      *
-     * @param onClass         Where关联模组类
-     * @param alias           别名
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param alias            别名
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -96,13 +96,13 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW equalTo(Class<T> onClass,
                                                                      String alias,
-                                                                     WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue);
+                                                                     ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue);
 
     /**
      * 不等于
      *
-     * @param onClass         Where关联模组类
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     default <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -111,16 +111,16 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW notEqualTo(Class<T> onClass,
-                                                                        WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue) {
-        return this.notEqualTo(onClass, null, whereModelValue);
+                                                                        ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue) {
+        return this.notEqualTo(onClass, null, columnModelValue);
     }
 
     /**
      * 不等于
      *
-     * @param onClass         Where关联模组类
-     * @param alias           别名
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param alias            别名
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -130,13 +130,13 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW notEqualTo(Class<T> onClass,
                                                                         String alias,
-                                                                        WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue);
+                                                                        ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue);
 
     /**
      * 大于
      *
-     * @param onClass         Where关联模组类
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     default <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -145,16 +145,16 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW greaterThan(Class<T> onClass,
-                                                                         WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue) {
-        return this.greaterThan(onClass, null, whereModelValue);
+                                                                         ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue) {
+        return this.greaterThan(onClass, null, columnModelValue);
     }
 
     /**
      * 大于
      *
-     * @param onClass         Where关联模组类
-     * @param alias           别名
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param alias            别名
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -164,13 +164,13 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW greaterThan(Class<T> onClass,
                                                                          String alias,
-                                                                         WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue);
+                                                                         ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue);
 
     /**
      * 大于等于
      *
-     * @param onClass         Where关联模组类
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     default <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -179,16 +179,16 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW greaterThanAndEqualTo(Class<T> onClass,
-                                                                                   WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue) {
-        return this.greaterThanAndEqualTo(onClass, null, whereModelValue);
+                                                                                   ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue) {
+        return this.greaterThanAndEqualTo(onClass, null, columnModelValue);
     }
 
     /**
      * 大于等于
      *
-     * @param onClass         Where关联模组类
-     * @param alias           别名
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param alias            别名
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -198,13 +198,13 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW greaterThanAndEqualTo(Class<T> onClass,
                                                                                    String alias,
-                                                                                   WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue);
+                                                                                   ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue);
 
     /**
      * 小于
      *
-     * @param onClass         Where关联模组类
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     default <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -213,16 +213,16 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW lessThan(Class<T> onClass,
-                                                                      WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue) {
-        return this.lessThan(onClass, null, whereModelValue);
+                                                                      ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue) {
+        return this.lessThan(onClass, null, columnModelValue);
     }
 
     /**
      * 小于
      *
-     * @param onClass         Where关联模组类
-     * @param alias           别名
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param alias            别名
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -232,13 +232,13 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW lessThan(Class<T> onClass,
                                                                       String alias,
-                                                                      WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue);
+                                                                      ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue);
 
     /**
      * 小于等于
      *
-     * @param onClass         Where关联模组类
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     default <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -247,16 +247,16 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW lessThanAndEqualTo(Class<T> onClass,
-                                                                                WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue) {
-        return this.lessThanAndEqualTo(onClass, null, whereModelValue);
+                                                                                ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue) {
+        return this.lessThanAndEqualTo(onClass, null, columnModelValue);
     }
 
     /**
      * 小于等于
      *
-     * @param onClass         Where关联模组类
-     * @param alias           别名
-     * @param whereModelValue Where处理
+     * @param onClass          Where关联模组类
+     * @param alias            别名
+     * @param columnModelValue Where处理
      * @return Where条件模组
      */
     <T extends Model<T, TC, TO, TW, TS, TG>,
@@ -266,6 +266,6 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> MW lessThanAndEqualTo(Class<T> onClass,
                                                                                 String alias,
-                                                                                WhereModelValue<T, TC, TO, TW, TS, TG> whereModelValue);
+                                                                                ColumnModelValue<T, TC, TO, TW, TS, TG> columnModelValue);
 
 }

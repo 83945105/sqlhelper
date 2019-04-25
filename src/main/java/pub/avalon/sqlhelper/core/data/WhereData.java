@@ -4,6 +4,8 @@ import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.beans.WhereValueType;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 
+import java.util.Map;
+
 /**
  * 条件数据
  *
@@ -28,6 +30,10 @@ public final class WhereData {
     private String targetTableAlias;
 
     private String targetColumnName;
+
+    private String targetSecondColumnName;
+
+    private Map<String, String> targetColumnNames;
 
     private Object targetValue;
 
@@ -101,6 +107,22 @@ public final class WhereData {
 
     public void setTargetColumnName(String targetColumnName) {
         this.targetColumnName = targetColumnName;
+    }
+
+    public String getTargetSecondColumnName() {
+        return targetSecondColumnName;
+    }
+
+    public void setTargetSecondColumnName(String targetSecondColumnName) {
+        this.targetSecondColumnName = targetSecondColumnName;
+    }
+
+    public Map<String, String> getTargetColumnNames() {
+        return targetColumnNames;
+    }
+
+    public void setTargetColumnNames(Map<String, String> targetColumnNames) {
+        this.targetColumnNames = targetColumnNames;
     }
 
     public Object getTargetValue() {

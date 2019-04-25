@@ -5,6 +5,7 @@ import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.norm.ColumnModelValue;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.model.RoleResourceModel;
 import pub.avalon.sqlhelper.readme.model.SysUserModel;
@@ -285,6 +286,31 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     }
 
     @Test
+    void TestWhereJoin() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and((o, jt, mt) -> on
+                                .and(jt.id().equalTo(mt.userName()))
+                                .or(jt.roleName().equalTo(mt.primaryKey())))
+                        .or(joinTable.id().equalTo(mainTable.loginName())))
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.userName().equalTo(UserRoleModel.class, UserRoleModel.Column::roleName)))
+                .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name` where SysUser.`user_name` = UserRole.`role_name`");
+
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin("user_role_20190413", UserRoleModel.class, (on, joinTable, mainTable) -> on
+                        .and((o, jt, mt) -> on
+                                .and(jt.id().equalTo(mt.userName()))
+                                .or(jt.roleName().equalTo(mt.primaryKey())))
+                        .or(joinTable.id().equalTo(mainTable.loginName())))
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.userName().equalTo(UserRoleModel.class, UserRoleModel.Column::id)))
+                .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role_20190413` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name` where SysUser.`user_name` = UserRole.`id`");
+    }
+
+    @Test
     void TestSubQuery() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
@@ -295,7 +321,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                                 .and(mt.roleId().equalTo(arg())
                                         .roleName().equalTo(mainTable.userName()))
                                 .and(mainTable.id().equalTo(mt.id()))
-                                .and(mt.sortIndex().equalTo(UserRoleModel.class, UserRoleModel.Where::id)))
+                                .and(mt.sortIndex().equalTo(UserRoleModel.class, UserRoleModel.Column::id)))
                         .limit(arg(1), arg(1)).query(), "subQuery")
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
@@ -311,7 +337,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.userName().like(UserRoleModel.class, (mt, query) -> query
+                        .and(mainTable.userName().likeSubQuery(UserRoleModel.class, (mt, query) -> query
                                 .column(UserRoleModel.Column::id)
                                 .where((ct, m) -> ct
                                         .and(m.roleName().equalTo(arg())))
@@ -327,7 +353,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.userName().like(UserRoleModel.class, (mt, query) -> query
+                        .and(mainTable.userName().likeSubQuery(UserRoleModel.class, (mt, query) -> query
                                 .column(UserRoleModel.Column::id)
                                 .where((ct, m) -> ct
                                         .and(m.userId().between(arg(), arg())))
