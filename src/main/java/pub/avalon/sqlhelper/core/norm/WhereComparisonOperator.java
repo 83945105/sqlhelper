@@ -19,54 +19,6 @@ public interface WhereComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
     /**
      * 等于
      *
-     * @param whereBuilder Where条件构建器
-     * @return Where条件模组
-     */
-    MW equalTo(WhereBuilder whereBuilder);
-
-    /**
-     * 不等于
-     *
-     * @param whereBuilder Where条件构建器
-     * @return Where条件模组
-     */
-    MW notEqualTo(WhereBuilder whereBuilder);
-
-    /**
-     * 大于
-     *
-     * @param whereBuilder Where条件构建器
-     * @return Where条件模组
-     */
-    MW greaterThan(WhereBuilder whereBuilder);
-
-    /**
-     * 大于等于
-     *
-     * @param whereBuilder Where条件构建器
-     * @return Where条件模组
-     */
-    MW greaterThanAndEqualTo(WhereBuilder whereBuilder);
-
-    /**
-     * 小于
-     *
-     * @param whereBuilder Where条件构建器
-     * @return Where条件模组
-     */
-    MW lessThan(WhereBuilder whereBuilder);
-
-    /**
-     * 小于等于
-     *
-     * @param whereBuilder Where条件构建器
-     * @return Where条件模组
-     */
-    MW lessThanAndEqualTo(WhereBuilder whereBuilder);
-
-    /**
-     * 等于
-     *
      * @param onClass          Where关联模组类
      * @param columnModelValue 列回调
      * @return Where条件模组

@@ -37,7 +37,7 @@ public interface SubQuery<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param query
      * @return
      */
-    SqlBuilder apply(MW mainTable, QueryEngine<T, TC, TO, TW, TS, TG> query);
+    SqlBuilder apply(MC mainTable, QueryEngine<T, TC, TO, TW, TS, TG> query);
 
     /**
      * 执行SubQuery
@@ -91,7 +91,7 @@ public interface SubQuery<M extends Model<M, MC, MO, MW, MS, MG>,
                 queryEngine.getSqlData().addSubQueryJoinTableData(entry.getValue());
             }
         }
-        return subQuery.apply(sqlData.getMainTableData().getTableModel().getWhereModel(), queryEngine);
+        return subQuery.apply(sqlData.getMainTableData().getTableModel().getColumnModel(), queryEngine);
     }
 
 }

@@ -337,18 +337,6 @@ public final class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
     }
 
     @Override
-    public MW equalTo(WhereBuilder whereBuilder) {
-        this.whereData.setWhereType(WhereType.EQUAL);
-        this.whereData.setWhereValueType(WhereValueType.JOIN);
-        WhereData targetWhereData = whereBuilder.whereData;
-        this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
-        this.whereData.setTargetTableAlias(targetWhereData.getOwnerTableAlias());
-        this.whereData.setTargetColumnName(targetWhereData.getOwnerColumnName());
-        this.whereDataList.add(this.whereData);
-        return this.handleModel;
-    }
-
-    @Override
     public MW notEqualTo(WhereBuilder whereBuilder) {
         this.whereData.setWhereType(WhereType.NOT_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.JOIN);
@@ -406,6 +394,47 @@ public final class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setTargetColumnName(targetWhereData.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
+    }
+
+    @Override
+    public MW equalTo(MC columnModel) {
+        this.whereData.setWhereType(WhereType.EQUAL);
+        this.whereData.setWhereValueType(WhereValueType.JOIN);
+        Map<String, String> columnAliasMap = columnModel.getColumnAliasMap();
+        if (columnAliasMap.size() > 1) {
+            throw new SqlException("you can not set more than one column for equalTo.");
+        }
+        WhereData targetWhereData = whereBuilder.whereData;
+        this.whereData.setTargetTableName(targetWhereData.getOwnerTableName());
+        this.whereData.setTargetTableAlias(targetWhereData.getOwnerTableAlias());
+        this.whereData.setTargetColumnName(targetWhereData.getOwnerColumnName());
+        this.whereDataList.add(this.whereData);
+        return this.handleModel;
+    }
+
+    @Override
+    public MW notEqualTo(MC columnModel) {
+        return null;
+    }
+
+    @Override
+    public MW greaterThan(MC columnModel) {
+        return null;
+    }
+
+    @Override
+    public MW greaterThanAndEqualTo(MC columnModel) {
+        return null;
+    }
+
+    @Override
+    public MW lessThan(MC columnModel) {
+        return null;
+    }
+
+    @Override
+    public MW lessThanAndEqualTo(MC columnModel) {
+        return null;
     }
 
     @Override
