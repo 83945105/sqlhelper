@@ -3,7 +3,8 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.norm.Model;
 
-import java.util.*;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * 表数据
@@ -12,7 +13,7 @@ import java.util.*;
  * @version 1.0
  * @since 2018/7/10
  */
-public abstract class AbstractTableData<T extends Model> {
+public abstract class AbstractTableData<T extends Model> implements TableData<T> {
 
     private T tableModel;
 
@@ -22,11 +23,7 @@ public abstract class AbstractTableData<T extends Model> {
 
     protected String tableAlias;
 
-    private String primaryKeyName;
-
-    private String primaryKeyAlias;
-
-    private ColumnData columnData;
+    protected Set<ColumnDatum> columnData;
 
     public AbstractTableData(Class<T> tableClass) {
         this.tableClass = tableClass;
@@ -37,22 +34,24 @@ public abstract class AbstractTableData<T extends Model> {
         }
         this.tableName = this.tableModel.getTableName();
         this.tableAlias = this.tableModel.getTableAlias();
-        this.primaryKeyName = this.tableModel.getPrimaryKeyName();
-        this.primaryKeyAlias = this.tableModel.getPrimaryKeyAlias();
     }
 
+    @Override
     public T getTableModel() {
         return this.tableModel;
     }
 
+    @Override
     public Class<T> getTableClass() {
         return this.tableClass;
     }
 
+    @Override
     public String getTableName() {
         return this.tableName;
     }
 
+    @Override
     public void setTableName(String tableName) {
         if (tableName == null || "".equals(tableName.trim())) {
             return;
@@ -60,10 +59,12 @@ public abstract class AbstractTableData<T extends Model> {
         this.tableName = tableName;
     }
 
+    @Override
     public String getTableAlias() {
         return this.tableAlias;
     }
 
+    @Override
     public void setTableAlias(String tableAlias) {
         if (tableAlias == null || "".equals(tableAlias.trim())) {
             return;
@@ -71,19 +72,13 @@ public abstract class AbstractTableData<T extends Model> {
         this.tableAlias = tableAlias;
     }
 
-    public String getPrimaryKeyName() {
-        return this.primaryKeyName;
+    @Override
+    public Set<ColumnDatum> getColumnData() {
+        return this.columnData;
     }
 
-    public String getPrimaryKeyAlias() {
-        return this.primaryKeyAlias;
-    }
-
-    public ColumnData getColumnData() {
-        return columnData;
-    }
-
-    public void setColumnData(ColumnData columnData) {
+    @Override
+    public void setColumnData(Set<ColumnDatum> columnData) {
         this.columnData = columnData;
     }
 

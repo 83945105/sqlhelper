@@ -2,7 +2,6 @@ package pub.avalon.sqlhelper.core.build;
 
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.beans.LinkType;
-import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
@@ -26,20 +25,19 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     private SqlSplicer appendMainTableAllColumnSql(SqlSplicer sqlSplicer) {
-        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        Map<String, String> columnAliasMap = mainTableData.getTableModel().getColumnAliasMap();
+        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().buildTableColumnData();
         int i = 0;
-        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
+        for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 sqlSplicer.append(",");
             } else {
                 sqlSplicer.append(" ");
             }
-            sqlSplicer.append(mainTableData.getTableAlias())
+            sqlSplicer.append(columnDatum.getOwnerTableAlias())
                     .append(".`")
-                    .append(entry.getKey())
+                    .append(columnDatum.getOwnerColumnName())
                     .append("` `")
-                    .append(entry.getValue())
+                    .append(columnDatum.getOwnerColumnAlias())
                     .append("`");
         }
         return sqlSplicer;
@@ -69,13 +67,10 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     private SqlSplicer appendFunctionColumnSql(SqlSplicer sqlSplicer) {
-        AbstractTableData tableData;
         int i = 0;
         for (FunctionColumnData fcData : this.sqlData.getFunctionColumnDataList()) {
-            tableData = fcData.getTableData();
-            String alias = fcData.getAlias();
-            if (this.aliasSingleValidator.get(alias) != null) {
-                throw new TableDataException("FunctionColumn alias [" + alias + "] is already be used, please set another alias.");
+            if (this.aliasSingleValidator.get(fcData.getColumnAlias()) != null) {
+                throw new TableDataException("FunctionColumn alias [" + fcData.getColumnAlias() + "] is already be used, please set another alias.");
             }
             if (i++ > 0) {
                 sqlSplicer.append(",");
@@ -98,15 +93,14 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 default:
                     throw new SqlException("the functionColumnType is wrong.");
             }
-            sqlSplicer.append(tableData.getTableAlias())
+            sqlSplicer.append(fcData.getTableData().getTableAlias())
                     .append(".`")
-                    .append(fcData.getColumn())
+                    .append(fcData.getColumnName())
                     .append("`) `")
-                    .append(alias)
+                    .append(fcData.getColumnAlias())
                     .append("`");
-            this.aliasSingleValidator.put(alias, true);
+            this.aliasSingleValidator.put(fcData.getColumnAlias(), true);
         }
-
         return sqlSplicer;
     }
 
@@ -149,61 +143,31 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     private SqlSplicer appendTableColumnSql(SqlSplicer sqlSplicer) {
-        Map<String, String> columnAliasMap;
-        String tableAlias;
-        Class mainTableClass = this.sqlData.getMainTableData().getTableClass();
         int i = 0;
-        for (ColumnData columnData : this.sqlData.getColumnDataSet()) {
-            columnAliasMap = columnData.getColumnAliasMap();
-            AbstractTableData tableData = columnData.getTableData();
-            if (columnAliasMap.size() == 0) {
-                columnAliasMap = tableData.getTableModel().getColumnAliasMap();
-                tableAlias = tableData.getTableAlias();
-                if (tableData.getTableClass() == mainTableClass) {
-                    for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
-                        if (i++ > 0) {
-                            sqlSplicer.append(",");
-                        } else {
-                            sqlSplicer.append(" ");
-                        }
-                        sqlSplicer.append(tableAlias)
-                                .append(".`")
-                                .append(entry.getKey())
-                                .append("` `")
-                                .append(entry.getValue())
-                                .append("`");
-                    }
-                } else {
-                    for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
-                        if (i++ > 0) {
-                            sqlSplicer.append(",");
-                        } else {
-                            sqlSplicer.append(" ");
-                        }
-                        sqlSplicer.append(tableAlias)
-                                .append(".`")
-                                .append(entry.getKey())
-                                .append("`");
-                    }
-                }
+        TableData tableData;
+        Set<ColumnDatum> columnData;
+        for (TableColumnData tableColumnData : this.sqlData.getTableColumnDataSet()) {
+            columnData = tableColumnData.getColumnData();
+            if (columnData.size() == 0) {
                 continue;
             }
-            for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
-                if (this.aliasSingleValidator.get(entry.getValue()) != null) {
-                    throw new TableDataException("table alias [" + tableData.getTableAlias() + "] column alias [" + entry.getValue() + "] is already be used, please set another alias.");
+            tableData = tableColumnData.getTableData();
+            for (ColumnDatum columnDatum : columnData) {
+                if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
+                    throw new TableDataException("table alias [" + tableData.getTableAlias() + "] column alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
                 }
                 if (i++ > 0) {
                     sqlSplicer.append(",");
                 } else {
                     sqlSplicer.append(" ");
                 }
-                sqlSplicer.append(tableData.getTableAlias())
+                sqlSplicer.append(columnDatum.getOwnerTableAlias())
                         .append(".`")
-                        .append(entry.getKey())
+                        .append(columnDatum.getOwnerColumnName())
                         .append("` `")
-                        .append(entry.getValue())
+                        .append(columnDatum.getOwnerColumnAlias())
                         .append("`");
-                this.aliasSingleValidator.put(entry.getValue(), true);
+                this.aliasSingleValidator.put(columnDatum.getOwnerColumnAlias(), true);
             }
         }
         return sqlSplicer;
@@ -213,11 +177,11 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryDataMap();
         List<FunctionColumnData> functionColumnDataList = this.sqlData.getFunctionColumnDataList();
         Set<VirtualFieldData> virtualFieldDataSet = this.sqlData.getVirtualFieldDataSet();
-        Set<ColumnData> columnDataSet = this.sqlData.getColumnDataSet();
+        Set<TableColumnData> tableColumnDataSet = this.sqlData.getTableColumnDataSet();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
         boolean hasF = functionColumnDataList != null && functionColumnDataList.size() != 0;
         boolean hasV = virtualFieldDataSet != null && virtualFieldDataSet.size() != 0;
-        boolean hasC = columnDataSet != null && columnDataSet.size() != 0;
+        boolean hasC = tableColumnDataSet != null && tableColumnDataSet.size() != 0;
         if (!hasS && !hasF && !hasV && !hasC) {
             return this.appendMainTableAllColumnSql(sqlSplicer);
         }
@@ -883,16 +847,4 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-
-    protected Map<String, String> getColumnAliasMap() {
-        ColumnData columnData = this.sqlData.getMainTableData().getColumnData();
-        if (columnData == null) {
-            return this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
-        }
-        Map<String, String> columnAliasMap = columnData.getColumnAliasMap();
-        if (columnAliasMap == null || columnAliasMap.size() == 0) {
-            return this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
-        }
-        return columnAliasMap;
-    }
 }

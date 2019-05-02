@@ -75,7 +75,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
                 .append(" where ")
                 .append(this.sqlData.getMainTableData().getTableAlias())
                 .append(".[")
-                .append(this.sqlData.getMainTableData().getPrimaryKeyName())
+                .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
                 .append("] = ?");
         this.sqlArgs = new ArrayList<>(1);
         this.sqlArgs.add(keyValue);
@@ -111,7 +111,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
             this.sqlSplicer.append("select count(1) from (select ")
                     .append(this.sqlData.getMainTableData().getTableAlias())
                     .append(".[")
-                    .append(this.sqlData.getMainTableData().getPrimaryKeyName())
+                    .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
                     .append("] from [");
         } else {
             this.sqlSplicer.append("select count(1) from [");
@@ -134,6 +134,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder insertArgs(Collection<?> args) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
@@ -141,7 +142,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] (");
         int i = 0;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
@@ -161,6 +163,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder insertJavaBean(Object javaBean) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
@@ -168,7 +171,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] (");
         int i = 0;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
@@ -188,6 +192,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder insertJavaBeanSelective(Object javaBean) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
@@ -196,7 +201,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
                 .append("] (");
         int i = 0;
         Object value;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             value = ClassUtil.getProperty(javaBean, entry.getValue());
             if (value == null) {
                 continue;
@@ -220,13 +226,14 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
         this.sqlArgs = new ArrayList<>(32 * javaBeans.size());
         this.sqlSplicer.clear()
                 .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] (");
-        Set<Map.Entry<String, String>> entrySet = this.getColumnAliasMap().entrySet();
+        Set<Map.Entry<String, String>> entrySet = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap().entrySet();
         int i = 0;
         for (Map.Entry<String, String> entry : entrySet) {
             if (i++ > 0) {
@@ -256,14 +263,16 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder updateArgsByPrimaryKey(Object keyValue, Collection<?> args) {
         this.sqlSplicer.clear()
                 .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] set ");
-        String primaryKeyName = this.sqlData.getMainTableData().getPrimaryKeyName();
+        String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (entry.getKey().equals(primaryKeyName)) {
                 continue;
             }
@@ -282,15 +291,17 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder updateJavaBeanByPrimaryKey(Object keyValue, Object javaBean) {
         this.sqlArgs = new ArrayList<>(37);
         this.sqlSplicer.clear()
                 .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] set ");
-        String primaryKeyName = this.sqlData.getMainTableData().getPrimaryKeyName();
+        String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (entry.getKey().equals(primaryKeyName)) {
                 continue;
             }
@@ -308,16 +319,18 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object keyValue, Object javaBean) {
         this.sqlArgs = new ArrayList<>(37);
         this.sqlSplicer.clear()
                 .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] set ");
-        String primaryKeyName = this.sqlData.getMainTableData().getPrimaryKeyName();
+        String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
         Object value;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (entry.getKey().equals(primaryKeyName)) {
                 continue;
             }
@@ -339,6 +352,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder updateJavaBean(Object javaBean) {
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
@@ -350,7 +364,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
         int i = 0;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
@@ -362,6 +377,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder updateJavaBeanSelective(Object javaBean) {
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
@@ -374,7 +390,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlSplicer.append(" set ");
         int i = 0;
         Object value;
-        for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             value = ClassUtil.getProperty(javaBean, entry.getValue());
             if (value == null) {
                 continue;
@@ -390,6 +407,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
         this.sqlArgs = new ArrayList<>(128);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
@@ -401,13 +419,13 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
         int i = 0;
-        String primaryKeyName = this.sqlData.getMainTableData().getPrimaryKeyName();
-        String primaryKeyAlias = this.sqlData.getMainTableData().getPrimaryKeyAlias();
+        String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
+        String primaryKeyAlias = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyAlias();
         Object keyValue;
         SqlSplicer whenSql = new SqlSplicer(128);
         SqlSplicer inSql = new SqlSplicer(32);
         List<Object> inArgs = new ArrayList<>(64);
-        Set<Map.Entry<String, String>> entrySet = this.getColumnAliasMap().entrySet();
+        Set<Map.Entry<String, String>> entrySet = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap().entrySet();
         // 遍历所有bean,计算出where条件的sql和参数
         // 计算出when条件sql
         for (Object javaBean : javaBeans) {
@@ -474,6 +492,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
         this.sqlArgs = new ArrayList<>(128);
         this.sqlSplicer.clear()
@@ -482,7 +501,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
                 .append(" (");
         int i = 0;
         SqlSplicer onSql = new SqlSplicer(64);
-        Set<Map.Entry<String, String>> entrySet = this.getColumnAliasMap().entrySet();
+        Set<Map.Entry<String, String>> entrySet = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap().entrySet();
         for (Map.Entry<String, String> entry : entrySet) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
@@ -520,7 +539,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
                 .append("delete from [")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] where [")
-                .append(this.sqlData.getMainTableData().getPrimaryKeyName())
+                .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
                 .append("] = ?");
         this.sqlArgs = new ArrayList<>(1);
         this.sqlArgs.add(keyValue);
@@ -534,7 +553,7 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
                 .append("delete from [")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("] where [")
-                .append(this.sqlData.getMainTableData().getPrimaryKeyName())
+                .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
                 .append("] in (");
         int i = 0;
         for (Object keyValue : keyValues) {

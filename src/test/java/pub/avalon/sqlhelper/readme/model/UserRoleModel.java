@@ -28,45 +28,44 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
     public static final String primaryKeyAlias = "id";
 
 
-
     /**
-     * 
+     *
      */
     public static final String id = "id";
     /**
-     * 
+     *
      */
     public static final String id_alias = "id";
     /**
-     * 
+     *
      */
     public static final String userId = "user_id";
     /**
-     * 
+     *
      */
     public static final String userId_alias = "userId";
     /**
-     * 
+     *
      */
     public static final String roleId = "role_id";
     /**
-     * 
+     *
      */
     public static final String roleId_alias = "roleId";
     /**
-     * 
+     *
      */
     public static final String roleName = "role_name";
     /**
-     * 
+     *
      */
     public static final String roleName_alias = "roleName";
     /**
-     * 
+     *
      */
     public static final String sortIndex = "sort_index";
     /**
-     * 
+     *
      */
     public static final String sortIndex_alias = "sortIndex";
 
@@ -154,101 +153,97 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * 主键
          */
         public Column primaryKey() {
-            this.addColumnAlias(UserRoleModel.primaryKeyName, UserRoleModel.primaryKeyAlias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.primaryKeyName, UserRoleModel.primaryKeyAlias);
             return this;
         }
 
         /**
          * 主键
+         *
          * @param alias 别名
          */
         public Column primaryKey(String alias) {
-            this.addColumnAlias(UserRoleModel.primaryKeyName, alias);
-            return this;
-        }
-    
-        /**
-         * 
-         */
-        public Column id() {
-            this.addColumnAlias(UserRoleModel.id, UserRoleModel.id_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.primaryKeyName, alias);
             return this;
         }
 
         /**
-         * 
+         *
+         */
+        public Column id() {
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.id, UserRoleModel.id_alias);
+            return this;
+        }
+
+        /**
          * @param alias 别名
          */
         public Column id(String alias) {
-            this.addColumnAlias(UserRoleModel.id, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.id, alias);
             return this;
         }
 
         /**
-         * 
+         *
          */
         public Column userId() {
-            this.addColumnAlias(UserRoleModel.userId, UserRoleModel.userId_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.userId, UserRoleModel.userId_alias);
             return this;
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column userId(String alias) {
-            this.addColumnAlias(UserRoleModel.userId, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.userId, alias);
             return this;
         }
 
         /**
-         * 
+         *
          */
         public Column roleId() {
-            this.addColumnAlias(UserRoleModel.roleId, UserRoleModel.roleId_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleId, UserRoleModel.roleId_alias);
             return this;
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column roleId(String alias) {
-            this.addColumnAlias(UserRoleModel.roleId, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleId, alias);
             return this;
         }
 
         /**
-         * 
+         *
          */
         public Column roleName() {
-            this.addColumnAlias(UserRoleModel.roleName, UserRoleModel.roleName_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleName, UserRoleModel.roleName_alias);
             return this;
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column roleName(String alias) {
-            this.addColumnAlias(UserRoleModel.roleName, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleName, alias);
             return this;
         }
 
         /**
-         * 
+         *
          */
         public Column sortIndex() {
-            this.addColumnAlias(UserRoleModel.sortIndex, UserRoleModel.sortIndex_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.sortIndex, UserRoleModel.sortIndex_alias);
             return this;
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column sortIndex(String alias) {
-            this.addColumnAlias(UserRoleModel.sortIndex, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.sortIndex, alias);
             return this;
         }
 
@@ -270,37 +265,37 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName);
         }
-    
+
         /**
-         * 
+         *
          */
         public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> id() {
             return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> userId() {
             return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleId() {
             return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleName() {
             return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> sortIndex() {
             return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex);
@@ -324,37 +319,37 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName);
         }
-    
+
         /**
-         * 
+         *
          */
         public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> id() {
             return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> userId() {
             return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleId() {
             return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleName() {
             return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> sortIndex() {
             return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex);
@@ -379,9 +374,9 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
             this.addColumn(UserRoleModel.primaryKeyName);
             return this;
         }
-    
+
         /**
-         * 
+         *
          */
         public Group id() {
             this.addColumn(UserRoleModel.id);
@@ -389,7 +384,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         }
 
         /**
-         * 
+         *
          */
         public Group userId() {
             this.addColumn(UserRoleModel.userId);
@@ -397,7 +392,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         }
 
         /**
-         * 
+         *
          */
         public Group roleId() {
             this.addColumn(UserRoleModel.roleId);
@@ -405,7 +400,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         }
 
         /**
-         * 
+         *
          */
         public Group roleName() {
             this.addColumn(UserRoleModel.roleName);
@@ -413,7 +408,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         }
 
         /**
-         * 
+         *
          */
         public Group sortIndex() {
             this.addColumn(UserRoleModel.sortIndex);
@@ -438,37 +433,37 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         public SortBuilder<UserRoleModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.sortBuilder.handler(UserRoleModel.primaryKeyName);
         }
-    
+
         /**
-         * 
+         *
          */
         public SortBuilder<UserRoleModel, Column, On, Where, Sort, Group> id() {
             return this.sortBuilder.handler(UserRoleModel.id);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<UserRoleModel, Column, On, Where, Sort, Group> userId() {
             return this.sortBuilder.handler(UserRoleModel.userId);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleId() {
             return this.sortBuilder.handler(UserRoleModel.roleId);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleName() {
             return this.sortBuilder.handler(UserRoleModel.roleName);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<UserRoleModel, Column, On, Where, Sort, Group> sortIndex() {
             return this.sortBuilder.handler(UserRoleModel.sortIndex);

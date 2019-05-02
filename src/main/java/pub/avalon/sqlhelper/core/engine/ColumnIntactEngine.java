@@ -11,7 +11,7 @@ import pub.avalon.sqlhelper.core.sql.QueryByPrimaryKey;
 import pub.avalon.sqlhelper.core.sql.UpdateByPrimaryKey;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * 列引擎
@@ -40,12 +40,16 @@ public class ColumnIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     }
 
     public ColumnIntactEngine<M, MC, MO, MW, MS, MG> column(Column<M, MC, MO, MW, MS, MG> column) {
-        MainTableData<M> tableData = this.sqlData.getMainTableData();
-        Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
-        if (columns.size() == 0) {
-            columns = tableData.getTableModel().getColumnAliasMap();
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        MC mc = mainTableData.getTableModel().getColumnModel();
+        mc.setSqlData(this.sqlData);
+        mc = column.apply(mc);
+        Set<ColumnDatum> columnData = mc.modelDataBuilder.takeoutModelData();
+        // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
+        if (columnData == null || columnData.size() == 0) {
+            columnData = mainTableData.buildTableColumnData();
         }
-        this.sqlData.addColumnData(new ColumnData(tableData, columns));
+        this.sqlData.addTableColumnData(new TableColumnData(mainTableData, columnData));
         return this;
     }
 
@@ -56,11 +60,13 @@ public class ColumnIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> ColumnIntactEngine<M, MC, MO, MW, MS, MG> column(Class<T> columnClass, String alias, Column<T, TC, TO, TW, TS, TG> column) {
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
-        Map<String, String> columns = column.apply(joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
-        if (columns.size() == 0) {
-            columns = joinTableData.getTableModel().getColumnAliasMap();
+        TC tc = joinTableData.getTableModel().getColumnModel();
+        tc = column.apply(tc);
+        Set<ColumnDatum> columnData = tc.modelDataBuilder.takeoutModelData();
+        if (columnData == null || columnData.size() == 0) {
+            columnData = joinTableData.buildTableColumnData();
         }
-        this.sqlData.addColumnData(new ColumnData(joinTableData, columns));
+        this.sqlData.addTableColumnData(new TableColumnData(joinTableData, columnData));
         return this;
     }
 
@@ -106,10 +112,19 @@ public class ColumnIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     }
 
     public ColumnIntactEngine<M, MC, MO, MW, MS, MG> functionColumn(FunctionColumnType functionColumnType, Column<M, MC, MO, MW, MS, MG> column) {
-        MainTableData<M> tableData = this.sqlData.getMainTableData();
-        Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
-        for (Map.Entry<String, String> entry : columns.entrySet()) {
-            this.sqlData.addFunctionColumnData(new FunctionColumnData(tableData, functionColumnType, entry.getKey(), entry.getValue()));
+        if (functionColumnType == null) {
+            return this;
+        }
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        MC mc = mainTableData.getTableModel().getColumnModel();
+        mc = column.apply(mc);
+        Set<ColumnDatum> columnData = mc.modelDataBuilder.takeoutModelData();
+        // 如果没设置列, 则跳过
+        if (columnData == null || columnData.size() == 0) {
+            return this;
+        }
+        for (ColumnDatum columnDatum : columnData) {
+            this.sqlData.addFunctionColumnData(new FunctionColumnData(mainTableData, functionColumnType, columnDatum.getOwnerColumnName(), columnDatum.getOwnerColumnAlias()));
         }
         return this;
     }
@@ -120,10 +135,19 @@ public class ColumnIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> ColumnIntactEngine<M, MC, MO, MW, MS, MG> functionColumn(Class<T> columnClass, String alias, FunctionColumnType functionColumnType, Column<T, TC, TO, TW, TS, TG> column) {
+        if (functionColumnType == null) {
+            return this;
+        }
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
-        Map<String, String> columns = column.apply(joinTableData.getTableModel().getColumnModel()).getColumnAliasMap();
-        for (Map.Entry<String, String> entry : columns.entrySet()) {
-            this.sqlData.addFunctionColumnData(new FunctionColumnData(joinTableData, functionColumnType, entry.getKey(), entry.getValue()));
+        TC tc = joinTableData.getTableModel().getColumnModel();
+        tc = column.apply(tc);
+        Set<ColumnDatum> columnData = tc.modelDataBuilder.takeoutModelData();
+        // 如果没设置列, 则跳过
+        if (columnData == null || columnData.size() == 0) {
+            return this;
+        }
+        for (ColumnDatum columnDatum : columnData) {
+            this.sqlData.addFunctionColumnData(new FunctionColumnData(joinTableData, functionColumnType, columnDatum.getOwnerColumnName(), columnDatum.getOwnerColumnAlias()));
         }
         return this;
     }

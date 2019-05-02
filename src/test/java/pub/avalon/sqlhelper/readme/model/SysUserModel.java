@@ -28,29 +28,28 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
     public static final String primaryKeyAlias = "id";
 
 
-
     /**
-     * 
+     *
      */
     public static final String id = "id";
     /**
-     * 
+     *
      */
     public static final String id_alias = "id";
     /**
-     * 
+     *
      */
     public static final String userName = "user_name";
     /**
-     * 
+     *
      */
     public static final String userName_alias = "userName";
     /**
-     * 
+     *
      */
     public static final String loginName = "login_name";
     /**
-     * 
+     *
      */
     public static final String loginName_alias = "loginName";
 
@@ -134,67 +133,65 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * 主键
          */
         public Column primaryKey() {
-            this.addColumnAlias(SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
             return this;
         }
 
         /**
          * 主键
+         *
          * @param alias 别名
          */
         public Column primaryKey(String alias) {
-            this.addColumnAlias(SysUserModel.primaryKeyName, alias);
-            return this;
-        }
-    
-        /**
-         * 
-         */
-        public Column id() {
-            this.addColumnAlias(SysUserModel.id, SysUserModel.id_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.primaryKeyName, alias);
             return this;
         }
 
         /**
-         * 
+         *
+         */
+        public Column id() {
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
+            return this;
+        }
+
+        /**
          * @param alias 别名
          */
         public Column id(String alias) {
-            this.addColumnAlias(SysUserModel.id, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.id, alias);
             return this;
         }
 
         /**
-         * 
+         *
          */
         public Column userName() {
-            this.addColumnAlias(SysUserModel.userName, SysUserModel.userName_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
             return this;
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column userName(String alias) {
-            this.addColumnAlias(SysUserModel.userName, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.userName, alias);
             return this;
         }
 
         /**
-         * 
+         *
          */
         public Column loginName() {
-            this.addColumnAlias(SysUserModel.loginName, SysUserModel.loginName_alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
             return this;
         }
 
         /**
-         * 
          * @param alias 别名
          */
         public Column loginName(String alias) {
-            this.addColumnAlias(SysUserModel.loginName, alias);
+            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.loginName, alias);
             return this;
         }
 
@@ -216,23 +213,23 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
         public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName);
         }
-    
+
         /**
-         * 
+         *
          */
         public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
             return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
             return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName);
         }
 
         /**
-         * 
+         *
          */
         public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
             return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName);
@@ -256,23 +253,23 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
         public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName);
         }
-    
+
         /**
-         * 
+         *
          */
         public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
             return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
             return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName);
         }
 
         /**
-         * 
+         *
          */
         public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
             return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName);
@@ -297,9 +294,9 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
             this.addColumn(SysUserModel.primaryKeyName);
             return this;
         }
-    
+
         /**
-         * 
+         *
          */
         public Group id() {
             this.addColumn(SysUserModel.id);
@@ -307,7 +304,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
         }
 
         /**
-         * 
+         *
          */
         public Group userName() {
             this.addColumn(SysUserModel.userName);
@@ -315,7 +312,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
         }
 
         /**
-         * 
+         *
          */
         public Group loginName() {
             this.addColumn(SysUserModel.loginName);
@@ -340,23 +337,23 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
         public SortBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
             return this.sortBuilder.handler(SysUserModel.primaryKeyName);
         }
-    
+
         /**
-         * 
+         *
          */
         public SortBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
             return this.sortBuilder.handler(SysUserModel.id);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
             return this.sortBuilder.handler(SysUserModel.userName);
         }
 
         /**
-         * 
+         *
          */
         public SortBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
             return this.sortBuilder.handler(SysUserModel.loginName);

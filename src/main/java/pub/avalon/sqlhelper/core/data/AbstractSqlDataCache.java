@@ -55,6 +55,7 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <J extends Model> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass) {
         if (this.joinTableDataMap == null && this.subQueryJoinTableDataMap == null) {
             if (alias == null) {
@@ -146,7 +147,7 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         }
 
         @Override
-        public Set<ColumnData> getColumnDataSet() {
+        public Set<TableColumnData> getTableColumnDataSet() {
             throw new SqlException("you can not use getColumnDataSet for class FissionSqlData.");
         }
 
@@ -186,7 +187,7 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         }
 
         @Override
-        public void addColumnData(ColumnData columnData) {
+        public void addTableColumnData(TableColumnData tableColumnData) {
             throw new SqlException("you can not use addColumnData for class FissionSqlData.");
         }
 

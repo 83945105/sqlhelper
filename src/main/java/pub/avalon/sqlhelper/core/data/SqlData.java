@@ -50,11 +50,11 @@ public interface SqlData<M extends Model> {
     LinkedHashMap<String, JoinTableData<? extends Model>> getJoinTableDataMap();
 
     /**
-     * 获取列数据集合
+     * 获取表列数据集合
      *
      * @return 列数据集合
      */
-    Set<ColumnData> getColumnDataSet();
+    Set<TableColumnData> getTableColumnDataSet();
 
     /**
      * 获取虚拟属性数据集合
@@ -108,9 +108,9 @@ public interface SqlData<M extends Model> {
     /**
      * 添加列数据
      *
-     * @param columnData 列数据
+     * @param tableColumnData 表列数据
      */
-    void addColumnData(ColumnData columnData);
+    void addTableColumnData(TableColumnData tableColumnData);
 
     /**
      * 添加虚拟属性数据集合

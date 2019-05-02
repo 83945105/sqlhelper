@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.beans.*;
  * @author 白超
  * @date 2019/4/13
  */
+@FunctionalInterface
 public interface ColumnModelValue<M extends Model<M, MC, MO, MW, MS, MG>,
         MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
         MO extends OnModel<M, MC, MO, MW, MS, MG>,

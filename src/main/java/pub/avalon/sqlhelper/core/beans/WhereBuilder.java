@@ -2,16 +2,14 @@ package pub.avalon.sqlhelper.core.beans;
 
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.AbstractTableData;
+import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.WhereData;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 条件构建器
@@ -347,13 +345,15 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TC columnModel = joinTableData.getTableModel().getColumnModel();
-        Map<String, String> columnAliasMap = columnModelValue.apply(columnModel).getColumnAliasMap();
-        if (columnAliasMap.size() > 1) {
+        columnModel = columnModelValue.apply(columnModel);
+        Set<ColumnDatum> columnData = columnModel.modelDataBuilder.takeoutModelData();
+        if (columnData.size() > 1) {
             throw new SqlException("you can not set more than one column for equalTo.");
         }
-        this.whereData.setTargetTableName(joinTableData.getTableName());
-        this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
-        this.whereData.setTargetColumnName(columnAliasMap.keySet().iterator().next());
+        ColumnDatum columnDatum = columnData.iterator().next();
+        this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
+        this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
+        this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
     }
@@ -369,13 +369,15 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TC columnModel = joinTableData.getTableModel().getColumnModel();
-        Map<String, String> columnAliasMap = columnModelValue.apply(columnModel).getColumnAliasMap();
-        if (columnAliasMap.size() > 1) {
+        columnModel = columnModelValue.apply(columnModel);
+        Set<ColumnDatum> columnData = columnModel.modelDataBuilder.takeoutModelData();
+        if (columnData.size() > 1) {
             throw new SqlException("you can not set more than one column for notEqualTo.");
         }
-        this.whereData.setTargetTableName(joinTableData.getTableName());
-        this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
-        this.whereData.setTargetColumnName(columnAliasMap.keySet().iterator().next());
+        ColumnDatum columnDatum = columnData.iterator().next();
+        this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
+        this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
+        this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
     }
@@ -391,13 +393,15 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TC columnModel = joinTableData.getTableModel().getColumnModel();
-        Map<String, String> columnAliasMap = columnModelValue.apply(columnModel).getColumnAliasMap();
-        if (columnAliasMap.size() > 1) {
+        columnModel = columnModelValue.apply(columnModel);
+        Set<ColumnDatum> columnData = columnModel.modelDataBuilder.takeoutModelData();
+        if (columnData.size() > 1) {
             throw new SqlException("you can not set more than one column for greaterThan.");
         }
-        this.whereData.setTargetTableName(joinTableData.getTableName());
-        this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
-        this.whereData.setTargetColumnName(columnAliasMap.keySet().iterator().next());
+        ColumnDatum columnDatum = columnData.iterator().next();
+        this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
+        this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
+        this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
     }
@@ -413,13 +417,15 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TC columnModel = joinTableData.getTableModel().getColumnModel();
-        Map<String, String> columnAliasMap = columnModelValue.apply(columnModel).getColumnAliasMap();
-        if (columnAliasMap.size() > 1) {
+        columnModel = columnModelValue.apply(columnModel);
+        Set<ColumnDatum> columnData = columnModel.modelDataBuilder.takeoutModelData();
+        if (columnData.size() > 1) {
             throw new SqlException("you can not set more than one column for greaterThanAndEqualTo.");
         }
-        this.whereData.setTargetTableName(joinTableData.getTableName());
-        this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
-        this.whereData.setTargetColumnName(columnAliasMap.keySet().iterator().next());
+        ColumnDatum columnDatum = columnData.iterator().next();
+        this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
+        this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
+        this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
     }
@@ -435,13 +441,15 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TC columnModel = joinTableData.getTableModel().getColumnModel();
-        Map<String, String> columnAliasMap = columnModelValue.apply(columnModel).getColumnAliasMap();
-        if (columnAliasMap.size() > 1) {
+        columnModel = columnModelValue.apply(columnModel);
+        Set<ColumnDatum> columnData = columnModel.modelDataBuilder.takeoutModelData();
+        if (columnData.size() > 1) {
             throw new SqlException("you can not set more than one column for lessThan.");
         }
-        this.whereData.setTargetTableName(joinTableData.getTableName());
-        this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
-        this.whereData.setTargetColumnName(columnAliasMap.keySet().iterator().next());
+        ColumnDatum columnDatum = columnData.iterator().next();
+        this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
+        this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
+        this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
     }
@@ -457,13 +465,15 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereValueType(WhereValueType.JOIN);
         JoinTableData<T> joinTableData = this.handleModel.getSqlData().getJoinTableData(alias, onClass);
         TC columnModel = joinTableData.getTableModel().getColumnModel();
-        Map<String, String> columnAliasMap = columnModelValue.apply(columnModel).getColumnAliasMap();
-        if (columnAliasMap.size() > 1) {
+        columnModel = columnModelValue.apply(columnModel);
+        Set<ColumnDatum> columnData = columnModel.modelDataBuilder.takeoutModelData();
+        if (columnData.size() > 1) {
             throw new SqlException("you can not set more than one column for lessThanAndEqualTo.");
         }
-        this.whereData.setTargetTableName(joinTableData.getTableName());
-        this.whereData.setTargetTableAlias(joinTableData.getTableAlias());
-        this.whereData.setTargetColumnName(columnAliasMap.keySet().iterator().next());
+        ColumnDatum columnDatum = columnData.iterator().next();
+        this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
+        this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
+        this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
         this.whereDataList.add(this.whereData);
         return this.handleModel;
     }

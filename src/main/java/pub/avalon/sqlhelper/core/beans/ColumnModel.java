@@ -1,8 +1,8 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import pub.avalon.sqlhelper.core.builder.ColumnDataBuilder;
+import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.norm.Model;
-
-import java.util.*;
 
 /**
  * 字段模组
@@ -19,27 +19,16 @@ public class ColumnModel<T extends Model<T, TC, TO, TW, TS, TG>,
         TS extends SortModel<T, TC, TO, TW, TS, TG>,
         TG extends GroupModel<T, TC, TO, TW, TS, TG>> {
 
-    /**
-     * 存储列名-别名
-     */
-    private Map<String, String> columnAliasMap = new LinkedHashMap<>();
+    private SqlData<T> sqlData;
 
-    /**
-     * 获取列名-别名集合
-     *
-     * @return LinkedHashMap {@link LinkedHashMap}
-     */
-    public Map<String, String> getColumnAliasMap() {
-        return this.columnAliasMap;
+    public SqlData<T> getSqlData() {
+        return sqlData;
     }
 
-    /**
-     * 添加列名-别名
-     *
-     * @param column 列名
-     * @param alias  别名
-     */
-    protected void addColumnAlias(String column, String alias) {
-        this.columnAliasMap.put(column, alias);
+    public void setSqlData(SqlData<T> sqlData) {
+        this.sqlData = sqlData;
     }
+
+    public ColumnDataBuilder<T, TC, TO, TW, TS, TG> modelDataBuilder = new ColumnDataBuilder(this);
+
 }

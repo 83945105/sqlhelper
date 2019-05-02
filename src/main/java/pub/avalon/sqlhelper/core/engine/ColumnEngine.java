@@ -3,14 +3,15 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
-import pub.avalon.sqlhelper.core.data.ColumnData;
+import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.MainTableData;
+import pub.avalon.sqlhelper.core.data.TableColumnData;
 import pub.avalon.sqlhelper.core.norm.Column;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.sql.Insert;
 
 import java.util.Collection;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * 列引擎
@@ -39,12 +40,16 @@ public class ColumnEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     }
 
     public ColumnEngine<M, MC, MO, MW, MS, MG> column(Column<M, MC, MO, MW, MS, MG> column) {
-        MainTableData<M> tableData = this.sqlData.getMainTableData();
-        Map<String, String> columns = column.apply(tableData.getTableModel().getColumnModel()).getColumnAliasMap();
-        if (columns.size() == 0) {
-            columns = tableData.getTableModel().getColumnAliasMap();
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        MC mc = mainTableData.getTableModel().getColumnModel();
+        mc.setSqlData(this.sqlData);
+        mc = column.apply(mc);
+        Set<ColumnDatum> columnData = mc.modelDataBuilder.takeoutModelData();
+        // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
+        if (columnData == null || columnData.size() == 0) {
+            columnData = mainTableData.buildTableColumnData();
         }
-        this.sqlData.addColumnData(new ColumnData(tableData, columns));
+        this.sqlData.addTableColumnData(new TableColumnData(mainTableData, columnData));
         return this;
     }
 

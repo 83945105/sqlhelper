@@ -11,22 +11,22 @@ import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
  */
 public final class FunctionColumnData {
 
-    private AbstractTableData tableData;
+    private TableData tableData;
 
     private FunctionColumnType functionColumnType;
 
-    private String column;
+    private String columnName;
 
-    private String alias;
+    private String columnAlias;
 
-    public FunctionColumnData(AbstractTableData tableData, FunctionColumnType functionColumnType, String column, String alias) {
+    public FunctionColumnData(TableData tableData, FunctionColumnType functionColumnType, String columnName, String columnAlias) {
         this.tableData = tableData;
         this.functionColumnType = functionColumnType;
-        this.column = column;
-        this.alias = alias;
+        this.columnName = columnName;
+        this.columnAlias = columnAlias;
     }
 
-    public AbstractTableData getTableData() {
+    public TableData getTableData() {
         return tableData;
     }
 
@@ -34,12 +34,12 @@ public final class FunctionColumnData {
         return functionColumnType;
     }
 
-    public String getColumn() {
-        return column;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public String getAlias() {
-        return alias;
+    public String getColumnAlias() {
+        return columnAlias;
     }
 
 }
