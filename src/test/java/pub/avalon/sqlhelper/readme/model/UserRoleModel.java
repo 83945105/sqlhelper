@@ -153,7 +153,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * 主键
          */
         public Column primaryKey() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.primaryKeyName, UserRoleModel.primaryKeyAlias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName, UserRoleModel.primaryKeyAlias);
             return this;
         }
 
@@ -163,7 +163,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * @param alias 别名
          */
         public Column primaryKey(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.primaryKeyName, alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName, alias);
             return this;
         }
 
@@ -171,7 +171,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Column id() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.id, UserRoleModel.id_alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id, UserRoleModel.id_alias);
             return this;
         }
 
@@ -179,7 +179,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * @param alias 别名
          */
         public Column id(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.id, alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id, alias);
             return this;
         }
 
@@ -187,7 +187,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Column userId() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.userId, UserRoleModel.userId_alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId, UserRoleModel.userId_alias);
             return this;
         }
 
@@ -195,7 +195,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * @param alias 别名
          */
         public Column userId(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.userId, alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId, alias);
             return this;
         }
 
@@ -203,7 +203,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Column roleId() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleId, UserRoleModel.roleId_alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId, UserRoleModel.roleId_alias);
             return this;
         }
 
@@ -211,7 +211,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * @param alias 别名
          */
         public Column roleId(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleId, alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId, alias);
             return this;
         }
 
@@ -219,7 +219,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Column roleName() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleName, UserRoleModel.roleName_alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName, UserRoleModel.roleName_alias);
             return this;
         }
 
@@ -227,7 +227,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * @param alias 别名
          */
         public Column roleName(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.roleName, alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName, alias);
             return this;
         }
 
@@ -235,7 +235,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Column sortIndex() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.sortIndex, UserRoleModel.sortIndex_alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex, UserRoleModel.sortIndex_alias);
             return this;
         }
 
@@ -243,7 +243,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * @param alias 别名
          */
         public Column sortIndex(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, UserRoleModel.sortIndex, alias);
+            this.modelDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex, alias);
             return this;
         }
 

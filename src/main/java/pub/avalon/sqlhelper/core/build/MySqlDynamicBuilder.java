@@ -148,7 +148,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
@@ -177,7 +177,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
@@ -207,7 +207,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append("` (");
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             value = ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias());
             if (value == null) {
@@ -239,7 +239,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append("insert into `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` (");
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         int i = 0;
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
@@ -277,7 +277,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append("` set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
                 continue;
@@ -306,7 +306,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append("` set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
                 continue;
@@ -335,7 +335,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
                 continue;
@@ -370,7 +370,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
         int i = 0;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
@@ -396,7 +396,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.sqlSplicer.append(" set ");
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             value = ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias());
             if (value == null) {
@@ -431,7 +431,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         SqlSplicer whenSql = new SqlSplicer(128);
         SqlSplicer inSql = new SqlSplicer(32);
         List<Object> inArgs = new ArrayList<>(64);
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         // 遍历所有bean,计算出where条件的sql和参数
         // 计算出when条件sql
         for (Object javaBean : javaBeans) {
@@ -507,7 +507,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append(" (");
         int i = 0;
         SqlSplicer onSql = new SqlSplicer(64);
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");

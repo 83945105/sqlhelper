@@ -133,7 +133,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * 主键
          */
         public Column primaryKey() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
             return this;
         }
 
@@ -143,7 +143,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * @param alias 别名
          */
         public Column primaryKey(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.primaryKeyName, alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, alias);
             return this;
         }
 
@@ -151,7 +151,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Column id() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
             return this;
         }
 
@@ -159,7 +159,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * @param alias 别名
          */
         public Column id(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.id, alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, alias);
             return this;
         }
 
@@ -167,7 +167,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Column userName() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
             return this;
         }
 
@@ -175,7 +175,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * @param alias 别名
          */
         public Column userName(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.userName, alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, alias);
             return this;
         }
 
@@ -183,7 +183,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Column loginName() {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
             return this;
         }
 
@@ -191,7 +191,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * @param alias 别名
          */
         public Column loginName(String alias) {
-            this.modelDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, SysUserModel.loginName, alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, alias);
             return this;
         }
 

@@ -847,4 +847,12 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
+    protected Set<ColumnDatum> getMainTableColumnData() {
+        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        if(columnData == null || columnData.size() == 0) {
+            return this.sqlData.getMainTableData().buildTableColumnData();
+        }
+        return columnData;
+    }
+
 }
