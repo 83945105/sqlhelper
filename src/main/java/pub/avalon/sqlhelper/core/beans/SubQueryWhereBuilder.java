@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.norm.SubQueryComparisonOperator;
 
@@ -15,7 +16,7 @@ public final class SubQueryWhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         MO extends OnModel<M, MC, MO, MW, MS, MG>,
         MW extends WhereModel<M, MC, MO, MW, MS, MG>,
         MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends WhereBuilder<M, MC, MO, MW, MS, MG> implements SubQueryComparisonOperator<M, MC, MO, MW, MS, MG> {
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends WhereDataBuilder<M, MC, MO, MW, MS, MG> implements SubQueryComparisonOperator<M, MC, MO, MW, MS, MG> {
 
     public SubQueryWhereBuilder(MW handleModel) {
         super(handleModel);

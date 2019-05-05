@@ -682,7 +682,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, List<WhereData> whereDataList, LinkType linkType) {
+    private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, Set<WhereData> whereDataList, LinkType linkType) {
         if (whereDataList == null || whereDataList.size() == 0) {
             return sqlSplicer;
         }
@@ -711,7 +711,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
             return sqlSplicer;
         }
         int length = sqlSplicer.length();
-        List<WhereData> whereDataList;
+        Set<WhereData> whereDataList;
         int i = 0;
         boolean brackets = false;
         for (WhereDataLinker whereDataLinker : whereDataLinkerList) {

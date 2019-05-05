@@ -44,7 +44,7 @@ public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     public WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Where<M> where) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.getWhereBuilder().setOwnerTableData(mainTableData);
+        mw.whereDataBuilder.setOwnerTableData(mainTableData);
         mw.setSqlData(this.sqlData);
 
 
@@ -57,7 +57,7 @@ public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         }
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.getWhereBuilder().setOwnerTableData(mainTableData);
+        mw.whereDataBuilder.setOwnerTableData(mainTableData);
         mw.setSqlData(this.sqlData);
         WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), mw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
@@ -78,10 +78,10 @@ public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MW mw = mainTableData.getTableModel().getWhereModel();
         mw.setSqlData(this.sqlData);
-        mw.getWhereBuilder().setOwnerTableData(mainTableData);
+        mw.whereDataBuilder.setOwnerTableData(mainTableData);
         TW tw = joinTableData.getTableModel().getWhereModel();
         tw.setSqlData(this.sqlData.fission(joinTableData.getTableClass()));
-        tw.getWhereBuilder().setOwnerTableData(joinTableData);
+        tw.whereDataBuilder.setOwnerTableData(joinTableData);
         WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), tw, mw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);

@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.LinkedHashMap;
@@ -316,43 +317,43 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         /**
          * 主键
          */
-        public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName);
+        public WhereDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> primaryKey() {
+            return this.whereDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName, UserRoleModel.primaryKeyAlias);
         }
 
         /**
          *
          */
-        public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> id() {
-            return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id);
+        public WhereDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> id() {
+            return this.whereDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id, UserRoleModel.id_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> userId() {
-            return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId);
+        public WhereDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> userId() {
+            return this.whereDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId, UserRoleModel.userId_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleId() {
-            return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId);
+        public WhereDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleId() {
+            return this.whereDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId, UserRoleModel.roleId_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleName() {
-            return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName);
+        public WhereDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleName() {
+            return this.whereDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName, UserRoleModel.roleName_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<UserRoleModel, Column, On, Where, Sort, Group> sortIndex() {
-            return this.whereBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex);
+        public WhereDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> sortIndex() {
+            return this.whereDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex, UserRoleModel.sortIndex_alias);
         }
 
     }

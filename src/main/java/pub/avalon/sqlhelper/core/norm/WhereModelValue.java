@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.norm;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 
 /**
  * Where条件
@@ -23,6 +24,6 @@ public interface WhereModelValue<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param whereModel Where条件模组
      * @return Where条件构建器
      */
-    WhereBuilder<M, MC, MO, MW, MS, MG> apply(MW whereModel);
+    WhereDataBuilder<M, MC, MO, MW, MS, MG> apply(MW whereModel);
 
 }

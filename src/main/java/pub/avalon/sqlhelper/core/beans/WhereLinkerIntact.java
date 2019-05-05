@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.norm.MainCondition;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 条件连接器
@@ -33,7 +34,7 @@ public final class WhereLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
      */
     public WhereLinkerIntact<M, MC, MO, MW, MS, MG> or(WhereModel<?, ?, ?, ?, ?, ?> whereModel) {
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        List<WhereData> whereDataList = whereModel.whereBuilder.getAndResetWhereDataList();
+        Set<WhereData> whereDataList = whereModel.whereDataBuilder.takeoutModelData();
         if (whereDataList == null || whereDataList.size() == 0) {
             return this;
         }
@@ -51,7 +52,7 @@ public final class WhereLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
     public WhereLinkerIntact<M, MC, MO, MW, MS, MG> or(MainCondition<M, MC, MO, MW, MS, MG> condition) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.getWhereBuilder().setOwnerTableData(mainTableData);
+        mw.whereDataBuilder.setOwnerTableData(mainTableData);
         WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), mw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
@@ -82,9 +83,9 @@ public final class WhereLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.getWhereBuilder().setOwnerTableData(mainTableData);
+        mw.whereDataBuilder.setOwnerTableData(mainTableData);
         TW tw = joinTableData.getTableModel().getWhereModel();
-        tw.getWhereBuilder().setOwnerTableData(joinTableData);
+        tw.whereDataBuilder.setOwnerTableData(joinTableData);
         WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), tw, mw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {

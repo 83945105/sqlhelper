@@ -1,5 +1,6 @@
-package pub.avalon.sqlhelper.core.beans;
+package pub.avalon.sqlhelper.core.builder;
 
+import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.AbstractTableData;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
@@ -9,7 +10,8 @@ import pub.avalon.sqlhelper.core.exception.ComparisonException;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * 条件构建器
@@ -18,34 +20,20 @@ import java.util.*;
  * @version 1.0
  * @since 2018/7/10
  */
-public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
+public class WhereDataBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
         MO extends OnModel<M, MC, MO, MW, MS, MG>,
         MW extends WhereModel<M, MC, MO, MW, MS, MG>,
         MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> implements ComparisonOperator<MW>, WhereComparisonOperator<M, MC, MO, MW, MS, MG>, WhereComparisonOperatorSubQuery<M, MC, MO, MW, MS, MG> {
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends AbstractModelDataBuilder<WhereDataBuilder, WhereData> implements ComparisonOperator<MW>, WhereComparisonOperator<M, MC, MO, MW, MS, MG>, WhereComparisonOperatorSubQuery<M, MC, MO, MW, MS, MG> {
 
     private MW handleModel;
 
-    public WhereBuilder(MW handleModel) {
+    public WhereDataBuilder(MW handleModel) {
         this.handleModel = handleModel;
     }
 
     protected WhereData whereData;
-
-    private List<WhereData> whereDataList = new ArrayList<>();
-
-    /**
-     * 获取并重置where条件数据集合
-     * 每次获取必须重置,防止条件重复
-     *
-     * @return where条件集合
-     */
-    List<WhereData> getAndResetWhereDataList() {
-        List<WhereData> whereDataList = this.whereDataList;
-        this.whereDataList = new ArrayList<>();
-        return whereDataList;
-    }
 
     private AbstractTableData ownerTableData;
 
@@ -53,11 +41,12 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.ownerTableData = ownerTableData;
     }
 
-    public WhereBuilder<M, MC, MO, MW, MS, MG> handler(String ownerTableName, String ownerTableAlias, String ownerColumnName) {
+    @Override
+    public WhereDataBuilder apply(String tableName, String tableAlias, String columnName, String columnAlias) {
         this.whereData = new WhereData();
-        this.whereData.setOwnerTableName(ownerTableName);
-        this.whereData.setOwnerTableAlias(ownerTableAlias);
-        this.whereData.setOwnerColumnName(ownerColumnName);
+        this.whereData.setOwnerTableName(tableName);
+        this.whereData.setOwnerTableAlias(tableAlias);
+        this.whereData.setOwnerColumnName(columnName);
         if (this.ownerTableData == null) {
             return this;
         }
@@ -75,7 +64,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
     public MW sqlPart(String sqlPart) {
         this.whereData.setWhereValueType(WhereValueType.SQL_PART);
         this.whereData.setSqlPart(sqlPart);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -83,7 +72,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
     public MW isNull() {
         this.whereData.setWhereType(WhereType.IS_NULL);
         this.whereData.setValueCount(0);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -91,7 +80,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
     public MW isNotNull() {
         this.whereData.setWhereType(WhereType.IS_NOT_NULL);
         this.whereData.setValueCount(0);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -110,7 +99,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.EQUAL);
         this.whereData.setValueCount(1);
         this.whereData.setTargetValue(value);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -129,7 +118,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.NOT_EQUAL);
         this.whereData.setValueCount(1);
         this.whereData.setTargetValue(value);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -148,7 +137,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.GREATER);
         this.whereData.setValueCount(1);
         this.whereData.setTargetValue(value);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -167,7 +156,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.GREATER_EQUAL);
         this.whereData.setValueCount(1);
         this.whereData.setTargetValue(value);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -186,7 +175,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.LESS);
         this.whereData.setValueCount(1);
         this.whereData.setTargetValue(value);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -205,7 +194,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.LESS_EQUAL);
         this.whereData.setValueCount(1);
         this.whereData.setTargetValue(value);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -235,7 +224,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setValueCount(2);
         this.whereData.setTargetValue(value);
         this.whereData.setTargetSecondValue(secondValue);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -254,7 +243,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.LIKE);
         this.whereData.setValueCount(1);
         this.whereData.setTargetValue(value);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -273,7 +262,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.IN);
         this.whereData.setValueCount(values.length);
         this.whereData.setTargetValue(values);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -292,7 +281,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.IN);
         this.whereData.setValueCount(values.size());
         this.whereData.setTargetValue(values);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -311,7 +300,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.NOT_IN);
         this.whereData.setValueCount(values.length);
         this.whereData.setTargetValue(values);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -330,7 +319,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.NOT_IN);
         this.whereData.setValueCount(values.size());
         this.whereData.setTargetValue(values);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -354,7 +343,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -378,7 +367,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -402,7 +391,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -426,7 +415,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -450,7 +439,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -474,7 +463,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereData.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereData.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -489,7 +478,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.EQUAL);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -499,7 +488,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.NOT_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -509,7 +498,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.GREATER);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -519,7 +508,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.GREATER_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -529,7 +518,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.LESS);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -539,7 +528,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.LESS_EQUAL);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -549,7 +538,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.LIKE);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -559,7 +548,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.IN);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 
@@ -569,7 +558,7 @@ public class WhereBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.whereData.setWhereType(WhereType.NOT_IN);
         this.whereData.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereData.setTargetSubQuery(sqlBuilder);
-        this.whereDataList.add(this.whereData);
+        this.addModelData(this.whereData);
         return this.handleModel;
     }
 

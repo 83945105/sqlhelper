@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.LinkedHashMap;
@@ -250,29 +251,29 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
         /**
          * 主键
          */
-        public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName);
+        public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
+            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
         }
 
         /**
          *
          */
-        public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
-            return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id);
+        public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
+            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
-            return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName);
+        public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
+            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
-            return this.whereBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName);
+        public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
+            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
         }
 
     }

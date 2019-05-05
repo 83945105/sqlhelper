@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.beans.WhereValueType;
 import pub.avalon.sqlhelper.core.build.SqlBuilder;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 条件数据
@@ -164,4 +165,36 @@ public final class WhereData {
     public void setSqlPart(String sqlPart) {
         this.sqlPart = sqlPart;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        WhereData whereData = (WhereData) o;
+        return getValueCount() == whereData.getValueCount() &&
+                Objects.equals(getOwnerTableName(), whereData.getOwnerTableName()) &&
+                Objects.equals(getOwnerTableAlias(), whereData.getOwnerTableAlias()) &&
+                Objects.equals(getOwnerColumnName(), whereData.getOwnerColumnName()) &&
+                getWhereType() == whereData.getWhereType() &&
+                getWhereValueType() == whereData.getWhereValueType() &&
+                Objects.equals(getTargetTableName(), whereData.getTargetTableName()) &&
+                Objects.equals(getTargetTableAlias(), whereData.getTargetTableAlias()) &&
+                Objects.equals(getTargetColumnName(), whereData.getTargetColumnName()) &&
+                Objects.equals(getTargetSecondColumnName(), whereData.getTargetSecondColumnName()) &&
+                Objects.equals(getTargetColumnNames(), whereData.getTargetColumnNames()) &&
+                Objects.equals(getTargetValue(), whereData.getTargetValue()) &&
+                Objects.equals(getTargetSecondValue(), whereData.getTargetSecondValue()) &&
+                Objects.equals(getTargetSubQuery(), whereData.getTargetSubQuery()) &&
+                Objects.equals(getSqlPart(), whereData.getSqlPart());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getWhereType(), getWhereValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetSecondColumnName(), getTargetColumnNames(), getTargetValue(), getTargetSecondValue(), getValueCount(), getTargetSubQuery(), getSqlPart());
+    }
+
 }

@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.LinkedHashMap;
@@ -349,50 +350,50 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
         /**
          * 主键
          */
-        public WhereBuilder<RoleResourceModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.whereBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.primaryKeyName);
+        public WhereDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> primaryKey() {
+            return this.whereDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.primaryKeyName, RoleResourceModel.primaryKeyAlias);
         }
 
         /**
          *
          */
-        public WhereBuilder<RoleResourceModel, Column, On, Where, Sort, Group> id() {
-            return this.whereBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.id);
+        public WhereDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> id() {
+            return this.whereDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.id, RoleResourceModel.id_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleId() {
-            return this.whereBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleId);
+        public WhereDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleId() {
+            return this.whereDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleId, RoleResourceModel.roleId_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleName() {
-            return this.whereBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleName);
+        public WhereDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleName() {
+            return this.whereDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleName, RoleResourceModel.roleName_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceId() {
-            return this.whereBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceId);
+        public WhereDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceId() {
+            return this.whereDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceId, RoleResourceModel.resourceId_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceName() {
-            return this.whereBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceName);
+        public WhereDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceName() {
+            return this.whereDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceName, RoleResourceModel.resourceName_alias);
         }
 
         /**
          *
          */
-        public WhereBuilder<RoleResourceModel, Column, On, Where, Sort, Group> sortIndex() {
-            return this.whereBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.sortIndex);
+        public WhereDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> sortIndex() {
+            return this.whereDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.sortIndex, RoleResourceModel.sortIndex_alias);
         }
 
     }
