@@ -413,7 +413,7 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
          * 主键
          */
         public Group primaryKey() {
-            this.addColumn(RoleResourceModel.primaryKeyName);
+            this.groupDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.primaryKeyName, RoleResourceModel.primaryKeyAlias);
             return this;
         }
 
@@ -421,7 +421,7 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
          *
          */
         public Group id() {
-            this.addColumn(RoleResourceModel.id);
+            this.groupDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.id, RoleResourceModel.id_alias);
             return this;
         }
 
@@ -429,7 +429,7 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
          *
          */
         public Group roleId() {
-            this.addColumn(RoleResourceModel.roleId);
+            this.groupDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleId, RoleResourceModel.roleId_alias);
             return this;
         }
 
@@ -437,7 +437,7 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
          *
          */
         public Group roleName() {
-            this.addColumn(RoleResourceModel.roleName);
+            this.groupDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleName, RoleResourceModel.roleName_alias);
             return this;
         }
 
@@ -445,7 +445,7 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
          *
          */
         public Group resourceId() {
-            this.addColumn(RoleResourceModel.resourceId);
+            this.groupDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceId, RoleResourceModel.resourceId_alias);
             return this;
         }
 
@@ -453,7 +453,7 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
          *
          */
         public Group resourceName() {
-            this.addColumn(RoleResourceModel.resourceName);
+            this.groupDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceName, RoleResourceModel.resourceName_alias);
             return this;
         }
 
@@ -461,7 +461,7 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
          *
          */
         public Group sortIndex() {
-            this.addColumn(RoleResourceModel.sortIndex);
+            this.groupDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.sortIndex, RoleResourceModel.sortIndex_alias);
             return this;
         }
 

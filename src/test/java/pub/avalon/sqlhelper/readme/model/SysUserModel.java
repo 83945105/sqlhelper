@@ -293,7 +293,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * 主键
          */
         public Group primaryKey() {
-            this.addColumn(SysUserModel.primaryKeyName);
+            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
             return this;
         }
 
@@ -301,7 +301,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Group id() {
-            this.addColumn(SysUserModel.id);
+            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
             return this;
         }
 
@@ -309,7 +309,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Group userName() {
-            this.addColumn(SysUserModel.userName);
+            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
             return this;
         }
 
@@ -317,7 +317,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Group loginName() {
-            this.addColumn(SysUserModel.loginName);
+            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
             return this;
         }
 

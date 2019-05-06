@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * 排序数据
+ * 表排序数据
  *
  * @author 白超
  * @version 1.0

@@ -163,12 +163,12 @@ public class MySqlDynamicQueryCountTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .group(SysUserModel.Group::id)
                 .queryCount();
-        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser group by SysUser.id) C");
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser group by SysUser.`id`) C");
 
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .group(table -> table.id().userName())
                 .queryCount();
-        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser group by SysUser.id,SysUser.user_name) C");
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser group by SysUser.`id`,SysUser.`user_name`) C");
     }
 
     @Test
@@ -178,7 +178,7 @@ public class MySqlDynamicQueryCountTest extends AbstractTest {
                         .and(mainTable.userName().equalTo(arg())))
                 .group(table -> table.id().loginName())
                 .queryCount();
-        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser where SysUser.`user_name` = ? group by SysUser.id,SysUser.login_name) C");
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser where SysUser.`user_name` = ? group by SysUser.`id`,SysUser.`login_name`) C");
 
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
@@ -188,7 +188,7 @@ public class MySqlDynamicQueryCountTest extends AbstractTest {
                 .group(table -> table.id().id())
                 .group(UserRoleModel.class, UserRoleModel.Group::roleId)
                 .queryCount();
-        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.id,SysUser.id,UserRole.role_id) C");
+        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.`id`,UserRole.`role_id`) C");
     }
 
     @Test

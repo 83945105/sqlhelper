@@ -783,25 +783,29 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendGroupSql(SqlSplicer sqlSplicer) {
-        List<GroupData> groupDataList = this.sqlData.getGroupDataList();
-        if (groupDataList == null || groupDataList.size() == 0) {
+        Set<TableGroupData> tableGroupDataSet = this.sqlData.getTableGroupDataSet();
+        if (tableGroupDataSet == null || tableGroupDataSet.size() == 0) {
             return sqlSplicer;
         }
         sqlSplicer.append(" group by ");
         String alias;
         int i = 0;
-        for (GroupData groupData : groupDataList) {
-            alias = groupData.getTableData().getTableAlias();
-            for (String columnName : groupData.getColumnNames()) {
+        Set<GroupDatum> groupData;
+        for (TableGroupData tableGroupData : tableGroupDataSet) {
+            groupData = tableGroupData.getGroupData();
+            if (groupData == null || groupData.size() == 0) {
+                continue;
+            }
+            for (GroupDatum columnName : groupData) {
                 if (i++ > 0) {
                     sqlSplicer.append(",");
                 }
-                sqlSplicer.append(alias)
-                        .append(".")
-                        .append(columnName);
+                sqlSplicer.append(columnName.getOwnerTableAlias())
+                        .append(".`")
+                        .append(columnName.getOwnerColumnName())
+                        .append("`");
             }
         }
-
         return sqlSplicer;
     }
 

@@ -172,8 +172,8 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         }
 
         @Override
-        public List<GroupData> getGroupDataList() {
-            throw new SqlException("you can not use getGroupDataList for class FissionSqlData.");
+        public Set<TableGroupData> getTableGroupDataSet() {
+            throw new SqlException("you can not use getTableGroupDataSet for class FissionSqlData.");
         }
 
         @Override
@@ -207,9 +207,10 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         }
 
         @Override
-        public void addGroupData(GroupData groupData) {
-            throw new SqlException("you can not use addGroupData for class FissionSqlData.");
+        public void addTableGroupData(TableGroupData tableGroupData) {
+            throw new SqlException("you can not use addTableGroupData for class FissionSqlData.");
         }
+
 
         @Override
         public void addTableSortData(TableSortData tableSortData) {

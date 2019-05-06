@@ -184,12 +184,12 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .group(SysUserModel.Group::userName)
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.user_name");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.`user_name`");
 
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .group(table -> table.userName().id())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.user_name,SysUser.id");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.`user_name`,SysUser.`id`");
     }
 
     @Test
@@ -199,7 +199,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .and(mainTable.userName().equalTo(arg())))
                 .group(table -> table.id().loginName())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? group by SysUser.id,SysUser.login_name");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? group by SysUser.`id`,SysUser.`login_name`");
 
         sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
@@ -209,7 +209,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .group(table -> table.userName().id())
                 .group(UserRoleModel.class, UserRoleModel.Group::roleId)
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.user_name,SysUser.id,UserRole.role_id");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.`user_name`,SysUser.`id`,UserRole.`role_id`");
     }
 
     @Test

@@ -2,12 +2,14 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.data.GroupData;
-import pub.avalon.sqlhelper.core.data.AbstractTableData;
+import pub.avalon.sqlhelper.core.data.GroupDatum;
+import pub.avalon.sqlhelper.core.data.JoinTableData;
+import pub.avalon.sqlhelper.core.data.MainTableData;
+import pub.avalon.sqlhelper.core.data.TableGroupData;
 import pub.avalon.sqlhelper.core.norm.Group;
 import pub.avalon.sqlhelper.core.norm.Model;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 分组引擎
@@ -36,12 +38,14 @@ public class GroupIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     }
 
     public GroupIntactEngine<M, MC, MO, MW, MS, MG> group(Group<M, MC, MO, MW, MS, MG> group) {
-        List<String> columns = group.apply(this.sqlData.getMainTableData().getTableModel().getGroupModel()).getColumns();
-        if (columns == null || columns.size() == 0) {
+        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
+        MG mg = mainTableData.getTableModel().getGroupModel();
+        mg = group.apply(mg);
+        Set<GroupDatum> groupData = mg.groupDataBuilder.takeoutModelData();
+        if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        AbstractTableData tableData = this.sqlData.getMainTableData();
-        this.sqlData.addGroupData(new GroupData(tableData, columns));
+        this.sqlData.addTableGroupData(new TableGroupData(mainTableData, groupData));
         return this;
     }
 
@@ -51,12 +55,14 @@ public class GroupIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> GroupIntactEngine<M, MC, MO, MW, MS, MG> group(Class<T> groupClass, String alias, Group<T, TC, TO, TW, TS, TG> group) {
-        List<String> columns = group.apply(this.sqlData.getJoinTableData(alias, groupClass).getTableModel().getGroupModel()).getColumns();
-        if (columns == null || columns.size() == 0) {
+        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, groupClass);
+        TG tg = joinTableData.getTableModel().getGroupModel();
+        tg = group.apply(tg);
+        Set<GroupDatum> groupData = tg.groupDataBuilder.takeoutModelData();
+        if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        AbstractTableData tableData = this.sqlData.getJoinTableData(alias, groupClass);
-        this.sqlData.addGroupData(new GroupData(tableData, columns));
+        this.sqlData.addTableGroupData(new TableGroupData(joinTableData, groupData));
         return this;
     }
 

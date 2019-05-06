@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import pub.avalon.sqlhelper.core.builder.GroupDataBuilder;
+import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 import java.util.ArrayList;
@@ -20,26 +22,16 @@ public class GroupModel<T extends Model<T, TC, TO, TW, TS, TG>,
         TS extends SortModel<T, TC, TO, TW, TS, TG>,
         TG extends GroupModel<T, TC, TO, TW, TS, TG>> {
 
-    /**
-     * 存储列名
-     */
-    private List<String> columns = new ArrayList<>();
+    private SqlData<T> sqlData;
 
-    /**
-     * 获取列名集合
-     *
-     * @return ArrayList {@link ArrayList}
-     */
-    public List<String> getColumns() {
-        return this.columns;
+    public SqlData<T> getSqlData() {
+        return sqlData;
     }
 
-    /**
-     * 新增列名
-     *
-     * @param column 列名
-     */
-    protected void addColumn(String column) {
-        this.columns.add(column);
+    public void setSqlData(SqlData<T> sqlData) {
+        this.sqlData = sqlData;
     }
+
+    public GroupDataBuilder<T, TC, TO, TW, TS, TG> groupDataBuilder = new GroupDataBuilder<>((TG) this);
+
 }

@@ -41,7 +41,7 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     /**
      * group条件数据
      */
-    private List<GroupData> groupDataList;
+    private Set<TableGroupData> tableGroupDataSet;
     /**
      * sort条件数据
      */
@@ -136,19 +136,19 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     }
 
     @Override
-    public List<GroupData> getGroupDataList() {
-        return this.groupDataList;
+    public Set<TableGroupData> getTableGroupDataSet() {
+        return tableGroupDataSet;
     }
 
     @Override
-    public void addGroupData(GroupData groupData) {
-        if (groupData == null) {
+    public void addTableGroupData(TableGroupData tableGroupData) {
+        if (tableGroupData == null) {
             return;
         }
-        if (this.groupDataList == null) {
-            this.groupDataList = new ArrayList<>();
+        if (this.tableGroupDataSet == null) {
+            this.tableGroupDataSet = new LinkedHashSet<>();
         }
-        this.groupDataList.add(groupData);
+        this.tableGroupDataSet.add(tableGroupData);
     }
 
     @Override

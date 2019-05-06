@@ -373,7 +373,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          * 主键
          */
         public Group primaryKey() {
-            this.addColumn(UserRoleModel.primaryKeyName);
+            this.groupDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName, UserRoleModel.primaryKeyAlias);
             return this;
         }
 
@@ -381,7 +381,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Group id() {
-            this.addColumn(UserRoleModel.id);
+            this.groupDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id, UserRoleModel.id_alias);
             return this;
         }
 
@@ -389,7 +389,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Group userId() {
-            this.addColumn(UserRoleModel.userId);
+            this.groupDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId, UserRoleModel.userId_alias);
             return this;
         }
 
@@ -397,7 +397,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Group roleId() {
-            this.addColumn(UserRoleModel.roleId);
+            this.groupDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId, UserRoleModel.roleId_alias);
             return this;
         }
 
@@ -405,7 +405,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Group roleName() {
-            this.addColumn(UserRoleModel.roleName);
+            this.groupDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName, UserRoleModel.roleName_alias);
             return this;
         }
 
@@ -413,7 +413,7 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
          *
          */
         public Group sortIndex() {
-            this.addColumn(UserRoleModel.sortIndex);
+            this.groupDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex, UserRoleModel.sortIndex_alias);
             return this;
         }
 

@@ -89,7 +89,7 @@ public interface SqlData<M extends Model> {
      *
      * @return 分组数据集合
      */
-    List<GroupData> getGroupDataList();
+    Set<TableGroupData> getTableGroupDataSet();
 
     /**
      * 获取排序数据集合
@@ -134,11 +134,11 @@ public interface SqlData<M extends Model> {
     void addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList);
 
     /**
-     * 添加分组数据
+     * 添加表分组数据
      *
-     * @param groupData 分组数据
+     * @param tableGroupData 分组数据
      */
-    void addGroupData(GroupData groupData);
+    void addTableGroupData(TableGroupData tableGroupData);
 
     /**
      * 添加排序数据
