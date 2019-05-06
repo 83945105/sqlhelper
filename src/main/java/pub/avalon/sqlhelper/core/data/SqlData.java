@@ -96,7 +96,7 @@ public interface SqlData<M extends Model> {
      *
      * @return 排序数据集合
      */
-    List<List<SortData>> getSortDataListList();
+    Set<TableSortData> getTableSortDataSet();
 
     /**
      * 获取分页数据
@@ -141,11 +141,11 @@ public interface SqlData<M extends Model> {
     void addGroupData(GroupData groupData);
 
     /**
-     * 添加排序数据集合
+     * 添加排序数据
      *
-     * @param sortDataList 排序数据集合
+     * @param tableSortData 排序数据
      */
-    void addSortDataList(List<SortData> sortDataList);
+    void addTableSortData(TableSortData tableSortData);
 
     /**
      * 设置分页数据

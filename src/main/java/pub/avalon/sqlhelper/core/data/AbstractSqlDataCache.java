@@ -177,8 +177,8 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         }
 
         @Override
-        public List<List<SortData>> getSortDataListList() {
-            throw new SqlException("you can not use getSortDataListList for class FissionSqlData.");
+        public Set<TableSortData> getTableSortDataSet() {
+            throw new SqlException("you can not use getTableSortDataSet for class FissionSqlData.");
         }
 
         @Override
@@ -212,9 +212,10 @@ public abstract class AbstractSqlDataCache<M extends Model> implements SqlData<M
         }
 
         @Override
-        public void addSortDataList(List<SortData> sortDataList) {
-            throw new SqlException("you can not use addSortDataList for class FissionSqlData.");
+        public void addTableSortData(TableSortData tableSortData) {
+            throw new SqlException("you can not use addTableSortData for class FissionSqlData.");
         }
+
 
         @Override
         public void setLimitData(LimitHandler limitData) {

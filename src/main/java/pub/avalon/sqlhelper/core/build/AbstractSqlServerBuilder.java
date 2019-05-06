@@ -806,22 +806,27 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
     }
 
     protected SqlSplicer appendSortSql(SqlSplicer sqlSplicer) {
-        List<List<SortData>> sortDataList = this.sqlData.getSortDataListList();
-        if (sortDataList == null || sortDataList.size() == 0) {
+        Set<TableSortData> tableSortDataSet = this.sqlData.getTableSortDataSet();
+        if (tableSortDataSet == null || tableSortDataSet.size() == 0) {
             return sqlSplicer;
         }
         sqlSplicer.append(" order by ");
         int i = 0;
-        for (List<SortData> sortData : sortDataList) {
-            for (SortData data : sortData) {
+        Set<SortDatum> sortData;
+        for (TableSortData tableSortData : tableSortDataSet) {
+            sortData = tableSortData.getSortData();
+            if (sortData == null || sortData.size() == 0) {
+                continue;
+            }
+            for (SortDatum sortDatum : sortData) {
                 if (i++ > 0) {
                     sqlSplicer.append(",");
                 }
-                sqlSplicer.append(data.getTableData().getTableAlias())
+                sqlSplicer.append(sortDatum.getOwnerTableAlias())
                         .append(".[")
-                        .append(data.getColumnName())
+                        .append(sortDatum.getOwnerColumnName())
                         .append("]");
-                switch (data.getSortType()) {
+                switch (sortDatum.getSortType()) {
                     case ASC:
                         sqlSplicer.append(" asc");
                         continue;

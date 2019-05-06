@@ -45,7 +45,7 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     /**
      * sort条件数据
      */
-    private List<List<SortData>> sortDataListList;
+    private Set<TableSortData> tableSortDataSet;
     /**
      * limit条件数据
      */
@@ -152,19 +152,19 @@ public abstract class AbstractSqlData<M extends Model> extends AbstractSqlDataCa
     }
 
     @Override
-    public List<List<SortData>> getSortDataListList() {
-        return this.sortDataListList;
+    public Set<TableSortData> getTableSortDataSet() {
+        return tableSortDataSet;
     }
 
     @Override
-    public void addSortDataList(List<SortData> sortDataList) {
-        if (sortDataList == null || sortDataList.size() == 0) {
+    public void addTableSortData(TableSortData tableSortData) {
+        if (tableSortData == null) {
             return;
         }
-        if (this.sortDataListList == null) {
-            this.sortDataListList = new ArrayList<>();
+        if (this.tableSortDataSet == null) {
+            this.tableSortDataSet = new LinkedHashSet<>();
         }
-        this.sortDataListList.add(sortDataList);
+        this.tableSortDataSet.add(tableSortData);
     }
 
 

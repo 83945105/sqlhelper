@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import pub.avalon.sqlhelper.core.builder.SortDataBuilder;
+import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 /**
@@ -17,9 +19,16 @@ public class SortModel<T extends Model<T, TC, TO, TW, TS, TG>,
         TS extends SortModel<T, TC, TO, TW, TS, TG>,
         TG extends GroupModel<T, TC, TO, TW, TS, TG>> {
 
-    protected SortBuilder<T, TC, TO, TW, TS, TG> sortBuilder = new SortBuilder<>((TS) this);
+    private SqlData<T> sqlData;
 
-    public SortBuilder<T, TC, TO, TW, TS, TG> getSortBuilder() {
-        return this.sortBuilder;
+    public SqlData<T> getSqlData() {
+        return sqlData;
     }
+
+    public void setSqlData(SqlData<T> sqlData) {
+        this.sqlData = sqlData;
+    }
+
+    public SortDataBuilder<T, TC, TO, TW, TS, TG> sortDataBuilder = new SortDataBuilder<>((TS) this);
+
 }

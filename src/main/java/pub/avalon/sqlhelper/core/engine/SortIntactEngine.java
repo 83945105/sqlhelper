@@ -4,11 +4,12 @@ import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
-import pub.avalon.sqlhelper.core.data.SortData;
+import pub.avalon.sqlhelper.core.data.SortDatum;
+import pub.avalon.sqlhelper.core.data.TableSortData;
 import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.norm.Sort;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * 排序引擎
@@ -39,9 +40,9 @@ public class SortIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     public SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Sort<M, MC, MO, MW, MS, MG> sort) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MS ms = mainTableData.getTableModel().getSortModel();
-        ms.getSortBuilder().setOwnerTableData(mainTableData);
-        List<SortData> sortDataList = sort.apply(ms).getSortBuilder().getSortDataList();
-        this.sqlData.addSortDataList(sortDataList);
+        ms.sortDataBuilder.setOwnerTableData(mainTableData);
+        Set<SortDatum> sortData = sort.apply(ms).sortDataBuilder.takeoutModelData();
+        this.sqlData.addTableSortData(new TableSortData(mainTableData, sortData));
         return this;
     }
 
@@ -53,9 +54,9 @@ public class SortIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Class<T> sortClass, String alias, Sort<T, TC, TO, TW, TS, TG> sort) {
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, sortClass);
         TS ts = joinTableData.getTableModel().getSortModel();
-        ts.getSortBuilder().setOwnerTableData(joinTableData);
-        List<SortData> sortDataList = sort.apply(ts).getSortBuilder().getSortDataList();
-        this.sqlData.addSortDataList(sortDataList);
+        ts.sortDataBuilder.setOwnerTableData(joinTableData);
+        Set<SortDatum> sortData = sort.apply(ts).sortDataBuilder.takeoutModelData();
+        this.sqlData.addTableSortData(new TableSortData(joinTableData, sortData));
         return this;
     }
 
