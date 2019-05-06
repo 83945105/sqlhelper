@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.build;
+package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.beans.LinkType;
@@ -12,15 +12,15 @@ import java.util.*;
 
 /**
  * @author 白超
- * @date 2018/9/10
+ * @date 2018/8/23
  */
-public abstract class AbstractSqlServerBuilder<M extends Model> extends AbstractSqlBuilder {
+public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlBuilder {
 
     private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
 
     protected SqlData<M> sqlData;
 
-    public AbstractSqlServerBuilder(SqlData<M> sqlData) {
+    public AbstractMySqlBuilder(SqlData<M> sqlData) {
         this.sqlData = sqlData;
     }
 
@@ -34,11 +34,11 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                 sqlSplicer.append(" ");
             }
             sqlSplicer.append(columnDatum.getOwnerTableAlias())
-                    .append(".[")
+                    .append(".`")
                     .append(columnDatum.getOwnerColumnName())
-                    .append("] [")
+                    .append("` `")
                     .append(columnDatum.getOwnerColumnAlias())
-                    .append("]");
+                    .append("`");
         }
         return sqlSplicer;
     }
@@ -94,11 +94,11 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     throw new SqlException("the functionColumnType is wrong.");
             }
             sqlSplicer.append(fcData.getTableData().getTableAlias())
-                    .append(".[")
+                    .append(".`")
                     .append(fcData.getColumnName())
-                    .append("]) [")
+                    .append("`) `")
                     .append(fcData.getColumnAlias())
-                    .append("]");
+                    .append("`");
             this.aliasSingleValidator.put(fcData.getColumnAlias(), true);
         }
         return sqlSplicer;
@@ -133,7 +133,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                 throw new SqlException("the VirtualFieldData value type is wrong.");
             }
             if (alias != null) {
-                sqlSplicer.append(" [").append(alias).append("]");
+                sqlSplicer.append(" `").append(alias).append("`");
                 this.aliasSingleValidator.put(alias, true);
             } else {
                 this.aliasSingleValidator.put(value + "", true);
@@ -162,11 +162,11 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     sqlSplicer.append(" ");
                 }
                 sqlSplicer.append(columnDatum.getOwnerTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(columnDatum.getOwnerColumnName())
-                        .append("] [")
+                        .append("` `")
                         .append(columnDatum.getOwnerColumnAlias())
-                        .append("]");
+                        .append("`");
                 this.aliasSingleValidator.put(columnDatum.getOwnerColumnAlias(), true);
             }
         }
@@ -222,9 +222,9 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                 sqlSplicer.append(" and ");
             }
             sqlSplicer.append(onData.getOwnerTableAlias())
-                    .append(".[")
+                    .append(".`")
                     .append(onData.getOwnerColumnName())
-                    .append("]");
+                    .append("`");
             switch (onData.getOnType()) {
                 case IS_NULL:
                     sqlSplicer.append(" is null");
@@ -309,9 +309,9 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     continue;
                 case JOIN:
                     sqlSplicer.append(onData.getTargetTableAlias())
-                            .append(".[")
+                            .append(".`")
                             .append(onData.getTargetColumnName())
-                            .append("]");
+                            .append("`");
                     continue;
                 default:
                     throw new SqlException("the OnValueType is wrong.");
@@ -406,9 +406,9 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                 default:
                     continue;
             }
-            sqlSplicer.append("[")
+            sqlSplicer.append("`")
                     .append(joinTableData.getTableName())
-                    .append("] ")
+                    .append("` ")
                     .append(joinTableData.getTableAlias());
             List<OnDataLinker> onDataLinkerList = joinTableData.getOnDataLinkerList();
             if (onDataLinkerList != null && onDataLinkerList.size() > 0) {
@@ -522,51 +522,51 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
             case EQUAL:
                 sqlSplicer.append(" = ")
                         .append(whereData.getTargetTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(whereData.getTargetColumnName())
-                        .append("]");
+                        .append("`");
                 break;
             case NOT_EQUAL:
                 sqlSplicer.append(" != ")
                         .append(whereData.getTargetTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(whereData.getTargetColumnName())
-                        .append("]");
+                        .append("`");
                 break;
             case GREATER:
                 sqlSplicer.append(" > ")
                         .append(whereData.getTargetTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(whereData.getTargetColumnName())
-                        .append("]");
+                        .append("`");
                 break;
             case GREATER_EQUAL:
                 sqlSplicer.append(" >= ")
                         .append(whereData.getTargetTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(whereData.getTargetColumnName())
-                        .append("]");
+                        .append("`");
                 break;
             case LESS:
                 sqlSplicer.append(" < ")
                         .append(whereData.getTargetTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(whereData.getTargetColumnName())
-                        .append("]");
+                        .append("`");
                 break;
             case LESS_EQUAL:
                 sqlSplicer.append(" <= ")
                         .append(whereData.getTargetTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(whereData.getTargetColumnName())
-                        .append("]");
+                        .append("`");
                 break;
             case LIKE:
                 sqlSplicer.append(" like ")
                         .append(whereData.getTargetTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(whereData.getTargetColumnName())
-                        .append("]");
+                        .append("`");
                 break;
             case IN:
                 sqlSplicer.append(" in ");
@@ -695,9 +695,9 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                 sqlSplicer.append(" and ");
             }
             sqlSplicer.append(whereData.getOwnerTableAlias())
-                    .append(".[")
+                    .append(".`")
                     .append(whereData.getOwnerColumnName())
-                    .append("]");
+                    .append("`");
             this.appendWhereDataSql(sqlSplicer, whereData);
         }
         if (linkType == LinkType.OR && whereDataList.size() > 1) {
@@ -801,9 +801,9 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     sqlSplicer.append(",");
                 }
                 sqlSplicer.append(columnName.getOwnerTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(columnName.getOwnerColumnName())
-                        .append("]");
+                        .append("`");
             }
         }
         return sqlSplicer;
@@ -827,9 +827,9 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
                     sqlSplicer.append(",");
                 }
                 sqlSplicer.append(sortDatum.getOwnerTableAlias())
-                        .append(".[")
+                        .append(".`")
                         .append(sortDatum.getOwnerColumnName())
-                        .append("]");
+                        .append("`");
                 switch (sortDatum.getSortType()) {
                     case ASC:
                         sqlSplicer.append(" asc");
@@ -850,25 +850,18 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         if (limit == null) {
             return sqlSplicer;
         }
-        SqlSplicer rowNumSql = new SqlSplicer(64);
-        rowNumSql.append("row_number() over(");
-        int len = rowNumSql.length();
-        this.appendSortSql(rowNumSql);
-        if (len == rowNumSql.length()) {
-            rowNumSql.append("order by ")
-                    .append(this.sqlData.getMainTableData().getTableAlias())
-                    .append(".[")
-                    .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
-                    .append("] asc");
-        }
-        rowNumSql.append(") n, ");
-
-        sqlSplicer.insert(7, rowNumSql.getSql())
-                .insert(0, "select * from (")
-                .append(") rn where rn.n >= ? and rn.n <= ?");
+        sqlSplicer.append(" limit ?,?");
         this.sqlArgs.add(limit.getLimitStart());
         this.sqlArgs.add(limit.getLimitEnd());
         return sqlSplicer;
+    }
+
+    protected Set<ColumnDatum> getMainTableColumnData() {
+        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
+        if (columnData == null || columnData.size() == 0) {
+            return this.sqlData.getMainTableData().buildTableColumnData();
+        }
+        return columnData;
     }
 
 }

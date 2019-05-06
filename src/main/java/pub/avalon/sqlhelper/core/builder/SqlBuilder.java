@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.build;
+package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.sql.*;
 

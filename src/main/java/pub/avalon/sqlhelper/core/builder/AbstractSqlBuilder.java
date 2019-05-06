@@ -1,11 +1,11 @@
-package pub.avalon.sqlhelper.core.build;
+package pub.avalon.sqlhelper.core.builder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fusesource.jansi.Ansi;
 import pub.avalon.sqlhelper.core.sql.SqlSplicer;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * @author 白超

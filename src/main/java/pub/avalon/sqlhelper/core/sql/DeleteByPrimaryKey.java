@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sql;
 
-import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 
 import java.util.Collection;
 

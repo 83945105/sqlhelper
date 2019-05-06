@@ -1,7 +1,6 @@
-package pub.avalon.sqlhelper.core.build;
+package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.holygrail.utils.ClassUtil;
-import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -10,40 +9,35 @@ import pub.avalon.sqlhelper.core.sql.SqlSplicer;
 import java.util.*;
 
 /**
- * MySql Sql 构建器
+ * SqlServer Sql 构建器
  *
  * @author 白超
- * @date 2018/8/20
+ * @date 2018/9/10
  */
-public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M> {
+public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerBuilder<M> {
 
-    public MySqlDynamicBuilder(SqlData<M> sqlData) {
+    public SqlServerDynamicBuilder(SqlData<M> sqlData) {
         super(sqlData);
     }
 
     @Override
     public SqlBuilder copyTable(String targetTableName, boolean copyData) {
         this.sqlSplicer.clear()
-                .append("create table `")
+                .append("select * into ")
                 .append(targetTableName)
-                .append("` like `")
-                .append(this.sqlData.getMainTableData().getTableName())
-                .append("`");
+                .append(" from ")
+                .append(this.sqlData.getMainTableData().getTableName());
         this.sqlArgs = new ArrayList<>(0);
         if (copyData) {
-            this.sqlSplicer.append("; insert into `")
-                    .append(targetTableName)
-                    .append("` select * from `")
-                    .append(this.sqlData.getMainTableData().getTableName())
-                    .append("`");
             return this;
         }
+        this.sqlSplicer.append(" where 1 = 2");
         return this;
     }
 
     @Override
     public SqlBuilder deleteTable() {
-        this.sqlSplicer.clear().append("drop table `").append(this.sqlData.getMainTableData().getTableName()).append("`");
+        this.sqlSplicer.clear().append("drop table [").append(this.sqlData.getMainTableData().getTableName()).append("]");
         this.sqlArgs = new ArrayList<>(0);
         return this;
     }
@@ -51,11 +45,11 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     @Override
     public SqlBuilder renameTable(String newTableName) {
         this.sqlSplicer.clear()
-                .append("rename table `")
+                .append("exec sp_rename '")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` to `")
+                .append("', '")
                 .append(newTableName)
-                .append("`");
+                .append("'");
         this.sqlArgs = new ArrayList<>(0);
         return this;
     }
@@ -63,9 +57,9 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     @Override
     public SqlBuilder isTableExist() {
         this.sqlSplicer.clear()
-                .append("select table_name from information_schema.TABLES where table_name = '")
+                .append("select [name] from sysobjects where type='u' and [name] = '")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("' and table_schema = (select database())");
+                .append("'");
         this.sqlArgs = new ArrayList<>(0);
         return this;
     }
@@ -74,15 +68,15 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder queryByPrimaryKey(Object keyValue) {
         this.sqlSplicer.clear().append("select");
         this.appendColumnSql(this.sqlSplicer);
-        this.sqlSplicer.append(" from `")
+        this.sqlSplicer.append(" from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` ")
+                .append("] ")
                 .append(this.sqlData.getMainTableData().getTableAlias())
                 .append(" where ")
                 .append(this.sqlData.getMainTableData().getTableAlias())
-                .append(".`")
+                .append(".[")
                 .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
-                .append("` = ?");
+                .append("] = ?");
         this.sqlArgs = new ArrayList<>(1);
         this.sqlArgs.add(keyValue);
         return this;
@@ -93,9 +87,9 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.sqlArgs = new ArrayList<>(16);
         this.sqlSplicer.clear().append("select");
         this.appendColumnSql(this.sqlSplicer);
-        this.sqlSplicer.append(" from `")
+        this.sqlSplicer.append(" from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` ")
+                .append("] ")
                 .append(this.sqlData.getMainTableData().getTableAlias());
         this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);
@@ -116,14 +110,14 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         if (hasGroup || hasLimit) {
             this.sqlSplicer.append("select count(1) from (select ")
                     .append(this.sqlData.getMainTableData().getTableAlias())
-                    .append(".`")
+                    .append(".[")
                     .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
-                    .append("` from `");
+                    .append("] from [");
         } else {
-            this.sqlSplicer.append("select count(1) from `");
+            this.sqlSplicer.append("select count(1) from [");
         }
         this.sqlSplicer.append(this.sqlData.getMainTableData().getTableName())
-                .append("` ")
+                .append("] ")
                 .append(this.sqlData.getMainTableData().getTableAlias());
         this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);
@@ -144,16 +138,16 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder insertArgs(Collection<?> args) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
-                .append("insert into `")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` (");
+                .append("] (");
         int i = 0;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]");
         }
         this.sqlSplicer.append(") values (");
         for (; i > 0; i--) {
@@ -173,17 +167,17 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder insertJavaBean(Object javaBean) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
-                .append("insert into `")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` (");
+                .append("] (");
         int i = 0;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`");
-            this.sqlArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]");
+            this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
         }
         this.sqlSplicer.append(") values (");
         for (; i > 0; i--) {
@@ -202,21 +196,21 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder insertJavaBeanSelective(Object javaBean) {
         this.sqlArgs = new ArrayList<>(32);
         this.sqlSplicer.clear()
-                .append("insert into `")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` (");
+                .append("] (");
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
-            value = ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias());
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
+            value = ClassUtil.getProperty(javaBean, entry.getValue());
             if (value == null) {
                 continue;
             }
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]");
             this.sqlArgs.add(value);
         }
         this.sqlSplicer.append(") values (");
@@ -236,16 +230,16 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
         this.sqlArgs = new ArrayList<>(32 * javaBeans.size());
         this.sqlSplicer.clear()
-                .append("insert into `")
+                .append("insert into [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` (");
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
+                .append("] (");
+        Set<Map.Entry<String, String>> entrySet = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap().entrySet();
         int i = 0;
-        for (ColumnDatum columnDatum : columnData) {
+        for (Map.Entry<String, String> entry : entrySet) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]");
         }
         this.sqlSplicer.append(") values ");
         SqlSplicer valPart = new SqlSplicer(34).append("(");
@@ -261,8 +255,8 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 this.sqlSplicer.append(",");
             }
             this.sqlSplicer.append(valPart.getSql());
-            for (ColumnDatum columnDatum : columnData) {
-                this.sqlArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            for (Map.Entry<String, String> entry : entrySet) {
+                this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
             }
         }
         return this;
@@ -272,24 +266,24 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     @SuppressWarnings("unchecked")
     public SqlBuilder updateArgsByPrimaryKey(Object keyValue, Collection<?> args) {
         this.sqlSplicer.clear()
-                .append("update `")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` set ");
+                .append("] set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
-            if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
+            if (entry.getKey().equals(primaryKeyName)) {
                 continue;
             }
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]").append(" = ?");
         }
-        this.sqlSplicer.append(" where `")
+        this.sqlSplicer.append(" where [")
                 .append(primaryKeyName)
-                .append("` = ?");
+                .append("] = ?");
         this.sqlArgs = new ArrayList<>(args.size() + 1);
         this.sqlArgs.addAll(args);
         this.sqlArgs.add(keyValue);
@@ -301,25 +295,25 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder updateJavaBeanByPrimaryKey(Object keyValue, Object javaBean) {
         this.sqlArgs = new ArrayList<>(37);
         this.sqlSplicer.clear()
-                .append("update `")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` set ");
+                .append("] set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
-            if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
+            if (entry.getKey().equals(primaryKeyName)) {
                 continue;
             }
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
-            this.sqlArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]").append(" = ?");
+            this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
         }
-        this.sqlSplicer.append(" where `")
+        this.sqlSplicer.append(" where [")
                 .append(primaryKeyName)
-                .append("` = ?");
+                .append("] = ?");
         this.sqlArgs.add(keyValue);
         return this;
     }
@@ -329,30 +323,30 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object keyValue, Object javaBean) {
         this.sqlArgs = new ArrayList<>(37);
         this.sqlSplicer.clear()
-                .append("update `")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` set ");
+                .append("] set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
-            if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
+            if (entry.getKey().equals(primaryKeyName)) {
                 continue;
             }
-            value = ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias());
+            value = ClassUtil.getProperty(javaBean, entry.getValue());
             if (value == null) {
                 continue;
             }
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]").append(" = ?");
             this.sqlArgs.add(value);
         }
-        this.sqlSplicer.append(" where `")
+        this.sqlSplicer.append(" where [")
                 .append(primaryKeyName)
-                .append("` = ?");
+                .append("] = ?");
         this.sqlArgs.add(keyValue);
         return this;
     }
@@ -363,20 +357,20 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update `")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
         int i = 0;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
-            this.sqlArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            this.sqlSplicer.append(tableAlias).append(".[").append(entry.getKey()).append("]").append(" = ?");
+            this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
         }
         this.appendWhereSql(this.sqlSplicer);
         return this;
@@ -388,24 +382,24 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update `")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
-            value = ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias());
+        Map<String, String> columnAliasMap = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap();
+        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
+            value = ClassUtil.getProperty(javaBean, entry.getValue());
             if (value == null) {
                 continue;
             }
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
             }
-            this.sqlSplicer.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            this.sqlSplicer.append(tableAlias).append(".[").append(entry.getKey()).append("]").append(" = ?");
             this.sqlArgs.add(value);
         }
         this.appendWhereSql(this.sqlSplicer);
@@ -418,9 +412,9 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.sqlArgs = new ArrayList<>(128);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update `")
+                .append("update [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
@@ -431,7 +425,7 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         SqlSplicer whenSql = new SqlSplicer(128);
         SqlSplicer inSql = new SqlSplicer(32);
         List<Object> inArgs = new ArrayList<>(64);
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
+        Set<Map.Entry<String, String>> entrySet = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap().entrySet();
         // 遍历所有bean,计算出where条件的sql和参数
         // 计算出when条件sql
         for (Object javaBean : javaBeans) {
@@ -457,9 +451,9 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         }
         i = 0;
         //遍历所有属性
-        for (ColumnDatum columnDatum : columnData) {
+        for (Map.Entry<String, String> entry : entrySet) {
             // 主键略过
-            if (columnDatum.getOwnerColumnAlias().equals(primaryKeyAlias)) {
+            if (entry.getValue().equals(primaryKeyAlias)) {
                 continue;
             }
             // 非主键计算sql
@@ -467,30 +461,30 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 this.sqlSplicer.append(",");
             }
             this.sqlSplicer.append(tableAlias)
-                    .append(".`")
-                    .append(columnDatum.getOwnerColumnName())
-                    .append("`=case ")
+                    .append(".[")
+                    .append(entry.getKey())
+                    .append("]=case ")
                     .append(tableAlias)
-                    .append(".`")
+                    .append(".[")
                     .append(primaryKeyName)
-                    .append("` ")
+                    .append("] ")
                     .append(whenSql.getSql())
                     .append(" end");
             // 非主键计算参数
             for (Object javaBean : javaBeans) {
                 if (javaBean instanceof Map) {
-                    this.sqlArgs.add(((Map) javaBean).get(columnDatum.getOwnerColumnAlias()));
+                    this.sqlArgs.add(((Map) javaBean).get(entry.getValue()));
                 } else {
-                    this.sqlArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+                    this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
                 }
             }
         }
         //拼接上最后的where条件
         this.sqlSplicer.append(" where ")
                 .append(tableAlias)
-                .append(".`")
+                .append(".[")
                 .append(primaryKeyName)
-                .append("` in (")
+                .append("] in (")
                 .append(inSql.getSql())
                 .append(")");
         this.sqlArgs.addAll(inArgs);
@@ -507,14 +501,14 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 .append(" (");
         int i = 0;
         SqlSplicer onSql = new SqlSplicer(64);
-        Set<ColumnDatum> columnData = this.getMainTableColumnData();
-        for (ColumnDatum columnDatum : columnData) {
+        Set<Map.Entry<String, String>> entrySet = this.sqlData.getMainTableData().getTableModel().getColumnAliasMap().entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
             if (i++ > 0) {
                 this.sqlSplicer.append(",");
                 onSql.append(",");
             }
-            this.sqlSplicer.append("`").append(columnDatum.getOwnerColumnName()).append("`");
-            onSql.append("`").append(columnDatum.getOwnerColumnName()).append("` = values(`").append(columnDatum.getOwnerColumnName()).append("`)");
+            this.sqlSplicer.append("[").append(entry.getKey()).append("]");
+            onSql.append("[").append(entry.getKey()).append("] = values([").append(entry.getKey()).append("])");
         }
         this.sqlSplicer.append(") values ");
         SqlSplicer valueSql = new SqlSplicer(32).append("(");
@@ -531,8 +525,8 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
                 this.sqlSplicer.append(",");
             }
             this.sqlSplicer.append(valueSql.getSql());
-            for (ColumnDatum columnDatum : columnData) {
-                this.sqlArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            for (Map.Entry<String, String> entry : entrySet) {
+                this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
             }
         }
         this.sqlSplicer.append(" on duplicate key update ").append(onSql.getSql());
@@ -542,11 +536,11 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     @Override
     public SqlBuilder deleteByPrimaryKey(Object keyValue) {
         this.sqlSplicer.clear()
-                .append("delete from `")
+                .append("delete from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` where `")
+                .append("] where [")
                 .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
-                .append("` = ?");
+                .append("] = ?");
         this.sqlArgs = new ArrayList<>(1);
         this.sqlArgs.add(keyValue);
         return this;
@@ -556,11 +550,11 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
     public SqlBuilder batchDeleteByPrimaryKeys(Collection<?> keyValues) {
         this.sqlArgs = new ArrayList<>(keyValues.size());
         this.sqlSplicer.clear()
-                .append("delete from `")
+                .append("delete from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` where `")
+                .append("] where [")
                 .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
-                .append("` in (");
+                .append("] in (");
         int i = 0;
         for (Object keyValue : keyValues) {
             if (i++ > 0) {
@@ -580,9 +574,9 @@ public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M
         this.sqlSplicer.clear()
                 .append("delete ")
                 .append(tableAlias)
-                .append(" from `")
+                .append(" from [")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("` ")
+                .append("] ")
                 .append(tableAlias);
         this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);

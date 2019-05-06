@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
-import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.model.SysUserModel;
 

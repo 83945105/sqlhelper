@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.build.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.AbstractTableData;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.JoinTableData;

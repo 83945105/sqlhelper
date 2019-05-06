@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.build.SqlBuilderProxy;
+import pub.avalon.sqlhelper.core.builder.SqlBuilderProxy;
 import pub.avalon.sqlhelper.core.data.FinalSqlData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.SqlData;

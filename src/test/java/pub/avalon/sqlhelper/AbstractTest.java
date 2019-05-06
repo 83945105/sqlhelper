@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 
 import java.util.ArrayList;
 import java.util.List;

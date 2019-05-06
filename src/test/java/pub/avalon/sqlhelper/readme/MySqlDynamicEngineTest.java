@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import pub.avalon.beans.HumpConverter;
 import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.build.SqlBuilder;
+import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.jdbc.JdbcSourceEngine;
 import pub.avalon.sqlhelper.core.model.ModelTemplateEngine;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;

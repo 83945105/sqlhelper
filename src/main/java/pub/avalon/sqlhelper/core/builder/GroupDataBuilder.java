@@ -10,7 +10,7 @@ import pub.avalon.sqlhelper.core.norm.Model;
  * @author 白超
  * @date 2019/5/6
  */
-public class GroupDataBuilder<T extends Model<T, TC, TO, TW, TS, TG>,
+public final class GroupDataBuilder<T extends Model<T, TC, TO, TW, TS, TG>,
         TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
         TO extends OnModel<T, TC, TO, TW, TS, TG>,
         TW extends WhereModel<T, TC, TO, TW, TS, TG>,
