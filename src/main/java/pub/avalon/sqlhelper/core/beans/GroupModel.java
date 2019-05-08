@@ -32,6 +32,6 @@ public class GroupModel<T extends Model<T, TC, TO, TW, TS, TG>,
         this.sqlData = sqlData;
     }
 
-    public GroupDataBuilder<T, TC, TO, TW, TS, TG> groupDataBuilder = new GroupDataBuilder<>((TG) this);
+    public GroupDataBuilder<T, TC, TO, TW, TS, TG> modelDataBuilder = new GroupDataBuilder<>((TG) this);
 
 }

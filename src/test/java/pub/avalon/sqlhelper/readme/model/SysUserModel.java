@@ -214,28 +214,28 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * 主键
          */
         public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
         }
 
         /**
          *
          */
         public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
-            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
         }
 
         /**
          *
          */
         public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
-            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
         }
 
         /**
          *
          */
         public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
-            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
         }
 
     }
@@ -254,28 +254,28 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * 主键
          */
         public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
         }
 
         /**
          *
          */
         public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
-            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
         }
 
         /**
          *
          */
         public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
-            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
         }
 
         /**
          *
          */
         public WhereDataBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
-            return this.whereDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
         }
 
     }
@@ -294,7 +294,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * 主键
          */
         public Group primaryKey() {
-            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
             return this;
         }
 
@@ -302,7 +302,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Group id() {
-            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
             return this;
         }
 
@@ -310,7 +310,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Group userName() {
-            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
             return this;
         }
 
@@ -318,7 +318,7 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          *
          */
         public Group loginName() {
-            this.groupDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
+            this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
             return this;
         }
 
@@ -338,28 +338,28 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
          * 主键
          */
         public SortDataBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.sortDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
         }
 
         /**
          *
          */
         public SortDataBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
-            return this.sortDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
         }
 
         /**
          *
          */
         public SortDataBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
-            return this.sortDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
         }
 
         /**
          *
          */
         public SortDataBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
-            return this.sortDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
+            return this.modelDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
         }
 
     }

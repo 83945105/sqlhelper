@@ -50,11 +50,11 @@ public class JoinIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         joinTableData.setJoinType(joinType);
         this.sqlData.addJoinTableData(joinTableData);
         MO mo = mainTableData.getTableModel().getOnModel();
-        mo.onDataBuilder.setOwnerTableData(mainTableData);
+        mo.modelDataBuilder.setOwnerTableData(mainTableData);
         mo.setSqlData(this.sqlData);
         OnLinker<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> onLinker = new OnLinkerIntact<>(this.sqlData, joinClass, alias);
         JO jo = joinTableData.getTableModel().getOnModel();
-        jo.onDataBuilder.setOwnerTableData(joinTableData);
+        jo.modelDataBuilder.setOwnerTableData(joinTableData);
         jo.setSqlData(this.sqlData.fission(joinClass));
         OnLinker<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> linker = on.apply(onLinker, jo, mo);
         joinTableData.addOnDataLinkerList(linker.getAndResetOnDataLinkerList());

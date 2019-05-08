@@ -29,6 +29,6 @@ public class SortModel<T extends Model<T, TC, TO, TW, TS, TG>,
         this.sqlData = sqlData;
     }
 
-    public SortDataBuilder<T, TC, TO, TW, TS, TG> sortDataBuilder = new SortDataBuilder<>((TS) this);
+    public SortDataBuilder<T, TC, TO, TW, TS, TG> modelDataBuilder = new SortDataBuilder<>((TS) this);
 
 }

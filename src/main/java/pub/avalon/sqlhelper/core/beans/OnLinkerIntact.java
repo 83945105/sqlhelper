@@ -39,7 +39,7 @@ public final class OnLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
      */
     public OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> or(OnModel<T, TC, TO, TW, TS, TG> onModel) {
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
-        Set<OnDatum> onData = onModel.onDataBuilder.takeoutModelData();
+        Set<OnDatum> onData = onModel.modelDataBuilder.takeoutModelData();
         if (onData == null || onData.size() == 0) {
             return this;
         }
@@ -57,10 +57,10 @@ public final class OnLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
     public OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> or(On<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> on) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MO mo = mainTableData.getTableModel().getOnModel();
-        mo.onDataBuilder.setOwnerTableData(mainTableData);
+        mo.modelDataBuilder.setOwnerTableData(mainTableData);
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(this.alias, this.joinClass);
         TO to = joinTableData.getTableModel().getOnModel();
-        to.onDataBuilder.setOwnerTableData(joinTableData);
+        to.modelDataBuilder.setOwnerTableData(joinTableData);
         OnLinker<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> onLinker = on.apply(new OnLinkerIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
         List<OnDataLinker> onDataLinkerList = onLinker.getAndResetOnDataLinkerList();
         if (onDataLinkerList == null || onDataLinkerList.size() == 0) {

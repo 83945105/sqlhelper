@@ -40,8 +40,8 @@ public class SortIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     public SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Sort<M, MC, MO, MW, MS, MG> sort) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MS ms = mainTableData.getTableModel().getSortModel();
-        ms.sortDataBuilder.setOwnerTableData(mainTableData);
-        Set<SortDatum> sortData = sort.apply(ms).sortDataBuilder.takeoutModelData();
+        ms.modelDataBuilder.setOwnerTableData(mainTableData);
+        Set<SortDatum> sortData = sort.apply(ms).modelDataBuilder.takeoutModelData();
         this.sqlData.addTableSortData(new TableSortData(mainTableData, sortData));
         return this;
     }
@@ -54,8 +54,8 @@ public class SortIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Class<T> sortClass, String alias, Sort<T, TC, TO, TW, TS, TG> sort) {
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, sortClass);
         TS ts = joinTableData.getTableModel().getSortModel();
-        ts.sortDataBuilder.setOwnerTableData(joinTableData);
-        Set<SortDatum> sortData = sort.apply(ts).sortDataBuilder.takeoutModelData();
+        ts.modelDataBuilder.setOwnerTableData(joinTableData);
+        Set<SortDatum> sortData = sort.apply(ts).modelDataBuilder.takeoutModelData();
         this.sqlData.addTableSortData(new TableSortData(joinTableData, sortData));
         return this;
     }

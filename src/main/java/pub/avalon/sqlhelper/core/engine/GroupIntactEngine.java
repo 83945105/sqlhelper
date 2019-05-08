@@ -41,7 +41,7 @@ public class GroupIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MG mg = mainTableData.getTableModel().getGroupModel();
         mg = group.apply(mg);
-        Set<GroupDatum> groupData = mg.groupDataBuilder.takeoutModelData();
+        Set<GroupDatum> groupData = mg.modelDataBuilder.takeoutModelData();
         if (groupData == null || groupData.size() == 0) {
             return this;
         }
@@ -58,7 +58,7 @@ public class GroupIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, groupClass);
         TG tg = joinTableData.getTableModel().getGroupModel();
         tg = group.apply(tg);
-        Set<GroupDatum> groupData = tg.groupDataBuilder.takeoutModelData();
+        Set<GroupDatum> groupData = tg.modelDataBuilder.takeoutModelData();
         if (groupData == null || groupData.size() == 0) {
             return this;
         }

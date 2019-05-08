@@ -34,7 +34,7 @@ public final class WhereLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
      */
     public WhereLinkerIntact<M, MC, MO, MW, MS, MG> or(WhereModel<?, ?, ?, ?, ?, ?> whereModel) {
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        Set<WhereDatum> whereData = whereModel.whereDataBuilder.takeoutModelData();
+        Set<WhereDatum> whereData = whereModel.modelDataBuilder.takeoutModelData();
         if (whereData == null || whereData.size() == 0) {
             return this;
         }
@@ -52,7 +52,7 @@ public final class WhereLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
     public WhereLinkerIntact<M, MC, MO, MW, MS, MG> or(MainCondition<M, MC, MO, MW, MS, MG> condition) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.whereDataBuilder.setOwnerTableData(mainTableData);
+        mw.modelDataBuilder.setOwnerTableData(mainTableData);
         WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), mw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
@@ -83,9 +83,9 @@ public final class WhereLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.whereDataBuilder.setOwnerTableData(mainTableData);
+        mw.modelDataBuilder.setOwnerTableData(mainTableData);
         TW tw = joinTableData.getTableModel().getWhereModel();
-        tw.whereDataBuilder.setOwnerTableData(joinTableData);
+        tw.modelDataBuilder.setOwnerTableData(joinTableData);
         WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), tw, mw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {

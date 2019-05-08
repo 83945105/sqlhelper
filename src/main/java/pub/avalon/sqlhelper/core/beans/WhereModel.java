@@ -29,6 +29,6 @@ public class WhereModel<T extends Model<T, TC, TO, TW, TS, TG>,
         this.sqlData = sqlData;
     }
 
-    public WhereDataBuilder<T, TC, TO, TW, TS, TG> whereDataBuilder = new WhereDataBuilder<>((TW) this);
+    public WhereDataBuilder<T, TC, TO, TW, TS, TG> modelDataBuilder = new WhereDataBuilder<>((TW) this);
 
 }

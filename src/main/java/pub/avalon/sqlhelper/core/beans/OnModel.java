@@ -29,6 +29,6 @@ public class OnModel<M extends Model<M, MC, MO, MW, MS, MG>,
         this.sqlData = sqlData;
     }
 
-    public OnDataBuilder<M, MC, MO, MW, MS, MG> onDataBuilder = new OnDataBuilder<>((MO) this);
+    public OnDataBuilder<M, MC, MO, MW, MS, MG> modelDataBuilder = new OnDataBuilder<>((MO) this);
 
 }
