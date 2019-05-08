@@ -19,7 +19,7 @@ public final class OnDataLinker {
         this.linkType = linkType;
     }
 
-    private Set<OnData> onData;
+    private Set<OnDatum> onData;
 
     private List<OnDataLinker> onDataLinkerList;
 
@@ -27,11 +27,11 @@ public final class OnDataLinker {
         return linkType;
     }
 
-    public Set<OnData> getOnData() {
+    public Set<OnDatum> getOnData() {
         return onData;
     }
 
-    public void setOnData(Set<OnData> onData) {
+    public void setOnData(Set<OnDatum> onData) {
         this.onData = onData;
     }
 

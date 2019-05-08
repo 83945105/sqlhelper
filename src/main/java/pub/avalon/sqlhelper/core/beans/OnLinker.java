@@ -56,11 +56,11 @@ public class OnLinker<M extends Model<M, MC, MO, MW, MS, MG>,
      */
     public OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> and(OnModel<T, TC, TO, TW, TS, TG> onModel) {
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
-        Set<OnData> onDataList = onModel.onDataBuilder.takeoutModelData();
-        if (onDataList == null || onDataList.size() == 0) {
+        Set<OnDatum> onData = onModel.onDataBuilder.takeoutModelData();
+        if (onData == null || onData.size() == 0) {
             return (OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG>) this;
         }
-        onDataLinker.setOnData(onDataList);
+        onDataLinker.setOnData(onData);
         this.onDataLinkerList.add(onDataLinker);
         return (OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG>) this;
     }

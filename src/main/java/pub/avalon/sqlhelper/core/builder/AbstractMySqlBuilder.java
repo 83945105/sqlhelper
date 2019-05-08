@@ -209,23 +209,23 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-    private SqlSplicer appendOnDataList(SqlSplicer sqlSplicer, Set<OnData> onDataList, LinkType linkType) {
-        if (onDataList == null || onDataList.size() == 0) {
+    private SqlSplicer appendOnDataList(SqlSplicer sqlSplicer, Set<OnDatum> onData, LinkType linkType) {
+        if (onData == null || onData.size() == 0) {
             return sqlSplicer;
         }
-        if (linkType == LinkType.OR && onDataList.size() > 1) {
+        if (linkType == LinkType.OR && onData.size() > 1) {
             sqlSplicer.append("(");
         }
         int i = 0;
-        for (OnData onData : onDataList) {
+        for (OnDatum onDatum : onData) {
             if (i++ > 0) {
                 sqlSplicer.append(" and ");
             }
-            sqlSplicer.append(onData.getOwnerTableAlias())
+            sqlSplicer.append(onDatum.getOwnerTableAlias())
                     .append(".`")
-                    .append(onData.getOwnerColumnName())
+                    .append(onDatum.getOwnerColumnName())
                     .append("`");
-            switch (onData.getOnType()) {
+            switch (onDatum.getOnType()) {
                 case IS_NULL:
                     sqlSplicer.append(" is null");
                     continue;
@@ -252,15 +252,15 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     break;
                 case BETWEEN:
                     sqlSplicer.append(" between ? and ?");
-                    this.sqlArgs.add(onData.getTargetValue());
-                    this.sqlArgs.add(onData.getTargetSecondValue());
+                    this.sqlArgs.add(onDatum.getTargetValue());
+                    this.sqlArgs.add(onDatum.getTargetSecondValue());
                     continue;
                 case LIKE:
                     sqlSplicer.append(" like ?");
-                    this.sqlArgs.add(onData.getTargetValue());
+                    this.sqlArgs.add(onDatum.getTargetValue());
                     continue;
                 case IN:
-                    int count = onData.getValueCount();
+                    int count = onDatum.getValueCount();
                     sqlSplicer.append(" in (");
                     for (; count > 0; count--) {
                         if (count == 1) {
@@ -270,7 +270,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                         }
                     }
                     sqlSplicer.append(")");
-                    Object value = onData.getTargetValue();
+                    Object value = onDatum.getTargetValue();
                     if (value instanceof Collection) {
                         this.sqlArgs.addAll((Collection) value);
                     } else if (value.getClass().isArray()) {
@@ -280,7 +280,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     }
                     continue;
                 case NOT_IN:
-                    count = onData.getValueCount();
+                    count = onDatum.getValueCount();
                     sqlSplicer.append(" not in (");
                     for (; count > 0; count--) {
                         if (count == 1) {
@@ -290,7 +290,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                         }
                     }
                     sqlSplicer.append(")");
-                    value = onData.getTargetValue();
+                    value = onDatum.getTargetValue();
                     if (value instanceof Collection) {
                         this.sqlArgs.addAll((Collection) value);
                     } else if (value.getClass().isArray()) {
@@ -302,22 +302,22 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 default:
                     throw new SqlException("the WhereType is wrong.");
             }
-            switch (onData.getOnValueType()) {
+            switch (onDatum.getOnValueType()) {
                 case VALUE:
                     sqlSplicer.append("?");
-                    this.sqlArgs.add(onData.getTargetValue());
+                    this.sqlArgs.add(onDatum.getTargetValue());
                     continue;
                 case JOIN:
-                    sqlSplicer.append(onData.getTargetTableAlias())
+                    sqlSplicer.append(onDatum.getTargetTableAlias())
                             .append(".`")
-                            .append(onData.getTargetColumnName())
+                            .append(onDatum.getTargetColumnName())
                             .append("`");
                     continue;
                 default:
                     throw new SqlException("the OnValueType is wrong.");
             }
         }
-        if (linkType == LinkType.OR && onDataList.size() > 1) {
+        if (linkType == LinkType.OR && onData.size() > 1) {
             sqlSplicer.append(")");
         }
         return sqlSplicer;
@@ -330,26 +330,26 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
             return sqlSplicer;
         }
         int length = sqlSplicer.length();
-        Set<OnData> onDataList;
+        Set<OnDatum> onData;
         int i = 0;
         boolean brackets = false;
         for (OnDataLinker onDataLinker : onDataLinkerList) {
-            onDataList = onDataLinker.getOnData();
+            onData = onDataLinker.getOnData();
             List<OnDataLinker> childOnDataLinkerList = onDataLinker.getOnDataLinkerList();
-            if (onDataList != null && onDataList.size() > 0) {
+            if (onData != null && onData.size() > 0) {
                 switch (onDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sqlSplicer.append(" and ");
                         }
-                        this.appendOnDataList(sqlSplicer, onDataList, LinkType.AND);
+                        this.appendOnDataList(sqlSplicer, onData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sqlSplicer.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataList(sqlSplicer, onDataList, LinkType.OR);
+                        this.appendOnDataList(sqlSplicer, onData, LinkType.OR);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");

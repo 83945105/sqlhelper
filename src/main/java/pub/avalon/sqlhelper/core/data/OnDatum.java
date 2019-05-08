@@ -12,7 +12,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class OnData {
+public final class OnDatum {
 
     private String ownerTableName;
 
@@ -132,7 +132,7 @@ public final class OnData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        OnData onData = (OnData) o;
+        OnDatum onData = (OnDatum) o;
         return getValueCount() == onData.getValueCount() &&
                 Objects.equals(getOwnerTableName(), onData.getOwnerTableName()) &&
                 Objects.equals(getOwnerTableAlias(), onData.getOwnerTableAlias()) &&
