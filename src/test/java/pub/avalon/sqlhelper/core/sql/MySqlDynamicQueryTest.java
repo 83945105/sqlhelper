@@ -222,6 +222,21 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .sort(table -> table.id().asc().userName().desc())
                 .query();
         setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser order by SysUser.`id` asc,SysUser.`user_name` desc");
+
+        sqlBuilder = MySqlDynamicEngine.query("sys_user_201903", SysUserModel.class)
+                .sort(table -> table.id().asc().userName().desc())
+                .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user_201903` SysUser order by SysUser.`id` asc,SysUser.`user_name` desc");
+
+        sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
+                .innerJoin(UserRoleModel.class, "user_role_201903", (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .sort(table -> table.id().asc().userName().desc())
+                .sort(UserRoleModel.class, "UserRoleAlias", table -> table.sortIndex().desc())
+                .query();
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser order by SysUser.`id` asc,SysUser.`user_name` desc");
+
+
     }
 
     @Test
@@ -309,7 +324,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role_20190413` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name` where SysUser.`user_name` = UserRole.`id`");
     }
 
-//    @Test
+    //    @Test
     void TestSubQuery() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.query(SysUserModel.class)
                 .innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on

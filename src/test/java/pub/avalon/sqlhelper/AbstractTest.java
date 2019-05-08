@@ -48,13 +48,13 @@ public abstract class AbstractTest {
             sqlBuilder = AbstractTest.sqlBuilderList.get(i);
             //产出预编译sql
             String sql = sqlBuilder.getPreparedStatementSql();
-            Assertions.assertEquals(sql, AbstractTest.sqlList.get(i));
+            Assertions.assertEquals(AbstractTest.sqlList.get(i), sql);
             //产出预编译sql参数
             List<Object> args = sqlBuilder.getPreparedStatementArgs();
             List<Object> argList = AbstractTest.argListList.get(i);
-            Assertions.assertEquals(args.size(), argList.size());
+            Assertions.assertEquals(argList.size(), args.size());
             for (int j = 0; j < argList.size(); j++) {
-                Assertions.assertEquals(args.get(j), argList.get(j));
+                Assertions.assertEquals(argList.get(j), args.get(j));
             }
         }
     }

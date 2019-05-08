@@ -1,8 +1,8 @@
 package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.data.AbstractTableData;
 import pub.avalon.sqlhelper.core.data.SortDatum;
+import pub.avalon.sqlhelper.core.data.TableData;
 import pub.avalon.sqlhelper.core.norm.Model;
 
 /**
@@ -12,25 +12,25 @@ import pub.avalon.sqlhelper.core.norm.Model;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class SortDataBuilder<S extends Model<S, SL, SO, SC, SS, SG>,
-        SL extends ColumnModel<S, SL, SO, SC, SS, SG>,
-        SO extends OnModel<S, SL, SO, SC, SS, SG>,
-        SC extends WhereModel<S, SL, SO, SC, SS, SG>,
-        SS extends SortModel<S, SL, SO, SC, SS, SG>,
-        SG extends GroupModel<S, SL, SO, SC, SS, SG>> extends AbstractModelDataBuilder<SortDataBuilder, SortDatum> {
+public final class SortDataBuilder<T extends Model<T, TC, TO, TW, TS, TG>,
+        TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
+        TO extends OnModel<T, TC, TO, TW, TS, TG>,
+        TW extends WhereModel<T, TC, TO, TW, TS, TG>,
+        TS extends SortModel<T, TC, TO, TW, TS, TG>,
+        TG extends GroupModel<T, TC, TO, TW, TS, TG>> extends AbstractModelDataBuilder<SortDataBuilder, SortDatum> {
 
-    private SS handleModel;
+    private TS handleModel;
 
-    public SortDataBuilder(SS handleModel) {
+    public SortDataBuilder(TS handleModel) {
         this.handleModel = handleModel;
     }
 
     private SortDatum sortDatum;
 
-    private AbstractTableData ownerTableData;
+    private TableData<T> tableData;
 
-    public void setOwnerTableData(AbstractTableData ownerTableData) {
-        this.ownerTableData = ownerTableData;
+    public void setOwnerTableData(TableData<T> tableData) {
+        this.tableData = tableData;
     }
 
     @Override
@@ -44,7 +44,7 @@ public final class SortDataBuilder<S extends Model<S, SL, SO, SC, SS, SG>,
      *
      * @return 当前操作的排序模组
      */
-    public SS asc() {
+    public TS asc() {
         this.sortDatum.setSortType(SortType.ASC);
         this.addModelData(this.sortDatum);
         return this.handleModel;
@@ -55,7 +55,7 @@ public final class SortDataBuilder<S extends Model<S, SL, SO, SC, SS, SG>,
      *
      * @return 当前操作的排序模组
      */
-    public SS desc() {
+    public TS desc() {
         this.sortDatum.setSortType(SortType.DESC);
         this.addModelData(this.sortDatum);
         return this.handleModel;
