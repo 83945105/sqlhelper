@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.norm;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.OnDataBuilder;
 
 /**
  * On比较条件
@@ -22,7 +23,7 @@ public interface OnComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param onBuilder On条件构建器
      * @return On条件模组
      */
-    MO equalTo(OnBuilder onBuilder);
+    MO equalTo(OnDataBuilder onBuilder);
 
     /**
      * 不等于
@@ -30,7 +31,7 @@ public interface OnComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param onBuilder On条件构建器
      * @return On条件模组
      */
-    MO notEqualTo(OnBuilder onBuilder);
+    MO notEqualTo(OnDataBuilder onBuilder);
 
     /**
      * 大于
@@ -38,7 +39,7 @@ public interface OnComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param onBuilder On条件构建器
      * @return On条件模组
      */
-    MO greaterThan(OnBuilder onBuilder);
+    MO greaterThan(OnDataBuilder onBuilder);
 
     /**
      * 大于等于
@@ -46,7 +47,7 @@ public interface OnComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param onBuilder On条件构建器
      * @return On条件模组
      */
-    MO greaterThanAndEqualTo(OnBuilder onBuilder);
+    MO greaterThanAndEqualTo(OnDataBuilder onBuilder);
 
     /**
      * 小于
@@ -54,7 +55,7 @@ public interface OnComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param onBuilder On条件构建器
      * @return On条件模组
      */
-    MO lessThan(OnBuilder onBuilder);
+    MO lessThan(OnDataBuilder onBuilder);
 
     /**
      * 小于等于
@@ -62,7 +63,7 @@ public interface OnComparisonOperator<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param onBuilder On条件构建器
      * @return On条件模组
      */
-    MO lessThanAndEqualTo(OnBuilder onBuilder);
+    MO lessThanAndEqualTo(OnDataBuilder onBuilder);
 
     /**
      * 等于

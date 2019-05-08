@@ -1,14 +1,16 @@
-package pub.avalon.sqlhelper.core.beans;
+package pub.avalon.sqlhelper.core.builder;
 
+import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.data.AbstractTableData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.OnData;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
-import pub.avalon.sqlhelper.core.norm.*;
+import pub.avalon.sqlhelper.core.norm.ComparisonOperator;
+import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.norm.OnComparisonOperator;
+import pub.avalon.sqlhelper.core.norm.OnModelValue;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * On条件构建器
@@ -19,19 +21,19 @@ import java.util.List;
  * @see OnComparisonOperator
  * @since 2018/7/10
  */
-public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
+public final class OnDataBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
         MO extends OnModel<M, MC, MO, MW, MS, MG>,
         MW extends WhereModel<M, MC, MO, MW, MS, MG>,
         MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> implements ComparisonOperator<MO>, OnComparisonOperator<M, MC, MO, MW, MS, MG> {
+        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends AbstractModelDataBuilder<OnDataBuilder, OnData> implements ComparisonOperator<MO>, OnComparisonOperator<M, MC, MO, MW, MS, MG> {
 
     /**
      * 当然操作的模组
      */
     private MO handleModel;
 
-    public OnBuilder(MO handleModel) {
+    public OnDataBuilder(MO handleModel) {
         this.handleModel = handleModel;
     }
 
@@ -40,39 +42,18 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
      */
     private OnData onData;
 
-    private List<OnData> onDataList = new ArrayList<>();
-
-    /**
-     * 获取并重置on条件数据集合
-     * 每次获取必须重置,防止条件重复
-     *
-     * @return on条件数据集合
-     */
-    List<OnData> getAndResetOnDataList() {
-        List<OnData> onDataList = this.onDataList;
-        this.onDataList = new ArrayList<>();
-        return onDataList;
-    }
-
     private AbstractTableData ownerTableData;
 
     public void setOwnerTableData(AbstractTableData ownerTableData) {
         this.ownerTableData = ownerTableData;
     }
 
-    /**
-     * 用于新建OnData并预先存于一部分信息
-     *
-     * @param ownerTableName  所属表名
-     * @param ownerTableAlias 所属表别名
-     * @param ownerColumnName 所属字段名
-     * @return 当前On条件构建起 {@link OnBuilder}
-     */
-    public OnBuilder<M, MC, MO, MW, MS, MG> handler(String ownerTableName, String ownerTableAlias, String ownerColumnName) {
+    @Override
+    public OnDataBuilder apply(String tableName, String tableAlias, String columnName, String columnAlias) {
         this.onData = new OnData();
-        this.onData.setOwnerTableName(ownerTableName);
-        this.onData.setOwnerTableAlias(ownerTableAlias);
-        this.onData.setOwnerColumnName(ownerColumnName);
+        this.onData.setOwnerTableName(tableName);
+        this.onData.setOwnerTableAlias(tableAlias);
+        this.onData.setOwnerColumnName(columnName);
         if (this.ownerTableData == null) {
             return this;
         }
@@ -85,7 +66,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnType(OnType.IS_NULL);
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(0);
-        this.onDataList.add(onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -94,7 +75,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnType(OnType.IS_NOT_NULL);
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(0);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -114,7 +95,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(1);
         this.onData.setTargetValue(value);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -134,7 +115,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(1);
         this.onData.setTargetValue(value);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -154,7 +135,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(1);
         this.onData.setTargetValue(value);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -174,7 +155,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(1);
         this.onData.setTargetValue(value);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -194,7 +175,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(1);
         this.onData.setTargetValue(value);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -214,7 +195,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(1);
         this.onData.setTargetValue(value);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -245,7 +226,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setValueCount(2);
         this.onData.setTargetValue(value);
         this.onData.setTargetSecondValue(secondValue);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -265,7 +246,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(1);
         this.onData.setTargetValue(value);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -285,7 +266,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(values.length);
         this.onData.setTargetValue(values);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -305,7 +286,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(values.size());
         this.onData.setTargetValue(values);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -325,7 +306,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(values.length);
         this.onData.setTargetValue(values);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -345,79 +326,79 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setOnValueType(OnValueType.VALUE);
         this.onData.setValueCount(values.size());
         this.onData.setTargetValue(values);
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
     @Override
-    public MO equalTo(OnBuilder onBuilder) {
+    public MO equalTo(OnDataBuilder onDataBuilder) {
         this.onData.setOnType(OnType.EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        OnData targetOnData = onBuilder.onData;
+        OnData targetOnData = onDataBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
     @Override
-    public MO notEqualTo(OnBuilder onBuilder) {
+    public MO notEqualTo(OnDataBuilder onDataBuilder) {
         this.onData.setOnType(OnType.NOT_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        OnData targetOnData = onBuilder.onData;
+        OnData targetOnData = onDataBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
     @Override
-    public MO greaterThan(OnBuilder onBuilder) {
+    public MO greaterThan(OnDataBuilder onDataBuilder) {
         this.onData.setOnType(OnType.GREATER);
         this.onData.setOnValueType(OnValueType.JOIN);
-        OnData targetOnData = onBuilder.onData;
+        OnData targetOnData = onDataBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
     @Override
-    public MO greaterThanAndEqualTo(OnBuilder onBuilder) {
+    public MO greaterThanAndEqualTo(OnDataBuilder onDataBuilder) {
         this.onData.setOnType(OnType.GREATER_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        OnData targetOnData = onBuilder.onData;
+        OnData targetOnData = onDataBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
     @Override
-    public MO lessThan(OnBuilder onBuilder) {
+    public MO lessThan(OnDataBuilder onDataBuilder) {
         this.onData.setOnType(OnType.LESS);
         this.onData.setOnValueType(OnValueType.JOIN);
-        OnData targetOnData = onBuilder.onData;
+        OnData targetOnData = onDataBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
     @Override
-    public MO lessThanAndEqualTo(OnBuilder onBuilder) {
+    public MO lessThanAndEqualTo(OnDataBuilder onDataBuilder) {
         this.onData.setOnType(OnType.LESS_EQUAL);
         this.onData.setOnValueType(OnValueType.JOIN);
-        OnData targetOnData = onBuilder.onData;
+        OnData targetOnData = onDataBuilder.onData;
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(targetOnData.getOwnerTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -436,7 +417,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -455,7 +436,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -474,7 +455,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -493,7 +474,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -512,7 +493,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 
@@ -531,7 +512,7 @@ public final class OnBuilder<M extends Model<M, MC, MO, MW, MS, MG>,
         this.onData.setTargetTableName(targetOnData.getOwnerTableName());
         this.onData.setTargetTableAlias(joinTableData.getTableAlias());
         this.onData.setTargetColumnName(targetOnData.getOwnerColumnName());
-        this.onDataList.add(this.onData);
+        this.addModelData(this.onData);
         return this.handleModel;
     }
 

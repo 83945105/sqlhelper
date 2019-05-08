@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.OnDataBuilder;
 import pub.avalon.sqlhelper.core.builder.SortDataBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -290,50 +291,50 @@ public final class RoleResourceModel implements Model<RoleResourceModel, RoleRes
         /**
          * 主键
          */
-        public OnBuilder<RoleResourceModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.onBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.primaryKeyName);
+        public OnDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> primaryKey() {
+            return this.onDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.primaryKeyName, RoleResourceModel.primaryKeyAlias);
         }
 
         /**
          *
          */
-        public OnBuilder<RoleResourceModel, Column, On, Where, Sort, Group> id() {
-            return this.onBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.id);
+        public OnDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> id() {
+            return this.onDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.id, RoleResourceModel.id_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleId() {
-            return this.onBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleId);
+        public OnDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleId() {
+            return this.onDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleId, RoleResourceModel.roleId_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleName() {
-            return this.onBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleName);
+        public OnDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> roleName() {
+            return this.onDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.roleName, RoleResourceModel.roleName_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceId() {
-            return this.onBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceId);
+        public OnDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceId() {
+            return this.onDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceId, RoleResourceModel.resourceId_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceName() {
-            return this.onBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceName);
+        public OnDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> resourceName() {
+            return this.onDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.resourceName, RoleResourceModel.resourceName_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<RoleResourceModel, Column, On, Where, Sort, Group> sortIndex() {
-            return this.onBuilder.handler(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.sortIndex);
+        public OnDataBuilder<RoleResourceModel, Column, On, Where, Sort, Group> sortIndex() {
+            return this.onDataBuilder.apply(RoleResourceModel.tableName, RoleResourceModel.tableAlias, RoleResourceModel.sortIndex, RoleResourceModel.sortIndex_alias);
         }
 
     }

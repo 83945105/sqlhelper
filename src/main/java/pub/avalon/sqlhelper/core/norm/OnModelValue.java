@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.norm;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.OnDataBuilder;
 
 /**
  * 连接查询On条件
@@ -23,6 +24,6 @@ public interface OnModelValue<M extends Model<M, MC, MO, MW, MS, MG>,
      * @param onModel On条件模组
      * @return On条件构建器
      */
-    OnBuilder<M, MC, MO, MW, MS, MG> apply(MO onModel);
+    OnDataBuilder<M, MC, MO, MW, MS, MG> apply(MO onModel);
 
 }

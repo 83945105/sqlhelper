@@ -3,6 +3,8 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.OnType;
 import pub.avalon.sqlhelper.core.beans.OnValueType;
 
+import java.util.Objects;
+
 /**
  * 条件数据
  *
@@ -120,5 +122,32 @@ public final class OnData {
 
     public void setValueCount(int valueCount) {
         this.valueCount = valueCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        OnData onData = (OnData) o;
+        return getValueCount() == onData.getValueCount() &&
+                Objects.equals(getOwnerTableName(), onData.getOwnerTableName()) &&
+                Objects.equals(getOwnerTableAlias(), onData.getOwnerTableAlias()) &&
+                Objects.equals(getOwnerColumnName(), onData.getOwnerColumnName()) &&
+                getOnType() == onData.getOnType() &&
+                getOnValueType() == onData.getOnValueType() &&
+                Objects.equals(getTargetTableName(), onData.getTargetTableName()) &&
+                Objects.equals(getTargetTableAlias(), onData.getTargetTableAlias()) &&
+                Objects.equals(getTargetColumnName(), onData.getTargetColumnName()) &&
+                Objects.equals(getTargetValue(), onData.getTargetValue()) &&
+                Objects.equals(getTargetSecondValue(), onData.getTargetSecondValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOnType(), getOnValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetValue(), getTargetSecondValue(), getValueCount());
     }
 }

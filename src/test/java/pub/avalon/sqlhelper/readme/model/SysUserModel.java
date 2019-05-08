@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.OnDataBuilder;
 import pub.avalon.sqlhelper.core.builder.SortDataBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -212,29 +213,29 @@ public final class SysUserModel implements Model<SysUserModel, SysUserModel.Colu
         /**
          * 主键
          */
-        public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName);
+        public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> primaryKey() {
+            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.primaryKeyName, SysUserModel.primaryKeyAlias);
         }
 
         /**
          *
          */
-        public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
-            return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id);
+        public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> id() {
+            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.id, SysUserModel.id_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
-            return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName);
+        public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> userName() {
+            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.userName, SysUserModel.userName_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
-            return this.onBuilder.handler(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName);
+        public OnDataBuilder<SysUserModel, Column, On, Where, Sort, Group> loginName() {
+            return this.onDataBuilder.apply(SysUserModel.tableName, SysUserModel.tableAlias, SysUserModel.loginName, SysUserModel.loginName_alias);
         }
 
     }

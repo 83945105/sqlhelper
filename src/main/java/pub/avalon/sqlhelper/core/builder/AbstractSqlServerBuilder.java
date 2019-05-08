@@ -209,7 +209,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendOnDataList(SqlSplicer sqlSplicer, List<OnData> onDataList, LinkType linkType) {
+    private SqlSplicer appendOnDataList(SqlSplicer sqlSplicer, Set<OnData> onDataList, LinkType linkType) {
         if (onDataList == null || onDataList.size() == 0) {
             return sqlSplicer;
         }
@@ -330,11 +330,11 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
             return sqlSplicer;
         }
         int length = sqlSplicer.length();
-        List<OnData> onDataList;
+        Set<OnData> onDataList;
         int i = 0;
         boolean brackets = false;
         for (OnDataLinker onDataLinker : onDataLinkerList) {
-            onDataList = onDataLinker.getOnDataList();
+            onDataList = onDataLinker.getOnData();
             List<OnDataLinker> childOnDataLinkerList = onDataLinker.getOnDataLinkerList();
             if (onDataList != null && onDataList.size() > 0) {
                 switch (onDataLinker.getLinkType()) {

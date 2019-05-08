@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.norm.Model;
 import pub.avalon.sqlhelper.core.norm.On;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * On条件连接器
@@ -38,11 +39,11 @@ public final class OnLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
      */
     public OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> or(OnModel<T, TC, TO, TW, TS, TG> onModel) {
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
-        List<OnData> onDataList = onModel.onBuilder.getAndResetOnDataList();
+        Set<OnData> onDataList = onModel.onDataBuilder.takeoutModelData();
         if (onDataList == null || onDataList.size() == 0) {
             return this;
         }
-        onDataLinker.setOnDataList(onDataList);
+        onDataLinker.setOnData(onDataList);
         this.onDataLinkerList.add(onDataLinker);
         return this;
     }
@@ -56,10 +57,10 @@ public final class OnLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
     public OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> or(On<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> on) {
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MO mo = mainTableData.getTableModel().getOnModel();
-        mo.onBuilder.setOwnerTableData(mainTableData);
+        mo.onDataBuilder.setOwnerTableData(mainTableData);
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(this.alias, this.joinClass);
         TO to = joinTableData.getTableModel().getOnModel();
-        to.onBuilder.setOwnerTableData(joinTableData);
+        to.onDataBuilder.setOwnerTableData(joinTableData);
         OnLinker<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> onLinker = on.apply(new OnLinkerIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
         List<OnDataLinker> onDataLinkerList = onLinker.getAndResetOnDataLinkerList();
         if (onDataLinkerList == null || onDataLinkerList.size() == 0) {

@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.OnDataBuilder;
 import pub.avalon.sqlhelper.core.builder.SortDataBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereDataBuilder;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -264,43 +265,43 @@ public final class UserRoleModel implements Model<UserRoleModel, UserRoleModel.C
         /**
          * 主键
          */
-        public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> primaryKey() {
-            return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName);
+        public OnDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> primaryKey() {
+            return this.onDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.primaryKeyName, UserRoleModel.primaryKeyAlias);
         }
 
         /**
          *
          */
-        public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> id() {
-            return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id);
+        public OnDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> id() {
+            return this.onDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.id, UserRoleModel.id_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> userId() {
-            return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId);
+        public OnDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> userId() {
+            return this.onDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.userId, UserRoleModel.userId_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleId() {
-            return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId);
+        public OnDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleId() {
+            return this.onDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleId, UserRoleModel.roleId_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleName() {
-            return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName);
+        public OnDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> roleName() {
+            return this.onDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.roleName, UserRoleModel.roleName_alias);
         }
 
         /**
          *
          */
-        public OnBuilder<UserRoleModel, Column, On, Where, Sort, Group> sortIndex() {
-            return this.onBuilder.handler(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex);
+        public OnDataBuilder<UserRoleModel, Column, On, Where, Sort, Group> sortIndex() {
+            return this.onDataBuilder.apply(UserRoleModel.tableName, UserRoleModel.tableAlias, UserRoleModel.sortIndex, UserRoleModel.sortIndex_alias);
         }
 
     }

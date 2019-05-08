@@ -2,7 +2,6 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.data.FinalSqlData;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.norm.Model;
@@ -51,11 +50,11 @@ public class JoinIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         joinTableData.setJoinType(joinType);
         this.sqlData.addJoinTableData(joinTableData);
         MO mo = mainTableData.getTableModel().getOnModel();
-        mo.getOnBuilder().setOwnerTableData(mainTableData);
+        mo.onDataBuilder.setOwnerTableData(mainTableData);
         mo.setSqlData(this.sqlData);
         OnLinker<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> onLinker = new OnLinkerIntact<>(this.sqlData, joinClass, alias);
         JO jo = joinTableData.getTableModel().getOnModel();
-        jo.getOnBuilder().setOwnerTableData(joinTableData);
+        jo.onDataBuilder.setOwnerTableData(joinTableData);
         jo.setSqlData(this.sqlData.fission(joinClass));
         OnLinker<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> linker = on.apply(onLinker, jo, mo);
         joinTableData.addOnDataLinkerList(linker.getAndResetOnDataLinkerList());

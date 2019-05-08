@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import pub.avalon.sqlhelper.core.builder.OnDataBuilder;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.norm.Model;
 
@@ -20,8 +21,6 @@ public class OnModel<M extends Model<M, MC, MO, MW, MS, MG>,
 
     private SqlData<M> sqlData;
 
-    protected OnBuilder<M, MC, MO, MW, MS, MG> onBuilder = new OnBuilder<>((MO) this);
-
     public SqlData<M> getSqlData() {
         return sqlData;
     }
@@ -30,8 +29,6 @@ public class OnModel<M extends Model<M, MC, MO, MW, MS, MG>,
         this.sqlData = sqlData;
     }
 
-    public OnBuilder<M, MC, MO, MW, MS, MG> getOnBuilder() {
-        return onBuilder;
-    }
+    public OnDataBuilder<M, MC, MO, MW, MS, MG> onDataBuilder = new OnDataBuilder<>((MO) this);
 
 }
