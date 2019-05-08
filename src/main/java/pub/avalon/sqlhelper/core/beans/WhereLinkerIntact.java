@@ -34,11 +34,11 @@ public final class WhereLinkerIntact<M extends Model<M, MC, MO, MW, MS, MG>,
      */
     public WhereLinkerIntact<M, MC, MO, MW, MS, MG> or(WhereModel<?, ?, ?, ?, ?, ?> whereModel) {
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        Set<WhereData> whereDataList = whereModel.whereDataBuilder.takeoutModelData();
-        if (whereDataList == null || whereDataList.size() == 0) {
+        Set<WhereDatum> whereData = whereModel.whereDataBuilder.takeoutModelData();
+        if (whereData == null || whereData.size() == 0) {
             return this;
         }
-        whereDataLinker.setWhereDataList(whereDataList);
+        whereDataLinker.setWhereData(whereData);
         this.whereDataLinkerList.add(whereDataLinker);
         return this;
     }

@@ -14,7 +14,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class WhereData {
+public final class WhereDatum {
 
     private String ownerTableName;
 
@@ -174,7 +174,7 @@ public final class WhereData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        WhereData whereData = (WhereData) o;
+        WhereDatum whereData = (WhereDatum) o;
         return getValueCount() == whereData.getValueCount() &&
                 Objects.equals(getOwnerTableName(), whereData.getOwnerTableName()) &&
                 Objects.equals(getOwnerTableAlias(), whereData.getOwnerTableAlias()) &&

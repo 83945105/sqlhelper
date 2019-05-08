@@ -419,8 +419,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataValueSql(SqlSplicer sqlSplicer, WhereData whereData) {
-        switch (whereData.getWhereType()) {
+    private SqlSplicer appendWhereDataValueSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+        switch (whereDatum.getWhereType()) {
             case IS_NULL:
                 sqlSplicer.append(" is null");
                 break;
@@ -429,40 +429,40 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 break;
             case BETWEEN:
                 sqlSplicer.append(" between ? and ?");
-                this.sqlArgs.add(whereData.getTargetValue());
-                this.sqlArgs.add(whereData.getTargetSecondValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetSecondValue());
                 break;
             case EQUAL:
                 sqlSplicer.append(" = ?");
-                this.sqlArgs.add(whereData.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
                 break;
             case NOT_EQUAL:
                 sqlSplicer.append(" != ?");
-                this.sqlArgs.add(whereData.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
                 break;
             case GREATER:
                 sqlSplicer.append(" > ?");
-                this.sqlArgs.add(whereData.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
                 break;
             case GREATER_EQUAL:
                 sqlSplicer.append(" >= ?");
-                this.sqlArgs.add(whereData.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
                 break;
             case LESS:
                 sqlSplicer.append(" < ?");
-                this.sqlArgs.add(whereData.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
                 break;
             case LESS_EQUAL:
                 sqlSplicer.append(" <= ?");
-                this.sqlArgs.add(whereData.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
                 break;
             case LIKE:
                 sqlSplicer.append(" like ?");
-                this.sqlArgs.add(whereData.getTargetValue());
+                this.sqlArgs.add(whereDatum.getTargetValue());
                 break;
             case IN:
                 sqlSplicer.append(" in (");
-                int count = whereData.getValueCount();
+                int count = whereDatum.getValueCount();
                 for (; count > 0; count--) {
                     if (count == 1) {
                         sqlSplicer.append("?");
@@ -471,7 +471,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     }
                 }
                 sqlSplicer.append(")");
-                Object value = whereData.getTargetValue();
+                Object value = whereDatum.getTargetValue();
                 if (value instanceof Collection) {
                     this.sqlArgs.addAll((Collection) value);
                 } else if (value.getClass().isArray()) {
@@ -482,7 +482,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 break;
             case NOT_IN:
                 sqlSplicer.append(" not in (");
-                count = whereData.getValueCount();
+                count = whereDatum.getValueCount();
                 for (; count > 0; count--) {
                     if (count == 1) {
                         sqlSplicer.append("?");
@@ -491,7 +491,7 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                     }
                 }
                 sqlSplicer.append(")");
-                value = whereData.getTargetValue();
+                value = whereDatum.getTargetValue();
                 if (value instanceof Collection) {
                     this.sqlArgs.addAll((Collection) value);
                 } else if (value.getClass().isArray()) {
@@ -506,8 +506,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataJoinSql(SqlSplicer sqlSplicer, WhereData whereData) {
-        switch (whereData.getWhereType()) {
+    private SqlSplicer appendWhereDataJoinSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+        switch (whereDatum.getWhereType()) {
             case IS_NULL:
                 sqlSplicer.append(" is null");
                 break;
@@ -521,51 +521,51 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 //TODO 别忘记break
             case EQUAL:
                 sqlSplicer.append(" = ")
-                        .append(whereData.getTargetTableAlias())
+                        .append(whereDatum.getTargetTableAlias())
                         .append(".`")
-                        .append(whereData.getTargetColumnName())
+                        .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case NOT_EQUAL:
                 sqlSplicer.append(" != ")
-                        .append(whereData.getTargetTableAlias())
+                        .append(whereDatum.getTargetTableAlias())
                         .append(".`")
-                        .append(whereData.getTargetColumnName())
+                        .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case GREATER:
                 sqlSplicer.append(" > ")
-                        .append(whereData.getTargetTableAlias())
+                        .append(whereDatum.getTargetTableAlias())
                         .append(".`")
-                        .append(whereData.getTargetColumnName())
+                        .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case GREATER_EQUAL:
                 sqlSplicer.append(" >= ")
-                        .append(whereData.getTargetTableAlias())
+                        .append(whereDatum.getTargetTableAlias())
                         .append(".`")
-                        .append(whereData.getTargetColumnName())
+                        .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case LESS:
                 sqlSplicer.append(" < ")
-                        .append(whereData.getTargetTableAlias())
+                        .append(whereDatum.getTargetTableAlias())
                         .append(".`")
-                        .append(whereData.getTargetColumnName())
+                        .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case LESS_EQUAL:
                 sqlSplicer.append(" <= ")
-                        .append(whereData.getTargetTableAlias())
+                        .append(whereDatum.getTargetTableAlias())
                         .append(".`")
-                        .append(whereData.getTargetColumnName())
+                        .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case LIKE:
                 sqlSplicer.append(" like ")
-                        .append(whereData.getTargetTableAlias())
+                        .append(whereDatum.getTargetTableAlias())
                         .append(".`")
-                        .append(whereData.getTargetColumnName())
+                        .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case IN:
@@ -584,8 +584,8 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataSubQuerySql(SqlSplicer sqlSplicer, WhereData whereData) {
-        switch (whereData.getWhereType()) {
+    private SqlSplicer appendWhereDataSubQuerySql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+        switch (whereDatum.getWhereType()) {
             case IS_NULL:
                 sqlSplicer.append(" is null");
                 break;
@@ -599,57 +599,57 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
                 // TODO 别忘记break
             case EQUAL:
                 sqlSplicer.append(" = (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case NOT_EQUAL:
                 sqlSplicer.append(" != (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case GREATER:
                 sqlSplicer.append(" > (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case GREATER_EQUAL:
                 sqlSplicer.append(" >= (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case LESS:
                 sqlSplicer.append(" < (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case LESS_EQUAL:
                 sqlSplicer.append(" <= (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case LIKE:
                 sqlSplicer.append(" like (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case IN:
                 sqlSplicer.append(" in (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case NOT_IN:
                 sqlSplicer.append(" not in (")
-                        .append(whereData.getTargetSubQuery().getPreparedStatementSql())
+                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereData.getTargetSubQuery().getPreparedStatementArgs());
+                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             default:
                 throw new SqlException("the WhereType is wrong.");
@@ -657,24 +657,24 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataSqlPartSql(SqlSplicer sqlSplicer, WhereData whereData) {
-        sqlSplicer.append(" ").append(whereData.getSqlPart());
+    private SqlSplicer appendWhereDataSqlPartSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+        sqlSplicer.append(" ").append(whereDatum.getSqlPart());
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataSql(SqlSplicer sqlSplicer, WhereData whereData) {
-        switch (whereData.getWhereValueType()) {
+    private SqlSplicer appendWhereDataSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+        switch (whereDatum.getWhereValueType()) {
             case VALUE:
-                this.appendWhereDataValueSql(sqlSplicer, whereData);
+                this.appendWhereDataValueSql(sqlSplicer, whereDatum);
                 break;
             case JOIN:
-                this.appendWhereDataJoinSql(sqlSplicer, whereData);
+                this.appendWhereDataJoinSql(sqlSplicer, whereDatum);
                 break;
             case SUB_QUERY:
-                this.appendWhereDataSubQuerySql(sqlSplicer, whereData);
+                this.appendWhereDataSubQuerySql(sqlSplicer, whereDatum);
                 break;
             case SQL_PART:
-                this.appendWhereDataSqlPartSql(sqlSplicer, whereData);
+                this.appendWhereDataSqlPartSql(sqlSplicer, whereDatum);
                 break;
             default:
                 throw new SqlException("the WhereValueType is wrong.");
@@ -682,25 +682,25 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, Set<WhereData> whereDataList, LinkType linkType) {
-        if (whereDataList == null || whereDataList.size() == 0) {
+    private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, Set<WhereDatum> whereData, LinkType linkType) {
+        if (whereData == null || whereData.size() == 0) {
             return sqlSplicer;
         }
-        if (linkType == LinkType.OR && whereDataList.size() > 1) {
+        if (linkType == LinkType.OR && whereData.size() > 1) {
             sqlSplicer.append("(");
         }
         int i = 0;
-        for (WhereData whereData : whereDataList) {
+        for (WhereDatum whereDatum : whereData) {
             if (i++ > 0) {
                 sqlSplicer.append(" and ");
             }
-            sqlSplicer.append(whereData.getOwnerTableAlias())
+            sqlSplicer.append(whereDatum.getOwnerTableAlias())
                     .append(".`")
-                    .append(whereData.getOwnerColumnName())
+                    .append(whereDatum.getOwnerColumnName())
                     .append("`");
-            this.appendWhereDataSql(sqlSplicer, whereData);
+            this.appendWhereDataSql(sqlSplicer, whereDatum);
         }
-        if (linkType == LinkType.OR && whereDataList.size() > 1) {
+        if (linkType == LinkType.OR && whereData.size() > 1) {
             sqlSplicer.append(")");
         }
         return sqlSplicer;
@@ -711,26 +711,26 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
             return sqlSplicer;
         }
         int length = sqlSplicer.length();
-        Set<WhereData> whereDataList;
+        Set<WhereDatum> whereData;
         int i = 0;
         boolean brackets = false;
         for (WhereDataLinker whereDataLinker : whereDataLinkerList) {
-            whereDataList = whereDataLinker.getWhereDataList();
+            whereData = whereDataLinker.getWhereData();
             List<WhereDataLinker> childWhereDataLinkerList = whereDataLinker.getWhereDataLinkerList();
-            if (whereDataList != null && whereDataList.size() > 0) {
+            if (whereData != null && whereData.size() > 0) {
                 switch (whereDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sqlSplicer.append(" and ");
                         }
-                        this.appendWhereDataList(sqlSplicer, whereDataList, LinkType.AND);
+                        this.appendWhereDataList(sqlSplicer, whereData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sqlSplicer.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendWhereDataList(sqlSplicer, whereDataList, LinkType.OR);
+                        this.appendWhereDataList(sqlSplicer, whereData, LinkType.OR);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");

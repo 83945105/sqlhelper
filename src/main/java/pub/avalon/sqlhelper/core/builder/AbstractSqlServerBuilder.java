@@ -419,7 +419,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataValueSql(SqlSplicer sqlSplicer, WhereData whereData) {
+    private SqlSplicer appendWhereDataValueSql(SqlSplicer sqlSplicer, WhereDatum whereData) {
         switch (whereData.getWhereType()) {
             case IS_NULL:
                 sqlSplicer.append(" is null");
@@ -506,7 +506,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataJoinSql(SqlSplicer sqlSplicer, WhereData whereData) {
+    private SqlSplicer appendWhereDataJoinSql(SqlSplicer sqlSplicer, WhereDatum whereData) {
         switch (whereData.getWhereType()) {
             case IS_NULL:
                 sqlSplicer.append(" is null");
@@ -584,7 +584,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataSubQuerySql(SqlSplicer sqlSplicer, WhereData whereData) {
+    private SqlSplicer appendWhereDataSubQuerySql(SqlSplicer sqlSplicer, WhereDatum whereData) {
         switch (whereData.getWhereType()) {
             case IS_NULL:
                 sqlSplicer.append(" is null");
@@ -657,12 +657,12 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataSqlPartSql(SqlSplicer sqlSplicer, WhereData whereData) {
+    private SqlSplicer appendWhereDataSqlPartSql(SqlSplicer sqlSplicer, WhereDatum whereData) {
         sqlSplicer.append(" ").append(whereData.getSqlPart());
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataSql(SqlSplicer sqlSplicer, WhereData whereData) {
+    private SqlSplicer appendWhereDataSql(SqlSplicer sqlSplicer, WhereDatum whereData) {
         switch (whereData.getWhereValueType()) {
             case VALUE:
                 this.appendWhereDataValueSql(sqlSplicer, whereData);
@@ -682,7 +682,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         return sqlSplicer;
     }
 
-    private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, Set<WhereData> whereDataList, LinkType linkType) {
+    private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, Set<WhereDatum> whereDataList, LinkType linkType) {
         if (whereDataList == null || whereDataList.size() == 0) {
             return sqlSplicer;
         }
@@ -690,7 +690,7 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
             sqlSplicer.append("(");
         }
         int i = 0;
-        for (WhereData whereData : whereDataList) {
+        for (WhereDatum whereData : whereDataList) {
             if (i++ > 0) {
                 sqlSplicer.append(" and ");
             }
@@ -711,11 +711,11 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
             return sqlSplicer;
         }
         int length = sqlSplicer.length();
-        Set<WhereData> whereDataList;
+        Set<WhereDatum> whereDataList;
         int i = 0;
         boolean brackets = false;
         for (WhereDataLinker whereDataLinker : whereDataLinkerList) {
-            whereDataList = whereDataLinker.getWhereDataList();
+            whereDataList = whereDataLinker.getWhereData();
             List<WhereDataLinker> childWhereDataLinkerList = whereDataLinker.getWhereDataLinkerList();
             if (whereDataList != null && whereDataList.size() > 0) {
                 switch (whereDataLinker.getLinkType()) {

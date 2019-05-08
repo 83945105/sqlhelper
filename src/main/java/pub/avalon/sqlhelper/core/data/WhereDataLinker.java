@@ -20,7 +20,7 @@ public final class WhereDataLinker {
         this.linkType = linkType;
     }
 
-    private Set<WhereData> whereDataList;
+    private Set<WhereDatum> whereData;
 
     private List<WhereDataLinker> whereDataLinkerList;
 
@@ -28,12 +28,12 @@ public final class WhereDataLinker {
         return linkType;
     }
 
-    public Set<WhereData> getWhereDataList() {
-        return whereDataList;
+    public Set<WhereDatum> getWhereData() {
+        return whereData;
     }
 
-    public void setWhereDataList(Set<WhereData> whereDataList) {
-        this.whereDataList = whereDataList;
+    public void setWhereData(Set<WhereDatum> whereData) {
+        this.whereData = whereData;
     }
 
     public List<WhereDataLinker> getWhereDataLinkerList() {
