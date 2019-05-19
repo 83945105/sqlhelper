@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * where条件数据连接器
+ * Where join 回调
  *
  * @author 白超
  * @version 1.0

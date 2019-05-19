@@ -1,9 +1,8 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.builder.SqlBuilder;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 import pub.avalon.sqlhelper.core.sql.Table;
 
 /**
@@ -12,23 +11,28 @@ import pub.avalon.sqlhelper.core.sql.Table;
  * @author 白超
  * @date 2018/8/24
  */
-public final class TableEngine<M extends Model<M, MC, MO, MW, MS, MG>,
-        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
-        MO extends OnModel<M, MC, MO, MW, MS, MG>,
-        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
-        MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends SqlEngine<M> implements Table {
+public final class TableEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> implements Table {
 
-    public TableEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        super(mainClass, dataBaseType);
+    public TableEngine(Class<T> tableModelClass) {
+        super(tableModelClass);
     }
 
-    public TableEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
-        super(tableName, mainClass, dataBaseType);
+    public TableEngine(String tableName, Class<T> tableModelClass) {
+        super(tableName, tableModelClass);
     }
 
-    public TableEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
-        super(tableName, mainClass, alias, dataBaseType);
+    public TableEngine(String tableName, Class<T> tableModelClass, String alias) {
+        super(tableName, tableModelClass, alias);
+    }
+
+    @Override
+    public TableEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
+        return (TableEngine<T, TO, TC, TW, TG, TS>) super.setDataBaseType(dataBaseType);
     }
 
     @Override

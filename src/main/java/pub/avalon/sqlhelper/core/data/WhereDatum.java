@@ -14,7 +14,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class WhereDatum {
+public final class WhereDatum implements SqlModelDatum {
 
     private String ownerTableName;
 

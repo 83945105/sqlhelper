@@ -1,11 +1,13 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
+import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.builder.SqlBuilderProxy;
 import pub.avalon.sqlhelper.core.data.FinalSqlData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.SqlData;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.sql.Query;
 
 /**
  * 引擎
@@ -14,33 +16,58 @@ import pub.avalon.sqlhelper.core.norm.Model;
  * @version 1.0
  * @since 2018/7/10
  */
-public class SqlEngine<M extends Model> {
+public class SqlEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>> implements Query {
 
-    protected SqlData<M> sqlData;
+    protected Class<T> tableModelClass;
 
-    SqlBuilderProxy sqlBuilderProxy;
+    private SqlData<T> sqlData;
 
-    SqlEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        this.sqlData = new FinalSqlData<>(dataBaseType, new MainTableData<>(mainClass));
+    private SqlBuilderProxy sqlBuilderProxy;
+
+    public SqlEngine(Class<T> tableModelClass) {
+        this.tableModelClass = tableModelClass;
+        this.sqlData = new FinalSqlData<>(new MainTableData<>(tableModelClass));
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 
-    SqlEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
-        MainTableData<M> data = new MainTableData<>(mainClass);
-        data.setTableName(tableName);
-        this.sqlData = new FinalSqlData<>(dataBaseType, data);
+    public SqlEngine(String tableName, Class<T> tableModelClass) {
+        this.tableModelClass = tableModelClass;
+        MainTableData<T> mainTableData = new MainTableData<>(tableModelClass);
+        mainTableData.setTableName(tableName);
+        this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 
-    SqlEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
-        MainTableData<M> data = new MainTableData<>(mainClass);
-        data.setTableName(tableName);
-        data.setTableAlias(alias);
-        this.sqlData = new FinalSqlData<>(dataBaseType, data);
+    public SqlEngine(String tableName, Class<T> tableModelClass, String alias) {
+        this.tableModelClass = tableModelClass;
+        MainTableData<T> mainTableData = new MainTableData<>(tableModelClass);
+        mainTableData.setTableName(tableName);
+        mainTableData.setTableAlias(alias);
+        this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData);
     }
 
-    public SqlData<M> getSqlData() {
+    public SqlEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
+        this.sqlData.setDataBaseType(dataBaseType);
+        return this;
+    }
+
+    public SqlData<T> getSqlData() {
         return sqlData;
+    }
+
+    @Override
+    public SqlBuilder query() {
+        return this.sqlBuilderProxy.query();
+    }
+
+    @Override
+    public SqlBuilder queryCount() {
+        return this.sqlBuilderProxy.queryCount();
     }
 }

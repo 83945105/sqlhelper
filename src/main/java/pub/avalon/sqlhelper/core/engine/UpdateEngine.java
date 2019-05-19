@@ -1,8 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 /**
  * 更新引擎
@@ -10,23 +9,27 @@ import pub.avalon.sqlhelper.core.norm.Model;
  * @author 白超
  * @date 2018/8/24
  */
-public final class UpdateEngine<M extends Model<M, MC, MO, MW, MS, MG>,
-        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
-        MO extends OnModel<M, MC, MO, MW, MS, MG>,
-        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
-        MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends JoinIntactEngine<M, MC, MO, MW, MS, MG> {
+public final class UpdateEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>> extends JoinIntactEngine<T, TO, TC, TW, TG, TS> {
 
-    public UpdateEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        super(mainClass, dataBaseType);
+    public UpdateEngine(Class<T> tableModelClass) {
+        super(tableModelClass);
     }
 
-    public UpdateEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
-        super(tableName, mainClass, dataBaseType);
+    public UpdateEngine(String tableName, Class<T> tableModelClass) {
+        super(tableName, tableModelClass);
     }
 
-    public UpdateEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
-        super(tableName, mainClass, alias, dataBaseType);
+    public UpdateEngine(String tableName, Class<T> tableModelClass, String alias) {
+        super(tableName, tableModelClass, alias);
     }
 
+    @Override
+    public UpdateEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
+        return (UpdateEngine<T, TO, TC, TW, TG, TS>) super.setDataBaseType(dataBaseType);
+    }
 }

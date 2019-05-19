@@ -8,7 +8,7 @@ import java.util.Objects;
  * @author 白超
  * @date 2019/5/6
  */
-public class GroupDatum {
+public class GroupDatum implements SqlModelDatum {
 
     private String ownerTableName;
 

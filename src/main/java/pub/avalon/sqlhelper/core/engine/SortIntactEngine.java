@@ -1,13 +1,11 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.callback.SortCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.data.TableSortData;
-import pub.avalon.sqlhelper.core.norm.Model;
-import pub.avalon.sqlhelper.core.norm.Sort;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 import java.util.Set;
 
@@ -18,55 +16,63 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public class SortIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
-        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
-        MO extends OnModel<M, MC, MO, MW, MS, MG>,
-        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
-        MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends LimitIntactEngine<M, MC, MO, MW, MS, MG> {
+public class SortIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>> extends LimitIntactEngine<T, TO, TC, TW, TG, TS> {
 
-    SortIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        super(mainClass, dataBaseType);
+    SortIntactEngine(Class<T> tableModelClass) {
+        super(tableModelClass);
     }
 
-    SortIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
-        super(tableName, mainClass, dataBaseType);
+    SortIntactEngine(String tableName, Class<T> tableModelClass) {
+        super(tableName, tableModelClass);
     }
 
-    SortIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
-        super(tableName, mainClass, alias, dataBaseType);
+    SortIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
+        super(tableName, tableModelClass, alias);
     }
 
-    public SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Sort<M, MC, MO, MW, MS, MG> sort) {
-        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        MS ms = mainTableData.getTableModel().getSortModel();
-        ms.modelDataBuilder.setOwnerTableData(mainTableData);
-        Set<SortDatum> sortData = sort.apply(ms).modelDataBuilder.takeoutModelData();
+    public SortIntactEngine<T, TO, TC, TW, TG, TS> sort(SortSqlModel<?>... sortSqlModels) {
+        if (sortSqlModels == null || sortSqlModels.length == 0) {
+            return this;
+        }
+        //TODO 未实现 待确认该方法是否限定TableModel类型
+        return this;
+    }
+
+    public SortIntactEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
+        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
+        TS ts = mainTableData.getTableModel().newSortSqlModel();
+        ts = callback.apply(ts);
+        Set<SortDatum> sortData = ts.takeoutSqlModelData();
         this.sqlData.addTableSortData(new TableSortData(mainTableData, sortData));
         return this;
     }
 
-    public <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Class<T> sortClass, String alias, Sort<T, TC, TO, TW, TS, TG> sort) {
-        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, sortClass);
-        TS ts = joinTableData.getTableModel().getSortModel();
-        ts.modelDataBuilder.setOwnerTableData(joinTableData);
-        Set<SortDatum> sortData = sort.apply(ts).modelDataBuilder.takeoutModelData();
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> SortIntactEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableModelClass, String alias, SortCallback<SS> callback) {
+        JoinTableData<S> joinTableData = this.sqlData.getJoinTableData(alias, tableModelClass);
+        SS ss = joinTableData.getTableModel().newSortSqlModel();
+        ss = callback.apply(ss);
+        Set<SortDatum> sortData = ss.takeoutSqlModelData();
         this.sqlData.addTableSortData(new TableSortData(joinTableData, sortData));
         return this;
     }
 
-    public <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Class<T> sortClass, Sort<T, TC, TO, TW, TS, TG> sort) {
-        return sort(sortClass, null, sort);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> SortIntactEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableModelClass, SortCallback<SS> callback) {
+        return sort(tableModelClass, null, callback);
     }
 
 }

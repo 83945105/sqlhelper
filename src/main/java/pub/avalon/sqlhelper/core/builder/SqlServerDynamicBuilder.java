@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.builder;
 import pub.avalon.holygrail.utils.ClassUtil;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 import pub.avalon.sqlhelper.core.sql.SqlSplicer;
 
 import java.util.*;
@@ -14,9 +14,9 @@ import java.util.*;
  * @author 白超
  * @date 2018/9/10
  */
-public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerBuilder<M> {
+public class SqlServerDynamicBuilder<T extends TableModel> extends AbstractSqlServerBuilder<T> {
 
-    public SqlServerDynamicBuilder(SqlData<M> sqlData) {
+    public SqlServerDynamicBuilder(SqlData<T> sqlData) {
         super(sqlData);
     }
 

@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 import pub.avalon.sqlhelper.core.sql.SqlSplicer;
 
 import java.util.*;
@@ -14,13 +14,13 @@ import java.util.*;
  * @author 白超
  * @date 2018/8/23
  */
-public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlBuilder {
+public abstract class AbstractMySqlBuilder<T extends TableModel> extends AbstractSqlBuilder {
 
     private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
 
-    protected SqlData<M> sqlData;
+    protected SqlData<T> sqlData;
 
-    public AbstractMySqlBuilder(SqlData<M> sqlData) {
+    public AbstractMySqlBuilder(SqlData<T> sqlData) {
         this.sqlData = sqlData;
     }
 
@@ -386,12 +386,12 @@ public abstract class AbstractMySqlBuilder<M extends Model> extends AbstractSqlB
     }
 
     protected SqlSplicer appendJoinSql(SqlSplicer sqlSplicer) {
-        Map<String, JoinTableData<? extends Model>> joinTableDataAliasMap = this.sqlData.getJoinTableDataMap();
+        Map<String, JoinTableData<? extends TableModel>> joinTableDataAliasMap = this.sqlData.getJoinTableDataMap();
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
             return sqlSplicer;
         }
-        JoinTableData<? extends Model> joinTableData;
-        for (Map.Entry<String, JoinTableData<? extends Model>> entry : joinTableDataAliasMap.entrySet()) {
+        JoinTableData<? extends TableModel> joinTableData;
+        for (Map.Entry<String, JoinTableData<? extends TableModel>> entry : joinTableDataAliasMap.entrySet()) {
             joinTableData = entry.getValue();
             switch (joinTableData.getJoinType()) {
                 case INNER:

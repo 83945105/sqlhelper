@@ -1,16 +1,15 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 
 /**
  * @author 白超
  * @date 2018/8/20
  */
-public final class FinalSqlData<M extends Model> extends AbstractSqlData<M> {
+public final class FinalSqlData<T extends TableModel> extends AbstractSqlData<T> {
 
-    public FinalSqlData(DataBaseType dataBaseType, MainTableData<M> mainTableData) {
-        super(dataBaseType, mainTableData);
+    public FinalSqlData(MainTableData<T> mainTableData) {
+        super(mainTableData);
     }
 
 }

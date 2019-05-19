@@ -1,14 +1,14 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.beans.WhereLinker;
+import pub.avalon.sqlhelper.core.beans.WhereLinkerIntact;
 import pub.avalon.sqlhelper.core.builder.SqlBuilder;
+import pub.avalon.sqlhelper.core.callback.WhereCallback;
+import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
-import pub.avalon.sqlhelper.core.norm.JoinCondition;
-import pub.avalon.sqlhelper.core.norm.MainCondition;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 import pub.avalon.sqlhelper.core.sql.Delete;
 import pub.avalon.sqlhelper.core.sql.Update;
 
@@ -21,80 +21,63 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class WhereIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
-        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
-        MO extends OnModel<M, MC, MO, MW, MS, MG>,
-        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
-        MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends GroupIntactEngine<M, MC, MO, MW, MS, MG> implements Update, Delete {
+public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>> extends GroupIntactEngine<T, TO, TC, TW, TG, TS> implements Update, Delete {
 
-    WhereIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        super(mainClass, dataBaseType);
+    WhereIntactEngine(Class<T> tableModelClass) {
+        super(tableModelClass);
     }
 
-    WhereIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
-        super(tableName, mainClass, dataBaseType);
+    WhereIntactEngine(String tableName, Class<T> tableModelClass) {
+        super(tableName, tableModelClass);
     }
 
-    WhereIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
-        super(tableName, mainClass, alias, dataBaseType);
+    WhereIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
+        super(tableName, tableModelClass, alias);
     }
 
-    //TODO 优化
-    public WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Where<M> where) {
-        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.modelDataBuilder.setOwnerTableData(mainTableData);
-        mw.setSqlData(this.sqlData);
-
-
-        return this;
-    }
-
-    public WhereIntactEngine<M, MC, MO, MW, MS, MG> where(MainCondition<M, MC, MO, MW, MS, MG> condition) {
-        if (condition == null) {
+    public WhereIntactEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback) {
+        if (callback == null) {
             return this;
         }
-        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.modelDataBuilder.setOwnerTableData(mainTableData);
-        mw.setSqlData(this.sqlData);
-        WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), mw);
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
+        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
+        TW tw = mainTableData.getTableModel().newWhereSqlModel();
+        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), tw);
+        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
-    public <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Class<T> conditionClass, String alias, JoinCondition<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> condition) {
-        if (condition == null) {
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> conditionClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        if (callback == null) {
             return this;
         }
-        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
-        MW mw = mainTableData.getTableModel().getWhereModel();
-        mw.setSqlData(this.sqlData);
-        mw.modelDataBuilder.setOwnerTableData(mainTableData);
-        TW tw = joinTableData.getTableModel().getWhereModel();
-        tw.setSqlData(this.sqlData.fission(joinTableData.getTableClass()));
-        tw.modelDataBuilder.setOwnerTableData(joinTableData);
-        WhereLinker<M, MC, MO, MW, MS, MG> whereLinker = condition.apply(new WhereLinkerIntact<>(this.sqlData), tw, mw);
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.getAndResetWhereDataLinkerList();
+        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
+        JoinTableData<S> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
+        TW tw = mainTableData.getTableModel().newWhereSqlModel();
+        SW sw = joinTableData.getTableModel().newWhereSqlModel();
+        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), sw, tw);
+        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
-    public <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> WhereIntactEngine<M, MC, MO, MW, MS, MG> where(Class<T> conditionClass, JoinCondition<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> condition) {
-        return where(conditionClass, null, condition);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> conditionClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return where(conditionClass, null, callback);
     }
 
     @Override

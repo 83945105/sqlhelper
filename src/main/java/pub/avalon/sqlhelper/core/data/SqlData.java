@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.builder.SqlBuilder;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,21 +17,28 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface SqlData<M extends Model> {
+public interface SqlData<T extends TableModel> {
 
     /**
      * 获取数据库类型
      *
-     * @return 数据库类型
+     * @return {@link pub.avalon.beans.DataBaseType}
      */
     DataBaseType getDataBaseType();
+
+    /**
+     * 设置数据库类型
+     *
+     * @param dataBaseType 数据库类型
+     */
+    void setDataBaseType(DataBaseType dataBaseType);
 
     /**
      * 获取主表数据
      *
      * @return 主表数据
      */
-    MainTableData<M> getMainTableData();
+    MainTableData<T> getMainTableData();
 
     /**
      * 获取连接表数据
@@ -40,14 +47,14 @@ public interface SqlData<M extends Model> {
      * @param joinClass 连接表模组类
      * @return 连接表数据
      */
-    <J extends Model> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass);
+    <J extends TableModel> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass);
 
     /**
      * 获取连接表数据集合
      *
      * @return 连接表数据集合
      */
-    LinkedHashMap<String, JoinTableData<? extends Model>> getJoinTableDataMap();
+    LinkedHashMap<String, JoinTableData<? extends TableModel>> getJoinTableDataMap();
 
     /**
      * 获取表列数据集合
@@ -198,14 +205,14 @@ public interface SqlData<M extends Model> {
      *
      * @param joinTableData 连接表数据
      */
-    <J extends Model> void addJoinTableData(JoinTableData<J> joinTableData);
+    <J extends TableModel> void addJoinTableData(JoinTableData<J> joinTableData);
 
     /**
      * 添加子查询连接表数据
      *
      * @param joinTableData 连接表数据
      */
-    <J extends Model> void addSubQueryJoinTableData(JoinTableData<J> joinTableData);
+    <J extends TableModel> void addSubQueryJoinTableData(JoinTableData<J> joinTableData);
 
     /**
      * 分裂
@@ -213,6 +220,6 @@ public interface SqlData<M extends Model> {
      * @param clazz 目标类Model.class
      * @return SqlData
      */
-    <T extends Model> SqlData<T> fission(Class<T> clazz);
+    <T extends TableModel> SqlData<T> fission(Class<T> clazz);
 
 }

@@ -1,12 +1,8 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
-import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.SqlData;
-import pub.avalon.sqlhelper.core.norm.Model;
-import pub.avalon.sqlhelper.core.sql.Query;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 /**
  * 分页引擎
@@ -15,23 +11,23 @@ import pub.avalon.sqlhelper.core.sql.Query;
  * @version 1.0
  * @since 2018/7/10
  */
-public class LimitIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
-        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
-        MO extends OnModel<M, MC, MO, MW, MS, MG>,
-        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
-        MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends SqlEngine<M> implements Query {
+public class LimitIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> {
 
-    LimitIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        super(mainClass, dataBaseType);
+    LimitIntactEngine(Class<T> tableModelClass) {
+        super(tableModelClass);
     }
 
-    LimitIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
-        super(tableName, mainClass, dataBaseType);
+    LimitIntactEngine(String tableName, Class<T> tableModelClass) {
+        super(tableName, tableModelClass);
     }
 
-    LimitIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
-        super(tableName, mainClass, alias, dataBaseType);
+    LimitIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
+        super(tableName, tableModelClass, alias);
     }
 
     public LimitIntactEngine limitTop(Integer num) {
@@ -60,18 +56,8 @@ public class LimitIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
         return this;
     }
 
-    public SqlData<M> getData() {
+    public SqlData<T> getData() {
         return this.sqlData;
-    }
-
-    @Override
-    public SqlBuilder query() {
-        return this.sqlBuilderProxy.query();
-    }
-
-    @Override
-    public SqlBuilder queryCount() {
-        return this.sqlBuilderProxy.queryCount();
     }
 
 }

@@ -12,7 +12,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class OnDatum {
+public final class OnDatum implements SqlModelDatum {
 
     private String ownerTableName;
 

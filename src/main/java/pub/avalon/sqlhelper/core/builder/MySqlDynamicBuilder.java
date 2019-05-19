@@ -4,7 +4,7 @@ import pub.avalon.holygrail.utils.ClassUtil;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 import pub.avalon.sqlhelper.core.sql.SqlSplicer;
 
 import java.util.*;
@@ -15,9 +15,9 @@ import java.util.*;
  * @author 白超
  * @date 2018/8/20
  */
-public class MySqlDynamicBuilder<M extends Model> extends AbstractMySqlBuilder<M> {
+public class MySqlDynamicBuilder<T extends TableModel> extends AbstractMySqlBuilder<T> {
 
-    public MySqlDynamicBuilder(SqlData<M> sqlData) {
+    public MySqlDynamicBuilder(SqlData<T> sqlData) {
         super(sqlData);
     }
 

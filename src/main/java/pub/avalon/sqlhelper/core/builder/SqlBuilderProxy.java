@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 import pub.avalon.sqlhelper.core.sql.*;
 
 import java.util.Collection;
@@ -21,7 +21,7 @@ public class SqlBuilderProxy implements Table, QueryByPrimaryKey, Query, Insert,
         this.sqlBuilder = sqlBuilder;
     }
 
-    public <M extends Model> SqlBuilderProxy(SqlData<M> sqlData) {
+    public <T extends TableModel> SqlBuilderProxy(SqlData<T> sqlData) {
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
                 this.sqlBuilder = new MySqlDynamicBuilder<>(sqlData);

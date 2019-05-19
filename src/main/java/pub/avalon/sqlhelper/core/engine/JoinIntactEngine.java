@@ -1,11 +1,12 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.beans.JoinType;
+import pub.avalon.sqlhelper.core.beans.OnLinker;
+import pub.avalon.sqlhelper.core.beans.OnLinkerIntact;
+import pub.avalon.sqlhelper.core.callback.OnCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
-import pub.avalon.sqlhelper.core.norm.Model;
-import pub.avalon.sqlhelper.core.norm.On;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 /**
  * 连接引擎
@@ -14,218 +15,178 @@ import pub.avalon.sqlhelper.core.norm.On;
  * @version 1.0
  * @since 2018/7/10
  */
-public class JoinIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
-        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
-        MO extends OnModel<M, MC, MO, MW, MS, MG>,
-        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
-        MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>> extends ColumnIntactEngine<M, MC, MO, MW, MS, MG> {
+public class JoinIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>> extends ColumnIntactEngine<T, TO, TC, TW, TG, TS> {
 
-    public JoinIntactEngine(Class<M> mainClass, DataBaseType dataBaseType) {
-        super(mainClass, dataBaseType);
+    public JoinIntactEngine(Class<T> tableModelClass) {
+        super(tableModelClass);
     }
 
-    public JoinIntactEngine(String tableName, Class<M> mainClass, DataBaseType dataBaseType) {
-        super(tableName, mainClass, dataBaseType);
+    public JoinIntactEngine(String tableName, Class<T> tableModelClass) {
+        super(tableName, tableModelClass);
     }
 
-    public JoinIntactEngine(String tableName, Class<M> mainClass, String alias, DataBaseType dataBaseType) {
-        super(tableName, mainClass, alias, dataBaseType);
+    public JoinIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
+        super(tableName, tableModelClass, alias);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> join(String tableName,
-                                                                                                       Class<J> joinClass,
-                                                                                                       String alias,
-                                                                                                       JoinType joinType,
-                                                                                                       On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        JoinTableData<J> joinTableData = new JoinTableData<>(joinClass);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
+        JoinTableData<S> joinTableData = new JoinTableData<>(tableModelClass);
         joinTableData.setTableName(tableName);
         joinTableData.setTableAlias(alias);
         joinTableData.setJoinType(joinType);
         this.sqlData.addJoinTableData(joinTableData);
-        MO mo = mainTableData.getTableModel().getOnModel();
-        mo.modelDataBuilder.setOwnerTableData(mainTableData);
-        mo.setSqlData(this.sqlData);
-        OnLinker<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> onLinker = new OnLinkerIntact<>(this.sqlData, joinClass, alias);
-        JO jo = joinTableData.getTableModel().getOnModel();
-        jo.modelDataBuilder.setOwnerTableData(joinTableData);
-        jo.setSqlData(this.sqlData.fission(joinClass));
-        OnLinker<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> linker = on.apply(onLinker, jo, mo);
-        joinTableData.addOnDataLinkerList(linker.getAndResetOnDataLinkerList());
+        TO to = mainTableData.getTableModel().newOnSqlModel();
+        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnLinkerIntact<>();
+        SO so = joinTableData.getTableModel().newOnSqlModel();
+        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
+        joinTableData.addOnDataLinkerList(linker.takeoutOnDataLinkerList());
         return this;
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> join(String tableName,
-                                                                                                       Class<J> joinClass,
-                                                                                                       JoinType joinType,
-                                                                                                       On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(tableName, joinClass, null, joinType, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(joinType, tableName, tableModelClass, null, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> join(Class<J> joinClass,
-                                                                                                       String alias,
-                                                                                                       JoinType joinType,
-                                                                                                       On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, alias, joinType, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(joinType, null, tableModelClass, alias, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> join(Class<J> joinClass,
-                                                                                                       JoinType joinType,
-                                                                                                       On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, null, joinType, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(joinType, null, tableModelClass, null, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> innerJoin(String tableName,
-                                                                                                            Class<J> joinClass,
-                                                                                                            String alias,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(tableName, joinClass, alias, JoinType.INNER, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> innerJoin(String tableName, Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.INNER, tableName, tableModelClass, alias, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> innerJoin(String tableName,
-                                                                                                            Class<J> joinClass,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(tableName, joinClass, null, JoinType.INNER, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> innerJoin(String tableName, Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.INNER, tableName, tableModelClass, null, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> innerJoin(Class<J> joinClass,
-                                                                                                            String alias,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, alias, JoinType.INNER, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> innerJoin(Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.INNER, null, tableModelClass, alias, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> innerJoin(Class<J> joinClass,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, null, JoinType.INNER, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> innerJoin(Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.INNER, null, tableModelClass, null, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> leftJoin(String tableName,
-                                                                                                           Class<J> joinClass,
-                                                                                                           String alias,
-                                                                                                           On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(tableName, joinClass, alias, JoinType.LEFT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> leftJoin(String tableName, Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.LEFT, tableName, tableModelClass, alias, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> leftJoin(String tableName,
-                                                                                                           Class<J> joinClass,
-                                                                                                           On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(tableName, joinClass, null, JoinType.LEFT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> leftJoin(String tableName, Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.LEFT, tableName, tableModelClass, null, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> leftJoin(Class<J> joinClass,
-                                                                                                           String alias,
-                                                                                                           On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, alias, JoinType.LEFT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> leftJoin(Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.LEFT, null, tableModelClass, alias, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> leftJoin(Class<J> joinClass,
-                                                                                                           On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, null, JoinType.LEFT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> leftJoin(Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.LEFT, null, tableModelClass, null, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> rightJoin(String tableName,
-                                                                                                            Class<J> joinClass,
-                                                                                                            String alias,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(tableName, joinClass, alias, JoinType.RIGHT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> rightJoin(String tableName, Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.RIGHT, tableName, tableModelClass, alias, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> rightJoin(String tableName,
-                                                                                                            Class<J> joinClass,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(tableName, joinClass, null, JoinType.RIGHT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> rightJoin(String tableName, Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.RIGHT, tableName, tableModelClass, null, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> rightJoin(Class<J> joinClass,
-                                                                                                            String alias,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, alias, JoinType.RIGHT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> rightJoin(Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.RIGHT, null, tableModelClass, alias, callback);
     }
 
-    public <J extends Model<J, JC, JO, JW, JS, JG>,
-            JC extends ColumnModel<J, JC, JO, JW, JS, JG>,
-            JO extends OnModel<J, JC, JO, JW, JS, JG>,
-            JW extends WhereModel<J, JC, JO, JW, JS, JG>,
-            JS extends SortModel<J, JC, JO, JW, JS, JG>,
-            JG extends GroupModel<J, JC, JO, JW, JS, JG>> JoinIntactEngine<M, MC, MO, MW, MS, MG> rightJoin(Class<J> joinClass,
-                                                                                                            On<M, MC, MO, MW, MS, MG, J, JC, JO, JW, JS, JG> on) {
-        return join(null, joinClass, null, JoinType.RIGHT, on);
+    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
+            SO extends OnSqlModel<SO>,
+            SC extends ColumnSqlModel<SC>,
+            SW extends WhereSqlModel<SW>,
+            SG extends GroupSqlModel<SG>,
+            SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> rightJoin(Class<S> tableModelClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return join(JoinType.RIGHT, null, tableModelClass, null, callback);
     }
 
 }

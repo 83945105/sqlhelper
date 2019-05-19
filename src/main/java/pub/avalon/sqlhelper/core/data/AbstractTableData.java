@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.exception.TableDataException;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +13,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public abstract class AbstractTableData<T extends Model> implements TableData<T> {
+public abstract class AbstractTableData<T extends TableModel> implements TableData<T> {
 
     private T tableModel;
 

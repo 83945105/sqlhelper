@@ -1,8 +1,9 @@
 package pub.avalon.sqlhelper.core.beans;
 
-import pub.avalon.sqlhelper.core.data.*;
-import pub.avalon.sqlhelper.core.norm.Model;
-import pub.avalon.sqlhelper.core.norm.On;
+import pub.avalon.sqlhelper.core.callback.OnLinkerCallback;
+import pub.avalon.sqlhelper.core.data.OnDataLinker;
+import pub.avalon.sqlhelper.core.data.OnDatum;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,34 +16,22 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public class OnLinker<M extends Model<M, MC, MO, MW, MS, MG>,
-        MC extends ColumnModel<M, MC, MO, MW, MS, MG>,
-        MO extends OnModel<M, MC, MO, MW, MS, MG>,
-        MW extends WhereModel<M, MC, MO, MW, MS, MG>,
-        MS extends SortModel<M, MC, MO, MW, MS, MG>,
-        MG extends GroupModel<M, MC, MO, MW, MS, MG>,
-        T extends Model<T, TC, TO, TW, TS, TG>,
-        TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-        TO extends OnModel<T, TC, TO, TW, TS, TG>,
-        TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-        TS extends SortModel<T, TC, TO, TW, TS, TG>,
-        TG extends GroupModel<T, TC, TO, TW, TS, TG>> {
+public class OnLinker<T extends TableModel<T, TO, TC, TW, TG, TS>,
+        TO extends OnSqlModel<TO>,
+        TC extends ColumnSqlModel<TC>,
+        TW extends WhereSqlModel<TW>,
+        TG extends GroupSqlModel<TG>,
+        TS extends SortSqlModel<TS>,
+        S extends TableModel<S, SO, SC, SW, SG, SS>,
+        SO extends OnSqlModel<SO>,
+        SC extends ColumnSqlModel<SC>,
+        SW extends WhereSqlModel<SW>,
+        SG extends GroupSqlModel<SG>,
+        SS extends SortSqlModel<SS>> {
 
-    protected SqlData<M> sqlData;
+    protected List<OnDataLinker> onDataLinkerList = new ArrayList<>();
 
-    Class<T> joinClass;
-
-    protected String alias;
-
-    OnLinker(SqlData<M> sqlData, Class<T> joinClass, String alias) {
-        this.sqlData = sqlData;
-        this.joinClass = joinClass;
-        this.alias = alias;
-    }
-
-    List<OnDataLinker> onDataLinkerList = new ArrayList<>();
-
-    public List<OnDataLinker> getAndResetOnDataLinkerList() {
+    public List<OnDataLinker> takeoutOnDataLinkerList() {
         List<OnDataLinker> list = this.onDataLinkerList;
         this.onDataLinkerList = new ArrayList<>();
         return list;
@@ -51,42 +40,39 @@ public class OnLinker<M extends Model<M, MC, MO, MW, MS, MG>,
     /**
      * 且条件
      *
-     * @param onModel On模组
+     * @param onSqlModel On模组
      * @return On条件连接器 {@link OnLinkerIntact}
      */
-    public OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> and(OnModel<T, TC, TO, TW, TS, TG> onModel) {
+    public OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> and(OnSqlModel<?> onSqlModel) {
+        if (onSqlModel == null) {
+            return (OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS>) this;
+        }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
-        Set<OnDatum> onData = onModel.modelDataBuilder.takeoutModelData();
+        Set<OnDatum> onData = onSqlModel.takeoutSqlModelData();
         if (onData == null || onData.size() == 0) {
-            return (OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG>) this;
+            return (OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS>) this;
         }
         onDataLinker.setOnData(onData);
         this.onDataLinkerList.add(onDataLinker);
-        return (OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG>) this;
+        return (OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS>) this;
     }
 
     /**
      * 且条件
      *
-     * @param on on处理
+     * @param callback on处理
      * @return On条件连接器 {@link OnLinkerIntact}
      */
-    public OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> and(On<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> on) {
-        MainTableData<M> mainTableData = this.sqlData.getMainTableData();
-        MO mo = mainTableData.getTableModel().getOnModel();
-        mo.modelDataBuilder.setOwnerTableData(mainTableData);
-        JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(this.alias, this.joinClass);
-        TO to = joinTableData.getTableModel().getOnModel();
-        to.modelDataBuilder.setOwnerTableData(joinTableData);
-        OnLinker<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> onLinker = on.apply(new OnLinkerIntact<>(this.sqlData, this.joinClass, this.alias), to, mo);
-        List<OnDataLinker> onDataLinkerList = onLinker.getAndResetOnDataLinkerList();
+    public OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> and(OnLinkerCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = callback.apply(new OnLinkerIntact<>());
+        List<OnDataLinker> onDataLinkerList = onLinker.takeoutOnDataLinkerList();
         if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
-            return (OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG>) this;
+            return (OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS>) this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
         onDataLinker.setOnDataLinkerList(onDataLinkerList);
         this.onDataLinkerList.add(onDataLinker);
-        return (OnLinkerIntact<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG>) this;
+        return (OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS>) this;
     }
 
 }

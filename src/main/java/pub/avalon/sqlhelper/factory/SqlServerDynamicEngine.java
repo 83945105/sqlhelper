@@ -1,9 +1,8 @@
 package pub.avalon.sqlhelper.factory;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.engine.*;
-import pub.avalon.sqlhelper.core.norm.Model;
+import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 /**
  * SqlServer引擎
@@ -14,94 +13,94 @@ import pub.avalon.sqlhelper.core.norm.Model;
  */
 public class SqlServerDynamicEngine {
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> TableEngine<T, TC, TO, TW, TS, TG> table(String tableName, Class<T> mainClass) {
-        return new TableEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableModelClass) {
+        return new TableEngine<>(tableName, tableModelClass).setDataBaseType(DataBaseType.SQLSERVER);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> TableEngine<T, TC, TO, TW, TS, TG> table(Class<T> mainClass) {
-        return table(null, mainClass);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableModelClass) {
+        return table(null, tableModelClass);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> QueryEngine<T, TC, TO, TW, TS, TG> query(String tableName, Class<T> mainClass) {
-        return new QueryEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> QueryEngine<T, TO, TC, TW, TG, TS> query(String tableName, Class<T> tableModelClass) {
+        return new QueryEngine<>(tableName, tableModelClass).setDataBaseType(DataBaseType.SQLSERVER);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> QueryEngine<T, TC, TO, TW, TS, TG> query(Class<T> mainClass) {
-        return query(null, mainClass);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> QueryEngine<T, TO, TC, TW, TG, TS> query(Class<T> tableModelClass) {
+        return query(null, tableModelClass);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> InsertEngine<T, TC, TO, TW, TS, TG> insert(String tableName, Class<T> columnClass) {
-        return new InsertEngine<>(tableName, columnClass, DataBaseType.SQLSERVER);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> InsertEngine<T, TO, TC, TW, TG, TS> insert(String tableName, Class<T> tableModelClass) {
+        return new InsertEngine<>(tableName, tableModelClass).setDataBaseType(DataBaseType.SQLSERVER);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> InsertEngine<T, TC, TO, TW, TS, TG> insert(Class<T> columnClass) {
-        return insert(null, columnClass);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> InsertEngine<T, TO, TC, TW, TG, TS> insert(Class<T> tableModelClass) {
+        return insert(null, tableModelClass);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> UpdateEngine<T, TC, TO, TW, TS, TG> update(String tableName, Class<T> mainClass) {
-        return new UpdateEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> UpdateEngine<T, TO, TC, TW, TG, TS> update(String tableName, Class<T> tableModelClass) {
+        return new UpdateEngine<>(tableName, tableModelClass).setDataBaseType(DataBaseType.SQLSERVER);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> UpdateEngine<T, TC, TO, TW, TS, TG> update(Class<T> mainClass) {
-        return update(null, mainClass);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> UpdateEngine<T, TO, TC, TW, TG, TS> update(Class<T> tableModelClass) {
+        return update(null, tableModelClass);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> DeleteEngine<T, TC, TO, TW, TS, TG> delete(String tableName, Class<T> mainClass) {
-        return new DeleteEngine<>(tableName, mainClass, DataBaseType.SQLSERVER);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> DeleteEngine<T, TO, TC, TW, TG, TS> delete(String tableName, Class<T> tableModelClass) {
+        return new DeleteEngine<>(tableName, tableModelClass).setDataBaseType(DataBaseType.SQLSERVER);
     }
 
-    public static <T extends Model<T, TC, TO, TW, TS, TG>,
-            TC extends ColumnModel<T, TC, TO, TW, TS, TG>,
-            TO extends OnModel<T, TC, TO, TW, TS, TG>,
-            TW extends WhereModel<T, TC, TO, TW, TS, TG>,
-            TS extends SortModel<T, TC, TO, TW, TS, TG>,
-            TG extends GroupModel<T, TC, TO, TW, TS, TG>> DeleteEngine<T, TC, TO, TW, TS, TG> delete(Class<T> mainClass) {
-        return delete(null, mainClass);
+    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
+            TO extends OnSqlModel<TO>,
+            TC extends ColumnSqlModel<TC>,
+            TW extends WhereSqlModel<TW>,
+            TG extends GroupSqlModel<TG>,
+            TS extends SortSqlModel<TS>> DeleteEngine<T, TO, TC, TW, TG, TS> delete(Class<T> tableModelClass) {
+        return delete(null, tableModelClass);
     }
 
 }
