@@ -1,9 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
-import pub.avalon.sqlhelper.core.sql.Table;
 
 /**
  * 表引擎
@@ -16,7 +14,7 @@ public final class TableEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TC extends ColumnSqlModel<TC>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> implements Table {
+        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> {
 
     public TableEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -35,23 +33,4 @@ public final class TableEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         return (TableEngine<T, TO, TC, TW, TG, TS>) super.setDataBaseType(dataBaseType);
     }
 
-    @Override
-    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
-        return this.sqlBuilderProxy.copyTable(targetTableName, copyData);
-    }
-
-    @Override
-    public SqlBuilder deleteTable() {
-        return this.sqlBuilderProxy.deleteTable();
-    }
-
-    @Override
-    public SqlBuilder renameTable(String newTableName) {
-        return this.sqlBuilderProxy.renameTable(newTableName);
-    }
-
-    @Override
-    public SqlBuilder isTableExist() {
-        return this.sqlBuilderProxy.isTableExist();
-    }
 }

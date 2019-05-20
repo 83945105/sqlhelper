@@ -18,7 +18,7 @@ public class DeleteEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TC extends ColumnSqlModel<TC>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends JoinIntactEngine<T, TO, TC, TW, TG, TS> implements DeleteByPrimaryKey {
+        TS extends SortSqlModel<TS>> extends JoinIntactEngine<T, TO, TC, TW, TG, TS> {
 
     public DeleteEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -35,16 +35,6 @@ public class DeleteEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     @Override
     public DeleteEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
         return (DeleteEngine<T, TO, TC, TW, TG, TS>) super.setDataBaseType(dataBaseType);
-    }
-
-    @Override
-    public SqlBuilder deleteByPrimaryKey(Object keyValue) {
-        return this.sqlBuilderProxy.deleteByPrimaryKey(keyValue);
-    }
-
-    @Override
-    public SqlBuilder batchDeleteByPrimaryKeys(Collection<?> keyValues) {
-        return this.sqlBuilderProxy.batchDeleteByPrimaryKeys(keyValues);
     }
 
 }

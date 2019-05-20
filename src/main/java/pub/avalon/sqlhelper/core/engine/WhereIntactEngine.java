@@ -2,15 +2,12 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.sqlhelper.core.beans.WhereLinker;
 import pub.avalon.sqlhelper.core.beans.WhereLinkerIntact;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
-import pub.avalon.sqlhelper.core.sql.Delete;
-import pub.avalon.sqlhelper.core.sql.Update;
 
 import java.util.List;
 
@@ -26,17 +23,17 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TC extends ColumnSqlModel<TC>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends GroupIntactEngine<T, TO, TC, TW, TG, TS> implements Update, Delete {
+        TS extends SortSqlModel<TS>> extends GroupIntactEngine<T, TO, TC, TW, TG, TS> {
 
-    WhereIntactEngine(Class<T> tableModelClass) {
+    public WhereIntactEngine(Class<T> tableModelClass) {
         super(tableModelClass);
     }
 
-    WhereIntactEngine(String tableName, Class<T> tableModelClass) {
+    public WhereIntactEngine(String tableName, Class<T> tableModelClass) {
         super(tableName, tableModelClass);
     }
 
-    WhereIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
+    public WhereIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
         super(tableName, tableModelClass, alias);
     }
 
@@ -80,18 +77,4 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         return where(conditionClass, null, callback);
     }
 
-    @Override
-    public SqlBuilder updateJavaBean(Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBean(javaBean);
-    }
-
-    @Override
-    public SqlBuilder updateJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanSelective(javaBean);
-    }
-
-    @Override
-    public SqlBuilder delete() {
-        return this.sqlBuilderProxy.delete();
-    }
 }

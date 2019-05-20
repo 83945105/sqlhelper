@@ -1,15 +1,13 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
-import pub.avalon.sqlhelper.core.sql.QueryByPrimaryKey;
-import pub.avalon.sqlhelper.core.sql.UpdateByPrimaryKey;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -24,7 +22,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TC extends ColumnSqlModel<TC>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends WhereIntactEngine<T, TO, TC, TW, TG, TS> implements QueryByPrimaryKey, UpdateByPrimaryKey {
+        TS extends SortSqlModel<TS>> extends WhereIntactEngine<T, TO, TC, TW, TG, TS> {
 
     public ColumnIntactEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -47,15 +45,15 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
-        TC tc = mainTableData.getTableModel().newColumnSqlModel();
+        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
+        TC tc = BeanUtils.tableModel(this.tableModelClass).newColumnSqlModel();
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
         // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
         if (columnData == null || columnData.size() == 0) {
             columnData = mainTableData.buildTableColumnData();
         }
-        this.sqlData.addTableColumnData(new TableColumnData(mainTableData, columnData));
+        this.getSqlData().addTableColumnData(new TableColumnData(mainTableData, columnData));
         return this;
     }
 
@@ -65,7 +63,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> ColumnIntactEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableModelClass, String alias, ColumnCallback<SC> callback) {
-        JoinTableData<S> joinTableData = this.sqlData.getJoinTableData(alias, tableModelClass);
+        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, tableModelClass);
         SC sc = joinTableData.getTableModel().newColumnSqlModel();
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
@@ -214,36 +212,6 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> ColumnIntactEngine<T, TO, TC, TW, TG, TS> subQuery(Class<S> tableModelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
         return this.subQuery(null, tableModelClass, alias, callback, columnAlias);
-    }
-
-    @Override
-    public SqlBuilder queryByPrimaryKey(Object keyValue) {
-        return this.sqlBuilderProxy.queryByPrimaryKey(keyValue);
-    }
-
-    @Override
-    public SqlBuilder updateArgsByPrimaryKey(Object keyValue, Collection<?> args) {
-        return this.sqlBuilderProxy.updateArgsByPrimaryKey(keyValue, args);
-    }
-
-    @Override
-    public SqlBuilder updateJavaBeanByPrimaryKey(Object keyValue, Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanByPrimaryKey(keyValue, javaBean);
-    }
-
-    @Override
-    public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object keyValue, Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanByPrimaryKeySelective(keyValue, javaBean);
-    }
-
-    @Override
-    public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
-    }
-
-    @Override
-    public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.updateOrInsertJavaBeans(javaBeans);
     }
 
 }

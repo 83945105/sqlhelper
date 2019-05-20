@@ -1,9 +1,10 @@
-package pub.avalon.sqlhelper.core.builder;
+package pub.avalon.sqlhelper.core.sqlbuilder;
 
+import pub.avalon.sqlhelper.core.builder.MySqlDynamicBuilder;
+import pub.avalon.sqlhelper.core.builder.SqlServerDynamicBuilder;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
-import pub.avalon.sqlhelper.core.sql.*;
 
 import java.util.Collection;
 
@@ -13,7 +14,7 @@ import java.util.Collection;
  * @author 白超
  * @date 2018/8/20
  */
-public class SqlBuilderProxy implements Table, QueryByPrimaryKey, Query, Insert, UpdateByPrimaryKey, Update, DeleteByPrimaryKey, Delete {
+public class SqlBuilderProxy implements SqlBuilderTemplate<SqlBuilder> {
 
     private SqlBuilder sqlBuilder;
 

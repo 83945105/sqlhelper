@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.fusesource.jansi.Ansi;
 import pub.avalon.sqlhelper.core.sql.SqlSplicer;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.List;
 

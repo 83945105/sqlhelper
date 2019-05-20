@@ -18,15 +18,15 @@ public class LimitIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TG extends GroupSqlModel<TG>,
         TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> {
 
-    LimitIntactEngine(Class<T> tableModelClass) {
+    public LimitIntactEngine(Class<T> tableModelClass) {
         super(tableModelClass);
     }
 
-    LimitIntactEngine(String tableName, Class<T> tableModelClass) {
+    public LimitIntactEngine(String tableName, Class<T> tableModelClass) {
         super(tableName, tableModelClass);
     }
 
-    LimitIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
+    public LimitIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
         super(tableName, tableModelClass, alias);
     }
 

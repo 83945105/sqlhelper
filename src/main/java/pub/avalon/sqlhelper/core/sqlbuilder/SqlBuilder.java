@@ -1,6 +1,4 @@
-package pub.avalon.sqlhelper.core.builder;
-
-import pub.avalon.sqlhelper.core.sql.*;
+package pub.avalon.sqlhelper.core.sqlbuilder;
 
 import java.util.List;
 
@@ -10,7 +8,15 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/15
  */
-public interface SqlBuilder extends Table, QueryByPrimaryKey, Query, Insert, UpdateByPrimaryKey, Update, DeleteByPrimaryKey, Delete {
+public interface SqlBuilder extends SqlBuilderTemplate<SqlBuilder> {
+
+    /**
+     * 获取sql
+     * 该sql为填充过参数的sql语句
+     *
+     * @return sql
+     */
+    String getSql();
 
     /**
      * 获取预编译SQL

@@ -23,15 +23,15 @@ public class SortIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TG extends GroupSqlModel<TG>,
         TS extends SortSqlModel<TS>> extends LimitIntactEngine<T, TO, TC, TW, TG, TS> {
 
-    SortIntactEngine(Class<T> tableModelClass) {
+    public SortIntactEngine(Class<T> tableModelClass) {
         super(tableModelClass);
     }
 
-    SortIntactEngine(String tableName, Class<T> tableModelClass) {
+    public SortIntactEngine(String tableName, Class<T> tableModelClass) {
         super(tableName, tableModelClass);
     }
 
-    SortIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
+    public SortIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
         super(tableName, tableModelClass, alias);
     }
 

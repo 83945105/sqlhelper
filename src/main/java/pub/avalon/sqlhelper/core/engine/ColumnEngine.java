@@ -1,15 +1,12 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.TableColumnData;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
-import pub.avalon.sqlhelper.core.sql.Insert;
 
-import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -24,7 +21,7 @@ public class ColumnEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TC extends ColumnSqlModel<TC>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> implements Insert {
+        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> {
 
     public ColumnEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -39,7 +36,7 @@ public class ColumnEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
+        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
         TC tc = BeanUtils.tableModel(this.tableModelClass).newColumnSqlModel();
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
@@ -47,28 +44,8 @@ public class ColumnEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             columnData = mainTableData.buildTableColumnData();
         }
-        this.sqlData.addTableColumnData(new TableColumnData(mainTableData, columnData));
+        this.getSqlData().addTableColumnData(new TableColumnData(mainTableData, columnData));
         return this;
-    }
-
-    @Override
-    public SqlBuilder insertArgs(Collection<?> args) {
-        return this.sqlBuilderProxy.insertArgs(args);
-    }
-
-    @Override
-    public SqlBuilder insertJavaBean(Object javaBean) {
-        return this.sqlBuilderProxy.insertJavaBean(javaBean);
-    }
-
-    @Override
-    public SqlBuilder insertJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilderProxy.insertJavaBeanSelective(javaBean);
-    }
-
-    @Override
-    public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.batchInsertJavaBeans(javaBeans);
     }
 
 }

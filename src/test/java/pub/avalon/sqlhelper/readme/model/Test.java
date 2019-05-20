@@ -100,7 +100,7 @@ public class Test {
                 .limitOne();
 
 
-        ((LimitIntactEngine) sqlEngine).query();
+        sqlEngine.query();
 
     }
 
