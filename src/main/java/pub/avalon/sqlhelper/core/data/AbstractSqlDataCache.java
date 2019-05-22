@@ -3,10 +3,10 @@ package pub.avalon.sqlhelper.core.data;
 import org.springframework.beans.BeanUtils;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,8 +49,9 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
     }
 
     @Override
-    public void setDataBaseType(DataBaseType dataBaseType) {
+    public SqlData<T> setDataBaseType(DataBaseType dataBaseType) {
         this.dataBaseType = dataBaseType;
+        return this;
     }
 
     @Override
@@ -90,7 +91,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
     }
 
     @Override
-    public <J extends TableModel> void addJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableModel> SqlData<T> addJoinTableData(JoinTableData<J> joinTableData) {
         if (this.joinTableAliasCache.get(joinTableData.getTableAlias()) != null) {
             // 同一个表别名不能使用2次
             throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
@@ -100,10 +101,11 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
             this.joinTableDataMap = new LinkedHashMap<>();
         }
         this.joinTableDataMap.put(joinTableData.getTableAlias(), joinTableData);
+        return this;
     }
 
     @Override
-    public <J extends TableModel> void addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableModel> SqlData<T> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
         if (this.joinTableAliasCache.get(joinTableData.getTableAlias()) != null) {
             // 同一个表别名不能使用2次
             throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
@@ -113,6 +115,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
             this.subQueryJoinTableDataMap = new LinkedHashMap<>();
         }
         this.subQueryJoinTableDataMap.put(joinTableData.getTableAlias(), joinTableData);
+        return this;
     }
 
     @Override
@@ -192,64 +195,64 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
         }
 
         @Override
-        public void addTableColumnData(TableColumnData tableColumnData) {
+        public SqlData<T> addTableColumnData(TableColumnData tableColumnData) {
             throw new SqlException("you can not use addColumnData for class FissionSqlData.");
         }
 
         @Override
-        public void addVirtualFieldData(VirtualFieldData virtualFieldData) {
+        public SqlData<T> addVirtualFieldData(VirtualFieldData virtualFieldData) {
             throw new SqlException("you can not use addVirtualFieldData for class FissionSqlData.");
         }
 
         @Override
-        public void addFunctionColumnData(FunctionColumnData functionColumnData) {
+        public SqlData<T> addFunctionColumnData(FunctionColumnData functionColumnData) {
             throw new SqlException("you can not use addFunctionColumnData for class FissionSqlData.");
         }
 
         @Override
-        public void addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
+        public SqlData<T> addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
             throw new SqlException("you can not use addWhereDataLinkerList for class FissionSqlData.");
         }
 
         @Override
-        public void addTableGroupData(TableGroupData tableGroupData) {
+        public SqlData<T> addTableGroupData(TableGroupData tableGroupData) {
             throw new SqlException("you can not use addTableGroupData for class FissionSqlData.");
         }
 
 
         @Override
-        public void addTableSortData(TableSortData tableSortData) {
+        public SqlData<T> addTableSortData(TableSortData tableSortData) {
             throw new SqlException("you can not use addTableSortData for class FissionSqlData.");
         }
 
 
         @Override
-        public void setLimitData(LimitHandler limitData) {
+        public SqlData<T> setLimitData(LimitHandler limitData) {
             throw new SqlException("you can not use setLimitData for class FissionSqlData.");
         }
 
         @Override
-        public void buildLimitData(Integer currentPage, Integer pageSize) {
+        public SqlData<T> buildLimitData(Integer currentPage, Integer pageSize) {
             throw new SqlException("you can not use buildLimitData for class FissionSqlData.");
         }
 
         @Override
-        public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+        public SqlData<T> buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
             throw new SqlException("you can not use buildLimitData for class FissionSqlData.");
         }
 
         @Override
-        public void setLimitStart(Integer limitStart) {
+        public SqlData<T> setLimitStart(Integer limitStart) {
             throw new SqlException("you can not use setLimitStart for class FissionSqlData.");
         }
 
         @Override
-        public void setLimitEnd(Integer limitEnd) {
+        public SqlData<T> setLimitEnd(Integer limitEnd) {
             throw new SqlException("you can not use setLimitEnd for class FissionSqlData.");
         }
 
         @Override
-        public void addSubQueryData(String alias, SqlBuilder sqlBuilder) {
+        public SqlData<T> addSubQueryData(String alias, SqlBuilder sqlBuilder) {
             throw new SqlException("you can not use addSubQueryData for class FissionSqlData.");
         }
     }

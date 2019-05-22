@@ -45,7 +45,7 @@ public interface SqlBuilderTemplate<T extends SqlBuilderTemplate<T>> {
      * @param args 参数
      * @return
      */
-    T insertArgs(Collection<?> args);
+    T insertArgs(Object... args);
 
     /**
      * 使用JavaBean插入
@@ -82,18 +82,18 @@ public interface SqlBuilderTemplate<T extends SqlBuilderTemplate<T>> {
     /**
      * 根据主键删除
      *
-     * @param keyValue 主键值
+     * @param primaryKeyValue 主键值
      * @return
      */
-    T deleteByPrimaryKey(Object keyValue);
+    T deleteByPrimaryKey(Object primaryKeyValue);
 
     /**
      * 根据主键批量删除
      *
-     * @param keyValues 主键值集合
+     * @param primaryKeyValues 主键值集合
      * @return
      */
-    T batchDeleteByPrimaryKeys(Collection<?> keyValues);
+    T batchDeleteByPrimaryKeys(Object... primaryKeyValues);
 
     /**
      * 使用JavaBean更新
@@ -115,30 +115,30 @@ public interface SqlBuilderTemplate<T extends SqlBuilderTemplate<T>> {
     /**
      * 根据主键更新参数
      *
-     * @param keyValue 主键值
-     * @param args     参数
+     * @param primaryKeyValue 主键值
+     * @param args            参数
      * @return
      */
-    T updateArgsByPrimaryKey(Object keyValue, Collection<?> args);
+    T updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
 
     /**
      * 根据主键,使用JavaBean更新
      *
-     * @param keyValue 主键值
+     * @param primaryKeyValue 主键值
      * @param javaBean
      * @return
      */
-    T updateJavaBeanByPrimaryKey(Object keyValue, Object javaBean);
+    T updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
 
     /**
      * 根据主键,使用JavaBean更新
      * <p>如果值为{@code null}则跳过该属性
      *
-     * @param keyValue 主键值
+     * @param primaryKeyValue 主键值
      * @param javaBean
      * @return
      */
-    T updateJavaBeanByPrimaryKeySelective(Object keyValue, Object javaBean);
+    T updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
 
     /**
      * 使用JavaBean批量更新
@@ -174,9 +174,9 @@ public interface SqlBuilderTemplate<T extends SqlBuilderTemplate<T>> {
     /**
      * 根据主键查询
      *
-     * @param keyValue 主键值
+     * @param primaryKeyValue 主键值
      * @return
      */
-    T queryByPrimaryKey(Object keyValue);
+    T queryByPrimaryKey(Object primaryKeyValue);
 
 }

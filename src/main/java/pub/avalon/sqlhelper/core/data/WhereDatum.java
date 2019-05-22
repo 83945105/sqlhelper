@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.beans.WhereValueType;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.Map;
 import java.util.Objects;

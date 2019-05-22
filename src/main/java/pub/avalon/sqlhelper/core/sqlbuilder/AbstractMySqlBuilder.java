@@ -1,12 +1,15 @@
-package pub.avalon.sqlhelper.core.builder;
+package pub.avalon.sqlhelper.core.sqlbuilder;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.fusesource.jansi.Ansi;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
-import pub.avalon.sqlhelper.core.sql.SqlSplicer;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.*;
 
@@ -14,39 +17,102 @@ import java.util.*;
  * @author 白超
  * @date 2018/8/23
  */
-public abstract class AbstractMySqlBuilder<T extends TableModel> extends AbstractSqlBuilder {
+public abstract class AbstractMySqlBuilder implements SqlBuilder {
+
+    private final Log logger = LogFactory.getLog(getClass());
+
+    private boolean sqlEnabled;
+
+    private boolean argsEnabled;
+
+    private boolean colour;
+
+    protected SqlBuilderOptions sqlBuilderOptions;
+
+    /**
+     * 预编译sql
+     */
+    protected StringBuilder preparedStatementSql;
+    /**
+     * 预编译参数
+     */
+    protected List<Object> preparedStatementArgs;
+
+    public AbstractMySqlBuilder(SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlEnabled = sqlBuilderOptions.getSqlPrintOptions().isEnabled() && sqlBuilderOptions.getSqlPrintOptions().isSqlEnabled();
+        this.argsEnabled = sqlBuilderOptions.getSqlPrintOptions().isEnabled() && sqlBuilderOptions.getSqlPrintOptions().isArgsEnabled();
+        this.colour = sqlBuilderOptions.getSqlPrintOptions().isColour();
+    }
 
     private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
 
-    protected SqlData<T> sqlData;
+    protected SqlData<?> sqlData;
 
-    public AbstractMySqlBuilder(SqlData<T> sqlData) {
-        this.sqlData = sqlData;
+    @Override
+    public String getSql() {
+        //TODO 待实现 通过正则表达式将预编译参数替换进预编译sql
+        return null;
     }
 
-    private SqlSplicer appendMainTableAllColumnSql(SqlSplicer sqlSplicer) {
+    @Override
+    public String getPreparedStatementSql() {
+        String sql = this.preparedStatementSql.toString();
+        if (this.sqlEnabled && this.logger.isDebugEnabled()) {
+            if (this.colour) {
+                logger.debug("sqlhelper PreparedStatementSQL  [" + sql + "]");
+            } else {
+                logger.debug(Ansi.ansi().eraseScreen()
+                        .fg(Ansi.Color.CYAN)
+                        .a("sqlhelper ")
+                        .fg(Ansi.Color.YELLOW)
+                        .a("PreparedStatementSQL  [" + sql + "]")
+                        .reset());
+            }
+        }
+        return sql;
+    }
+
+    @Override
+    public List<Object> getPreparedStatementArgs() {
+        if (this.argsEnabled && this.logger.isDebugEnabled()) {
+            if (this.colour) {
+                logger.debug("sqlhelper PreparedStatementArgs " + this.preparedStatementArgs.toString());
+            } else {
+                logger.debug(Ansi.ansi().eraseScreen()
+                        .fg(Ansi.Color.CYAN)
+                        .a("sqlhelper ")
+                        .fg(Ansi.Color.RED)
+                        .a("PreparedStatementArgs " + this.preparedStatementArgs.toString())
+                        .reset());
+            }
+        }
+        return this.preparedStatementArgs;
+    }
+
+    private StringBuilder appendMainTableAllColumnSql(StringBuilder stringBuilder) {
         Set<ColumnDatum> columnData = this.sqlData.getMainTableData().buildTableColumnData();
         int i = 0;
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                sqlSplicer.append(",");
+                stringBuilder.append(",");
             } else {
-                sqlSplicer.append(" ");
+                stringBuilder.append(" ");
             }
-            sqlSplicer.append(columnDatum.getOwnerTableAlias())
+            stringBuilder.append(columnDatum.getOwnerTableAlias())
                     .append(".`")
                     .append(columnDatum.getOwnerColumnName())
                     .append("` `")
                     .append(columnDatum.getOwnerColumnAlias())
                     .append("`");
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendSubQuerySql(SqlSplicer sqlSplicer) {
+    private StringBuilder appendSubQuerySql(StringBuilder stringBuilder) {
         Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryDataMap();
         if (subQueryAliasMap == null) {
-            return sqlSplicer;
+            return stringBuilder;
         }
         int i = 0;
         for (Map.Entry<String, SqlBuilder> entry : subQueryAliasMap.entrySet()) {
@@ -56,44 +122,44 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                 throw new TableDataException("SubQueryColumn alias [" + alias + "] is already be used, please set another alias.");
             }
             if (i++ > 0) {
-                sqlSplicer.append(",(");
+                stringBuilder.append(",(");
             } else {
-                sqlSplicer.append(" (");
+                stringBuilder.append(" (");
             }
-            sqlSplicer.append(sqlBuilder.getPreparedStatementSql()).append(") ").append(alias);
-            this.sqlArgs.addAll(sqlBuilder.getPreparedStatementArgs());
+            stringBuilder.append(sqlBuilder.getPreparedStatementSql()).append(") ").append(alias);
+            this.preparedStatementArgs.addAll(sqlBuilder.getPreparedStatementArgs());
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendFunctionColumnSql(SqlSplicer sqlSplicer) {
+    private StringBuilder appendFunctionColumnSql(StringBuilder stringBuilder) {
         int i = 0;
         for (FunctionColumnData fcData : this.sqlData.getFunctionColumnDataList()) {
             if (this.aliasSingleValidator.get(fcData.getColumnAlias()) != null) {
                 throw new TableDataException("FunctionColumn alias [" + fcData.getColumnAlias() + "] is already be used, please set another alias.");
             }
             if (i++ > 0) {
-                sqlSplicer.append(",");
+                stringBuilder.append(",");
             } else {
-                sqlSplicer.append(" ");
+                stringBuilder.append(" ");
             }
             switch (fcData.getFunctionColumnType()) {
                 case MIN:
-                    sqlSplicer.append("min(");
+                    stringBuilder.append("min(");
                     break;
                 case MAX:
-                    sqlSplicer.append("max(");
+                    stringBuilder.append("max(");
                     break;
                 case COUNT:
-                    sqlSplicer.append("count(");
+                    stringBuilder.append("count(");
                     break;
                 case SUM:
-                    sqlSplicer.append("sum(");
+                    stringBuilder.append("sum(");
                     break;
                 default:
                     throw new SqlException("the functionColumnType is wrong.");
             }
-            sqlSplicer.append(fcData.getTableData().getTableAlias())
+            stringBuilder.append(fcData.getTableData().getTableAlias())
                     .append(".`")
                     .append(fcData.getColumnName())
                     .append("`) `")
@@ -101,18 +167,18 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                     .append("`");
             this.aliasSingleValidator.put(fcData.getColumnAlias(), true);
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendVirtualColumnSql(SqlSplicer sqlSplicer) {
+    private StringBuilder appendVirtualColumnSql(StringBuilder stringBuilder) {
         Object value;
         String alias;
         int i = 0;
         for (VirtualFieldData data : this.sqlData.getVirtualFieldDataSet()) {
             if (i++ > 0) {
-                sqlSplicer.append(",");
+                stringBuilder.append(",");
             } else {
-                sqlSplicer.append(" ");
+                stringBuilder.append(" ");
             }
             value = data.getValue();
             alias = data.getAlias();
@@ -120,29 +186,29 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                 throw new TableDataException("VirtualField alias [" + alias + "] is already be used, please set another alias.");
             }
             if (value == null) {
-                sqlSplicer.append("null");
+                stringBuilder.append("null");
             } else if (value instanceof String) {
-                sqlSplicer.append("'").append((String) value).append("'");
+                stringBuilder.append("'").append((String) value).append("'");
             } else if (value instanceof Integer) {
-                sqlSplicer.append(String.valueOf(value));
+                stringBuilder.append(String.valueOf(value));
             } else if (value instanceof Long) {
-                sqlSplicer.append(String.valueOf(value));
+                stringBuilder.append(String.valueOf(value));
             } else if (value instanceof Double) {
-                sqlSplicer.append(String.valueOf(value));
+                stringBuilder.append(String.valueOf(value));
             } else {
                 throw new SqlException("the VirtualFieldData value type is wrong.");
             }
             if (alias != null) {
-                sqlSplicer.append(" `").append(alias).append("`");
+                stringBuilder.append(" `").append(alias).append("`");
                 this.aliasSingleValidator.put(alias, true);
             } else {
                 this.aliasSingleValidator.put(value + "", true);
             }
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendTableColumnSql(SqlSplicer sqlSplicer) {
+    private StringBuilder appendTableColumnSql(StringBuilder stringBuilder) {
         int i = 0;
         TableData tableData;
         Set<ColumnDatum> columnData;
@@ -157,11 +223,11 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                     throw new TableDataException("table alias [" + tableData.getTableAlias() + "] column alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
                 }
                 if (i++ > 0) {
-                    sqlSplicer.append(",");
+                    stringBuilder.append(",");
                 } else {
-                    sqlSplicer.append(" ");
+                    stringBuilder.append(" ");
                 }
-                sqlSplicer.append(columnDatum.getOwnerTableAlias())
+                stringBuilder.append(columnDatum.getOwnerTableAlias())
                         .append(".`")
                         .append(columnDatum.getOwnerColumnName())
                         .append("` `")
@@ -170,10 +236,10 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                 this.aliasSingleValidator.put(columnDatum.getOwnerColumnAlias(), true);
             }
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    protected SqlSplicer appendColumnSql(SqlSplicer sqlSplicer) {
+    protected StringBuilder appendColumnSql(StringBuilder stringBuilder) {
         Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryDataMap();
         List<FunctionColumnData> functionColumnDataList = this.sqlData.getFunctionColumnDataList();
         Set<VirtualFieldData> virtualFieldDataSet = this.sqlData.getVirtualFieldDataSet();
@@ -183,118 +249,118 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
         boolean hasV = virtualFieldDataSet != null && virtualFieldDataSet.size() != 0;
         boolean hasC = tableColumnDataSet != null && tableColumnDataSet.size() != 0;
         if (!hasS && !hasF && !hasV && !hasC) {
-            return this.appendMainTableAllColumnSql(sqlSplicer);
+            return this.appendMainTableAllColumnSql(stringBuilder);
         }
         if (hasS) {
-            sqlSplicer = this.appendSubQuerySql(sqlSplicer);
+            stringBuilder = this.appendSubQuerySql(stringBuilder);
         }
         if (hasF) {
             if (hasS) {
-                sqlSplicer.append(",");
+                stringBuilder.append(",");
             }
-            sqlSplicer = this.appendFunctionColumnSql(sqlSplicer);
+            stringBuilder = this.appendFunctionColumnSql(stringBuilder);
         }
         if (hasV) {
             if (hasS || hasF) {
-                sqlSplicer.append(",");
+                stringBuilder.append(",");
             }
-            sqlSplicer = this.appendVirtualColumnSql(sqlSplicer);
+            stringBuilder = this.appendVirtualColumnSql(stringBuilder);
         }
         if (hasC) {
             if (hasS || hasF || hasV) {
-                sqlSplicer.append(",");
+                stringBuilder.append(",");
             }
-            sqlSplicer = this.appendTableColumnSql(sqlSplicer);
+            stringBuilder = this.appendTableColumnSql(stringBuilder);
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendOnDataList(SqlSplicer sqlSplicer, Set<OnDatum> onData, LinkType linkType) {
+    private StringBuilder appendOnDataList(StringBuilder stringBuilder, Set<OnDatum> onData, LinkType linkType) {
         if (onData == null || onData.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
         if (linkType == LinkType.OR && onData.size() > 1) {
-            sqlSplicer.append("(");
+            stringBuilder.append("(");
         }
         int i = 0;
         for (OnDatum onDatum : onData) {
             if (i++ > 0) {
-                sqlSplicer.append(" and ");
+                stringBuilder.append(" and ");
             }
-            sqlSplicer.append(onDatum.getOwnerTableAlias())
+            stringBuilder.append(onDatum.getOwnerTableAlias())
                     .append(".`")
                     .append(onDatum.getOwnerColumnName())
                     .append("`");
             switch (onDatum.getOnType()) {
                 case IS_NULL:
-                    sqlSplicer.append(" is null");
+                    stringBuilder.append(" is null");
                     continue;
                 case IS_NOT_NULL:
-                    sqlSplicer.append(" is not null");
+                    stringBuilder.append(" is not null");
                     continue;
                 case EQUAL:
-                    sqlSplicer.append(" = ");
+                    stringBuilder.append(" = ");
                     break;
                 case NOT_EQUAL:
-                    sqlSplicer.append(" != ");
+                    stringBuilder.append(" != ");
                     break;
                 case GREATER:
-                    sqlSplicer.append(" > ");
+                    stringBuilder.append(" > ");
                     break;
                 case GREATER_EQUAL:
-                    sqlSplicer.append(" >= ");
+                    stringBuilder.append(" >= ");
                     break;
                 case LESS:
-                    sqlSplicer.append(" < ");
+                    stringBuilder.append(" < ");
                     break;
                 case LESS_EQUAL:
-                    sqlSplicer.append(" <= ");
+                    stringBuilder.append(" <= ");
                     break;
                 case BETWEEN:
-                    sqlSplicer.append(" between ? and ?");
-                    this.sqlArgs.add(onDatum.getTargetValue());
-                    this.sqlArgs.add(onDatum.getTargetSecondValue());
+                    stringBuilder.append(" between ? and ?");
+                    this.preparedStatementArgs.add(onDatum.getTargetValue());
+                    this.preparedStatementArgs.add(onDatum.getTargetSecondValue());
                     continue;
                 case LIKE:
-                    sqlSplicer.append(" like ?");
-                    this.sqlArgs.add(onDatum.getTargetValue());
+                    stringBuilder.append(" like ?");
+                    this.preparedStatementArgs.add(onDatum.getTargetValue());
                     continue;
                 case IN:
                     int count = onDatum.getValueCount();
-                    sqlSplicer.append(" in (");
+                    stringBuilder.append(" in (");
                     for (; count > 0; count--) {
                         if (count == 1) {
-                            sqlSplicer.append("?");
+                            stringBuilder.append("?");
                         } else {
-                            sqlSplicer.append("?,");
+                            stringBuilder.append("?,");
                         }
                     }
-                    sqlSplicer.append(")");
+                    stringBuilder.append(")");
                     Object value = onDatum.getTargetValue();
                     if (value instanceof Collection) {
-                        this.sqlArgs.addAll((Collection) value);
+                        this.preparedStatementArgs.addAll((Collection) value);
                     } else if (value.getClass().isArray()) {
-                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                        this.preparedStatementArgs.addAll(Arrays.asList((Object[]) value));
                     } else {
                         throw new SqlException("the value type can only be Array or Collection.");
                     }
                     continue;
                 case NOT_IN:
                     count = onDatum.getValueCount();
-                    sqlSplicer.append(" not in (");
+                    stringBuilder.append(" not in (");
                     for (; count > 0; count--) {
                         if (count == 1) {
-                            sqlSplicer.append("?");
+                            stringBuilder.append("?");
                         } else {
-                            sqlSplicer.append("?,");
+                            stringBuilder.append("?,");
                         }
                     }
-                    sqlSplicer.append(")");
+                    stringBuilder.append(")");
                     value = onDatum.getTargetValue();
                     if (value instanceof Collection) {
-                        this.sqlArgs.addAll((Collection) value);
+                        this.preparedStatementArgs.addAll((Collection) value);
                     } else if (value.getClass().isArray()) {
-                        this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                        this.preparedStatementArgs.addAll(Arrays.asList((Object[]) value));
                     } else {
                         throw new SqlException("the value type can only be Array or Collection.");
                     }
@@ -304,11 +370,11 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
             }
             switch (onDatum.getOnValueType()) {
                 case VALUE:
-                    sqlSplicer.append("?");
-                    this.sqlArgs.add(onDatum.getTargetValue());
+                    stringBuilder.append("?");
+                    this.preparedStatementArgs.add(onDatum.getTargetValue());
                     continue;
                 case JOIN:
-                    sqlSplicer.append(onDatum.getTargetTableAlias())
+                    stringBuilder.append(onDatum.getTargetTableAlias())
                             .append(".`")
                             .append(onDatum.getTargetColumnName())
                             .append("`");
@@ -318,18 +384,18 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
             }
         }
         if (linkType == LinkType.OR && onData.size() > 1) {
-            sqlSplicer.append(")");
+            stringBuilder.append(")");
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
 
-    private SqlSplicer appendOnDataLinkerList(SqlSplicer sqlSplicer, List<OnDataLinker> onDataLinkerList, LinkType linkType, boolean checkBrackets) {
+    private StringBuilder appendOnDataLinkerList(StringBuilder stringBuilder, List<OnDataLinker> onDataLinkerList, LinkType linkType, boolean checkBrackets) {
 
         if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        int length = sqlSplicer.length();
+        int length = stringBuilder.length();
         Set<OnDatum> onData;
         int i = 0;
         boolean brackets = false;
@@ -340,16 +406,16 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                 switch (onDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
-                            sqlSplicer.append(" and ");
+                            stringBuilder.append(" and ");
                         }
-                        this.appendOnDataList(sqlSplicer, onData, LinkType.AND);
+                        this.appendOnDataList(stringBuilder, onData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
-                            sqlSplicer.append(" or ");
+                            stringBuilder.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataList(sqlSplicer, onData, LinkType.OR);
+                        this.appendOnDataList(stringBuilder, onData, LinkType.OR);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -358,16 +424,16 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                 switch (onDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
-                            sqlSplicer.append(" and ");
+                            stringBuilder.append(" and ");
                         }
-                        sqlSplicer = this.appendOnDataLinkerList(sqlSplicer, childOnDataLinkerList, LinkType.AND, true);
+                        stringBuilder = this.appendOnDataLinkerList(stringBuilder, childOnDataLinkerList, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
-                            sqlSplicer.append(" or ");
+                            stringBuilder.append(" or ");
                             brackets = checkBrackets;
                         }
-                        sqlSplicer = this.appendOnDataLinkerList(sqlSplicer, childOnDataLinkerList, LinkType.OR, true);
+                        stringBuilder = this.appendOnDataLinkerList(stringBuilder, childOnDataLinkerList, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -375,127 +441,127 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
             }
         }
         if (!checkBrackets) {
-            return sqlSplicer;
+            return stringBuilder;
         }
         brackets = brackets || linkType == LinkType.OR && i > 1;
         if (!brackets) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        sqlSplicer.insert(length, "(").append(")");
-        return sqlSplicer;
+        stringBuilder.insert(length, "(").append(")");
+        return stringBuilder;
     }
 
-    protected SqlSplicer appendJoinSql(SqlSplicer sqlSplicer) {
+    protected StringBuilder appendJoinSql(StringBuilder stringBuilder) {
         Map<String, JoinTableData<? extends TableModel>> joinTableDataAliasMap = this.sqlData.getJoinTableDataMap();
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
         JoinTableData<? extends TableModel> joinTableData;
         for (Map.Entry<String, JoinTableData<? extends TableModel>> entry : joinTableDataAliasMap.entrySet()) {
             joinTableData = entry.getValue();
             switch (joinTableData.getJoinType()) {
                 case INNER:
-                    sqlSplicer.append(" inner join ");
+                    stringBuilder.append(" inner join ");
                     break;
                 case LEFT:
-                    sqlSplicer.append(" left join ");
+                    stringBuilder.append(" left join ");
                     break;
                 case RIGHT:
-                    sqlSplicer.append(" right join ");
+                    stringBuilder.append(" right join ");
                     break;
                 default:
                     continue;
             }
-            sqlSplicer.append("`")
+            stringBuilder.append("`")
                     .append(joinTableData.getTableName())
                     .append("` ")
                     .append(joinTableData.getTableAlias());
             List<OnDataLinker> onDataLinkerList = joinTableData.getOnDataLinkerList();
             if (onDataLinkerList != null && onDataLinkerList.size() > 0) {
-                sqlSplicer.append(" on ");
-                this.appendOnDataLinkerList(sqlSplicer, onDataLinkerList, LinkType.AND, false);
+                stringBuilder.append(" on ");
+                this.appendOnDataLinkerList(stringBuilder, onDataLinkerList, LinkType.AND, false);
             }
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendWhereDataValueSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+    private StringBuilder appendWhereDataValueSql(StringBuilder stringBuilder, WhereDatum whereDatum) {
         switch (whereDatum.getWhereType()) {
             case IS_NULL:
-                sqlSplicer.append(" is null");
+                stringBuilder.append(" is null");
                 break;
             case IS_NOT_NULL:
-                sqlSplicer.append(" is not null");
+                stringBuilder.append(" is not null");
                 break;
             case BETWEEN:
-                sqlSplicer.append(" between ? and ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
-                this.sqlArgs.add(whereDatum.getTargetSecondValue());
+                stringBuilder.append(" between ? and ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
+                this.preparedStatementArgs.add(whereDatum.getTargetSecondValue());
                 break;
             case EQUAL:
-                sqlSplicer.append(" = ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
+                stringBuilder.append(" = ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
                 break;
             case NOT_EQUAL:
-                sqlSplicer.append(" != ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
+                stringBuilder.append(" != ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
                 break;
             case GREATER:
-                sqlSplicer.append(" > ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
+                stringBuilder.append(" > ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
                 break;
             case GREATER_EQUAL:
-                sqlSplicer.append(" >= ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
+                stringBuilder.append(" >= ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
                 break;
             case LESS:
-                sqlSplicer.append(" < ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
+                stringBuilder.append(" < ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
                 break;
             case LESS_EQUAL:
-                sqlSplicer.append(" <= ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
+                stringBuilder.append(" <= ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
                 break;
             case LIKE:
-                sqlSplicer.append(" like ?");
-                this.sqlArgs.add(whereDatum.getTargetValue());
+                stringBuilder.append(" like ?");
+                this.preparedStatementArgs.add(whereDatum.getTargetValue());
                 break;
             case IN:
-                sqlSplicer.append(" in (");
+                stringBuilder.append(" in (");
                 int count = whereDatum.getValueCount();
                 for (; count > 0; count--) {
                     if (count == 1) {
-                        sqlSplicer.append("?");
+                        stringBuilder.append("?");
                     } else {
-                        sqlSplicer.append("?,");
+                        stringBuilder.append("?,");
                     }
                 }
-                sqlSplicer.append(")");
+                stringBuilder.append(")");
                 Object value = whereDatum.getTargetValue();
                 if (value instanceof Collection) {
-                    this.sqlArgs.addAll((Collection) value);
+                    this.preparedStatementArgs.addAll((Collection) value);
                 } else if (value.getClass().isArray()) {
-                    this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                    this.preparedStatementArgs.addAll(Arrays.asList((Object[]) value));
                 } else {
                     throw new SqlException("the value type can only be Array or Collection.");
                 }
                 break;
             case NOT_IN:
-                sqlSplicer.append(" not in (");
+                stringBuilder.append(" not in (");
                 count = whereDatum.getValueCount();
                 for (; count > 0; count--) {
                     if (count == 1) {
-                        sqlSplicer.append("?");
+                        stringBuilder.append("?");
                     } else {
-                        sqlSplicer.append("?,");
+                        stringBuilder.append("?,");
                     }
                 }
-                sqlSplicer.append(")");
+                stringBuilder.append(")");
                 value = whereDatum.getTargetValue();
                 if (value instanceof Collection) {
-                    this.sqlArgs.addAll((Collection) value);
+                    this.preparedStatementArgs.addAll((Collection) value);
                 } else if (value.getClass().isArray()) {
-                    this.sqlArgs.addAll(Arrays.asList((Object[]) value));
+                    this.preparedStatementArgs.addAll(Arrays.asList((Object[]) value));
                 } else {
                     throw new SqlException("the value type can only be Array or Collection.");
                 }
@@ -503,214 +569,214 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
             default:
                 throw new SqlException("the WhereType is wrong.");
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendWhereDataJoinSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+    private StringBuilder appendWhereDataJoinSql(StringBuilder stringBuilder, WhereDatum whereDatum) {
         switch (whereDatum.getWhereType()) {
             case IS_NULL:
-                sqlSplicer.append(" is null");
+                stringBuilder.append(" is null");
                 break;
             case IS_NOT_NULL:
-                sqlSplicer.append(" is not null");
+                stringBuilder.append(" is not null");
                 break;
             case BETWEEN:
-                sqlSplicer.append(" between ? and ?");
+                stringBuilder.append(" between ? and ?");
                 // TODO 后续添加
                 throw new SqlException("暂不支持");
                 //TODO 别忘记break
             case EQUAL:
-                sqlSplicer.append(" = ")
+                stringBuilder.append(" = ")
                         .append(whereDatum.getTargetTableAlias())
                         .append(".`")
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case NOT_EQUAL:
-                sqlSplicer.append(" != ")
+                stringBuilder.append(" != ")
                         .append(whereDatum.getTargetTableAlias())
                         .append(".`")
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case GREATER:
-                sqlSplicer.append(" > ")
+                stringBuilder.append(" > ")
                         .append(whereDatum.getTargetTableAlias())
                         .append(".`")
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case GREATER_EQUAL:
-                sqlSplicer.append(" >= ")
+                stringBuilder.append(" >= ")
                         .append(whereDatum.getTargetTableAlias())
                         .append(".`")
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case LESS:
-                sqlSplicer.append(" < ")
+                stringBuilder.append(" < ")
                         .append(whereDatum.getTargetTableAlias())
                         .append(".`")
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case LESS_EQUAL:
-                sqlSplicer.append(" <= ")
+                stringBuilder.append(" <= ")
                         .append(whereDatum.getTargetTableAlias())
                         .append(".`")
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case LIKE:
-                sqlSplicer.append(" like ")
+                stringBuilder.append(" like ")
                         .append(whereDatum.getTargetTableAlias())
                         .append(".`")
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
             case IN:
-                sqlSplicer.append(" in ");
+                stringBuilder.append(" in ");
                 // TODO 后续添加
                 throw new SqlException("暂不支持");
                 //TODO 别忘记break
             case NOT_IN:
-                sqlSplicer.append(" not in ");
+                stringBuilder.append(" not in ");
                 // TODO 后续添加
                 throw new SqlException("暂不支持");
                 //TODO 别忘记break
             default:
                 throw new SqlException("the WhereType is wrong.");
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendWhereDataSubQuerySql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+    private StringBuilder appendWhereDataSubQuerySql(StringBuilder stringBuilder, WhereDatum whereDatum) {
         switch (whereDatum.getWhereType()) {
             case IS_NULL:
-                sqlSplicer.append(" is null");
+                stringBuilder.append(" is null");
                 break;
             case IS_NOT_NULL:
-                sqlSplicer.append(" is not null");
+                stringBuilder.append(" is not null");
                 break;
             case BETWEEN:
-                sqlSplicer.append(" between ? and ?");
+                stringBuilder.append(" between ? and ?");
                 // TODO 后续添加
                 throw new SqlException("暂不支持");
                 // TODO 别忘记break
             case EQUAL:
-                sqlSplicer.append(" = (")
+                stringBuilder.append(" = (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case NOT_EQUAL:
-                sqlSplicer.append(" != (")
+                stringBuilder.append(" != (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case GREATER:
-                sqlSplicer.append(" > (")
+                stringBuilder.append(" > (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case GREATER_EQUAL:
-                sqlSplicer.append(" >= (")
+                stringBuilder.append(" >= (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case LESS:
-                sqlSplicer.append(" < (")
+                stringBuilder.append(" < (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case LESS_EQUAL:
-                sqlSplicer.append(" <= (")
+                stringBuilder.append(" <= (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case LIKE:
-                sqlSplicer.append(" like (")
+                stringBuilder.append(" like (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case IN:
-                sqlSplicer.append(" in (")
+                stringBuilder.append(" in (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             case NOT_IN:
-                sqlSplicer.append(" not in (")
+                stringBuilder.append(" not in (")
                         .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
                         .append(")");
-                this.sqlArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
+                this.preparedStatementArgs.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
                 break;
             default:
                 throw new SqlException("the WhereType is wrong.");
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendWhereDataSqlPartSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
-        sqlSplicer.append(" ").append(whereDatum.getSqlPart());
-        return sqlSplicer;
+    private StringBuilder appendWhereDataSqlPartSql(StringBuilder stringBuilder, WhereDatum whereDatum) {
+        stringBuilder.append(" ").append(whereDatum.getSqlPart());
+        return stringBuilder;
     }
 
-    private SqlSplicer appendWhereDataSql(SqlSplicer sqlSplicer, WhereDatum whereDatum) {
+    private StringBuilder appendWhereDataSql(StringBuilder stringBuilder, WhereDatum whereDatum) {
         switch (whereDatum.getWhereValueType()) {
             case VALUE:
-                this.appendWhereDataValueSql(sqlSplicer, whereDatum);
+                this.appendWhereDataValueSql(stringBuilder, whereDatum);
                 break;
             case JOIN:
-                this.appendWhereDataJoinSql(sqlSplicer, whereDatum);
+                this.appendWhereDataJoinSql(stringBuilder, whereDatum);
                 break;
             case SUB_QUERY:
-                this.appendWhereDataSubQuerySql(sqlSplicer, whereDatum);
+                this.appendWhereDataSubQuerySql(stringBuilder, whereDatum);
                 break;
             case SQL_PART:
-                this.appendWhereDataSqlPartSql(sqlSplicer, whereDatum);
+                this.appendWhereDataSqlPartSql(stringBuilder, whereDatum);
                 break;
             default:
                 throw new SqlException("the WhereValueType is wrong.");
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendWhereDataList(SqlSplicer sqlSplicer, Set<WhereDatum> whereData, LinkType linkType) {
+    private StringBuilder appendWhereDataList(StringBuilder stringBuilder, Set<WhereDatum> whereData, LinkType linkType) {
         if (whereData == null || whereData.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
         if (linkType == LinkType.OR && whereData.size() > 1) {
-            sqlSplicer.append("(");
+            stringBuilder.append("(");
         }
         int i = 0;
         for (WhereDatum whereDatum : whereData) {
             if (i++ > 0) {
-                sqlSplicer.append(" and ");
+                stringBuilder.append(" and ");
             }
-            sqlSplicer.append(whereDatum.getOwnerTableAlias())
+            stringBuilder.append(whereDatum.getOwnerTableAlias())
                     .append(".`")
                     .append(whereDatum.getOwnerColumnName())
                     .append("`");
-            this.appendWhereDataSql(sqlSplicer, whereDatum);
+            this.appendWhereDataSql(stringBuilder, whereDatum);
         }
         if (linkType == LinkType.OR && whereData.size() > 1) {
-            sqlSplicer.append(")");
+            stringBuilder.append(")");
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    private SqlSplicer appendWhereDataLinkerList(SqlSplicer sqlSplicer, List<WhereDataLinker> whereDataLinkerList, LinkType linkType, boolean checkBrackets) {
+    private StringBuilder appendWhereDataLinkerList(StringBuilder stringBuilder, List<WhereDataLinker> whereDataLinkerList, LinkType linkType, boolean checkBrackets) {
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        int length = sqlSplicer.length();
+        int length = stringBuilder.length();
         Set<WhereDatum> whereData;
         int i = 0;
         boolean brackets = false;
@@ -721,16 +787,16 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                 switch (whereDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
-                            sqlSplicer.append(" and ");
+                            stringBuilder.append(" and ");
                         }
-                        this.appendWhereDataList(sqlSplicer, whereData, LinkType.AND);
+                        this.appendWhereDataList(stringBuilder, whereData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
-                            sqlSplicer.append(" or ");
+                            stringBuilder.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendWhereDataList(sqlSplicer, whereData, LinkType.OR);
+                        this.appendWhereDataList(stringBuilder, whereData, LinkType.OR);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -739,16 +805,16 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
                 switch (whereDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
-                            sqlSplicer.append(" and ");
+                            stringBuilder.append(" and ");
                         }
-                        sqlSplicer = this.appendWhereDataLinkerList(sqlSplicer, childWhereDataLinkerList, LinkType.AND, true);
+                        stringBuilder = this.appendWhereDataLinkerList(stringBuilder, childWhereDataLinkerList, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
-                            sqlSplicer.append(" or ");
+                            stringBuilder.append(" or ");
                             brackets = checkBrackets;
                         }
-                        sqlSplicer = this.appendWhereDataLinkerList(sqlSplicer, childWhereDataLinkerList, LinkType.OR, true);
+                        stringBuilder = this.appendWhereDataLinkerList(stringBuilder, childWhereDataLinkerList, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -756,38 +822,38 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
             }
         }
         if (!checkBrackets) {
-            return sqlSplicer;
+            return stringBuilder;
         }
         brackets = brackets || linkType == LinkType.OR && i > 1;
         if (!brackets) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        sqlSplicer.insert(length, "(").append(")");
-        return sqlSplicer;
+        stringBuilder.insert(length, "(").append(")");
+        return stringBuilder;
     }
 
-    protected SqlSplicer appendWhereSql(SqlSplicer sqlSplicer) {
+    protected StringBuilder appendWhereSql(StringBuilder stringBuilder) {
         List<List<WhereDataLinker>> whereDataLinkerListList = this.sqlData.getWhereDataLinkerListList();
         if (whereDataLinkerListList == null || whereDataLinkerListList.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        sqlSplicer.append(" where ");
+        stringBuilder.append(" where ");
         int i = 0;
         for (List<WhereDataLinker> whereDataLinkerList : whereDataLinkerListList) {
             if (i++ > 0) {
-                sqlSplicer.append(" and ");
+                stringBuilder.append(" and ");
             }
-            sqlSplicer = this.appendWhereDataLinkerList(sqlSplicer, whereDataLinkerList, LinkType.AND, whereDataLinkerListList.size() > 1);
+            stringBuilder = this.appendWhereDataLinkerList(stringBuilder, whereDataLinkerList, LinkType.AND, whereDataLinkerListList.size() > 1);
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    protected SqlSplicer appendGroupSql(SqlSplicer sqlSplicer) {
+    protected StringBuilder appendGroupSql(StringBuilder stringBuilder) {
         Set<TableGroupData> tableGroupDataSet = this.sqlData.getTableGroupDataSet();
         if (tableGroupDataSet == null || tableGroupDataSet.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        sqlSplicer.append(" group by ");
+        stringBuilder.append(" group by ");
         String alias;
         int i = 0;
         Set<GroupDatum> groupData;
@@ -798,23 +864,23 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
             }
             for (GroupDatum columnName : groupData) {
                 if (i++ > 0) {
-                    sqlSplicer.append(",");
+                    stringBuilder.append(",");
                 }
-                sqlSplicer.append(columnName.getOwnerTableAlias())
+                stringBuilder.append(columnName.getOwnerTableAlias())
                         .append(".`")
                         .append(columnName.getOwnerColumnName())
                         .append("`");
             }
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    protected SqlSplicer appendSortSql(SqlSplicer sqlSplicer) {
+    protected StringBuilder appendSortSql(StringBuilder stringBuilder) {
         Set<TableSortData> tableSortDataSet = this.sqlData.getTableSortDataSet();
         if (tableSortDataSet == null || tableSortDataSet.size() == 0) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        sqlSplicer.append(" order by ");
+        stringBuilder.append(" order by ");
         int i = 0;
         Set<SortDatum> sortData;
         for (TableSortData tableSortData : tableSortDataSet) {
@@ -824,36 +890,36 @@ public abstract class AbstractMySqlBuilder<T extends TableModel> extends Abstrac
             }
             for (SortDatum sortDatum : sortData) {
                 if (i++ > 0) {
-                    sqlSplicer.append(",");
+                    stringBuilder.append(",");
                 }
-                sqlSplicer.append(sortDatum.getOwnerTableAlias())
+                stringBuilder.append(sortDatum.getOwnerTableAlias())
                         .append(".`")
                         .append(sortDatum.getOwnerColumnName())
                         .append("`");
                 switch (sortDatum.getSortType()) {
                     case ASC:
-                        sqlSplicer.append(" asc");
+                        stringBuilder.append(" asc");
                         continue;
                     case DESC:
-                        sqlSplicer.append(" desc");
+                        stringBuilder.append(" desc");
                         continue;
                     default:
                         throw new SqlException("the SortType is wrong.");
                 }
             }
         }
-        return sqlSplicer;
+        return stringBuilder;
     }
 
-    protected SqlSplicer appendLimitSql(SqlSplicer sqlSplicer) {
+    protected StringBuilder appendLimitSql(StringBuilder stringBuilder) {
         LimitHandler limit = this.sqlData.getLimitData();
         if (limit == null) {
-            return sqlSplicer;
+            return stringBuilder;
         }
-        sqlSplicer.append(" limit ?,?");
-        this.sqlArgs.add(limit.getLimitStart());
-        this.sqlArgs.add(limit.getLimitEnd());
-        return sqlSplicer;
+        stringBuilder.append(" limit ?,?");
+        this.preparedStatementArgs.add(limit.getLimitStart());
+        this.preparedStatementArgs.add(limit.getLimitEnd());
+        return stringBuilder;
     }
 
     protected Set<ColumnDatum> getMainTableColumnData() {

@@ -14,7 +14,7 @@ public final class TableEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TC extends ColumnSqlModel<TC>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> {
+        TS extends SortSqlModel<TS>> extends JoinIntactEngine<T, TO, TC, TW, TG, TS> {
 
     public TableEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -32,5 +32,4 @@ public final class TableEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     public TableEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
         return (TableEngine<T, TO, TC, TW, TG, TS>) super.setDataBaseType(dataBaseType);
     }
-
 }

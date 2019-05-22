@@ -2,9 +2,9 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.beans.Pagination;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.*;
 
@@ -60,14 +60,15 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void addTableColumnData(TableColumnData tableColumnData) {
+    public SqlData<T> addTableColumnData(TableColumnData tableColumnData) {
         if (tableColumnData == null) {
-            return;
+            return this;
         }
         if (this.tableColumnDataSet == null) {
             this.tableColumnDataSet = new LinkedHashSet<>();
         }
         this.tableColumnDataSet.add(tableColumnData);
+        return this;
     }
 
     @Override
@@ -76,14 +77,15 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void addVirtualFieldData(VirtualFieldData virtualFieldData) {
+    public SqlData<T> addVirtualFieldData(VirtualFieldData virtualFieldData) {
         if (virtualFieldData == null) {
-            return;
+            return this;
         }
         if (this.virtualFieldDataSet == null) {
             this.virtualFieldDataSet = new LinkedHashSet<>();
         }
         this.virtualFieldDataSet.add(virtualFieldData);
+        return this;
     }
 
     @Override
@@ -92,14 +94,15 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void addFunctionColumnData(FunctionColumnData functionColumnData) {
+    public SqlData<T> addFunctionColumnData(FunctionColumnData functionColumnData) {
         if (functionColumnData == null) {
-            return;
+            return this;
         }
         if (this.functionColumnDataList == null) {
             this.functionColumnDataList = new ArrayList<>();
         }
         this.functionColumnDataList.add(functionColumnData);
+        return this;
     }
 
     @Override
@@ -108,7 +111,7 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void addSubQueryData(String alias, SqlBuilder sqlBuilder) {
+    public SqlData<T> addSubQueryData(String alias, SqlBuilder sqlBuilder) {
         if (alias == null || alias.trim().length() == 0) {
             throw new TableDataException("subQuery alias can not be null or empty.");
         }
@@ -116,6 +119,7 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
             this.subQueryDataMap = new LinkedHashMap<>();
         }
         this.subQueryDataMap.put(alias, sqlBuilder);
+        return this;
     }
 
     @Override
@@ -124,14 +128,15 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
+    public SqlData<T> addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
-            return;
+            return this;
         }
         if (this.whereDataLinkerListList == null) {
             this.whereDataLinkerListList = new ArrayList<>();
         }
         this.whereDataLinkerListList.add(whereDataLinkerList);
+        return this;
     }
 
     @Override
@@ -140,14 +145,15 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void addTableGroupData(TableGroupData tableGroupData) {
+    public SqlData<T> addTableGroupData(TableGroupData tableGroupData) {
         if (tableGroupData == null) {
-            return;
+            return this;
         }
         if (this.tableGroupDataSet == null) {
             this.tableGroupDataSet = new LinkedHashSet<>();
         }
         this.tableGroupDataSet.add(tableGroupData);
+        return this;
     }
 
     @Override
@@ -156,14 +162,15 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void addTableSortData(TableSortData tableSortData) {
+    public SqlData<T> addTableSortData(TableSortData tableSortData) {
         if (tableSortData == null) {
-            return;
+            return this;
         }
         if (this.tableSortDataSet == null) {
             this.tableSortDataSet = new LinkedHashSet<>();
         }
         this.tableSortDataSet.add(tableSortData);
+        return this;
     }
 
 
@@ -173,34 +180,39 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public void setLimitData(LimitHandler limitData) {
+    public SqlData<T> setLimitData(LimitHandler limitData) {
         this.limitData = limitData;
+        return this;
     }
 
     @Override
-    public void buildLimitData(Integer currentPage, Integer pageSize) {
+    public SqlData<T> buildLimitData(Integer currentPage, Integer pageSize) {
         this.limitData = new Pagination(this.getDataBaseType(), currentPage, pageSize);
+        return this;
     }
 
     @Override
-    public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+    public SqlData<T> buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
         this.limitData = new Pagination(this.getDataBaseType(), total, currentPage, pageSize);
+        return this;
     }
 
     @Override
-    public void setLimitStart(Integer limitStart) {
+    public SqlData<T> setLimitStart(Integer limitStart) {
         if (this.limitData == null) {
             this.limitData = new Pagination(this.getDataBaseType());
         }
         this.limitData.setLimitStart(limitStart);
+        return this;
     }
 
     @Override
-    public void setLimitEnd(Integer limitEnd) {
+    public SqlData<T> setLimitEnd(Integer limitEnd) {
         if (this.limitData == null) {
             this.limitData = new Pagination(this.getDataBaseType());
         }
         this.limitData.setLimitEnd(limitEnd);
+        return this;
     }
 
 }

@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
  * 分页引擎
@@ -22,12 +23,24 @@ public class LimitIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         super(tableModelClass);
     }
 
+    public LimitIntactEngine(Class<T> tableModelClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(tableModelClass, sqlBuilderOptions);
+    }
+
     public LimitIntactEngine(String tableName, Class<T> tableModelClass) {
         super(tableName, tableModelClass);
     }
 
+    public LimitIntactEngine(String tableName, Class<T> tableModelClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(tableName, tableModelClass, sqlBuilderOptions);
+    }
+
     public LimitIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
         super(tableName, tableModelClass, alias);
+    }
+
+    public LimitIntactEngine(String tableName, Class<T> tableModelClass, String alias, SqlBuilderOptions sqlBuilderOptions) {
+        super(tableName, tableModelClass, alias, sqlBuilderOptions);
     }
 
     public LimitIntactEngine limitTop(Integer num) {
