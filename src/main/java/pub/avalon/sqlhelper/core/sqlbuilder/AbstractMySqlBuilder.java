@@ -17,7 +17,7 @@ import java.util.*;
  * @author 白超
  * @date 2018/8/23
  */
-public abstract class AbstractMySqlBuilder implements SqlBuilder {
+public abstract class AbstractMySqlBuilder implements MySqlBuilder {
 
     private final Log logger = LogFactory.getLog(getClass());
 
@@ -29,6 +29,21 @@ public abstract class AbstractMySqlBuilder implements SqlBuilder {
 
     protected SqlBuilderOptions sqlBuilderOptions;
 
+    public AbstractMySqlBuilder(SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlEnabled = sqlBuilderOptions.getSqlPrintOptions().isEnabled() && sqlBuilderOptions.getSqlPrintOptions().isSqlEnabled();
+        this.argsEnabled = sqlBuilderOptions.getSqlPrintOptions().isEnabled() && sqlBuilderOptions.getSqlPrintOptions().isArgsEnabled();
+        this.colour = sqlBuilderOptions.getSqlPrintOptions().isColour();
+    }
+
+    protected SqlData<?> sqlData;
+
+    @Override
+    public MySqlBuilder setSqlData(SqlData<?> sqlData) {
+        this.sqlData = sqlData;
+        return this;
+    }
+
     /**
      * 预编译sql
      */
@@ -38,16 +53,7 @@ public abstract class AbstractMySqlBuilder implements SqlBuilder {
      */
     protected List<Object> preparedStatementArgs;
 
-    public AbstractMySqlBuilder(SqlBuilderOptions sqlBuilderOptions) {
-        this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlEnabled = sqlBuilderOptions.getSqlPrintOptions().isEnabled() && sqlBuilderOptions.getSqlPrintOptions().isSqlEnabled();
-        this.argsEnabled = sqlBuilderOptions.getSqlPrintOptions().isEnabled() && sqlBuilderOptions.getSqlPrintOptions().isArgsEnabled();
-        this.colour = sqlBuilderOptions.getSqlPrintOptions().isColour();
-    }
-
     private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
-
-    protected SqlData<?> sqlData;
 
     @Override
     public String getSql() {

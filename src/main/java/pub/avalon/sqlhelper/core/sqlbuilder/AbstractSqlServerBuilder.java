@@ -17,7 +17,7 @@ import java.util.*;
  * @author 白超
  * @date 2018/8/23
  */
-public abstract class AbstractSqlServerBuilder implements SqlBuilder {
+public abstract class AbstractSqlServerBuilder implements SqlServerBuilder {
 
     private final Log logger = LogFactory.getLog(getClass());
 
@@ -45,9 +45,15 @@ public abstract class AbstractSqlServerBuilder implements SqlBuilder {
         this.colour = sqlBuilderOptions.getSqlPrintOptions().isColour();
     }
 
-    private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
-
     protected SqlData<?> sqlData;
+
+    @Override
+    public SqlServerBuilder setSqlData(SqlData<?> sqlData) {
+        this.sqlData = sqlData;
+        return this;
+    }
+
+    private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
 
     @Override
     public String getSql() {

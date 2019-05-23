@@ -24,7 +24,7 @@ public class Test {
         RoleResource.Helper.Sort sort = RoleResource.Helper.sort().id().asc().id().desc();
         SysUser.Helper.Sort joinSort = SysUser.Helper.sort().username().asc().username().desc();
 
-        SqlEngine sqlEngine = SqlDynamicEngine.query("", RoleResource.Helper.class)
+        SqlEngine sqlEngine = SqlDynamicEngine.table("", RoleResource.Helper.class)
                 .innerJoin(SysUser.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.username().equalTo(mainTable.id()))
                         .and(mainTable.id().equalTo(joinTable.username()))
