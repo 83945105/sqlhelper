@@ -1,9 +1,9 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
 import pub.avalon.holygrail.utils.ClassUtil;
+import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.*;
 
@@ -13,122 +13,110 @@ import java.util.*;
  */
 public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
 
-    public DefaultMySqlBuilder(SqlBuilderOptions sqlBuilderOptions) {
-        super(sqlBuilderOptions);
-    }
-
     @Override
-    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
-        this.preparedStatementSql = new StringBuilder(128);
-        this.preparedStatementArgs = new ArrayList<>(0);
-        this.preparedStatementSql.append("create table `")
+    public SqlBuilderResult copyTable(String targetTableName, boolean copyData) {
+        StringBuilder preparedStatementSql = new StringBuilder(128);
+        preparedStatementSql.append("create table `")
                 .append(targetTableName)
                 .append("` like `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("`");
         if (copyData) {
-            this.preparedStatementSql.append("; insert into `")
+            preparedStatementSql.append("; insert into `")
                     .append(targetTableName)
                     .append("` select * from `")
                     .append(this.sqlData.getMainTableData().getTableName())
                     .append("`");
-            return this;
+            return new SqlBuilderResult(preparedStatementSql.toString(), new ArrayList<>(0));
         }
-        return this;
+        return new SqlBuilderResult(preparedStatementSql.toString(), new ArrayList<>(0));
     }
 
     @Override
-    public SqlBuilder deleteTable() {
-        this.preparedStatementSql = new StringBuilder(32);
-        this.preparedStatementArgs = new ArrayList<>(0);
-        this.preparedStatementSql.append("drop table `")
+    public SqlBuilderResult deleteTable() {
+        return new SqlBuilderResult(new StringBuilder(32)
+                .append("drop table `")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("`");
-        return this;
+                .append("`").toString(), new ArrayList<>(0));
     }
 
     @Override
-    public SqlBuilder renameTable(String newTableName) {
-        this.preparedStatementSql = new StringBuilder(32);
-        this.preparedStatementArgs = new ArrayList<>(0);
-        this.preparedStatementSql.append("rename table `")
+    public SqlBuilderResult renameTable(String newTableName) {
+        return new SqlBuilderResult(new StringBuilder(32)
+                .append("rename table `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` to `")
                 .append(newTableName)
-                .append("`");
-        return this;
+                .append("`").toString(), new ArrayList<>(0));
     }
 
     @Override
-    public SqlBuilder isTableExist() {
-        this.preparedStatementSql = new StringBuilder(128);
-        this.preparedStatementArgs = new ArrayList<>(0);
-        this.preparedStatementSql.append("select table_name from information_schema.TABLES where table_name = '")
+    public SqlBuilderResult isTableExist() {
+        return new SqlBuilderResult(new StringBuilder(128)
+                .append("select table_name from information_schema.TABLES where table_name = '")
                 .append(this.sqlData.getMainTableData().getTableName())
-                .append("' and table_schema = (select database())");
-        return this;
+                .append("' and table_schema = (select database())").toString(), new ArrayList<>(0));
     }
 
     @Override
-    public SqlBuilder insertArgs(Object... args) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = Arrays.asList(args);
-        this.preparedStatementSql.append("insert into `")
+    public SqlBuilderResult insertArgs(Object... args) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        preparedStatementSql.append("insert into `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
         Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
         }
-        this.preparedStatementSql.append(") values (");
+        preparedStatementSql.append(") values (");
         for (; i > 0; i--) {
             if (i == 1) {
-                this.preparedStatementSql.append("?");
+                preparedStatementSql.append("?");
             } else {
-                this.preparedStatementSql.append("?,");
+                preparedStatementSql.append("?,");
             }
         }
-        this.preparedStatementSql.append(")");
-        return this;
+        preparedStatementSql.append(")");
+        return new SqlBuilderResult(preparedStatementSql.toString(), Arrays.asList(args));
     }
 
     @Override
-    public SqlBuilder insertJavaBean(Object javaBean) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(64);
-        this.preparedStatementSql.append("insert into `")
+    public SqlBuilderResult insertJavaBean(Object javaBean) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(64);
+        preparedStatementSql.append("insert into `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
         Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
-            this.preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
         }
-        this.preparedStatementSql.append(") values (");
+        preparedStatementSql.append(") values (");
         for (; i > 0; i--) {
             if (i == 1) {
-                this.preparedStatementSql.append("?");
+                preparedStatementSql.append("?");
             } else {
-                this.preparedStatementSql.append("?,");
+                preparedStatementSql.append("?,");
             }
         }
-        this.preparedStatementSql.append(")");
-        return this;
+        preparedStatementSql.append(")");
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder insertJavaBeanSelective(Object javaBean) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(64);
-        this.preparedStatementSql.append("insert into `")
+    public SqlBuilderResult insertJavaBeanSelective(Object javaBean) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(64);
+        preparedStatementSql.append("insert into `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
@@ -140,39 +128,39 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
                 continue;
             }
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
-            this.preparedStatementArgs.add(value);
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            preparedStatementArgs.add(value);
         }
-        this.preparedStatementSql.append(") values (");
+        preparedStatementSql.append(") values (");
         for (; i > 0; i--) {
             if (i == 1) {
-                this.preparedStatementSql.append("?");
+                preparedStatementSql.append("?");
             } else {
-                this.preparedStatementSql.append("?,");
+                preparedStatementSql.append("?,");
             }
         }
-        this.preparedStatementSql.append(")");
-        return this;
+        preparedStatementSql.append(")");
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
-        this.preparedStatementSql = new StringBuilder(2048);
-        this.preparedStatementArgs = new ArrayList<>(64 * javaBeans.size());
-        this.preparedStatementSql.append("insert into `")
+    public SqlBuilderResult batchInsertJavaBeans(Collection<?> javaBeans) {
+        StringBuilder preparedStatementSql = new StringBuilder(2048);
+        List<Object> preparedStatementArgs = new ArrayList<>(64 * javaBeans.size());
+        preparedStatementSql.append("insert into `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` (");
         Set<ColumnDatum> columnData = this.getMainTableColumnData();
         int i = 0;
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
         }
-        this.preparedStatementSql.append(") values ");
+        preparedStatementSql.append(") values ");
         StringBuilder valPart = new StringBuilder(34).append("(");
         for (; i > 0; i--) {
             if (i == 1) {
@@ -183,49 +171,49 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
         }
         for (Object javaBean : javaBeans) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append(valPart.toString());
+            preparedStatementSql.append(valPart.toString());
             for (ColumnDatum columnDatum : columnData) {
-                this.preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+                preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
             }
         }
-        return this;
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder delete() {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(64);
+    public SqlBuilderResult delete() {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(64);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
-        this.preparedStatementSql.append("delete ")
+        preparedStatementSql.append("delete ")
                 .append(tableAlias)
                 .append(" from `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.preparedStatementSql = this.appendJoinSql(this.preparedStatementSql);
-        this.preparedStatementSql = this.appendWhereSql(this.preparedStatementSql);
-        return this;
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs);
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
-        this.preparedStatementSql = new StringBuilder(128);
-        this.preparedStatementArgs = Collections.singletonList(primaryKeyValue);
-        this.preparedStatementSql.append("delete from `")
+    public SqlBuilderResult deleteByPrimaryKey(Object primaryKeyValue) {
+        StringBuilder preparedStatementSql = new StringBuilder(128);
+        List<Object> preparedStatementArgs = Collections.singletonList(primaryKeyValue);
+        preparedStatementSql.append("delete from `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` where `")
                 .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
                 .append("` = ?");
-        return this;
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = Arrays.asList(primaryKeyValues);
-        this.preparedStatementSql.append("delete from `")
+    public SqlBuilderResult batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = Arrays.asList(primaryKeyValues);
+        preparedStatementSql.append("delete from `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` where `")
                 .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
@@ -233,49 +221,49 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
         int size = primaryKeyValues.length;
         for (int i = 0; i < size; i++) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("?");
+            preparedStatementSql.append("?");
         }
-        this.preparedStatementSql.append(")");
-        return this;
+        preparedStatementSql.append(")");
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder updateJavaBean(Object javaBean) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(64);
+    public SqlBuilderResult updateJavaBean(Object javaBean) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(64);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
-        this.preparedStatementSql.append("update `")
+        preparedStatementSql.append("update `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.preparedStatementSql = this.appendJoinSql(this.preparedStatementSql);
-        this.preparedStatementSql.append(" set ");
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs);
+        preparedStatementSql.append(" set ");
         int i = 0;
         Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
-            this.preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
         }
-        this.preparedStatementSql = this.appendWhereSql(this.preparedStatementSql);
-        return this;
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder updateJavaBeanSelective(Object javaBean) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(64);
+    public SqlBuilderResult updateJavaBeanSelective(Object javaBean) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(64);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
-        this.preparedStatementSql.append("update `")
+        preparedStatementSql.append("update `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.preparedStatementSql = this.appendJoinSql(this.preparedStatementSql);
-        this.preparedStatementSql.append(" set ");
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs);
+        preparedStatementSql.append(" set ");
         int i = 0;
         Object value;
         Set<ColumnDatum> columnData = this.getMainTableColumnData();
@@ -285,20 +273,20 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
                 continue;
             }
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
-            this.preparedStatementArgs.add(value);
+            preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            preparedStatementArgs.add(value);
         }
-        this.preparedStatementSql = this.appendWhereSql(this.preparedStatementSql);
-        return this;
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(args.length + 1);
-        this.preparedStatementSql.append("update `")
+    public SqlBuilderResult updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(args.length + 1);
+        preparedStatementSql.append("update `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
@@ -309,23 +297,23 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
                 continue;
             }
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
         }
-        this.preparedStatementSql.append(" where `")
+        preparedStatementSql.append(" where `")
                 .append(primaryKeyName)
                 .append("` = ?");
-        this.preparedStatementArgs.addAll(Arrays.asList(args));
-        this.preparedStatementArgs.add(primaryKeyValue);
-        return this;
+        preparedStatementArgs.addAll(Arrays.asList(args));
+        preparedStatementArgs.add(primaryKeyValue);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(65);
-        this.preparedStatementSql.append("update `")
+    public SqlBuilderResult updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(65);
+        preparedStatementSql.append("update `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
@@ -336,23 +324,23 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
                 continue;
             }
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
-            this.preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
         }
-        this.preparedStatementSql.append(" where `")
+        preparedStatementSql.append(" where `")
                 .append(primaryKeyName)
                 .append("` = ?");
-        this.preparedStatementArgs.add(primaryKeyValue);
-        return this;
+        preparedStatementArgs.add(primaryKeyValue);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
-        this.preparedStatementSql = new StringBuilder(512);
-        this.preparedStatementArgs = new ArrayList<>(65);
-        this.preparedStatementSql.append("update `")
+    public SqlBuilderResult updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
+        StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(65);
+        preparedStatementSql.append("update `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` set ");
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
@@ -368,29 +356,29 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
                 continue;
             }
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
-            this.preparedStatementArgs.add(value);
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
+            preparedStatementArgs.add(value);
         }
-        this.preparedStatementSql.append(" where `")
+        preparedStatementSql.append(" where `")
                 .append(primaryKeyName)
                 .append("` = ?");
-        this.preparedStatementArgs.add(primaryKeyValue);
-        return this;
+        preparedStatementArgs.add(primaryKeyValue);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
-        this.preparedStatementSql = new StringBuilder(2048);
-        this.preparedStatementArgs = new ArrayList<>(128);
+    public SqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
+        StringBuilder preparedStatementSql = new StringBuilder(2048);
+        List<Object> preparedStatementArgs = new ArrayList<>(128);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
-        this.preparedStatementSql.append("update `")
+        preparedStatementSql.append("update `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.preparedStatementSql = this.appendJoinSql(this.preparedStatementSql);
-        this.preparedStatementSql.append(" set ");
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs);
+        preparedStatementSql.append(" set ");
         int i = 0;
         String primaryKeyName = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName();
         String primaryKeyAlias = this.sqlData.getMainTableData().getTableModel().getPrimaryKeyAlias();
@@ -431,9 +419,9 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
             }
             // 非主键计算sql
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append(tableAlias)
+            preparedStatementSql.append(tableAlias)
                     .append(".`")
                     .append(columnDatum.getOwnerColumnName())
                     .append("`=case ")
@@ -446,29 +434,29 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
             // 非主键计算参数
             for (Object javaBean : javaBeans) {
                 if (javaBean instanceof Map) {
-                    this.preparedStatementArgs.add(((Map) javaBean).get(columnDatum.getOwnerColumnAlias()));
+                    preparedStatementArgs.add(((Map) javaBean).get(columnDatum.getOwnerColumnAlias()));
                 } else {
-                    this.preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+                    preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
                 }
             }
         }
         //拼接上最后的where条件
-        this.preparedStatementSql.append(" where ")
+        preparedStatementSql.append(" where ")
                 .append(tableAlias)
                 .append(".`")
                 .append(primaryKeyName)
                 .append("` in (")
                 .append(inSql.toString())
                 .append(")");
-        this.preparedStatementArgs.addAll(inArgs);
-        return this;
+        preparedStatementArgs.addAll(inArgs);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
-        this.preparedStatementSql = new StringBuilder(2048);
-        this.preparedStatementArgs = new ArrayList<>(128);
-        this.preparedStatementSql.append("insert into ")
+    public SqlBuilderResult updateOrInsertJavaBeans(Collection<?> javaBeans) {
+        StringBuilder preparedStatementSql = new StringBuilder(2048);
+        List<Object> preparedStatementArgs = new ArrayList<>(128);
+        preparedStatementSql.append("insert into ")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append(" (");
         int i = 0;
@@ -476,13 +464,13 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
         Set<ColumnDatum> columnData = this.getMainTableColumnData();
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
                 onSql.append(",");
             }
-            this.preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
+            preparedStatementSql.append("`").append(columnDatum.getOwnerColumnName()).append("`");
             onSql.append("`").append(columnDatum.getOwnerColumnName()).append("` = values(`").append(columnDatum.getOwnerColumnName()).append("`)");
         }
-        this.preparedStatementSql.append(") values ");
+        preparedStatementSql.append(") values ");
         StringBuilder valueSql = new StringBuilder(32).append("(");
         for (; i > 0; i--) {
             if (i == 1) {
@@ -494,76 +482,81 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
         i = 0;
         for (Object javaBean : javaBeans) {
             if (i++ > 0) {
-                this.preparedStatementSql.append(",");
+                preparedStatementSql.append(",");
             }
-            this.preparedStatementSql.append(valueSql.toString());
+            preparedStatementSql.append(valueSql.toString());
             for (ColumnDatum columnDatum : columnData) {
-                this.preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
+                preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
             }
         }
-        this.preparedStatementSql.append(" on duplicate key update ").append(onSql.toString());
-        return this;
+        preparedStatementSql.append(" on duplicate key update ").append(onSql.toString());
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder query() {
-        this.preparedStatementSql = new StringBuilder(1024);
-        this.preparedStatementArgs = new ArrayList<>(32);
-        this.preparedStatementSql.append("select");
-        this.preparedStatementSql = this.appendColumnSql(this.preparedStatementSql);
-        this.preparedStatementSql.append(" from `")
+    public SqlBuilderResult query() {
+        StringBuilder preparedStatementSql = new StringBuilder(1024);
+        List<Object> preparedStatementArgs = new ArrayList<>(32);
+        preparedStatementSql.append("select");
+        this.appendColumnSqlArgs(preparedStatementSql, preparedStatementArgs);
+        preparedStatementSql.append(" from `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` ")
                 .append(this.sqlData.getMainTableData().getTableAlias());
-        this.preparedStatementSql = this.appendJoinSql(this.preparedStatementSql);
-        this.preparedStatementSql = this.appendWhereSql(this.preparedStatementSql);
-        this.preparedStatementSql = this.appendGroupSql(this.preparedStatementSql);
-        this.preparedStatementSql = this.appendSortSql(this.preparedStatementSql);
-        this.preparedStatementSql = this.appendLimitSql(this.preparedStatementSql);
-        return this;
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs);
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs);
+        this.appendGroupSqlArgs(preparedStatementSql, preparedStatementArgs);
+        this.appendSortSqlArgs(preparedStatementSql, preparedStatementArgs);
+        this.appendLimitSqlArgs(preparedStatementSql, preparedStatementArgs);
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder queryCount() {
-        this.preparedStatementSql = new StringBuilder(1024);
-        this.preparedStatementArgs = new ArrayList<>(32);
-        String groupSql = this.appendGroupSql(new StringBuilder(32)).toString();
-        String limitSql = this.appendLimitSql(new StringBuilder(16)).toString();
+    public SqlBuilderResult queryCount() {
+        StringBuilder preparedStatementSql = new StringBuilder(1024);
+        List<Object> preparedStatementArgs = new ArrayList<>(32);
+        StringBuilder groupSqlBuilder = new StringBuilder(32);
+        this.appendGroupSqlArgs(groupSqlBuilder, null);
+        String groupSql = groupSqlBuilder.toString();
+        StringBuilder limitSqlBuilder = new StringBuilder(16);
+        List<Object> limitArgs = new ArrayList<>(2);
+        this.appendLimitSqlArgs(limitSqlBuilder, limitArgs);
+        String limitSql = limitSqlBuilder.toString();
         boolean hasGroup = groupSql.length() > 0;
         boolean hasLimit = limitSql.length() > 0;
         if (hasGroup || hasLimit) {
-            this.preparedStatementSql.append("select count(1) from (select ")
+            preparedStatementSql.append("select count(1) from (select ")
                     .append(this.sqlData.getMainTableData().getTableAlias())
                     .append(".`")
                     .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
                     .append("` from `");
         } else {
-            this.preparedStatementSql.append("select count(1) from `");
+            preparedStatementSql.append("select count(1) from `");
         }
-        this.preparedStatementSql.append(this.sqlData.getMainTableData().getTableName())
+        preparedStatementSql.append(this.sqlData.getMainTableData().getTableName())
                 .append("` ")
                 .append(this.sqlData.getMainTableData().getTableAlias());
-        this.preparedStatementSql = this.appendJoinSql(this.preparedStatementSql);
-        this.preparedStatementSql = this.appendWhereSql(this.preparedStatementSql);
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs);
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs);
         if (hasGroup || hasLimit) {
             if (hasGroup) {
-                this.preparedStatementSql.append(groupSql);
+                preparedStatementSql.append(groupSql);
             }
             if (hasLimit) {
-                this.preparedStatementSql.append(limitSql);
+                preparedStatementSql.append(limitSql);
             }
-            this.preparedStatementSql.append(") C");
+            preparedStatementSql.append(") C");
         }
-        return this;
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
-        this.preparedStatementSql = new StringBuilder(128);
-        this.preparedStatementArgs = Collections.singletonList(primaryKeyValue);
-        this.preparedStatementSql.append("select");
-        this.preparedStatementSql = this.appendColumnSql(this.preparedStatementSql);
-        this.preparedStatementSql.append(" from `")
+    public SqlBuilderResult queryByPrimaryKey(Object primaryKeyValue) {
+        StringBuilder preparedStatementSql = new StringBuilder(128);
+        List<Object> preparedStatementArgs = Collections.singletonList(primaryKeyValue);
+        preparedStatementSql.append("select");
+        this.appendColumnSqlArgs(preparedStatementSql, preparedStatementArgs);
+        preparedStatementSql.append(" from `")
                 .append(this.sqlData.getMainTableData().getTableName())
                 .append("` ")
                 .append(this.sqlData.getMainTableData().getTableAlias())
@@ -572,6 +565,7 @@ public class DefaultMySqlBuilder extends AbstractMySqlBuilder {
                 .append(".`")
                 .append(this.sqlData.getMainTableData().getTableModel().getPrimaryKeyName())
                 .append("` = ?");
-        return this;
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
+
 }

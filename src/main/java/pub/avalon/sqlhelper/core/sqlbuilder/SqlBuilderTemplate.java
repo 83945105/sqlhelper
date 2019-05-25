@@ -6,7 +6,7 @@ import java.util.Collection;
  * @author 白超
  * @date 2019/5/20
  */
-public interface SqlBuilderTemplate<T extends SqlBuilderTemplate<T>> {
+public interface SqlBuilderTemplate<T> {
 
     /**
      * 复制表

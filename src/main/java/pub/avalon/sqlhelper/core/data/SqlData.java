@@ -17,7 +17,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface SqlData<T extends TableModel> extends SqlDataBuilder<SqlData<T>> {
+public interface SqlData<T extends TableModel> extends SqlDataBuilder<SqlData<T>>, ColumnSqlData {
 
     /**
      * 获取数据库类型

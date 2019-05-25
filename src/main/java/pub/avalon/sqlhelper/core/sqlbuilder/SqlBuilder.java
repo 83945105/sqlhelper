@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
+import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
+
 import java.util.List;
 
 /**
@@ -8,7 +10,7 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/15
  */
-public interface SqlBuilder extends SqlBuilderTemplate<SqlBuilder> {
+public interface SqlBuilder extends SqlBuilderTemplate<SqlBuilderResult> {
 
     /**
      * 获取sql

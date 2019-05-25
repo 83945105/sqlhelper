@@ -9,7 +9,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class VirtualFieldData {
+public final class VirtualFieldDatum {
 
     private Object value;
 
@@ -51,7 +51,7 @@ public final class VirtualFieldData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        VirtualFieldData that = (VirtualFieldData) o;
+        VirtualFieldDatum that = (VirtualFieldDatum) o;
         return Objects.equals(alias, that.alias);
     }
 

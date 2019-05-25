@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.option;
 
-import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.sqlbuilder.*;
 
@@ -20,7 +19,7 @@ public class SqlBuilderOptions {
     /**
      * MySql构建器
      */
-    private MySqlBuilder mySqlBuilder = new DefaultMySqlBuilder(this);
+    private MySqlBuilder mySqlBuilder = new DefaultMySqlBuilder();
 
     /**
      * SqlServer构建器
@@ -31,7 +30,7 @@ public class SqlBuilderOptions {
         return sqlPrintOptions;
     }
 
-    public SqlBuilder getSqlBuilder(SqlData<?> sqlData) {
+    public SqlBuilder getSqlBuilder() {
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
                 return this.mySqlBuilder.setSqlData(sqlData);

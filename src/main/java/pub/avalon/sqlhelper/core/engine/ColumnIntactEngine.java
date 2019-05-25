@@ -84,7 +84,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(String value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
+        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
         this.sqlData.addVirtualFieldData(virtualFieldData);
@@ -92,7 +92,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(int value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
+        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
         this.sqlData.addVirtualFieldData(virtualFieldData);
@@ -100,7 +100,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(long value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
+        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
         this.sqlData.addVirtualFieldData(virtualFieldData);
@@ -108,7 +108,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(double value, String alias) {
-        VirtualFieldData virtualFieldData = new VirtualFieldData();
+        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
         this.sqlData.addVirtualFieldData(virtualFieldData);

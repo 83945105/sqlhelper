@@ -101,6 +101,7 @@ public class Test {
 
 
         sqlEngine.query();
+        sqlEngine.updateArgsByPrimaryKey("", null);
 
     }
 
