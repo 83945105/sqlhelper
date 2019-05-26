@@ -24,7 +24,7 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     /**
      * 虚拟列数据
      */
-    private Set<VirtualFieldData> virtualFieldDataSet;
+    private Set<VirtualFieldDatum> virtualFieldDataSet;
     /**
      * 函数列数据
      */
@@ -72,12 +72,12 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public Set<VirtualFieldData> getVirtualFieldDataSet() {
+    public Set<VirtualFieldDatum> getVirtualFieldDataSet() {
         return this.virtualFieldDataSet;
     }
 
     @Override
-    public SqlData<T> addVirtualFieldData(VirtualFieldData virtualFieldData) {
+    public SqlData<T> addVirtualFieldDatum(VirtualFieldDatum virtualFieldData) {
         if (virtualFieldData == null) {
             return this;
         }

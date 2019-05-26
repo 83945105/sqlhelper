@@ -160,7 +160,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
         }
 
         @Override
-        public Set<VirtualFieldData> getVirtualFieldDataSet() {
+        public Set<VirtualFieldDatum> getVirtualFieldDataSet() {
             throw new SqlException("you can not use getVirtualFieldDataSet for class FissionSqlData.");
         }
 
@@ -200,7 +200,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
         }
 
         @Override
-        public SqlData<T> addVirtualFieldData(VirtualFieldData virtualFieldData) {
+        public SqlData<T> addVirtualFieldDatum(VirtualFieldDatum virtualFieldData) {
             throw new SqlException("you can not use addVirtualFieldData for class FissionSqlData.");
         }
 

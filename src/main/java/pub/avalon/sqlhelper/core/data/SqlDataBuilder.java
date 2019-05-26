@@ -34,7 +34,7 @@ public interface SqlDataBuilder<T> {
      *
      * @param virtualFieldData 虚拟属性数据集合
      */
-    T addVirtualFieldData(VirtualFieldData virtualFieldData);
+    T addVirtualFieldDatum(VirtualFieldDatum virtualFieldData);
 
     /**
      * 添加函数列数据

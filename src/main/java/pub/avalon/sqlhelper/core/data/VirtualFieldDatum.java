@@ -52,11 +52,12 @@ public final class VirtualFieldDatum {
             return false;
         }
         VirtualFieldDatum that = (VirtualFieldDatum) o;
-        return Objects.equals(alias, that.alias);
+        return Objects.equals(getValue(), that.getValue()) &&
+                Objects.equals(getAlias(), that.getAlias());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(alias);
+        return Objects.hash(getValue(), getAlias());
     }
 }

@@ -3,11 +3,9 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -33,6 +31,11 @@ public interface SqlData<T extends TableModel> extends SqlDataBuilder<SqlData<T>
      */
     MainTableData<T> getMainTableData();
 
+    @Override
+    default Set<ColumnDatum> getMainTableColumnData() {
+        return this.getMainTableData().buildTableColumnData();
+    }
+
     /**
      * 获取连接表数据
      *
@@ -57,25 +60,11 @@ public interface SqlData<T extends TableModel> extends SqlDataBuilder<SqlData<T>
     Set<TableColumnData> getTableColumnDataSet();
 
     /**
-     * 获取虚拟属性数据集合
-     *
-     * @return 虚拟属性数据集合
-     */
-    Set<VirtualFieldData> getVirtualFieldDataSet();
-
-    /**
      * 获取函数列数据集合
      *
      * @return 函数列数据集合
      */
     List<FunctionColumnData> getFunctionColumnDataList();
-
-    /**
-     * 获取子查询数据集合
-     *
-     * @return 子查询集合
-     */
-    Map<String, SqlBuilder> getSubQueryDataMap();
 
     /**
      * 获取where条件连接器数据集合

@@ -87,7 +87,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldDatum(virtualFieldData);
         return this;
     }
 
@@ -95,7 +95,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldDatum(virtualFieldData);
         return this;
     }
 
@@ -103,7 +103,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldDatum(virtualFieldData);
         return this;
     }
 
@@ -111,7 +111,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
         virtualFieldData.setValue(value);
         virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldData(virtualFieldData);
+        this.sqlData.addVirtualFieldDatum(virtualFieldData);
         return this;
     }
 

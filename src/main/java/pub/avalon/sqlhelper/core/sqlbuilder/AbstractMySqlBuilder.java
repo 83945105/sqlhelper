@@ -81,8 +81,7 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         }
     }
 
-    protected void appendSubQuerySqlArgs(StringBuilder sql, List<Object> args) {
-        Map<String, SqlBuilder> subQueryAliasMap = this.sqlData.getSubQueryDataMap();
+    protected void appendSubQuerySqlArgs(StringBuilder sql, List<Object> args, Map<String, SqlBuilder> subQueryAliasMap) {
         if (subQueryAliasMap == null) {
             return;
         }
@@ -209,9 +208,9 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
 
     protected void appendColumnSqlArgs(StringBuilder sql, List<Object> args, ColumnSqlData columnSqlData) {
         Map<String, SqlBuilder> subQueryAliasMap = columnSqlData.getSubQueryDataMap();
-        List<FunctionColumnData> functionColumnDataList = this.sqlData.getFunctionColumnDataList();
+        List<FunctionColumnData> functionColumnDataList = columnSqlData.getFunctionColumnDataList();
         Set<VirtualFieldDatum> virtualFieldDataSet = columnSqlData.getVirtualFieldDataSet();
-        Set<TableColumnData> tableColumnDataSet = this.sqlData.getTableColumnDataSet();
+        Set<TableColumnData> tableColumnDataSet = columnSqlData.getTableColumnDataSet();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
         boolean hasF = functionColumnDataList != null && functionColumnDataList.size() != 0;
         boolean hasV = virtualFieldDataSet != null && virtualFieldDataSet.size() != 0;
@@ -221,7 +220,7 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
             return;
         }
         if (hasS) {
-            this.appendSubQuerySqlArgs(sql, args);
+            this.appendSubQuerySqlArgs(sql, args, subQueryAliasMap);
         }
         if (hasF) {
             if (hasS) {
