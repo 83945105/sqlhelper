@@ -1,15 +1,12 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.fusesource.jansi.Ansi;
 import pub.avalon.beans.LimitHandler;
+import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
-import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.*;
 
@@ -17,13 +14,11 @@ import java.util.*;
  * @author 白超
  * @date 2018/8/23
  */
-public abstract class AbstractMySqlBuilder implements MySqlBuilder {
-
-    private final Log logger = LogFactory.getLog(getClass());
+public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTemplate {
 
     private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
 
-    @Override
+    /*@Override
     public String getSql() {
         //TODO 待实现 通过正则表达式将预编译参数替换进预编译sql
         return null;
@@ -62,7 +57,7 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
             }
         }
         return this.preparedStatementArgs;
-    }
+    }*/
 
     protected void appendColumnSqlArgs(StringBuilder sql, List<Object> args, Set<ColumnDatum> columnData) {
         int i = 0;
@@ -102,55 +97,66 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         }
     }
 
-    protected void appendFunctionColumnSqlArgs(StringBuilder sql, List<Object> args) {
+    protected void appendTableFunctionColumnSqlArgs(StringBuilder sql, List<Object> args, Set<TableFunctionColumnDatum> tableFunctionColumnData) {
         int i = 0;
-        for (FunctionColumnData fcData : this.sqlData.getFunctionColumnDataList()) {
-            if (this.aliasSingleValidator.get(fcData.getColumnAlias()) != null) {
-                throw new TableDataException("FunctionColumn alias [" + fcData.getColumnAlias() + "] is already be used, please set another alias.");
+        TableData tableData;
+        FunctionColumnType functionColumnType;
+        Set<ColumnDatum> columnData;
+        for (TableFunctionColumnDatum tableFunctionColumnDatum : tableFunctionColumnData) {
+            columnData = tableFunctionColumnDatum.getColumnData();
+            if (columnData == null || columnData.size() == 0) {
+                continue;
             }
-            if (i++ > 0) {
-                sql.append(",");
-            } else {
-                sql.append(" ");
+            tableData = tableFunctionColumnDatum.getTableData();
+            functionColumnType = tableFunctionColumnDatum.getFunctionColumnType();
+            for (ColumnDatum columnDatum : columnData) {
+                if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
+                    throw new TableDataException("FunctionColumn alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
+                }
+                if (i++ > 0) {
+                    sql.append(",");
+                } else {
+                    sql.append(" ");
+                }
+                switch (functionColumnType) {
+                    case MIN:
+                        sql.append("min(");
+                        break;
+                    case MAX:
+                        sql.append("max(");
+                        break;
+                    case COUNT:
+                        sql.append("count(");
+                        break;
+                    case SUM:
+                        sql.append("sum(");
+                        break;
+                    default:
+                        throw new SqlException("the functionColumnType is wrong.");
+                }
+                sql.append(tableData.getTableAlias())
+                        .append(".`")
+                        .append(columnDatum.getOwnerColumnName())
+                        .append("`) `")
+                        .append(columnDatum.getOwnerColumnAlias())
+                        .append("`");
+                this.aliasSingleValidator.put(columnDatum.getOwnerColumnAlias(), true);
             }
-            switch (fcData.getFunctionColumnType()) {
-                case MIN:
-                    sql.append("min(");
-                    break;
-                case MAX:
-                    sql.append("max(");
-                    break;
-                case COUNT:
-                    sql.append("count(");
-                    break;
-                case SUM:
-                    sql.append("sum(");
-                    break;
-                default:
-                    throw new SqlException("the functionColumnType is wrong.");
-            }
-            sql.append(fcData.getTableData().getTableAlias())
-                    .append(".`")
-                    .append(fcData.getColumnName())
-                    .append("`) `")
-                    .append(fcData.getColumnAlias())
-                    .append("`");
-            this.aliasSingleValidator.put(fcData.getColumnAlias(), true);
         }
     }
 
-    protected void appendVirtualColumnSqlArgs(StringBuilder sql, List<Object> args) {
+    protected void appendVirtualColumnSqlArgs(StringBuilder sql, List<Object> args, Set<VirtualFieldDatum> virtualFieldData) {
         Object value;
         String alias;
         int i = 0;
-        for (VirtualFieldData data : this.sqlData.getVirtualFieldDataSet()) {
+        for (VirtualFieldDatum virtualFieldDatum : virtualFieldData) {
             if (i++ > 0) {
                 sql.append(",");
             } else {
                 sql.append(" ");
             }
-            value = data.getValue();
-            alias = data.getAlias();
+            value = virtualFieldDatum.getValue();
+            alias = virtualFieldDatum.getAlias();
             if (this.aliasSingleValidator.get(alias) != null) {
                 throw new TableDataException("VirtualField alias [" + alias + "] is already be used, please set another alias.");
             }
@@ -176,16 +182,16 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         }
     }
 
-    protected void appendTableColumnSqlArgs(StringBuilder sql, List<Object> args) {
+    protected void appendTableColumnSqlArgs(StringBuilder sql, List<Object> args, Set<TableColumnDatum> tableColumnData) {
         int i = 0;
         TableData tableData;
         Set<ColumnDatum> columnData;
-        for (TableColumnData tableColumnData : this.sqlData.getTableColumnDataSet()) {
-            columnData = tableColumnData.getColumnData();
+        for (TableColumnDatum tableColumnDatum : tableColumnData) {
+            columnData = tableColumnDatum.getColumnData();
             if (columnData.size() == 0) {
                 continue;
             }
-            tableData = tableColumnData.getTableData();
+            tableData = tableColumnDatum.getTableData();
             for (ColumnDatum columnDatum : columnData) {
                 if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
                     throw new TableDataException("table alias [" + tableData.getTableAlias() + "] column alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
@@ -206,17 +212,17 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         }
     }
 
-    protected void appendColumnSqlArgs(StringBuilder sql, List<Object> args, ColumnSqlData columnSqlData) {
-        Map<String, SqlBuilder> subQueryAliasMap = columnSqlData.getSubQueryDataMap();
-        List<FunctionColumnData> functionColumnDataList = columnSqlData.getFunctionColumnDataList();
-        Set<VirtualFieldDatum> virtualFieldDataSet = columnSqlData.getVirtualFieldDataSet();
-        Set<TableColumnData> tableColumnDataSet = columnSqlData.getTableColumnDataSet();
+    protected void appendColumnSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
+        Map<String, SqlBuilder> subQueryAliasMap = sqlDataConsumer.getSubQueryDataMap();
+        Set<TableFunctionColumnDatum> tableFunctionColumnData = sqlDataConsumer.getTableFunctionColumnData();
+        Set<VirtualFieldDatum> virtualFieldData = sqlDataConsumer.getVirtualFieldData();
+        Set<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
-        boolean hasF = functionColumnDataList != null && functionColumnDataList.size() != 0;
-        boolean hasV = virtualFieldDataSet != null && virtualFieldDataSet.size() != 0;
-        boolean hasC = tableColumnDataSet != null && tableColumnDataSet.size() != 0;
+        boolean hasF = tableFunctionColumnData != null && tableFunctionColumnData.size() != 0;
+        boolean hasV = virtualFieldData != null && virtualFieldData.size() != 0;
+        boolean hasC = tableColumnData != null && tableColumnData.size() != 0;
         if (!hasS && !hasF && !hasV && !hasC) {
-            this.appendColumnSqlArgs(sql, args, columnSqlData.getMainTableColumnData());
+            this.appendColumnSqlArgs(sql, args, sqlDataConsumer.getMainTableColumnData());
             return;
         }
         if (hasS) {
@@ -226,19 +232,19 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
             if (hasS) {
                 sql.append(",");
             }
-            this.appendFunctionColumnSqlArgs(sql, args);
+            this.appendTableFunctionColumnSqlArgs(sql, args, tableFunctionColumnData);
         }
         if (hasV) {
             if (hasS || hasF) {
                 sql.append(",");
             }
-            this.appendVirtualColumnSqlArgs(sql, args);
+            this.appendVirtualColumnSqlArgs(sql, args, virtualFieldData);
         }
         if (hasC) {
             if (hasS || hasF || hasV) {
                 sql.append(",");
             }
-            this.appendTableColumnSqlArgs(sql, args);
+            this.appendTableColumnSqlArgs(sql, args, tableColumnData);
         }
     }
 
@@ -415,8 +421,7 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         sql.insert(length, "(").append(")");
     }
 
-    protected void appendJoinSqlArgs(StringBuilder sql, List<Object> args) {
-        Map<String, JoinTableData<? extends TableModel>> joinTableDataAliasMap = this.sqlData.getJoinTableDataMap();
+    protected void appendJoinSqlArgs(StringBuilder sql, List<Object> args, Map<String, JoinTableData<? extends TableModel>> joinTableDataAliasMap) {
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
             return;
         }
@@ -788,8 +793,7 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         sql.insert(length, "(").append(")");
     }
 
-    protected void appendWhereSqlArgs(StringBuilder sql, List<Object> args) {
-        List<List<WhereDataLinker>> whereDataLinkerListList = this.sqlData.getWhereDataLinkerListList();
+    protected void appendWhereSqlArgs(StringBuilder sql, List<Object> args, List<List<WhereDataLinker>> whereDataLinkerListList) {
         if (whereDataLinkerListList == null || whereDataLinkerListList.size() == 0) {
             return;
         }
@@ -803,16 +807,15 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         }
     }
 
-    protected void appendGroupSqlArgs(StringBuilder sql, List<Object> args) {
-        Set<TableGroupData> tableGroupDataSet = this.sqlData.getTableGroupDataSet();
+    protected void appendGroupSqlArgs(StringBuilder sql, List<Object> args, Set<TableGroupDatum> tableGroupDataSet) {
         if (tableGroupDataSet == null || tableGroupDataSet.size() == 0) {
             return;
         }
         sql.append(" group by ");
         int i = 0;
         Set<GroupDatum> groupData;
-        for (TableGroupData tableGroupData : tableGroupDataSet) {
-            groupData = tableGroupData.getGroupData();
+        for (TableGroupDatum tableGroupDatum : tableGroupDataSet) {
+            groupData = tableGroupDatum.getGroupData();
             if (groupData == null || groupData.size() == 0) {
                 continue;
             }
@@ -828,16 +831,15 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         }
     }
 
-    protected void appendSortSqlArgs(StringBuilder sql, List<Object> args) {
-        Set<TableSortData> tableSortDataSet = this.sqlData.getTableSortDataSet();
+    protected void appendSortSqlArgs(StringBuilder sql, List<Object> args, Set<TableSortDatum> tableSortDataSet) {
         if (tableSortDataSet == null || tableSortDataSet.size() == 0) {
             return;
         }
         sql.append(" order by ");
         int i = 0;
         Set<SortDatum> sortData;
-        for (TableSortData tableSortData : tableSortDataSet) {
-            sortData = tableSortData.getSortData();
+        for (TableSortDatum tableSortDatum : tableSortDataSet) {
+            sortData = tableSortDatum.getSortData();
             if (sortData == null || sortData.size() == 0) {
                 continue;
             }
@@ -863,22 +865,13 @@ public abstract class AbstractMySqlBuilder implements MySqlBuilder {
         }
     }
 
-    protected void appendLimitSqlArgs(StringBuilder sql, List<Object> args) {
-        LimitHandler limit = this.sqlData.getLimitData();
+    protected void appendLimitSqlArgs(StringBuilder sql, List<Object> args, LimitHandler limit) {
         if (limit == null) {
             return;
         }
         sql.append(" limit ?,?");
         args.add(limit.getLimitStart());
         args.add(limit.getLimitEnd());
-    }
-
-    protected Set<ColumnDatum> getMainTableColumnData() {
-        Set<ColumnDatum> columnData = this.sqlData.getMainTableData().getColumnData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.sqlData.getMainTableData().buildTableColumnData();
-        }
-        return columnData;
     }
 
 }

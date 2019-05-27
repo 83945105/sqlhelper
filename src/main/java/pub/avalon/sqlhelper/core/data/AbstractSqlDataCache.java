@@ -154,24 +154,25 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
             super(mainTableData);
         }
 
-        @Override
-        public Set<TableColumnData> getTableColumnDataSet() {
-            throw new SqlException("you can not use getColumnDataSet for class FissionSqlData.");
-        }
-
-        @Override
-        public Set<VirtualFieldDatum> getVirtualFieldDataSet() {
-            throw new SqlException("you can not use getVirtualFieldDataSet for class FissionSqlData.");
-        }
-
-        @Override
-        public List<FunctionColumnData> getFunctionColumnDataList() {
-            throw new SqlException("you can not use getFunctionColumnDataList for class FissionSqlData.");
-        }
 
         @Override
         public Map<String, SqlBuilder> getSubQueryDataMap() {
             throw new SqlException("you can not use getSubQueryDataMap for class FissionSqlData.");
+        }
+
+        @Override
+        public Set<TableFunctionColumnDatum> getTableFunctionColumnData() {
+            throw new SqlException("you can not use getTableFunctionColumnData for class FissionSqlData.");
+        }
+
+        @Override
+        public Set<VirtualFieldDatum> getVirtualFieldData() {
+            throw new SqlException("you can not use getVirtualFieldData for class FissionSqlData.");
+        }
+
+        @Override
+        public Set<TableColumnDatum> getTableColumnData() {
+            throw new SqlException("you can not use getTableColumnData for class FissionSqlData.");
         }
 
         @Override
@@ -180,33 +181,35 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
         }
 
         @Override
-        public Set<TableGroupData> getTableGroupDataSet() {
-            throw new SqlException("you can not use getTableGroupDataSet for class FissionSqlData.");
+        public Set<TableGroupDatum> getTableGroupData() {
+            throw new SqlException("you can not use getTableGroupData for class FissionSqlData.");
         }
 
         @Override
-        public Set<TableSortData> getTableSortDataSet() {
-            throw new SqlException("you can not use getTableSortDataSet for class FissionSqlData.");
+        public Set<TableSortDatum> getTableSortData() {
+            throw new SqlException("you can not use getTableSortData for class FissionSqlData.");
         }
+
 
         @Override
         public LimitHandler getLimitData() {
             throw new SqlException("you can not use getLimitData for class FissionSqlData.");
         }
 
+
         @Override
-        public SqlData<T> addTableColumnData(TableColumnData tableColumnData) {
-            throw new SqlException("you can not use addColumnData for class FissionSqlData.");
+        public SqlData<T> addTableColumnDatum(TableColumnDatum tableColumnDatum) {
+            throw new SqlException("you can not use addTableColumnDatum for class FissionSqlData.");
         }
 
         @Override
-        public SqlData<T> addVirtualFieldDatum(VirtualFieldDatum virtualFieldData) {
-            throw new SqlException("you can not use addVirtualFieldData for class FissionSqlData.");
+        public SqlData<T> addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
+            throw new SqlException("you can not use addVirtualFieldDatum for class FissionSqlData.");
         }
 
         @Override
-        public SqlData<T> addFunctionColumnData(FunctionColumnData functionColumnData) {
-            throw new SqlException("you can not use addFunctionColumnData for class FissionSqlData.");
+        public SqlData<T> addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
+            throw new SqlException("you can not use addTableFunctionColumnDatum for class FissionSqlData.");
         }
 
         @Override
@@ -215,14 +218,13 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
         }
 
         @Override
-        public SqlData<T> addTableGroupData(TableGroupData tableGroupData) {
-            throw new SqlException("you can not use addTableGroupData for class FissionSqlData.");
+        public SqlData<T> addTableGroupDatum(TableGroupDatum tableGroupDatum) {
+            throw new SqlException("you can not use addTableGroupDatum for class FissionSqlData.");
         }
 
-
         @Override
-        public SqlData<T> addTableSortData(TableSortData tableSortData) {
-            throw new SqlException("you can not use addTableSortData for class FissionSqlData.");
+        public SqlData<T> addTableSortDatum(TableSortDatum tableSortDatum) {
+            throw new SqlException("you can not use addTableSortDatum for class FissionSqlData.");
         }
 
 

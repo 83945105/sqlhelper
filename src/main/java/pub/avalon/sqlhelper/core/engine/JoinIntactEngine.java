@@ -1,11 +1,11 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.beans.OnLinker;
 import pub.avalon.sqlhelper.core.beans.OnLinkerIntact;
 import pub.avalon.sqlhelper.core.callback.OnCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
-import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 /**
@@ -40,15 +40,14 @@ public class JoinIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> JoinIntactEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableModelClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
         JoinTableData<S> joinTableData = new JoinTableData<>(tableModelClass);
         joinTableData.setTableName(tableName);
         joinTableData.setTableAlias(alias);
         joinTableData.setJoinType(joinType);
-        this.sqlData.addJoinTableData(joinTableData);
-        TO to = mainTableData.getTableModel().newOnSqlModel();
+        this.addJoinTableData(joinTableData);
+        TO to = BeanUtils.tableModel(this.tableModelClass).newOnSqlModel();
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnLinkerIntact<>();
-        SO so = joinTableData.getTableModel().newOnSqlModel();
+        SO so = BeanUtils.tableModel(tableModelClass).newOnSqlModel();
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
         joinTableData.addOnDataLinkerList(linker.takeoutOnDataLinkerList());
         return this;

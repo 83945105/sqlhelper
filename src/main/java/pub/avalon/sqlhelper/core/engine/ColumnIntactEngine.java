@@ -53,7 +53,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             columnData = mainTableData.buildTableColumnData();
         }
-        this.getSqlData().addTableColumnData(new TableColumnData(mainTableData, columnData));
+        this.addTableColumnDatum(new TableColumnDatum(mainTableData, columnData));
         return this;
     }
 
@@ -70,7 +70,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             columnData = joinTableData.buildTableColumnData();
         }
-        this.sqlData.addTableColumnData(new TableColumnData(joinTableData, columnData));
+        this.addTableColumnDatum(new TableColumnDatum(joinTableData, columnData));
         return this;
     }
 
@@ -84,34 +84,34 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(String value, String alias) {
-        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldDatum(virtualFieldData);
+        VirtualFieldDatum virtualFieldDatum = new VirtualFieldDatum();
+        virtualFieldDatum.setValue(value);
+        virtualFieldDatum.setAlias(alias);
+        this.addVirtualFieldDatum(virtualFieldDatum);
         return this;
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(int value, String alias) {
-        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldDatum(virtualFieldData);
+        VirtualFieldDatum virtualFieldDatum = new VirtualFieldDatum();
+        virtualFieldDatum.setValue(value);
+        virtualFieldDatum.setAlias(alias);
+        this.addVirtualFieldDatum(virtualFieldDatum);
         return this;
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(long value, String alias) {
-        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldDatum(virtualFieldData);
+        VirtualFieldDatum virtualFieldDatum = new VirtualFieldDatum();
+        virtualFieldDatum.setValue(value);
+        virtualFieldDatum.setAlias(alias);
+        this.addVirtualFieldDatum(virtualFieldDatum);
         return this;
     }
 
     public ColumnIntactEngine<T, TO, TC, TW, TG, TS> virtualColumn(double value, String alias) {
-        VirtualFieldDatum virtualFieldData = new VirtualFieldDatum();
-        virtualFieldData.setValue(value);
-        virtualFieldData.setAlias(alias);
-        this.sqlData.addVirtualFieldDatum(virtualFieldData);
+        VirtualFieldDatum virtualFieldDatum = new VirtualFieldDatum();
+        virtualFieldDatum.setValue(value);
+        virtualFieldDatum.setAlias(alias);
+        this.addVirtualFieldDatum(virtualFieldDatum);
         return this;
     }
 
@@ -119,7 +119,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (functionColumnType == null) {
             return this;
         }
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
+        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
         TC tc = mainTableData.getTableModel().newColumnSqlModel();
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
@@ -127,9 +127,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        for (ColumnDatum columnDatum : columnData) {
-            this.sqlData.addFunctionColumnData(new FunctionColumnData(mainTableData, functionColumnType, columnDatum.getOwnerColumnName(), columnDatum.getOwnerColumnAlias()));
-        }
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(mainTableData, functionColumnType, columnData));
         return this;
     }
 
@@ -142,7 +140,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (functionColumnType == null) {
             return this;
         }
-        JoinTableData<S> joinTableData = this.sqlData.getJoinTableData(alias, columnClass);
+        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, columnClass);
         SC sc = joinTableData.getTableModel().newColumnSqlModel();
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
@@ -150,9 +148,7 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        for (ColumnDatum columnDatum : columnData) {
-            this.sqlData.addFunctionColumnData(new FunctionColumnData(joinTableData, functionColumnType, columnDatum.getOwnerColumnName(), columnDatum.getOwnerColumnAlias()));
-        }
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(joinTableData, functionColumnType, columnData));
         return this;
     }
 
@@ -171,19 +167,8 @@ public class ColumnIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> ColumnIntactEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableModelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
-        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.sqlData, tableName, tableModelClass, alias, callback);
-        this.sqlData.addSubQueryData(columnAlias, sqlBuilder);
-        return this;
-    }
-
-    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> ColumnIntactEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableModelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
-        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.sqlData, tableName, tableModelClass, alias, callback);
-        this.sqlData.addSubQueryData(columnAlias, sqlBuilder);
+        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getSqlData(), tableName, tableModelClass, alias, callback);
+        this.addSubQueryData(columnAlias, sqlBuilder);
         return this;
     }
 

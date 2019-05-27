@@ -9,13 +9,13 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public final class TableColumnData {
+public final class TableColumnDatum {
 
     private TableData tableData;
 
     private Set<ColumnDatum> columnData;
 
-    public TableColumnData(TableData tableData, Set<ColumnDatum> columnData) {
+    public TableColumnDatum(TableData tableData, Set<ColumnDatum> columnData) {
         tableData.setColumnData(columnData);
         this.tableData = tableData;
         this.columnData = columnData;
@@ -37,7 +37,7 @@ public final class TableColumnData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TableColumnData that = (TableColumnData) o;
+        TableColumnDatum that = (TableColumnDatum) o;
         return Objects.equals(getTableData(), that.getTableData());
     }
 

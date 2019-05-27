@@ -4,14 +4,14 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
 import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.beans.WhereValueType;
+import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
 import pub.avalon.sqlhelper.core.callback.WhereColumnCallback;
-import pub.avalon.sqlhelper.core.comparison.ComparisonOperator;
 import pub.avalon.sqlhelper.core.comparison.WhereComparisonOperator;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.norm.SubQuery;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.Collection;
 import java.util.Set;
@@ -538,8 +538,8 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T equalToSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
+            SS extends SortSqlModel<SS>> T equalToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getModel().getSqlData(), tableName, modelClass, alias, callback);
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereDatum.setTargetSubQuery(sqlBuilder);
@@ -553,7 +553,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T notEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T notEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -563,7 +563,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThanSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T greaterThanSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -573,7 +573,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -583,7 +583,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThanSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T lessThanSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -593,7 +593,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -603,7 +603,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T likeSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T likeSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -613,7 +613,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T inSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T inSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -623,7 +623,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T notInSubQuery(String tableName, Class<S> modelClass, String alias, SubQuery<S, SO, SC, SW, SG, SS> subQuery) {
+            SS extends SortSqlModel<SS>> T notInSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 

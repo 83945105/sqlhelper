@@ -1,11 +1,10 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.WhereLinker;
 import pub.avalon.sqlhelper.core.beans.WhereLinkerIntact;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
-import pub.avalon.sqlhelper.core.data.JoinTableData;
-import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
 
@@ -41,11 +40,10 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (callback == null) {
             return this;
         }
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
-        TW tw = mainTableData.getTableModel().newWhereSqlModel();
+        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereSqlModel();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), tw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
-        this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
+        this.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
@@ -54,17 +52,15 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> conditionClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         if (callback == null) {
             return this;
         }
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
-        JoinTableData<S> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
-        TW tw = mainTableData.getTableModel().newWhereSqlModel();
-        SW sw = joinTableData.getTableModel().newWhereSqlModel();
+        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereSqlModel();
+        SW sw = BeanUtils.tableModel(tableModelClass).newWhereSqlModel();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), sw, tw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
-        this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
+        this.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
@@ -73,8 +69,8 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> conditionClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
-        return where(conditionClass, null, callback);
+            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+        return where(tableModelClass, null, callback);
     }
 
 }

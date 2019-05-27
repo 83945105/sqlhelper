@@ -10,13 +10,13 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class TableSortData {
+public final class TableSortDatum {
 
     private TableData tableData;
 
     private Set<SortDatum> sortData;
 
-    public TableSortData(TableData tableData, Set<SortDatum> sortData) {
+    public TableSortDatum(TableData tableData, Set<SortDatum> sortData) {
         this.tableData = tableData;
         this.sortData = sortData;
     }
@@ -37,7 +37,7 @@ public final class TableSortData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TableSortData that = (TableSortData) o;
+        TableSortDatum that = (TableSortDatum) o;
         return Objects.equals(getTableData(), that.getTableData());
     }
 

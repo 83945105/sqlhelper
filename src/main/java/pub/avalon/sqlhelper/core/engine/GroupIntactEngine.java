@@ -1,10 +1,11 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
 import pub.avalon.sqlhelper.core.data.GroupDatum;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
-import pub.avalon.sqlhelper.core.data.TableGroupData;
+import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 import java.util.Set;
@@ -44,14 +45,14 @@ public class GroupIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public GroupIntactEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
-        TG tg = mainTableData.getTableModel().newGroupSqlModel();
+        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
+        TG tg = BeanUtils.tableModel(this.tableModelClass).newGroupSqlModel();
         tg = callback.apply(tg);
         Set<GroupDatum> groupData = tg.takeoutSqlModelData();
         if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        this.sqlData.addTableGroupData(new TableGroupData(mainTableData, groupData));
+        this.addTableGroupDatum(new TableGroupDatum(mainTableData, groupData));
         return this;
     }
 
@@ -61,14 +62,14 @@ public class GroupIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> GroupIntactEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableModelClass, String alias, GroupCallback<SG> callback) {
-        JoinTableData<S> joinTableData = this.sqlData.getJoinTableData(alias, tableModelClass);
-        SG sg = joinTableData.getTableModel().newGroupSqlModel();
+        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, tableModelClass);
+        SG sg = BeanUtils.tableModel(tableModelClass).newGroupSqlModel();
         sg = callback.apply(sg);
         Set<GroupDatum> groupData = sg.takeoutSqlModelData();
         if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        this.sqlData.addTableGroupData(new TableGroupData(joinTableData, groupData));
+        this.addTableGroupDatum(new TableGroupDatum(joinTableData, groupData));
         return this;
     }
 

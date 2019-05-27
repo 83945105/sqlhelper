@@ -1,10 +1,11 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.SortDatum;
-import pub.avalon.sqlhelper.core.data.TableSortData;
+import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 import java.util.Set;
@@ -44,11 +45,11 @@ public class SortIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     public SortIntactEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
-        MainTableData<T> mainTableData = this.sqlData.getMainTableData();
-        TS ts = mainTableData.getTableModel().newSortSqlModel();
+        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
+        TS ts = BeanUtils.tableModel(this.tableModelClass).newSortSqlModel();
         ts = callback.apply(ts);
         Set<SortDatum> sortData = ts.takeoutSqlModelData();
-        this.sqlData.addTableSortData(new TableSortData(mainTableData, sortData));
+        this.addTableSortDatum(new TableSortDatum(mainTableData, sortData));
         return this;
     }
 
@@ -58,11 +59,11 @@ public class SortIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> SortIntactEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableModelClass, String alias, SortCallback<SS> callback) {
-        JoinTableData<S> joinTableData = this.sqlData.getJoinTableData(alias, tableModelClass);
-        SS ss = joinTableData.getTableModel().newSortSqlModel();
+        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, tableModelClass);
+        SS ss = BeanUtils.tableModel(tableModelClass).newSortSqlModel();
         ss = callback.apply(ss);
         Set<SortDatum> sortData = ss.takeoutSqlModelData();
-        this.sqlData.addTableSortData(new TableSortData(joinTableData, sortData));
+        this.addTableSortDatum(new TableSortDatum(joinTableData, sortData));
         return this;
     }
 

@@ -8,12 +8,12 @@ import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import java.util.List;
 
 /**
- * sql数据构建器
+ * sql数据生产者
  *
  * @author 白超
  * @date 2019/5/20
  */
-public interface SqlDataBuilder<T> {
+public interface SqlDataProducer<T> {
 
     /**
      * 设置数据库类型
@@ -25,23 +25,23 @@ public interface SqlDataBuilder<T> {
     /**
      * 添加列数据
      *
-     * @param tableColumnData 表列数据
+     * @param tableColumnDatum 表列数据
      */
-    T addTableColumnData(TableColumnData tableColumnData);
+    T addTableColumnDatum(TableColumnDatum tableColumnDatum);
 
     /**
      * 添加虚拟属性数据集合
      *
-     * @param virtualFieldData 虚拟属性数据集合
+     * @param virtualFieldDatum 虚拟属性数据集合
      */
-    T addVirtualFieldDatum(VirtualFieldDatum virtualFieldData);
+    T addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum);
 
     /**
      * 添加函数列数据
      *
-     * @param functionColumnData 函数列数据
+     * @param tableFunctionColumnDatum 函数列数据
      */
-    T addFunctionColumnData(FunctionColumnData functionColumnData);
+    T addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum);
 
     /**
      * 添加连接器数据集合
@@ -53,16 +53,16 @@ public interface SqlDataBuilder<T> {
     /**
      * 添加表分组数据
      *
-     * @param tableGroupData 分组数据
+     * @param tableGroupDatum 分组数据
      */
-    T addTableGroupData(TableGroupData tableGroupData);
+    T addTableGroupDatum(TableGroupDatum tableGroupDatum);
 
     /**
      * 添加排序数据
      *
-     * @param tableSortData 排序数据
+     * @param tableSortDatum 排序数据
      */
-    T addTableSortData(TableSortData tableSortData);
+    T addTableSortDatum(TableSortDatum tableSortDatum);
 
     /**
      * 设置分页数据

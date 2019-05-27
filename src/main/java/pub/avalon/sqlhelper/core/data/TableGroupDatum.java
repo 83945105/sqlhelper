@@ -9,13 +9,13 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/6
  */
-public class TableGroupData {
+public class TableGroupDatum {
 
     private TableData tableData;
 
     private Set<GroupDatum> groupData;
 
-    public TableGroupData(TableData tableData, Set<GroupDatum> groupData) {
+    public TableGroupDatum(TableData tableData, Set<GroupDatum> groupData) {
         this.tableData = tableData;
         this.groupData = groupData;
     }
@@ -36,7 +36,7 @@ public class TableGroupData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TableGroupData that = (TableGroupData) o;
+        TableGroupDatum that = (TableGroupDatum) o;
         return Objects.equals(getTableData(), that.getTableData()) &&
                 Objects.equals(getGroupData(), that.getGroupData());
     }

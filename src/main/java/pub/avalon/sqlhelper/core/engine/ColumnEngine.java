@@ -4,7 +4,7 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.MainTableData;
-import pub.avalon.sqlhelper.core.data.TableColumnData;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 import java.util.Set;
@@ -44,7 +44,7 @@ public class ColumnEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             columnData = mainTableData.buildTableColumnData();
         }
-        this.getSqlData().addTableColumnData(new TableColumnData(mainTableData, columnData));
+        this.addTableColumnDatum(new TableColumnDatum(mainTableData, columnData));
         return this;
     }
 

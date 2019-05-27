@@ -1,12 +1,12 @@
 package pub.avalon.sqlhelper.core.callback;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.SqlData;
-import pub.avalon.sqlhelper.core.engine.QueryEngine;
+import pub.avalon.sqlhelper.core.engine.TableEngine;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ public interface SubQueryCallback<T extends TableModel<T, TO, TC, TW, TG, TS>,
      * @param query
      * @return
      */
-    SqlBuilder apply(QueryEngine<T, TO, TC, TW, TG, TS> query);
+    SqlBuilder apply(TableEngine<T, TO, TC, TW, TG, TS> query);
 
     /**
      * 执行SubQuery
@@ -49,13 +49,15 @@ public interface SubQueryCallback<T extends TableModel<T, TO, TC, TW, TG, TS>,
             TW extends WhereSqlModel<TW>,
             TG extends GroupSqlModel<TG>,
             TS extends SortSqlModel<TS>> SqlBuilder execute(SqlData<?> sqlData, String tableName, Class<T> tableModelClass, String alias, SubQueryCallback<T, TO, TC, TW, TG, TS> subQuery) {
-        QueryEngine<T, TO, TC, TW, TG, TS> queryEngine;
+        TableEngine<T, TO, TC, TW, TG, TS> tableEngine;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
-                queryEngine = new QueryEngine<>(tableName, tableModelClass, alias).setDataBaseType(DataBaseType.MYSQL);
+                tableEngine = new TableEngine<>(tableName, tableModelClass, alias);
+                tableEngine.setDataBaseType(DataBaseType.MYSQL);
                 break;
             case SQLSERVER:
-                queryEngine = new QueryEngine<>(tableName, tableModelClass, alias).setDataBaseType(DataBaseType.SQLSERVER);
+                tableEngine = new TableEngine<>(tableName, tableModelClass, alias);
+                tableEngine.setDataBaseType(DataBaseType.SQLSERVER);
                 break;
             default:
                 throw new SqlException("SubQuery do not support this database type temporarily.");
@@ -64,10 +66,10 @@ public interface SubQueryCallback<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (joinTableDataAliasMap != null && joinTableDataAliasMap.size() > 0) {
             for (Map.Entry<String, JoinTableData<? extends TableModel>> entry : joinTableDataAliasMap.entrySet()) {
                 // 将父查询的关联表数据添加至子查询中
-                queryEngine.getSqlData().addSubQueryJoinTableData(entry.getValue());
+                tableEngine.addSubQueryJoinTableData(entry.getValue());
             }
         }
-        return subQuery.apply(queryEngine);
+        return subQuery.apply(tableEngine);
     }
 
 }

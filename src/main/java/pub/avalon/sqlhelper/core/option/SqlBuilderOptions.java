@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.option;
 
-import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.sqlbuilder.*;
+import pub.avalon.sqlhelper.core.sqlbuilder.DefaultMySqlBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.MySqlBuilderTemplate;
 
 /**
  * sql构建配置
@@ -11,6 +11,8 @@ import pub.avalon.sqlhelper.core.sqlbuilder.*;
  */
 public class SqlBuilderOptions {
 
+    public final static SqlBuilderOptions DEFAULT_SQL_BUILDER_OPTIONS = new SqlBuilderOptions();
+
     /**
      * sql打印配置
      */
@@ -19,26 +21,22 @@ public class SqlBuilderOptions {
     /**
      * MySql构建器
      */
-    private MySqlBuilder mySqlBuilder = new DefaultMySqlBuilder();
-
-    /**
-     * SqlServer构建器
-     */
-    private SqlServerBuilder sqlServerBuilder = new DefaultSqlServerBuilder(this);
+    private MySqlBuilderTemplate mySqlBuilderTemplate = new DefaultMySqlBuilderTemplate();
 
     public SqlPrintOptions getSqlPrintOptions() {
         return sqlPrintOptions;
     }
 
-    public SqlBuilder getSqlBuilder() {
-        switch (sqlData.getDataBaseType()) {
-            case MYSQL:
-                return this.mySqlBuilder.setSqlData(sqlData);
-            case SQLSERVER:
-                return this.sqlServerBuilder.setSqlData(sqlData);
-            default:
-                throw new SqlException("SqlBuilder do not support this database type temporarily.");
-        }
+    public void setSqlPrintOptions(SqlPrintOptions sqlPrintOptions) {
+        this.sqlPrintOptions = sqlPrintOptions;
+    }
+
+    public MySqlBuilderTemplate getMySqlBuilderTemplate() {
+        return mySqlBuilderTemplate;
+    }
+
+    public void setMySqlBuilderTemplate(MySqlBuilderTemplate mySqlBuilderTemplate) {
+        this.mySqlBuilderTemplate = mySqlBuilderTemplate;
     }
 
 }

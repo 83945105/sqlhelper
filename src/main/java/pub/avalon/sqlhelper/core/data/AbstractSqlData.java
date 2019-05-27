@@ -20,15 +20,15 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     /**
      * 原始列数据
      */
-    private Set<TableColumnData> tableColumnDataSet;
+    private Set<TableColumnDatum> tableColumnData;
     /**
      * 虚拟列数据
      */
-    private Set<VirtualFieldDatum> virtualFieldDataSet;
+    private Set<VirtualFieldDatum> virtualFieldData;
     /**
      * 函数列数据
      */
-    private List<FunctionColumnData> functionColumnDataList;
+    private Set<TableFunctionColumnDatum> tableFunctionColumnData;
     /**
      * 子查询数据
      */
@@ -40,11 +40,11 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     /**
      * group条件数据
      */
-    private Set<TableGroupData> tableGroupDataSet;
+    private Set<TableGroupDatum> tableGroupData;
     /**
      * sort条件数据
      */
-    private Set<TableSortData> tableSortDataSet;
+    private Set<TableSortDatum> tableSortData;
     /**
      * limit条件数据
      */
@@ -55,53 +55,53 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public Set<TableColumnData> getTableColumnDataSet() {
-        return tableColumnDataSet;
+    public Set<VirtualFieldDatum> getVirtualFieldData() {
+        return this.virtualFieldData;
     }
 
     @Override
-    public SqlData<T> addTableColumnData(TableColumnData tableColumnData) {
-        if (tableColumnData == null) {
+    public Set<TableColumnDatum> getTableColumnData() {
+        return this.tableColumnData;
+    }
+
+    @Override
+    public SqlData<T> addTableColumnDatum(TableColumnDatum tableColumnDatum) {
+        if (tableColumnDatum == null) {
             return this;
         }
-        if (this.tableColumnDataSet == null) {
-            this.tableColumnDataSet = new LinkedHashSet<>();
+        if (this.tableColumnData == null) {
+            this.tableColumnData = new LinkedHashSet<>();
         }
-        this.tableColumnDataSet.add(tableColumnData);
+        this.tableColumnData.add(tableColumnDatum);
         return this;
     }
 
     @Override
-    public Set<VirtualFieldDatum> getVirtualFieldDataSet() {
-        return this.virtualFieldDataSet;
-    }
-
-    @Override
-    public SqlData<T> addVirtualFieldDatum(VirtualFieldDatum virtualFieldData) {
-        if (virtualFieldData == null) {
+    public SqlData<T> addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
+        if (virtualFieldDatum == null) {
             return this;
         }
-        if (this.virtualFieldDataSet == null) {
-            this.virtualFieldDataSet = new LinkedHashSet<>();
+        if (this.virtualFieldData == null) {
+            this.virtualFieldData = new LinkedHashSet<>();
         }
-        this.virtualFieldDataSet.add(virtualFieldData);
+        this.virtualFieldData.add(virtualFieldDatum);
         return this;
     }
 
     @Override
-    public List<FunctionColumnData> getFunctionColumnDataList() {
-        return this.functionColumnDataList;
+    public Set<TableFunctionColumnDatum> getTableFunctionColumnData() {
+        return this.tableFunctionColumnData;
     }
 
     @Override
-    public SqlData<T> addFunctionColumnData(FunctionColumnData functionColumnData) {
-        if (functionColumnData == null) {
+    public SqlData<T> addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
+        if (tableFunctionColumnDatum == null) {
             return this;
         }
-        if (this.functionColumnDataList == null) {
-            this.functionColumnDataList = new ArrayList<>();
+        if (this.tableFunctionColumnData == null) {
+            this.tableFunctionColumnData = new LinkedHashSet<>();
         }
-        this.functionColumnDataList.add(functionColumnData);
+        this.tableFunctionColumnData.add(tableFunctionColumnDatum);
         return this;
     }
 
@@ -128,6 +128,16 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
+    public Set<TableGroupDatum> getTableGroupData() {
+        return this.tableGroupData;
+    }
+
+    @Override
+    public Set<TableSortDatum> getTableSortData() {
+        return this.tableSortData;
+    }
+
+    @Override
     public SqlData<T> addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
             return this;
@@ -140,36 +150,26 @@ public abstract class AbstractSqlData<T extends TableModel> extends AbstractSqlD
     }
 
     @Override
-    public Set<TableGroupData> getTableGroupDataSet() {
-        return tableGroupDataSet;
-    }
-
-    @Override
-    public SqlData<T> addTableGroupData(TableGroupData tableGroupData) {
-        if (tableGroupData == null) {
+    public SqlData<T> addTableGroupDatum(TableGroupDatum tableGroupDatum) {
+        if (tableGroupDatum == null) {
             return this;
         }
-        if (this.tableGroupDataSet == null) {
-            this.tableGroupDataSet = new LinkedHashSet<>();
+        if (this.tableGroupData == null) {
+            this.tableGroupData = new LinkedHashSet<>();
         }
-        this.tableGroupDataSet.add(tableGroupData);
+        this.tableGroupData.add(tableGroupDatum);
         return this;
     }
 
     @Override
-    public Set<TableSortData> getTableSortDataSet() {
-        return tableSortDataSet;
-    }
-
-    @Override
-    public SqlData<T> addTableSortData(TableSortData tableSortData) {
-        if (tableSortData == null) {
+    public SqlData<T> addTableSortDatum(TableSortDatum tableSortDatum) {
+        if (tableSortDatum == null) {
             return this;
         }
-        if (this.tableSortDataSet == null) {
-            this.tableSortDataSet = new LinkedHashSet<>();
+        if (this.tableSortData == null) {
+            this.tableSortData = new LinkedHashSet<>();
         }
-        this.tableSortDataSet.add(tableSortData);
+        this.tableSortData.add(tableSortDatum);
         return this;
     }
 

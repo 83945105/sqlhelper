@@ -1,12 +1,13 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.builder.MySqlDynamicBuilder;
-import pub.avalon.sqlhelper.core.builder.SqlServerDynamicBuilder;
+import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Sql构建代理器
@@ -14,21 +15,17 @@ import java.util.Collection;
  * @author 白超
  * @date 2018/8/20
  */
-public class SqlBuilderProxy implements SqlBuilderTemplate<SqlBuilder> {
+public class SqlBuilderProxy implements SqlBuilder<SqlBuilder> {
 
-    private SqlBuilder sqlBuilder;
+    private SqlData<?> sqlData;
 
-    public void setSqlBuilder(SqlBuilder sqlBuilder) {
-        this.sqlBuilder = sqlBuilder;
-    }
+    private SqlBuilderTemplate<SqlBuilderResult> sqlBuilderTemplate;
 
-    public <T extends TableModel> SqlBuilderProxy(SqlData<T> sqlData) {
+    public <T extends TableModel> SqlBuilderProxy(SqlData<T> sqlData, SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlData = sqlData;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
-                this.sqlBuilder = new MySqlDynamicBuilder<>(sqlData);
-                break;
-            case SQLSERVER:
-                this.sqlBuilder = new SqlServerDynamicBuilder<>(sqlData);
+                this.sqlBuilderTemplate = sqlBuilderOptions.getMySqlBuilderTemplate();
                 break;
             default:
                 throw new SqlException("SqlBuilder do not support this database type temporarily.");
@@ -36,107 +33,123 @@ public class SqlBuilderProxy implements SqlBuilderTemplate<SqlBuilder> {
     }
 
     @Override
+    public String getSql() {
+        return null;
+    }
+
+    @Override
+    public String getPreparedStatementSql() {
+        return null;
+    }
+
+    @Override
+    public List<Object> getPreparedStatementArgs() {
+        return null;
+    }
+
+    @Override
     public SqlBuilder copyTable(String targetTableName, boolean copyData) {
-        return this.sqlBuilder.copyTable(targetTableName, copyData);
+        this.sqlBuilderTemplate.copyTable()
+        return null;
     }
 
     @Override
     public SqlBuilder deleteTable() {
-        return this.sqlBuilder.deleteTable();
+        return null;
     }
 
     @Override
     public SqlBuilder renameTable(String newTableName) {
-        return this.sqlBuilder.renameTable(newTableName);
+        return null;
     }
 
     @Override
     public SqlBuilder isTableExist() {
-        return this.sqlBuilder.isTableExist();
+        return null;
     }
 
     @Override
-    public SqlBuilder queryByPrimaryKey(Object keyValue) {
-        return this.sqlBuilder.queryByPrimaryKey(keyValue);
-    }
-
-    @Override
-    public SqlBuilder query() {
-        return this.sqlBuilder.query();
-    }
-
-    @Override
-    public SqlBuilder queryCount() {
-        return this.sqlBuilder.queryCount();
-    }
-
-    @Override
-    public SqlBuilder insertArgs(Collection<?> args) {
-        return this.sqlBuilder.insertArgs(args);
+    public SqlBuilder insertArgs(Object... args) {
+        return null;
     }
 
     @Override
     public SqlBuilder insertJavaBean(Object javaBean) {
-        return this.sqlBuilder.insertJavaBean(javaBean);
+        return null;
     }
 
     @Override
     public SqlBuilder insertJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilder.insertJavaBeanSelective(javaBean);
+        return null;
     }
 
     @Override
     public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilder.batchInsertJavaBeans(javaBeans);
-    }
-
-    @Override
-    public SqlBuilder updateArgsByPrimaryKey(Object keyValue, Collection<?> args) {
-        return this.sqlBuilder.updateArgsByPrimaryKey(keyValue, args);
-    }
-
-    @Override
-    public SqlBuilder updateJavaBeanByPrimaryKey(Object keyValue, Object javaBean) {
-        return this.sqlBuilder.updateJavaBeanByPrimaryKey(keyValue, javaBean);
-    }
-
-    @Override
-    public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object keyValue, Object javaBean) {
-        return this.sqlBuilder.updateJavaBeanByPrimaryKeySelective(keyValue, javaBean);
-    }
-
-    @Override
-    public SqlBuilder updateJavaBean(Object javaBean) {
-        return this.sqlBuilder.updateJavaBean(javaBean);
-    }
-
-    @Override
-    public SqlBuilder updateJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilder.updateJavaBeanSelective(javaBean);
-    }
-
-    @Override
-    public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
-        return this.sqlBuilder.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
-    }
-
-    @Override
-    public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilder.updateOrInsertJavaBeans(javaBeans);
-    }
-
-    @Override
-    public SqlBuilder deleteByPrimaryKey(Object keyValue) {
-        return this.sqlBuilder.deleteByPrimaryKey(keyValue);
-    }
-
-    @Override
-    public SqlBuilder batchDeleteByPrimaryKeys(Collection<?> keyValues) {
-        return this.sqlBuilder.batchDeleteByPrimaryKeys(keyValues);
+        return null;
     }
 
     @Override
     public SqlBuilder delete() {
-        return this.sqlBuilder.delete();
+        return null;
+    }
+
+    @Override
+    public SqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder updateJavaBean(Object javaBean) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder updateJavaBeanSelective(Object javaBean) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder query() {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder queryCount() {
+        return null;
+    }
+
+    @Override
+    public SqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
+        return null;
     }
 }
