@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.readme.model.SysUserModel;
 import pub.avalon.sqlhelper.readme.model.UserRoleModel;
 
 /**
- * MySql动态引擎 - 查询 - 条件查询
+ * SqlServer动态引擎 - 查询 - 条件查询
  */
 public class SqlServerDynamicQueryTest extends AbstractTest {
 

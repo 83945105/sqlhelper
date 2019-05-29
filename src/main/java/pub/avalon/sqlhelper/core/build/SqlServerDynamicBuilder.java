@@ -343,11 +343,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update [")
-                .append(this.sqlData.getMainTableData().getTableName())
-                .append("] ")
+                .append("update ")
                 .append(tableAlias);
-        this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
         int i = 0;
         for (Map.Entry<String, String> entry : this.getColumnAliasMap().entrySet()) {
@@ -357,6 +354,11 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
             this.sqlSplicer.append(tableAlias).append(".[").append(entry.getKey()).append("]").append(" = ?");
             this.sqlArgs.add(ClassUtil.getProperty(javaBean, entry.getValue()));
         }
+        this.sqlSplicer.append(" from [")
+                .append(this.sqlData.getMainTableData().getTableName())
+                .append("] ")
+                .append(tableAlias);
+        this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);
         return this;
     }
@@ -366,11 +368,8 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
         this.sqlArgs = new ArrayList<>(36);
         String tableAlias = this.sqlData.getMainTableData().getTableAlias();
         this.sqlSplicer.clear()
-                .append("update [")
-                .append(this.sqlData.getMainTableData().getTableName())
-                .append("] ")
+                .append("update ")
                 .append(tableAlias);
-        this.appendJoinSql(this.sqlSplicer);
         this.sqlSplicer.append(" set ");
         int i = 0;
         Object value;
@@ -385,6 +384,11 @@ public class SqlServerDynamicBuilder<M extends Model> extends AbstractSqlServerB
             this.sqlSplicer.append(tableAlias).append(".[").append(entry.getKey()).append("]").append(" = ?");
             this.sqlArgs.add(value);
         }
+        this.sqlSplicer.append(" from [")
+                .append(this.sqlData.getMainTableData().getTableName())
+                .append("] ")
+                .append(tableAlias);
+        this.appendJoinSql(this.sqlSplicer);
         this.appendWhereSql(this.sqlSplicer);
         return this;
     }
