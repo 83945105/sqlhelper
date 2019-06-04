@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.modelbuilder.ColumnSqlModel;
 
 /**
  * 连接查询On条件
@@ -10,12 +10,7 @@ import pub.avalon.sqlhelper.core.modelbuilder.*;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface OnColumnCallback<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> {
+public interface OnColumnCallback<TC extends ColumnSqlModel<TC>> {
 
     /**
      * 接收处理On条件模组

@@ -114,6 +114,14 @@ public class RoleResource {
                 return this.apply(tableName, tableAlias, id, id_alias);
             }
 
+            public OnSqlDataBuilder<On> roleId() {
+                return this.apply(tableName, tableAlias, id, id_alias);
+            }
+
+            public OnSqlDataBuilder<On> resourceName() {
+                return this.apply(tableName, tableAlias, id, id_alias);
+            }
+
         }
 
         public final static class Column extends ColumnSqlModel<Column> {
@@ -139,6 +147,10 @@ public class RoleResource {
             }
 
             public WhereSqlDataBuilder<Where> id() {
+                return this.apply(tableName, tableAlias, id, id_alias);
+            }
+
+            public WhereSqlDataBuilder<Where> resourceName() {
                 return this.apply(tableName, tableAlias, id, id_alias);
             }
 

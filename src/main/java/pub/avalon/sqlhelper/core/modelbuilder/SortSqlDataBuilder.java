@@ -10,7 +10,7 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class SortSqlDataBuilder<T extends SqlModel<T>> extends AbstractSqlDataBuilder<T, SortDatum> {
+public final class SortSqlDataBuilder<T extends SqlModel<T, SortDatum>> extends AbstractSqlDataBuilder<T, SortDatum> {
 
     private SortDatum sortDatum;
 
@@ -26,7 +26,7 @@ public final class SortSqlDataBuilder<T extends SqlModel<T>> extends AbstractSql
      */
     public T asc() {
         this.sortDatum.setSortType(SortType.ASC);
-        this.addModelData(this.sortDatum);
+        this.addSqlModelDatum(this.sortDatum);
         return this.getSqlModel();
     }
 
@@ -37,7 +37,7 @@ public final class SortSqlDataBuilder<T extends SqlModel<T>> extends AbstractSql
      */
     public T desc() {
         this.sortDatum.setSortType(SortType.DESC);
-        this.addModelData(this.sortDatum);
+        this.addSqlModelDatum(this.sortDatum);
         return this.getSqlModel();
     }
 

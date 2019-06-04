@@ -11,7 +11,7 @@ import java.util.Objects;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class SortDatum {
+public final class SortDatum implements SqlModelDatum {
 
     private String ownerTableName;
 

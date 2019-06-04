@@ -1,9 +1,10 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.beans.LimitHandler;
 import pub.avalon.holygrail.utils.ClassUtil;
 import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
-import pub.avalon.sqlhelper.core.data.*;
+import pub.avalon.sqlhelper.core.data.ColumnDatum;
+import pub.avalon.sqlhelper.core.data.JoinTableData;
+import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 
@@ -372,7 +373,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
     }
 
     @Override
-    public SqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Map<String, JoinTableData<? extends TableModel>> joinTableDataAliasMap, Collection<?> javaBeans) {
+    public SqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
         StringBuilder preparedStatementSql = new StringBuilder(2048);
         List<Object> preparedStatementArgs = new ArrayList<>(128);
         String tableAlias = sqlDataConsumer.getMainTableData().getTableAlias();
@@ -380,7 +381,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, joinTableDataAliasMap);
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
         preparedStatementSql.append(" set ");
         int i = 0;
         String primaryKeyName = sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName();

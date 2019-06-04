@@ -73,7 +73,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T equalTo(Class<S> tableModelClass,
                                                    String alias,
-                                                   WhereColumnCallback<S, SO, SC, SW, SG, SS> callback);
+                                                   WhereColumnCallback<SC> callback);
 
     default <S extends TableModel<S, SO, SC, SW, SG, SS>,
             SO extends OnSqlModel<SO>,
@@ -81,7 +81,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T equalTo(Class<S> tableModelClass,
-                                                   WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+                                                   WhereColumnCallback<SC> callback) {
         return equalTo(tableModelClass, null, callback);
     }
 
@@ -98,7 +98,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T notEqualTo(Class<S> tableModelClass,
                                                       String alias,
-                                                      WhereColumnCallback<S, SO, SC, SW, SG, SS> callback);
+                                                      WhereColumnCallback<SC> callback);
 
     default <S extends TableModel<S, SO, SC, SW, SG, SS>,
             SO extends OnSqlModel<SO>,
@@ -106,7 +106,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T notEqualTo(Class<S> tableModelClass,
-                                                      WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+                                                      WhereColumnCallback<SC> callback) {
         return notEqualTo(tableModelClass, null, callback);
     }
 
@@ -123,7 +123,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T greaterThan(Class<S> tableModelClass,
                                                        String alias,
-                                                       WhereColumnCallback<S, SO, SC, SW, SG, SS> callback);
+                                                       WhereColumnCallback<SC> callback);
 
     default <S extends TableModel<S, SO, SC, SW, SG, SS>,
             SO extends OnSqlModel<SO>,
@@ -131,7 +131,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T greaterThan(Class<S> tableModelClass,
-                                                       WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+                                                       WhereColumnCallback<SC> callback) {
         return greaterThan(tableModelClass, null, callback);
     }
 
@@ -148,7 +148,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass,
                                                                  String alias,
-                                                                 WhereColumnCallback<S, SO, SC, SW, SG, SS> callback);
+                                                                 WhereColumnCallback<SC> callback);
 
     default <S extends TableModel<S, SO, SC, SW, SG, SS>,
             SO extends OnSqlModel<SO>,
@@ -156,7 +156,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass,
-                                                                 WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+                                                                 WhereColumnCallback<SC> callback) {
         return greaterThanAndEqualTo(tableModelClass, null, callback);
     }
 
@@ -173,7 +173,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T lessThan(Class<S> tableModelClass,
                                                     String alias,
-                                                    WhereColumnCallback<S, SO, SC, SW, SG, SS> callback);
+                                                    WhereColumnCallback<SC> callback);
 
     default <S extends TableModel<S, SO, SC, SW, SG, SS>,
             SO extends OnSqlModel<SO>,
@@ -181,7 +181,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T lessThan(Class<S> tableModelClass,
-                                                    WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+                                                    WhereColumnCallback<SC> callback) {
         return lessThan(tableModelClass, null, callback);
     }
 
@@ -198,7 +198,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T lessThanAndEqualTo(Class<S> tableModelClass,
                                                               String alias,
-                                                              WhereColumnCallback<S, SO, SC, SW, SG, SS> callback);
+                                                              WhereColumnCallback<SC> callback);
 
     default <S extends TableModel<S, SO, SC, SW, SG, SS>,
             SO extends OnSqlModel<SO>,
@@ -206,7 +206,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T lessThanAndEqualTo(Class<S> tableModelClass,
-                                                              WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+                                                              WhereColumnCallback<SC> callback) {
         return lessThanAndEqualTo(tableModelClass, null, callback);
     }
 

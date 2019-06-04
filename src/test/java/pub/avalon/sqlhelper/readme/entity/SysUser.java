@@ -7,31 +7,51 @@ import java.util.Map;
 
 public class SysUser {
 
-    private String username;
+    private String userName;
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public SysUser setUsername(String username) {
-        this.username = username;
+    public SysUser setUserName(String userName) {
+        this.userName = userName;
         return this;
+    }
+
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String loginName;
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
     }
 
     public static class Helper implements TableModel<SysUser.Helper, SysUser.Helper.On, SysUser.Helper.Column, SysUser.Helper.Where, SysUser.Helper.Group, SysUser.Helper.Sort> {
 
         public final static String tableName = "role_resource";
         public final static String tableAlias = "SysUser";
-        public final static String primaryKeyName = "username";
-        public final static String primaryKeyAlias = "username";
-        public final static String username = "username";
-        public final static String id_alias = "username";
+        public final static String primaryKeyName = "userName";
+        public final static String primaryKeyAlias = "userName";
+        public final static String userName = "userName";
+        public final static String id_alias = "userName";
 
         public final static Map<String, String> columnAliasMap;
 
         static {
             columnAliasMap = new LinkedHashMap<>();
-            columnAliasMap.put(username, id_alias);
+            columnAliasMap.put(userName, id_alias);
         }
 
         public static On on() {
@@ -110,8 +130,20 @@ public class SysUser {
                 super(new OnSqlDataBuilder<>());
             }
 
-            public OnSqlDataBuilder<SysUser.Helper.On> username() {
-                return this.apply(tableName, tableAlias, username, id_alias);
+            public OnSqlDataBuilder<SysUser.Helper.On> userName() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
+            }
+
+            public OnSqlDataBuilder<SysUser.Helper.On> id() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
+            }
+
+            public OnSqlDataBuilder<SysUser.Helper.On> primaryKey() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
+            }
+
+            public OnSqlDataBuilder<SysUser.Helper.On> loginName() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
             }
 
         }
@@ -122,12 +154,23 @@ public class SysUser {
                 super(new ColumnSqlDataBuilder<>());
             }
 
-            public SysUser.Helper.Column username() {
-                return this.apply(tableName, tableAlias, username, id_alias).getSqlModel();
+            public SysUser.Helper.Column id() {
+                return this.apply(tableName, tableAlias, userName, id_alias).getSqlModel();
             }
 
-            public SysUser.Helper.Column username(String alias) {
-                return this.apply(tableName, tableAlias, username, alias).getSqlModel();
+            public SysUser.Helper.Column userName() {
+                return this.apply(tableName, tableAlias, userName, id_alias).getSqlModel();
+            }
+
+            public SysUser.Helper.Column userName(String alias) {
+                return this.apply(tableName, tableAlias, userName, alias).getSqlModel();
+            }
+            public SysUser.Helper.Column id(String alias) {
+                return this.apply(tableName, tableAlias, userName, alias).getSqlModel();
+            }
+
+            public SysUser.Helper.Column loginName() {
+                return this.apply(tableName, tableAlias, userName, id_alias).getSqlModel();
             }
 
         }
@@ -138,8 +181,16 @@ public class SysUser {
                 super(new WhereSqlDataBuilder<>());
             }
 
-            public WhereSqlDataBuilder<SysUser.Helper.Where> username() {
-                return this.apply(tableName, tableAlias, username, id_alias);
+            public WhereSqlDataBuilder<SysUser.Helper.Where> userName() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
+            }
+
+            public WhereSqlDataBuilder<SysUser.Helper.Where> loginName() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
+            }
+
+            public WhereSqlDataBuilder<SysUser.Helper.Where> id() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
             }
 
         }
@@ -150,8 +201,16 @@ public class SysUser {
                 super(new GroupSqlDataBuilder<>());
             }
 
-            public SysUser.Helper.Group username() {
-                return this.apply(tableName, tableAlias, username, id_alias).getSqlModel();
+            public SysUser.Helper.Group userName() {
+                return this.apply(tableName, tableAlias, userName, id_alias).getSqlModel();
+            }
+
+            public SysUser.Helper.Group id() {
+                return this.apply(tableName, tableAlias, userName, id_alias).getSqlModel();
+            }
+
+            public SysUser.Helper.Group loginName() {
+                return this.apply(tableName, tableAlias, userName, id_alias).getSqlModel();
             }
         }
 
@@ -161,8 +220,12 @@ public class SysUser {
                 super(new SortSqlDataBuilder<>());
             }
 
-            public SortSqlDataBuilder<SysUser.Helper.Sort> username() {
-                return this.apply(tableName, tableAlias, username, id_alias);
+            public SortSqlDataBuilder<SysUser.Helper.Sort> userName() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
+            }
+
+            public SortSqlDataBuilder<SysUser.Helper.Sort> id() {
+                return this.apply(tableName, tableAlias, userName, id_alias);
             }
         }
 

@@ -23,7 +23,7 @@ public class SqlEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TC extends ColumnSqlModel<TC>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> implements SqlBuilder<SqlBuilder>, SqlDataProducer<SqlEngine> {
+        TS extends SortSqlModel<TS>> implements SqlBuilder<SqlBuilder>, SqlDataProducer<SqlEngine<T, TO, TC, TW, TG, TS>> {
 
     protected Class<T> tableModelClass;
 
@@ -207,91 +207,91 @@ public class SqlEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlEngine setDataBaseType(DataBaseType dataBaseType) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
         this.sqlData.setDataBaseType(dataBaseType);
         return this;
     }
 
     @Override
-    public SqlEngine addTableColumnDatum(TableColumnDatum tableColumnDatum) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> addTableColumnDatum(TableColumnDatum tableColumnDatum) {
         this.sqlData.addTableColumnDatum(tableColumnDatum);
         return this;
     }
 
     @Override
-    public SqlEngine addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
         this.sqlData.addVirtualFieldDatum(virtualFieldDatum);
         return this;
     }
 
     @Override
-    public SqlEngine addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
         this.sqlData.addTableFunctionColumnDatum(tableFunctionColumnDatum);
         return this;
     }
 
     @Override
-    public SqlEngine addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
     @Override
-    public SqlEngine addTableGroupDatum(TableGroupDatum tableGroupDatum) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> addTableGroupDatum(TableGroupDatum tableGroupDatum) {
         this.sqlData.addTableGroupDatum(tableGroupDatum);
         return this;
     }
 
     @Override
-    public SqlEngine addTableSortDatum(TableSortDatum tableSortDatum) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> addTableSortDatum(TableSortDatum tableSortDatum) {
         this.sqlData.addTableSortDatum(tableSortDatum);
         return this;
     }
 
     @Override
-    public SqlEngine setLimitData(LimitHandler limitData) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> setLimitData(LimitHandler limitData) {
         this.sqlData.setLimitData(limitData);
         return this;
     }
 
     @Override
-    public SqlEngine buildLimitData(Integer currentPage, Integer pageSize) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> buildLimitData(Integer currentPage, Integer pageSize) {
         this.sqlData.buildLimitData(currentPage, pageSize);
         return this;
     }
 
     @Override
-    public SqlEngine buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
         this.sqlData.buildLimitData(total, currentPage, pageSize);
         return this;
     }
 
     @Override
-    public SqlEngine setLimitStart(Integer limitStart) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> setLimitStart(Integer limitStart) {
         this.sqlData.setLimitStart(limitStart);
         return this;
     }
 
     @Override
-    public SqlEngine setLimitEnd(Integer limitEnd) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> setLimitEnd(Integer limitEnd) {
         this.sqlData.setLimitEnd(limitEnd);
         return this;
     }
 
     @Override
-    public SqlEngine addSubQueryData(String alias, SqlBuilder sqlBuilder) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> addSubQueryData(String alias, SqlBuilder sqlBuilder) {
         this.sqlData.addSubQueryData(alias, sqlBuilder);
         return this;
     }
 
     @Override
-    public <J extends TableModel> SqlEngine addJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableModel> SqlEngine<T, TO, TC, TW, TG, TS> addJoinTableData(JoinTableData<J> joinTableData) {
         this.sqlData.addJoinTableData(joinTableData);
         return this;
     }
 
     @Override
-    public <J extends TableModel> SqlEngine addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableModel> SqlEngine<T, TO, TC, TW, TG, TS> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
         this.sqlData.addSubQueryJoinTableData(joinTableData);
         return this;
     }

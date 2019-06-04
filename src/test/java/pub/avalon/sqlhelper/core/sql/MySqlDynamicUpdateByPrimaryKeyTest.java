@@ -2,10 +2,9 @@ package pub.avalon.sqlhelper.core.sql;
 
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.AbstractTest;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUser;
-import pub.avalon.sqlhelper.readme.model.SysUserModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +17,12 @@ public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
     @Test
     void TestUpdateArgsByPrimaryKey() {
         List<Object> args = new ArrayList<>();
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
                 .updateArgsByPrimaryKey(arg(), args);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ?,`login_name` = ? where `id` = ?");
 
-        sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
-                .column(SysUserModel.Column::userName)
+        sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
+                .column(SysUser.Helper.Column::userName)
                 .updateArgsByPrimaryKey(arg(), args);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
@@ -33,14 +32,14 @@ public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
         SysUser javaBean = new SysUser();
         arg(javaBean.getUserName());
         arg(javaBean.getLoginName());
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
                 .updateJavaBeanByPrimaryKey(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ?,`login_name` = ? where `id` = ?");
 
         javaBean = new SysUser();
         arg(javaBean.getUserName());
-        sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
-                .column(SysUserModel.Column::userName)
+        sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
+                .column(SysUser.Helper.Column::userName)
                 .updateJavaBeanByPrimaryKey(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
@@ -50,7 +49,7 @@ public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
         SysUser javaBean = new SysUser();
         javaBean.setId("666");
         javaBean.setUserName(arg());
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
                 .updateJavaBeanByPrimaryKeySelective(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
 
@@ -58,8 +57,8 @@ public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
         javaBean.setId("666");
         javaBean.setUserName(arg());
         javaBean.setLoginName("233");
-        sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
-                .column(SysUserModel.Column::userName)
+        sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
+                .column(SysUser.Helper.Column::userName)
                 .updateJavaBeanByPrimaryKeySelective(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
@@ -98,7 +97,7 @@ public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
         arg("2");
         arg("3");
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.update(SysUserModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
                 .batchUpdateJavaBeansByPrimaryKeys(javaBeans);
         setSqlBuilder(sqlBuilder, "update `sys_user` SysUser set SysUser.`user_name`=case SysUser.`id` when '1' then ? when '2' then ? when '3' then ?  end,SysUser.`login_name`=case SysUser.`id` when '1' then ? when '2' then ? when '3' then ?  end where SysUser.`id` in (?,?,?)");
     }

@@ -2,9 +2,9 @@ package pub.avalon.sqlhelper.core.sql;
 
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.AbstractTest;
-import pub.avalon.sqlhelper.core.builder.SqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import pub.avalon.sqlhelper.readme.model.SysUserModel;
+import pub.avalon.sqlhelper.readme.entity.SysUser;
 
 import java.util.Arrays;
 
@@ -15,18 +15,18 @@ public class MySqlDynamicEngineDeleteByPrimaryKeyTest extends AbstractTest {
 
     @Test
     void TestDeleteByPrimaryKey() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.delete(SysUserModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
                 .deleteByPrimaryKey(arg());
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
 
-        sqlBuilder = MySqlDynamicEngine.delete("sys_user", SysUserModel.class)
+        sqlBuilder = MySqlDynamicEngine.table("sys_user", SysUser.Helper.class)
                 .deleteByPrimaryKey(arg());
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
     }
 
     @Test
     void TestBatchDeleteByPrimaryKeys() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.delete(SysUserModel.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUser.Helper.class)
                 .batchDeleteByPrimaryKeys(Arrays.asList(arg(), arg()));
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` in (?,?)");
     }

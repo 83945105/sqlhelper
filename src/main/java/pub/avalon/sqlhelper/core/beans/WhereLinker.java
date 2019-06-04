@@ -2,7 +2,8 @@ package pub.avalon.sqlhelper.core.beans;
 
 import pub.avalon.sqlhelper.core.callback.WhereJoinLinkerCallback;
 import pub.avalon.sqlhelper.core.callback.WhereLinkerCallback;
-import pub.avalon.sqlhelper.core.data.*;
+import pub.avalon.sqlhelper.core.data.WhereDataLinker;
+import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.modelbuilder.*;
 
 import java.util.ArrayList;
@@ -87,7 +88,7 @@ public class WhereLinker<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> WhereLinkerIntact<T, TO, TC, TW, TG, TS> and(Class<S> tableModelClass,
                                                                                       String alias,
-                                                                                      WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+                                                                                      WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         SW sw = BeanUtils.tableModel(tableModelClass).newWhereSqlModel();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), sw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
@@ -111,7 +112,7 @@ public class WhereLinker<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> WhereLinkerIntact<T, TO, TC, TW, TG, TS> and(Class<S> tableModelClass,
-                                                                                      WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+                                                                                      WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         return and(tableModelClass, null, callback);
     }
 

@@ -13,12 +13,7 @@ public interface WhereJoinCallback<T extends TableModel<T, TO, TC, TW, TG, TS>,
         TW extends WhereSqlModel<TW>,
         TG extends GroupSqlModel<TG>,
         TS extends SortSqlModel<TS>,
-        S extends TableModel<S, SO, SC, SW, SG, SS>,
-        SO extends OnSqlModel<SO>,
-        SC extends ColumnSqlModel<SC>,
-        SW extends WhereSqlModel<SW>,
-        SG extends GroupSqlModel<SG>,
-        SS extends SortSqlModel<SS>> {
+        SW extends WhereSqlModel<SW>> {
 
     /**
      * 接收处理条件

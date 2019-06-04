@@ -19,6 +19,13 @@ import java.util.Set;
 public interface SqlDataConsumer<T extends TableModel> {
 
     /**
+     * 获取数据库类型
+     *
+     * @return {@link pub.avalon.beans.DataBaseType}
+     */
+    DataBaseType getDataBaseType();
+
+    /**
      * 获取子查询数据集合
      *
      * @return 子查询集合
@@ -40,13 +47,6 @@ public interface SqlDataConsumer<T extends TableModel> {
     Set<VirtualFieldDatum> getVirtualFieldData();
 
     Set<TableColumnDatum> getTableColumnData();
-
-    /**
-     * 获取数据库类型
-     *
-     * @return {@link pub.avalon.beans.DataBaseType}
-     */
-    DataBaseType getDataBaseType();
 
     /**
      * 获取主表数据

@@ -52,7 +52,7 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         if (callback == null) {
             return this;
         }
@@ -69,7 +69,7 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         return where(tableModelClass, null, callback);
     }
 

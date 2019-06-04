@@ -1,6 +1,11 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
+import pub.avalon.sqlhelper.core.data.JoinTableData;
+import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
+import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * @author 白超
@@ -11,172 +16,193 @@ public interface SqlBuilderTemplate<T> {
     /**
      * 复制表
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param targetTableName 目标表名
      * @param copyData        是否复制表数据
-     * @return
+     * @return T
      */
-    T copyTable(String targetTableName, boolean copyData);
+    T copyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData);
 
     /**
      * 删除表
      *
-     * @return
+     * @param sqlDataConsumer sql数据消费者
+     * @return T
      */
-    T deleteTable();
+    T deleteTable(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 重命名表
      *
-     * @param newTableName 新的表名
-     * @return
+     * @param sqlDataConsumer sql数据消费者
+     * @param newTableName    新的表名
+     * @return T
      */
-    T renameTable(String newTableName);
+    T renameTable(SqlDataConsumer sqlDataConsumer, String newTableName);
 
     /**
      * 判断表是否存在
      *
-     * @return
+     * @param sqlDataConsumer sql数据消费者
+     * @return T
      */
-    T isTableExist();
+    T isTableExist(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 插入参数
      *
-     * @param args 参数
-     * @return
+     * @param sqlDataConsumer sql数据消费者
+     * @param args            参数
+     * @return T
      */
-    T insertArgs(Object... args);
+    T insertArgs(SqlDataConsumer sqlDataConsumer, Object... args);
 
     /**
      * 使用JavaBean插入
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param javaBean
-     * @return
+     * @return T
      */
-    T insertJavaBean(Object javaBean);
+    T insertJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 使用JavaBean插入
      * <p>如果值为{@code null}则跳过该属性
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param javaBean
-     * @return
+     * @return T
      */
-    T insertJavaBeanSelective(Object javaBean);
+    T insertJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 使用JavaBean批量插入
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param javaBeans
-     * @return
+     * @return T
      */
-    T batchInsertJavaBeans(Collection<?> javaBeans);
+    T batchInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
      * 删除
      *
-     * @return
+     * @param sqlDataConsumer sql数据消费者
+     * @return T
      */
-    T delete();
+    T delete(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 根据主键删除
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param primaryKeyValue 主键值
-     * @return
+     * @return T
      */
-    T deleteByPrimaryKey(Object primaryKeyValue);
+    T deleteByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
 
     /**
      * 根据主键批量删除
      *
+     * @param sqlDataConsumer  sql数据消费者
      * @param primaryKeyValues 主键值集合
-     * @return
+     * @return T
      */
-    T batchDeleteByPrimaryKeys(Object... primaryKeyValues);
+    T batchDeleteByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Object... primaryKeyValues);
 
     /**
      * 使用JavaBean更新
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param javaBean
-     * @return
+     * @return T
      */
-    T updateJavaBean(Object javaBean);
+    T updateJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 使用JavaBean更新
      * <p>如果值为{@code null}则跳过该属性
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param javaBean
-     * @return
+     * @return T
      */
-    T updateJavaBeanSelective(Object javaBean);
+    T updateJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 根据主键更新参数
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param primaryKeyValue 主键值
      * @param args            参数
-     * @return
+     * @return T
      */
-    T updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
+    T updateArgsByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object... args);
 
     /**
      * 根据主键,使用JavaBean更新
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param primaryKeyValue 主键值
      * @param javaBean
-     * @return
+     * @return T
      */
-    T updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
+    T updateJavaBeanByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
 
     /**
      * 根据主键,使用JavaBean更新
      * <p>如果值为{@code null}则跳过该属性
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param primaryKeyValue 主键值
      * @param javaBean
-     * @return
+     * @return T
      */
-    T updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
+    T updateJavaBeanByPrimaryKeySelective(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
 
     /**
      * 使用JavaBean批量更新
      *
+     * @param sqlDataConsumer       sql数据消费者
      * @param javaBeans
      * @return
      */
-    T batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
+    T batchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
      * 使用JavaBean更新或插入
      * <p>存在更新,不存在插入
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param javaBeans
-     * @return
+     * @return T
      */
-    T updateOrInsertJavaBeans(Collection<?> javaBeans);
+    T updateOrInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
      * 查询
      *
-     * @return
+     * @param sqlDataConsumer sql数据消费者
+     * @return T
      */
-    T query();
+    T query(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 查询数量
      *
-     * @return
+     * @param sqlDataConsumer sql数据消费者
+     * @return T
      */
-    T queryCount();
+    T queryCount(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 根据主键查询
      *
+     * @param sqlDataConsumer sql数据消费者
      * @param primaryKeyValue 主键值
-     * @return
+     * @return T
      */
-    T queryByPrimaryKey(Object primaryKeyValue);
+    T queryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
 
 }

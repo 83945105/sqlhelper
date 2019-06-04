@@ -114,6 +114,18 @@ public class UserRole {
                 return this.apply(tableName, tableAlias, roleId, roleId_alias);
             }
 
+            public OnSqlDataBuilder<UserRole.Helper.On> roleName() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias);
+            }
+
+            public OnSqlDataBuilder<UserRole.Helper.On> userId() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias);
+            }
+
+            public OnSqlDataBuilder<UserRole.Helper.On> id() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias);
+            }
+
         }
 
         public final static class Column extends ColumnSqlModel<UserRole.Helper.Column> {
@@ -122,11 +134,20 @@ public class UserRole {
                 super(new ColumnSqlDataBuilder<>());
             }
 
+            public UserRole.Helper.Column id() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias).getSqlModel();
+            }
             public UserRole.Helper.Column roleId() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias).getSqlModel();
+            }
+            public UserRole.Helper.Column roleName() {
                 return this.apply(tableName, tableAlias, roleId, roleId_alias).getSqlModel();
             }
 
             public UserRole.Helper.Column roleId(String alias) {
+                return this.apply(tableName, tableAlias, roleId, alias).getSqlModel();
+            }
+            public UserRole.Helper.Column id(String alias) {
                 return this.apply(tableName, tableAlias, roleId, alias).getSqlModel();
             }
 
@@ -139,6 +160,14 @@ public class UserRole {
             }
 
             public WhereSqlDataBuilder<UserRole.Helper.Where> roleId() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias);
+            }
+
+            public WhereSqlDataBuilder<UserRole.Helper.Where> roleName() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias);
+            }
+
+            public WhereSqlDataBuilder<UserRole.Helper.Where> sortIndex() {
                 return this.apply(tableName, tableAlias, roleId, roleId_alias);
             }
 
@@ -162,6 +191,14 @@ public class UserRole {
             }
 
             public SortSqlDataBuilder<UserRole.Helper.Sort> roleId() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias);
+            }
+
+            public SortSqlDataBuilder<UserRole.Helper.Sort> sortIndex() {
+                return this.apply(tableName, tableAlias, roleId, roleId_alias);
+            }
+
+            public SortSqlDataBuilder<UserRole.Helper.Sort> id() {
                 return this.apply(tableName, tableAlias, roleId, roleId_alias);
             }
         }

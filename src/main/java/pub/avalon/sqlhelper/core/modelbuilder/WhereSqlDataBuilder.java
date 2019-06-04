@@ -11,7 +11,6 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.Collection;
 import java.util.Set;
@@ -382,7 +381,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T equalTo(Class<S> tableModelClass, String alias, WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> T equalTo(Class<S> tableModelClass, String alias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableModel(tableModelClass).newColumnSqlModel();
@@ -408,7 +407,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T notEqualTo(Class<S> tableModelClass, String alias, WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> T notEqualTo(Class<S> tableModelClass, String alias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableModel(tableModelClass).newColumnSqlModel();
@@ -434,7 +433,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThan(Class<S> tableModelClass, String alias, WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> T greaterThan(Class<S> tableModelClass, String alias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.GREATER);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableModel(tableModelClass).newColumnSqlModel();
@@ -460,7 +459,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass, String alias, WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass, String alias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableModel(tableModelClass).newColumnSqlModel();
@@ -486,7 +485,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThan(Class<S> tableModelClass, String alias, WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> T lessThan(Class<S> tableModelClass, String alias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.LESS);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableModel(tableModelClass).newColumnSqlModel();
@@ -512,7 +511,7 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SC extends ColumnSqlModel<SC>,
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThanAndEqualTo(Class<S> tableModelClass, String alias, WhereColumnCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortSqlModel<SS>> T lessThanAndEqualTo(Class<S> tableModelClass, String alias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableModel(tableModelClass).newColumnSqlModel();
@@ -539,11 +538,11 @@ public class WhereSqlDataBuilder<T extends SqlModel<T, WhereDatum>> extends Abst
             SW extends WhereSqlModel<SW>,
             SG extends GroupSqlModel<SG>,
             SS extends SortSqlModel<SS>> T equalToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
-        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getModel().getSqlData(), tableName, modelClass, alias, callback);
+/*        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getModel().getSqlData(), tableName, modelClass, alias, callback);
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
         this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlModelDatum(this.whereDatum);*/
         return this.getSqlModel();
     }
 
