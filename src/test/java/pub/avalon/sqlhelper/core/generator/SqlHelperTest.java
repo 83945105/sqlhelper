@@ -13,14 +13,15 @@ public class SqlHelperTest {
 
     public static void main(String[] args) throws SQLException {
         JdbcSourceEngine engine = JdbcSourceEngine.newMySqlEngine(
-                "com.mysql.jdbc.Driver",
-                "jdbc:mysql://localhost:3306/sqlhelper?useSSL=false",
+                "com.mysql.cj.jdbc.Driver",
+                "jdbc:mysql://localhost:3306/sqlhelper?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false",
                 "root", "root");
 
         new ModelTemplateEngine(engine, new HumpConverter())
-                .addTable("role_resource", "RoleResource")
-                .addTable("sys_user", "SysUser")
-                .addTable("user_role", "UserRole")
+//                .addTable("role_resource", "RoleResource")
+//                .addTable("sys_user", "SysUser")
+//                .addTable("user_role", "UserRole")
+                .addTable("jdbc_type", "JdbcType")
                 .process("/", "pub.avalon.sqlhelper.readme.entity");
     }
 
