@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.generator;
 import pub.avalon.beans.HumpConverter;
 import pub.avalon.sqlhelper.core.jdbc.JdbcSourceEngine;
 import pub.avalon.sqlhelper.core.model.ModelTemplateEngine;
+import pub.avalon.sqlhelper.generator.engine.TemplateEngine;
 
 import java.sql.SQLException;
 
@@ -23,6 +24,8 @@ public class SqlHelperTest {
 //                .addTable("user_role", "UserRole")
                 .addTable("jdbc_type", "JdbcType")
                 .process("/", "pub.avalon.sqlhelper.readme.entity");
+
+        new TemplateEngine();
     }
 
 }
