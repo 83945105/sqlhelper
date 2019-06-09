@@ -8,7 +8,7 @@ import java.util.Map;
 
 
 @SuppressWarnings("all")
-public final class SysUserDTO {
+public class SysUserDTO {
 
     
         
@@ -68,7 +68,7 @@ public final class SysUserDTO {
         
     
 
-    public static class Helper implements TableHelper<Helper, Helper.On, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
+    public final static class Helper implements TableHelper<Helper, Helper.On, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
         
             /**
              * 表名
@@ -125,10 +125,15 @@ public final class SysUserDTO {
             /**
              *  列名 - 别名 键值对集合
              */
-         public final static Map<String, String> columnAliasMap;
+         public final static Map<String, String> columnNameAliasMap;
 
         static {
-            columnAliasMap = new LinkedHashMap<>(3);
+            columnNameAliasMap = new LinkedHashMap<>(3);
+            
+                columnNameAliasMap.put(id, id_alias);
+                columnNameAliasMap.put(user_name, user_name_alias);
+                columnNameAliasMap.put(login_name, login_name_alias);
+            
         }
 
         public static On on() {
@@ -152,8 +157,8 @@ public final class SysUserDTO {
         }
 
         @Override
-        public Map<String, String> getColumnAliasMap() {
-            return columnAliasMap;
+        public Map<String, String> getColumnNameAliasMap() {
+            return columnNameAliasMap;
         }
 
         @Override

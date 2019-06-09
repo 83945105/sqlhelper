@@ -22,7 +22,7 @@ public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      *
      * @return {@link java.util.LinkedHashMap}
      */
-    Map<String, String> getColumnAliasMap();
+    Map<String, String> getColumnNameAliasMap();
 
     /**
      * 获取表名

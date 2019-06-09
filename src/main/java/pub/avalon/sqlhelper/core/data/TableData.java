@@ -78,7 +78,7 @@ public interface TableData<T extends TableHelper> {
     @SuppressWarnings("unchecked")
     default Set<ColumnDatum> buildTableColumnData() {
         Set<ColumnDatum> columnData = new LinkedHashSet<>();
-        Map<String, String> columnAliasMap = this.getTableModel().getColumnAliasMap();
+        Map<String, String> columnAliasMap = this.getTableModel().getColumnNameAliasMap();
         if (columnAliasMap == null) {
             return columnData;
         }

@@ -77,10 +77,13 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
             /**
              *  列名 - 别名 键值对集合
              */
-        [/] public final static Map<String, String> columnAliasMap;
+        [/] public final static Map<String, String> columnNameAliasMap;
 
         static {
-            columnAliasMap = new LinkedHashMap<>([(${table.columns.size()})]);
+            columnNameAliasMap = new LinkedHashMap<>([(${table.columns.size()})]);
+            [# th:each="column : ${table.columns}"]
+                columnNameAliasMap.put([(${column.name})], [(${column.name})]_alias);
+            [/]
         }
 
         public static On on() {
@@ -104,8 +107,8 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         }
 
         @Override
-        public Map<String, String> getColumnAliasMap() {
-            return columnAliasMap;
+        public Map<String, String> getColumnNameAliasMap() {
+            return columnNameAliasMap;
         }
 
         @Override
