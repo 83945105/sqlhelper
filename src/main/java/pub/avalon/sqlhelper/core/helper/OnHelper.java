@@ -1,16 +1,17 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.builder.OnSqlDataBuilder;
 import pub.avalon.sqlhelper.core.data.OnDatum;
 
 /**
- * On Sql模组
+ * On 助手
  *
  * @author 白超
  * @date 2019/5/18
  */
-public class OnSqlModel<T extends OnSqlModel<T>> extends SqlModel<T, OnDatum> {
+public class OnHelper<T extends OnHelper<T>> extends Helper<T, OnDatum> {
 
-    public OnSqlModel(OnSqlDataBuilder<T> onSqlDataBuilder) {
+    public OnHelper(OnSqlDataBuilder<T> onSqlDataBuilder) {
         super(onSqlDataBuilder);
     }
 

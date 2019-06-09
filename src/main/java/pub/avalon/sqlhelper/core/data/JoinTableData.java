@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class JoinTableData<T extends TableModel> extends AbstractTableData<T> {
+public final class JoinTableData<T extends TableHelper> extends AbstractTableData<T> {
 
     private JoinType joinType = JoinType.INNER;
 

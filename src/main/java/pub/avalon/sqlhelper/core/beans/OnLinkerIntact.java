@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.beans;
 import pub.avalon.sqlhelper.core.callback.OnLinkerCallback;
 import pub.avalon.sqlhelper.core.data.OnDataLinker;
 import pub.avalon.sqlhelper.core.data.OnDatum;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.List;
 import java.util.Set;
@@ -15,18 +15,18 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class OnLinkerIntact<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>,
-        S extends TableModel<S, SO, SC, SW, SG, SS>,
-        SO extends OnSqlModel<SO>,
-        SC extends ColumnSqlModel<SC>,
-        SW extends WhereSqlModel<SW>,
-        SG extends GroupSqlModel<SG>,
-        SS extends SortSqlModel<SS>> extends OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> {
+public final class OnLinkerIntact<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>,
+        S extends TableHelper<S, SO, SC, SW, SG, SS>,
+        SO extends OnHelper<SO>,
+        SC extends ColumnHelper<SC>,
+        SW extends WhereHelper<SW>,
+        SG extends GroupHelper<SG>,
+        SS extends SortHelper<SS>> extends OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> {
 
     /**
      * 或条件
@@ -34,7 +34,7 @@ public final class OnLinkerIntact<T extends TableModel<T, TO, TC, TW, TG, TS>,
      * @param onSqlModel On模组
      * @return On条件连接器 {@link OnLinkerIntact}
      */
-    public OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> or(OnSqlModel<?> onSqlModel) {
+    public OnLinkerIntact<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> or(OnHelper<?> onSqlModel) {
         if (onSqlModel == null) {
             return this;
         }

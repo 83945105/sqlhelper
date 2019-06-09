@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
@@ -16,7 +16,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/27
  */
-public interface SqlDataConsumer<T extends TableModel> {
+public interface SqlDataConsumer<T extends TableHelper> {
 
     /**
      * 获取数据库类型
@@ -66,14 +66,14 @@ public interface SqlDataConsumer<T extends TableModel> {
      * @param joinClass 连接表模组类
      * @return 连接表数据
      */
-    <J extends TableModel> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass);
+    <J extends TableHelper> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass);
 
     /**
      * 获取连接表数据集合
      *
      * @return 连接表数据集合
      */
-    LinkedHashMap<String, JoinTableData<? extends TableModel>> getJoinTableDataMap();
+    LinkedHashMap<String, JoinTableData<? extends TableHelper>> getJoinTableDataMap();
 
     /**
      * 获取where条件连接器数据集合

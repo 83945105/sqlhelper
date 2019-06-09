@@ -5,7 +5,7 @@ import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author 白超
  * @date 2019/3/4
  */
-public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlData<T> {
+public abstract class AbstractSqlDataCache<T extends TableHelper> implements SqlData<T> {
 
     /**
      * 数据库类型
@@ -40,8 +40,8 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
      * 用于校验连接表是否重复/存在
      */
     private Map<String, Class> joinTableAliasCache = new ConcurrentHashMap<>();
-    private LinkedHashMap<String, JoinTableData<? extends TableModel>> joinTableDataMap;
-    private LinkedHashMap<String, JoinTableData<? extends TableModel>> subQueryJoinTableDataMap;
+    private LinkedHashMap<String, JoinTableData<? extends TableHelper>> joinTableDataMap;
+    private LinkedHashMap<String, JoinTableData<? extends TableHelper>> subQueryJoinTableDataMap;
 
     @Override
     public DataBaseType getDataBaseType() {
@@ -61,7 +61,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
 
     @Override
     @SuppressWarnings("unchecked")
-    public <J extends TableModel> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass) {
+    public <J extends TableHelper> JoinTableData<J> getJoinTableData(String alias, Class<J> joinClass) {
         if (this.joinTableDataMap == null && this.subQueryJoinTableDataMap == null) {
             if (alias == null) {
                 throw new TableDataException("the class table [" + joinClass + "] is not joined.");
@@ -77,7 +77,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
         if (this.joinTableAliasCache.get(alias) == null) {
             throw new TableDataException("the alias table [" + alias + "] is not joined.");
         }
-        JoinTableData<? extends TableModel> joinTableData = null;
+        JoinTableData<? extends TableHelper> joinTableData = null;
         if (this.joinTableDataMap != null) {
             joinTableData = this.joinTableDataMap.get(alias);
         }
@@ -91,7 +91,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
     }
 
     @Override
-    public <J extends TableModel> SqlData<T> addJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableHelper> SqlData<T> addJoinTableData(JoinTableData<J> joinTableData) {
         if (this.joinTableAliasCache.get(joinTableData.getTableAlias()) != null) {
             // 同一个表别名不能使用2次
             throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
@@ -105,7 +105,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
     }
 
     @Override
-    public <J extends TableModel> SqlData<T> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableHelper> SqlData<T> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
         if (this.joinTableAliasCache.get(joinTableData.getTableAlias()) != null) {
             // 同一个表别名不能使用2次
             throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
@@ -119,7 +119,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
     }
 
     @Override
-    public LinkedHashMap<String, JoinTableData<? extends TableModel>> getJoinTableDataMap() {
+    public LinkedHashMap<String, JoinTableData<? extends TableHelper>> getJoinTableDataMap() {
         return this.joinTableDataMap;
     }
 
@@ -131,7 +131,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
      * @return
      */
     @Override
-    public <T extends TableModel> SqlData<T> fission(Class<T> clazz) {
+    public <T extends TableHelper> SqlData<T> fission(Class<T> clazz) {
         FissionSqlData<T> fission = new FissionSqlData<T>(new MainTableData<>(clazz));
         fission.setDataBaseType(this.getDataBaseType());
         this.getJoinTableDataMap().forEach((s, joinTableData) -> {
@@ -148,7 +148,7 @@ public abstract class AbstractSqlDataCache<T extends TableModel> implements SqlD
      *
      * @param <T>
      */
-    private class FissionSqlData<T extends TableModel> extends AbstractSqlDataCache<T> {
+    private class FissionSqlData<T extends TableHelper> extends AbstractSqlDataCache<T> {
 
         FissionSqlData(MainTableData<T> mainTableData) {
             super(mainTableData);

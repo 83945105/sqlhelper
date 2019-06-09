@@ -1,7 +1,8 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.beans.SortType;
 import pub.avalon.sqlhelper.core.data.SortDatum;
+import pub.avalon.sqlhelper.core.helper.Helper;
 
 /**
  * 排序构建器
@@ -10,7 +11,7 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class SortSqlDataBuilder<T extends SqlModel<T, SortDatum>> extends AbstractSqlDataBuilder<T, SortDatum> {
+public final class SortSqlDataBuilder<T extends Helper<T, SortDatum>> extends AbstractSqlDataBuilder<T, SortDatum> {
 
     private SortDatum sortDatum;
 

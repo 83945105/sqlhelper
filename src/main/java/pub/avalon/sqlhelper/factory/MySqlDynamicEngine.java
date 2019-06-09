@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.factory;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.engine.TableEngine;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 /**
  * MySql引擎
@@ -16,21 +16,21 @@ public final class MySqlDynamicEngine {
     private MySqlDynamicEngine() {
     }
 
-    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
-            TO extends OnSqlModel<TO>,
-            TC extends ColumnSqlModel<TC>,
-            TW extends WhereSqlModel<TW>,
-            TG extends GroupSqlModel<TG>,
-            TS extends SortSqlModel<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableModelClass) {
+    public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
+            TO extends OnHelper<TO>,
+            TC extends ColumnHelper<TC>,
+            TW extends WhereHelper<TW>,
+            TG extends GroupHelper<TG>,
+            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableModelClass) {
         return new TableEngine<>(tableName, tableModelClass).setDataBaseType(DataBaseType.MYSQL);
     }
 
-    public static <T extends TableModel<T, TO, TC, TW, TG, TS>,
-            TO extends OnSqlModel<TO>,
-            TC extends ColumnSqlModel<TC>,
-            TW extends WhereSqlModel<TW>,
-            TG extends GroupSqlModel<TG>,
-            TS extends SortSqlModel<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableModelClass) {
+    public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
+            TO extends OnHelper<TO>,
+            TC extends ColumnHelper<TC>,
+            TW extends WhereHelper<TW>,
+            TG extends GroupHelper<TG>,
+            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableModelClass) {
         return table(null, tableModelClass);
     }
 

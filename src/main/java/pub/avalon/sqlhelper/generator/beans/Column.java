@@ -16,17 +16,17 @@ public interface Column {
     String getName();
 
     /**
-     * 列名
+     * 类型
      *
      * @return
      */
-    String getAlias();
+    String getType();
 
     /**
-     * java类型
+     * 备注
      *
      * @return
      */
-    JavaType getJavaType();
+    String getComment();
 
 }

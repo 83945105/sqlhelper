@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.beans.WhereLinkerIntact;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends GroupIntactEngine<T, TO, TC, TW, TG, TS> {
+public class WhereIntactEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>> extends GroupIntactEngine<T, TO, TC, TW, TG, TS> {
 
     public WhereIntactEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -40,36 +40,36 @@ public class WhereIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         if (callback == null) {
             return this;
         }
-        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereSqlModel();
+        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereHelper();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), tw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
         this.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
-    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         if (callback == null) {
             return this;
         }
-        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereSqlModel();
-        SW sw = BeanUtils.tableModel(tableModelClass).newWhereSqlModel();
+        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereHelper();
+        SW sw = BeanUtils.tableModel(tableModelClass).newWhereHelper();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), sw, tw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
         this.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
-    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         return where(tableModelClass, null, callback);
     }
 

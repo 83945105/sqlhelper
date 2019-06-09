@@ -1,6 +1,7 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.data.SqlModelDatum;
+import pub.avalon.sqlhelper.core.helper.Helper;
 
 import java.util.Set;
 
@@ -10,7 +11,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public interface SqlDataBuilder<S extends SqlModel<S, E>, E extends SqlModelDatum> {
+public interface SqlDataBuilder<S extends Helper<S, E>, E extends SqlModelDatum> {
 
     /**
      * 获取sql模组

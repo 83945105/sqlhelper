@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.List;
@@ -130,7 +130,7 @@ public interface SqlDataProducer<T> {
      * @param <J>
      * @return T
      */
-    <J extends TableModel> T addJoinTableData(JoinTableData<J> joinTableData);
+    <J extends TableHelper> T addJoinTableData(JoinTableData<J> joinTableData);
 
     /**
      * 添加子查询连接表数据
@@ -139,6 +139,6 @@ public interface SqlDataProducer<T> {
      * @param <J>
      * @return T
      */
-    <J extends TableModel> T addSubQueryJoinTableData(JoinTableData<J> joinTableData);
+    <J extends TableHelper> T addSubQueryJoinTableData(JoinTableData<J> joinTableData);
 
 }

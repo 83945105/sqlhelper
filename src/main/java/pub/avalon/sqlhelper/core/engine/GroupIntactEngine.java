@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.data.GroupDatum;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.Set;
 
@@ -17,12 +17,12 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public class GroupIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends SortIntactEngine<T, TO, TC, TW, TG, TS> {
+public class GroupIntactEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>> extends SortIntactEngine<T, TO, TC, TW, TG, TS> {
 
     public GroupIntactEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -36,17 +36,17 @@ public class GroupIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         super(tableName, tableModelClass, alias);
     }
 
-    public GroupIntactEngine<T, TO, TC, TW, TG, TS> group(GroupSqlModel<?>... groupSqlModels) {
+    public GroupIntactEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupSqlModels) {
         if (groupSqlModels == null || groupSqlModels.length == 0) {
             return this;
         }
-        //TODO 未实现 待确认该方法是否限定TableModel类型
+        //TODO 未实现 待确认该方法是否限定TableHelper类型
         return this;
     }
 
     public GroupIntactEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
         MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
-        TG tg = BeanUtils.tableModel(this.tableModelClass).newGroupSqlModel();
+        TG tg = BeanUtils.tableModel(this.tableModelClass).newGroupHelper();
         tg = callback.apply(tg);
         Set<GroupDatum> groupData = tg.takeoutSqlModelData();
         if (groupData == null || groupData.size() == 0) {
@@ -56,14 +56,14 @@ public class GroupIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         return this;
     }
 
-    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> GroupIntactEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableModelClass, String alias, GroupCallback<SG> callback) {
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> GroupIntactEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableModelClass, String alias, GroupCallback<SG> callback) {
         JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, tableModelClass);
-        SG sg = BeanUtils.tableModel(tableModelClass).newGroupSqlModel();
+        SG sg = BeanUtils.tableModel(tableModelClass).newGroupHelper();
         sg = callback.apply(sg);
         Set<GroupDatum> groupData = sg.takeoutSqlModelData();
         if (groupData == null || groupData.size() == 0) {
@@ -73,12 +73,12 @@ public class GroupIntactEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
         return this;
     }
 
-    public <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> GroupIntactEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableModelClass, GroupCallback<SG> callback) {
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> GroupIntactEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableModelClass, GroupCallback<SG> callback) {
         return group(tableModelClass, null, callback);
     }
 

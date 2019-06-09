@@ -1,7 +1,8 @@
 package pub.avalon.sqlhelper.core.comparison;
 
+import pub.avalon.sqlhelper.core.builder.OnSqlDataBuilder;
 import pub.avalon.sqlhelper.core.callback.OnColumnCallback;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 /**
  * On比较条件
@@ -68,12 +69,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T equalTo(Class<S> tableModelClass,
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T equalTo(Class<S> tableModelClass,
                                                    String alias,
                                                    OnColumnCallback<SC> callback);
 
@@ -84,12 +85,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    default <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T equalTo(Class<S> tableModelClass,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T equalTo(Class<S> tableModelClass,
                                                    OnColumnCallback<SC> callback) {
         return this.equalTo(tableModelClass, null, callback);
     }
@@ -102,12 +103,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T notEqualTo(Class<S> tableModelClass,
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableModelClass,
                                                       String alias,
                                                       OnColumnCallback<SC> callback);
 
@@ -118,12 +119,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    default <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T notEqualTo(Class<S> tableModelClass,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableModelClass,
                                                       OnColumnCallback<SC> callback) {
         return this.notEqualTo(tableModelClass, null, callback);
     }
@@ -136,12 +137,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThan(Class<S> tableModelClass,
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T greaterThan(Class<S> tableModelClass,
                                                        String alias,
                                                        OnColumnCallback<SC> callback);
 
@@ -152,12 +153,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    default <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThan(Class<S> tableModelClass,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T greaterThan(Class<S> tableModelClass,
                                                        OnColumnCallback<SC> callback) {
         return this.greaterThan(tableModelClass, null, callback);
     }
@@ -170,12 +171,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass,
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass,
                                                                  String alias,
                                                                  OnColumnCallback<SC> callback);
 
@@ -186,12 +187,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    default <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass,
                                                                  OnColumnCallback<SC> callback) {
         return this.greaterThanAndEqualTo(tableModelClass, null, callback);
     }
@@ -204,12 +205,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThan(Class<S> tableModelClass,
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T lessThan(Class<S> tableModelClass,
                                                     String alias,
                                                     OnColumnCallback<SC> callback);
 
@@ -220,12 +221,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    default <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThan(Class<S> tableModelClass,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T lessThan(Class<S> tableModelClass,
                                                     OnColumnCallback<SC> callback) {
         return this.lessThan(tableModelClass, null, callback);
     }
@@ -238,12 +239,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThanAndEqualTo(Class<S> tableModelClass,
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableModelClass,
                                                               String alias,
                                                               OnColumnCallback<SC> callback);
 
@@ -254,12 +255,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback        On处理
      * @return On条件模组
      */
-    default <S extends TableModel<S, SO, SC, SW, SG, SS>,
-            SO extends OnSqlModel<SO>,
-            SC extends ColumnSqlModel<SC>,
-            SW extends WhereSqlModel<SW>,
-            SG extends GroupSqlModel<SG>,
-            SS extends SortSqlModel<SS>> T lessThanAndEqualTo(Class<S> tableModelClass,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableModelClass,
                                                               OnColumnCallback<SC> callback) {
         return this.lessThanAndEqualTo(tableModelClass, null, callback);
     }

@@ -1,16 +1,17 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.builder.ColumnSqlDataBuilder;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 
 /**
- * On Sql模组
+ * On 助手
  *
  * @author 白超
  * @date 2019/5/18
  */
-public class ColumnSqlModel<T extends ColumnSqlModel<T>> extends SqlModel<T, ColumnDatum> {
+public class ColumnHelper<T extends ColumnHelper<T>> extends Helper<T, ColumnDatum> {
 
-    public ColumnSqlModel(ColumnSqlDataBuilder<T> columnSqlDataBuilder) {
+    public ColumnHelper(ColumnSqlDataBuilder<T> columnSqlDataBuilder) {
         super(columnSqlDataBuilder);
     }
 

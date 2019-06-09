@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.Set;
 
@@ -16,12 +16,12 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public class ColumnEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> {
+public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>> extends SqlEngine<T, TO, TC, TW, TG, TS> {
 
     public ColumnEngine(Class<T> tableModelClass) {
         super(tableModelClass);
@@ -37,7 +37,7 @@ public class ColumnEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
 
     public ColumnEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
         MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
-        TC tc = BeanUtils.tableModel(this.tableModelClass).newColumnSqlModel();
+        TC tc = BeanUtils.tableModel(this.tableModelClass).newColumnHelper();
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
         // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列

@@ -1,16 +1,17 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.builder.GroupSqlDataBuilder;
 import pub.avalon.sqlhelper.core.data.GroupDatum;
 
 /**
- * On Sql模组
+ * Group 助手
  *
  * @author 白超
  * @date 2019/5/18
  */
-public class GroupSqlModel<T extends GroupSqlModel<T>> extends SqlModel<T, GroupDatum> {
+public class GroupHelper<T extends GroupHelper<T>> extends Helper<T, GroupDatum> {
 
-    public GroupSqlModel(GroupSqlDataBuilder<T> groupSqlDataBuilder) {
+    public GroupHelper(GroupSqlDataBuilder<T> groupSqlDataBuilder) {
         super(groupSqlDataBuilder);
     }
 

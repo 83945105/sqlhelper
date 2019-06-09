@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public interface TableData<T extends TableModel> {
+public interface TableData<T extends TableHelper> {
 
     /**
      * 获取表模型

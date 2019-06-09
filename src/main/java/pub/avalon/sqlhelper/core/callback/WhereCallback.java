@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.callback;
 
 import pub.avalon.sqlhelper.core.beans.WhereLinker;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 /**
  * Where 回调
@@ -11,12 +11,12 @@ import pub.avalon.sqlhelper.core.modelbuilder.*;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface WhereCallback<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> {
+public interface WhereCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>> {
 
     /**
      * 接收处理条件

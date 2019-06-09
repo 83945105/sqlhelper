@@ -1,6 +1,7 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
+import pub.avalon.sqlhelper.core.helper.Helper;
 
 /**
  * 列sql构建器
@@ -8,7 +9,7 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
  * @author 白超
  * @date 2019/5/2
  */
-public final class ColumnSqlDataBuilder<S extends SqlModel<S, ColumnDatum>> extends AbstractSqlDataBuilder<S, ColumnDatum> {
+public final class ColumnSqlDataBuilder<S extends Helper<S, ColumnDatum>> extends AbstractSqlDataBuilder<S, ColumnDatum> {
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {

@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.modelbuilder.ColumnSqlModel;
+import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 
 /**
  * Where条件
@@ -10,7 +10,7 @@ import pub.avalon.sqlhelper.core.modelbuilder.ColumnSqlModel;
  * @since 2018/7/10
  */
 @FunctionalInterface
-public interface WhereColumnCallback<TC extends ColumnSqlModel<TC>> {
+public interface WhereColumnCallback<TC extends ColumnHelper<TC>> {
 
     /**
      * 接收处理Where条件模组

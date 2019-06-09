@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.beans;
 
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 /**
  * @author 白超
@@ -11,7 +11,7 @@ public class BeanUtils {
     private BeanUtils() {
     }
 
-    public static <T extends TableModel> T tableModel(Class<T> clazz) {
+    public static <T extends TableHelper> T tableModel(Class<T> clazz) {
         return org.springframework.beans.BeanUtils.instantiateClass(clazz);
     }
 

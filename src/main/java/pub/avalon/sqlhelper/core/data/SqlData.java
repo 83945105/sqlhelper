@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 /**
  * Sql数据
@@ -9,7 +9,7 @@ import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface SqlData<T extends TableModel> extends SqlDataProducer<SqlData<T>>, SqlDataConsumer<T> {
+public interface SqlData<T extends TableHelper> extends SqlDataProducer<SqlData<T>>, SqlDataConsumer<T> {
 
     /**
      * 分裂
@@ -17,6 +17,6 @@ public interface SqlData<T extends TableModel> extends SqlDataProducer<SqlData<T
      * @param clazz 目标类Model.class
      * @return SqlData
      */
-    <T extends TableModel> SqlData<T> fission(Class<T> clazz);
+    <T extends TableHelper> SqlData<T> fission(Class<T> clazz);
 
 }

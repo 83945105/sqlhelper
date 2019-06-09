@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.data.*;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
@@ -18,12 +18,12 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class SqlEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> implements SqlBuilder<SqlBuilder>, SqlDataProducer<SqlEngine<T, TO, TC, TW, TG, TS>> {
+public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>> implements SqlBuilder<SqlBuilder>, SqlDataProducer<SqlEngine<T, TO, TC, TW, TG, TS>> {
 
     protected Class<T> tableModelClass;
 
@@ -285,13 +285,13 @@ public class SqlEngine<T extends TableModel<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public <J extends TableModel> SqlEngine<T, TO, TC, TW, TG, TS> addJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableHelper> SqlEngine<T, TO, TC, TW, TG, TS> addJoinTableData(JoinTableData<J> joinTableData) {
         this.sqlData.addJoinTableData(joinTableData);
         return this;
     }
 
     @Override
-    public <J extends TableModel> SqlEngine<T, TO, TC, TW, TG, TS> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableHelper> SqlEngine<T, TO, TC, TW, TG, TS> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
         this.sqlData.addSubQueryJoinTableData(joinTableData);
         return this;
     }

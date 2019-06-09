@@ -1,16 +1,17 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.builder.WhereSqlDataBuilder;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 
 /**
- * On Sql模组
+ * Where 助手
  *
  * @author 白超
  * @date 2019/5/18
  */
-public class WhereSqlModel<T extends WhereSqlModel<T>> extends SqlModel<T, WhereDatum> {
+public class WhereHelper<T extends WhereHelper<T>> extends Helper<T, WhereDatum> {
 
-    public WhereSqlModel(WhereSqlDataBuilder<T> whereSqlDataBuilder) {
+    public WhereHelper(WhereSqlDataBuilder<T> whereSqlDataBuilder) {
         super(whereSqlDataBuilder);
     }
 

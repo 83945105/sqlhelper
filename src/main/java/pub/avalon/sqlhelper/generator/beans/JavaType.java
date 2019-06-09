@@ -37,13 +37,21 @@ public enum JavaType {
     Ref("java.sql.Ref", "Ref"),
     URL("java.net.URL", "URL");
 
-    public String classPath;
+    private String classPath;
 
-    public String className;
+    private String className;
 
     JavaType(String classPath, String className) {
         this.classPath = classPath;
         this.className = className;
+    }
+
+    public java.lang.String getClassPath() {
+        return classPath;
+    }
+
+    public java.lang.String getClassName() {
+        return className;
     }
 
 }

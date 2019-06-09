@@ -1,9 +1,8 @@
 package pub.avalon.sqlhelper.core.generator;
 
-import pub.avalon.beans.HumpConverter;
-import pub.avalon.sqlhelper.core.jdbc.JdbcSourceEngine;
-import pub.avalon.sqlhelper.core.model.ModelTemplateEngine;
 import pub.avalon.sqlhelper.generator.engine.TemplateEngine;
+import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplate;
+import pub.avalon.sqlhelper.generator.jdbc.MySqlJdbcTemplate;
 
 import java.sql.SQLException;
 
@@ -13,19 +12,19 @@ import java.sql.SQLException;
 public class SqlHelperTest {
 
     public static void main(String[] args) throws SQLException {
-        JdbcSourceEngine engine = JdbcSourceEngine.newMySqlEngine(
+
+        JdbcTemplate jdbcTemplate = new MySqlJdbcTemplate(
                 "com.mysql.cj.jdbc.Driver",
                 "jdbc:mysql://localhost:3306/sqlhelper?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false",
-                "root", "root");
+                "root",
+                "root"
+        );
 
-        new ModelTemplateEngine(engine, new HumpConverter())
-//                .addTable("role_resource", "RoleResource")
-//                .addTable("sys_user", "SysUser")
-//                .addTable("user_role", "UserRole")
-                .addTable("jdbc_type", "JdbcType")
-                .process("/", "pub.avalon.sqlhelper.readme.entity");
-
-        new TemplateEngine();
+        new TemplateEngine(jdbcTemplate)
+                .addTable("sys_user", "SysUser")
+                .addTable("role_resource", "RoleResource")
+                .addTable("user_role", "UserRole")
+                .generate("/", "pub.avalon.sqlhelper.readme.entity");
     }
 
 }

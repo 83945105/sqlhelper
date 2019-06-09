@@ -1,19 +1,19 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.helper;
 
 import java.util.Map;
 
 /**
- * 表模组
+ * 表助手
  *
  * @author 白超
  * @date 2019/5/15
  */
-public interface TableModel<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>> {
+public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>> {
 
     /**
      * 获取表的列名与别名键值对集合
@@ -27,64 +27,64 @@ public interface TableModel<T extends TableModel<T, TO, TC, TW, TG, TS>,
     /**
      * 获取表名
      *
-     * @return {@link java.lang.String}
+     * @return {@link String}
      */
     String getTableName();
 
     /**
      * 获取表别名
      *
-     * @return {@link java.lang.String}
+     * @return {@link String}
      */
     String getTableAlias();
 
     /**
      * 获取主键名称
      *
-     * @return {@link java.lang.String}
+     * @return {@link String}
      */
     String getPrimaryKeyName();
 
     /**
      * 获取主键别名
      *
-     * @return {@link java.lang.String}
+     * @return {@link String}
      */
     String getPrimaryKeyAlias();
 
     /**
      * 创建一个新的On sql模组
      *
-     * @return {@link OnSqlModel}
+     * @return {@link OnHelper}
      */
-    TO newOnSqlModel();
+    TO newOnHelper();
 
     /**
      * 创建一个新的Column sql模组
      *
-     * @return {@link ColumnSqlModel}
+     * @return {@link ColumnHelper}
      */
-    TC newColumnSqlModel();
+    TC newColumnHelper();
 
     /**
      * 创建一个新的Where sql模组
      *
-     * @return {@link WhereSqlModel}
+     * @return {@link WhereHelper}
      */
-    TW newWhereSqlModel();
+    TW newWhereHelper();
 
     /**
      * 创建一个新的Group sql模组
      *
-     * @return {@link GroupSqlModel}
+     * @return {@link GroupHelper}
      */
-    TG newGroupSqlModel();
+    TG newGroupHelper();
 
     /**
      * 创建一个新的Sort sql模组
      *
-     * @return {@link SortSqlModel}
+     * @return {@link SortHelper}
      */
-    TS newSortSqlModel();
+    TS newSortHelper();
 
 }

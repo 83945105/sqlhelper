@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 
 import java.util.*;
 

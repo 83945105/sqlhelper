@@ -20,6 +20,7 @@ public enum JdbcType {
     CURSOR,
     DATALINK,
     DATE,
+    DATETIME,
     DATETIMEOFFSET,
     DECIMAL,
     DISTINCT,

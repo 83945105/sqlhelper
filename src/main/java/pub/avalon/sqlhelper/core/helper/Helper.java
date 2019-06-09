@@ -1,20 +1,21 @@
-package pub.avalon.sqlhelper.core.modelbuilder;
+package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.builder.SqlDataBuilder;
 import pub.avalon.sqlhelper.core.data.SqlModelDatum;
 
 import java.util.Set;
 
 /**
- * sql模组
+ * 助手
  *
  * @author 白超
  * @date 2019/5/18
  */
-public class SqlModel<T extends SqlModel<T, E>, E extends SqlModelDatum> {
+public class Helper<T extends Helper<T, E>, E extends SqlModelDatum> {
 
     private SqlDataBuilder<T, E> sqlDataBuilder;
 
-    public SqlModel(SqlDataBuilder<T, E> sqlDataBuilder) {
+    public Helper(SqlDataBuilder<T, E> sqlDataBuilder) {
         this.sqlDataBuilder = sqlDataBuilder;
     }
 

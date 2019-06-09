@@ -1,11 +1,8 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
 
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * @author 白超

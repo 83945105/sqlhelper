@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.callback;
 
 import pub.avalon.sqlhelper.core.beans.OnLinker;
-import pub.avalon.sqlhelper.core.modelbuilder.*;
+import pub.avalon.sqlhelper.core.helper.*;
 
 /**
  * on 回调
@@ -10,18 +10,18 @@ import pub.avalon.sqlhelper.core.modelbuilder.*;
  * @date 2019/5/16
  */
 @FunctionalInterface
-public interface OnCallback<T extends TableModel<T, TO, TC, TW, TG, TS>,
-        TO extends OnSqlModel<TO>,
-        TC extends ColumnSqlModel<TC>,
-        TW extends WhereSqlModel<TW>,
-        TG extends GroupSqlModel<TG>,
-        TS extends SortSqlModel<TS>,
-        S extends TableModel<S, SO, SC, SW, SG, SS>,
-        SO extends OnSqlModel<SO>,
-        SC extends ColumnSqlModel<SC>,
-        SW extends WhereSqlModel<SW>,
-        SG extends GroupSqlModel<SG>,
-        SS extends SortSqlModel<SS>> {
+public interface OnCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+        TO extends OnHelper<TO>,
+        TC extends ColumnHelper<TC>,
+        TW extends WhereHelper<TW>,
+        TG extends GroupHelper<TG>,
+        TS extends SortHelper<TS>,
+        S extends TableHelper<S, SO, SC, SW, SG, SS>,
+        SO extends OnHelper<SO>,
+        SC extends ColumnHelper<SC>,
+        SW extends WhereHelper<SW>,
+        SG extends GroupHelper<SG>,
+        SS extends SortHelper<SS>> {
 
     /**
      * 接收 on sql模组

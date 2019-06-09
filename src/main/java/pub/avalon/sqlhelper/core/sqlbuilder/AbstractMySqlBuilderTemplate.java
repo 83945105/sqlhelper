@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
-import pub.avalon.sqlhelper.core.modelbuilder.TableModel;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 import java.util.*;
 
@@ -421,12 +421,12 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         sql.insert(length, "(").append(")");
     }
 
-    protected void appendJoinSqlArgs(StringBuilder sql, List<Object> args, Map<String, JoinTableData<? extends TableModel>> joinTableDataAliasMap) {
+    protected void appendJoinSqlArgs(StringBuilder sql, List<Object> args, Map<String, JoinTableData<? extends TableHelper>> joinTableDataAliasMap) {
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
             return;
         }
-        JoinTableData<? extends TableModel> joinTableData;
-        for (Map.Entry<String, JoinTableData<? extends TableModel>> entry : joinTableDataAliasMap.entrySet()) {
+        JoinTableData<? extends TableHelper> joinTableData;
+        for (Map.Entry<String, JoinTableData<? extends TableHelper>> entry : joinTableDataAliasMap.entrySet()) {
             joinTableData = entry.getValue();
             switch (joinTableData.getJoinType()) {
                 case INNER:
