@@ -10,7 +10,7 @@ import [(${classPath})];
 [/]
 
 @SuppressWarnings("all")
-public final class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
+public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
 [# th:if="${table.columns != null}"]
     [# th:each="column : ${table.columns}"]
         [# th:if="${table.generateOptions.entityFieldComment == true}"]
@@ -40,7 +40,7 @@ public final class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]]
         [/]
     [/]
 [/]
-    public static class [(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.generateOptions.helperClassName})], [(${table.generateOptions.helperClassName})].On, [(${table.generateOptions.helperClassName})].Column, [(${table.generateOptions.helperClassName})].Where, [(${table.generateOptions.helperClassName})].Group, [(${table.generateOptions.helperClassName})].Sort> {
+    public final static class [(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.generateOptions.helperClassName})], [(${table.generateOptions.helperClassName})].On, [(${table.generateOptions.helperClassName})].Column, [(${table.generateOptions.helperClassName})].Where, [(${table.generateOptions.helperClassName})].Group, [(${table.generateOptions.helperClassName})].Sort> {
         [# th:if="${table.generateOptions.entityFieldComment == true}"]
             /**
              * 表名

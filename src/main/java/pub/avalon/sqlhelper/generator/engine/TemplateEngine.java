@@ -39,6 +39,11 @@ public class TemplateEngine {
      */
     private GenerateOptions generateOptions = GenerateOptions.GENERATE_OPTIONS;
 
+    public TemplateEngine setGenerateOptions(GenerateOptions generateOptions) {
+        this.generateOptions = generateOptions;
+        return this;
+    }
+
     public TemplateEngine addTable(String tableName, String tableAlias) throws SQLException {
         return this.addTable(tableName, tableAlias, this.generateOptions);
     }
@@ -115,13 +120,50 @@ public class TemplateEngine {
             context.setVariable("table", table);
             context.setVariable("setting", setting);
 
-            String x = templateEngine.process("model", context);
-            System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
-            printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getEntitySuffix() + ".java");
-            System.out.println(Ansi.ansi().eraseScreen()
-                    .fg(Ansi.Color.BLUE)
-                    .a("\n========================================================================================================================================================================================================")
-                    .reset());
+            // 根据配置判断是否哪个模板
+            String template = "";
+            if (table.getGenerateOptions().isEntity()) {
+                // 生成实体类
+                if (table.getGenerateOptions().isEntityAlone()) {
+                    // 实体类与helper类分离
+                    template = "entity";
+                    String x = templateEngine.process(template, context);
+                    System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
+                    printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getEntitySuffix() + ".java");
+                    System.out.println(Ansi.ansi().eraseScreen()
+                            .fg(Ansi.Color.BLUE)
+                            .a("\n========================================================================================================================================================================================================")
+                            .reset());
+                    template = "helper";
+                    x = templateEngine.process(template, context);
+                    System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
+                    printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getHelperClassName() + ".java");
+                    System.out.println(Ansi.ansi().eraseScreen()
+                            .fg(Ansi.Color.BLUE)
+                            .a("\n========================================================================================================================================================================================================")
+                            .reset());
+                } else {
+                    // 实体类与helper类一起
+                    template = "entity-helper";
+                    String x = templateEngine.process(template, context);
+                    System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
+                    printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getEntitySuffix() + ".java");
+                    System.out.println(Ansi.ansi().eraseScreen()
+                            .fg(Ansi.Color.BLUE)
+                            .a("\n========================================================================================================================================================================================================")
+                            .reset());
+                }
+            } else {
+                // 不生成实体类
+                template = "helper";
+                String x = templateEngine.process(template, context);
+                System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
+                printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getHelperClassName() + ".java");
+                System.out.println(Ansi.ansi().eraseScreen()
+                        .fg(Ansi.Color.BLUE)
+                        .a("\n========================================================================================================================================================================================================")
+                        .reset());
+            }
         }
         System.out.println(Ansi.ansi().eraseScreen()
                 .fg(Ansi.Color.GREEN)

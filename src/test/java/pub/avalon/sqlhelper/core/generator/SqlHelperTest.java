@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.generator;
 import pub.avalon.sqlhelper.generator.engine.TemplateEngine;
 import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplate;
 import pub.avalon.sqlhelper.generator.jdbc.MySqlJdbcTemplate;
+import pub.avalon.sqlhelper.generator.option.GenerateOptions;
 
 import java.sql.SQLException;
 
@@ -21,6 +22,7 @@ public class SqlHelperTest {
         );
 
         new TemplateEngine(jdbcTemplate)
+                .setGenerateOptions(new GenerateOptions())
                 .addTable("sys_user", "SysUser")
                 .addTable("role_resource", "RoleResource")
                 .addTable("user_role", "UserRole")
