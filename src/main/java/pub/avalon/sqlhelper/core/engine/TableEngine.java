@@ -14,18 +14,18 @@ public final class TableEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> extends JoinIntactEngine<T, TO, TC, TW, TG, TS> {
+        TS extends SortHelper<TS>> extends ColumnEngine<T, TO, TC, TW, TG, TS> {
 
-    public TableEngine(Class<T> tableModelClass) {
-        super(tableModelClass);
+    public TableEngine(Class<T> tableHelperClass) {
+        super(tableHelperClass);
     }
 
-    public TableEngine(String tableName, Class<T> tableModelClass) {
-        super(tableName, tableModelClass);
+    public TableEngine(String tableName, Class<T> tableHelperClass) {
+        super(tableName, tableHelperClass);
     }
 
-    public TableEngine(String tableName, Class<T> tableModelClass, String alias) {
-        super(tableName, tableModelClass, alias);
+    public TableEngine(String tableName, Class<T> tableHelperClass, String alias) {
+        super(tableName, tableHelperClass, alias);
     }
 
     @Override

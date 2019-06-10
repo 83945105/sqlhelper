@@ -17,30 +17,30 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class WhereIntactEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> extends GroupIntactEngine<T, TO, TC, TW, TG, TS> {
+        TS extends SortHelper<TS>> extends GroupEngine<T, TO, TC, TW, TG, TS> {
 
-    public WhereIntactEngine(Class<T> tableModelClass) {
-        super(tableModelClass);
+    public WhereEngine(Class<T> tableHelperClass) {
+        super(tableHelperClass);
     }
 
-    public WhereIntactEngine(String tableName, Class<T> tableModelClass) {
-        super(tableName, tableModelClass);
+    public WhereEngine(String tableName, Class<T> tableHelperClass) {
+        super(tableName, tableHelperClass);
     }
 
-    public WhereIntactEngine(String tableName, Class<T> tableModelClass, String alias) {
-        super(tableName, tableModelClass, alias);
+    public WhereEngine(String tableName, Class<T> tableHelperClass, String alias) {
+        super(tableName, tableHelperClass, alias);
     }
 
-    public WhereIntactEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback) {
+    public WhereEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback) {
         if (callback == null) {
             return this;
         }
-        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereHelper();
+        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), tw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
         this.addWhereDataLinkerList(whereDataLinkerList);
@@ -52,12 +52,12 @@ public class WhereIntactEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+            SS extends SortHelper<SS>> WhereEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         if (callback == null) {
             return this;
         }
-        TW tw = BeanUtils.tableModel(this.tableModelClass).newWhereHelper();
-        SW sw = BeanUtils.tableModel(tableModelClass).newWhereHelper();
+        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), sw, tw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
         this.addWhereDataLinkerList(whereDataLinkerList);
@@ -69,8 +69,8 @@ public class WhereIntactEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> WhereIntactEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableModelClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
-        return where(tableModelClass, null, callback);
+            SS extends SortHelper<SS>> WhereEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+        return where(tableHelperClass, null, callback);
     }
 
 }

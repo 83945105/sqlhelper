@@ -11,11 +11,12 @@ public class BeanUtils {
     private BeanUtils() {
     }
 
-    public static <T extends TableHelper> T tableModel(Class<T> clazz) {
+    public static <T extends TableHelper> T tableHelper(Class<T> clazz) {
         return org.springframework.beans.BeanUtils.instantiateClass(clazz);
     }
 
     public static void copyProperties(Object source, Object target) {
         org.springframework.beans.BeanUtils.copyProperties(source, target);
     }
+
 }

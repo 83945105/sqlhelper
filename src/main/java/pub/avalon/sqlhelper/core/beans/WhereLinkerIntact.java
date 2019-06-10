@@ -67,7 +67,7 @@ public final class WhereLinkerIntact<T extends TableHelper<T, TO, TC, TW, TG, TS
     /**
      * 或
      *
-     * @param tableModelClass 目标条件类
+     * @param tableHelperClass 目标条件类
      * @param alias           目标条件别名
      * @param callback        条件
      * @return 当前条件连接器
@@ -77,10 +77,10 @@ public final class WhereLinkerIntact<T extends TableHelper<T, TO, TC, TW, TG, TS
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> WhereLinkerIntact<T, TO, TC, TW, TG, TS> or(Class<S> tableModelClass,
+            SS extends SortHelper<SS>> WhereLinkerIntact<T, TO, TC, TW, TG, TS> or(Class<S> tableHelperClass,
                                                                                      String alias,
                                                                                      WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
-        SW sw = BeanUtils.tableModel(tableModelClass).newWhereHelper();
+        SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), sw);
         List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
         if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
@@ -95,7 +95,7 @@ public final class WhereLinkerIntact<T extends TableHelper<T, TO, TC, TW, TG, TS
     /**
      * 或
      *
-     * @param tableModelClass 目标条件类
+     * @param tableHelperClass 目标条件类
      * @param callback        条件
      * @return 当前条件连接器
      */
@@ -104,9 +104,9 @@ public final class WhereLinkerIntact<T extends TableHelper<T, TO, TC, TW, TG, TS
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> WhereLinkerIntact<T, TO, TC, TW, TG, TS> or(Class<S> tableModelClass,
+            SS extends SortHelper<SS>> WhereLinkerIntact<T, TO, TC, TW, TG, TS> or(Class<S> tableHelperClass,
                                                                                      WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
-        return or(tableModelClass, null, callback);
+        return or(tableHelperClass, null, callback);
     }
 
 }

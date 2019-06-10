@@ -35,9 +35,9 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
         javaBean.setUserName(arg());
 
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(table -> table.userName().userName())
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .column(table -> table.userName().userName())
                 .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .updateJavaBean(javaBean);

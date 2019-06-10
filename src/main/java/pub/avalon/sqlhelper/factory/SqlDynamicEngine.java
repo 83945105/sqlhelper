@@ -16,8 +16,8 @@ public class SqlDynamicEngine {
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableModelClass) {
-        return new TableEngine<>(tableName, tableModelClass);
+            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableHelperClass) {
+        return new TableEngine<>(tableName, tableHelperClass);
     }
 
     public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
@@ -25,8 +25,8 @@ public class SqlDynamicEngine {
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableModelClass) {
-        return table(null, tableModelClass);
+            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableHelperClass) {
+        return table(null, tableHelperClass);
     }
 
 }

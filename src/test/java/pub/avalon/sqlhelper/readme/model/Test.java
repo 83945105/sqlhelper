@@ -2,9 +2,7 @@ package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.engine.LimitIntactEngine;
-import pub.avalon.sqlhelper.core.engine.SqlEngine;
-import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
+import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.factory.SqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
@@ -24,20 +22,7 @@ public class Test {
         RoleResourceDTO.Helper.Sort sort = RoleResourceDTO.Helper.sort().id().asc().id().desc();
         SysUserDTO.Helper.Sort joinSort = SysUserDTO.Helper.sort().userName().asc().userName().desc();
 
-        SqlEngine sqlEngine = SqlDynamicEngine.table("", RoleResourceDTO.Helper.class)
-                .innerJoin(SysUserDTO.Helper.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.userName().equalTo(mainTable.id()))
-                        .and(mainTable.id().equalTo(joinTable.userName()))
-                        .or(joinTable.userName().equalTo("")))
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(SysUserDTO.Helper.class, table -> table.userName().userName())))
-                .innerJoin(SysUserDTO.Helper.class, (on, joinTable, mainTable) -> on
-                        .and(o -> o
-                                .and(joinTable.userName().equalTo(mainTable.id()))
-                                .or(mainTable.id().equalTo(joinTable.userName())))
-                        .or(o -> o
-                                .and(joinTable.userName().equalTo(mainTable.id()))
-                                .or(mainTable.id().equalTo(joinTable.userName()))))
+        SqlHelperEngine sqlEngine = SqlDynamicEngine.table("", RoleResourceDTO.Helper.class)
                 .column(table -> table.id().id())
                 .column(table -> table.id().id().id(""))
                 .column(SysUserDTO.Helper.class, table -> table.userName().userName(""))
@@ -53,6 +38,19 @@ public class Test {
                 .functionColumn(FunctionColumnType.COUNT, table -> table.id("").id(""))
                 .functionColumn(SysUserDTO.Helper.class, FunctionColumnType.MIN, table -> table.userName().userName(""))
                 .functionColumn(SysUserDTO.Helper.class, "", FunctionColumnType.MIN, table -> table.userName().userName(""))
+                .innerJoin(SysUserDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userName().equalTo(mainTable.id()))
+                        .and(mainTable.id().equalTo(joinTable.userName()))
+                        .or(joinTable.userName().equalTo("")))
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(SysUserDTO.Helper.class, table -> table.userName().userName())))
+                .innerJoin(SysUserDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(o -> o
+                                .and(joinTable.userName().equalTo(mainTable.id()))
+                                .or(mainTable.id().equalTo(joinTable.userName())))
+                        .or(o -> o
+                                .and(joinTable.userName().equalTo(mainTable.id()))
+                                .or(mainTable.id().equalTo(joinTable.userName()))))
                 .where((condition, mainTable) -> condition
                         .and(mainTable.id().equalTo("")
                                 .id().greaterThan("")))

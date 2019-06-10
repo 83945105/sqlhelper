@@ -23,6 +23,11 @@ public final class JoinTableData<T extends TableHelper> extends AbstractTableDat
         super(tableClass);
     }
 
+    public JoinTableData(Class<T> tableClass, String tableAlias) {
+        super(tableClass);
+        this.setTableAlias(tableAlias);
+    }
+
     public JoinType getJoinType() {
         return joinType;
     }

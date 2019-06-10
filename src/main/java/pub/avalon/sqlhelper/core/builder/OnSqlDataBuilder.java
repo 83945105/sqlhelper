@@ -383,10 +383,10 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalTo(Class<S> tableModelClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableModel(tableModelClass).newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
@@ -409,10 +409,10 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableModelClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.NOT_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableModel(tableModelClass).newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
@@ -435,10 +435,10 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThan(Class<S> tableModelClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableModel(tableModelClass).newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
@@ -461,10 +461,10 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableModelClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableModel(tableModelClass).newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
@@ -487,10 +487,10 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThan(Class<S> tableModelClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableModel(tableModelClass).newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
@@ -513,10 +513,10 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableModelClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableModel(tableModelClass).newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();

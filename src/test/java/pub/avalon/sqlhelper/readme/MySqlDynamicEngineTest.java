@@ -149,6 +149,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
     @Test
     void TestJoin() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(table -> table.id().userName("userNameAlias"))
                 // 连接UserRoleModel对应的表 , 设置连接类型为inner , 或者直接使用innerJoin可以省略该参数
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         // 从lambda函数获取参数 on - on条件、joinTable - 当前连接表(UserRoleModel对应的表)、mainTable - 主表(SysUserModel对应的表)
@@ -157,7 +158,6 @@ public class MySqlDynamicEngineTest extends AbstractTest {
                 // 使用innerJoin可以省略连接类型参数
                 //.innerJoin(UserRoleModel.class, (on, joinTable, mainTable) -> on
                 //        .and(joinTable.userId().equalTo(mainTable.id())))
-                .column(table -> table.id().userName("userNameAlias"))
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().like(arg())))
                 .query();
@@ -166,13 +166,13 @@ public class MySqlDynamicEngineTest extends AbstractTest {
 
         //从产出的sql来看，我们只查询了主表的字段，那么如果我们想同时查询出连接表的字段该如何做呢？
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.userId().equalTo(mainTable.id())))
                 //将column定位到连接表模型，指定要查询的列，注意，为了防止列名重复，必要字段请自行取别名，这里将连接表的主键id更名为userRoleId
                 .column(UserRoleDTO.Helper.class, table -> table.id("userRoleId").roleId().roleName())
                 //注意，如果指定了column、functionColumn(见下文)、virtualColumn(见下文)等
                 //将默认不会查询主表字段，此时如果你想查询出主表字段需手动声明，这里的写法(table -> table)表示查询出主表所有字段
                 .column(table -> table)
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().like(arg())))
                 .query();

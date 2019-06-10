@@ -18,14 +18,14 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+public class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> implements SqlBuilder<SqlBuilder>, SqlDataProducer<SqlEngine<T, TO, TC, TW, TG, TS>> {
+        TS extends SortHelper<TS>> implements SqlBuilder<SqlBuilder>, SqlDataProducer<SqlHelperEngine<T, TO, TC, TW, TG, TS>> {
 
-    protected Class<T> tableModelClass;
+    protected Class<T> tableHelperClass;
 
     private SqlData<T> sqlData;
 
@@ -33,49 +33,49 @@ public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
 
     private SqlBuilderProxy sqlBuilderProxy;
 
-    public SqlEngine(Class<T> tableModelClass) {
-        this.tableModelClass = tableModelClass;
-        this.sqlData = new FinalSqlData<>(new MainTableData<>(tableModelClass));
+    public SqlHelperEngine(Class<T> tableHelperClass) {
+        this.tableHelperClass = tableHelperClass;
+        this.sqlData = new FinalSqlData<>(new MainTableData<>(tableHelperClass));
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS);
     }
 
-    public SqlEngine(Class<T> tableModelClass, SqlBuilderOptions sqlBuilderOptions) {
-        this.tableModelClass = tableModelClass;
+    public SqlHelperEngine(Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        this.tableHelperClass = tableHelperClass;
         this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlData = new FinalSqlData<>(new MainTableData<>(tableModelClass));
+        this.sqlData = new FinalSqlData<>(new MainTableData<>(tableHelperClass));
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, sqlBuilderOptions);
     }
 
-    public SqlEngine(String tableName, Class<T> tableModelClass) {
-        this.tableModelClass = tableModelClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableModelClass);
+    public SqlHelperEngine(String tableName, Class<T> tableHelperClass) {
+        this.tableHelperClass = tableHelperClass;
+        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
         mainTableData.setTableName(tableName);
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS);
     }
 
-    public SqlEngine(String tableName, Class<T> tableModelClass, SqlBuilderOptions sqlBuilderOptions) {
-        this.tableModelClass = tableModelClass;
+    public SqlHelperEngine(String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        this.tableHelperClass = tableHelperClass;
         this.sqlBuilderOptions = sqlBuilderOptions;
-        MainTableData<T> mainTableData = new MainTableData<>(tableModelClass);
+        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
         mainTableData.setTableName(tableName);
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, sqlBuilderOptions);
     }
 
-    public SqlEngine(String tableName, Class<T> tableModelClass, String alias) {
-        this.tableModelClass = tableModelClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableModelClass);
+    public SqlHelperEngine(String tableName, Class<T> tableHelperClass, String alias) {
+        this.tableHelperClass = tableHelperClass;
+        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
         mainTableData.setTableName(tableName);
         mainTableData.setTableAlias(alias);
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS);
     }
 
-    public SqlEngine(String tableName, Class<T> tableModelClass, String alias, SqlBuilderOptions sqlBuilderOptions) {
-        this.tableModelClass = tableModelClass;
+    public SqlHelperEngine(String tableName, Class<T> tableHelperClass, String alias, SqlBuilderOptions sqlBuilderOptions) {
+        this.tableHelperClass = tableHelperClass;
         this.sqlBuilderOptions = sqlBuilderOptions;
-        MainTableData<T> mainTableData = new MainTableData<>(tableModelClass);
+        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
         mainTableData.setTableName(tableName);
         mainTableData.setTableAlias(alias);
         this.sqlData = new FinalSqlData<>(mainTableData);
@@ -207,91 +207,91 @@ public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
         this.sqlData.setDataBaseType(dataBaseType);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> addTableColumnDatum(TableColumnDatum tableColumnDatum) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> addTableColumnDatum(TableColumnDatum tableColumnDatum) {
         this.sqlData.addTableColumnDatum(tableColumnDatum);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
         this.sqlData.addVirtualFieldDatum(virtualFieldDatum);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
         this.sqlData.addTableFunctionColumnDatum(tableFunctionColumnDatum);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> addWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
         this.sqlData.addWhereDataLinkerList(whereDataLinkerList);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> addTableGroupDatum(TableGroupDatum tableGroupDatum) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> addTableGroupDatum(TableGroupDatum tableGroupDatum) {
         this.sqlData.addTableGroupDatum(tableGroupDatum);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> addTableSortDatum(TableSortDatum tableSortDatum) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> addTableSortDatum(TableSortDatum tableSortDatum) {
         this.sqlData.addTableSortDatum(tableSortDatum);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> setLimitData(LimitHandler limitData) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> setLimitData(LimitHandler limitData) {
         this.sqlData.setLimitData(limitData);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> buildLimitData(Integer currentPage, Integer pageSize) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> buildLimitData(Integer currentPage, Integer pageSize) {
         this.sqlData.buildLimitData(currentPage, pageSize);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
         this.sqlData.buildLimitData(total, currentPage, pageSize);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> setLimitStart(Integer limitStart) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> setLimitStart(Integer limitStart) {
         this.sqlData.setLimitStart(limitStart);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> setLimitEnd(Integer limitEnd) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> setLimitEnd(Integer limitEnd) {
         this.sqlData.setLimitEnd(limitEnd);
         return this;
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> addSubQueryData(String alias, SqlBuilder sqlBuilder) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> addSubQueryData(String alias, SqlBuilder sqlBuilder) {
         this.sqlData.addSubQueryData(alias, sqlBuilder);
         return this;
     }
 
     @Override
-    public <J extends TableHelper> SqlEngine<T, TO, TC, TW, TG, TS> addJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableHelper> SqlHelperEngine<T, TO, TC, TW, TG, TS> addJoinTableData(JoinTableData<J> joinTableData) {
         this.sqlData.addJoinTableData(joinTableData);
         return this;
     }
 
     @Override
-    public <J extends TableHelper> SqlEngine<T, TO, TC, TW, TG, TS> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
+    public <J extends TableHelper> SqlHelperEngine<T, TO, TC, TW, TG, TS> addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
         this.sqlData.addSubQueryJoinTableData(joinTableData);
         return this;
     }
