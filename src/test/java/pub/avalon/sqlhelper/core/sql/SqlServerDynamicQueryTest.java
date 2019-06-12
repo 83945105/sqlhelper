@@ -231,6 +231,16 @@ public class SqlServerDynamicQueryTest extends AbstractTest {
     }
 
     @Test
+    void TestSortAndLimit() {
+        SqlBuilder sqlBuilder = SqlServerDynamicEngine.query(SysUserModel.class)
+                .sort(table -> table.id().asc())
+                .limit(arg(1), arg(10))
+                .query();
+        setSqlBuilder(sqlBuilder, "select * from (select row_number() over( order by SysUser.[id] asc ) n, SysUser.[id] [id],SysUser.[user_name] [userName],SysUser.[login_name] [loginName] from [sys_user] SysUser ) rn where rn.n >= ? and rn.n <= ?");
+
+    }
+
+    @Test
     void TestSortAndJoinAndWhere() {
         SqlBuilder sqlBuilder = SqlServerDynamicEngine.query(SysUserModel.class)
                 .where((condition, mainTable) -> condition
@@ -254,7 +264,7 @@ public class SqlServerDynamicQueryTest extends AbstractTest {
         SqlBuilder sqlBuilder = SqlServerDynamicEngine.query(SysUserModel.class)
                 .limit(arg(1), arg(10))
                 .query();
-        setSqlBuilder(sqlBuilder, "select * from (select row_number() over(order by SysUser.[id] asc) n, SysUser.[id] [id],SysUser.[user_name] [userName],SysUser.[login_name] [loginName] from [sys_user] SysUser) rn where rn.n >= ? and rn.n <= ?");
+        setSqlBuilder(sqlBuilder, "select * from (select row_number() over(order by (select 0) ) n, SysUser.[id] [id],SysUser.[user_name] [userName],SysUser.[login_name] [loginName] from [sys_user] SysUser) rn where rn.n >= ? and rn.n <= ?");
 
         sqlBuilder = SqlServerDynamicEngine.query(SysUserModel.class)
                 .limit(200, 10, 20)
@@ -262,7 +272,7 @@ public class SqlServerDynamicQueryTest extends AbstractTest {
         Pagination pagination = new Pagination(DataBaseType.SQLSERVER, 200, 10, 20);
         arg(pagination.getLimitStart());
         arg(pagination.getLimitEnd());
-        setSqlBuilder(sqlBuilder, "select * from (select row_number() over(order by SysUser.[id] asc) n, SysUser.[id] [id],SysUser.[user_name] [userName],SysUser.[login_name] [loginName] from [sys_user] SysUser) rn where rn.n >= ? and rn.n <= ?");
+        setSqlBuilder(sqlBuilder, "select * from (select row_number() over(order by (select 0) ) n, SysUser.[id] [id],SysUser.[user_name] [userName],SysUser.[login_name] [loginName] from [sys_user] SysUser) rn where rn.n >= ? and rn.n <= ?");
     }
 
     @Test

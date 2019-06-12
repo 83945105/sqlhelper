@@ -33,6 +33,19 @@ public class SqlSplicer {
         return this;
     }
 
+    public int indexOf(String str) {
+        return this.sql.indexOf(str);
+    }
+
+    public int indexOf(String str, int fromIndex) {
+        return this.sql.indexOf(str, fromIndex);
+    }
+
+    public SqlSplicer delete(int start, int end) {
+        this.sql.delete(start, end);
+        return this;
+    }
+
     public String getSql() {
         return this.sql.toString();
     }

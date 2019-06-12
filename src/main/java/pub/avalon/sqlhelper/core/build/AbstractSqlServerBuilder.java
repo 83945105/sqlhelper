@@ -882,13 +882,13 @@ public abstract class AbstractSqlServerBuilder<M extends Model> extends Abstract
         int len = rowNumSql.length();
         this.appendSortSql(rowNumSql);
         if (len == rowNumSql.length()) {
-            rowNumSql.append("order by ")
-                    .append(this.sqlData.getMainTableData().getTableAlias())
-                    .append(".[")
-                    .append(this.sqlData.getMainTableData().getPrimaryKeyName())
-                    .append("] asc");
+            // 没有排序
+            rowNumSql.append("order by (select 0)");
+        } else {
+            // 删除外部排序
+            sqlSplicer.delete(sqlSplicer.indexOf("order"), sqlSplicer.length());
         }
-        rowNumSql.append(") n, ");
+        rowNumSql.append(" ) n, ");
 
         sqlSplicer.insert(7, rowNumSql.getSql())
                 .insert(0, "select * from (")
