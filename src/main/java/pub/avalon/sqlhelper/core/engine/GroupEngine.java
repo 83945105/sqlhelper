@@ -3,8 +3,6 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
 import pub.avalon.sqlhelper.core.data.GroupDatum;
-import pub.avalon.sqlhelper.core.data.JoinTableData;
-import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 
@@ -45,14 +43,13 @@ public class GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     public GroupEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
-        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
         TG tg = BeanUtils.tableHelper(this.tableHelperClass).newGroupHelper();
         tg = callback.apply(tg);
         Set<GroupDatum> groupData = tg.takeoutSqlModelData();
         if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        this.addTableGroupDatum(new TableGroupDatum(mainTableData, groupData));
+        this.addTableGroupDatum(new TableGroupDatum<>(this.tableHelperClass, this.tableAlias, groupData));
         return this;
     }
 
@@ -61,15 +58,14 @@ public class GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> GroupEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String alias, GroupCallback<SG> callback) {
-        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, tableHelperClass);
+            SS extends SortHelper<SS>> GroupEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
         SG sg = BeanUtils.tableHelper(tableHelperClass).newGroupHelper();
         sg = callback.apply(sg);
         Set<GroupDatum> groupData = sg.takeoutSqlModelData();
         if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        this.addTableGroupDatum(new TableGroupDatum(joinTableData, groupData));
+        this.addTableGroupDatum(new TableGroupDatum<>(tableHelperClass, tableAlias, groupData));
         return this;
     }
 

@@ -4,7 +4,10 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
-import pub.avalon.sqlhelper.core.data.*;
+import pub.avalon.sqlhelper.core.data.ColumnDatum;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
+import pub.avalon.sqlhelper.core.data.TableFunctionColumnDatum;
+import pub.avalon.sqlhelper.core.data.VirtualFieldDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
@@ -45,15 +48,15 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     public ColumnEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
-        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
-        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
+        T t = BeanUtils.tableHelper(this.tableHelperClass);
+        TC tc = t.newColumnHelper();
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
         // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
         if (columnData == null || columnData.size() == 0) {
-            columnData = mainTableData.buildTableColumnData();
+            columnData = BeanUtils.getColumnData(t);
         }
-        this.addTableColumnDatum(new TableColumnDatum(mainTableData, columnData));
+        this.addTableColumnDatum(new TableColumnDatum<>(this.tableHelperClass, this.tableAlias, columnData));
         return this;
     }
 
@@ -62,15 +65,15 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String alias, ColumnCallback<SC> callback) {
-        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, tableHelperClass);
-        SC sc = joinTableData.getTableModel().newColumnHelper();
+            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper();
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
         if (columnData == null || columnData.size() == 0) {
-            columnData = joinTableData.buildTableColumnData();
+            columnData = BeanUtils.getColumnData(s);
         }
-        this.addTableColumnDatum(new TableColumnDatum(joinTableData, columnData));
+        this.addTableColumnDatum(new TableColumnDatum<>(tableHelperClass, tableAlias, columnData));
         return this;
     }
 
@@ -119,15 +122,14 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         if (functionColumnType == null) {
             return this;
         }
-        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
-        TC tc = mainTableData.getTableModel().newColumnHelper();
+        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
         // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(mainTableData, functionColumnType, columnData));
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(this.tableHelperClass, this.tableAlias, functionColumnType, columnData));
         return this;
     }
 
@@ -136,19 +138,18 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> columnClass, String alias, FunctionColumnType functionColumnType, ColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, FunctionColumnType functionColumnType, ColumnCallback<SC> callback) {
         if (functionColumnType == null) {
             return this;
         }
-        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, columnClass);
-        SC sc = joinTableData.getTableModel().newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
         // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(joinTableData, functionColumnType, columnData));
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(tableHelperClass, tableAlias, functionColumnType, columnData));
         return this;
     }
 
@@ -167,8 +168,8 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
-        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getSqlData(), tableName, tableHelperClass, alias, callback);
-        this.addSubQueryData(columnAlias, sqlBuilder);
+//        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getSqlData(), tableName, tableHelperClass, alias, callback);
+//        this.addSubQueryData(columnAlias, sqlBuilder);
         return this;
     }
 

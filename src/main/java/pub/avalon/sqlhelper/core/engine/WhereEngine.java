@@ -1,10 +1,10 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.WhereLinker;
 import pub.avalon.sqlhelper.core.beans.WhereLinkerIntact;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
+import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.helper.*;
 
@@ -40,10 +40,11 @@ public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         if (callback == null) {
             return this;
         }
-        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
-        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), tw);
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
-        this.addWhereDataLinkerList(whereDataLinkerList);
+        List<WhereDataLinker> whereDataLinkers = callback.apply(new WhereLinkerIntact<>(), BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper()).takeoutWhereDataLinkerList();
+        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
+            return this;
+        }
+        this.addTableWhereDatum(new TableWhereDatum<>(this.tableHelperClass, this.tableAlias, whereDataLinkers));
         return this;
     }
 
@@ -52,15 +53,15 @@ public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> WhereEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String alias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+            SS extends SortHelper<SS>> WhereEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         if (callback == null) {
             return this;
         }
-        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
-        SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
-        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereLinkerIntact<>(), sw, tw);
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkerList();
-        this.addWhereDataLinkerList(whereDataLinkerList);
+        List<WhereDataLinker> whereDataLinkers = callback.apply(new WhereLinkerIntact<>(), BeanUtils.tableHelper(tableHelperClass).newWhereHelper(), BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper()).takeoutWhereDataLinkerList();
+        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
+            return this;
+        }
+        this.addTableWhereDatum(new TableWhereDatum<>(tableHelperClass, tableAlias, whereDataLinkers));
         return this;
     }
 

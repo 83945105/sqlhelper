@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
@@ -15,35 +16,29 @@ import java.util.Set;
  */
 public abstract class AbstractTableData<T extends TableHelper> implements TableData<T> {
 
-    private T tableModel;
+    private T tableHelper;
 
-    private Class<T> tableClass;
+    private Class<T> tableHelperClass;
 
     protected String tableName;
 
     protected String tableAlias;
 
-    protected Set<ColumnDatum> columnData;
-
-    public AbstractTableData(Class<T> tableClass) {
-        this.tableClass = tableClass;
-        try {
-            this.tableModel = tableClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new TableDataException(e);
-        }
-        this.tableName = this.tableModel.getTableName();
-        this.tableAlias = this.tableModel.getTableAlias();
+    public AbstractTableData(Class<T> tableHelperClass) {
+        this.tableHelperClass = tableHelperClass;
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = this.tableHelper.getTableName();
+        this.tableAlias = this.tableHelper.getTableAlias();
     }
 
     @Override
-    public T getTableModel() {
-        return this.tableModel;
+    public T getTableHelper() {
+        return this.tableHelper;
     }
 
     @Override
-    public Class<T> getTableClass() {
-        return this.tableClass;
+    public Class<T> getTableHelperClass() {
+        return this.tableHelperClass;
     }
 
     @Override
@@ -73,16 +68,6 @@ public abstract class AbstractTableData<T extends TableHelper> implements TableD
     }
 
     @Override
-    public Set<ColumnDatum> getColumnData() {
-        return this.columnData;
-    }
-
-    @Override
-    public void setColumnData(Set<ColumnDatum> columnData) {
-        this.columnData = columnData;
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -98,4 +83,5 @@ public abstract class AbstractTableData<T extends TableHelper> implements TableD
     public int hashCode() {
         return Objects.hash(tableAlias);
     }
+
 }

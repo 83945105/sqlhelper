@@ -2,10 +2,6 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * 表数据
  *
@@ -15,18 +11,18 @@ import java.util.Set;
 public interface TableData<T extends TableHelper> {
 
     /**
-     * 获取表模型
+     * 获取表助手
      *
-     * @return 表模型
+     * @return {@link TableHelper}
      */
-    T getTableModel();
+    T getTableHelper();
 
     /**
-     * 获取表类型
+     * 获取表助手Class
      *
-     * @return 表模型类
+     * @return {@link TableHelper}
      */
-    Class<T> getTableClass();
+    Class<T> getTableHelperClass();
 
     /**
      * 获取表名称
@@ -55,39 +51,5 @@ public interface TableData<T extends TableHelper> {
      * @param tableAlias 表别名
      */
     void setTableAlias(String tableAlias);
-
-    /**
-     * 获取列数据
-     *
-     * @return 列数据
-     */
-    Set<ColumnDatum> getColumnData();
-
-    /**
-     * 设置列数据
-     *
-     * @param columnData 列数据
-     */
-    void setColumnData(Set<ColumnDatum> columnData);
-
-    /**
-     * 构建表的列数据
-     *
-     * @return LinkedHashSet
-     */
-    @SuppressWarnings("unchecked")
-    default Set<ColumnDatum> buildTableColumnData() {
-        Set<ColumnDatum> columnData = new LinkedHashSet<>();
-        Map<String, String> columnAliasMap = this.getTableModel().getColumnNameAliasMap();
-        if (columnAliasMap == null) {
-            return columnData;
-        }
-        String tableName = this.getTableName();
-        String tableAlias = this.getTableAlias();
-        for (Map.Entry<String, String> entry : columnAliasMap.entrySet()) {
-            columnData.add(new ColumnDatum(tableName, tableAlias, entry.getKey(), entry.getValue()));
-        }
-        return columnData;
-    }
 
 }

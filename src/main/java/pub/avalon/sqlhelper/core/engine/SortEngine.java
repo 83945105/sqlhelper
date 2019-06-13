@@ -2,8 +2,6 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
-import pub.avalon.sqlhelper.core.data.JoinTableData;
-import pub.avalon.sqlhelper.core.data.MainTableData;
 import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -45,11 +43,13 @@ public class SortEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     public SortEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
-        MainTableData<T> mainTableData = this.getSqlData().getMainTableData();
         TS ts = BeanUtils.tableHelper(this.tableHelperClass).newSortHelper();
         ts = callback.apply(ts);
         Set<SortDatum> sortData = ts.takeoutSqlModelData();
-        this.addTableSortDatum(new TableSortDatum(mainTableData, sortData));
+        if (sortData == null || sortData.size() == 0) {
+            return this;
+        }
+        this.addTableSortDatum(new TableSortDatum<>(this.tableHelperClass, this.tableAlias, sortData));
         return this;
     }
 
@@ -58,12 +58,14 @@ public class SortEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SortEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String alias, SortCallback<SS> callback) {
-        JoinTableData<S> joinTableData = this.getSqlData().getJoinTableData(alias, tableHelperClass);
+            SS extends SortHelper<SS>> SortEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
         SS ss = BeanUtils.tableHelper(tableHelperClass).newSortHelper();
         ss = callback.apply(ss);
         Set<SortDatum> sortData = ss.takeoutSqlModelData();
-        this.addTableSortDatum(new TableSortDatum(joinTableData, sortData));
+        if (sortData == null || sortData.size() == 0) {
+            return this;
+        }
+        this.addTableSortDatum(new TableSortDatum<>(tableHelperClass, tableAlias, sortData));
         return this;
     }
 

@@ -6,7 +6,11 @@ import pub.avalon.sqlhelper.core.beans.OnLinker;
 import pub.avalon.sqlhelper.core.beans.OnLinkerIntact;
 import pub.avalon.sqlhelper.core.callback.OnCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
+import pub.avalon.sqlhelper.core.data.OnDataLinker;
+import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+
+import java.util.List;
 
 /**
  * 连接引擎
@@ -39,17 +43,21 @@ public class JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> JoinEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> JoinEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         JoinTableData<S> joinTableData = new JoinTableData<>(tableHelperClass);
         joinTableData.setTableName(tableName);
-        joinTableData.setTableAlias(alias);
+        joinTableData.setTableAlias(tableAlias);
         joinTableData.setJoinType(joinType);
         this.addJoinTableData(joinTableData);
         TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper();
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnLinkerIntact<>();
         SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper();
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
-        joinTableData.addOnDataLinkerList(linker.takeoutOnDataLinkerList());
+        List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkerList();
+        if (onDataLinkers == null || onDataLinkers.size() == 0) {
+            return this;
+        }
+        joinTableData.setTableOnDatum(new TableOnDatum<>(tableHelperClass, tableAlias, onDataLinkers));
         return this;
     }
 

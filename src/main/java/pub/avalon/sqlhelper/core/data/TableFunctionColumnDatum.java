@@ -1,8 +1,8 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
 
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -11,22 +11,29 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public final class TableFunctionColumnDatum {
+public final class TableFunctionColumnDatum<T extends TableHelper> {
 
-    private TableData tableData;
+    private Class<T> tableHelperClass;
+
+    private String tableAlias;
 
     private FunctionColumnType functionColumnType;
 
     private Set<ColumnDatum> columnData;
 
-    public TableFunctionColumnDatum(TableData tableData, FunctionColumnType functionColumnType, Set<ColumnDatum> columnData) {
-        this.tableData = tableData;
+    public TableFunctionColumnDatum(Class<T> tableHelperClass, String tableAlias, FunctionColumnType functionColumnType, Set<ColumnDatum> columnData) {
+        this.tableHelperClass = tableHelperClass;
+        this.tableAlias = tableAlias;
         this.functionColumnType = functionColumnType;
         this.columnData = columnData;
     }
 
-    public TableData getTableData() {
-        return tableData;
+    public Class<T> getTableHelperClass() {
+        return tableHelperClass;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
     }
 
     public FunctionColumnType getFunctionColumnType() {
@@ -37,23 +44,4 @@ public final class TableFunctionColumnDatum {
         return columnData;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        TableFunctionColumnDatum that = (TableFunctionColumnDatum) o;
-        return Objects.equals(getTableData(), that.getTableData()) &&
-                getFunctionColumnType() == that.getFunctionColumnType() &&
-                Objects.equals(getColumnData(), that.getColumnData());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getTableData(), getFunctionColumnType(), getColumnData());
-    }
-    
 }

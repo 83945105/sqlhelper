@@ -3,9 +3,6 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 连接表数据
  *
@@ -17,7 +14,7 @@ public final class JoinTableData<T extends TableHelper> extends AbstractTableDat
 
     private JoinType joinType = JoinType.INNER;
 
-    private List<OnDataLinker> onDataLinkerList;
+    private TableOnDatum tableOnDatum;
 
     public JoinTableData(Class<T> tableClass) {
         super(tableClass);
@@ -36,18 +33,12 @@ public final class JoinTableData<T extends TableHelper> extends AbstractTableDat
         this.joinType = joinType;
     }
 
-    public List<OnDataLinker> getOnDataLinkerList() {
-        return onDataLinkerList;
+    public TableOnDatum getTableOnDatum() {
+        return tableOnDatum;
     }
 
-    public void addOnDataLinkerList(List<OnDataLinker> onDataLinkerList) {
-        if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
-            return;
-        }
-        if (this.onDataLinkerList == null) {
-            this.onDataLinkerList = new ArrayList<>();
-        }
-        this.onDataLinkerList.addAll(onDataLinkerList);
+    public void setTableOnDatum(TableOnDatum tableOnDatum) {
+        this.tableOnDatum = tableOnDatum;
     }
 
 }

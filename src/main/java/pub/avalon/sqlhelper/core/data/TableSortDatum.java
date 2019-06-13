@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
-import java.util.Objects;
+import pub.avalon.sqlhelper.core.helper.TableHelper;
+
 import java.util.Set;
 
 /**
@@ -10,39 +11,30 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class TableSortDatum {
+public final class TableSortDatum<T extends TableHelper> {
 
-    private TableData tableData;
+    private Class<T> tableHelperClass;
+
+    private String tableAlias;
 
     private Set<SortDatum> sortData;
 
-    public TableSortDatum(TableData tableData, Set<SortDatum> sortData) {
-        this.tableData = tableData;
+    public TableSortDatum(Class<T> tableHelperClass, String tableAlias, Set<SortDatum> sortData) {
+        this.tableHelperClass = tableHelperClass;
+        this.tableAlias = tableAlias;
         this.sortData = sortData;
     }
 
-    public TableData getTableData() {
-        return tableData;
+    public Class<T> getTableHelperClass() {
+        return tableHelperClass;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
     }
 
     public Set<SortDatum> getSortData() {
         return sortData;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        TableSortDatum that = (TableSortDatum) o;
-        return Objects.equals(getTableData(), that.getTableData());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getTableData());
-    }
 }

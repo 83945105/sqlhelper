@@ -2,26 +2,26 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
-import java.util.Set;
+import java.util.List;
 
 /**
- * 表列数据
+ * on数据
  *
  * @author 白超
- * @date 2019/5/2
+ * @date 2019/6/13
  */
-public final class TableColumnDatum<T extends TableHelper> {
+public class TableOnDatum<T extends TableHelper> {
 
     private Class<T> tableHelperClass;
 
     private String tableAlias;
 
-    private Set<ColumnDatum> columnData;
+    private List<OnDataLinker> onDataLinkers;
 
-    public TableColumnDatum(Class<T> tableHelperClass, String tableAlias, Set<ColumnDatum> columnData) {
+    public TableOnDatum(Class<T> tableHelperClass, String tableAlias, List<OnDataLinker> onDataLinkers) {
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
-        this.columnData = columnData;
+        this.onDataLinkers = onDataLinkers;
     }
 
     public Class<T> getTableHelperClass() {
@@ -32,8 +32,8 @@ public final class TableColumnDatum<T extends TableHelper> {
         return tableAlias;
     }
 
-    public Set<ColumnDatum> getColumnData() {
-        return columnData;
+    public List<OnDataLinker> getOnDataLinkers() {
+        return onDataLinkers;
     }
 
 }

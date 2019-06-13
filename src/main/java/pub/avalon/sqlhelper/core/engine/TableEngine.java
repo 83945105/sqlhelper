@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.helper.*;
 
 /**
@@ -26,12 +25,6 @@ public final class TableEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
 
     public TableEngine(String tableName, Class<T> tableHelperClass, String alias) {
         super(tableName, tableHelperClass, alias);
-    }
-
-    @Override
-    public TableEngine<T, TO, TC, TW, TG, TS> setDataBaseType(DataBaseType dataBaseType) {
-        super.setDataBaseType(dataBaseType);
-        return this;
     }
 
 }
