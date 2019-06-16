@@ -52,11 +52,11 @@ public interface SubQueryCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TableEngine<T, TO, TC, TW, TG, TS> tableEngine;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
-                tableEngine = new TableEngine<>(tableName, tableHelperClass, alias);
+                tableEngine = new TableEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
                 tableEngine.setDataBaseType(DataBaseType.MYSQL);
                 break;
             case SQLSERVER:
-                tableEngine = new TableEngine<>(tableName, tableHelperClass, alias);
+                tableEngine = new TableEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
                 tableEngine.setDataBaseType(DataBaseType.SQLSERVER);
                 break;
             default:

@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -18,28 +19,28 @@ public class LimitEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> extends SqlHelperEngine<T, TO, TC, TW, TG, TS> {
 
-    public LimitEngine(Class<T> tableHelperClass) {
-        super(tableHelperClass);
+    public LimitEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
+        super(dataBaseType, tableHelperClass);
     }
 
-    public LimitEngine(Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
-        super(tableHelperClass, sqlBuilderOptions);
+    public LimitEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableHelperClass, sqlBuilderOptions);
     }
 
-    public LimitEngine(String tableName, Class<T> tableHelperClass) {
-        super(tableName, tableHelperClass);
+    public LimitEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
+        super(dataBaseType, tableName, tableHelperClass);
     }
 
-    public LimitEngine(String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
-        super(tableName, tableHelperClass, sqlBuilderOptions);
+    public LimitEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, sqlBuilderOptions);
     }
 
-    public LimitEngine(String tableName, Class<T> tableHelperClass, String alias) {
-        super(tableName, tableHelperClass, alias);
+    public LimitEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias);
     }
 
-    public LimitEngine(String tableName, Class<T> tableHelperClass, String alias, SqlBuilderOptions sqlBuilderOptions) {
-        super(tableName, tableHelperClass, alias, sqlBuilderOptions);
+    public LimitEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias, sqlBuilderOptions);
     }
 
     public LimitEngine limitTop(Integer num) {

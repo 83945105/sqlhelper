@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
 import pub.avalon.beans.LimitHandler;
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
@@ -99,7 +100,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
 
     protected void appendTableFunctionColumnSqlArgs(StringBuilder sql, List<Object> args, Set<TableFunctionColumnDatum> tableFunctionColumnData) {
         int i = 0;
-        TableData tableData;
         FunctionColumnType functionColumnType;
         Set<ColumnDatum> columnData;
         for (TableFunctionColumnDatum tableFunctionColumnDatum : tableFunctionColumnData) {
@@ -107,7 +107,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             if (columnData == null || columnData.size() == 0) {
                 continue;
             }
-            tableData = tableFunctionColumnDatum.getTableData();
             functionColumnType = tableFunctionColumnDatum.getFunctionColumnType();
             for (ColumnDatum columnDatum : columnData) {
                 if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
@@ -134,7 +133,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                     default:
                         throw new SqlException("the functionColumnType is wrong.");
                 }
-                sql.append(tableData.getTableAlias())
+                sql.append(tableFunctionColumnDatum.getTableAlias())
                         .append(".`")
                         .append(columnDatum.getOwnerColumnName())
                         .append("`) `")
@@ -191,10 +190,9 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             if (columnData.size() == 0) {
                 continue;
             }
-            tableData = tableColumnDatum.getTableData();
             for (ColumnDatum columnDatum : columnData) {
                 if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
-                    throw new TableDataException("table alias [" + tableData.getTableAlias() + "] column alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
+                    throw new TableDataException("table alias [" + tableColumnDatum.getTableAlias() + "] column alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
                 }
                 if (i++ > 0) {
                     sql.append(",");
@@ -222,7 +220,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         boolean hasV = virtualFieldData != null && virtualFieldData.size() != 0;
         boolean hasC = tableColumnData != null && tableColumnData.size() != 0;
         if (!hasS && !hasF && !hasV && !hasC) {
-            this.appendColumnSqlArgs(sql, args, sqlDataConsumer.getMainTableColumnData());
+            this.appendColumnSqlArgs(sql, args, BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper()));
             return;
         }
         if (hasS) {
@@ -445,10 +443,10 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                     .append(joinTableData.getTableName())
                     .append("` ")
                     .append(joinTableData.getTableAlias());
-            List<OnDataLinker> onDataLinkerList = joinTableData.getOnDataLinkerList();
-            if (onDataLinkerList != null && onDataLinkerList.size() > 0) {
+            List<OnDataLinker> onDataLinkers = joinTableData.getTableOnDatum().getOnDataLinkers();
+            if (onDataLinkers != null && onDataLinkers.size() > 0) {
                 sql.append(" on ");
-                this.appendOnDataLinkerListSqlArgs(sql, args, onDataLinkerList, LinkType.AND, false);
+                this.appendOnDataLinkerListSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
             }
         }
     }
@@ -793,17 +791,17 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         sql.insert(length, "(").append(")");
     }
 
-    protected void appendWhereSqlArgs(StringBuilder sql, List<Object> args, List<List<WhereDataLinker>> whereDataLinkerListList) {
-        if (whereDataLinkerListList == null || whereDataLinkerListList.size() == 0) {
+    protected void appendWhereSqlArgs(StringBuilder sql, List<Object> args, Set<TableWhereDatum> tableWhereData) {
+        if (tableWhereData == null || tableWhereData.size() == 0) {
             return;
         }
         sql.append(" where ");
         int i = 0;
-        for (List<WhereDataLinker> whereDataLinkerList : whereDataLinkerListList) {
+        for (TableWhereDatum tableWhereDatum : tableWhereData) {
             if (i++ > 0) {
                 sql.append(" and ");
             }
-            this.appendWhereDataLinkerListSqlArgs(sql, args, whereDataLinkerList, LinkType.AND, whereDataLinkerListList.size() > 1);
+            this.appendWhereDataLinkerListSqlArgs(sql, args, tableWhereDatum.getWhereDataLinkers(), LinkType.AND, tableWhereData.size() > 1);
         }
     }
 

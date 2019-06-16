@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
@@ -9,6 +10,7 @@ import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableFunctionColumnDatum;
 import pub.avalon.sqlhelper.core.data.VirtualFieldDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.Set;
@@ -27,16 +29,28 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> extends JoinEngine<T, TO, TC, TW, TG, TS> {
 
-    public ColumnEngine(Class<T> tableHelperClass) {
-        super(tableHelperClass);
+    public ColumnEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
+        super(dataBaseType, tableHelperClass);
     }
 
-    public ColumnEngine(String tableName, Class<T> tableHelperClass) {
-        super(tableName, tableHelperClass);
+    public ColumnEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableHelperClass, sqlBuilderOptions);
     }
 
-    public ColumnEngine(String tableName, Class<T> tableHelperClass, String alias) {
-        super(tableName, tableHelperClass, alias);
+    public ColumnEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
+        super(dataBaseType, tableName, tableHelperClass);
+    }
+
+    public ColumnEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, sqlBuilderOptions);
+    }
+
+    public ColumnEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias);
+    }
+
+    public ColumnEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias, sqlBuilderOptions);
     }
 
     public ColumnEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columns) {

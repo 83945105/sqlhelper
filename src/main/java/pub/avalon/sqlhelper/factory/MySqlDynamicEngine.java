@@ -22,7 +22,7 @@ public final class MySqlDynamicEngine {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableHelperClass) {
-        return new TableEngine<>(tableName, tableHelperClass).setDataBaseType(DataBaseType.MYSQL);
+        return new TableEngine<>(DataBaseType.MYSQL, tableName, tableHelperClass);
     }
 
     public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,

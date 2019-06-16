@@ -94,7 +94,7 @@ public abstract class AbstractSqlDataCache<T extends TableHelper> implements Sql
             // 同一个表别名不能使用2次
             throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
         }
-        this.joinTableAliasCache.put(joinTableData.getTableAlias(), joinTableData.getTableClass());
+        this.joinTableAliasCache.put(joinTableData.getTableAlias(), joinTableData.getTableHelperClass());
         if (this.joinTableDataMap == null) {
             this.joinTableDataMap = new LinkedHashMap<>();
         }
@@ -107,7 +107,7 @@ public abstract class AbstractSqlDataCache<T extends TableHelper> implements Sql
             // 同一个表别名不能使用2次
             throw new TableDataException("alias table [" + joinTableData.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
         }
-        this.joinTableAliasCache.put(joinTableData.getTableAlias(), joinTableData.getTableClass());
+        this.joinTableAliasCache.put(joinTableData.getTableAlias(), joinTableData.getTableHelperClass());
         if (this.subQueryJoinTableDataMap == null) {
             this.subQueryJoinTableDataMap = new LinkedHashMap<>();
         }

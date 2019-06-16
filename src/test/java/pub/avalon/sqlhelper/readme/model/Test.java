@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.readme.model;
 
+import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
@@ -22,7 +23,7 @@ public class Test {
         RoleResourceDTO.Helper.Sort sort = RoleResourceDTO.Helper.sort().id().asc().id().desc();
         SysUserDTO.Helper.Sort joinSort = SysUserDTO.Helper.sort().userName().asc().userName().desc();
 
-        SqlHelperEngine sqlEngine = SqlDynamicEngine.table("", RoleResourceDTO.Helper.class)
+        SqlHelperEngine sqlEngine = SqlDynamicEngine.table(DataBaseType.MYSQL, "", RoleResourceDTO.Helper.class)
                 .column(table -> table.id().id())
                 .column(table -> table.id().id().id(""))
                 .column(SysUserDTO.Helper.class, table -> table.userName().userName(""))

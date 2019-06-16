@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.beans.OnLinker;
@@ -9,6 +10,7 @@ import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.OnDataLinker;
 import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.List;
 
@@ -26,16 +28,28 @@ public class JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> extends WhereEngine<T, TO, TC, TW, TG, TS> {
 
-    public JoinEngine(Class<T> tableHelperClass) {
-        super(tableHelperClass);
+    public JoinEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
+        super(dataBaseType, tableHelperClass);
     }
 
-    public JoinEngine(String tableName, Class<T> tableHelperClass) {
-        super(tableName, tableHelperClass);
+    public JoinEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableHelperClass, sqlBuilderOptions);
     }
 
-    public JoinEngine(String tableName, Class<T> tableHelperClass, String alias) {
-        super(tableName, tableHelperClass, alias);
+    public JoinEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
+        super(dataBaseType, tableName, tableHelperClass);
+    }
+
+    public JoinEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, sqlBuilderOptions);
+    }
+
+    public JoinEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias);
+    }
+
+    public JoinEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias, sqlBuilderOptions);
     }
 
     public <S extends TableHelper<S, SO, SC, SW, SG, SS>,

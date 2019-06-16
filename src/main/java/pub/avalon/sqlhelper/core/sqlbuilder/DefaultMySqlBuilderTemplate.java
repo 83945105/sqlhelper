@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
 import pub.avalon.holygrail.utils.ClassUtil;
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
@@ -68,7 +69,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 preparedStatementSql.append(",");
@@ -95,7 +96,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 preparedStatementSql.append(",");
@@ -124,7 +125,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append("` (");
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             value = ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias());
             if (value == null) {
@@ -156,7 +157,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` (");
         int i = 0;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 preparedStatementSql.append(",");
@@ -196,7 +197,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append("` ")
                 .append(tableAlias);
         this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getWhereDataLinkerListList());
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
@@ -207,7 +208,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         preparedStatementSql.append("delete from `")
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` where `")
-                .append(sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName())
+                .append(sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName())
                 .append("` = ?");
         return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
@@ -219,7 +220,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         preparedStatementSql.append("delete from `")
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` where `")
-                .append(sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName())
+                .append(sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName())
                 .append("` in (");
         int size = primaryKeyValues.length;
         for (int i = 0; i < size; i++) {
@@ -244,7 +245,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
         preparedStatementSql.append(" set ");
         int i = 0;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 preparedStatementSql.append(",");
@@ -252,7 +253,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
             preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias()));
         }
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getWhereDataLinkerListList());
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
@@ -269,7 +270,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         preparedStatementSql.append(" set ");
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             value = ClassUtil.getProperty(javaBean, columnDatum.getOwnerColumnAlias());
             if (value == null) {
@@ -281,7 +282,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getOwnerColumnName()).append("`").append(" = ?");
             preparedStatementArgs.add(value);
         }
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getWhereDataLinkerListList());
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
@@ -292,9 +293,9 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         preparedStatementSql.append("update `")
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` set ");
-        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName();
+        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName();
         int i = 0;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
                 continue;
@@ -319,9 +320,9 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         preparedStatementSql.append("update `")
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` set ");
-        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName();
+        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName();
         int i = 0;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
                 continue;
@@ -346,10 +347,10 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         preparedStatementSql.append("update `")
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` set ");
-        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName();
+        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName();
         int i = 0;
         Object value;
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getOwnerColumnName().equals(primaryKeyName)) {
                 continue;
@@ -383,13 +384,13 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
         preparedStatementSql.append(" set ");
         int i = 0;
-        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName();
-        String primaryKeyAlias = sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyAlias();
+        String primaryKeyName = sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName();
+        String primaryKeyAlias = sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyAlias();
         Object keyValue;
         StringBuilder whenSql = new StringBuilder(128);
         StringBuilder inSql = new StringBuilder(32);
         List<Object> inArgs = new ArrayList<>(64);
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         // 遍历所有bean,计算出where条件的sql和参数
         // 计算出when条件sql
         for (Object javaBean : javaBeans) {
@@ -464,7 +465,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(" (");
         int i = 0;
         StringBuilder onSql = new StringBuilder(64);
-        Set<ColumnDatum> columnData = sqlDataConsumer.getMainTableData().buildTableColumnData();
+        Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 preparedStatementSql.append(",");
@@ -507,7 +508,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append("` ")
                 .append(sqlDataConsumer.getMainTableData().getTableAlias());
         this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getWhereDataLinkerListList());
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         this.appendGroupSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableGroupData());
         this.appendSortSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableSortData());
         this.appendLimitSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getLimitData());
@@ -531,7 +532,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             preparedStatementSql.append("select count(1) from (select ")
                     .append(sqlDataConsumer.getMainTableData().getTableAlias())
                     .append(".`")
-                    .append(sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName())
+                    .append(sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName())
                     .append("` from `");
         } else {
             preparedStatementSql.append("select count(1) from `");
@@ -540,7 +541,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append("` ")
                 .append(sqlDataConsumer.getMainTableData().getTableAlias());
         this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getWhereDataLinkerListList());
+        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         if (hasGroup || hasLimit) {
             if (hasGroup) {
                 preparedStatementSql.append(groupSql);
@@ -566,7 +567,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(" where ")
                 .append(sqlDataConsumer.getMainTableData().getTableAlias())
                 .append(".`")
-                .append(sqlDataConsumer.getMainTableData().getTableModel().getPrimaryKeyName())
+                .append(sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName())
                 .append("` = ?");
         return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }

@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.WhereLinkerIntact;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
@@ -7,6 +8,7 @@ import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.List;
 
@@ -24,16 +26,28 @@ public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> extends GroupEngine<T, TO, TC, TW, TG, TS> {
 
-    public WhereEngine(Class<T> tableHelperClass) {
-        super(tableHelperClass);
+    public WhereEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
+        super(dataBaseType, tableHelperClass);
     }
 
-    public WhereEngine(String tableName, Class<T> tableHelperClass) {
-        super(tableName, tableHelperClass);
+    public WhereEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableHelperClass, sqlBuilderOptions);
     }
 
-    public WhereEngine(String tableName, Class<T> tableHelperClass, String alias) {
-        super(tableName, tableHelperClass, alias);
+    public WhereEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
+        super(dataBaseType, tableName, tableHelperClass);
+    }
+
+    public WhereEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, sqlBuilderOptions);
+    }
+
+    public WhereEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias);
+    }
+
+    public WhereEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
+        super(dataBaseType, tableName, tableHelperClass, tableAlias, sqlBuilderOptions);
     }
 
     public WhereEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback) {

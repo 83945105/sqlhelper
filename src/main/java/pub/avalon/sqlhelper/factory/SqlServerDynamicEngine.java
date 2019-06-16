@@ -19,7 +19,7 @@ public class SqlServerDynamicEngine {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableHelperClass) {
-        return new TableEngine<>(tableName, tableHelperClass).setDataBaseType(DataBaseType.SQLSERVER);
+        return new TableEngine<>(DataBaseType.SQLSERVER, tableName, tableHelperClass);
     }
 
     public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
