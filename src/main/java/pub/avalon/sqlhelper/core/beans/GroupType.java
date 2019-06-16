@@ -1,12 +1,12 @@
 package pub.avalon.sqlhelper.core.beans;
 
 /**
- * 函数列
+ * 聚合类型
  *
  * @author 白超
- * @date 2018/7/13
+ * @date 2019/6/17
  */
-public enum FunctionColumnType {
+public enum GroupType {
     /**
      * 最小值
      */

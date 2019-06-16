@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.sql;
 
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.AbstractTest;
-import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
+import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
@@ -53,7 +53,7 @@ public class MySqlDynamicQueryByPrimaryKeyTest extends AbstractTest {
     @Test
     void TestFunctionColumn() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .functionColumn(FunctionColumnType.COUNT, SysUserDTO.Helper.Column::id)
+                .functionColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilder, "select count(SysUserDTO.`id`) `id` from `sys_user` SysUserDTO where SysUserDTO.`id` = ?");
     }
@@ -61,7 +61,7 @@ public class MySqlDynamicQueryByPrimaryKeyTest extends AbstractTest {
     @Test
     void TestFunctionColumnAndVirtualColumn() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .functionColumn(FunctionColumnType.COUNT, SysUserDTO.Helper.Column::id)
+                .functionColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
                 .virtualColumn(1, "AA")
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilder, "select count(SysUserDTO.`id`) `id`, 1 `AA` from `sys_user` SysUserDTO where SysUserDTO.`id` = ?");
@@ -70,7 +70,7 @@ public class MySqlDynamicQueryByPrimaryKeyTest extends AbstractTest {
     @Test
     void TestFunctionColumnAndVirtualColumnAndColumn() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .functionColumn(FunctionColumnType.COUNT, table -> table.id("idCount"))
+                .functionColumn(GroupType.COUNT, table -> table.id("idCount"))
                 .virtualColumn(1, "AA")
                 .column(table -> table)
                 .queryByPrimaryKey(arg());

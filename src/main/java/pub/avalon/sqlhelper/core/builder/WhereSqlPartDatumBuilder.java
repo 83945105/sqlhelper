@@ -23,9 +23,9 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends AbstractSqlPartDatumBuilder<T, WhereDatum> implements WhereComparisonOperator<T> {
+public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends AbstractSqlPartDatumBuilder<T, WhereDatum> implements WhereComparisonOperator<T> {
 
-    protected WhereDatum whereDatum;
+    private WhereDatum whereDatum;
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
@@ -39,14 +39,19 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
      * sql片段
      * 直接写入sql片段
      *
-     * @param sqlPart
-     * @return
+     * @param sqlPart sql片段
+     * @return {@link Helper}
      */
     public T sqlPart(String sqlPart) {
         this.whereDatum.setWhereValueType(WhereValueType.SQL_PART);
         this.whereDatum.setSqlPart(sqlPart);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
+    }
+
+    @Override
+    public ComparisonRule getDefaultComparisonRule() {
+        return null;
     }
 
     @Override
@@ -71,7 +76,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] equalTo, the value can not be null.");
                 default:
                     return null;
@@ -90,7 +95,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] notEqualTo, the value can not be null.");
                 default:
                     return null;
@@ -109,7 +114,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] greaterThan, the value can not be null.");
                 default:
                     return null;
@@ -128,7 +133,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
                 default:
                     return null;
@@ -147,7 +152,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] lessThan, the value can not be null.");
                 default:
                     return null;
@@ -166,7 +171,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] lessThanAndEqualTo, the value can not be null.");
                 default:
                     return null;
@@ -185,7 +190,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] between, the value can not be null.");
                 default:
                     return null;
@@ -195,7 +200,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] between, the secondValue can not be null.");
                 default:
                     return null;
@@ -215,7 +220,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] like, the value can not be null.");
                 default:
                     return null;
@@ -234,7 +239,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;
@@ -253,7 +258,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;
@@ -272,7 +277,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;
@@ -291,7 +296,7 @@ public class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;

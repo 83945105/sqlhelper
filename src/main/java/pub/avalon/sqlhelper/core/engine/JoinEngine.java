@@ -3,8 +3,8 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.JoinType;
+import pub.avalon.sqlhelper.core.beans.OnAndOr;
 import pub.avalon.sqlhelper.core.beans.OnLinker;
-import pub.avalon.sqlhelper.core.beans.OnLinkerIntact;
 import pub.avalon.sqlhelper.core.callback.OnCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.OnDataLinker;
@@ -64,10 +64,10 @@ public class JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         joinTableData.setJoinType(joinType);
         this.addJoinTableData(joinTableData);
         TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper();
-        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnLinkerIntact<>();
+        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
         SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper();
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
-        List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkerList();
+        List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
         }

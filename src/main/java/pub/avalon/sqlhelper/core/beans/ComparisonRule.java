@@ -14,8 +14,8 @@ public enum ComparisonRule {
      */
     NULL_SKIP,
     /**
-     * 参数不为null
+     * 参数为null时抛出异常
      */
-    NOT_NULL
+    NULL_THROW_EXCEPTION
 
 }

@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
+import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 import java.util.Set;
@@ -17,14 +17,14 @@ public final class TableFunctionColumnDatum<T extends TableHelper> {
 
     private String tableAlias;
 
-    private FunctionColumnType functionColumnType;
+    private GroupType groupType;
 
     private Set<ColumnDatum> columnData;
 
-    public TableFunctionColumnDatum(Class<T> tableHelperClass, String tableAlias, FunctionColumnType functionColumnType, Set<ColumnDatum> columnData) {
+    public TableFunctionColumnDatum(Class<T> tableHelperClass, String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
-        this.functionColumnType = functionColumnType;
+        this.groupType = groupType;
         this.columnData = columnData;
     }
 
@@ -36,8 +36,8 @@ public final class TableFunctionColumnDatum<T extends TableHelper> {
         return tableAlias;
     }
 
-    public FunctionColumnType getFunctionColumnType() {
-        return functionColumnType;
+    public GroupType getGroupType() {
+        return groupType;
     }
 
     public Set<ColumnDatum> getColumnData() {

@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
+import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
@@ -11,7 +11,6 @@ import pub.avalon.sqlhelper.core.data.TableFunctionColumnDatum;
 import pub.avalon.sqlhelper.core.data.VirtualFieldDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.Set;
 
@@ -132,8 +131,8 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         return this;
     }
 
-    public ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(FunctionColumnType functionColumnType, ColumnCallback<TC> callback) {
-        if (functionColumnType == null) {
+    public ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(GroupType groupType, ColumnCallback<TC> callback) {
+        if (groupType == null) {
             return this;
         }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
@@ -143,7 +142,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(this.tableHelperClass, this.tableAlias, functionColumnType, columnData));
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(this.tableHelperClass, this.tableAlias, groupType, columnData));
         return this;
     }
 
@@ -152,8 +151,8 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, FunctionColumnType functionColumnType, ColumnCallback<SC> callback) {
-        if (functionColumnType == null) {
+            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
+        if (groupType == null) {
             return this;
         }
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -163,7 +162,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(tableHelperClass, tableAlias, functionColumnType, columnData));
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(tableHelperClass, tableAlias, groupType, columnData));
         return this;
     }
 
@@ -172,8 +171,8 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, FunctionColumnType functionColumnType, ColumnCallback<SC> callback) {
-        return functionColumn(tableHelperClass, null, functionColumnType, callback);
+            SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> callback) {
+        return functionColumn(tableHelperClass, null, groupType, callback);
     }
 
     public <S extends TableHelper<S, SO, SC, SW, SG, SS>,

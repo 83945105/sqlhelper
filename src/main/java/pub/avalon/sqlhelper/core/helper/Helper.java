@@ -26,7 +26,7 @@ public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
      * @param tableAlias  表别名
      * @param columnName  列名
      * @param columnAlias 列别名
-     * @return 模组构建器
+     * @return {@link SqlPartDatumBuilder}
      */
     protected SqlPartDatumBuilder<T, E> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
         this.sqlPartDatumBuilder.accept(tableName, tableAlias, columnName, columnAlias);

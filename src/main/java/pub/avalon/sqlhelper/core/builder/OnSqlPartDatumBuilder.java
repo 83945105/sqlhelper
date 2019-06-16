@@ -37,6 +37,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
+    public ComparisonRule getDefaultComparisonRule() {
+        return null;
+    }
+
+    @Override
     public T isNull() {
         this.onDatum.setOnType(OnType.IS_NULL);
         this.onDatum.setOnValueType(OnValueType.VALUE);
@@ -60,7 +65,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] equalTo, the value can not be null.");
                 default:
                     return null;
@@ -80,7 +85,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] notEqualTo, the value can not be null.");
                 default:
                     return null;
@@ -100,7 +105,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] greaterThan, the value can not be null.");
                 default:
                     return null;
@@ -120,7 +125,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
                 default:
                     return null;
@@ -140,7 +145,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] lessThan, the value can not be null.");
                 default:
                     return null;
@@ -160,7 +165,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] lessThanAndEqualTo, the value can not be null.");
                 default:
                     return null;
@@ -180,7 +185,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] between, the value can not be null.");
                 default:
                     return null;
@@ -190,7 +195,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] between, the secondValue can not be null.");
                 default:
                     return null;
@@ -211,7 +216,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] like, the value can not be null.");
                 default:
                     return null;
@@ -231,7 +236,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;
@@ -251,7 +256,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;
@@ -271,7 +276,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;
@@ -291,7 +296,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             switch (comparisonRule) {
                 case NULL_SKIP:
                     return this.getHelper();
-                case NOT_NULL:
+                case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     return null;

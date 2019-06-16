@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.sqlbuilder;
 
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
+import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
@@ -100,14 +100,14 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
 
     protected void appendTableFunctionColumnSqlArgs(StringBuilder sql, List<Object> args, Set<TableFunctionColumnDatum> tableFunctionColumnData) {
         int i = 0;
-        FunctionColumnType functionColumnType;
+        GroupType groupType;
         Set<ColumnDatum> columnData;
         for (TableFunctionColumnDatum tableFunctionColumnDatum : tableFunctionColumnData) {
             columnData = tableFunctionColumnDatum.getColumnData();
             if (columnData == null || columnData.size() == 0) {
                 continue;
             }
-            functionColumnType = tableFunctionColumnDatum.getFunctionColumnType();
+            groupType = tableFunctionColumnDatum.getGroupType();
             for (ColumnDatum columnDatum : columnData) {
                 if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
                     throw new TableDataException("FunctionColumn alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
@@ -117,7 +117,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                 } else {
                     sql.append(" ");
                 }
-                switch (functionColumnType) {
+                switch (groupType) {
                     case MIN:
                         sql.append("min(");
                         break;

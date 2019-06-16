@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.readme.model;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.FunctionColumnType;
+import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.factory.SqlDynamicEngine;
@@ -36,9 +36,9 @@ public class Test {
                         .where((condition, mainTable) -> condition
                                 .and(mainTable.userName().equalTo(""))).query(), "subQuery")*/
                 .virtualColumn(1, "")
-                .functionColumn(FunctionColumnType.COUNT, table -> table.id("").id(""))
-                .functionColumn(SysUserDTO.Helper.class, FunctionColumnType.MIN, table -> table.userName().userName(""))
-                .functionColumn(SysUserDTO.Helper.class, "", FunctionColumnType.MIN, table -> table.userName().userName(""))
+                .functionColumn(GroupType.COUNT, table -> table.id("").id(""))
+                .functionColumn(SysUserDTO.Helper.class, GroupType.MIN, table -> table.userName().userName(""))
+                .functionColumn(SysUserDTO.Helper.class, "", GroupType.MIN, table -> table.userName().userName(""))
                 .innerJoin(SysUserDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userName().equalTo(mainTable.id()))
                         .and(mainTable.id().equalTo(joinTable.userName()))
