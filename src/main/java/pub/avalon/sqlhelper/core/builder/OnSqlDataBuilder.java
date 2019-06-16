@@ -41,7 +41,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.IS_NULL);
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(0);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -50,7 +50,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.IS_NOT_NULL);
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(0);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -70,7 +70,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(1);
         this.onDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -90,7 +90,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(1);
         this.onDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -110,7 +110,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(1);
         this.onDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -130,7 +130,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(1);
         this.onDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -150,7 +150,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(1);
         this.onDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -170,7 +170,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(1);
         this.onDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -201,7 +201,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setValueCount(2);
         this.onDatum.setTargetValue(value);
         this.onDatum.setTargetSecondValue(secondValue);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -221,7 +221,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(1);
         this.onDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -241,7 +241,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(values.length);
         this.onDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -261,7 +261,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(values.size());
         this.onDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -281,7 +281,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(values.length);
         this.onDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -301,7 +301,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnValueType(OnValueType.VALUE);
         this.onDatum.setValueCount(values.size());
         this.onDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -313,7 +313,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -325,7 +325,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -337,7 +337,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -349,7 +349,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -361,7 +361,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -373,7 +373,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum);
         return this.getSqlModel();
     }
 
@@ -387,7 +387,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
+        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -398,7 +398,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             onDatum.setTargetTableName(columnDatum.getOwnerTableName());
             onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
             onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-            this.addSqlModelDatum(onDatum);
+            this.addSqlPartDatum(onDatum);
         }
         return this.getSqlModel();
     }
@@ -413,7 +413,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.NOT_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
+        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -424,7 +424,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             onDatum.setTargetTableName(columnDatum.getOwnerTableName());
             onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
             onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-            this.addSqlModelDatum(onDatum);
+            this.addSqlPartDatum(onDatum);
         }
         return this.getSqlModel();
     }
@@ -439,7 +439,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.GREATER);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
+        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -450,7 +450,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             onDatum.setTargetTableName(columnDatum.getOwnerTableName());
             onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
             onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-            this.addSqlModelDatum(onDatum);
+            this.addSqlPartDatum(onDatum);
         }
         return this.getSqlModel();
     }
@@ -465,7 +465,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
+        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -476,7 +476,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             onDatum.setTargetTableName(columnDatum.getOwnerTableName());
             onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
             onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-            this.addSqlModelDatum(onDatum);
+            this.addSqlPartDatum(onDatum);
         }
         return this.getSqlModel();
     }
@@ -491,7 +491,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.LESS);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
+        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -502,7 +502,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             onDatum.setTargetTableName(columnDatum.getOwnerTableName());
             onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
             onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-            this.addSqlModelDatum(onDatum);
+            this.addSqlPartDatum(onDatum);
         }
         return this.getSqlModel();
     }
@@ -517,7 +517,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
         this.onDatum.setOnType(OnType.LESS_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlModelData();
+        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -528,7 +528,7 @@ public final class OnSqlDataBuilder<T extends Helper<T, OnDatum>> extends Abstra
             onDatum.setTargetTableName(columnDatum.getOwnerTableName());
             onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
             onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-            this.addSqlModelDatum(onDatum);
+            this.addSqlPartDatum(onDatum);
         }
         return this.getSqlModel();
     }

@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.builder;
 
-import pub.avalon.sqlhelper.core.data.SqlModelDatum;
+import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
 
 import java.util.Set;
@@ -11,7 +11,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public interface SqlDataBuilder<S extends Helper<S, E>, E extends SqlModelDatum> {
+public interface SqlDataBuilder<S extends Helper<S, E>, E extends SqlPartDatum> {
 
     /**
      * 获取sql模组
@@ -28,19 +28,19 @@ public interface SqlDataBuilder<S extends Helper<S, E>, E extends SqlModelDatum>
     void setSqlModel(S sqlModel);
 
     /**
-     * 添加sql模组数据
+     * 添加sql片段数据
      *
-     * @param sqlModelDatum sql模组数据
+     * @param sqlPartDatum {@link SqlPartDatum}
      */
-    void addSqlModelDatum(E sqlModelDatum);
+    void addSqlPartDatum(E sqlPartDatum);
 
     /**
-     * 取出sql模组数据
+     * 取出sql片段数据
      * 取出后将清空模组数据
      *
      * @return
      */
-    Set<E> takeoutSqlModelData();
+    Set<E> takeoutSqlPartData();
 
     /**
      * 接收数据

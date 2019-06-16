@@ -34,7 +34,7 @@ public final class WhereLinkerIntact<T extends TableHelper<T, TO, TC, TW, TG, TS
             return this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        Set<WhereDatum> whereData = whereSqlModel.takeoutSqlModelData();
+        Set<WhereDatum> whereData = whereSqlModel.takeoutSqlPartData();
         if (whereData == null || whereData.size() == 0) {
             return this;
         }

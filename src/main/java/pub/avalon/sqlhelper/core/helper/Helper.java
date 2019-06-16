@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.helper;
 
 import pub.avalon.sqlhelper.core.builder.SqlDataBuilder;
-import pub.avalon.sqlhelper.core.data.SqlModelDatum;
+import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 
 import java.util.Set;
 
@@ -11,7 +11,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/18
  */
-public class Helper<T extends Helper<T, E>, E extends SqlModelDatum> {
+public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
 
     private SqlDataBuilder<T, E> sqlDataBuilder;
 
@@ -33,7 +33,8 @@ public class Helper<T extends Helper<T, E>, E extends SqlModelDatum> {
         return this.sqlDataBuilder;
     }
 
-    public Set<E> takeoutSqlModelData() {
-        return this.sqlDataBuilder.takeoutSqlModelData();
+    public Set<E> takeoutSqlPartData() {
+        return this.sqlDataBuilder.takeoutSqlPartData();
     }
+
 }

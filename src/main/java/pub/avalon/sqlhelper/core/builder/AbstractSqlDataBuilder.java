@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.builder;
 
-import pub.avalon.sqlhelper.core.data.SqlModelDatum;
+import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
 
 import java.util.LinkedHashSet;
@@ -12,10 +12,10 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public abstract class AbstractSqlDataBuilder<S extends Helper<S, E>, E extends SqlModelDatum> implements SqlDataBuilder<S, E> {
+public abstract class AbstractSqlDataBuilder<S extends Helper<S, E>, E extends SqlPartDatum> implements SqlDataBuilder<S, E> {
 
     private S sqlModel;
-    private Set<E> sqlModelData = null;
+    private Set<E> sqlPartData = null;
 
     @Override
     public S getSqlModel() {
@@ -28,20 +28,20 @@ public abstract class AbstractSqlDataBuilder<S extends Helper<S, E>, E extends S
     }
 
     @Override
-    public void addSqlModelDatum(E sqlModelDatum) {
-        if (sqlModelDatum == null) {
+    public void addSqlPartDatum(E sqlPartDatum) {
+        if (sqlPartDatum == null) {
             return;
         }
-        if (this.sqlModelData == null) {
-            this.sqlModelData = new LinkedHashSet<>();
+        if (this.sqlPartData == null) {
+            this.sqlPartData = new LinkedHashSet<>();
         }
-        this.sqlModelData.add(sqlModelDatum);
+        this.sqlPartData.add(sqlPartDatum);
     }
 
     @Override
-    public Set<E> takeoutSqlModelData() {
-        Set<E> sqlModelData = this.sqlModelData;
-        this.sqlModelData = null;
+    public Set<E> takeoutSqlPartData() {
+        Set<E> sqlModelData = this.sqlPartData;
+        this.sqlPartData = null;
         return sqlModelData;
     }
 

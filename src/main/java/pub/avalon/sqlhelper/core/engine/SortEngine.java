@@ -59,7 +59,7 @@ public class SortEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     public SortEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
         TS ts = BeanUtils.tableHelper(this.tableHelperClass).newSortHelper();
         ts = callback.apply(ts);
-        Set<SortDatum> sortData = ts.takeoutSqlModelData();
+        Set<SortDatum> sortData = ts.takeoutSqlPartData();
         if (sortData == null || sortData.size() == 0) {
             return this;
         }
@@ -75,7 +75,7 @@ public class SortEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SS extends SortHelper<SS>> SortEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
         SS ss = BeanUtils.tableHelper(tableHelperClass).newSortHelper();
         ss = callback.apply(ss);
-        Set<SortDatum> sortData = ss.takeoutSqlModelData();
+        Set<SortDatum> sortData = ss.takeoutSqlPartData();
         if (sortData == null || sortData.size() == 0) {
             return this;
         }

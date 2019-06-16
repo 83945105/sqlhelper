@@ -39,7 +39,7 @@ public final class OnLinkerIntact<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
-        Set<OnDatum> onData = onSqlModel.takeoutSqlModelData();
+        Set<OnDatum> onData = onSqlModel.takeoutSqlPartData();
         if (onData == null || onData.size() == 0) {
             return this;
         }

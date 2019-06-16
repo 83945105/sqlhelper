@@ -43,7 +43,7 @@ public class WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return (WhereLinkerIntact<T, TO, TC, TW, TG, TS>) this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
-        Set<WhereDatum> whereData = whereSqlModel.takeoutSqlModelData();
+        Set<WhereDatum> whereData = whereSqlModel.takeoutSqlPartData();
         if (whereData == null || whereData.size() == 0) {
             return (WhereLinkerIntact<T, TO, TC, TW, TG, TS>) this;
         }

@@ -13,7 +13,7 @@ public final class ColumnSqlDataBuilder<S extends Helper<S, ColumnDatum>> extend
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.addSqlModelDatum(new ColumnDatum(tableName, tableAlias, columnName, columnAlias));
+        this.addSqlPartDatum(new ColumnDatum(tableName, tableAlias, columnName, columnAlias));
     }
 
 }

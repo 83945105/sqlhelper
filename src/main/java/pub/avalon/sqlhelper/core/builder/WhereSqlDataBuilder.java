@@ -45,7 +45,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
     public T sqlPart(String sqlPart) {
         this.whereDatum.setWhereValueType(WhereValueType.SQL_PART);
         this.whereDatum.setSqlPart(sqlPart);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -53,7 +53,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
     public T isNull() {
         this.whereDatum.setWhereType(WhereType.IS_NULL);
         this.whereDatum.setValueCount(0);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -61,7 +61,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
     public T isNotNull() {
         this.whereDatum.setWhereType(WhereType.IS_NOT_NULL);
         this.whereDatum.setValueCount(0);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -80,7 +80,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setValueCount(1);
         this.whereDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -99,7 +99,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
         this.whereDatum.setValueCount(1);
         this.whereDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -118,7 +118,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.GREATER);
         this.whereDatum.setValueCount(1);
         this.whereDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -137,7 +137,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
         this.whereDatum.setValueCount(1);
         this.whereDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -156,7 +156,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.LESS);
         this.whereDatum.setValueCount(1);
         this.whereDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -175,7 +175,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
         this.whereDatum.setValueCount(1);
         this.whereDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -205,7 +205,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setValueCount(2);
         this.whereDatum.setTargetValue(value);
         this.whereDatum.setTargetSecondValue(secondValue);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -224,7 +224,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.LIKE);
         this.whereDatum.setValueCount(1);
         this.whereDatum.setTargetValue(value);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -243,7 +243,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.IN);
         this.whereDatum.setValueCount(values.length);
         this.whereDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -262,7 +262,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.IN);
         this.whereDatum.setValueCount(values.size());
         this.whereDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -281,7 +281,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.NOT_IN);
         this.whereDatum.setValueCount(values.length);
         this.whereDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -300,7 +300,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereType(WhereType.NOT_IN);
         this.whereDatum.setValueCount(values.size());
         this.whereDatum.setTargetValue(values);
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -312,7 +312,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -324,7 +324,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -336,7 +336,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -348,7 +348,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -360,7 +360,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -372,7 +372,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -387,7 +387,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -398,7 +398,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -413,7 +413,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -424,7 +424,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -439,7 +439,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -450,7 +450,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -465,7 +465,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -476,7 +476,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -491,7 +491,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -502,7 +502,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 
@@ -517,7 +517,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getSqlModel();
         }
@@ -528,7 +528,7 @@ public class WhereSqlDataBuilder<T extends Helper<T, WhereDatum>> extends Abstra
         this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
-        this.addSqlModelDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum);
         return this.getSqlModel();
     }
 

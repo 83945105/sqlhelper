@@ -13,7 +13,7 @@ public final class GroupSqlDataBuilder<T extends Helper<T, GroupDatum>> extends 
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.addSqlModelDatum(new GroupDatum(tableName, tableAlias, columnName, columnAlias));
+        this.addSqlPartDatum(new GroupDatum(tableName, tableAlias, columnName, columnAlias));
     }
 
 }

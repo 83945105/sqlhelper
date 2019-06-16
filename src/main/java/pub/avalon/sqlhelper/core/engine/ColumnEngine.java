@@ -65,7 +65,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         T t = BeanUtils.tableHelper(this.tableHelperClass);
         TC tc = t.newColumnHelper();
         tc = callback.apply(tc);
-        Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
         // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(t);
@@ -83,7 +83,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(s);
         }
@@ -138,7 +138,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
         tc = callback.apply(tc);
-        Set<ColumnDatum> columnData = tc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
         // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
             return this;
@@ -158,7 +158,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         }
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlModelData();
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
             return this;

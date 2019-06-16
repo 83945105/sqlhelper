@@ -27,7 +27,7 @@ public final class SortSqlDataBuilder<T extends Helper<T, SortDatum>> extends Ab
      */
     public T asc() {
         this.sortDatum.setSortType(SortType.ASC);
-        this.addSqlModelDatum(this.sortDatum);
+        this.addSqlPartDatum(this.sortDatum);
         return this.getSqlModel();
     }
 
@@ -38,7 +38,7 @@ public final class SortSqlDataBuilder<T extends Helper<T, SortDatum>> extends Ab
      */
     public T desc() {
         this.sortDatum.setSortType(SortType.DESC);
-        this.addSqlModelDatum(this.sortDatum);
+        this.addSqlPartDatum(this.sortDatum);
         return this.getSqlModel();
     }
 
