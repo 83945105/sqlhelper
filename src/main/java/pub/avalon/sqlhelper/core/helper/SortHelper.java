@@ -4,7 +4,7 @@ import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.SortDatum;
 
 /**
- * Sort 助手
+ * 排序助手
  *
  * @author 白超
  * @date 2019/5/18

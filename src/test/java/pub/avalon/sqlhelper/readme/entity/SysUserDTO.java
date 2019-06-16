@@ -1,12 +1,13 @@
 package pub.avalon.sqlhelper.readme.entity;
 
+import pub.avalon.sqlhelper.core.beans.TableColumn;
 import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 @SuppressWarnings("all")
@@ -75,67 +76,73 @@ public class SysUserDTO {
             /**
              * 表名
              */
-         public final static String tableName = "sys_user";
+         public final static String TABLE_NAME = "sys_user";
         
             /**
              * 表 - 别名
              */
-         public final static String tableAlias = "SysUser";
+         public final static String TABLE_ALIAS = "SysUser";
         
             /**
              * 主键名
              */
-         public final static String primaryKeyName = "id";
+         public final static String PRIMARY_KEY_NAME = "id";
         
             /**
              * 主键 - 别名
              */
-         public final static String primaryKeyAlias = "id";
+         public final static String PRIMARY_KEY_ALIAS = "id";
         
             
                 /**
                  * 主键ID
                  */
-             public final static String id = "id";
+             public final static String ID = "id";
             
                 /**
                  * 主键ID - 别名
                  */
-             public final static String id_alias = "id";
+             public final static String ID_ALIAS = "id";
             
                 /**
                  * 用户名
                  */
-             public final static String user_name = "user_name";
+             public final static String USER_NAME = "user_name";
             
                 /**
                  * 用户名 - 别名
                  */
-             public final static String user_name_alias = "userName";
+             public final static String USER_NAME_ALIAS = "userName";
             
                 /**
                  * 登录名
                  */
-             public final static String login_name = "login_name";
+             public final static String LOGIN_NAME = "login_name";
             
                 /**
                  * 登录名 - 别名
                  */
-             public final static String login_name_alias = "loginName";
+             public final static String LOGIN_NAME_ALIAS = "loginName";
         
         
             /**
-             *  列名 - 别名 键值对集合
+             * 表列数据
              */
-         public final static Map<String, String> columnNameAliasMap;
+         public final static Set<TableColumn> TABLE_COLUMNS;
 
         static {
-            columnNameAliasMap = new LinkedHashMap<>(3);
+            TABLE_COLUMNS = new LinkedHashSet<>(3);
+            TableColumn primaryKeyTableColumn = new TableColumn(PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, TABLE_NAME, TABLE_ALIAS, null, TABLE_COLUMNS);
+            primaryKeyTableColumn.setPrimaryKeyColumnInfo(primaryKeyTableColumn);
             
-                columnNameAliasMap.put(id, id_alias);
-                columnNameAliasMap.put(user_name, user_name_alias);
-                columnNameAliasMap.put(login_name, login_name_alias);
+                TABLE_COLUMNS.add(new TableColumn(ID, ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                TABLE_COLUMNS.add(new TableColumn(USER_NAME, USER_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                TABLE_COLUMNS.add(new TableColumn(LOGIN_NAME, LOGIN_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
             
+        }
+
+        public static Helper helper() {
+            return new Helper();
         }
 
         public static On on() {
@@ -159,28 +166,33 @@ public class SysUserDTO {
         }
 
         @Override
-        public Map<String, String> getColumnNameAliasMap() {
-            return columnNameAliasMap;
-        }
-
-        @Override
         public String getTableName() {
-            return tableName;
+            return TABLE_NAME;
         }
 
         @Override
         public String getTableAlias() {
-            return tableAlias;
+            return TABLE_ALIAS;
         }
 
         @Override
         public String getPrimaryKeyName() {
-            return primaryKeyName;
+            return PRIMARY_KEY_NAME;
         }
 
         @Override
         public String getPrimaryKeyAlias() {
-            return primaryKeyAlias;
+            return PRIMARY_KEY_ALIAS;
+        }
+
+        @Override
+        public Set<TableColumn> getTableColumns() {
+            return null;
+        }
+
+        @Override
+        public Helper newHelper() {
+            return helper();
         }
 
         @Override
@@ -215,18 +227,18 @@ public class SysUserDTO {
             }
 
             public OnSqlPartDatumBuilder<On> primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
             
                 public OnSqlPartDatumBuilder<On> id() {
-                    return this.apply(tableName, tableAlias, id, id_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
                 public OnSqlPartDatumBuilder<On> userName() {
-                    return this.apply(tableName, tableAlias, user_name, user_name_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS);
                 }
                 public OnSqlPartDatumBuilder<On> loginName() {
-                    return this.apply(tableName, tableAlias, login_name, login_name_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS);
                 }
             
 
@@ -239,34 +251,34 @@ public class SysUserDTO {
             }
 
             public Column primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
             }
 
             public Column primaryKey(String alias) {
-                return this.apply(tableName, tableAlias, primaryKeyName, alias).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias).getHelper();
             }
 
             
                 public Column id() {
-                    return this.apply(tableName, tableAlias, id, id_alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS).getHelper();
                 }
 
                 public Column id(String alias) {
-                    return this.apply(tableName, tableAlias, id, alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, alias).getHelper();
                 }
                 public Column userName() {
-                    return this.apply(tableName, tableAlias, user_name, user_name_alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS).getHelper();
                 }
 
                 public Column userName(String alias) {
-                    return this.apply(tableName, tableAlias, user_name, alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, alias).getHelper();
                 }
                 public Column loginName() {
-                    return this.apply(tableName, tableAlias, login_name, login_name_alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS).getHelper();
                 }
 
                 public Column loginName(String alias) {
-                    return this.apply(tableName, tableAlias, login_name, alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, alias).getHelper();
                 }
             
 
@@ -279,18 +291,18 @@ public class SysUserDTO {
             }
 
             public WhereSqlPartDatumBuilder<Where> primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
             
                 public WhereSqlPartDatumBuilder<Where> id() {
-                    return this.apply(tableName, tableAlias, id, id_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
                 public WhereSqlPartDatumBuilder<Where> userName() {
-                    return this.apply(tableName, tableAlias, user_name, user_name_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS);
                 }
                 public WhereSqlPartDatumBuilder<Where> loginName() {
-                    return this.apply(tableName, tableAlias, login_name, login_name_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS);
                 }
             
 
@@ -303,18 +315,18 @@ public class SysUserDTO {
             }
 
             public Group primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
             }
 
             
                 public Group id() {
-                    return this.apply(tableName, tableAlias, id, id_alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS).getHelper();
                 }
                 public Group userName() {
-                    return this.apply(tableName, tableAlias, user_name, user_name_alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS).getHelper();
                 }
                 public Group loginName() {
-                    return this.apply(tableName, tableAlias, login_name, login_name_alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS).getHelper();
                 }
             
 
@@ -327,18 +339,18 @@ public class SysUserDTO {
             }
 
             public SortSqlPartDatumBuilder<Sort> primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
             
                 public SortSqlPartDatumBuilder<Sort> id() {
-                    return this.apply(tableName, tableAlias, id, id_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
                 public SortSqlPartDatumBuilder<Sort> userName() {
-                    return this.apply(tableName, tableAlias, user_name, user_name_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS);
                 }
                 public SortSqlPartDatumBuilder<Sort> loginName() {
-                    return this.apply(tableName, tableAlias, login_name, login_name_alias);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS);
                 }
             
 

@@ -4,7 +4,7 @@ import pub.avalon.sqlhelper.core.builder.ColumnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 
 /**
- * On 助手
+ * 列助手
  *
  * @author 白超
  * @date 2019/5/18

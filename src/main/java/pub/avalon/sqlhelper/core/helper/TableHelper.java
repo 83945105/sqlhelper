@@ -1,6 +1,8 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import java.util.Map;
+import pub.avalon.sqlhelper.core.beans.TableColumn;
+
+import java.util.Set;
 
 /**
  * 表助手
@@ -14,15 +16,6 @@ public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> {
-
-    /**
-     * 获取表的列名与别名键值对集合
-     * key - 列名
-     * value - 别名
-     *
-     * @return {@link java.util.LinkedHashMap}
-     */
-    Map<String, String> getColumnNameAliasMap();
 
     /**
      * 获取表名
@@ -53,35 +46,49 @@ public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     String getPrimaryKeyAlias();
 
     /**
-     * 创建一个新的On sql模组
+     * 获取表列数据
+     *
+     * @return {@link java.util.LinkedHashSet}
+     */
+    Set<TableColumn> getTableColumns();
+
+    /**
+     * 创建助手
+     *
+     * @return {@link Helper}
+     */
+    T newHelper();
+
+    /**
+     * 创建On助手
      *
      * @return {@link OnHelper}
      */
     TO newOnHelper();
 
     /**
-     * 创建一个新的Column sql模组
+     * 创建列助手
      *
      * @return {@link ColumnHelper}
      */
     TC newColumnHelper();
 
     /**
-     * 创建一个新的Where sql模组
+     * 创建条件助手
      *
      * @return {@link WhereHelper}
      */
     TW newWhereHelper();
 
     /**
-     * 创建一个新的Group sql模组
+     * 创建分组助手
      *
      * @return {@link GroupHelper}
      */
     TG newGroupHelper();
 
     /**
-     * 创建一个新的Sort sql模组
+     * 创建排序助手
      *
      * @return {@link SortHelper}
      */

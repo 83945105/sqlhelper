@@ -4,7 +4,7 @@ import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 
 /**
- * Where 助手
+ * 条件助手
  *
  * @author 白超
  * @date 2019/5/18
