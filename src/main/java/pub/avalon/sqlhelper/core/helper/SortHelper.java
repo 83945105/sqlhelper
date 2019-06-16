@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.builder.SortSqlDataBuilder;
+import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.SortDatum;
 
 /**
@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
  */
 public class SortHelper<T extends SortHelper<T>> extends Helper<T, SortDatum> {
 
-    public SortHelper(SortSqlDataBuilder<T> sortSqlDataBuilder) {
-        super(sortSqlDataBuilder);
+    public SortHelper() {
+        super(new SortSqlPartDatumBuilder<>());
     }
 
     @Override
-    protected SortSqlDataBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (SortSqlDataBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected SortSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
+        return (SortSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
     }
 
 }

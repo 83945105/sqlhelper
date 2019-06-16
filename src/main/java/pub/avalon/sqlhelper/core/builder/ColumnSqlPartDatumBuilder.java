@@ -4,12 +4,12 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
 
 /**
- * 列sql构建器
+ * 列Sql片段数据构建器
  *
  * @author 白超
  * @date 2019/5/2
  */
-public final class ColumnSqlDataBuilder<S extends Helper<S, ColumnDatum>> extends AbstractSqlDataBuilder<S, ColumnDatum> {
+public final class ColumnSqlPartDatumBuilder<S extends Helper<S, ColumnDatum>> extends AbstractSqlPartDatumBuilder<S, ColumnDatum> {
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {

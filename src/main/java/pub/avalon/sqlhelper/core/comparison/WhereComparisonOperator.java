@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.comparison;
 
-import pub.avalon.sqlhelper.core.builder.WhereSqlDataBuilder;
+import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
 import pub.avalon.sqlhelper.core.callback.WhereColumnCallback;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -16,50 +16,50 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 等于
      *
-     * @param whereSqlDataBuilder Where条件构建器
+     * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
      * @return Where条件模组
      */
-    T equalTo(WhereSqlDataBuilder whereSqlDataBuilder);
+    T equalTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
     /**
      * 不等于
      *
-     * @param whereSqlDataBuilder Where条件构建器
+     * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
      * @return Where条件模组
      */
-    T notEqualTo(WhereSqlDataBuilder whereSqlDataBuilder);
+    T notEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
     /**
      * 大于
      *
-     * @param whereSqlDataBuilder Where条件构建器
+     * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
      * @return Where条件模组
      */
-    T greaterThan(WhereSqlDataBuilder whereSqlDataBuilder);
+    T greaterThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
     /**
      * 大于等于
      *
-     * @param whereSqlDataBuilder Where条件构建器
+     * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
      * @return Where条件模组
      */
-    T greaterThanAndEqualTo(WhereSqlDataBuilder whereSqlDataBuilder);
+    T greaterThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
     /**
      * 小于
      *
-     * @param whereSqlDataBuilder Where条件构建器
+     * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
      * @return Where条件模组
      */
-    T lessThan(WhereSqlDataBuilder whereSqlDataBuilder);
+    T lessThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
     /**
      * 小于等于
      *
-     * @param whereSqlDataBuilder Where条件构建器
+     * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
      * @return Where条件模组
      */
-    T lessThanAndEqualTo(WhereSqlDataBuilder whereSqlDataBuilder);
+    T lessThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
     /**
      * 等于
@@ -73,8 +73,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass,
-                                                   String alias,
-                                                   WhereColumnCallback<SC> callback);
+                                                 String alias,
+                                                 WhereColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -82,7 +82,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass,
-                                                   WhereColumnCallback<SC> callback) {
+                                                 WhereColumnCallback<SC> callback) {
         return equalTo(tableHelperClass, null, callback);
     }
 
@@ -98,8 +98,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass,
-                                                      String alias,
-                                                      WhereColumnCallback<SC> callback);
+                                                    String alias,
+                                                    WhereColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -107,7 +107,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass,
-                                                      WhereColumnCallback<SC> callback) {
+                                                    WhereColumnCallback<SC> callback) {
         return notEqualTo(tableHelperClass, null, callback);
     }
 
@@ -123,8 +123,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass,
-                                                       String alias,
-                                                       WhereColumnCallback<SC> callback);
+                                                     String alias,
+                                                     WhereColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -132,7 +132,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass,
-                                                       WhereColumnCallback<SC> callback) {
+                                                     WhereColumnCallback<SC> callback) {
         return greaterThan(tableHelperClass, null, callback);
     }
 
@@ -148,8 +148,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass,
-                                                                 String alias,
-                                                                 WhereColumnCallback<SC> callback);
+                                                               String alias,
+                                                               WhereColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -157,7 +157,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass,
-                                                                 WhereColumnCallback<SC> callback) {
+                                                               WhereColumnCallback<SC> callback) {
         return greaterThanAndEqualTo(tableHelperClass, null, callback);
     }
 
@@ -173,8 +173,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass,
-                                                    String alias,
-                                                    WhereColumnCallback<SC> callback);
+                                                  String alias,
+                                                  WhereColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -182,7 +182,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass,
-                                                    WhereColumnCallback<SC> callback) {
+                                                  WhereColumnCallback<SC> callback) {
         return lessThan(tableHelperClass, null, callback);
     }
 
@@ -198,8 +198,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass,
-                                                              String alias,
-                                                              WhereColumnCallback<SC> callback);
+                                                            String alias,
+                                                            WhereColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -207,7 +207,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass,
-                                                              WhereColumnCallback<SC> callback) {
+                                                            WhereColumnCallback<SC> callback) {
         return lessThanAndEqualTo(tableHelperClass, null, callback);
     }
 

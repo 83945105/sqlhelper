@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.builder.ColumnSqlDataBuilder;
+import pub.avalon.sqlhelper.core.builder.ColumnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 
 /**
@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
  */
 public class ColumnHelper<T extends ColumnHelper<T>> extends Helper<T, ColumnDatum> {
 
-    public ColumnHelper(ColumnSqlDataBuilder<T> columnSqlDataBuilder) {
-        super(columnSqlDataBuilder);
+    public ColumnHelper() {
+        super(new ColumnSqlPartDatumBuilder<>());
     }
 
     @Override
-    protected ColumnSqlDataBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (ColumnSqlDataBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected ColumnSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
+        return (ColumnSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
     }
 
 }

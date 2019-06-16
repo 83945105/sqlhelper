@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.builder.SqlDataBuilder;
+import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 
 import java.util.Set;
@@ -13,10 +13,10 @@ import java.util.Set;
  */
 public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
 
-    private SqlDataBuilder<T, E> sqlDataBuilder;
+    private SqlPartDatumBuilder<T, E> sqlPartDatumBuilder;
 
-    public Helper(SqlDataBuilder<T, E> sqlDataBuilder) {
-        this.sqlDataBuilder = sqlDataBuilder;
+    public Helper(SqlPartDatumBuilder<T, E> sqlPartDatumBuilder) {
+        this.sqlPartDatumBuilder = sqlPartDatumBuilder;
     }
 
     /**
@@ -28,13 +28,13 @@ public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
      * @param columnAlias 列别名
      * @return 模组构建器
      */
-    protected SqlDataBuilder<T, E> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.sqlDataBuilder.accept(tableName, tableAlias, columnName, columnAlias);
-        return this.sqlDataBuilder;
+    protected SqlPartDatumBuilder<T, E> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
+        this.sqlPartDatumBuilder.accept(tableName, tableAlias, columnName, columnAlias);
+        return this.sqlPartDatumBuilder;
     }
 
     public Set<E> takeoutSqlPartData() {
-        return this.sqlDataBuilder.takeoutSqlPartData();
+        return this.sqlPartDatumBuilder.takeoutSqlPartData();
     }
 
 }

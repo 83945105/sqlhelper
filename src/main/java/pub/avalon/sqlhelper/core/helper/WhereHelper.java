@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.builder.WhereSqlDataBuilder;
+import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 
 /**
@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.WhereDatum;
  */
 public class WhereHelper<T extends WhereHelper<T>> extends Helper<T, WhereDatum> {
 
-    public WhereHelper(WhereSqlDataBuilder<T> whereSqlDataBuilder) {
-        super(whereSqlDataBuilder);
+    public WhereHelper() {
+        super(new WhereSqlPartDatumBuilder<>());
     }
 
     @Override
-    protected WhereSqlDataBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (WhereSqlDataBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected WhereSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
+        return (WhereSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
     }
 
 }

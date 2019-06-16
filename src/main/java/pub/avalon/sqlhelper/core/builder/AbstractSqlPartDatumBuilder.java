@@ -7,24 +7,24 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * sql数据构建器
+ * Sql片段数据构建器基类
  *
  * @author 白超
  * @date 2019/5/2
  */
-public abstract class AbstractSqlDataBuilder<S extends Helper<S, E>, E extends SqlPartDatum> implements SqlDataBuilder<S, E> {
+public abstract class AbstractSqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDatum> implements SqlPartDatumBuilder<S, E> {
 
-    private S sqlModel;
+    private S helper;
     private Set<E> sqlPartData = null;
 
     @Override
-    public S getSqlModel() {
-        return this.sqlModel;
+    public S getHelper() {
+        return this.helper;
     }
 
     @Override
-    public void setSqlModel(S sqlModel) {
-        this.sqlModel = sqlModel;
+    public void setHelper(S helper) {
+        this.helper = helper;
     }
 
     @Override

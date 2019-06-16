@@ -1,6 +1,8 @@
 package pub.avalon.sqlhelper.readme.entity;
 
-import pub.avalon.sqlhelper.core.builder.*;
+import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashMap;
@@ -209,21 +211,21 @@ public class SysUserDTO {
         public final static class On extends OnHelper<On> {
 
             private On() {
-                super(new OnSqlDataBuilder<>());
+                super();
             }
 
-            public OnSqlDataBuilder<On> primaryKey() {
+            public OnSqlPartDatumBuilder<On> primaryKey() {
                 return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
             }
 
             
-                public OnSqlDataBuilder<On> id() {
+                public OnSqlPartDatumBuilder<On> id() {
                     return this.apply(tableName, tableAlias, id, id_alias);
                 }
-                public OnSqlDataBuilder<On> userName() {
+                public OnSqlPartDatumBuilder<On> userName() {
                     return this.apply(tableName, tableAlias, user_name, user_name_alias);
                 }
-                public OnSqlDataBuilder<On> loginName() {
+                public OnSqlPartDatumBuilder<On> loginName() {
                     return this.apply(tableName, tableAlias, login_name, login_name_alias);
                 }
             
@@ -233,38 +235,38 @@ public class SysUserDTO {
         public final static class Column extends ColumnHelper<Column> {
 
             private Column() {
-                super(new ColumnSqlDataBuilder<>());
+                super();
             }
 
             public Column primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getSqlModel();
+                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getHelper();
             }
 
             public Column primaryKey(String alias) {
-                return this.apply(tableName, tableAlias, primaryKeyName, alias).getSqlModel();
+                return this.apply(tableName, tableAlias, primaryKeyName, alias).getHelper();
             }
 
             
                 public Column id() {
-                    return this.apply(tableName, tableAlias, id, id_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, id, id_alias).getHelper();
                 }
 
                 public Column id(String alias) {
-                    return this.apply(tableName, tableAlias, id, alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, id, alias).getHelper();
                 }
                 public Column userName() {
-                    return this.apply(tableName, tableAlias, user_name, user_name_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, user_name, user_name_alias).getHelper();
                 }
 
                 public Column userName(String alias) {
-                    return this.apply(tableName, tableAlias, user_name, alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, user_name, alias).getHelper();
                 }
                 public Column loginName() {
-                    return this.apply(tableName, tableAlias, login_name, login_name_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, login_name, login_name_alias).getHelper();
                 }
 
                 public Column loginName(String alias) {
-                    return this.apply(tableName, tableAlias, login_name, alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, login_name, alias).getHelper();
                 }
             
 
@@ -273,21 +275,21 @@ public class SysUserDTO {
         public final static class Where extends WhereHelper<Where> {
 
             private Where() {
-                super(new WhereSqlDataBuilder<>());
+                super();
             }
 
-            public WhereSqlDataBuilder<Where> primaryKey() {
+            public WhereSqlPartDatumBuilder<Where> primaryKey() {
                 return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
             }
 
             
-                public WhereSqlDataBuilder<Where> id() {
+                public WhereSqlPartDatumBuilder<Where> id() {
                     return this.apply(tableName, tableAlias, id, id_alias);
                 }
-                public WhereSqlDataBuilder<Where> userName() {
+                public WhereSqlPartDatumBuilder<Where> userName() {
                     return this.apply(tableName, tableAlias, user_name, user_name_alias);
                 }
-                public WhereSqlDataBuilder<Where> loginName() {
+                public WhereSqlPartDatumBuilder<Where> loginName() {
                     return this.apply(tableName, tableAlias, login_name, login_name_alias);
                 }
             
@@ -297,22 +299,22 @@ public class SysUserDTO {
         public final static class Group extends GroupHelper<Group> {
 
             private Group() {
-                super(new GroupSqlDataBuilder<>());
+                super();
             }
 
             public Group primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getSqlModel();
+                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getHelper();
             }
 
             
                 public Group id() {
-                    return this.apply(tableName, tableAlias, id, id_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, id, id_alias).getHelper();
                 }
                 public Group userName() {
-                    return this.apply(tableName, tableAlias, user_name, user_name_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, user_name, user_name_alias).getHelper();
                 }
                 public Group loginName() {
-                    return this.apply(tableName, tableAlias, login_name, login_name_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, login_name, login_name_alias).getHelper();
                 }
             
 
@@ -321,21 +323,21 @@ public class SysUserDTO {
         public final static class Sort extends SortHelper<Sort> {
 
             private Sort() {
-                super(new SortSqlDataBuilder<>());
+                super();
             }
 
-            public SortSqlDataBuilder<Sort> primaryKey() {
+            public SortSqlPartDatumBuilder<Sort> primaryKey() {
                 return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
             }
 
             
-                public SortSqlDataBuilder<Sort> id() {
+                public SortSqlPartDatumBuilder<Sort> id() {
                     return this.apply(tableName, tableAlias, id, id_alias);
                 }
-                public SortSqlDataBuilder<Sort> userName() {
+                public SortSqlPartDatumBuilder<Sort> userName() {
                     return this.apply(tableName, tableAlias, user_name, user_name_alias);
                 }
-                public SortSqlDataBuilder<Sort> loginName() {
+                public SortSqlPartDatumBuilder<Sort> loginName() {
                     return this.apply(tableName, tableAlias, login_name, login_name_alias);
                 }
             

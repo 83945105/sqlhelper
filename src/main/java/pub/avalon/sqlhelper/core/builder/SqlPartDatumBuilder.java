@@ -6,26 +6,26 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 import java.util.Set;
 
 /**
- * sql数据构建器
+ * Sql片段数据构建器
  *
  * @author 白超
  * @date 2019/5/2
  */
-public interface SqlDataBuilder<S extends Helper<S, E>, E extends SqlPartDatum> {
+public interface SqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDatum> {
 
     /**
-     * 获取sql模组
+     * 获取助手
      *
-     * @return
+     * @return {@link Helper}
      */
-    S getSqlModel();
+    S getHelper();
 
     /**
-     * 设置sql模组
+     * 设置助手
      *
-     * @param sqlModel sql模组
+     * @param helper {@link Helper}
      */
-    void setSqlModel(S sqlModel);
+    void setHelper(S helper);
 
     /**
      * 添加sql片段数据
@@ -36,9 +36,9 @@ public interface SqlDataBuilder<S extends Helper<S, E>, E extends SqlPartDatum> 
 
     /**
      * 取出sql片段数据
-     * 取出后将清空模组数据
+     * 取出后将清空
      *
-     * @return
+     * @return {@link java.util.LinkedHashSet}
      */
     Set<E> takeoutSqlPartData();
 

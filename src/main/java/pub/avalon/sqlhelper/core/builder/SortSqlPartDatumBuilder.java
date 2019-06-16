@@ -5,13 +5,13 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
 
 /**
- * 排序构建器
+ * 排序Sql片段数据构建器
  *
  * @author 白超
  * @version 1.0
  * @since 2018/7/10
  */
-public final class SortSqlDataBuilder<T extends Helper<T, SortDatum>> extends AbstractSqlDataBuilder<T, SortDatum> {
+public final class SortSqlPartDatumBuilder<T extends Helper<T, SortDatum>> extends AbstractSqlPartDatumBuilder<T, SortDatum> {
 
     private SortDatum sortDatum;
 
@@ -28,7 +28,7 @@ public final class SortSqlDataBuilder<T extends Helper<T, SortDatum>> extends Ab
     public T asc() {
         this.sortDatum.setSortType(SortType.ASC);
         this.addSqlPartDatum(this.sortDatum);
-        return this.getSqlModel();
+        return this.getHelper();
     }
 
     /**
@@ -39,7 +39,7 @@ public final class SortSqlDataBuilder<T extends Helper<T, SortDatum>> extends Ab
     public T desc() {
         this.sortDatum.setSortType(SortType.DESC);
         this.addSqlPartDatum(this.sortDatum);
-        return this.getSqlModel();
+        return this.getHelper();
     }
 
 }

@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.builder.OnSqlDataBuilder;
+import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.OnDatum;
 
 /**
@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.OnDatum;
  */
 public class OnHelper<T extends OnHelper<T>> extends Helper<T, OnDatum> {
 
-    public OnHelper(OnSqlDataBuilder<T> onSqlDataBuilder) {
-        super(onSqlDataBuilder);
+    public OnHelper() {
+        super(new OnSqlPartDatumBuilder<>());
     }
 
     @Override
-    protected OnSqlDataBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (OnSqlDataBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected OnSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
+        return (OnSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
     }
 
 }

@@ -159,15 +159,15 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         public final static class On extends OnHelper<On> {
 
             private On() {
-                super(new OnSqlDataBuilder<>());
+                super();
             }
 
-            public OnSqlDataBuilder<On> primaryKey() {
+            public OnSqlPartDatumBuilder<On> primaryKey() {
                 return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
             }
 
             [# th:each="column : ${table.columns}"]
-                public OnSqlDataBuilder<On> [(${table.getColumnAlias(column)})]() {
+                public OnSqlPartDatumBuilder<On> [(${table.getColumnAlias(column)})]() {
                     return this.apply(tableName, tableAlias, [(${column.name})], [(${column.name})]_alias);
                 }
             [/]
@@ -177,24 +177,24 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         public final static class Column extends ColumnHelper<Column> {
 
             private Column() {
-                super(new ColumnSqlDataBuilder<>());
+                super();
             }
 
             public Column primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getSqlModel();
+                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getHelper();
             }
 
             public Column primaryKey(String alias) {
-                return this.apply(tableName, tableAlias, primaryKeyName, alias).getSqlModel();
+                return this.apply(tableName, tableAlias, primaryKeyName, alias).getHelper();
             }
 
             [# th:each="column : ${table.columns}"]
                 public Column [(${table.getColumnAlias(column)})]() {
-                    return this.apply(tableName, tableAlias, [(${column.name})], [(${column.name})]_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, [(${column.name})], [(${column.name})]_alias).getHelper();
                 }
 
                 public Column [(${table.getColumnAlias(column)})](String alias) {
-                    return this.apply(tableName, tableAlias, [(${column.name})], alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, [(${column.name})], alias).getHelper();
                 }
             [/]
 
@@ -203,15 +203,15 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         public final static class Where extends WhereHelper<Where> {
 
             private Where() {
-                super(new WhereSqlDataBuilder<>());
+                super();
             }
 
-            public WhereSqlDataBuilder<Where> primaryKey() {
+            public WhereSqlPartDatumBuilder<Where> primaryKey() {
                 return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
             }
 
             [# th:each="column : ${table.columns}"]
-                public WhereSqlDataBuilder<Where> [(${table.getColumnAlias(column)})]() {
+                public WhereSqlPartDatumBuilder<Where> [(${table.getColumnAlias(column)})]() {
                     return this.apply(tableName, tableAlias, [(${column.name})], [(${column.name})]_alias);
                 }
             [/]
@@ -221,16 +221,16 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         public final static class Group extends GroupHelper<Group> {
 
             private Group() {
-                super(new GroupSqlDataBuilder<>());
+                super();
             }
 
             public Group primaryKey() {
-                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getSqlModel();
+                return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias).getHelper();
             }
 
             [# th:each="column : ${table.columns}"]
                 public Group [(${table.getColumnAlias(column)})]() {
-                    return this.apply(tableName, tableAlias, [(${column.name})], [(${column.name})]_alias).getSqlModel();
+                    return this.apply(tableName, tableAlias, [(${column.name})], [(${column.name})]_alias).getHelper();
                 }
             [/]
 
@@ -239,15 +239,15 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         public final static class Sort extends SortHelper<Sort> {
 
             private Sort() {
-                super(new SortSqlDataBuilder<>());
+                super();
             }
 
-            public SortSqlDataBuilder<Sort> primaryKey() {
+            public SortSqlPartDatumBuilder<Sort> primaryKey() {
                 return this.apply(tableName, tableAlias, primaryKeyName, primaryKeyAlias);
             }
 
             [# th:each="column : ${table.columns}"]
-                public SortSqlDataBuilder<Sort> [(${table.getColumnAlias(column)})]() {
+                public SortSqlPartDatumBuilder<Sort> [(${table.getColumnAlias(column)})]() {
                     return this.apply(tableName, tableAlias, [(${column.name})], [(${column.name})]_alias);
                 }
             [/]

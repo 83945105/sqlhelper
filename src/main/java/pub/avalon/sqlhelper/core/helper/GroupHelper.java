@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.builder.GroupSqlDataBuilder;
+import pub.avalon.sqlhelper.core.builder.GroupSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.GroupDatum;
 
 /**
@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.GroupDatum;
  */
 public class GroupHelper<T extends GroupHelper<T>> extends Helper<T, GroupDatum> {
 
-    public GroupHelper(GroupSqlDataBuilder<T> groupSqlDataBuilder) {
-        super(groupSqlDataBuilder);
+    public GroupHelper() {
+        super(new GroupSqlPartDatumBuilder<>());
     }
 
     @Override
-    protected GroupSqlDataBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (GroupSqlDataBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected GroupSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
+        return (GroupSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
     }
 
 }
