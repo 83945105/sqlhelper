@@ -49,7 +49,20 @@ public interface SqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDa
      * @param tableAlias  表别名
      * @param columnName  列名
      * @param columnAlias 列别名
+     * @param fieldName   属性名
      */
-    void accept(String tableName, String tableAlias, String columnName, String columnAlias);
+    void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName);
+
+    /**
+     * 接收数据
+     *
+     * @param tableName   表名
+     * @param tableAlias  表别名
+     * @param columnName  列名
+     * @param columnAlias 列别名
+     */
+    default void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
+        this.accept(tableName, tableAlias, columnName, columnAlias, columnAlias);
+    }
 
 }

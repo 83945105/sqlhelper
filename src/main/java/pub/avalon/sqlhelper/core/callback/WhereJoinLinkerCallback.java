@@ -17,9 +17,9 @@ public interface WhereJoinLinkerCallback<T extends TableHelper<T, TO, TC, TW, TG
         SW extends WhereHelper<SW>> {
 
     /**
-     * 接收处理条件
+     * 接收条件连接器
      *
-     * @param condition 连接方式
+     * @param condition {@link WhereLinker}
      * @param joinTable 连接表
      * @return {@link WhereLinker}
      */

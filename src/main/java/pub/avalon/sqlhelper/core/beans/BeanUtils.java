@@ -19,10 +19,6 @@ public class BeanUtils {
         return org.springframework.beans.BeanUtils.instantiateClass(clazz);
     }
 
-    public static void copyProperties(Object source, Object target) {
-        org.springframework.beans.BeanUtils.copyProperties(source, target);
-    }
-
     public static <T extends TableHelper> Set<ColumnDatum> getColumnData(T tableHelper) {
         Set<ColumnDatum> columnData = new LinkedHashSet<>();
         Set<TableColumn> tableColumns = tableHelper.getTableColumns();
@@ -30,7 +26,7 @@ public class BeanUtils {
             return columnData;
         }
         for (TableColumn tableColumn : tableColumns) {
-            columnData.add(new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias()));
+            columnData.add(new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias(), tableColumn.getAlias()));
         }
         return columnData;
     }

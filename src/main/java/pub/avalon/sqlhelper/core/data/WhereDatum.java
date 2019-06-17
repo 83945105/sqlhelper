@@ -22,6 +22,10 @@ public final class WhereDatum implements SqlPartDatum {
 
     private String ownerColumnName;
 
+    private String ownerColumnAlias;
+
+    private String ownerMappingFieldName;
+
     private WhereType whereType = WhereType.EQUAL;
 
     private WhereValueType whereValueType = WhereValueType.VALUE;
@@ -31,6 +35,10 @@ public final class WhereDatum implements SqlPartDatum {
     private String targetTableAlias;
 
     private String targetColumnName;
+
+    private String targetColumnAlias;
+
+    private String targetMappingFieldName;
 
     private String targetSecondColumnName;
 
@@ -45,6 +53,14 @@ public final class WhereDatum implements SqlPartDatum {
     private SqlBuilder targetSubQuery;
 
     private String sqlPart;
+
+    public WhereDatum(String ownerTableName, String ownerTableAlias, String ownerColumnName, String ownerColumnAlias, String ownerMappingFieldName) {
+        this.ownerTableName = ownerTableName;
+        this.ownerTableAlias = ownerTableAlias;
+        this.ownerColumnName = ownerColumnName;
+        this.ownerColumnAlias = ownerColumnAlias;
+        this.ownerMappingFieldName = ownerMappingFieldName;
+    }
 
     public String getOwnerTableName() {
         return ownerTableName;
@@ -68,6 +84,22 @@ public final class WhereDatum implements SqlPartDatum {
 
     public void setOwnerColumnName(String ownerColumnName) {
         this.ownerColumnName = ownerColumnName;
+    }
+
+    public String getOwnerColumnAlias() {
+        return ownerColumnAlias;
+    }
+
+    public void setOwnerColumnAlias(String ownerColumnAlias) {
+        this.ownerColumnAlias = ownerColumnAlias;
+    }
+
+    public String getOwnerMappingFieldName() {
+        return ownerMappingFieldName;
+    }
+
+    public void setOwnerMappingFieldName(String ownerMappingFieldName) {
+        this.ownerMappingFieldName = ownerMappingFieldName;
     }
 
     public WhereType getWhereType() {
@@ -108,6 +140,22 @@ public final class WhereDatum implements SqlPartDatum {
 
     public void setTargetColumnName(String targetColumnName) {
         this.targetColumnName = targetColumnName;
+    }
+
+    public String getTargetColumnAlias() {
+        return targetColumnAlias;
+    }
+
+    public void setTargetColumnAlias(String targetColumnAlias) {
+        this.targetColumnAlias = targetColumnAlias;
+    }
+
+    public String getTargetMappingFieldName() {
+        return targetMappingFieldName;
+    }
+
+    public void setTargetMappingFieldName(String targetMappingFieldName) {
+        this.targetMappingFieldName = targetMappingFieldName;
     }
 
     public String getTargetSecondColumnName() {
@@ -174,27 +222,30 @@ public final class WhereDatum implements SqlPartDatum {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        WhereDatum whereData = (WhereDatum) o;
-        return getValueCount() == whereData.getValueCount() &&
-                Objects.equals(getOwnerTableName(), whereData.getOwnerTableName()) &&
-                Objects.equals(getOwnerTableAlias(), whereData.getOwnerTableAlias()) &&
-                Objects.equals(getOwnerColumnName(), whereData.getOwnerColumnName()) &&
-                getWhereType() == whereData.getWhereType() &&
-                getWhereValueType() == whereData.getWhereValueType() &&
-                Objects.equals(getTargetTableName(), whereData.getTargetTableName()) &&
-                Objects.equals(getTargetTableAlias(), whereData.getTargetTableAlias()) &&
-                Objects.equals(getTargetColumnName(), whereData.getTargetColumnName()) &&
-                Objects.equals(getTargetSecondColumnName(), whereData.getTargetSecondColumnName()) &&
-                Objects.equals(getTargetColumnNames(), whereData.getTargetColumnNames()) &&
-                Objects.equals(getTargetValue(), whereData.getTargetValue()) &&
-                Objects.equals(getTargetSecondValue(), whereData.getTargetSecondValue()) &&
-                Objects.equals(getTargetSubQuery(), whereData.getTargetSubQuery()) &&
-                Objects.equals(getSqlPart(), whereData.getSqlPart());
+        WhereDatum that = (WhereDatum) o;
+        return Objects.equals(getOwnerTableName(), that.getOwnerTableName()) &&
+                Objects.equals(getOwnerTableAlias(), that.getOwnerTableAlias()) &&
+                Objects.equals(getOwnerColumnName(), that.getOwnerColumnName()) &&
+                Objects.equals(getOwnerColumnAlias(), that.getOwnerColumnAlias()) &&
+                Objects.equals(getOwnerMappingFieldName(), that.getOwnerMappingFieldName()) &&
+                getWhereType() == that.getWhereType() &&
+                getWhereValueType() == that.getWhereValueType() &&
+                Objects.equals(getTargetTableName(), that.getTargetTableName()) &&
+                Objects.equals(getTargetTableAlias(), that.getTargetTableAlias()) &&
+                Objects.equals(getTargetColumnName(), that.getTargetColumnName()) &&
+                Objects.equals(getTargetColumnAlias(), that.getTargetColumnAlias()) &&
+                Objects.equals(getTargetMappingFieldName(), that.getTargetMappingFieldName()) &&
+                Objects.equals(getTargetSecondColumnName(), that.getTargetSecondColumnName()) &&
+                Objects.equals(getTargetColumnNames(), that.getTargetColumnNames()) &&
+                Objects.equals(getTargetValue(), that.getTargetValue()) &&
+                Objects.equals(getTargetSecondValue(), that.getTargetSecondValue()) &&
+                Objects.equals(getTargetSubQuery(), that.getTargetSubQuery()) &&
+                Objects.equals(getSqlPart(), that.getSqlPart());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getWhereType(), getWhereValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetSecondColumnName(), getTargetColumnNames(), getTargetValue(), getTargetSecondValue(), getValueCount(), getTargetSubQuery(), getSqlPart());
+        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getOwnerMappingFieldName(), getWhereType(), getWhereValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetColumnAlias(), getTargetMappingFieldName(), getTargetSecondColumnName(), getTargetColumnNames(), getTargetValue(), getTargetSecondValue(), getTargetSubQuery(), getSqlPart());
     }
 
 }

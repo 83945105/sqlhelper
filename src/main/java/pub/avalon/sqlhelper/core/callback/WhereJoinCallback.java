@@ -16,12 +16,12 @@ public interface WhereJoinCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         SW extends WhereHelper<SW>> {
 
     /**
-     * 接收处理条件
+     * 接收条件连接器
      *
-     * @param condition 连接方式
+     * @param condition {@link WhereLinker}
      * @param joinTable 连接表
      * @param mainTable 主表
-     * @return {@link pub.avalon.sqlhelper.core.beans.WhereLinker}
+     * @return {@link WhereLinker}
      */
     WhereLinker<T, TO, TC, TW, TG, TS> apply(WhereLinker<T, TO, TC, TW, TG, TS> condition, SW joinTable, TW mainTable);
 }

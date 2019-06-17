@@ -21,7 +21,7 @@ public enum WhereValueType {
      */
     SUB_QUERY,
     /**
-     * sql片段
+     * Sql片段
      */
     SQL_PART
 }

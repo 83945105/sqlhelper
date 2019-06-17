@@ -4,8 +4,6 @@ import pub.avalon.sqlhelper.core.beans.OnLinker;
 import pub.avalon.sqlhelper.core.helper.*;
 
 /**
- * on 回调
- *
  * @author 白超
  * @date 2019/5/16
  */
@@ -24,10 +22,10 @@ public interface OnLinkerCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         SS extends SortHelper<SS>> {
 
     /**
-     * 接收 on sql模组
+     * 接收On条件连接器
      *
-     * @param on        连接方式
-     * @return
+     * @param on {@link OnLinker}
+     * @return {@link OnLinker}
      */
     OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> apply(OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> on);
 

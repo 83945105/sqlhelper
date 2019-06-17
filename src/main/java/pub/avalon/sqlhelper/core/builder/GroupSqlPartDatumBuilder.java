@@ -12,8 +12,8 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 public final class GroupSqlPartDatumBuilder<T extends Helper<T, GroupDatum>> extends AbstractSqlPartDatumBuilder<T, GroupDatum> {
 
     @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.addSqlPartDatum(new GroupDatum(tableName, tableAlias, columnName, columnAlias));
+    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
+        this.addSqlPartDatum(new GroupDatum(tableName, tableAlias, columnName, columnAlias, fieldName));
     }
 
 }

@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.beans;
 import java.util.List;
 
 /**
- * sql构建结果
+ * Sql构建结果
  *
  * @author 白超
  * @date 2019/5/25

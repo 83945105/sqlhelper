@@ -13,53 +13,64 @@ import java.util.Objects;
  */
 public final class SortDatum implements SqlPartDatum {
 
-    private String ownerTableName;
+    private String tableName;
 
-    private String ownerTableAlias;
+    private String tableAlias;
 
-    private String ownerColumnName;
+    private String columnName;
 
-    private String ownerColumnAlias;
+    private String columnAlias;
+
+    private String mappingFieldName;
 
     private SortType sortType = SortType.ASC;
 
-    public SortDatum(String ownerTableName, String ownerTableAlias, String ownerColumnName, String ownerColumnAlias) {
-        this.ownerTableName = ownerTableName;
-        this.ownerTableAlias = ownerTableAlias;
-        this.ownerColumnName = ownerColumnName;
-        this.ownerColumnAlias = ownerColumnAlias;
+    public SortDatum(String tableName, String tableAlias, String columnName, String columnAlias, String mappingFieldName) {
+        this.tableName = tableName;
+        this.tableAlias = tableAlias;
+        this.columnName = columnName;
+        this.columnAlias = columnAlias;
+        this.mappingFieldName = mappingFieldName;
     }
 
-    public String getOwnerTableName() {
-        return ownerTableName;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setOwnerTableName(String ownerTableName) {
-        this.ownerTableName = ownerTableName;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
-    public String getOwnerTableAlias() {
-        return ownerTableAlias;
+    public String getTableAlias() {
+        return tableAlias;
     }
 
-    public void setOwnerTableAlias(String ownerTableAlias) {
-        this.ownerTableAlias = ownerTableAlias;
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
     }
 
-    public String getOwnerColumnName() {
-        return ownerColumnName;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setOwnerColumnName(String ownerColumnName) {
-        this.ownerColumnName = ownerColumnName;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
 
-    public String getOwnerColumnAlias() {
-        return ownerColumnAlias;
+    public String getColumnAlias() {
+        return columnAlias;
     }
 
-    public void setOwnerColumnAlias(String ownerColumnAlias) {
-        this.ownerColumnAlias = ownerColumnAlias;
+    public void setColumnAlias(String columnAlias) {
+        this.columnAlias = columnAlias;
+    }
+
+    public String getMappingFieldName() {
+        return mappingFieldName;
+    }
+
+    public void setMappingFieldName(String mappingFieldName) {
+        this.mappingFieldName = mappingFieldName;
     }
 
     public SortType getSortType() {
@@ -79,15 +90,17 @@ public final class SortDatum implements SqlPartDatum {
             return false;
         }
         SortDatum sortDatum = (SortDatum) o;
-        return Objects.equals(getOwnerTableName(), sortDatum.getOwnerTableName()) &&
-                Objects.equals(getOwnerTableAlias(), sortDatum.getOwnerTableAlias()) &&
-                Objects.equals(getOwnerColumnName(), sortDatum.getOwnerColumnName()) &&
-                Objects.equals(getOwnerColumnAlias(), sortDatum.getOwnerColumnAlias()) &&
+        return Objects.equals(getTableName(), sortDatum.getTableName()) &&
+                Objects.equals(getTableAlias(), sortDatum.getTableAlias()) &&
+                Objects.equals(getColumnName(), sortDatum.getColumnName()) &&
+                Objects.equals(getColumnAlias(), sortDatum.getColumnAlias()) &&
+                Objects.equals(getMappingFieldName(), sortDatum.getMappingFieldName()) &&
                 getSortType() == sortDatum.getSortType();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getSortType());
+        return Objects.hash(getTableName(), getTableAlias(), getColumnName(), getColumnAlias(), getMappingFieldName(), getSortType());
     }
+
 }

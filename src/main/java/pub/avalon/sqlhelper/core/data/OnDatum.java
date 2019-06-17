@@ -20,6 +20,10 @@ public final class OnDatum implements SqlPartDatum {
 
     private String ownerColumnName;
 
+    private String ownerColumnAlias;
+
+    private String ownerMappingFieldName;
+
     private OnType onType = OnType.EQUAL;
 
     private OnValueType onValueType = OnValueType.VALUE;
@@ -30,11 +34,23 @@ public final class OnDatum implements SqlPartDatum {
 
     private String targetColumnName;
 
+    private String targetColumnAlias;
+
+    private String targetMappingFieldName;
+
     private Object targetValue;
 
     private Object targetSecondValue;
 
     private int valueCount;
+
+    public OnDatum(String ownerTableName, String ownerTableAlias, String ownerColumnName, String ownerColumnAlias, String ownerMappingFieldName) {
+        this.ownerTableName = ownerTableName;
+        this.ownerTableAlias = ownerTableAlias;
+        this.ownerColumnName = ownerColumnName;
+        this.ownerColumnAlias = ownerColumnAlias;
+        this.ownerMappingFieldName = ownerMappingFieldName;
+    }
 
     public String getOwnerTableName() {
         return ownerTableName;
@@ -58,6 +74,22 @@ public final class OnDatum implements SqlPartDatum {
 
     public void setOwnerColumnName(String ownerColumnName) {
         this.ownerColumnName = ownerColumnName;
+    }
+
+    public String getOwnerColumnAlias() {
+        return ownerColumnAlias;
+    }
+
+    public void setOwnerColumnAlias(String ownerColumnAlias) {
+        this.ownerColumnAlias = ownerColumnAlias;
+    }
+
+    public String getOwnerMappingFieldName() {
+        return ownerMappingFieldName;
+    }
+
+    public void setOwnerMappingFieldName(String ownerMappingFieldName) {
+        this.ownerMappingFieldName = ownerMappingFieldName;
     }
 
     public OnType getOnType() {
@@ -100,6 +132,22 @@ public final class OnDatum implements SqlPartDatum {
         this.targetColumnName = targetColumnName;
     }
 
+    public String getTargetColumnAlias() {
+        return targetColumnAlias;
+    }
+
+    public void setTargetColumnAlias(String targetColumnAlias) {
+        this.targetColumnAlias = targetColumnAlias;
+    }
+
+    public String getTargetMappingFieldName() {
+        return targetMappingFieldName;
+    }
+
+    public void setTargetMappingFieldName(String targetMappingFieldName) {
+        this.targetMappingFieldName = targetMappingFieldName;
+    }
+
     public Object getTargetValue() {
         return targetValue;
     }
@@ -132,22 +180,26 @@ public final class OnDatum implements SqlPartDatum {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        OnDatum onData = (OnDatum) o;
-        return getValueCount() == onData.getValueCount() &&
-                Objects.equals(getOwnerTableName(), onData.getOwnerTableName()) &&
-                Objects.equals(getOwnerTableAlias(), onData.getOwnerTableAlias()) &&
-                Objects.equals(getOwnerColumnName(), onData.getOwnerColumnName()) &&
-                getOnType() == onData.getOnType() &&
-                getOnValueType() == onData.getOnValueType() &&
-                Objects.equals(getTargetTableName(), onData.getTargetTableName()) &&
-                Objects.equals(getTargetTableAlias(), onData.getTargetTableAlias()) &&
-                Objects.equals(getTargetColumnName(), onData.getTargetColumnName()) &&
-                Objects.equals(getTargetValue(), onData.getTargetValue()) &&
-                Objects.equals(getTargetSecondValue(), onData.getTargetSecondValue());
+        OnDatum onDatum = (OnDatum) o;
+        return Objects.equals(getOwnerTableName(), onDatum.getOwnerTableName()) &&
+                Objects.equals(getOwnerTableAlias(), onDatum.getOwnerTableAlias()) &&
+                Objects.equals(getOwnerColumnName(), onDatum.getOwnerColumnName()) &&
+                Objects.equals(getOwnerColumnAlias(), onDatum.getOwnerColumnAlias()) &&
+                Objects.equals(getOwnerMappingFieldName(), onDatum.getOwnerMappingFieldName()) &&
+                getOnType() == onDatum.getOnType() &&
+                getOnValueType() == onDatum.getOnValueType() &&
+                Objects.equals(getTargetTableName(), onDatum.getTargetTableName()) &&
+                Objects.equals(getTargetTableAlias(), onDatum.getTargetTableAlias()) &&
+                Objects.equals(getTargetColumnName(), onDatum.getTargetColumnName()) &&
+                Objects.equals(getTargetColumnAlias(), onDatum.getTargetColumnAlias()) &&
+                Objects.equals(getTargetMappingFieldName(), onDatum.getTargetMappingFieldName()) &&
+                Objects.equals(getTargetValue(), onDatum.getTargetValue()) &&
+                Objects.equals(getTargetSecondValue(), onDatum.getTargetSecondValue());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOnType(), getOnValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetValue(), getTargetSecondValue(), getValueCount());
+        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getOwnerMappingFieldName(), getOnType(), getOnValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetColumnAlias(), getTargetMappingFieldName(), getTargetValue(), getTargetSecondValue());
     }
+
 }

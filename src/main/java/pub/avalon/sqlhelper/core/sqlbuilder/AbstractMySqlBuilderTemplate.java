@@ -68,11 +68,11 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             } else {
                 sql.append(" ");
             }
-            sql.append(columnDatum.getOwnerTableAlias())
+            sql.append(columnDatum.getTableAlias())
                     .append(".`")
-                    .append(columnDatum.getOwnerColumnName())
+                    .append(columnDatum.getColumnName())
                     .append("` `")
-                    .append(columnDatum.getOwnerColumnAlias())
+                    .append(columnDatum.getColumnAlias())
                     .append("`");
         }
     }
@@ -109,8 +109,8 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             }
             groupType = tableFunctionColumnDatum.getGroupType();
             for (ColumnDatum columnDatum : columnData) {
-                if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
-                    throw new TableDataException("FunctionColumn alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
+                if (this.aliasSingleValidator.get(columnDatum.getColumnAlias()) != null) {
+                    throw new TableDataException("FunctionColumn alias [" + columnDatum.getColumnAlias() + "] is already be used, please set another alias.");
                 }
                 if (i++ > 0) {
                     sql.append(",");
@@ -135,11 +135,11 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                 }
                 sql.append(tableFunctionColumnDatum.getTableAlias())
                         .append(".`")
-                        .append(columnDatum.getOwnerColumnName())
+                        .append(columnDatum.getColumnName())
                         .append("`) `")
-                        .append(columnDatum.getOwnerColumnAlias())
+                        .append(columnDatum.getColumnAlias())
                         .append("`");
-                this.aliasSingleValidator.put(columnDatum.getOwnerColumnAlias(), true);
+                this.aliasSingleValidator.put(columnDatum.getColumnAlias(), true);
             }
         }
     }
@@ -191,21 +191,21 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                 continue;
             }
             for (ColumnDatum columnDatum : columnData) {
-                if (this.aliasSingleValidator.get(columnDatum.getOwnerColumnAlias()) != null) {
-                    throw new TableDataException("table alias [" + tableColumnDatum.getTableAlias() + "] column alias [" + columnDatum.getOwnerColumnAlias() + "] is already be used, please set another alias.");
+                if (this.aliasSingleValidator.get(columnDatum.getColumnAlias()) != null) {
+                    throw new TableDataException("table alias [" + tableColumnDatum.getTableAlias() + "] column alias [" + columnDatum.getColumnAlias() + "] is already be used, please set another alias.");
                 }
                 if (i++ > 0) {
                     sql.append(",");
                 } else {
                     sql.append(" ");
                 }
-                sql.append(columnDatum.getOwnerTableAlias())
+                sql.append(columnDatum.getTableAlias())
                         .append(".`")
-                        .append(columnDatum.getOwnerColumnName())
+                        .append(columnDatum.getColumnName())
                         .append("` `")
-                        .append(columnDatum.getOwnerColumnAlias())
+                        .append(columnDatum.getColumnAlias())
                         .append("`");
-                this.aliasSingleValidator.put(columnDatum.getOwnerColumnAlias(), true);
+                this.aliasSingleValidator.put(columnDatum.getColumnAlias(), true);
             }
         }
     }
@@ -821,9 +821,9 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                 if (i++ > 0) {
                     sql.append(",");
                 }
-                sql.append(columnName.getOwnerTableAlias())
+                sql.append(columnName.getTableAlias())
                         .append(".`")
-                        .append(columnName.getOwnerColumnName())
+                        .append(columnName.getColumnName())
                         .append("`");
             }
         }
@@ -845,9 +845,9 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                 if (i++ > 0) {
                     sql.append(",");
                 }
-                sql.append(sortDatum.getOwnerTableAlias())
+                sql.append(sortDatum.getTableAlias())
                         .append(".`")
-                        .append(sortDatum.getOwnerColumnName())
+                        .append(sortDatum.getColumnName())
                         .append("`");
                 switch (sortDatum.getSortType()) {
                     case ASC:

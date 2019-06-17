@@ -10,51 +10,62 @@ import java.util.Objects;
  */
 public class GroupDatum implements SqlPartDatum {
 
-    private String ownerTableName;
+    private String tableName;
 
-    private String ownerTableAlias;
+    private String tableAlias;
 
-    private String ownerColumnName;
+    private String columnName;
 
-    private String ownerColumnAlias;
+    private String columnAlias;
 
-    public GroupDatum(String ownerTableName, String ownerTableAlias, String ownerColumnName, String ownerColumnAlias) {
-        this.ownerTableName = ownerTableName;
-        this.ownerTableAlias = ownerTableAlias;
-        this.ownerColumnName = ownerColumnName;
-        this.ownerColumnAlias = ownerColumnAlias;
+    private String mappingFieldName;
+
+    public GroupDatum(String tableName, String tableAlias, String columnName, String columnAlias, String mappingFieldName) {
+        this.tableName = tableName;
+        this.tableAlias = tableAlias;
+        this.columnName = columnName;
+        this.columnAlias = columnAlias;
+        this.mappingFieldName = mappingFieldName;
     }
 
-    public String getOwnerTableName() {
-        return ownerTableName;
+    public String getTableName() {
+        return tableName;
     }
 
-    public void setOwnerTableName(String ownerTableName) {
-        this.ownerTableName = ownerTableName;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 
-    public String getOwnerTableAlias() {
-        return ownerTableAlias;
+    public String getTableAlias() {
+        return tableAlias;
     }
 
-    public void setOwnerTableAlias(String ownerTableAlias) {
-        this.ownerTableAlias = ownerTableAlias;
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
     }
 
-    public String getOwnerColumnName() {
-        return ownerColumnName;
+    public String getColumnName() {
+        return columnName;
     }
 
-    public void setOwnerColumnName(String ownerColumnName) {
-        this.ownerColumnName = ownerColumnName;
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
     }
 
-    public String getOwnerColumnAlias() {
-        return ownerColumnAlias;
+    public String getColumnAlias() {
+        return columnAlias;
     }
 
-    public void setOwnerColumnAlias(String ownerColumnAlias) {
-        this.ownerColumnAlias = ownerColumnAlias;
+    public void setColumnAlias(String columnAlias) {
+        this.columnAlias = columnAlias;
+    }
+
+    public String getMappingFieldName() {
+        return mappingFieldName;
+    }
+
+    public void setMappingFieldName(String mappingFieldName) {
+        this.mappingFieldName = mappingFieldName;
     }
 
     @Override
@@ -66,14 +77,16 @@ public class GroupDatum implements SqlPartDatum {
             return false;
         }
         GroupDatum that = (GroupDatum) o;
-        return Objects.equals(getOwnerTableName(), that.getOwnerTableName()) &&
-                Objects.equals(getOwnerTableAlias(), that.getOwnerTableAlias()) &&
-                Objects.equals(getOwnerColumnName(), that.getOwnerColumnName()) &&
-                Objects.equals(getOwnerColumnAlias(), that.getOwnerColumnAlias());
+        return Objects.equals(getTableName(), that.getTableName()) &&
+                Objects.equals(getTableAlias(), that.getTableAlias()) &&
+                Objects.equals(getColumnName(), that.getColumnName()) &&
+                Objects.equals(getColumnAlias(), that.getColumnAlias()) &&
+                Objects.equals(getMappingFieldName(), that.getMappingFieldName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias());
+        return Objects.hash(getTableName(), getTableAlias(), getColumnName(), getColumnAlias(), getMappingFieldName());
     }
+
 }

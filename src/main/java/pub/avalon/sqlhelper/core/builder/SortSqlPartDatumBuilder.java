@@ -16,8 +16,8 @@ public final class SortSqlPartDatumBuilder<T extends Helper<T, SortDatum>> exten
     private SortDatum sortDatum;
 
     @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.sortDatum = new SortDatum(tableName, tableAlias, columnName, columnAlias);
+    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
+        this.sortDatum = new SortDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
     }
 
     /**

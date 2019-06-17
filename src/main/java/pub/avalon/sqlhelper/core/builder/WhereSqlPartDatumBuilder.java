@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * Where条件构建器
+ * 条件Sql片段数据构建器
  *
  * @author 白超
  * @version 1.0
@@ -28,11 +28,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     private WhereDatum whereDatum;
 
     @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.whereDatum = new WhereDatum();
-        this.whereDatum.setOwnerTableName(tableName);
-        this.whereDatum.setOwnerTableAlias(tableAlias);
-        this.whereDatum.setOwnerColumnName(columnName);
+    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
+        this.whereDatum = new WhereDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
     }
 
     /**
@@ -317,6 +314,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -329,6 +328,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -341,6 +342,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -353,6 +356,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -365,6 +370,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -377,6 +384,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -400,9 +409,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             throw new SqlException("you can not set more than one column for equalTo.");
         }
         ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+        this.whereDatum.setTargetTableName(columnDatum.getTableName());
+        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
+        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
+        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -426,9 +437,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             throw new SqlException("you can not set more than one column for equalTo.");
         }
         ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+        this.whereDatum.setTargetTableName(columnDatum.getTableName());
+        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
+        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
+        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -452,9 +465,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             throw new SqlException("you can not set more than one column for equalTo.");
         }
         ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+        this.whereDatum.setTargetTableName(columnDatum.getTableName());
+        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
+        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
+        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -478,9 +493,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             throw new SqlException("you can not set more than one column for equalTo.");
         }
         ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+        this.whereDatum.setTargetTableName(columnDatum.getTableName());
+        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
+        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
+        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -504,9 +521,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             throw new SqlException("you can not set more than one column for equalTo.");
         }
         ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+        this.whereDatum.setTargetTableName(columnDatum.getTableName());
+        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
+        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
+        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -530,9 +549,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             throw new SqlException("you can not set more than one column for equalTo.");
         }
         ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+        this.whereDatum.setTargetTableName(columnDatum.getTableName());
+        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
+        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
+        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }

@@ -23,17 +23,11 @@ import java.util.Set;
  */
 public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {
 
-    /**
-     * 待构建的OnData
-     */
     private OnDatum onDatum;
 
     @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.onDatum = new OnDatum();
-        this.onDatum.setOwnerTableName(tableName);
-        this.onDatum.setOwnerTableAlias(tableAlias);
-        this.onDatum.setOwnerColumnName(columnName);
+    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
+        this.onDatum = new OnDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
     }
 
     @Override
@@ -318,6 +312,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
+        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
+        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -330,6 +326,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
+        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
+        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -342,6 +340,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
+        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
+        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -354,6 +354,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
+        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
+        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -366,6 +368,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
+        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
+        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -378,6 +382,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
         this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
         this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
+        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
+        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -398,11 +404,12 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         }
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum();
-            BeanUtils.copyProperties(this.onDatum, onDatum);
-            onDatum.setTargetTableName(columnDatum.getOwnerTableName());
-            onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-            onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setTargetTableName(columnDatum.getTableName());
+            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetColumnName(columnDatum.getColumnName());
+            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
             this.addSqlPartDatum(onDatum);
         }
         return this.getHelper();
@@ -424,11 +431,12 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         }
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum();
-            BeanUtils.copyProperties(this.onDatum, onDatum);
-            onDatum.setTargetTableName(columnDatum.getOwnerTableName());
-            onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-            onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setTargetTableName(columnDatum.getTableName());
+            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetColumnName(columnDatum.getColumnName());
+            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
             this.addSqlPartDatum(onDatum);
         }
         return this.getHelper();
@@ -450,11 +458,12 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         }
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum();
-            BeanUtils.copyProperties(this.onDatum, onDatum);
-            onDatum.setTargetTableName(columnDatum.getOwnerTableName());
-            onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-            onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setTargetTableName(columnDatum.getTableName());
+            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetColumnName(columnDatum.getColumnName());
+            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
             this.addSqlPartDatum(onDatum);
         }
         return this.getHelper();
@@ -476,11 +485,12 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         }
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum();
-            BeanUtils.copyProperties(this.onDatum, onDatum);
-            onDatum.setTargetTableName(columnDatum.getOwnerTableName());
-            onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-            onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setTargetTableName(columnDatum.getTableName());
+            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetColumnName(columnDatum.getColumnName());
+            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
             this.addSqlPartDatum(onDatum);
         }
         return this.getHelper();
@@ -502,11 +512,12 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         }
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum();
-            BeanUtils.copyProperties(this.onDatum, onDatum);
-            onDatum.setTargetTableName(columnDatum.getOwnerTableName());
-            onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-            onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setTargetTableName(columnDatum.getTableName());
+            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetColumnName(columnDatum.getColumnName());
+            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
             this.addSqlPartDatum(onDatum);
         }
         return this.getHelper();
@@ -528,11 +539,12 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         }
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum();
-            BeanUtils.copyProperties(this.onDatum, onDatum);
-            onDatum.setTargetTableName(columnDatum.getOwnerTableName());
-            onDatum.setTargetTableAlias(columnDatum.getOwnerTableAlias());
-            onDatum.setTargetColumnName(columnDatum.getOwnerColumnName());
+            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setTargetTableName(columnDatum.getTableName());
+            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetColumnName(columnDatum.getColumnName());
+            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
+            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
             this.addSqlPartDatum(onDatum);
         }
         return this.getHelper();
