@@ -43,6 +43,9 @@ public class WhereLinker<M extends Model<M, MC, MO, MW, MS, MG>,
      * @return 当前条件连接器
      */
     public WhereLinkerIntact<M, MC, MO, MW, MS, MG> and(WhereModel<?, ?, ?, ?, ?, ?> whereModel) {
+        if (whereModel == null) {
+            return (WhereLinkerIntact<M, MC, MO, MW, MS, MG>) this;
+        }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
         List<WhereData> whereDataList = whereModel.whereBuilder.getAndResetWhereDataList();
         if (whereDataList == null || whereDataList.size() == 0) {
@@ -60,6 +63,9 @@ public class WhereLinker<M extends Model<M, MC, MO, MW, MS, MG>,
      * @return 当前条件连接器
      */
     public WhereLinkerIntact<M, MC, MO, MW, MS, MG> and(MainCondition<M, MC, MO, MW, MS, MG> condition) {
+        if (condition == null) {
+            return (WhereLinkerIntact<M, MC, MO, MW, MS, MG>) this;
+        }
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MW mw = mainTableData.getTableModel().getWhereModel();
         mw.getWhereBuilder().setOwnerTableData(mainTableData);
@@ -88,8 +94,11 @@ public class WhereLinker<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> WhereLinkerIntact<M, MC, MO, MW, MS, MG> and(Class<T> conditionClass,
-                                                                                                     String alias,
-                                                                                                     JoinCondition<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> condition) {
+                                                                                                       String alias,
+                                                                                                       JoinCondition<M, MC, MO, MW, MS, MG, T, TC, TO, TW, TS, TG> condition) {
+        if (condition == null) {
+            return (WhereLinkerIntact<M, MC, MO, MW, MS, MG>) this;
+        }
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, conditionClass);
         MW mw = mainTableData.getTableModel().getWhereModel();

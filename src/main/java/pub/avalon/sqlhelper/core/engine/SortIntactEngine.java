@@ -37,6 +37,9 @@ public class SortIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
     }
 
     public SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Sort<M, MC, MO, MW, MS, MG> sort) {
+        if (sort == null) {
+            return this;
+        }
         MainTableData<M> mainTableData = this.sqlData.getMainTableData();
         MS ms = mainTableData.getTableModel().getSortModel();
         ms.getSortBuilder().setOwnerTableData(mainTableData);
@@ -51,6 +54,9 @@ public class SortIntactEngine<M extends Model<M, MC, MO, MW, MS, MG>,
             TW extends WhereModel<T, TC, TO, TW, TS, TG>,
             TS extends SortModel<T, TC, TO, TW, TS, TG>,
             TG extends GroupModel<T, TC, TO, TW, TS, TG>> SortIntactEngine<M, MC, MO, MW, MS, MG> sort(Class<T> sortClass, String alias, Sort<T, TC, TO, TW, TS, TG> sort) {
+        if (sort == null) {
+            return this;
+        }
         JoinTableData<T> joinTableData = this.sqlData.getJoinTableData(alias, sortClass);
         TS ts = joinTableData.getTableModel().getSortModel();
         ts.getSortBuilder().setOwnerTableData(joinTableData);
