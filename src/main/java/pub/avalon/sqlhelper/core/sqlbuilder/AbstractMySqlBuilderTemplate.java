@@ -370,7 +370,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         boolean brackets = false;
         for (OnDataLinker onDataLinker : onDataLinkerList) {
             onData = onDataLinker.getOnData();
-            List<OnDataLinker> childOnDataLinkerList = onDataLinker.getOnDataLinkerList();
+            List<OnDataLinker> childOnDataLinkers = onDataLinker.getOnDataLinkers();
             if (onData != null && onData.size() > 0) {
                 switch (onDataLinker.getLinkType()) {
                     case AND:
@@ -389,20 +389,20 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                     default:
                         throw new SqlException("the LinkType is wrong.");
                 }
-            } else if (childOnDataLinkerList != null && childOnDataLinkerList.size() > 0) {
+            } else if (childOnDataLinkers != null && childOnDataLinkers.size() > 0) {
                 switch (onDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkerList, LinkType.AND, true);
+                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkerList, LinkType.OR, true);
+                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -742,7 +742,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         boolean brackets = false;
         for (WhereDataLinker whereDataLinker : whereDataLinkerList) {
             whereData = whereDataLinker.getWhereData();
-            List<WhereDataLinker> childWhereDataLinkerList = whereDataLinker.getWhereDataLinkerList();
+            List<WhereDataLinker> childWhereDataLinkers = whereDataLinker.getWhereDataLinkers();
             if (whereData != null && whereData.size() > 0) {
                 switch (whereDataLinker.getLinkType()) {
                     case AND:
@@ -761,20 +761,20 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                     default:
                         throw new SqlException("the LinkType is wrong.");
                 }
-            } else if (childWhereDataLinkerList != null && childWhereDataLinkerList.size() > 0) {
+            } else if (childWhereDataLinkers != null && childWhereDataLinkers.size() > 0) {
                 switch (whereDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendWhereDataLinkerListSqlArgs(sql, args, childWhereDataLinkerList, LinkType.AND, true);
+                        this.appendWhereDataLinkerListSqlArgs(sql, args, childWhereDataLinkers, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendWhereDataLinkerListSqlArgs(sql, args, childWhereDataLinkerList, LinkType.OR, true);
+                        this.appendWhereDataLinkerListSqlArgs(sql, args, childWhereDataLinkers, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");

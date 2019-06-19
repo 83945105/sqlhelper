@@ -9,7 +9,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.MySqlBuilderTemplate;
  * @author 白超
  * @date 2019/5/20
  */
-public class SqlBuilderOptions {
+public final class SqlBuilderOptions {
 
     public final static SqlBuilderOptions DEFAULT_SQL_BUILDER_OPTIONS = new SqlBuilderOptions();
 

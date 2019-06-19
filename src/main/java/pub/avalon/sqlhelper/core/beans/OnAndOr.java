@@ -56,12 +56,12 @@ public final class OnAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     @Override
     public OnAndOr<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> and(OnLinkerCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = callback.apply(new OnAndOr<>());
-        List<OnDataLinker> onDataLinkerList = onLinker.takeoutOnDataLinkers();
-        if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
+        List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
+        if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
-        onDataLinker.setOnDataLinkerList(onDataLinkerList);
+        onDataLinker.setOnDataLinkers(onDataLinkers);
         this.onDataLinkers.add(onDataLinker);
         return this;
     }
@@ -99,7 +99,7 @@ public final class OnAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
-        onDataLinker.setOnDataLinkerList(onDataLinkers);
+        onDataLinker.setOnDataLinkers(onDataLinkers);
         this.onDataLinkers.add(onDataLinker);
         return this;
     }

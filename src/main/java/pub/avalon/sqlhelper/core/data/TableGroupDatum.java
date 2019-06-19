@@ -10,7 +10,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/6
  */
-public class TableGroupDatum<T extends TableHelper> {
+public final class TableGroupDatum<T extends TableHelper> {
 
     private Class<T> tableHelperClass;
 

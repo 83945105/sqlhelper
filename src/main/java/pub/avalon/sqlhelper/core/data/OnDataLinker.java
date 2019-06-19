@@ -21,7 +21,7 @@ public final class OnDataLinker {
 
     private Set<OnDatum> onData;
 
-    private List<OnDataLinker> onDataLinkerList;
+    private List<OnDataLinker> onDataLinkers;
 
     public LinkType getLinkType() {
         return linkType;
@@ -35,11 +35,12 @@ public final class OnDataLinker {
         this.onData = onData;
     }
 
-    public List<OnDataLinker> getOnDataLinkerList() {
-        return onDataLinkerList;
+    public List<OnDataLinker> getOnDataLinkers() {
+        return onDataLinkers;
     }
 
-    public void setOnDataLinkerList(List<OnDataLinker> onDataLinkerList) {
-        this.onDataLinkerList = onDataLinkerList;
+    public void setOnDataLinkers(List<OnDataLinker> onDataLinkers) {
+        this.onDataLinkers = onDataLinkers;
     }
+
 }

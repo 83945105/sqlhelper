@@ -10,7 +10,7 @@ import java.util.List;
  * @author 白超
  * @date 2019/6/13
  */
-public class TableOnDatum<T extends TableHelper> {
+public final class TableOnDatum<T extends TableHelper> {
 
     private Class<T> tableHelperClass;
 

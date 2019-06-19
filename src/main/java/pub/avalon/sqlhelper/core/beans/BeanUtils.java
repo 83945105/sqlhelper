@@ -10,7 +10,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/19
  */
-public class BeanUtils {
+public final class BeanUtils {
 
     private BeanUtils() {
     }

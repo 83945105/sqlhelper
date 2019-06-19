@@ -22,7 +22,7 @@ public final class WhereDataLinker {
 
     private Set<WhereDatum> whereData;
 
-    private List<WhereDataLinker> whereDataLinkerList;
+    private List<WhereDataLinker> whereDataLinkers;
 
     public LinkType getLinkType() {
         return linkType;
@@ -36,11 +36,11 @@ public final class WhereDataLinker {
         this.whereData = whereData;
     }
 
-    public List<WhereDataLinker> getWhereDataLinkerList() {
-        return whereDataLinkerList;
+    public List<WhereDataLinker> getWhereDataLinkers() {
+        return whereDataLinkers;
     }
 
-    public void setWhereDataLinkerList(List<WhereDataLinker> whereDataLinkerList) {
-        this.whereDataLinkerList = whereDataLinkerList;
+    public void setWhereDataLinkers(List<WhereDataLinker> whereDataLinkers) {
+        this.whereDataLinkers = whereDataLinkers;
     }
 }

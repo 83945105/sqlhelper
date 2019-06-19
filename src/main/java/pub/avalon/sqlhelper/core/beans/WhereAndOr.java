@@ -54,12 +54,12 @@ public final class WhereAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>());
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
+        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
+        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
-        whereDataLinker.setWhereDataLinkerList(whereDataLinkerList);
+        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
         this.whereDataLinkers.add(whereDataLinker);
         return this;
     }
@@ -75,12 +75,12 @@ public final class WhereAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
                                                                              WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw);
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
+        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
+        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
-        whereDataLinker.setWhereDataLinkerList(whereDataLinkerList);
+        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
         this.whereDataLinkers.add(whereDataLinker);
         return this;
     }
@@ -116,12 +116,12 @@ public final class WhereAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>());
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
+        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
+        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        whereDataLinker.setWhereDataLinkerList(whereDataLinkerList);
+        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
         this.whereDataLinkers.add(whereDataLinker);
         return this;
     }
@@ -144,12 +144,12 @@ public final class WhereAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
                                                                             WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw);
-        List<WhereDataLinker> whereDataLinkerList = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
+        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
+        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        whereDataLinker.setWhereDataLinkerList(whereDataLinkerList);
+        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
         this.whereDataLinkers.add(whereDataLinker);
         return this;
     }
