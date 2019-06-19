@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Set;
 
@@ -64,5 +65,12 @@ public interface SqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDa
     default void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
         this.accept(tableName, tableAlias, columnName, columnAlias, columnAlias);
     }
+
+    /**
+     * 设置Sql构建配置
+     *
+     * @param sqlBuilderOptions {@link SqlBuilderOptions}
+     */
+    void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions);
 
 }

@@ -15,6 +15,8 @@ import java.util.*;
  */
 public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
 
+    public static final DefaultMySqlBuilderTemplate DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE = new DefaultMySqlBuilderTemplate();
+
     @Override
     public SqlBuilderResult copyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData) {
         String tableName = sqlDataConsumer.getMainTableData().getTableName();

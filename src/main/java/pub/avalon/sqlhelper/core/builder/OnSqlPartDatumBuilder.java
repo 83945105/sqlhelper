@@ -10,6 +10,7 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.OnDatum;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Collection;
 import java.util.Set;
@@ -25,14 +26,21 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
 
     private OnDatum onDatum;
 
+    private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
         this.onDatum = new OnDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
     }
 
     @Override
+    public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlBuilderOptions = sqlBuilderOptions;
+    }
+
+    @Override
     public ComparisonRule getDefaultComparisonRule() {
-        return null;
+        return this.sqlBuilderOptions.getSqlPartDatumBuilderOptions().getDefaultOnComparisonRule();
     }
 
     @Override

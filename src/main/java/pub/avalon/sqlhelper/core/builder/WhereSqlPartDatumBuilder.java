@@ -12,6 +12,7 @@ import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Collection;
 import java.util.Set;
@@ -27,9 +28,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
 
     private WhereDatum whereDatum;
 
+    private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
         this.whereDatum = new WhereDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
+    }
+
+    @Override
+    public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlBuilderOptions = sqlBuilderOptions;
     }
 
     /**
@@ -48,7 +56,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
 
     @Override
     public ComparisonRule getDefaultComparisonRule() {
-        return null;
+        return this.sqlBuilderOptions.getSqlPartDatumBuilderOptions().getDefaultWhereComparisonRule();
     }
 
     @Override

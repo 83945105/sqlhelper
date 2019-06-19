@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.WhereAndOr;
+import pub.avalon.sqlhelper.core.beans.WhereLinker;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
@@ -54,7 +55,9 @@ public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         if (callback == null) {
             return this;
         }
-        List<WhereDataLinker> whereDataLinkers = callback.apply(new WhereAndOr<>(), BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper()).takeoutWhereDataLinkers();
+        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), tw);
+        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }
@@ -71,7 +74,10 @@ public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         if (callback == null) {
             return this;
         }
-        List<WhereDataLinker> whereDataLinkers = callback.apply(new WhereAndOr<>(), BeanUtils.tableHelper(tableHelperClass).newWhereHelper(), BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper()).takeoutWhereDataLinkers();
+        SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
+        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw, tw);
+        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }

@@ -8,6 +8,8 @@ package pub.avalon.sqlhelper.core.option;
  */
 public final class SqlPrintOptions {
 
+    public final static SqlPrintOptions DEFAULT_SQL_PRINT_OPTIONS = new SqlPrintOptions();
+
     /**
      * 是否开启
      */
