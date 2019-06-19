@@ -63,6 +63,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     public ColumnEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
         T t = BeanUtils.tableHelper(this.tableHelperClass);
         TC tc = t.newColumnHelper();
+        tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
         // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
@@ -81,6 +82,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SS extends SortHelper<SS>> ColumnEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper();
+        sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
@@ -136,6 +138,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
+        tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
         // 如果没设置列, 则跳过
@@ -156,6 +159,7 @@ public class ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         // 如果没设置列, 则跳过

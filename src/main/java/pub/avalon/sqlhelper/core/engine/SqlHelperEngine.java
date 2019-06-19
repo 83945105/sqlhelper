@@ -31,7 +31,7 @@ public class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
 
     private SqlData<T> sqlData;
 
-    private SqlBuilderOptions sqlBuilderOptions;
+    protected SqlBuilderOptions sqlBuilderOptions;
 
     private SqlBuilderProxy sqlBuilderProxy;
 
@@ -41,17 +41,18 @@ public class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         this.tableAlias = mainTableData.getTableAlias();
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS);
+        this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
         this.tableHelperClass = tableHelperClass;
-        this.sqlBuilderOptions = sqlBuilderOptions;
         MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
         this.tableAlias = mainTableData.getTableAlias();
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, sqlBuilderOptions);
+        this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
@@ -61,18 +62,19 @@ public class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         this.tableAlias = mainTableData.getTableAlias();
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS);
+        this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
         this.tableHelperClass = tableHelperClass;
-        this.sqlBuilderOptions = sqlBuilderOptions;
         MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
         mainTableData.setTableName(tableName);
         this.tableAlias = mainTableData.getTableAlias();
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, sqlBuilderOptions);
+        this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
@@ -83,19 +85,20 @@ public class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         mainTableData.setTableAlias(tableAlias);
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS);
+        this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
-        this.sqlBuilderOptions = sqlBuilderOptions;
         MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
         mainTableData.setTableName(tableName);
         mainTableData.setTableAlias(tableAlias);
         this.sqlData = new FinalSqlData<>(mainTableData);
         this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, sqlBuilderOptions);
+        this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     @Override

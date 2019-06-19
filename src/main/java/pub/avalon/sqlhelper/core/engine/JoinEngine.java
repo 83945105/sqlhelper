@@ -64,8 +64,10 @@ public class JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         joinTableData.setJoinType(joinType);
         this.addJoinTableData(joinTableData);
         TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper();
+        to.setSqlBuilderOptions(this.sqlBuilderOptions);
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
         SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper();
+        so.setSqlBuilderOptions(this.sqlBuilderOptions);
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
         List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {

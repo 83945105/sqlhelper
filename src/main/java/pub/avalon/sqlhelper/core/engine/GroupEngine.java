@@ -58,6 +58,7 @@ public class GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
 
     public GroupEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
         TG tg = BeanUtils.tableHelper(this.tableHelperClass).newGroupHelper();
+        tg.setSqlBuilderOptions(this.sqlBuilderOptions);
         tg = callback.apply(tg);
         Set<GroupDatum> groupData = tg.takeoutSqlPartData();
         if (groupData == null || groupData.size() == 0) {
@@ -74,6 +75,7 @@ public class GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> GroupEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
         SG sg = BeanUtils.tableHelper(tableHelperClass).newGroupHelper();
+        sg.setSqlBuilderOptions(this.sqlBuilderOptions);
         sg = callback.apply(sg);
         Set<GroupDatum> groupData = sg.takeoutSqlPartData();
         if (groupData == null || groupData.size() == 0) {

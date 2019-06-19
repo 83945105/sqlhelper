@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.helper;
 
 import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.SqlPartDatum;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Set;
 
@@ -15,7 +16,9 @@ public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
 
     private SqlPartDatumBuilder<T, E> sqlPartDatumBuilder;
 
+    @SuppressWarnings("unchecked")
     public Helper(SqlPartDatumBuilder<T, E> sqlPartDatumBuilder) {
+        sqlPartDatumBuilder.setHelper((T) this);
         this.sqlPartDatumBuilder = sqlPartDatumBuilder;
     }
 
@@ -35,6 +38,15 @@ public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
 
     public Set<E> takeoutSqlPartData() {
         return this.sqlPartDatumBuilder.takeoutSqlPartData();
+    }
+
+    /**
+     * 设置Sql构建配置
+     *
+     * @param sqlBuilderOptions {@link SqlBuilderOptions}
+     */
+    public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlPartDatumBuilder.setSqlBuilderOptions(sqlBuilderOptions);
     }
 
 }

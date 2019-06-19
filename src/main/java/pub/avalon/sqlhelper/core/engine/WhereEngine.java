@@ -56,6 +56,7 @@ public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), tw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
@@ -75,7 +76,9 @@ public class WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             return this;
         }
         SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
+        sw.setSqlBuilderOptions(this.sqlBuilderOptions);
         TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw, tw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
