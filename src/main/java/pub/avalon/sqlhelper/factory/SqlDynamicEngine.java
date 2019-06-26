@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.factory;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.engine.TableEngine;
+import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 /**
@@ -17,8 +17,8 @@ public class SqlDynamicEngine {
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
-        return new TableEngine<>(dataBaseType, tableName, tableHelperClass);
+            TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
+        return new SqlHelperEngine<>(dataBaseType, tableName, tableHelperClass);
     }
 
     public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
@@ -26,7 +26,7 @@ public class SqlDynamicEngine {
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> TableEngine<T, TO, TC, TW, TG, TS> table(DataBaseType dataBaseType, Class<T> tableHelperClass) {
+            TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         return table(dataBaseType, tableHelperClass);
     }
 

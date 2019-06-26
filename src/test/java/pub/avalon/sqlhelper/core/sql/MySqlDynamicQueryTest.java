@@ -16,29 +16,38 @@ import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
 public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
-    void TestWhere() {
+    void TestWhere01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where SysUserDTO.`user_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ?");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestWhere02() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())
                                 .loginName().equalTo(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where SysUserDTO.`user_name` = ? and SysUserDTO.`login_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ?");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestWhere03() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())
                                 .loginName().equalTo(arg()))
                         .or(mainTable.id().greaterThan(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where SysUserDTO.`user_name` = ? and SysUserDTO.`login_name` = ? or SysUserDTO.`id` > ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ? or SysUser.`id` > ?");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestWhere04() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())
                                 .loginName().equalTo(arg()))
@@ -46,9 +55,12 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                                 .loginName().between(arg(), arg()))
                         .and(mainTable.loginName().like(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where SysUserDTO.`user_name` = ? and SysUserDTO.`login_name` = ? or (SysUserDTO.`id` > ? and SysUserDTO.`login_name` between ? and ?) and SysUserDTO.`login_name` like ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? and SysUser.`login_name` = ? or (SysUser.`id` > ? and SysUser.`login_name` between ? and ?) and SysUser.`login_name` like ?");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestWhere05() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(cd -> cd
                                 .and(mainTable.userName().notEqualTo(arg()))
@@ -59,9 +71,12 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                                 .and(mainTable.userName().equalTo(arg()))
                                 .or(mainTable.loginName().equalTo(arg()))))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where (SysUserDTO.`user_name` != ? or SysUserDTO.`login_name` > ?) or (SysUserDTO.`id` > ? and SysUserDTO.`user_name` between ? and ?) and (SysUserDTO.`user_name` = ? or SysUserDTO.`login_name` = ?)");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where (SysUser.`user_name` != ? or SysUser.`login_name` > ?) or (SysUser.`id` > ? and SysUser.`user_name` between ? and ?) and (SysUser.`user_name` = ? or SysUser.`login_name` = ?)");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestWhere06() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(cd -> cd
                                 .and(mainTable.userName().notEqualTo(arg()))
@@ -76,32 +91,41 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                                 .and(mainTable.userName().greaterThanAndEqualTo(arg()))
                                 .or(mainTable.loginName().lessThanAndEqualTo(arg()))))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where ((SysUserDTO.`user_name` != ? or SysUserDTO.`user_name` > ?) or (SysUserDTO.`id` > ? and SysUserDTO.`user_name` between ? and ?) and (SysUserDTO.`user_name` = ? or SysUserDTO.`login_name` = ?)) and (SysUserDTO.`user_name` >= ? or SysUserDTO.`login_name` <= ?)");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where ((SysUser.`user_name` != ? or SysUser.`user_name` > ?) or (SysUser.`id` > ? and SysUser.`user_name` between ? and ?) and (SysUser.`user_name` = ? or SysUser.`login_name` = ?)) and (SysUser.`user_name` >= ? or SysUser.`login_name` <= ?)");
     }
 
     @Test
-    void TestJoin() {
+    void TestJoin01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestJoin02() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` and UserRoleDTO.`role_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ?");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestJoin03() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
                 .leftJoin(RoleResourceDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` and UserRoleDTO.`role_name` = ? left join `role_resource` RoleResourceDTO on RoleResourceDTO.`role_id` = SysUserDTO.`id`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id`");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestJoin04() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
                 .leftJoin(RoleResourceDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -109,7 +133,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .rightJoin(UserRoleDTO.Helper.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` and UserRoleDTO.`role_name` = ? left join `role_resource` RoleResourceDTO on RoleResourceDTO.`role_id` = SysUserDTO.`id` right join `user_role` UR on UR.`role_id` = SysUserDTO.`id`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` right join `user_role` UR on UR.`role_id` = SysUser.`id`");
     }
 
     @Test
@@ -120,7 +144,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().like(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` where UserRoleDTO.`role_name` like ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where UserRole.`role_name` like ?");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -132,7 +156,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` and UserRoleDTO.`role_name` = ? where (SysUserDTO.`user_name` != ? or SysUserDTO.`login_name` = ?) and UserRoleDTO.`role_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? where (SysUser.`user_name` != ? or SysUser.`login_name` = ?) and UserRole.`role_name` = ?");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -141,7 +165,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .and(joinTable.roleId().equalTo(mainTable.id()))
                         .and(joinTable.roleId().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::roleId)))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` and UserRoleDTO.`role_name` = ? left join `role_resource` RoleResourceDTO on RoleResourceDTO.`role_id` = SysUserDTO.`id` and RoleResourceDTO.`role_id` = UserRoleDTO.`role_id`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` = UserRole.`role_id`");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -155,7 +179,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .where(UserRoleDTO.Helper.class, "UR", (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` and UserRoleDTO.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUserDTO.`id` left join `role_resource` RoleResourceDTO on RoleResourceDTO.`role_id` = SysUserDTO.`id` and RoleResourceDTO.`role_id` < UR.`role_id` where UR.`role_name` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUser.`id` left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` < UR.`role_id` where UR.`role_name` = ?");
     }
 
     @Test
@@ -175,7 +199,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                                 .or(table.roleId().equalTo(arg())))
                         .and(table.sortIndex().equalTo(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` and UserRoleDTO.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUserDTO.`id` left join `role_resource` RoleResourceDTO on RoleResourceDTO.`role_id` = SysUserDTO.`id` and RoleResourceDTO.`role_id` < UR.`role_id` where (UR.`role_name` = ? or UR.`role_id` = ?) and UR.`sort_index` = ?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUser.`id` left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` < UR.`role_id` where (UR.`role_name` = ? or UR.`role_id` = ?) and UR.`sort_index` = ?");
     }
 
     @Test
@@ -183,12 +207,12 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .group(SysUserDTO.Helper.Group::userName)
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO group by SysUserDTO.`user_name`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.`user_name`");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .group(table -> table.userName().id())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO group by SysUserDTO.`user_name`,SysUserDTO.`id`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.`user_name`,SysUser.`id`");
     }
 
     @Test
@@ -198,7 +222,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .and(mainTable.userName().equalTo(arg())))
                 .group(table -> table.id().loginName())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where SysUserDTO.`user_name` = ? group by SysUserDTO.`id`,SysUserDTO.`login_name`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? group by SysUser.`id`,SysUser.`login_name`");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -208,7 +232,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .group(table -> table.userName().id())
                 .group(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Group::roleId)
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` where SysUserDTO.`user_name` = ? group by SysUserDTO.`user_name`,SysUserDTO.`id`,UserRoleDTO.`role_id`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.`user_name`,SysUser.`id`,UserRole.`role_id`");
     }
 
     @Test
@@ -216,17 +240,17 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .sort(table -> table.id().asc())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO order by SysUserDTO.`id` asc");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser order by SysUser.`id` asc");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .sort(table -> table.id().asc().userName().desc())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO order by SysUserDTO.`id` asc,SysUserDTO.`user_name` desc");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser order by SysUser.`id` asc,SysUser.`user_name` desc");
 
         sqlBuilder = MySqlDynamicEngine.table("sys_user_201903", SysUserDTO.Helper.class)
                 .sort(table -> table.id().asc().userName().desc())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user_201903` SysUserDTO order by SysUserDTO.`id` asc,SysUserDTO.`user_name` desc");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user_201903` SysUser order by SysUser.`id` asc,SysUser.`user_name` desc");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, "user_role_201903", (on, joinTable, mainTable) -> on
@@ -234,7 +258,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .sort(table -> table.id().asc().userName().desc())
                 .sort(UserRoleDTO.Helper.class, "UserRoleAlias", table -> table.sortIndex().desc())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO order by SysUserDTO.`id` asc,SysUserDTO.`user_name` desc");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser order by SysUser.`id` asc,SysUser.`user_name` desc");
 
 
     }
@@ -246,7 +270,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .and(mainTable.userName().equalTo(arg())))
                 .sort(table -> table.id().desc())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where SysUserDTO.`user_name` = ? order by SysUserDTO.`id` desc");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`user_name` = ? order by SysUser.`id` desc");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -255,7 +279,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .and(mainTable.id().equalTo(arg())))
                 .sort(UserRoleDTO.Helper.class, table -> table.id().desc())
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` where SysUserDTO.`id` = ? order by UserRoleDTO.`id` desc");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`id` = ? order by UserRole.`id` desc");
     }
 
     @Test
@@ -263,7 +287,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .limit(arg(0), arg(10))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO limit ?,?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ?,?");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .limit(200, 10, 20)
@@ -271,7 +295,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         Pagination pagination = new Pagination(DataBaseType.MYSQL, 200, 10, 20);
         arg(pagination.getLimitStart());
         arg(pagination.getLimitEnd());
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO limit ?,?");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ?,?");
     }
 
     @Test
@@ -283,7 +307,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                                 .or(joinTable.roleName().equalTo(mainTable.primaryKey())))
                         .or(joinTable.id().equalTo(mainTable.loginName())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on (UserRoleDTO.`id` = SysUserDTO.`user_name` or UserRoleDTO.`role_name` = SysUserDTO.`id`) or UserRoleDTO.`id` = SysUserDTO.`login_name`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name`");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -296,7 +320,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                         .or(joinTable.roleName().equalTo(arg()))
                         .or(joinTable.id().equalTo(mainTable.userName())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on (UserRoleDTO.`id` = SysUserDTO.`user_name` and UserRoleDTO.`role_id` = ? or UserRoleDTO.`role_name` = SysUserDTO.`login_name` and UserRoleDTO.`id` = ? and UserRoleDTO.`role_name` = ?) or UserRoleDTO.`role_name` = ? or UserRoleDTO.`id` = SysUserDTO.`user_name`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on (UserRole.`id` = SysUser.`user_name` and UserRole.`role_id` = ? or UserRole.`role_name` = SysUser.`login_name` and UserRole.`id` = ? and UserRole.`role_name` = ?) or UserRole.`role_name` = ? or UserRole.`id` = SysUser.`user_name`");
     }
 
     @Test
@@ -310,7 +334,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::roleName)))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on (UserRoleDTO.`id` = SysUserDTO.`user_name` or UserRoleDTO.`role_name` = SysUserDTO.`id`) or UserRoleDTO.`id` = SysUserDTO.`login_name` where SysUserDTO.`user_name` = UserRoleDTO.`role_name`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name` where SysUser.`user_name` = UserRole.`role_name`");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin("user_role_20190413", UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -321,7 +345,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::id)))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role_20190413` UserRoleDTO on (UserRoleDTO.`id` = SysUserDTO.`user_name` or UserRoleDTO.`role_name` = SysUserDTO.`id`) or UserRoleDTO.`id` = SysUserDTO.`login_name` where SysUserDTO.`user_name` = UserRoleDTO.`id`");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role_20190413` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name` where SysUser.`user_name` = UserRole.`id`");
     }
 
 /*    @Test
@@ -341,7 +365,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())))
                 .query();
-        setSqlBuilder(sqlBuilder, "select (select AA.`id` `id` from `user_role` AA where AA.`role_id` = ? and AA.`role_name` = SysUserDTO.`user_name` and SysUserDTO.`id` = AA.`id` and AA.`sort_index` = UserRoleDTO.`id` limit ?,?) subQuery, SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`user_id` = SysUserDTO.`id` where SysUserDTO.`user_name` = ?");
+        setSqlBuilder(sqlBuilder, "select (select AA.`id` `id` from `user_role` AA where AA.`role_id` = ? and AA.`role_name` = SysUser.`user_name` and SysUser.`id` = AA.`id` and AA.`sort_index` = UserRole.`id` limit ?,?) subQuery, SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` = ?");
     }*/
 
 /*    @Test
@@ -360,7 +384,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .query();
         arg(0);
         arg(1);
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`user_id` = SysUserDTO.`id` where SysUserDTO.`user_name` like (select UserRoleDTO.`id` `id` from `user_role` UserRoleDTO where UserRoleDTO.`role_name` = ? limit ?,?)");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like (select UserRole.`id` `id` from `user_role` UserRole where UserRole.`role_name` = ? limit ?,?)");
 
         sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -376,7 +400,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .query();
         arg(0);
         arg(1);
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`user_id` = SysUserDTO.`id` where SysUserDTO.`user_name` like (select UserRoleDTO.`id` `id` from `user_role` UserRoleDTO where UserRoleDTO.`user_id` between ? and ? limit ?,?)");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like (select UserRole.`id` `id` from `user_role` UserRole where UserRole.`user_id` between ? and ? limit ?,?)");
     }*/
 
     @Test
@@ -385,7 +409,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .where((condition, mainTable) -> condition
                         .and(mainTable.loginName().sqlPart("=NOW()")))
                 .query();
-        setSqlBuilder(sqlBuilder, "select SysUserDTO.`id` `id`,SysUserDTO.`user_name` `userName`,SysUserDTO.`login_name` `loginName` from `sys_user` SysUserDTO where SysUserDTO.`login_name` =NOW()");
+        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`login_name` =NOW()");
     }
 
 }

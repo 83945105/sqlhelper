@@ -19,19 +19,7 @@ public final class VirtualFieldDatum {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public void setValue(long value) {
-        this.value = value;
-    }
-
-    public void setValue(double value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 

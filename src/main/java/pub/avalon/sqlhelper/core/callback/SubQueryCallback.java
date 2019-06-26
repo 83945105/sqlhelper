@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.callback;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.data.JoinTableData;
 import pub.avalon.sqlhelper.core.data.SqlData;
-import pub.avalon.sqlhelper.core.engine.TableEngine;
+import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
@@ -30,7 +30,7 @@ public interface SubQueryCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param query
      * @return
      */
-    SqlBuilder apply(TableEngine<T, TO, TC, TW, TG, TS> query);
+    SqlBuilder apply(SqlHelperEngine<T, TO, TC, TW, TG, TS> query);
 
     /**
      * 执行SubQuery
@@ -49,14 +49,14 @@ public interface SubQueryCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TS extends SortHelper<TS>> SqlBuilder execute(SqlData<?> sqlData, String tableName, Class<T> tableHelperClass, String alias, SubQueryCallback<T, TO, TC, TW, TG, TS> subQuery) {
-        TableEngine<T, TO, TC, TW, TG, TS> tableEngine;
+        SqlHelperEngine<T, TO, TC, TW, TG, TS> tableEngine;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
-                tableEngine = new TableEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
+                tableEngine = new SqlHelperEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
                 tableEngine.setDataBaseType(DataBaseType.MYSQL);
                 break;
             case SQLSERVER:
-                tableEngine = new TableEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
+                tableEngine = new SqlHelperEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
                 tableEngine.setDataBaseType(DataBaseType.SQLSERVER);
                 break;
             default:

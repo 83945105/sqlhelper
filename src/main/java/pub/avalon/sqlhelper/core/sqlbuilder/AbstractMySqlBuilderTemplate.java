@@ -246,7 +246,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         }
     }
 
-    protected void appendOnDataListSqlArgs(StringBuilder sql, List<Object> args, Set<OnDatum> onData, LinkType linkType) {
+    protected void appendOnDataSqlArgs(StringBuilder sql, List<Object> args, Set<OnDatum> onData, LinkType linkType) {
         if (onData == null || onData.size() == 0) {
             return;
         }
@@ -360,15 +360,15 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
     }
 
 
-    protected void appendOnDataLinkerListSqlArgs(StringBuilder sql, List<Object> args, List<OnDataLinker> onDataLinkerList, LinkType linkType, boolean checkBrackets) {
-        if (onDataLinkerList == null || onDataLinkerList.size() == 0) {
+    protected void appendOnDataLinkersSqlArgs(StringBuilder sql, List<Object> args, List<OnDataLinker> onDataLinkers, LinkType linkType, boolean checkBrackets) {
+        if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return;
         }
         int length = sql.length();
         Set<OnDatum> onData;
         int i = 0;
         boolean brackets = false;
-        for (OnDataLinker onDataLinker : onDataLinkerList) {
+        for (OnDataLinker onDataLinker : onDataLinkers) {
             onData = onDataLinker.getOnData();
             List<OnDataLinker> childOnDataLinkers = onDataLinker.getOnDataLinkers();
             if (onData != null && onData.size() > 0) {
@@ -377,14 +377,14 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendOnDataListSqlArgs(sql, args, onData, LinkType.AND);
+                        this.appendOnDataSqlArgs(sql, args, onData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataListSqlArgs(sql, args, onData, LinkType.OR);
+                        this.appendOnDataSqlArgs(sql, args, onData, LinkType.OR);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -395,14 +395,14 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.AND, true);
+                        this.appendOnDataLinkersSqlArgs(sql, args, childOnDataLinkers, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.OR, true);
+                        this.appendOnDataLinkersSqlArgs(sql, args, childOnDataLinkers, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -446,7 +446,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             List<OnDataLinker> onDataLinkers = joinTableData.getTableOnDatum().getOnDataLinkers();
             if (onDataLinkers != null && onDataLinkers.size() > 0) {
                 sql.append(" on ");
-                this.appendOnDataLinkerListSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
+                this.appendOnDataLinkersSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
             }
         }
     }

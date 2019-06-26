@@ -103,7 +103,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     @Override
     public Set<TableColumn> getTableColumns() {
-        return null;
+        return TABLE_COLUMNS;
     }
 
     @Override

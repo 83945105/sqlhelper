@@ -9,7 +9,7 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/15
  */
-public interface SqlBuilder<T> {
+public interface SqlBuilder {
 
     /**
      * 获取sql
@@ -40,14 +40,14 @@ public interface SqlBuilder<T> {
      * @param copyData        是否复制表数据
      * @return
      */
-    T copyTable(String targetTableName, boolean copyData);
+    SqlBuilder copyTable(String targetTableName, boolean copyData);
 
     /**
      * 删除表
      *
      * @return
      */
-    T deleteTable();
+    SqlBuilder deleteTable();
 
     /**
      * 重命名表
@@ -55,14 +55,14 @@ public interface SqlBuilder<T> {
      * @param newTableName 新的表名
      * @return
      */
-    T renameTable(String newTableName);
+    SqlBuilder renameTable(String newTableName);
 
     /**
      * 判断表是否存在
      *
      * @return
      */
-    T isTableExist();
+    SqlBuilder isTableExist();
 
     /**
      * 插入参数
@@ -70,7 +70,7 @@ public interface SqlBuilder<T> {
      * @param args 参数
      * @return
      */
-    T insertArgs(Object... args);
+    SqlBuilder insertArgs(Object... args);
 
     /**
      * 使用JavaBean插入
@@ -78,7 +78,7 @@ public interface SqlBuilder<T> {
      * @param javaBean
      * @return
      */
-    T insertJavaBean(Object javaBean);
+    SqlBuilder insertJavaBean(Object javaBean);
 
     /**
      * 使用JavaBean插入
@@ -87,7 +87,7 @@ public interface SqlBuilder<T> {
      * @param javaBean
      * @return
      */
-    T insertJavaBeanSelective(Object javaBean);
+    SqlBuilder insertJavaBeanSelective(Object javaBean);
 
     /**
      * 使用JavaBean批量插入
@@ -95,14 +95,14 @@ public interface SqlBuilder<T> {
      * @param javaBeans
      * @return
      */
-    T batchInsertJavaBeans(Collection<?> javaBeans);
+    SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans);
 
     /**
      * 删除
      *
      * @return
      */
-    T delete();
+    SqlBuilder delete();
 
     /**
      * 根据主键删除
@@ -110,7 +110,7 @@ public interface SqlBuilder<T> {
      * @param primaryKeyValue 主键值
      * @return
      */
-    T deleteByPrimaryKey(Object primaryKeyValue);
+    SqlBuilder deleteByPrimaryKey(Object primaryKeyValue);
 
     /**
      * 根据主键批量删除
@@ -118,7 +118,7 @@ public interface SqlBuilder<T> {
      * @param primaryKeyValues 主键值集合
      * @return
      */
-    T batchDeleteByPrimaryKeys(Object... primaryKeyValues);
+    SqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues);
 
     /**
      * 使用JavaBean更新
@@ -126,7 +126,7 @@ public interface SqlBuilder<T> {
      * @param javaBean
      * @return
      */
-    T updateJavaBean(Object javaBean);
+    SqlBuilder updateJavaBean(Object javaBean);
 
     /**
      * 使用JavaBean更新
@@ -135,7 +135,7 @@ public interface SqlBuilder<T> {
      * @param javaBean
      * @return
      */
-    T updateJavaBeanSelective(Object javaBean);
+    SqlBuilder updateJavaBeanSelective(Object javaBean);
 
     /**
      * 根据主键更新参数
@@ -144,7 +144,7 @@ public interface SqlBuilder<T> {
      * @param args            参数
      * @return
      */
-    T updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
+    SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
 
     /**
      * 根据主键,使用JavaBean更新
@@ -153,7 +153,7 @@ public interface SqlBuilder<T> {
      * @param javaBean
      * @return
      */
-    T updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
+    SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
 
     /**
      * 根据主键,使用JavaBean更新
@@ -163,7 +163,7 @@ public interface SqlBuilder<T> {
      * @param javaBean
      * @return
      */
-    T updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
+    SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
 
     /**
      * 使用JavaBean批量更新
@@ -171,7 +171,7 @@ public interface SqlBuilder<T> {
      * @param javaBeans
      * @return
      */
-    T batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
+    SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
 
     /**
      * 使用JavaBean更新或插入
@@ -180,21 +180,21 @@ public interface SqlBuilder<T> {
      * @param javaBeans
      * @return
      */
-    T updateOrInsertJavaBeans(Collection<?> javaBeans);
+    SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans);
 
     /**
      * 查询
      *
      * @return
      */
-    T query();
+    SqlBuilder query();
 
     /**
      * 查询数量
      *
      * @return
      */
-    T queryCount();
+    SqlBuilder queryCount();
 
     /**
      * 根据主键查询
@@ -202,6 +202,6 @@ public interface SqlBuilder<T> {
      * @param primaryKeyValue 主键值
      * @return
      */
-    T queryByPrimaryKey(Object primaryKeyValue);
+    SqlBuilder queryByPrimaryKey(Object primaryKeyValue);
 
 }

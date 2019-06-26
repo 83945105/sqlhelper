@@ -271,7 +271,7 @@ public class RoleResourceDTO {
 
         @Override
         public Set<TableColumn> getTableColumns() {
-            return null;
+            return TABLE_COLUMNS;
         }
 
         @Override

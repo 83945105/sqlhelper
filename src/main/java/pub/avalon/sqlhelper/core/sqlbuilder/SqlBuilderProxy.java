@@ -15,7 +15,7 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/20
  */
-public class SqlBuilderProxy implements SqlBuilder<SqlBuilder> {
+public class SqlBuilderProxy implements SqlBuilder {
 
     private SqlData<?> sqlData;
 
