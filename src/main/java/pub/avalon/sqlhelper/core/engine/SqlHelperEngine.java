@@ -21,12 +21,12 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
+public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> implements ColumnEngine<T, TO, TC, TW, TG, TS>, JoinEngine<T, TO, TC, TW, TG, TS>, WhereEngine<T, TO, TC, TW, TG, TS>, GroupEngine<T, TO, TC, TW, TG, TS>, SortEngine<T, TO, TC, TW, TG, TS>, LimitEngine<T, TO, TC, TW, TG, TS>, SqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS>, SqlBuilder, SqlDataProducer {
 
     protected Class<T> tableHelperClass;
 

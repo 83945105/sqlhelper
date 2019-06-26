@@ -19,43 +19,43 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> {
 
-    SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columns);
+    TableEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columns);
 
-    SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback);
+    TableEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback);
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, ColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, ColumnCallback<SC> callback) {
         return column(tableHelperClass, null, callback);
     }
 
-    SqlHelperEngine<T, TO, TC, TW, TG, TS> virtualColumn(Object value, String alias);
+    TableEngine<T, TO, TC, TW, TG, TS> virtualColumn(Object value, String alias);
 
-    SqlHelperEngine<T, TO, TC, TW, TG, TS> functionColumn(GroupType groupType, ColumnCallback<TC> callback);
+    TableEngine<T, TO, TC, TW, TG, TS> functionColumn(GroupType groupType, ColumnCallback<TC> callback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback);
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> callback) {
         return functionColumn(tableHelperClass, null, groupType, callback);
     }
 
@@ -64,14 +64,14 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias);
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
         return this.subQuery(tableName, tableHelperClass, null, callback, columnAlias);
     }
 
@@ -80,7 +80,7 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> subQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
         return this.subQuery(null, tableHelperClass, null, callback, columnAlias);
     }
 
@@ -89,7 +89,7 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> subQuery(Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
         return this.subQuery(null, tableHelperClass, alias, callback, columnAlias);
     }
 

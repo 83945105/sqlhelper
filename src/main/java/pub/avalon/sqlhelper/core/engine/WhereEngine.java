@@ -18,21 +18,21 @@ public interface WhereEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> {
 
-    SqlHelperEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback);
+    TableEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback);
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
         return where(tableHelperClass, null, callback);
     }
 

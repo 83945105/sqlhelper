@@ -17,23 +17,23 @@ public interface GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> {
 
-    SqlHelperEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupSqlModels);
+    TableEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupSqlModels);
 
-    SqlHelperEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback);
+    TableEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback);
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, GroupCallback<SG> callback) {
+            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, GroupCallback<SG> callback) {
         return group(tableHelperClass, null, callback);
     }
 

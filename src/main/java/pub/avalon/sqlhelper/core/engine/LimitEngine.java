@@ -17,14 +17,14 @@ public interface LimitEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> {
 
-    SqlHelperEngine limitTop(Integer num);
+    TableEngine limitTop(Integer num);
 
-    SqlHelperEngine limitOne();
+    TableEngine limitOne();
 
-    SqlHelperEngine limit(LimitHandler limit);
+    TableEngine limit(LimitHandler limit);
 
-    SqlHelperEngine limit(Integer start, Integer end);
+    TableEngine limit(Integer start, Integer end);
 
-    SqlHelperEngine limit(Integer total, Integer currentPage, Integer pageSize);
+    TableEngine limit(Integer total, Integer currentPage, Integer pageSize);
 
 }
