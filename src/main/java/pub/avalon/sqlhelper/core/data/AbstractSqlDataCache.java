@@ -35,7 +35,7 @@ public abstract class AbstractSqlDataCache<T extends TableHelper> implements Sql
      * 用于校验连接表是否重复/存在
      */
     private Map<String, Class> joinTableAliasCache = new ConcurrentHashMap<>();
-    private LinkedHashMap<String, JoinTableData<? extends TableHelper>> joinTableDataMap;
+    private LinkedHashMap<String, JoinTableData> joinTableDataMap;
     private LinkedHashMap<String, JoinTableData<? extends TableHelper>> subQueryJoinTableDataMap;
 
     @Override
@@ -65,7 +65,7 @@ public abstract class AbstractSqlDataCache<T extends TableHelper> implements Sql
         if (this.joinTableAliasCache.get(tableAlias) == null) {
             throw new TableDataException("the alias table [" + tableAlias + "] is not joined.");
         }
-        JoinTableData<? extends TableHelper> joinTableData = null;
+        JoinTableData joinTableData = null;
         if (this.joinTableDataMap != null) {
             joinTableData = this.joinTableDataMap.get(tableAlias);
         }
@@ -79,7 +79,7 @@ public abstract class AbstractSqlDataCache<T extends TableHelper> implements Sql
     }
 
     @Override
-    public LinkedHashMap<String, JoinTableData<? extends TableHelper>> getJoinTableDataMap() {
+    public LinkedHashMap<String, JoinTableData> getJoinTableDataMap() {
         return this.joinTableDataMap;
     }
 

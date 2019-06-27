@@ -419,12 +419,13 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         sql.insert(length, "(").append(")");
     }
 
-    protected void appendJoinSqlArgs(StringBuilder sql, List<Object> args, Map<String, JoinTableData<? extends TableHelper>> joinTableDataAliasMap) {
+    protected void appendJoinSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
+        LinkedHashMap<String, JoinTableData> joinTableDataAliasMap = sqlDataConsumer.getJoinTableDataMap();
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
             return;
         }
         JoinTableData<? extends TableHelper> joinTableData;
-        for (Map.Entry<String, JoinTableData<? extends TableHelper>> entry : joinTableDataAliasMap.entrySet()) {
+        for (Map.Entry<String, JoinTableData> entry : joinTableDataAliasMap.entrySet()) {
             joinTableData = entry.getValue();
             switch (joinTableData.getJoinType()) {
                 case INNER:

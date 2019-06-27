@@ -66,7 +66,7 @@ public interface SqlDataConsumer<T extends TableHelper> {
      *
      * @return key - 表别名 value - {@link JoinTableData}
      */
-    LinkedHashMap<String, JoinTableData<? extends TableHelper>> getJoinTableDataMap();
+    LinkedHashMap<String, JoinTableData> getJoinTableDataMap();
 
     /**
      * 获取条件数据

@@ -62,9 +62,9 @@ public interface SubQueryCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             default:
                 throw new SqlException("SubQuery do not support this database type temporarily.");
         }
-        Map<String, JoinTableData<? extends TableHelper>> joinTableDataAliasMap = sqlData.getJoinTableDataMap();
+        Map<String, JoinTableData> joinTableDataAliasMap = sqlData.getJoinTableDataMap();
         if (joinTableDataAliasMap != null && joinTableDataAliasMap.size() > 0) {
-            for (Map.Entry<String, JoinTableData<? extends TableHelper>> entry : joinTableDataAliasMap.entrySet()) {
+            for (Map.Entry<String, JoinTableData> entry : joinTableDataAliasMap.entrySet()) {
                 // 将父查询的关联表数据添加至子查询中
                 tableEngine.addSubQueryJoinTableData(entry.getValue());
             }

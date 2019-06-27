@@ -197,7 +197,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
@@ -243,7 +243,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         preparedStatementSql.append(" set ");
         int i = 0;
         Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper());
@@ -267,7 +267,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         preparedStatementSql.append(" set ");
         int i = 0;
         Object value;
@@ -382,7 +382,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         preparedStatementSql.append(" set ");
         int i = 0;
         String primaryKeyName = sqlDataConsumer.getMainTableData().getTableHelper().getPrimaryKeyName();
@@ -508,7 +508,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` ")
                 .append(sqlDataConsumer.getMainTableData().getTableAlias());
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         this.appendGroupSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableGroupData());
         this.appendSortSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableSortData());
@@ -541,7 +541,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         preparedStatementSql.append(sqlDataConsumer.getMainTableData().getTableName())
                 .append("` ")
                 .append(sqlDataConsumer.getMainTableData().getTableAlias());
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getJoinTableDataMap());
+        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer.getTableWhereData());
         if (hasGroup || hasLimit) {
             if (hasGroup) {
