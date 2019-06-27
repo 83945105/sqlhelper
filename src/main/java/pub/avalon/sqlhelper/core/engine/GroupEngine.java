@@ -15,25 +15,25 @@ public interface GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> {
+        TS extends SortHelper<TS>, R extends GroupEngine<T, TO, TC, TW, TG, TS, R>> {
 
-    TableEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupSqlModels);
+    R group(GroupHelper<?>... groupSqlModels);
 
-    TableEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback);
+    R group(GroupCallback<TG> callback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback);
+            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, GroupCallback<SG> callback) {
+            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, GroupCallback<SG> callback) {
         return group(tableHelperClass, null, callback);
     }
 

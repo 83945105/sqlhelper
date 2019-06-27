@@ -15,25 +15,25 @@ public interface SortEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> {
+        TS extends SortHelper<TS>, R extends SortEngine<T, TO, TC, TW, TG, TS, R>> {
 
-    TableEngine<T, TO, TC, TW, TG, TS> sort(SortHelper<?>... sortSqlModels);
+    R sort(SortHelper<?>... sortSqlModels);
 
-    TableEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback);
+    R sort(SortCallback<TS> callback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback);
+            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, SortCallback<SS> callback) {
+            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, SortCallback<SS> callback) {
         return sort(tableHelperClass, null, callback);
     }
 

@@ -16,21 +16,21 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> {
+        TS extends SortHelper<TS>, R extends JoinEngine<T, TO, TC, TW, TG, TS, R>> {
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> R join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R join(JoinType joinType, String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(joinType, tableName, tableHelperClass, null, callback);
     }
 
@@ -39,7 +39,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R join(JoinType joinType, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(joinType, null, tableHelperClass, alias, callback);
     }
 
@@ -48,7 +48,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R join(JoinType joinType, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(joinType, null, tableHelperClass, null, callback);
     }
 
@@ -57,7 +57,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> innerJoin(String tableName, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R innerJoin(String tableName, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.INNER, tableName, tableHelperClass, alias, callback);
     }
 
@@ -66,7 +66,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> innerJoin(String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R innerJoin(String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.INNER, tableName, tableHelperClass, null, callback);
     }
 
@@ -75,7 +75,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> innerJoin(Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R innerJoin(Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.INNER, null, tableHelperClass, alias, callback);
     }
 
@@ -84,7 +84,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> innerJoin(Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R innerJoin(Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.INNER, null, tableHelperClass, null, callback);
     }
 
@@ -93,7 +93,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> leftJoin(String tableName, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R leftJoin(String tableName, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.LEFT, tableName, tableHelperClass, alias, callback);
     }
 
@@ -102,7 +102,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> leftJoin(String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R leftJoin(String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.LEFT, tableName, tableHelperClass, null, callback);
     }
 
@@ -111,7 +111,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> leftJoin(Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R leftJoin(Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.LEFT, null, tableHelperClass, alias, callback);
     }
 
@@ -120,7 +120,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> leftJoin(Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R leftJoin(Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.LEFT, null, tableHelperClass, null, callback);
     }
 
@@ -129,7 +129,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> rightJoin(String tableName, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R rightJoin(String tableName, Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.RIGHT, tableName, tableHelperClass, alias, callback);
     }
 
@@ -138,7 +138,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> rightJoin(String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R rightJoin(String tableName, Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.RIGHT, tableName, tableHelperClass, null, callback);
     }
 
@@ -147,7 +147,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> rightJoin(Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R rightJoin(Class<S> tableHelperClass, String alias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.RIGHT, null, tableHelperClass, alias, callback);
     }
 
@@ -156,7 +156,7 @@ public interface JoinEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> TableEngine<T, TO, TC, TW, TG, TS> rightJoin(Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> R rightJoin(Class<S> tableHelperClass, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
         return join(JoinType.RIGHT, null, tableHelperClass, null, callback);
     }
 

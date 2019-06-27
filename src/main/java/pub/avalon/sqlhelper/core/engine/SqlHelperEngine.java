@@ -26,7 +26,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS>, SqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS, SqlHelperEngine<T, TO, TC, TW, TG, TS>>, SqlBuilder, SqlDataProducer {
 
     protected Class<T> tableHelperClass;
 

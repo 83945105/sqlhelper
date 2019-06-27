@@ -15,16 +15,16 @@ public interface LimitEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> {
+        TS extends SortHelper<TS>, R extends LimitEngine<T, TO, TC, TW, TG, TS, R>> {
 
-    TableEngine limitTop(Integer num);
+    R limitTop(Integer num);
 
-    TableEngine limitOne();
+    R limitOne();
 
-    TableEngine limit(LimitHandler limit);
+    R limit(LimitHandler limit);
 
-    TableEngine limit(Integer start, Integer end);
+    R limit(Integer start, Integer end);
 
-    TableEngine limit(Integer total, Integer currentPage, Integer pageSize);
+    R limit(Integer total, Integer currentPage, Integer pageSize);
 
 }
