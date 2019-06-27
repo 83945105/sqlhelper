@@ -54,8 +54,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columns) {
-        this.tableEngine.column(columns);
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
+        this.tableEngine.column(columnHelpers);
         return this;
     }
 

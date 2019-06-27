@@ -19,7 +19,7 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>, R extends ColumnEngine<T, TO, TC, TW, TG, TS, R>> {
 
-    R column(ColumnHelper<?>... columns);
+    R column(ColumnHelper<?>... columnHelpers);
 
     R column(ColumnCallback<TC> callback);
 

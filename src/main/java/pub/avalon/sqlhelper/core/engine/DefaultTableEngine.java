@@ -105,8 +105,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columns) {
-        if (columns == null || columns.length == 0) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
+        if (columnHelpers == null || columnHelpers.length == 0) {
             return this;
         }
         //TODO 未实现 待确认该方法是否限定TableHelper类型
