@@ -17,7 +17,7 @@ public interface SortEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>, R extends SortEngine<T, TO, TC, TW, TG, TS, R>> {
 
-    R sort(SortHelper<?>... sortSqlModels);
+    R sort(SortHelper<?>... sortHelpers);
 
     R sort(SortCallback<TS> callback);
 

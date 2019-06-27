@@ -2,17 +2,16 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
-import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.beans.GroupType;
+import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * SqlHelper引擎
@@ -28,103 +27,41 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS, SqlHelperEngine<T, TO, TC, TW, TG, TS>>, SqlBuilder, SqlDataProducer {
 
-    protected Class<T> tableHelperClass;
-
-    protected String tableAlias;
-
-    private SqlData<T> sqlData;
-
-    protected SqlBuilderOptions sqlBuilderOptions;
-
-    private SqlBuilderProxy sqlBuilderProxy;
+    private DefaultTableEngine<T, TO, TC, TW, TG, TS> tableEngine;
 
     public SqlHelperEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
-        this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableHelperClass);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
-        this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableHelperClass, sqlBuilderOptions);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
-        this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableName, tableHelperClass);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
-        this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableName, tableHelperClass, sqlBuilderOptions);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
-        this.tableHelperClass = tableHelperClass;
-        this.tableAlias = tableAlias;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        mainTableData.setTableAlias(tableAlias);
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableName, tableHelperClass, tableAlias);
     }
 
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
-        this.tableHelperClass = tableHelperClass;
-        this.tableAlias = tableAlias;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        mainTableData.setTableAlias(tableAlias);
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
-        this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableName, tableHelperClass, tableAlias, sqlBuilderOptions);
     }
 
     @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columns) {
-        if (columns == null || columns.length == 0) {
-            return this;
-        }
-        //TODO 未实现 待确认该方法是否限定TableHelper类型
+        this.tableEngine.column(columns);
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
-        T t = BeanUtils.tableHelper(this.tableHelperClass);
-        TC tc = t.newColumnHelper();
-        tc.setSqlBuilderOptions(this.sqlBuilderOptions);
-        tc = callback.apply(tc);
-        Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
-        // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
-        if (columnData == null || columnData.size() == 0) {
-            columnData = BeanUtils.getColumnData(t);
-        }
-        this.addTableColumnDatum(new TableColumnDatum<>(this.tableHelperClass, this.tableAlias, columnData));
+        this.tableEngine.column(callback);
         return this;
     }
 
@@ -135,41 +72,19 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper();
-        sc.setSqlBuilderOptions(this.sqlBuilderOptions);
-        sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            columnData = BeanUtils.getColumnData(s);
-        }
-        this.addTableColumnDatum(new TableColumnDatum<>(tableHelperClass, tableAlias, columnData));
+        this.tableEngine.column(tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
-        VirtualFieldDatum virtualFieldDatum = new VirtualFieldDatum();
-        virtualFieldDatum.setValue(value);
-        virtualFieldDatum.setAlias(alias);
-        this.addVirtualFieldDatum(virtualFieldDatum);
+        this.tableEngine.virtualColumn(value, alias);
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TS> functionColumn(GroupType groupType, ColumnCallback<TC> callback) {
-        if (groupType == null) {
-            return this;
-        }
-        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
-        tc.setSqlBuilderOptions(this.sqlBuilderOptions);
-        tc = callback.apply(tc);
-        Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
-        // 如果没设置列, 则跳过
-        if (columnData == null || columnData.size() == 0) {
-            return this;
-        }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(this.tableHelperClass, this.tableAlias, groupType, columnData));
+        this.tableEngine.functionColumn(groupType, callback);
         return this;
     }
 
@@ -180,18 +95,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
-        if (groupType == null) {
-            return this;
-        }
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
-        sc.setSqlBuilderOptions(this.sqlBuilderOptions);
-        sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
-        // 如果没设置列, 则跳过
-        if (columnData == null || columnData.size() == 0) {
-            return this;
-        }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(tableHelperClass, tableAlias, groupType, columnData));
+        this.tableEngine.functionColumn(tableHelperClass, tableAlias, groupType, callback);
         return this;
     }
 
@@ -202,8 +106,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
-//        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getSqlData(), tableName, tableHelperClass, alias, callback);
-//        this.addSubQueryData(columnAlias, sqlBuilder);
+        this.tableEngine.subQuery(tableName, tableHelperClass, alias, callback, columnAlias);
         return this;
     }
 
@@ -214,41 +117,13 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
-        JoinTableData<S> joinTableData = new JoinTableData<>(tableHelperClass);
-        joinTableData.setTableName(tableName);
-        joinTableData.setTableAlias(tableAlias);
-        joinTableData.setJoinType(joinType);
-        this.addJoinTableData(joinTableData);
-        TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper();
-        to.setSqlBuilderOptions(this.sqlBuilderOptions);
-        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
-        SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper();
-        so.setSqlBuilderOptions(this.sqlBuilderOptions);
-        if (callback == null) {
-            return this;
-        }
-        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
-        List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkers();
-        if (onDataLinkers == null || onDataLinkers.size() == 0) {
-            return this;
-        }
-        joinTableData.setTableOnDatum(new TableOnDatum<>(tableHelperClass, tableAlias, onDataLinkers));
+        this.tableEngine.join(joinType, tableName, tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback) {
-        if (callback == null) {
-            return this;
-        }
-        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
-        tw.setSqlBuilderOptions(this.sqlBuilderOptions);
-        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), tw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
-            return this;
-        }
-        this.addTableWhereDatum(new TableWhereDatum<>(this.tableHelperClass, this.tableAlias, whereDataLinkers));
+        this.tableEngine.where(callback);
         return this;
     }
 
@@ -259,41 +134,19 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
-        if (callback == null) {
-            return this;
-        }
-        SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
-        sw.setSqlBuilderOptions(this.sqlBuilderOptions);
-        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
-        tw.setSqlBuilderOptions(this.sqlBuilderOptions);
-        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw, tw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
-            return this;
-        }
-        this.addTableWhereDatum(new TableWhereDatum<>(tableHelperClass, tableAlias, whereDataLinkers));
+        this.tableEngine.where(tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupSqlModels) {
-        if (groupSqlModels == null || groupSqlModels.length == 0) {
-            return this;
-        }
-        //TODO 未实现 待确认该方法是否限定TableHelper类型
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupHelpers) {
+        this.tableEngine.group(groupHelpers);
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
-        TG tg = BeanUtils.tableHelper(this.tableHelperClass).newGroupHelper();
-        tg.setSqlBuilderOptions(this.sqlBuilderOptions);
-        tg = callback.apply(tg);
-        Set<GroupDatum> groupData = tg.takeoutSqlPartData();
-        if (groupData == null || groupData.size() == 0) {
-            return this;
-        }
-        this.addTableGroupDatum(new TableGroupDatum<>(this.tableHelperClass, this.tableAlias, groupData));
+        this.tableEngine.group(callback);
         return this;
     }
 
@@ -304,36 +157,19 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
-        SG sg = BeanUtils.tableHelper(tableHelperClass).newGroupHelper();
-        sg.setSqlBuilderOptions(this.sqlBuilderOptions);
-        sg = callback.apply(sg);
-        Set<GroupDatum> groupData = sg.takeoutSqlPartData();
-        if (groupData == null || groupData.size() == 0) {
-            return this;
-        }
-        this.addTableGroupDatum(new TableGroupDatum<>(tableHelperClass, tableAlias, groupData));
+        this.tableEngine.group(tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> sort(SortHelper<?>... sortSqlModels) {
-        if (sortSqlModels == null || sortSqlModels.length == 0) {
-            return this;
-        }
-        //TODO 未实现 待确认该方法是否限定TableModel类型
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> sort(SortHelper<?>... sortHelpers) {
+        this.tableEngine.sort(sortHelpers);
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
-        TS ts = BeanUtils.tableHelper(this.tableHelperClass).newSortHelper();
-        ts.setSqlBuilderOptions(this.sqlBuilderOptions);
-        ts = callback.apply(ts);
-        Set<SortDatum> sortData = ts.takeoutSqlPartData();
-        if (sortData == null || sortData.size() == 0) {
-            return this;
-        }
-        this.addTableSortDatum(new TableSortDatum<>(this.tableHelperClass, this.tableAlias, sortData));
+        this.tableEngine.sort(callback);
         return this;
     }
 
@@ -344,241 +180,233 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
-        SS ss = BeanUtils.tableHelper(tableHelperClass).newSortHelper();
-        ss.setSqlBuilderOptions(this.sqlBuilderOptions);
-        ss = callback.apply(ss);
-        Set<SortDatum> sortData = ss.takeoutSqlPartData();
-        if (sortData == null || sortData.size() == 0) {
-            return this;
-        }
-        this.addTableSortDatum(new TableSortDatum<>(tableHelperClass, tableAlias, sortData));
+        this.tableEngine.sort(tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine limitTop(Integer num) {
-        this.buildLimitData(1, num);
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limitTop(Integer num) {
+        this.tableEngine.limitTop(num);
         return this;
     }
 
     @Override
-    public SqlHelperEngine limitOne() {
-        this.buildLimitData(1, 1);
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limitOne() {
+        this.tableEngine.limitOne();
         return this;
     }
 
     @Override
-    public SqlHelperEngine limit(LimitHandler limit) {
-        this.setLimitData(limit);
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(LimitHandler limit) {
+        this.tableEngine.limit(limit);
         return this;
     }
 
     @Override
-    public SqlHelperEngine limit(Integer start, Integer end) {
-        this.setLimitStart(start);
-        this.setLimitEnd(end);
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(Integer start, Integer end) {
+        this.tableEngine.limit(start, end);
         return this;
     }
 
     @Override
-    public SqlHelperEngine limit(Integer total, Integer currentPage, Integer pageSize) {
-        this.buildLimitData(total, currentPage, pageSize);
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(Integer total, Integer currentPage, Integer pageSize) {
+        this.tableEngine.limit(total, currentPage, pageSize);
         return this;
     }
 
     @Override
     public String getSql() {
-        return this.sqlBuilderProxy.getSql();
+        return this.tableEngine.getSql();
     }
 
     @Override
     public String getPreparedStatementSql() {
-        return this.sqlBuilderProxy.getPreparedStatementSql();
+        return this.tableEngine.getPreparedStatementSql();
     }
 
     @Override
     public List<Object> getPreparedStatementArgs() {
-        return this.sqlBuilderProxy.getPreparedStatementArgs();
+        return this.tableEngine.getPreparedStatementArgs();
     }
 
     @Override
     public SqlBuilder copyTable(String targetTableName, boolean copyData) {
-        return this.sqlBuilderProxy.copyTable(targetTableName, copyData);
+        return this.tableEngine.copyTable(targetTableName, copyData);
     }
 
     @Override
     public SqlBuilder deleteTable() {
-        return this.sqlBuilderProxy.deleteTable();
+        return this.tableEngine.deleteTable();
     }
 
     @Override
     public SqlBuilder renameTable(String newTableName) {
-        return this.sqlBuilderProxy.renameTable(newTableName);
+        return this.tableEngine.renameTable(newTableName);
     }
 
     @Override
     public SqlBuilder isTableExist() {
-        return this.sqlBuilderProxy.isTableExist();
+        return this.tableEngine.isTableExist();
     }
 
     @Override
     public SqlBuilder insertArgs(Object... args) {
-        return this.sqlBuilderProxy.insertArgs(args);
+        return this.tableEngine.insertArgs(args);
     }
 
     @Override
     public SqlBuilder insertJavaBean(Object javaBean) {
-        return this.sqlBuilderProxy.insertJavaBean(javaBean);
+        return this.tableEngine.insertJavaBean(javaBean);
     }
 
     @Override
     public SqlBuilder insertJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilderProxy.insertJavaBeanSelective(javaBean);
+        return this.tableEngine.insertJavaBeanSelective(javaBean);
     }
 
     @Override
     public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.batchInsertJavaBeans(javaBeans);
+        return this.tableEngine.batchInsertJavaBeans(javaBeans);
     }
 
     @Override
     public SqlBuilder delete() {
-        return this.sqlBuilderProxy.delete();
+        return this.tableEngine.delete();
     }
 
     @Override
     public SqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
-        return this.sqlBuilderProxy.deleteByPrimaryKey(primaryKeyValue);
+        return this.tableEngine.deleteByPrimaryKey(primaryKeyValue);
     }
 
     @Override
     public SqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
-        return this.sqlBuilderProxy.batchDeleteByPrimaryKeys(primaryKeyValues);
+        return this.tableEngine.batchDeleteByPrimaryKeys(primaryKeyValues);
     }
 
     @Override
     public SqlBuilder updateJavaBean(Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBean(javaBean);
+        return this.tableEngine.updateJavaBean(javaBean);
     }
 
     @Override
     public SqlBuilder updateJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanSelective(javaBean);
+        return this.tableEngine.updateJavaBeanSelective(javaBean);
     }
 
     @Override
     public SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
-        return this.sqlBuilderProxy.updateArgsByPrimaryKey(primaryKeyValue, args);
+        return this.tableEngine.updateArgsByPrimaryKey(primaryKeyValue, args);
     }
 
     @Override
     public SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanByPrimaryKey(primaryKeyValue, javaBean);
+        return this.tableEngine.updateJavaBeanByPrimaryKey(primaryKeyValue, javaBean);
     }
 
     @Override
     public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanByPrimaryKeySelective(primaryKeyValue, javaBean);
+        return this.tableEngine.updateJavaBeanByPrimaryKeySelective(primaryKeyValue, javaBean);
     }
 
     @Override
     public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
+        return this.tableEngine.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
     }
 
     @Override
     public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.updateOrInsertJavaBeans(javaBeans);
+        return this.tableEngine.updateOrInsertJavaBeans(javaBeans);
     }
 
     @Override
     public SqlBuilder query() {
-        return this.sqlBuilderProxy.query();
+        return this.tableEngine.query();
     }
 
     @Override
     public SqlBuilder queryCount() {
-        return this.sqlBuilderProxy.queryCount();
+        return this.tableEngine.queryCount();
     }
 
     @Override
     public SqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
-        return this.sqlBuilderProxy.queryByPrimaryKey(primaryKeyValue);
+        return this.tableEngine.queryByPrimaryKey(primaryKeyValue);
     }
 
     @Override
     public void setDataBaseType(DataBaseType dataBaseType) {
-        this.sqlData.setDataBaseType(dataBaseType);
+        this.tableEngine.setDataBaseType(dataBaseType);
     }
 
     @Override
     public void addTableColumnDatum(TableColumnDatum tableColumnDatum) {
-        this.sqlData.addTableColumnDatum(tableColumnDatum);
+        this.tableEngine.addTableColumnDatum(tableColumnDatum);
     }
 
     @Override
     public void addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
-        this.sqlData.addVirtualFieldDatum(virtualFieldDatum);
+        this.tableEngine.addVirtualFieldDatum(virtualFieldDatum);
     }
 
     @Override
     public void addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
-        this.sqlData.addTableFunctionColumnDatum(tableFunctionColumnDatum);
+        this.tableEngine.addTableFunctionColumnDatum(tableFunctionColumnDatum);
     }
 
     @Override
     public void addTableWhereDatum(TableWhereDatum tableWhereDatum) {
-        this.sqlData.addTableWhereDatum(tableWhereDatum);
+        this.tableEngine.addTableWhereDatum(tableWhereDatum);
     }
 
     @Override
     public void addTableGroupDatum(TableGroupDatum tableGroupDatum) {
-        this.sqlData.addTableGroupDatum(tableGroupDatum);
+        this.tableEngine.addTableGroupDatum(tableGroupDatum);
     }
 
     @Override
     public void addTableSortDatum(TableSortDatum tableSortDatum) {
-        this.sqlData.addTableSortDatum(tableSortDatum);
+        this.tableEngine.addTableSortDatum(tableSortDatum);
     }
 
     @Override
     public void setLimitData(LimitHandler limitData) {
-        this.sqlData.setLimitData(limitData);
+        this.tableEngine.setLimitData(limitData);
     }
 
     @Override
     public void buildLimitData(Integer currentPage, Integer pageSize) {
-        this.sqlData.buildLimitData(currentPage, pageSize);
+        this.tableEngine.buildLimitData(currentPage, pageSize);
     }
 
     @Override
     public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
-        this.sqlData.buildLimitData(total, currentPage, pageSize);
+        this.tableEngine.buildLimitData(total, currentPage, pageSize);
     }
 
     @Override
     public void setLimitStart(Integer limitStart) {
-        this.sqlData.setLimitStart(limitStart);
+        this.tableEngine.setLimitStart(limitStart);
     }
 
     @Override
     public void setLimitEnd(Integer limitEnd) {
-        this.sqlData.setLimitEnd(limitEnd);
+        this.tableEngine.setLimitEnd(limitEnd);
     }
 
     @Override
     public void addSubQueryData(String alias, SqlBuilder sqlBuilder) {
-        this.sqlData.addSubQueryData(alias, sqlBuilder);
+        this.tableEngine.addSubQueryData(alias, sqlBuilder);
     }
 
     @Override
     public <J extends TableHelper> void addJoinTableData(JoinTableData<J> joinTableData) {
-        this.sqlData.addJoinTableData(joinTableData);
+        this.tableEngine.addJoinTableData(joinTableData);
     }
 
     @Override
     public <J extends TableHelper> void addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
-        this.sqlData.addSubQueryJoinTableData(joinTableData);
+        this.tableEngine.addSubQueryJoinTableData(joinTableData);
     }
 
 }

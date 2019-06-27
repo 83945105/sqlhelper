@@ -17,7 +17,7 @@ public interface GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>, R extends GroupEngine<T, TO, TC, TW, TG, TS, R>> {
 
-    R group(GroupHelper<?>... groupSqlModels);
+    R group(GroupHelper<?>... groupHelpers);
 
     R group(GroupCallback<TG> callback);
 
