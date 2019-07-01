@@ -20,6 +20,11 @@ public final class ColumnSqlPartDatumBuilder<S extends Helper<S, ColumnDatum>> e
     }
 
     @Override
+    public void setTableAlias(String tableAlias) {
+
+    }
+
+    @Override
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.sqlBuilderOptions = sqlBuilderOptions;
     }

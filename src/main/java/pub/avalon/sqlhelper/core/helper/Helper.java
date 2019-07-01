@@ -41,6 +41,15 @@ public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
     }
 
     /**
+     * 设置表别名
+     *
+     * @param tableAlias 表别名
+     */
+    public void setTableAlias(String tableAlias) {
+        this.sqlPartDatumBuilder.setTableAlias(tableAlias);
+    }
+
+    /**
      * 设置Sql构建配置
      *
      * @param sqlBuilderOptions {@link SqlBuilderOptions}

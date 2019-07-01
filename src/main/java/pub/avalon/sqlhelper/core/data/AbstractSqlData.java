@@ -3,7 +3,6 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.beans.LimitHandler;
 import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
-import pub.avalon.sqlhelper.core.helper.TableHelper;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
@@ -18,7 +17,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public abstract class AbstractSqlData<T extends TableHelper> extends AbstractSqlDataCache<T> {
+public abstract class AbstractSqlData extends AbstractSqlDataCache {
 
     /**
      * 原始列数据
@@ -53,8 +52,8 @@ public abstract class AbstractSqlData<T extends TableHelper> extends AbstractSql
      */
     private Map<String, SqlBuilder> subQueryDataMap;
 
-    public AbstractSqlData(MainTableData<T> mainTableData) {
-        super(mainTableData);
+    public AbstractSqlData(MainTableDatum mainTableDatum) {
+        super(mainTableDatum);
     }
 
     @Override

@@ -26,11 +26,17 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
 
     private OnDatum onDatum;
 
+    private Class<?> tableHelperClass;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
         this.onDatum = new OnDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
+    }
+
+    @Override
+    public void setTableHelperClass(Class<?> tableHelperClass) {
+        this.tableHelperClass = tableHelperClass;
     }
 
     @Override

@@ -16,11 +16,17 @@ public final class SortSqlPartDatumBuilder<T extends Helper<T, SortDatum>> exten
 
     private SortDatum sortDatum;
 
+    private Class<?> tableHelperClass;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
         this.sortDatum = new SortDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
+    }
+
+    @Override
+    public void setTableHelperClass(Class<?> tableHelperClass) {
+        this.tableHelperClass = tableHelperClass;
     }
 
     @Override

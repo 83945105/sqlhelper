@@ -8,21 +8,21 @@ import pub.avalon.sqlhelper.core.helper.TableHelper;
  * @author 白超
  * @date 2019/5/2
  */
-public interface TableData<T extends TableHelper> {
-
-    /**
-     * 获取表助手
-     *
-     * @return {@link TableHelper}
-     */
-    T getTableHelper();
+public interface TableDatum {
 
     /**
      * 获取表助手Class
      *
      * @return {@link TableHelper}
      */
-    Class<T> getTableHelperClass();
+    Class<?> getTableHelperClass();
+
+    /**
+     * 获取表助手
+     *
+     * @return {@link TableHelper}
+     */
+    TableHelper getTableHelper();
 
     /**
      * 获取表名称

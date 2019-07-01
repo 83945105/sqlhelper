@@ -2,7 +2,6 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
-import pub.avalon.sqlhelper.core.helper.TableHelper;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 /**
@@ -30,10 +29,9 @@ public interface SqlDataProducer {
     /**
      * 添加连接表数据
      *
-     * @param joinTableData {@link JoinTableData}
-     * @param <J>           {@link TableHelper}
+     * @param joinTableDatum {@link JoinTableDatum}
      */
-    <J extends TableHelper> void addJoinTableData(JoinTableData<J> joinTableData);
+    void addJoinTableDatum(JoinTableDatum joinTableDatum);
 
     /**
      * 添加虚拟属性数据
@@ -120,10 +118,9 @@ public interface SqlDataProducer {
     /**
      * 添加子查询连接表数据
      *
-     * @param joinTableData 连接表数据
-     * @param <J>
+     * @param joinTableDatum 连接表数据
      * @return void
      */
-    <J extends TableHelper> void addSubQueryJoinTableData(JoinTableData<J> joinTableData);
+    void addSubQueryJoinTableDatum(JoinTableDatum joinTableDatum);
 
 }

@@ -31,7 +31,7 @@ public final class MySqlDynamicEngine {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableHelperClass) {
-        return table(null, tableHelperClass);
+        return new SqlHelperEngine<>(DataBaseType.MYSQL, tableHelperClass);
     }
 
 }

@@ -7,7 +7,6 @@ import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
-import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 import java.util.*;
 
@@ -183,7 +182,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
 
     protected void appendTableColumnSqlArgs(StringBuilder sql, List<Object> args, Set<TableColumnDatum> tableColumnData) {
         int i = 0;
-        TableData tableData;
+        TableDatum tableDatum;
         Set<ColumnDatum> columnData;
         for (TableColumnDatum tableColumnDatum : tableColumnData) {
             columnData = tableColumnDatum.getColumnData();
@@ -220,7 +219,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         boolean hasV = virtualFieldData != null && virtualFieldData.size() != 0;
         boolean hasC = tableColumnData != null && tableColumnData.size() != 0;
         if (!hasS && !hasF && !hasV && !hasC) {
-            this.appendColumnSqlArgs(sql, args, BeanUtils.getColumnData(sqlDataConsumer.getMainTableData().getTableHelper()));
+            this.appendColumnSqlArgs(sql, args, BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum()));
             return;
         }
         if (hasS) {
@@ -420,14 +419,14 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
     }
 
     protected void appendJoinSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
-        LinkedHashMap<String, JoinTableData> joinTableDataAliasMap = sqlDataConsumer.getJoinTableDataMap();
+        LinkedHashMap<String, JoinTableDatum> joinTableDataAliasMap = sqlDataConsumer.getAliasJoinTableData();
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
             return;
         }
-        JoinTableData<? extends TableHelper> joinTableData;
-        for (Map.Entry<String, JoinTableData> entry : joinTableDataAliasMap.entrySet()) {
-            joinTableData = entry.getValue();
-            switch (joinTableData.getJoinType()) {
+        JoinTableDatum joinTableDatum;
+        for (Map.Entry<String, JoinTableDatum> entry : joinTableDataAliasMap.entrySet()) {
+            joinTableDatum = entry.getValue();
+            switch (joinTableDatum.getJoinType()) {
                 case INNER:
                     sql.append(" inner join ");
                     break;
@@ -441,10 +440,10 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                     continue;
             }
             sql.append("`")
-                    .append(joinTableData.getTableName())
+                    .append(joinTableDatum.getTableName())
                     .append("` ")
-                    .append(joinTableData.getTableAlias());
-            List<OnDataLinker> onDataLinkers = joinTableData.getTableOnDatum().getOnDataLinkers();
+                    .append(joinTableDatum.getTableAlias());
+            List<OnDataLinker> onDataLinkers = joinTableDatum.getTableOnDatum().getOnDataLinkers();
             if (onDataLinkers != null && onDataLinkers.size() > 0) {
                 sql.append(" on ");
                 this.appendOnDataLinkersSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
@@ -792,7 +791,8 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         sql.insert(length, "(").append(")");
     }
 
-    protected void appendWhereSqlArgs(StringBuilder sql, List<Object> args, Set<TableWhereDatum> tableWhereData) {
+    protected void appendWhereSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
+        Set<TableWhereDatum> tableWhereData = sqlDataConsumer.getTableWhereData();
         if (tableWhereData == null || tableWhereData.size() == 0) {
             return;
         }
@@ -806,14 +806,15 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         }
     }
 
-    protected void appendGroupSqlArgs(StringBuilder sql, List<Object> args, Set<TableGroupDatum> tableGroupDataSet) {
-        if (tableGroupDataSet == null || tableGroupDataSet.size() == 0) {
+    protected void appendGroupSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
+        Set<TableGroupDatum> tableGroupData = sqlDataConsumer.getTableGroupData();
+        if (tableGroupData == null || tableGroupData.size() == 0) {
             return;
         }
         sql.append(" group by ");
         int i = 0;
         Set<GroupDatum> groupData;
-        for (TableGroupDatum tableGroupDatum : tableGroupDataSet) {
+        for (TableGroupDatum tableGroupDatum : tableGroupData) {
             groupData = tableGroupDatum.getGroupData();
             if (groupData == null || groupData.size() == 0) {
                 continue;
@@ -830,14 +831,15 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         }
     }
 
-    protected void appendSortSqlArgs(StringBuilder sql, List<Object> args, Set<TableSortDatum> tableSortDataSet) {
-        if (tableSortDataSet == null || tableSortDataSet.size() == 0) {
+    protected void appendSortSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
+        Set<TableSortDatum> tableSortData = sqlDataConsumer.getTableSortData();
+        if (tableSortData == null || tableSortData.size() == 0) {
             return;
         }
         sql.append(" order by ");
         int i = 0;
         Set<SortDatum> sortData;
-        for (TableSortDatum tableSortDatum : tableSortDataSet) {
+        for (TableSortDatum tableSortDatum : tableSortData) {
             sortData = tableSortDatum.getSortData();
             if (sortData == null || sortData.size() == 0) {
                 continue;
@@ -864,7 +866,8 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         }
     }
 
-    protected void appendLimitSqlArgs(StringBuilder sql, List<Object> args, LimitHandler limit) {
+    protected void appendLimitSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
+        LimitHandler limit = sqlDataConsumer.getLimitData();
         if (limit == null) {
             return;
         }

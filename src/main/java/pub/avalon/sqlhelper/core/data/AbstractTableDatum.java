@@ -1,11 +1,8 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * 表数据
@@ -14,31 +11,31 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public abstract class AbstractTableData<T extends TableHelper> implements TableData<T> {
+public abstract class AbstractTableDatum implements TableDatum {
 
-    private T tableHelper;
+    private Class<?> tableHelperClass;
 
-    private Class<T> tableHelperClass;
+    private TableHelper tableHelper;
 
     protected String tableName;
 
     protected String tableAlias;
 
-    public AbstractTableData(Class<T> tableHelperClass) {
+    public AbstractTableDatum(Class<?> tableHelperClass, TableHelper tableHelper) {
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
-        this.tableName = this.tableHelper.getTableName();
-        this.tableAlias = this.tableHelper.getTableAlias();
+        this.tableHelper = tableHelper;
+        this.tableName = tableHelper.getTableName();
+        this.tableAlias = tableHelper.getTableAlias();
     }
 
     @Override
-    public T getTableHelper() {
-        return this.tableHelper;
-    }
-
-    @Override
-    public Class<T> getTableHelperClass() {
+    public Class<?> getTableHelperClass() {
         return this.tableHelperClass;
+    }
+
+    @Override
+    public TableHelper getTableHelper() {
+        return this.tableHelper;
     }
 
     @Override
@@ -75,7 +72,7 @@ public abstract class AbstractTableData<T extends TableHelper> implements TableD
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        AbstractTableData tableData = (AbstractTableData) o;
+        AbstractTableDatum tableData = (AbstractTableDatum) o;
         return Objects.equals(tableAlias, tableData.tableAlias);
     }
 

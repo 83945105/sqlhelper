@@ -30,9 +30,15 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     protected Class<T> tableHelperClass;
 
+    protected T tableHelper;
+
+    protected String tableName;
+
     protected String tableAlias;
 
-    private SqlData<T> sqlData;
+    protected MainTableDatum mainTableDatum;
+
+    private SqlData sqlData;
 
     protected SqlBuilderOptions sqlBuilderOptions;
 
@@ -40,66 +46,66 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = this.tableHelper.getTableName();
+        this.tableAlias = this.tableHelper.getTableAlias();
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public DefaultTableEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
         this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = this.tableHelper.getTableName();
+        this.tableAlias = this.tableHelper.getTableAlias();
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
         this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = tableName;
+        this.tableAlias = this.tableHelper.getTableAlias();
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
         this.tableHelperClass = tableHelperClass;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        this.tableAlias = mainTableData.getTableAlias();
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = tableName;
+        this.tableAlias = this.tableHelper.getTableAlias();
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
         this.tableHelperClass = tableHelperClass;
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = tableName;
         this.tableAlias = tableAlias;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        mainTableData.setTableAlias(tableAlias);
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
         this.tableHelperClass = tableHelperClass;
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = tableName;
         this.tableAlias = tableAlias;
-        MainTableData<T> mainTableData = new MainTableData<>(tableHelperClass);
-        mainTableData.setTableName(tableName);
-        mainTableData.setTableAlias(tableAlias);
-        this.sqlData = new FinalSqlData<>(mainTableData);
-        this.sqlData.setDataBaseType(dataBaseType);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
@@ -115,14 +121,13 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
-        T t = BeanUtils.tableHelper(this.tableHelperClass);
-        TC tc = t.newColumnHelper();
+        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
         tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
         // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
         if (columnData == null || columnData.size() == 0) {
-            columnData = BeanUtils.getColumnData(t);
+            columnData = BeanUtils.getColumnData(this.tableHelperClass);
         }
         this.addTableColumnDatum(new TableColumnDatum<>(this.tableHelperClass, this.tableAlias, columnData));
         return this;
@@ -135,13 +140,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper();
+        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
         sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
-            columnData = BeanUtils.getColumnData(s);
+            columnData = BeanUtils.getColumnData(tableHelperClass);
         }
         this.addTableColumnDatum(new TableColumnDatum<>(tableHelperClass, tableAlias, columnData));
         return this;
@@ -214,15 +218,21 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
-        JoinTableData<S> joinTableData = new JoinTableData<>(tableHelperClass);
-        joinTableData.setTableName(tableName);
-        joinTableData.setTableAlias(tableAlias);
-        joinTableData.setJoinType(joinType);
-        this.addJoinTableData(joinTableData);
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        if (tableName == null) {
+            tableName = s.getTableName();
+        }
+        if (tableAlias == null) {
+            tableAlias = s.getTableAlias();
+        }
+        JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, tableHelperClass, s, tableName, tableAlias);
+        this.addJoinTableDatum(joinTableDatum);
         TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper();
+        to.setTableHelperClass(this.tableHelperClass);
         to.setSqlBuilderOptions(this.sqlBuilderOptions);
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
         SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper();
+        so.setTableHelperClass(tableHelperClass);
         so.setSqlBuilderOptions(this.sqlBuilderOptions);
         if (callback == null) {
             return this;
@@ -232,7 +242,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
         }
-        joinTableData.setTableOnDatum(new TableOnDatum<>(tableHelperClass, tableAlias, onDataLinkers));
+        joinTableDatum.setTableOnDatum(new TableOnDatum<>(tableHelperClass, tableAlias, onDataLinkers));
         return this;
     }
 
@@ -572,13 +582,13 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public <J extends TableHelper> void addJoinTableData(JoinTableData<J> joinTableData) {
-        this.sqlData.addJoinTableData(joinTableData);
+    public void addJoinTableDatum(JoinTableDatum joinTableDatum) {
+        this.sqlData.addJoinTableDatum(joinTableDatum);
     }
 
     @Override
-    public <J extends TableHelper> void addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
-        this.sqlData.addSubQueryJoinTableData(joinTableData);
+    public void addSubQueryJoinTableDatum(JoinTableDatum joinTableDatum) {
+        this.sqlData.addSubQueryJoinTableDatum(joinTableDatum);
     }
 
 }

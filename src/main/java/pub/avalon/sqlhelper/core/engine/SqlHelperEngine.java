@@ -400,13 +400,13 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public <J extends TableHelper> void addJoinTableData(JoinTableData<J> joinTableData) {
-        this.tableEngine.addJoinTableData(joinTableData);
+    public void addJoinTableDatum(JoinTableDatum joinTableDatum) {
+        this.tableEngine.addJoinTableDatum(joinTableDatum);
     }
 
     @Override
-    public <J extends TableHelper> void addSubQueryJoinTableData(JoinTableData<J> joinTableData) {
-        this.tableEngine.addSubQueryJoinTableData(joinTableData);
+    public void addSubQueryJoinTableDatum(JoinTableDatum joinTableDatum) {
+        this.tableEngine.addSubQueryJoinTableDatum(joinTableDatum);
     }
 
 }

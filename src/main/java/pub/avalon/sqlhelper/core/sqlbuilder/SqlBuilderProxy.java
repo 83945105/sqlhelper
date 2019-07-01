@@ -3,7 +3,6 @@ package pub.avalon.sqlhelper.core.sqlbuilder;
 import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.helper.TableHelper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Collection;
@@ -17,11 +16,11 @@ import java.util.List;
  */
 public class SqlBuilderProxy implements SqlBuilder {
 
-    private SqlData<?> sqlData;
+    private SqlData sqlData;
 
     private SqlBuilderTemplate<SqlBuilderResult> sqlBuilderTemplate;
 
-    public <T extends TableHelper> SqlBuilderProxy(SqlData<T> sqlData, SqlBuilderOptions sqlBuilderOptions) {
+    public SqlBuilderProxy(SqlData sqlData, SqlBuilderOptions sqlBuilderOptions) {
         this.sqlData = sqlData;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:

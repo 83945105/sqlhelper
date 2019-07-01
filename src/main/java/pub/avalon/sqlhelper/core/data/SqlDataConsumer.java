@@ -2,7 +2,6 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitHandler;
-import pub.avalon.sqlhelper.core.helper.TableHelper;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
@@ -15,7 +14,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/27
  */
-public interface SqlDataConsumer<T extends TableHelper> {
+public interface SqlDataConsumer {
 
     /**
      * 获取数据库类型
@@ -27,18 +26,17 @@ public interface SqlDataConsumer<T extends TableHelper> {
     /**
      * 获取主表数据
      *
-     * @return {@link MainTableData}
+     * @return {@link MainTableDatum}
      */
-    MainTableData<T> getMainTableData();
+    MainTableDatum getMainTableDatum();
 
     /**
      * 获取连接表数据
      *
-     * @param tableHelperClass 连接表Class类
-     * @param tableAlias       连接表别名
-     * @return {@link JoinTableData}
+     * @param tableAlias 连接表别名
+     * @return {@link JoinTableDatum}
      */
-    <J extends TableHelper> JoinTableData<J> getJoinTableData(Class<J> tableHelperClass, String tableAlias);
+    JoinTableDatum getJoinTableDatum(String tableAlias);
 
     /**
      * 获取列数据
@@ -64,9 +62,9 @@ public interface SqlDataConsumer<T extends TableHelper> {
     /**
      * 获取连接表数据
      *
-     * @return key - 表别名 value - {@link JoinTableData}
+     * @return key - 表别名 value - {@link JoinTableDatum}
      */
-    LinkedHashMap<String, JoinTableData> getJoinTableDataMap();
+    LinkedHashMap<String, JoinTableDatum> getAliasJoinTableData();
 
     /**
      * 获取条件数据
