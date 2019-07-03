@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
@@ -71,6 +72,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` (");
         int i = 0;
+        Set<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         Set<ColumnDatum> columnData = BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum());
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
