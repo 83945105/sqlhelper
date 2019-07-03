@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.exception.TableDataException;
 
 import java.util.*;
 
@@ -15,8 +14,6 @@ import java.util.*;
  * @date 2018/8/23
  */
 public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTemplate {
-
-    private Map<String, Boolean> aliasSingleValidator = new HashMap<>(32);
 
     /*@Override
     public String getSql() {
@@ -84,9 +81,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         for (Map.Entry<String, SqlBuilder> entry : subQueryAliasMap.entrySet()) {
             String alias = entry.getKey();
             SqlBuilder sqlBuilder = entry.getValue();
-            if (this.aliasSingleValidator.get(alias) != null) {
-                throw new TableDataException("SubQueryColumn alias [" + alias + "] is already be used, please set another alias.");
-            }
             if (i++ > 0) {
                 sql.append(",(");
             } else {
@@ -108,9 +102,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             }
             groupType = tableFunctionColumnDatum.getGroupType();
             for (ColumnDatum columnDatum : columnData) {
-                if (this.aliasSingleValidator.get(columnDatum.getColumnAlias()) != null) {
-                    throw new TableDataException("FunctionColumn alias [" + columnDatum.getColumnAlias() + "] is already be used, please set another alias.");
-                }
                 if (i++ > 0) {
                     sql.append(",");
                 } else {
@@ -138,7 +129,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                         .append("`) `")
                         .append(columnDatum.getColumnAlias())
                         .append("`");
-                this.aliasSingleValidator.put(columnDatum.getColumnAlias(), true);
             }
         }
     }
@@ -155,9 +145,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             }
             value = virtualFieldDatum.getValue();
             alias = virtualFieldDatum.getAlias();
-            if (this.aliasSingleValidator.get(alias) != null) {
-                throw new TableDataException("VirtualField alias [" + alias + "] is already be used, please set another alias.");
-            }
             if (value == null) {
                 sql.append("null");
             } else if (value instanceof String) {
@@ -173,9 +160,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             }
             if (alias != null) {
                 sql.append(" `").append(alias).append("`");
-                this.aliasSingleValidator.put(alias, true);
-            } else {
-                this.aliasSingleValidator.put(value + "", true);
             }
         }
     }
@@ -190,9 +174,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                 continue;
             }
             for (ColumnDatum columnDatum : columnData) {
-                if (this.aliasSingleValidator.get(columnDatum.getColumnAlias()) != null) {
-                    throw new TableDataException("table alias [" + tableColumnDatum.getTableAlias() + "] column alias [" + columnDatum.getColumnAlias() + "] is already be used, please set another alias.");
-                }
                 if (i++ > 0) {
                     sql.append(",");
                 } else {
@@ -204,7 +185,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                         .append("` `")
                         .append(columnDatum.getColumnAlias())
                         .append("`");
-                this.aliasSingleValidator.put(columnDatum.getColumnAlias(), true);
             }
         }
     }

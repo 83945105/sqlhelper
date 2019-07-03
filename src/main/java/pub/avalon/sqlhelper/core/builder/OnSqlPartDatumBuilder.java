@@ -26,17 +26,23 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
 
     private OnDatum onDatum;
 
-    private Class<?> tableHelperClass;
+    private String tableName;
+    private String tableAlias;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
-        this.onDatum = new OnDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
+        this.onDatum = new OnDatum(this.tableName == null ? tableName : this.tableName, this.tableAlias == null ? tableAlias : this.tableAlias, columnName, columnAlias, fieldName);
     }
 
     @Override
-    public void setTableHelperClass(Class<?> tableHelperClass) {
-        this.tableHelperClass = tableHelperClass;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    @Override
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
     }
 
     @Override
@@ -408,7 +414,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -419,8 +425,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
             onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setOnType(OnType.EQUAL);
+            onDatum.setOnValueType(OnValueType.JOIN);
             onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
             onDatum.setTargetColumnName(columnDatum.getColumnName());
             onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
             onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
@@ -435,7 +443,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.NOT_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -446,8 +454,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
             onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setOnType(OnType.NOT_EQUAL);
+            onDatum.setOnValueType(OnValueType.JOIN);
             onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
             onDatum.setTargetColumnName(columnDatum.getColumnName());
             onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
             onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
@@ -462,7 +472,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -473,8 +483,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
             onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setOnType(OnType.GREATER);
+            onDatum.setOnValueType(OnValueType.JOIN);
             onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
             onDatum.setTargetColumnName(columnDatum.getColumnName());
             onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
             onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
@@ -489,7 +501,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -500,8 +512,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
             onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setOnType(OnType.GREATER_EQUAL);
+            onDatum.setOnValueType(OnValueType.JOIN);
             onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
             onDatum.setTargetColumnName(columnDatum.getColumnName());
             onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
             onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
@@ -516,7 +530,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -527,8 +541,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
             onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setOnType(OnType.LESS);
+            onDatum.setOnValueType(OnValueType.JOIN);
             onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
             onDatum.setTargetColumnName(columnDatum.getColumnName());
             onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
             onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
@@ -543,7 +559,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String alias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -554,8 +570,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
         OnDatum onDatum;
         for (ColumnDatum columnDatum : columnData) {
             onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
+            onDatum.setOnType(OnType.LESS_EQUAL);
+            onDatum.setOnValueType(OnValueType.JOIN);
             onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(columnDatum.getTableAlias());
+            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
             onDatum.setTargetColumnName(columnDatum.getColumnName());
             onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
             onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());

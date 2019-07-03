@@ -12,32 +12,35 @@ import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 public class MySqlDynamicTableTest extends AbstractTest {
 
     @Test
-    void TestCopyTable() {
+    void TestCopyTable01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .copyTable("copyTable", false);
         setSqlBuilder(sqlBuilder, "create table `copyTable` like `sys_user`");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestCopyTable02() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .copyTable("copyTable", true);
         setSqlBuilder(sqlBuilder, "create table `copyTable` like `sys_user`; insert into `copyTable` select * from `sys_user`");
     }
 
     @Test
-    void TestDeleteTable() {
+    void TestDeleteTable01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .deleteTable();
         setSqlBuilder(sqlBuilder, "drop table `sys_user`");
     }
 
     @Test
-    void TestRenameTable() {
+    void TestRenameTable01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .renameTable("newTableName");
         setSqlBuilder(sqlBuilder, "rename table `sys_user` to `newTableName`");
     }
 
     @Test
-    void TestIsTableExist() {
+    void TestIsTableExist01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .isTableExist();
         setSqlBuilder(sqlBuilder, "select table_name from information_schema.TABLES where table_name = 'sys_user' and table_schema = (select database())");

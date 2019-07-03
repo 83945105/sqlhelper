@@ -554,6 +554,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
             if (hasLimit) {
                 preparedStatementSql.append(limitSql);
+                preparedStatementArgs.addAll(limitArgs);
             }
             preparedStatementSql.append(") C");
         }

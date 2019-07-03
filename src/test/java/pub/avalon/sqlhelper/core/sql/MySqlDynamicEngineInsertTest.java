@@ -5,7 +5,6 @@ import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
-import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,24 +16,29 @@ import java.util.List;
 public class MySqlDynamicEngineInsertTest extends AbstractTest {
 
     @Test
-    void TestInsertArgs() {
+    void TestInsertArgs01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .insertArgs(Arrays.asList(arg("1"), arg("2")));
+                .insertArgs(arg("1"), arg("2"), arg("3"));
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table("sys_user", SysUserDTO.Helper.class)
-                .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
+    @Test
+    void TestInsertArgs02() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user", SysUserDTO.Helper.class)
+                .insertArgs(arg("1"), arg("2"), arg("3"));
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
+    }
 
-        // 插入指定列
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestInsertArgs03() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(SysUserDTO.Helper.Column::id)
-                .insertArgs(Arrays.asList(arg("1"), arg("2"), arg("3")));
+                .insertArgs(arg("1"), arg("2"), arg("3"));
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`) values (?)");
     }
 
     @Test
-    void TestInsertJavaBean() {
+    void TestInsertJavaBean01() {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId(arg("1"));
         javaBean.setUserName(arg("2"));
@@ -42,37 +46,42 @@ public class MySqlDynamicEngineInsertTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .insertJavaBean(javaBean);
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)");
+    }
 
-        javaBean = new SysUserDTO();
+    @Test
+    void TestInsertJavaBean02() {
+        SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId(arg("1"));
         javaBean.setLoginName(arg("3"));
-
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .insertJavaBean(javaBean);
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`login_name`) values (?,?)");
     }
 
     @Test
-    void TestInsertJavaBeanSelective() {
+    void TestInsertJavaBeanSelective01() {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId(arg("1"));
         javaBean.setUserName(arg("2"));
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .insertJavaBeanSelective(javaBean);
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`,`user_name`) values (?,?)");
+    }
 
-        javaBean = new SysUserDTO();
+    @Test
+    void TestInsertJavaBeanSelective02() {
+        SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId(arg("1"));
         javaBean.setUserName("2");
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .insertJavaBeanSelective(javaBean);
         setSqlBuilder(sqlBuilder, "insert into `sys_user` (`id`) values (?)");
     }
 
     @Test
-    void TestBatchInsertJavaBeans() {
+    void TestBatchInsertJavaBeans01() {
         List<SysUserDTO> javaBeans = new ArrayList<>();
         SysUserDTO javaBean = new SysUserDTO();
         arg(javaBean.getId());

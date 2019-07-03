@@ -67,6 +67,13 @@ public interface SqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDa
     }
 
     /**
+     * 设置表名
+     *
+     * @param tableName 表名
+     */
+    void setTableName(String tableName);
+
+    /**
      * 设置表别名
      *
      * @param tableAlias 表别名

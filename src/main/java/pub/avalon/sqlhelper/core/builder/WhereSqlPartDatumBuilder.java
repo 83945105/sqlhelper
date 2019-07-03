@@ -28,17 +28,23 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
 
     private WhereDatum whereDatum;
 
-    private Class<?> tableHelperClass;
+    private String tableName;
+    private String tableAlias;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
     @Override
     public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
-        this.whereDatum = new WhereDatum(tableName, tableAlias, columnName, columnAlias, fieldName);
+        this.whereDatum = new WhereDatum(this.tableName == null ? tableName : this.tableName, this.tableAlias == null ? tableAlias : this.tableAlias, columnName, columnAlias, fieldName);
     }
 
     @Override
-    public void setTableHelperClass(Class<?> tableHelperClass) {
-        this.tableHelperClass = tableHelperClass;
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
+    }
+
+    @Override
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
     }
 
     @Override

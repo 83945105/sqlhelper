@@ -122,6 +122,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
+        tc.setTableName(this.tableName);
+        tc.setTableAlias(this.tableAlias);
         tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
@@ -141,6 +143,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        sc.setTableAlias(tableAlias);
         sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
@@ -166,6 +169,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             return this;
         }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
+        tc.setTableName(this.tableName);
+        tc.setTableAlias(this.tableAlias);
         tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         tc = callback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
@@ -188,6 +193,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             return this;
         }
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        sc.setTableAlias(tableAlias);
         sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
@@ -228,11 +234,13 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, tableHelperClass, s, tableName, tableAlias);
         this.addJoinTableDatum(joinTableDatum);
         TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper();
-        to.setTableHelperClass(this.tableHelperClass);
+        to.setTableName(this.tableName);
+        to.setTableAlias(this.tableAlias);
         to.setSqlBuilderOptions(this.sqlBuilderOptions);
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
         SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper();
-        so.setTableHelperClass(tableHelperClass);
+        so.setTableName(tableName);
+        so.setTableAlias(tableAlias);
         so.setSqlBuilderOptions(this.sqlBuilderOptions);
         if (callback == null) {
             return this;
@@ -252,6 +260,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             return this;
         }
         TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        tw.setTableName(this.tableName);
+        tw.setTableAlias(this.tableAlias);
         tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), tw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
@@ -273,8 +283,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             return this;
         }
         SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
+        sw.setTableName(tableName);
+        sw.setTableAlias(tableAlias);
         sw.setSqlBuilderOptions(this.sqlBuilderOptions);
         TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        tw.setTableName(this.tableName);
+        tw.setTableAlias(this.tableAlias);
         tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw, tw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
@@ -297,6 +311,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
         TG tg = BeanUtils.tableHelper(this.tableHelperClass).newGroupHelper();
+        tg.setTableName(this.tableName);
+        tg.setTableAlias(this.tableAlias);
         tg.setSqlBuilderOptions(this.sqlBuilderOptions);
         tg = callback.apply(tg);
         Set<GroupDatum> groupData = tg.takeoutSqlPartData();
@@ -315,6 +331,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
         SG sg = BeanUtils.tableHelper(tableHelperClass).newGroupHelper();
+        sg.setTableAlias(tableAlias);
         sg.setSqlBuilderOptions(this.sqlBuilderOptions);
         sg = callback.apply(sg);
         Set<GroupDatum> groupData = sg.takeoutSqlPartData();
@@ -337,6 +354,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
         TS ts = BeanUtils.tableHelper(this.tableHelperClass).newSortHelper();
+        ts.setTableName(this.tableName);
+        ts.setTableAlias(this.tableAlias);
         ts.setSqlBuilderOptions(this.sqlBuilderOptions);
         ts = callback.apply(ts);
         Set<SortDatum> sortData = ts.takeoutSqlPartData();
@@ -355,6 +374,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
         SS ss = BeanUtils.tableHelper(tableHelperClass).newSortHelper();
+        ss.setTableAlias(tableAlias);
         ss.setSqlBuilderOptions(this.sqlBuilderOptions);
         ss = callback.apply(ss);
         Set<SortDatum> sortData = ss.takeoutSqlPartData();
@@ -366,32 +386,32 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine limitTop(Integer num) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limitTop(Integer num) {
         this.buildLimitData(1, num);
         return this;
     }
 
     @Override
-    public DefaultTableEngine limitOne() {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limitOne() {
         this.buildLimitData(1, 1);
         return this;
     }
 
     @Override
-    public DefaultTableEngine limit(LimitHandler limit) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(LimitHandler limit) {
         this.setLimitData(limit);
         return this;
     }
 
     @Override
-    public DefaultTableEngine limit(Integer start, Integer end) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(Integer start, Integer end) {
         this.setLimitStart(start);
         this.setLimitEnd(end);
         return this;
     }
 
     @Override
-    public DefaultTableEngine limit(Integer total, Integer currentPage, Integer pageSize) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(Integer total, Integer currentPage, Integer pageSize) {
         this.buildLimitData(total, currentPage, pageSize);
         return this;
     }
