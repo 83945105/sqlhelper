@@ -228,7 +228,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append("` in (");
         int size = primaryKeyValues.length;
         for (int i = 0; i < size; i++) {
-            if (i++ > 0) {
+            if (i > 0) {
                 preparedStatementSql.append(",");
             }
             preparedStatementSql.append("?");

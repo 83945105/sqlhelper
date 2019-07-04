@@ -14,20 +14,23 @@ import java.util.Arrays;
 public class MySqlDynamicEngineDeleteByPrimaryKeyTest extends AbstractTest {
 
     @Test
-    void TestDeleteByPrimaryKey() {
+    void TestDeleteByPrimaryKey01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .deleteByPrimaryKey(arg());
-        setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
-
-        sqlBuilder = MySqlDynamicEngine.table("sys_user", SysUserDTO.Helper.class)
                 .deleteByPrimaryKey(arg());
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
     }
 
     @Test
-    void TestBatchDeleteByPrimaryKeys() {
+    void TestDeleteByPrimaryKey02() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user", SysUserDTO.Helper.class)
+                .deleteByPrimaryKey(arg());
+        setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` = ?");
+    }
+
+    @Test
+    void TestBatchDeleteByPrimaryKeys01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .batchDeleteByPrimaryKeys(Arrays.asList(arg(), arg()));
+                .batchDeleteByPrimaryKeys(arg(), arg());
         setSqlBuilder(sqlBuilder, "delete from `sys_user` where `id` in (?,?)");
     }
 }

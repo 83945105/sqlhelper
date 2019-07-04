@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 public class MySqlDynamicEngineDeleteTest extends AbstractTest {
 
     @Test
-    void TestDelete() {
+    void TestDelete01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())))
