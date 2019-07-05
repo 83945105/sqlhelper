@@ -15,56 +15,69 @@ import java.util.List;
 public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
 
     @Test
-    void TestUpdateArgsByPrimaryKey() {
-        List<Object> args = new ArrayList<>();
+    void TestUpdateArgsByPrimaryKey01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .updateArgsByPrimaryKey(arg(), args);
+                .updateArgsByPrimaryKey(1, 2, 3);
+        arg(2);
+        arg(3);
+        arg(1);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ?,`login_name` = ? where `id` = ?");
+    }
 
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+    @Test
+    void TestUpdateArgsByPrimaryKey02() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(SysUserDTO.Helper.Column::userName)
-                .updateArgsByPrimaryKey(arg(), args);
+                .updateArgsByPrimaryKey(1, 2);
+        arg(2);
+        arg(1);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
 
     @Test
-    void TestUpdateJavaBeanByPrimaryKey() {
+    void TestUpdateJavaBeanByPrimaryKey01() {
         SysUserDTO javaBean = new SysUserDTO();
         arg(javaBean.getUserName());
         arg(javaBean.getLoginName());
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .updateJavaBeanByPrimaryKey(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ?,`login_name` = ? where `id` = ?");
+    }
 
-        javaBean = new SysUserDTO();
+    @Test
+    void TestUpdateJavaBeanByPrimaryKey02() {
+        SysUserDTO javaBean = new SysUserDTO();
         arg(javaBean.getUserName());
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(SysUserDTO.Helper.Column::userName)
                 .updateJavaBeanByPrimaryKey(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
 
     @Test
-    void TestUpdateJavaBeanByPrimaryKeySelective() {
+    void TestUpdateJavaBeanByPrimaryKeySelective01() {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId("666");
         javaBean.setUserName(arg());
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .updateJavaBeanByPrimaryKeySelective(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
+    }
 
-        javaBean = new SysUserDTO();
+    @Test
+    void TestUpdateJavaBeanByPrimaryKeySelective02() {
+        SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId("666");
         javaBean.setUserName(arg());
         javaBean.setLoginName("233");
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(SysUserDTO.Helper.Column::userName)
                 .updateJavaBeanByPrimaryKeySelective(arg(), javaBean);
         setSqlBuilder(sqlBuilder, "update `sys_user` set `user_name` = ? where `id` = ?");
     }
 
     @Test
-    void TestBatchUpdateJavaBeansByPrimaryKeys() {
+    void TestBatchUpdateJavaBeansByPrimaryKeys01() {
         List<SysUserDTO> javaBeans = new ArrayList<>();
 
         SysUserDTO sysUser = new SysUserDTO();
@@ -99,7 +112,7 @@ public class MySqlDynamicUpdateByPrimaryKeyTest extends AbstractTest {
 
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .batchUpdateJavaBeansByPrimaryKeys(javaBeans);
-        setSqlBuilder(sqlBuilder, "update `sys_user` SysUserDTO set SysUserDTO.`user_name`=case SysUserDTO.`id` when '1' then ? when '2' then ? when '3' then ?  end,SysUserDTO.`login_name`=case SysUserDTO.`id` when '1' then ? when '2' then ? when '3' then ?  end where SysUserDTO.`id` in (?,?,?)");
+        setSqlBuilder(sqlBuilder, "update `sys_user` SysUser set SysUser.`user_name`=case SysUser.`id` when '1' then ? when '2' then ? when '3' then ?  end,SysUser.`login_name`=case SysUser.`id` when '1' then ? when '2' then ? when '3' then ?  end where SysUser.`id` in (?,?,?)");
     }
 
 }

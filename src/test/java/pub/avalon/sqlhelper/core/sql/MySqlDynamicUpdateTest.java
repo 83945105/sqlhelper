@@ -16,7 +16,7 @@ import java.util.List;
 public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
-    void TestUpdateJavaBean() {
+    void TestUpdateJavaBean01() {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId(arg());
         javaBean.setUserName(arg());
@@ -25,11 +25,11 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table)
                 .updateJavaBean(javaBean);
-        setSqlBuilder(sqlBuilder, "update `sys_user` SysUserDTO set SysUserDTO.`id` = ?,SysUserDTO.`user_name` = ?,SysUserDTO.`login_name` = ?");
+        setSqlBuilder(sqlBuilder, "update `sys_user` SysUser set SysUser.`id` = ?,SysUser.`user_name` = ?,SysUser.`login_name` = ?");
     }
 
     @Test
-    void TestUpdateJavaBeanAndJoinAndWhere() {
+    void TestUpdateJavaBeanAndJoinAndWhere01() {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId("666");
         javaBean.setUserName(arg());
@@ -41,11 +41,11 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
                 .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .updateJavaBean(javaBean);
-        setSqlBuilder(sqlBuilder, "update `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` set SysUserDTO.`user_name` = ? where UserRoleDTO.`role_name` = ?");
+        setSqlBuilder(sqlBuilder, "update `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` set SysUser.`user_name` = ? where UserRole.`role_name` = ?");
     }
 
     @Test
-    void TestUpdateJavaBeanAndJoinAndWhereSelective() {
+    void TestUpdateJavaBeanAndJoinAndWhereSelective01() {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setUserName(arg());
 
@@ -55,11 +55,11 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
                 .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .updateJavaBeanSelective(javaBean);
-        setSqlBuilder(sqlBuilder, "update `sys_user` SysUserDTO inner join `user_role` UserRoleDTO on UserRoleDTO.`role_id` = SysUserDTO.`id` set SysUserDTO.`user_name` = ? where UserRoleDTO.`role_name` = ?");
+        setSqlBuilder(sqlBuilder, "update `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` set SysUser.`user_name` = ? where UserRole.`role_name` = ?");
     }
 
     @Test
-    void TestUpdateOrInsertJavaBeans() {
+    void TestUpdateOrInsertJavaBeans01() {
         List<SysUserDTO> javaBeans = new ArrayList<>();
         SysUserDTO sysUser = new SysUserDTO();
         arg(sysUser.getId());
@@ -80,9 +80,12 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .updateOrInsertJavaBeans(javaBeans);
         setSqlBuilder(sqlBuilder, "insert into sys_user (`id`,`user_name`,`login_name`) values (?,?,?),(?,?,?),(?,?,?) on duplicate key update `id` = values(`id`),`user_name` = values(`user_name`),`login_name` = values(`login_name`)");
+    }
 
-        javaBeans = new ArrayList<>();
-        sysUser = new SysUserDTO();
+    @Test
+    void TestUpdateOrInsertJavaBeans02() {
+        List<SysUserDTO> javaBeans = new ArrayList<>();
+        SysUserDTO sysUser = new SysUserDTO();
         javaBeans.add(sysUser);
         sysUser.setUserName(arg());
 
@@ -93,10 +96,9 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
         sysUser = new SysUserDTO();
         sysUser.setUserName(arg());
         javaBeans.add(sysUser);
-        sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(SysUserDTO.Helper.Column::userName)
                 .updateOrInsertJavaBeans(javaBeans);
         setSqlBuilder(sqlBuilder, "insert into sys_user (`user_name`) values (?),(?),(?) on duplicate key update `user_name` = values(`user_name`)");
-
     }
 }
