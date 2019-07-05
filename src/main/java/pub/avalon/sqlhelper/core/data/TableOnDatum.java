@@ -19,6 +19,12 @@ public final class TableOnDatum<T extends TableHelper> {
     private List<OnDataLinker> onDataLinkers;
 
     public TableOnDatum(Class<T> tableHelperClass, String tableAlias, List<OnDataLinker> onDataLinkers) {
+        if (tableHelperClass == null) {
+            throw new RuntimeException("tableHelperClass can not be null.");
+        }
+        if (tableAlias == null) {
+            throw new RuntimeException("tableAlias can not be null.");
+        }
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.onDataLinkers = onDataLinkers;

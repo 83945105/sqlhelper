@@ -22,6 +22,12 @@ public final class TableFunctionColumnDatum<T extends TableHelper> {
     private Set<ColumnDatum> columnData;
 
     public TableFunctionColumnDatum(Class<T> tableHelperClass, String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
+        if (tableHelperClass == null) {
+            throw new RuntimeException("tableHelperClass can not be null.");
+        }
+        if (tableAlias == null) {
+            throw new RuntimeException("tableAlias can not be null.");
+        }
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.groupType = groupType;

@@ -19,6 +19,12 @@ public final class TableColumnDatum<T extends TableHelper> {
     private Set<ColumnDatum> columnData;
 
     public TableColumnDatum(Class<T> tableHelperClass, String tableAlias, Set<ColumnDatum> columnData) {
+        if (tableHelperClass == null) {
+            throw new RuntimeException("tableHelperClass can not be null.");
+        }
+        if (tableAlias == null) {
+            throw new RuntimeException("tableAlias can not be null.");
+        }
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.columnData = columnData;

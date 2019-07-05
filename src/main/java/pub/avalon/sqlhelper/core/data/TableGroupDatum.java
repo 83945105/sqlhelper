@@ -19,6 +19,12 @@ public final class TableGroupDatum<T extends TableHelper> {
     private Set<GroupDatum> groupData;
 
     public TableGroupDatum(Class<T> tableHelperClass, String tableAlias, Set<GroupDatum> groupData) {
+        if (tableHelperClass == null) {
+            throw new RuntimeException("tableHelperClass can not be null.");
+        }
+        if (tableAlias == null) {
+            throw new RuntimeException("tableAlias can not be null.");
+        }
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.groupData = groupData;

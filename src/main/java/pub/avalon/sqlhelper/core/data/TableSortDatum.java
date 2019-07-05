@@ -20,6 +20,12 @@ public final class TableSortDatum<T extends TableHelper> {
     private Set<SortDatum> sortData;
 
     public TableSortDatum(Class<T> tableHelperClass, String tableAlias, Set<SortDatum> sortData) {
+        if (tableHelperClass == null) {
+            throw new RuntimeException("tableHelperClass can not be null.");
+        }
+        if (tableAlias == null) {
+            throw new RuntimeException("tableAlias can not be null.");
+        }
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.sortData = sortData;

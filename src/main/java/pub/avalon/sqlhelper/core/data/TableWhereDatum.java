@@ -19,6 +19,12 @@ public final class TableWhereDatum<T extends TableHelper> {
     private List<WhereDataLinker> whereDataLinkers;
 
     public TableWhereDatum(Class<T> tableHelperClass, String tableAlias, List<WhereDataLinker> whereDataLinkers) {
+        if (tableHelperClass == null) {
+            throw new RuntimeException("tableHelperClass can not be null.");
+        }
+        if (tableAlias == null) {
+            throw new RuntimeException("tableAlias can not be null.");
+        }
         this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.whereDataLinkers = whereDataLinkers;
