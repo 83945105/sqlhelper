@@ -91,7 +91,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         }
     }
 
-    protected void appendTableFunctionColumnSqlArgs(StringBuilder sql, List<Object> args, Set<TableFunctionColumnDatum> tableFunctionColumnData) {
+    protected void appendTableFunctionColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableFunctionColumnDatum> tableFunctionColumnData) {
         int i = 0;
         GroupType groupType;
         Set<ColumnDatum> columnData;
@@ -164,7 +164,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         }
     }
 
-    protected void appendTableColumnSqlArgs(StringBuilder sql, List<Object> args, Set<TableColumnDatum> tableColumnData) {
+    protected void appendTableColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableColumnDatum> tableColumnData) {
         int i = 0;
         TableDatum tableDatum;
         Set<ColumnDatum> columnData;
@@ -191,9 +191,9 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
 
     protected void appendColumnSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
         Map<String, SqlBuilder> subQueryAliasMap = sqlDataConsumer.getSubQueryDataMap();
-        Set<TableFunctionColumnDatum> tableFunctionColumnData = sqlDataConsumer.getTableFunctionColumnData();
+        List<TableFunctionColumnDatum> tableFunctionColumnData = sqlDataConsumer.getTableFunctionColumnData();
         Set<VirtualFieldDatum> virtualFieldData = sqlDataConsumer.getVirtualFieldData();
-        Set<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
+        List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
         boolean hasF = tableFunctionColumnData != null && tableFunctionColumnData.size() != 0;
         boolean hasV = virtualFieldData != null && virtualFieldData.size() != 0;
@@ -772,7 +772,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
     }
 
     protected void appendWhereSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
-        Set<TableWhereDatum> tableWhereData = sqlDataConsumer.getTableWhereData();
+        List<TableWhereDatum> tableWhereData = sqlDataConsumer.getTableWhereData();
         if (tableWhereData == null || tableWhereData.size() == 0) {
             return;
         }
@@ -787,7 +787,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
     }
 
     protected void appendGroupSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
-        Set<TableGroupDatum> tableGroupData = sqlDataConsumer.getTableGroupData();
+        List<TableGroupDatum> tableGroupData = sqlDataConsumer.getTableGroupData();
         if (tableGroupData == null || tableGroupData.size() == 0) {
             return;
         }
@@ -812,7 +812,7 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
     }
 
     protected void appendSortSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
-        Set<TableSortDatum> tableSortData = sqlDataConsumer.getTableSortData();
+        List<TableSortDatum> tableSortData = sqlDataConsumer.getTableSortData();
         if (tableSortData == null || tableSortData.size() == 0) {
             return;
         }

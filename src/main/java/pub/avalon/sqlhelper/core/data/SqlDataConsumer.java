@@ -5,6 +5,7 @@ import pub.avalon.beans.LimitHandler;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,7 +44,7 @@ public interface SqlDataConsumer {
      *
      * @return {@link TableColumnDatum}
      */
-    Set<TableColumnDatum> getTableColumnData();
+    List<TableColumnDatum> getTableColumnData();
 
     /**
      * 获取虚拟属性
@@ -57,7 +58,7 @@ public interface SqlDataConsumer {
      *
      * @return {@link TableFunctionColumnDatum}
      */
-    Set<TableFunctionColumnDatum> getTableFunctionColumnData();
+    List<TableFunctionColumnDatum> getTableFunctionColumnData();
 
     /**
      * 获取连接表数据
@@ -71,21 +72,21 @@ public interface SqlDataConsumer {
      *
      * @return {@link WhereDataLinker}
      */
-    Set<TableWhereDatum> getTableWhereData();
+    List<TableWhereDatum> getTableWhereData();
 
     /**
      * 获取分组数据
      *
      * @return {@link TableGroupDatum}
      */
-    Set<TableGroupDatum> getTableGroupData();
+    List<TableGroupDatum> getTableGroupData();
 
     /**
      * 获取排序数据
      *
      * @return {@link TableSortDatum}
      */
-    Set<TableSortDatum> getTableSortData();
+    List<TableSortDatum> getTableSortData();
 
     /**
      * 获取分页数据

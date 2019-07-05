@@ -5,10 +5,7 @@ import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Sql数据
@@ -22,7 +19,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     /**
      * 原始列数据
      */
-    private Set<TableColumnDatum> tableColumnData;
+    private List<TableColumnDatum> tableColumnData;
     /**
      * 虚拟列数据
      */
@@ -30,19 +27,19 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     /**
      * 函数列数据
      */
-    private Set<TableFunctionColumnDatum> tableFunctionColumnData;
+    private List<TableFunctionColumnDatum> tableFunctionColumnData;
     /**
      * where条件数据
      */
-    private Set<TableWhereDatum> tableWhereData;
+    private List<TableWhereDatum> tableWhereData;
     /**
      * group条件数据
      */
-    private Set<TableGroupDatum> tableGroupData;
+    private List<TableGroupDatum> tableGroupData;
     /**
      * sort条件数据
      */
-    private Set<TableSortDatum> tableSortData;
+    private List<TableSortDatum> tableSortData;
     /**
      * limit条件数据
      */
@@ -57,7 +54,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public Set<TableColumnDatum> getTableColumnData() {
+    public List<TableColumnDatum> getTableColumnData() {
         return this.tableColumnData;
     }
 
@@ -67,22 +64,22 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public Set<TableFunctionColumnDatum> getTableFunctionColumnData() {
+    public List<TableFunctionColumnDatum> getTableFunctionColumnData() {
         return this.tableFunctionColumnData;
     }
 
     @Override
-    public Set<TableWhereDatum> getTableWhereData() {
+    public List<TableWhereDatum> getTableWhereData() {
         return this.tableWhereData;
     }
 
     @Override
-    public Set<TableGroupDatum> getTableGroupData() {
+    public List<TableGroupDatum> getTableGroupData() {
         return this.tableGroupData;
     }
 
     @Override
-    public Set<TableSortDatum> getTableSortData() {
+    public List<TableSortDatum> getTableSortData() {
         return this.tableSortData;
     }
 
@@ -102,7 +99,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             return;
         }
         if (this.tableColumnData == null) {
-            this.tableColumnData = new LinkedHashSet<>();
+            this.tableColumnData = new ArrayList<>();
         }
         this.tableColumnData.add(tableColumnDatum);
     }
@@ -124,7 +121,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             return;
         }
         if (this.tableFunctionColumnData == null) {
-            this.tableFunctionColumnData = new LinkedHashSet<>();
+            this.tableFunctionColumnData = new ArrayList<>();
         }
         this.tableFunctionColumnData.add(tableFunctionColumnDatum);
     }
@@ -135,7 +132,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             return;
         }
         if (this.tableWhereData == null) {
-            this.tableWhereData = new LinkedHashSet<>();
+            this.tableWhereData = new ArrayList<>();
         }
         this.tableWhereData.add(tableWhereDatum);
     }
@@ -146,7 +143,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             return;
         }
         if (this.tableGroupData == null) {
-            this.tableGroupData = new LinkedHashSet<>();
+            this.tableGroupData = new ArrayList<>();
         }
         this.tableGroupData.add(tableGroupDatum);
     }
@@ -157,7 +154,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             return;
         }
         if (this.tableSortData == null) {
-            this.tableSortData = new LinkedHashSet<>();
+            this.tableSortData = new ArrayList<>();
         }
         this.tableSortData.add(tableSortDatum);
     }

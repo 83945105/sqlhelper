@@ -67,7 +67,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
 
     private Set<ColumnDatum> getOnlyColumnData(SqlDataConsumer sqlDataConsumer) {
         Set<ColumnDatum> columnData = null;
-        Set<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
+        List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         if (tableColumnData == null || tableColumnData.size() == 0) {
             return BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum());
         }
