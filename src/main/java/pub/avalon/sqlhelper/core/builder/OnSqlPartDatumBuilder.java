@@ -74,7 +74,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T equalToValue(Object value, ComparisonRule comparisonRule) {
+    public T equalTo(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -82,7 +82,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] equalTo, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.EQUAL);
@@ -94,7 +94,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T notEqualToValue(Object value, ComparisonRule comparisonRule) {
+    public T notEqualTo(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -102,7 +102,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] notEqualTo, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.NOT_EQUAL);
@@ -114,7 +114,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T greaterThanValue(Object value, ComparisonRule comparisonRule) {
+    public T greaterThan(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -122,7 +122,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] greaterThan, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.GREATER);
@@ -134,7 +134,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T greaterThanAndEqualToValue(Object value, ComparisonRule comparisonRule) {
+    public T greaterThanAndEqualTo(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -142,7 +142,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
@@ -154,7 +154,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T lessThanValue(Object value, ComparisonRule comparisonRule) {
+    public T lessThan(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -162,7 +162,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] lessThan, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.LESS);
@@ -174,7 +174,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T lessThanAndEqualToValue(Object value, ComparisonRule comparisonRule) {
+    public T lessThanAndEqualTo(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -182,7 +182,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] lessThanAndEqualTo, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.LESS_EQUAL);
@@ -194,7 +194,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T betweenValue(Object value, Object secondValue, ComparisonRule comparisonRule) {
+    public T between(Object value, Object secondValue, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -202,7 +202,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] between, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         if (secondValue == null) {
@@ -212,7 +212,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] between, the secondValue can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.BETWEEN);
@@ -225,7 +225,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T likeValue(Object value, ComparisonRule comparisonRule) {
+    public T like(Object value, ComparisonRule comparisonRule) {
         if (value == null) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -233,7 +233,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] like, the value can not be null.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.LIKE);
@@ -245,7 +245,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T inValue(Object[] values, ComparisonRule comparisonRule) {
+    public T in(Object[] values, ComparisonRule comparisonRule) {
         if (values == null || values.length == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -253,7 +253,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.IN);
@@ -265,7 +265,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T inValue(Collection<?> values, ComparisonRule comparisonRule) {
+    public T in(Collection<Object> values, ComparisonRule comparisonRule) {
         if (values == null || values.size() == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -273,7 +273,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.IN);
@@ -285,7 +285,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T notInValue(Object[] values, ComparisonRule comparisonRule) {
+    public T notIn(Object[] values, ComparisonRule comparisonRule) {
         if (values == null || values.length == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -293,7 +293,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.NOT_IN);
@@ -305,7 +305,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T notInValue(Collection<?> values, ComparisonRule comparisonRule) {
+    public T notIn(Collection<Object> values, ComparisonRule comparisonRule) {
         if (values == null || values.size() == 0) {
             switch (comparisonRule) {
                 case NULL_SKIP:
@@ -313,7 +313,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    return null;
+                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
         this.onDatum.setOnType(OnType.NOT_IN);

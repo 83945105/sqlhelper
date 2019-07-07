@@ -294,7 +294,7 @@ public class SysUserDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
-            
+
                 public WhereSqlPartDatumBuilder<Where> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
