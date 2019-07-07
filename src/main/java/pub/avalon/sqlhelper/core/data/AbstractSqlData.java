@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.beans.LimitHandler;
+import pub.avalon.beans.LimitSql;
 import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
@@ -43,7 +43,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     /**
      * limit条件数据
      */
-    private LimitHandler limitData;
+    private LimitSql limitData;
     /**
      * 子查询数据
      */
@@ -84,7 +84,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public LimitHandler getLimitData() {
+    public LimitSql getLimitData() {
         return this.limitData;
     }
 
@@ -160,34 +160,18 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public void setLimitData(LimitHandler limitData) {
+    public void setLimitData(LimitSql limitData) {
         this.limitData = limitData;
     }
 
     @Override
-    public void buildLimitData(Integer currentPage, Integer pageSize) {
+    public void buildLimitData(Long currentPage, Long pageSize) {
         this.limitData = new Pagination(this.getDataBaseType(), currentPage, pageSize);
     }
 
     @Override
-    public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+    public void buildLimitData(Long total, Long currentPage, Long pageSize) {
         this.limitData = new Pagination(this.getDataBaseType(), total, currentPage, pageSize);
-    }
-
-    @Override
-    public void setLimitStart(Integer limitStart) {
-        if (this.limitData == null) {
-            this.limitData = new Pagination(this.getDataBaseType());
-        }
-        this.limitData.setLimitStart(limitStart);
-    }
-
-    @Override
-    public void setLimitEnd(Integer limitEnd) {
-        if (this.limitData == null) {
-            this.limitData = new Pagination(this.getDataBaseType());
-        }
-        this.limitData.setLimitEnd(limitEnd);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.beans.LimitHandler;
+import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 /**
@@ -71,9 +71,9 @@ public interface SqlDataProducer {
     /**
      * 设置分页数据
      *
-     * @param limitData {@link LimitHandler}
+     * @param limitData {@link LimitSql}
      */
-    void setLimitData(LimitHandler limitData);
+    void setLimitData(LimitSql limitData);
 
     /**
      * 构建分页
@@ -81,7 +81,7 @@ public interface SqlDataProducer {
      * @param currentPage 当前页号
      * @param pageSize    每页显示数量
      */
-    void buildLimitData(Integer currentPage, Integer pageSize);
+    void buildLimitData(Long currentPage, Long pageSize);
 
     /**
      * 构建分页
@@ -90,21 +90,7 @@ public interface SqlDataProducer {
      * @param currentPage 当前页号
      * @param pageSize    每页显示数量
      */
-    void buildLimitData(Integer total, Integer currentPage, Integer pageSize);
-
-    /**
-     * 设置分页开始号
-     *
-     * @param limitStart 分页开始号
-     */
-    void setLimitStart(Integer limitStart);
-
-    /**
-     * 设置分页结束号
-     *
-     * @param limitEnd 分页结束号
-     */
-    void setLimitEnd(Integer limitEnd);
+    void buildLimitData(Long total, Long currentPage, Long pageSize);
 
     /**
      * 添加子查询数据

@@ -38,14 +38,14 @@ public interface SqlBuilder {
      *
      * @param targetTableName 目标表名
      * @param copyData        是否复制表数据
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder copyTable(String targetTableName, boolean copyData);
 
     /**
      * 删除表
      *
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder deleteTable();
 
@@ -53,14 +53,14 @@ public interface SqlBuilder {
      * 重命名表
      *
      * @param newTableName 新的表名
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder renameTable(String newTableName);
 
     /**
      * 判断表是否存在
      *
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder isTableExist();
 
@@ -68,7 +68,7 @@ public interface SqlBuilder {
      * 插入参数
      *
      * @param args 参数
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder insertArgs(Object... args);
 
@@ -76,7 +76,7 @@ public interface SqlBuilder {
      * 使用JavaBean插入
      *
      * @param javaBean
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder insertJavaBean(Object javaBean);
 
@@ -85,7 +85,7 @@ public interface SqlBuilder {
      * <p>如果值为{@code null}则跳过该属性
      *
      * @param javaBean
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder insertJavaBeanSelective(Object javaBean);
 
@@ -93,14 +93,14 @@ public interface SqlBuilder {
      * 使用JavaBean批量插入
      *
      * @param javaBeans
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans);
 
     /**
      * 删除
      *
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder delete();
 
@@ -108,7 +108,7 @@ public interface SqlBuilder {
      * 根据主键删除
      *
      * @param primaryKeyValue 主键值
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder deleteByPrimaryKey(Object primaryKeyValue);
 
@@ -116,7 +116,7 @@ public interface SqlBuilder {
      * 根据主键批量删除
      *
      * @param primaryKeyValues 主键值集合
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues);
 
@@ -124,7 +124,7 @@ public interface SqlBuilder {
      * 使用JavaBean更新
      *
      * @param javaBean
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder updateJavaBean(Object javaBean);
 
@@ -133,7 +133,7 @@ public interface SqlBuilder {
      * <p>如果值为{@code null}则跳过该属性
      *
      * @param javaBean
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder updateJavaBeanSelective(Object javaBean);
 
@@ -142,7 +142,7 @@ public interface SqlBuilder {
      *
      * @param primaryKeyValue 主键值
      * @param args            参数
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
 
@@ -151,7 +151,7 @@ public interface SqlBuilder {
      *
      * @param primaryKeyValue 主键值
      * @param javaBean
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
 
@@ -161,7 +161,7 @@ public interface SqlBuilder {
      *
      * @param primaryKeyValue 主键值
      * @param javaBean
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
 
@@ -169,7 +169,7 @@ public interface SqlBuilder {
      * 使用JavaBean批量更新
      *
      * @param javaBeans
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
 
@@ -178,21 +178,21 @@ public interface SqlBuilder {
      * <p>存在更新,不存在插入
      *
      * @param javaBeans
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans);
 
     /**
      * 查询
      *
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder query();
 
     /**
      * 查询数量
      *
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder queryCount();
 
@@ -200,7 +200,7 @@ public interface SqlBuilder {
      * 根据主键查询
      *
      * @param primaryKeyValue 主键值
-     * @return
+     * @return {@link SqlBuilder}
      */
     SqlBuilder queryByPrimaryKey(Object primaryKeyValue);
 

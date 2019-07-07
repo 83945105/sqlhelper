@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.beans.LimitHandler;
+import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.callback.*;
 import pub.avalon.sqlhelper.core.data.*;
@@ -446,32 +446,25 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limitTop(Integer num) {
-        this.buildLimitData(1, num);
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limitTop(Long num) {
+        this.buildLimitData(1L, num);
         return this;
     }
 
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> limitOne() {
-        this.buildLimitData(1, 1);
+        this.buildLimitData(1L, 1L);
         return this;
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(LimitHandler limit) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(LimitSql limit) {
         this.setLimitData(limit);
         return this;
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(Integer start, Integer end) {
-        this.setLimitStart(start);
-        this.setLimitEnd(end);
-        return this;
-    }
-
-    @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(Integer total, Integer currentPage, Integer pageSize) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
         this.buildLimitData(total, currentPage, pageSize);
         return this;
     }
@@ -632,28 +625,18 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public void setLimitData(LimitHandler limitData) {
+    public void setLimitData(LimitSql limitData) {
         this.sqlData.setLimitData(limitData);
     }
 
     @Override
-    public void buildLimitData(Integer currentPage, Integer pageSize) {
+    public void buildLimitData(Long currentPage, Long pageSize) {
         this.sqlData.buildLimitData(currentPage, pageSize);
     }
 
     @Override
-    public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+    public void buildLimitData(Long total, Long currentPage, Long pageSize) {
         this.sqlData.buildLimitData(total, currentPage, pageSize);
-    }
-
-    @Override
-    public void setLimitStart(Integer limitStart) {
-        this.sqlData.setLimitStart(limitStart);
-    }
-
-    @Override
-    public void setLimitEnd(Integer limitEnd) {
-        this.sqlData.setLimitEnd(limitEnd);
     }
 
     @Override

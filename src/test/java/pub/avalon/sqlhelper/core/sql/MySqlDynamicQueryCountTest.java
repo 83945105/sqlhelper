@@ -272,22 +272,14 @@ public class MySqlDynamicQueryCountTest extends AbstractTest {
     @Test
     void TestLimit01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .limit(arg(0), arg(10))
-                .queryCount();
-        setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser limit ?,?) C");
-    }
-
-    @Test
-    void TestLimit02() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .limit(200, 10, 20)
+                .limit(200L, 10L, 20L)
                 .queryCount();
         Pagination pagination = new Pagination(DataBaseType.MYSQL);
-        pagination.setTotal(200);
-        pagination.setCurrentPage(10);
-        pagination.setPageSize(20);
-        arg(pagination.getLimitStart());
-        arg(pagination.getLimitEnd());
+        pagination.setTotal(200L);
+        pagination.setCurrentPage(10L);
+        pagination.setPageSize(20L);
+        arg(pagination.getLimitStartNum());
+        arg(pagination.getLimitEndNum());
         setSqlBuilder(sqlBuilder, "select count(1) from (select SysUser.`id` from `sys_user` SysUser limit ?,?) C");
     }
 

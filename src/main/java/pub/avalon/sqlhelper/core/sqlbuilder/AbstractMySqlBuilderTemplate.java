@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.beans.LimitHandler;
+import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
@@ -847,13 +847,13 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
     }
 
     protected void appendLimitSqlArgs(StringBuilder sql, List<Object> args, SqlDataConsumer sqlDataConsumer) {
-        LimitHandler limit = sqlDataConsumer.getLimitData();
+        LimitSql limit = sqlDataConsumer.getLimitData();
         if (limit == null) {
             return;
         }
         sql.append(" limit ?,?");
-        args.add(limit.getLimitStart());
-        args.add(limit.getLimitEnd());
+        args.add(limit.getLimitStartNum());
+        args.add(limit.getLimitEndNum());
     }
 
 }

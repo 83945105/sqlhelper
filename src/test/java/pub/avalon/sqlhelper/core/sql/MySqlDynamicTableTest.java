@@ -33,6 +33,14 @@ public class MySqlDynamicTableTest extends AbstractTest {
     }
 
     @Test
+    void TestDeleteTable02() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(table -> table.id().userName())
+                .deleteTable();
+        setSqlBuilder(sqlBuilder, "drop table `sys_user`");
+    }
+
+    @Test
     void TestRenameTable01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .renameTable("newTableName");

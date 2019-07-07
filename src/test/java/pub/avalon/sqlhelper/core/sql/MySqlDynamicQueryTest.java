@@ -312,21 +312,13 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     }
 
     @Test
-    void TestLimit01() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .limit(arg(0), arg(10))
-                .query();
-        setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ?,?");
-    }
-
-    @Test
     void TestLimit02() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .limit(200, 10, 20)
+                .limit(200L, 10L, 20L)
                 .query();
-        Pagination pagination = new Pagination(DataBaseType.MYSQL, 200, 10, 20);
-        arg(pagination.getLimitStart());
-        arg(pagination.getLimitEnd());
+        Pagination pagination = new Pagination(DataBaseType.MYSQL, 200L, 10L, 20L);
+        arg(pagination.getLimitStartNum());
+        arg(pagination.getLimitEndNum());
         setSqlBuilder(sqlBuilder, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ?,?");
     }
 

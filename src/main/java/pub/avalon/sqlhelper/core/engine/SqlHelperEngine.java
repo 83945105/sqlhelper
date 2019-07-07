@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.beans.LimitHandler;
+import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
@@ -185,7 +185,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limitTop(Integer num) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limitTop(Long num) {
         this.tableEngine.limitTop(num);
         return this;
     }
@@ -197,19 +197,13 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(LimitHandler limit) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(LimitSql limit) {
         this.tableEngine.limit(limit);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(Integer start, Integer end) {
-        this.tableEngine.limit(start, end);
-        return this;
-    }
-
-    @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(Integer total, Integer currentPage, Integer pageSize) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
         this.tableEngine.limit(total, currentPage, pageSize);
         return this;
     }
@@ -370,28 +364,18 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public void setLimitData(LimitHandler limitData) {
+    public void setLimitData(LimitSql limitData) {
         this.tableEngine.setLimitData(limitData);
     }
 
     @Override
-    public void buildLimitData(Integer currentPage, Integer pageSize) {
+    public void buildLimitData(Long currentPage, Long pageSize) {
         this.tableEngine.buildLimitData(currentPage, pageSize);
     }
 
     @Override
-    public void buildLimitData(Integer total, Integer currentPage, Integer pageSize) {
+    public void buildLimitData(Long total, Long currentPage, Long pageSize) {
         this.tableEngine.buildLimitData(total, currentPage, pageSize);
-    }
-
-    @Override
-    public void setLimitStart(Integer limitStart) {
-        this.tableEngine.setLimitStart(limitStart);
-    }
-
-    @Override
-    public void setLimitEnd(Integer limitEnd) {
-        this.tableEngine.setLimitEnd(limitEnd);
     }
 
     @Override
