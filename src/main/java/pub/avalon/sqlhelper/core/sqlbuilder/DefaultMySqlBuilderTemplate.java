@@ -66,7 +66,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
     }
 
     private Set<ColumnDatum> getOnlyColumnData(SqlDataConsumer sqlDataConsumer) {
-        Set<ColumnDatum> columnData = null;
+        Set<ColumnDatum> columnData;
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         if (tableColumnData == null || tableColumnData.size() == 0) {
             return BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum());
@@ -74,9 +74,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         if (tableColumnData.size() > 1) {
             throw new RuntimeException("TableColumnData must only one.");
         }
-        if (tableColumnData.size() == 1) {
-            columnData = tableColumnData.iterator().next().getColumnData();
-        }
+        columnData = tableColumnData.iterator().next().getColumnData();
         if (columnData == null || columnData.size() == 0) {
             return BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum());
         }
@@ -86,12 +84,14 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
     @Override
     public SqlBuilderResult insertArgs(SqlDataConsumer sqlDataConsumer, Object... args) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
+        List<Object> preparedStatementArgs = new ArrayList<>(args.length);
         preparedStatementSql.append("insert into `")
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` (");
         int i = 0;
         Set<ColumnDatum> columnData = getOnlyColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
+            preparedStatementArgs.add(args[i]);
             if (i++ > 0) {
                 preparedStatementSql.append(",");
             }
@@ -106,7 +106,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
         }
         preparedStatementSql.append(")");
-        return new SqlBuilderResult(preparedStatementSql.toString(), Arrays.asList(args));
+        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
