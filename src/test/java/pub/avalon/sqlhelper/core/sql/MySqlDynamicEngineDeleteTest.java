@@ -3,9 +3,11 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
+import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
+import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
 
 import java.util.Arrays;
 
@@ -205,4 +207,67 @@ public class MySqlDynamicEngineDeleteTest {
                 "K-1"
         }, sqlBuilder.getPreparedStatementArgs().toArray());
     }
+
+    /**
+     * 条件删除 - 指定内连接
+     */
+    @Test
+    void Test_delete_assignInnerJoin() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .delete();
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
+                sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 条件删除 - 指定左连接
+     */
+    @Test
+    void Test_delete_assignLeftJoin() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .join(JoinType.LEFT, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .delete();
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser left join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
+                sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 条件删除 - 指定右连接
+     */
+    @Test
+    void Test_delete_assignRightJoin() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .join(JoinType.RIGHT, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .delete();
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser right join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
+                sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    @Test
+    void Test_delete_assignoin() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .where(UserRoleDTO.Helper.class, (condition, joinTable, mainTable) -> condition
+                        .and(joinTable
+                                .userId().equalTo(mainTable.id())
+                                .userId().notEqualTo(mainTable.id())
+                                .userId().greaterThan(mainTable.id())
+                                .userId().greaterThanAndEqualTo(mainTable.id())
+                                .userId().lessThan(mainTable.id())
+                                .userId().lessThanAndEqualTo(mainTable.id())
+                        ))
+                .delete();
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
+                sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
 }

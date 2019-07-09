@@ -64,7 +64,7 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias);
+            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -89,8 +89,8 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
-        return this.subQuery(null, tableHelperClass, alias, callback, columnAlias);
+            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+        return this.subQuery(null, tableHelperClass, tableAlias, callback, columnAlias);
     }
 
 }

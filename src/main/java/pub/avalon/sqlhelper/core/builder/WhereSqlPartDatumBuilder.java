@@ -416,7 +416,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String alias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -444,7 +444,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String alias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -472,7 +472,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String alias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.GREATER);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -500,7 +500,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String alias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -528,7 +528,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String alias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.LESS);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -556,7 +556,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String alias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
         SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
@@ -584,7 +584,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
 /*        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getModel().getSqlData(), tableName, modelClass, alias, callback);
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
@@ -599,7 +599,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -609,7 +609,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -619,7 +619,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -629,7 +629,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -639,7 +639,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -649,7 +649,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -659,7 +659,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 
@@ -669,7 +669,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> modelClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
         return null;
     }
 

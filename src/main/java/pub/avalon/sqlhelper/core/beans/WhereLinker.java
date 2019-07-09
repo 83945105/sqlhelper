@@ -49,7 +49,7 @@ public interface WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * 且
      *
      * @param tableHelperClass 目标条件类
-     * @param alias            目标条件别名
+     * @param tableAlias       目标条件别名
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
@@ -59,7 +59,7 @@ public interface WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> WhereAndOr<T, TO, TC, TW, TG, TS> and(Class<S> tableHelperClass,
-                                                                             String alias,
+                                                                             String tableAlias,
                                                                              WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback);
 
     /**

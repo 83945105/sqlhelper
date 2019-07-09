@@ -38,7 +38,7 @@ public interface SubQueryCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param sqlData
      * @param tableName
      * @param tableHelperClass
-     * @param alias
+     * @param tableAlias
      * @param subQuery
      * @param <T>
      * @return
@@ -48,15 +48,15 @@ public interface SubQueryCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> SqlBuilder execute(SqlData sqlData, String tableName, Class<T> tableHelperClass, String alias, SubQueryCallback<T, TO, TC, TW, TG, TS> subQuery) {
+            TS extends SortHelper<TS>> SqlBuilder execute(SqlData sqlData, String tableName, Class<T> tableHelperClass, String tableAlias, SubQueryCallback<T, TO, TC, TW, TG, TS> subQuery) {
         SqlHelperEngine<T, TO, TC, TW, TG, TS> tableEngine;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
-                tableEngine = new SqlHelperEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
+                tableEngine = new SqlHelperEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, tableAlias);
                 tableEngine.setDataBaseType(DataBaseType.MYSQL);
                 break;
             case SQLSERVER:
-                tableEngine = new SqlHelperEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, alias);
+                tableEngine = new SqlHelperEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, tableAlias);
                 tableEngine.setDataBaseType(DataBaseType.SQLSERVER);
                 break;
             default:

@@ -20,15 +20,6 @@ import java.util.Arrays;
  */
 public class MySqlDynamicQueryCountTest {
 
-    @Test
-    void Test_count_join_allWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
-                        .and(joinTable.roleId().equalTo(mainTable.id()).roleName().like("1")))
-                .queryCount();
-        Assertions.assertEquals("select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` like ?", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
-    }
 /*
     @Test
     void TestJoin03() {

@@ -109,8 +109,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String alias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
-        this.tableEngine.subQuery(tableName, tableHelperClass, alias, callback, columnAlias);
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+        this.tableEngine.subQuery(tableName, tableHelperClass, tableAlias, callback, columnAlias);
         return this;
     }
 
