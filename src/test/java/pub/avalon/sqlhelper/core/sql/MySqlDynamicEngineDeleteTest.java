@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.beans.ComparisonRule;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
+import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
 
@@ -250,22 +251,71 @@ public class MySqlDynamicEngineDeleteTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
     }
 
+    /**
+     * 条件删除 - 所有Where条件关联表
+     */
     @Test
-    void Test_delete_assignoin() {
+    void Test_delete_allWhereJoin() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .where(UserRoleDTO.Helper.class, (condition, joinTable, mainTable) -> condition
                         .and(joinTable
+                                .userId().isNull()
+                                .userId().isNotNull()
                                 .userId().equalTo(mainTable.id())
                                 .userId().notEqualTo(mainTable.id())
                                 .userId().greaterThan(mainTable.id())
                                 .userId().greaterThanAndEqualTo(mainTable.id())
                                 .userId().lessThan(mainTable.id())
                                 .userId().lessThanAndEqualTo(mainTable.id())
+                                .userId().between(mainTable.id(), mainTable.id())
+                                .userId().like(mainTable.id())
+                                .userId().in(mainTable.id())
+                                .userId().notIn(mainTable.id())
                         ))
                 .delete();
-        Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where UserRole.`user_id` is null and UserRole.`user_id` is not null and UserRole.`user_id` = SysUser.`id` and UserRole.`user_id` != SysUser.`id` and UserRole.`user_id` > SysUser.`id` and UserRole.`user_id` >= SysUser.`id` and UserRole.`user_id` < SysUser.`id` and UserRole.`user_id` <= SysUser.`id` and UserRole.`user_id` between SysUser.`id` and SysUser.`id` and UserRole.`user_id` like SysUser.`id` and UserRole.`user_id` in (SysUser.`id`) and UserRole.`user_id` not in (SysUser.`id`)",
+                sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 条件删除 - 所有Where条件列
+     */
+    @Test
+    void Test_delete_allWhereColumn() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .join(JoinType.INNER, RoleResourceDTO.Helper.class, "RR", (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::id)))
+                .where((condition, mainTable) -> condition
+                        .and(mainTable
+                                .id().equalTo(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().notEqualTo(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().greaterThan(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().greaterThanAndEqualTo(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().lessThan(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().lessThanAndEqualTo(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().between(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().like(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().in(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+                                .id().notIn(UserRoleDTO.Helper.class, table -> table.roleId().roleName())
+
+                                .id().equalTo(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().notEqualTo(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().greaterThan(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().greaterThanAndEqualTo(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().lessThan(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().lessThanAndEqualTo(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().between(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().like(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().in(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                                .id().notIn(RoleResourceDTO.Helper.class, "RR", table -> table.resourceId().resourceName())
+                        ))
+                .delete();
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` inner join `role_resource` RR on RR.`role_id` = UserRole.`id` where SysUser.`id` = UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` != UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` > UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` >= UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` < UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` <= UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` between UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` like UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` in (UserRole.`role_id`,UserRole.`role_name`) and SysUser.`id` not in (UserRole.`role_id`,UserRole.`role_name`) and SysUser.`id` = RR.`resource_id` and RR.`resource_name` and SysUser.`id` != RR.`resource_id` and RR.`resource_name` and SysUser.`id` > RR.`resource_id` and RR.`resource_name` and SysUser.`id` >= RR.`resource_id` and RR.`resource_name` and SysUser.`id` < RR.`resource_id` and RR.`resource_name` and SysUser.`id` <= RR.`resource_id` and RR.`resource_name` and SysUser.`id` between RR.`resource_id` and RR.`resource_name` and SysUser.`id` like RR.`resource_id` and RR.`resource_name` and SysUser.`id` in (RR.`resource_id`,RR.`resource_name`) and SysUser.`id` not in (RR.`resource_id`,RR.`resource_name`)",
                 sqlBuilder.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
     }

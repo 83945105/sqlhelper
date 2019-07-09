@@ -17,7 +17,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 等于
      *
      * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
-     * @return Where条件模组
+     * @return {@link Helper}
      */
     T equalTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
@@ -25,7 +25,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 不等于
      *
      * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
-     * @return Where条件模组
+     * @return {@link Helper}
      */
     T notEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
@@ -33,7 +33,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 大于
      *
      * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
-     * @return Where条件模组
+     * @return {@link Helper}
      */
     T greaterThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
@@ -41,7 +41,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 大于等于
      *
      * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
-     * @return Where条件模组
+     * @return {@link Helper}
      */
     T greaterThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
@@ -49,7 +49,7 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 小于
      *
      * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
-     * @return Where条件模组
+     * @return {@link Helper}
      */
     T lessThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
@@ -57,17 +57,50 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 小于等于
      *
      * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
-     * @return Where条件模组
+     * @return {@link Helper}
      */
     T lessThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
 
     /**
+     * 介于
+     *
+     * @param whereSqlPartDatumBuilder       {@link WhereSqlPartDatumBuilder}
+     * @param secondWhereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
+     * @return {@link Helper}
+     */
+    T between(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder, WhereSqlPartDatumBuilder secondWhereSqlPartDatumBuilder);
+
+    /**
+     * 模糊匹配
+     *
+     * @param whereSqlPartDatumBuilder {@link WhereSqlPartDatumBuilder}
+     * @return {@link Helper}
+     */
+    T like(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder);
+
+    /**
+     * 在...内
+     *
+     * @param whereSqlPartDatumBuilders {@link WhereSqlPartDatumBuilder}
+     * @return {@link Helper}
+     */
+    T in(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders);
+
+    /**
+     * 不在...内
+     *
+     * @param whereSqlPartDatumBuilders {@link WhereSqlPartDatumBuilder}
+     * @return {@link Helper}
+     */
+    T notIn(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders);
+
+    /**
      * 等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -81,9 +114,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 等于
      *
-     * @param tableHelperClass
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -98,10 +131,10 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 不等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -115,9 +148,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 不等于
      *
-     * @param tableHelperClass
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -132,10 +165,10 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -149,9 +182,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于
      *
-     * @param tableHelperClass
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -166,10 +199,10 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -183,9 +216,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于等于
      *
-     * @param tableHelperClass
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -200,10 +233,10 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -217,9 +250,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于
      *
-     * @param tableHelperClass
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -234,10 +267,10 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -251,9 +284,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于等于
      *
-     * @param tableHelperClass
-     * @param callback
-     * @return
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
@@ -265,15 +298,151 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
         return lessThanAndEqualTo(tableHelperClass, null, callback);
     }
 
+    /**
+     * 介于
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass,
+                                                 String tableAlias,
+                                                 WhereColumnCallback<SC> callback);
+
+    /**
+     * 介于
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass,
+                                                 WhereColumnCallback<SC> callback) {
+        return between(tableHelperClass, null, callback);
+    }
+
+    /**
+     * 模糊匹配
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T like(Class<S> tableHelperClass,
+                                              String tableAlias,
+                                              WhereColumnCallback<SC> callback);
+
+    /**
+     * 模糊匹配
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T like(Class<S> tableHelperClass,
+                                              WhereColumnCallback<SC> callback) {
+        return like(tableHelperClass, null, callback);
+    }
+
+    /**
+     * 在...内
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T in(Class<S> tableHelperClass,
+                                            String tableAlias,
+                                            WhereColumnCallback<SC> callback);
+
+    /**
+     * 在...内
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T in(Class<S> tableHelperClass,
+                                            WhereColumnCallback<SC> callback) {
+        return in(tableHelperClass, null, callback);
+    }
+
+    /**
+     * 不在...内
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T notIn(Class<S> tableHelperClass,
+                                               String tableAlias,
+                                               WhereColumnCallback<SC> callback);
+
+    /**
+     * 不在...内
+     *
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
+     * @return {@link Helper}
+     */
+    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T notIn(Class<S> tableHelperClass,
+                                               WhereColumnCallback<SC> callback) {
+        return notIn(tableHelperClass, null, callback);
+    }
+
     /*==================================================================SubQuery=========================================================================*/
 
     /**
      * 等于
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -286,8 +455,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 等于
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -302,9 +471,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -320,9 +489,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 不等于
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -335,8 +504,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 不等于
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -351,9 +520,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 不等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -369,9 +538,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 大于
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -384,8 +553,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -400,9 +569,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -418,9 +587,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 大于等于
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -433,8 +602,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于等于
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -449,9 +618,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -467,9 +636,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 小于
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -482,8 +651,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -498,9 +667,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -516,9 +685,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 小于等于
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -531,8 +700,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于等于
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -547,9 +716,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于等于
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -565,9 +734,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 模糊匹配
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -580,8 +749,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 模糊匹配
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -596,9 +765,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 模糊匹配
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -614,9 +783,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 在...内
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -629,8 +798,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 在...内
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -645,9 +814,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 在...内
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -663,9 +832,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 不在...内
      *
      * @param tableName
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -678,8 +847,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 不在...内
      *
-     * @param tableHelperClass
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -694,9 +863,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 不在...内
      *
-     * @param tableHelperClass
-     * @param tableAlias
-     * @param callback
+     * @param tableHelperClass {@link TableHelper}
+     * @param tableAlias       表别名
+     * @param callback         列回调
      * @return
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,

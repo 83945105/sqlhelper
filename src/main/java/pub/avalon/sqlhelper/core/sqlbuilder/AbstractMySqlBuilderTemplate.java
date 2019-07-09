@@ -338,7 +338,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
         }
     }
 
-
     protected void appendOnDataLinkersSqlArgs(StringBuilder sql, List<Object> args, List<OnDataLinker> onDataLinkers, LinkType linkType, boolean checkBrackets) {
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return;
@@ -439,11 +438,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             case IS_NOT_NULL:
                 sql.append(" is not null");
                 break;
-            case BETWEEN:
-                sql.append(" between ? and ?");
-                args.add(whereDatum.getTargetValue());
-                args.add(whereDatum.getTargetSecondValue());
-                break;
             case EQUAL:
                 sql.append(" = ?");
                 args.add(whereDatum.getTargetValue());
@@ -467,6 +461,11 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             case LESS_EQUAL:
                 sql.append(" <= ?");
                 args.add(whereDatum.getTargetValue());
+                break;
+            case BETWEEN:
+                sql.append(" between ? and ?");
+                args.add(whereDatum.getTargetValue());
+                args.add(whereDatum.getTargetSecondValue());
                 break;
             case LIKE:
                 sql.append(" like ?");
@@ -525,11 +524,6 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
             case IS_NOT_NULL:
                 sql.append(" is not null");
                 break;
-            case BETWEEN:
-                sql.append(" between ? and ?");
-                // TODO 后续添加
-                throw new SqlException("暂不支持");
-                //TODO 别忘记break
             case EQUAL:
                 sql.append(" = ")
                         .append(whereDatum.getTargetTableAlias())
@@ -572,6 +566,17 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                         .append(whereDatum.getTargetColumnName())
                         .append("`");
                 break;
+            case BETWEEN:
+                sql.append(" between ")
+                        .append(whereDatum.getTargetTableAlias())
+                        .append(".`")
+                        .append(whereDatum.getTargetColumnName())
+                        .append("` and ")
+                        .append(whereDatum.getTargetSecondTableAlias())
+                        .append(".`")
+                        .append(whereDatum.getTargetSecondColumnName())
+                        .append("`");
+                break;
             case LIKE:
                 sql.append(" like ")
                         .append(whereDatum.getTargetTableAlias())
@@ -580,15 +585,182 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                         .append("`");
                 break;
             case IN:
-                sql.append(" in ");
-                // TODO 后续添加
-                throw new SqlException("暂不支持");
-                //TODO 别忘记break
+                WhereDatum[] whereData = whereDatum.getTargetWhereData();
+                if (whereData == null || whereData.length == 0) {
+                    break;
+                }
+                sql.append(" in (");
+                for (int i = 0; i < whereData.length; i++) {
+                    if (i > 0) {
+                        sql.append(",");
+                    }
+                    sql.append(whereData[i].getOwnerTableAlias())
+                            .append(".`")
+                            .append(whereData[i].getOwnerColumnName())
+                            .append("`");
+                }
+                sql.append(")");
+                break;
             case NOT_IN:
-                sql.append(" not in ");
-                // TODO 后续添加
-                throw new SqlException("暂不支持");
-                //TODO 别忘记break
+                whereData = whereDatum.getTargetWhereData();
+                if (whereData == null || whereData.length == 0) {
+                    break;
+                }
+                sql.append(" not in (");
+                for (int i = 0; i < whereData.length; i++) {
+                    if (i > 0) {
+                        sql.append(",");
+                    }
+                    sql.append(whereData[i].getOwnerTableAlias())
+                            .append(".`")
+                            .append(whereData[i].getOwnerColumnName())
+                            .append("`");
+                }
+                sql.append(")");
+                break;
+            default:
+                throw new SqlException("the WhereType is wrong.");
+        }
+    }
+
+    protected void appendWhereDataColumnSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
+        Set<ColumnDatum> columnData = whereDatum.getTargetColumnData();
+        if (columnData == null || columnData.size() == 0) {
+            return;
+        }
+        int i = 0;
+        switch (whereDatum.getWhereType()) {
+            case IS_NULL:
+                sql.append(" is null");
+                break;
+            case IS_NOT_NULL:
+                sql.append(" is not null");
+                break;
+            case EQUAL:
+                sql.append(" = ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                break;
+            case NOT_EQUAL:
+                sql.append(" != ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                break;
+            case GREATER:
+                sql.append(" > ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                break;
+            case GREATER_EQUAL:
+                sql.append(" >= ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                break;
+            case LESS:
+                sql.append(" < ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                break;
+            case LESS_EQUAL:
+                sql.append(" <= ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                break;
+            case BETWEEN:
+                sql.append(" between ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                    if (i >= 2) {
+                        break;
+                    }
+                }
+                break;
+            case LIKE:
+                sql.append(" like ");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(" and ");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                break;
+            case IN:
+                sql.append(" in (");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(",");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                sql.append(")");
+                break;
+            case NOT_IN:
+                sql.append(" not in (");
+                for (ColumnDatum columnDatum : columnData) {
+                    if (i++ > 0) {
+                        sql.append(",");
+                    }
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("`");
+                }
+                sql.append(")");
+                break;
             default:
                 throw new SqlException("the WhereType is wrong.");
         }
@@ -677,6 +849,9 @@ public abstract class AbstractMySqlBuilderTemplate implements MySqlBuilderTempla
                 break;
             case JOIN:
                 this.appendWhereDataJoinSqlArgs(sql, args, whereDatum);
+                break;
+            case COLUMN:
+                this.appendWhereDataColumnSqlArgs(sql, args, whereDatum);
                 break;
             case SUB_QUERY:
                 this.appendWhereDataSubQuerySqlArgs(sql, args, whereDatum);

@@ -327,10 +327,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public T equalTo(WhereSqlPartDatumBuilder whereSqlDataBuilder) {
+    public T equalTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlDataBuilder.whereDatum;
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
@@ -341,10 +341,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public T notEqualTo(WhereSqlPartDatumBuilder whereSqlDataBuilder) {
+    public T notEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlDataBuilder.whereDatum;
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
@@ -355,10 +355,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public T greaterThan(WhereSqlPartDatumBuilder whereSqlDataBuilder) {
+    public T greaterThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.GREATER);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlDataBuilder.whereDatum;
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
@@ -369,10 +369,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public T greaterThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlDataBuilder) {
+    public T greaterThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlDataBuilder.whereDatum;
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
@@ -383,10 +383,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public T lessThan(WhereSqlPartDatumBuilder whereSqlDataBuilder) {
+    public T lessThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.LESS);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlDataBuilder.whereDatum;
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
@@ -397,15 +397,75 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public T lessThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlDataBuilder) {
+    public T lessThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlDataBuilder.whereDatum;
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
         this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
         this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
         this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
         this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
         this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public T between(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder, WhereSqlPartDatumBuilder secondWhereSqlPartDatumBuilder) {
+        this.whereDatum.setWhereType(WhereType.BETWEEN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
+        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
+        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
+        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        WhereDatum secondWhereDatum = secondWhereSqlPartDatumBuilder.whereDatum;
+        this.whereDatum.setTargetSecondTableName(secondWhereDatum.getOwnerTableName());
+        this.whereDatum.setTargetSecondTableAlias(secondWhereDatum.getOwnerTableAlias());
+        this.whereDatum.setTargetSecondColumnName(secondWhereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetSecondColumnAlias(secondWhereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetSecondMappingFieldName(secondWhereDatum.getOwnerMappingFieldName());
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public T like(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
+        this.whereDatum.setWhereType(WhereType.LIKE);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
+        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
+        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
+        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
+        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
+        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
+        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public T in(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders) {
+        this.whereDatum.setWhereType(WhereType.IN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
+        WhereDatum[] targetWhereData = new WhereDatum[whereSqlPartDatumBuilders.length];
+        for (int i = 0; i < whereSqlPartDatumBuilders.length; i++) {
+            targetWhereData[i] = whereSqlPartDatumBuilders[i].whereDatum;
+        }
+        this.whereDatum.setTargetWhereData(targetWhereData);
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public T notIn(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders) {
+        this.whereDatum.setWhereType(WhereType.NOT_IN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
+        WhereDatum[] targetWhereData = new WhereDatum[whereSqlPartDatumBuilders.length];
+        for (int i = 0; i < whereSqlPartDatumBuilders.length; i++) {
+            targetWhereData[i] = whereSqlPartDatumBuilders[i].whereDatum;
+        }
+        this.whereDatum.setTargetWhereData(targetWhereData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -417,23 +477,19 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
-        this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        if (columnData.size() > 1) {
-            throw new SqlException("you can not set more than one column for equalTo.");
-        }
-        ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
-        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
+        this.whereDatum.setWhereType(WhereType.EQUAL);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -445,23 +501,19 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
-        this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        if (columnData.size() > 1) {
-            throw new SqlException("you can not set more than one column for equalTo.");
-        }
-        ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
-        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
+        this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -473,23 +525,19 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
-        this.whereDatum.setWhereType(WhereType.GREATER);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        if (columnData.size() > 1) {
-            throw new SqlException("you can not set more than one column for equalTo.");
-        }
-        ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
-        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
+        this.whereDatum.setWhereType(WhereType.GREATER);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -501,23 +549,19 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
-        this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        if (columnData.size() > 1) {
-            throw new SqlException("you can not set more than one column for equalTo.");
-        }
-        ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
-        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
+        this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -529,23 +573,19 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
-        this.whereDatum.setWhereType(WhereType.LESS);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        if (columnData.size() > 1) {
-            throw new SqlException("you can not set more than one column for equalTo.");
-        }
-        ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
-        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
+        this.whereDatum.setWhereType(WhereType.LESS);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -557,23 +597,118 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
-        this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
         sc = callback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        if (columnData.size() > 1) {
-            throw new SqlException("you can not set more than one column for equalTo.");
+        this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
+        sc = callback.apply(sc);
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        if (columnData == null || columnData.size() == 0) {
+            return this.getHelper();
         }
-        ColumnDatum columnDatum = columnData.iterator().next();
-        this.whereDatum.setTargetTableName(columnDatum.getTableName());
-        this.whereDatum.setTargetTableAlias(columnDatum.getTableAlias());
-        this.whereDatum.setTargetColumnName(columnDatum.getColumnName());
-        this.whereDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
+        if (columnData.size() != 2) {
+            throw new RuntimeException("ColumnData size must be 2 in between.");
+        }
+        this.whereDatum.setWhereType(WhereType.BETWEEN);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T like(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
+        sc = callback.apply(sc);
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        if (columnData == null || columnData.size() == 0) {
+            return this.getHelper();
+        }
+        this.whereDatum.setWhereType(WhereType.LIKE);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T in(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
+        sc = callback.apply(sc);
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        if (columnData == null || columnData.size() == 0) {
+            return this.getHelper();
+        }
+        this.whereDatum.setWhereType(WhereType.IN);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.whereDatum);
+        return this.getHelper();
+    }
+
+    @Override
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> T notIn(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
+        SC sc = s.newColumnHelper();
+        sc.setTableName(s.getTableName());
+        sc.setTableAlias(tableAlias);
+        sc = callback.apply(sc);
+        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        if (columnData == null || columnData.size() == 0) {
+            return this.getHelper();
+        }
+        this.whereDatum.setWhereType(WhereType.NOT_IN);
+        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }

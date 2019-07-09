@@ -4,8 +4,10 @@ import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.beans.WhereValueType;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 条件数据
@@ -40,9 +42,19 @@ public final class WhereDatum implements SqlPartDatum {
 
     private String targetMappingFieldName;
 
+    private String targetSecondTableName;
+
+    private String targetSecondTableAlias;
+
     private String targetSecondColumnName;
 
-    private Map<String, String> targetColumnNames;
+    private String targetSecondColumnAlias;
+
+    private String targetSecondMappingFieldName;
+
+    private WhereDatum[] targetWhereData;
+
+    private Set<ColumnDatum> targetColumnData;
 
     private Object targetValue;
 
@@ -158,6 +170,22 @@ public final class WhereDatum implements SqlPartDatum {
         this.targetMappingFieldName = targetMappingFieldName;
     }
 
+    public String getTargetSecondTableName() {
+        return targetSecondTableName;
+    }
+
+    public void setTargetSecondTableName(String targetSecondTableName) {
+        this.targetSecondTableName = targetSecondTableName;
+    }
+
+    public String getTargetSecondTableAlias() {
+        return targetSecondTableAlias;
+    }
+
+    public void setTargetSecondTableAlias(String targetSecondTableAlias) {
+        this.targetSecondTableAlias = targetSecondTableAlias;
+    }
+
     public String getTargetSecondColumnName() {
         return targetSecondColumnName;
     }
@@ -166,12 +194,36 @@ public final class WhereDatum implements SqlPartDatum {
         this.targetSecondColumnName = targetSecondColumnName;
     }
 
-    public Map<String, String> getTargetColumnNames() {
-        return targetColumnNames;
+    public String getTargetSecondColumnAlias() {
+        return targetSecondColumnAlias;
     }
 
-    public void setTargetColumnNames(Map<String, String> targetColumnNames) {
-        this.targetColumnNames = targetColumnNames;
+    public void setTargetSecondColumnAlias(String targetSecondColumnAlias) {
+        this.targetSecondColumnAlias = targetSecondColumnAlias;
+    }
+
+    public String getTargetSecondMappingFieldName() {
+        return targetSecondMappingFieldName;
+    }
+
+    public void setTargetSecondMappingFieldName(String targetSecondMappingFieldName) {
+        this.targetSecondMappingFieldName = targetSecondMappingFieldName;
+    }
+
+    public WhereDatum[] getTargetWhereData() {
+        return targetWhereData;
+    }
+
+    public void setTargetWhereData(WhereDatum[] targetWhereData) {
+        this.targetWhereData = targetWhereData;
+    }
+
+    public Set<ColumnDatum> getTargetColumnData() {
+        return targetColumnData;
+    }
+
+    public void setTargetColumnData(Set<ColumnDatum> targetColumnData) {
+        this.targetColumnData = targetColumnData;
     }
 
     public Object getTargetValue() {
@@ -235,8 +287,13 @@ public final class WhereDatum implements SqlPartDatum {
                 Objects.equals(getTargetColumnName(), that.getTargetColumnName()) &&
                 Objects.equals(getTargetColumnAlias(), that.getTargetColumnAlias()) &&
                 Objects.equals(getTargetMappingFieldName(), that.getTargetMappingFieldName()) &&
+                Objects.equals(getTargetSecondTableName(), that.getTargetSecondTableName()) &&
+                Objects.equals(getTargetSecondTableAlias(), that.getTargetSecondTableAlias()) &&
                 Objects.equals(getTargetSecondColumnName(), that.getTargetSecondColumnName()) &&
-                Objects.equals(getTargetColumnNames(), that.getTargetColumnNames()) &&
+                Objects.equals(getTargetSecondColumnAlias(), that.getTargetSecondColumnAlias()) &&
+                Objects.equals(getTargetSecondMappingFieldName(), that.getTargetSecondMappingFieldName()) &&
+                Arrays.equals(getTargetWhereData(), that.getTargetWhereData()) &&
+                Objects.equals(getTargetColumnData(), that.getTargetColumnData()) &&
                 Objects.equals(getTargetValue(), that.getTargetValue()) &&
                 Objects.equals(getTargetSecondValue(), that.getTargetSecondValue()) &&
                 Objects.equals(getTargetSubQuery(), that.getTargetSubQuery()) &&
@@ -245,7 +302,8 @@ public final class WhereDatum implements SqlPartDatum {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getOwnerMappingFieldName(), getWhereType(), getWhereValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetColumnAlias(), getTargetMappingFieldName(), getTargetSecondColumnName(), getTargetColumnNames(), getTargetValue(), getTargetSecondValue(), getTargetSubQuery(), getSqlPart());
+        int result = Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getOwnerMappingFieldName(), getWhereType(), getWhereValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetColumnAlias(), getTargetMappingFieldName(), getTargetSecondTableName(), getTargetSecondTableAlias(), getTargetSecondColumnName(), getTargetSecondColumnAlias(), getTargetSecondMappingFieldName(), getTargetColumnData(), getTargetValue(), getTargetSecondValue(), getTargetSubQuery(), getSqlPart());
+        result = 31 * result + Arrays.hashCode(getTargetWhereData());
+        return result;
     }
-
 }

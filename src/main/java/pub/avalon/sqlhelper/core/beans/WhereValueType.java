@@ -13,6 +13,10 @@ public enum WhereValueType {
      */
     JOIN,
     /**
+     * 列
+     */
+    COLUMN,
+    /**
      * 具体值
      */
     VALUE,
