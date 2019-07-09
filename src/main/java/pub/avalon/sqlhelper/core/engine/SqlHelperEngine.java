@@ -41,6 +41,10 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableName, tableHelperClass);
     }
 
+    public SqlHelperEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, String tableAlias) {
+        this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableHelperClass, tableAlias);
+    }
+
     public SqlHelperEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
         this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableName, tableHelperClass, sqlBuilderOptions);
     }

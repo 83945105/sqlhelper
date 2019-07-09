@@ -81,7 +81,7 @@ public class MySqlDynamicEngineDeleteTest {
     }
 
     /**
-     * 条件删除 - 所有的Where条件
+     * 条件删除 - 所有Where条件
      */
     @Test
     void Test_delete_allWhere() {
@@ -162,4 +162,47 @@ public class MySqlDynamicEngineDeleteTest {
         }, sqlBuilder.getPreparedStatementArgs().toArray());
     }
 
+    /**
+     * 条件删除 - 组合Where条件
+     */
+    @Test
+    void Test_delete_combinationWhere() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .where((condition, mainTable) -> condition
+                        .and(mainTable
+                                .id().greaterThan("A-1").id().greaterThan("A-2")
+                                .id().greaterThanAndEqualTo("B-1").id().greaterThanAndEqualTo("B-2"))
+                        .and(mainTable
+                                .id().lessThan("C-1").id().lessThan("C-2")
+                                .id().lessThanAndEqualTo("D-1").id().lessThanAndEqualTo("D-2"))
+                        .or(mainTable
+                                .id().equalTo("E-1"))
+
+                        .or(mainTable
+                                .id().equalTo("F-1").id().equalTo("F-2"))
+                        .or(cd -> cd
+                                .and(mainTable.id().equalTo("G-1").id().equalTo("G-2"))
+                                .and(mainTable.id().equalTo("H-1")))
+                        .and(cd -> cd
+                                .and(mainTable.id().equalTo("I-1"))
+                                .or(mainTable.id().equalTo("J-1"))))
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.id().equalTo("K-1")))
+                .delete();
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser where (SysUser.`id` > ? and SysUser.`id` > ? and SysUser.`id` >= ? and SysUser.`id` >= ? and SysUser.`id` < ? and SysUser.`id` < ? and SysUser.`id` <= ? and SysUser.`id` <= ? or SysUser.`id` = ? or (SysUser.`id` = ? and SysUser.`id` = ?) or (SysUser.`id` = ? and SysUser.`id` = ? and SysUser.`id` = ?) and (SysUser.`id` = ? or SysUser.`id` = ?)) and SysUser.`id` = ?",
+                sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{
+                "A-1", "A-2",
+                "B-1", "B-2",
+                "C-1", "C-2",
+                "D-1", "D-2",
+                "E-1",
+                "F-1", "F-2",
+                "G-1", "G-2",
+                "H-1",
+                "I-1",
+                "J-1",
+                "K-1"
+        }, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
 }

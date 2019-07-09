@@ -100,6 +100,23 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
+    public DefaultTableEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, String tableAlias) {
+        if (tableHelperClass == null) {
+            throw new RuntimeException("tableHelperClass can not be null.");
+        }
+        if (tableAlias == null) {
+            throw new RuntimeException("tableAlias can not be null.");
+        }
+        this.tableHelperClass = tableHelperClass;
+        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableName = this.tableHelper.getTableName();
+        this.tableAlias = tableAlias;
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
+        this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+    }
+
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
         if (tableHelperClass == null) {
             throw new RuntimeException("tableHelperClass can not be null.");
