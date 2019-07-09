@@ -320,4 +320,24 @@ public class MySqlDynamicEngineDeleteTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
     }
 
+    /**
+     * 条件删除 - 所有Where条件子查询
+     */
+    @Test
+    void Test_delete_allWhereSubQuery() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .join(JoinType.INNER, RoleResourceDTO.Helper.class, "RR", (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::id)))
+                .where((condition, mainTable) -> condition
+                        .and(mainTable
+                                .id().equalToSubQuery(UserRoleDTO.Helper.class, query -> query)
+                        ))
+                .delete();
+        Assertions.assertEquals("",
+                sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
 }
