@@ -1,7 +1,9 @@
 package pub.avalon.sqlhelper.core.option;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.AbstractMySqlBuilderTemplate;
 import pub.avalon.sqlhelper.core.sqlbuilder.DefaultMySqlBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.DefaultMySqlPartBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.MySqlBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.MySqlPartBuilderTemplate;
 
 /**
  * sql构建配置
@@ -24,12 +26,17 @@ public final class SqlBuilderOptions {
     private SqlPrintOptions sqlPrintOptions = SqlPrintOptions.DEFAULT_SQL_PRINT_OPTIONS;
 
     /**
-     * MySql构建器
+     * MySql片段构建器模板
      */
-    private AbstractMySqlBuilderTemplate mySqlBuilderTemplate = DefaultMySqlBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE;
+    private MySqlPartBuilderTemplate mySqlPartBuilderTemplate = DefaultMySqlPartBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_PART_BUILDER_TEMPLATE;
+
+    /**
+     * MySql构建器模板
+     */
+    private MySqlBuilderTemplate mySqlBuilderTemplate = DefaultMySqlBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE;
 
     public SqlPartDatumBuilderOptions getSqlPartDatumBuilderOptions() {
-        return sqlPartDatumBuilderOptions;
+        return this.sqlPartDatumBuilderOptions;
     }
 
     public SqlBuilderOptions setSqlPartDatumBuilderOptions(SqlPartDatumBuilderOptions sqlPartDatumBuilderOptions) {
@@ -38,7 +45,7 @@ public final class SqlBuilderOptions {
     }
 
     public SqlPrintOptions getSqlPrintOptions() {
-        return sqlPrintOptions;
+        return this.sqlPrintOptions;
     }
 
     public SqlBuilderOptions setSqlPrintOptions(SqlPrintOptions sqlPrintOptions) {
@@ -46,11 +53,20 @@ public final class SqlBuilderOptions {
         return this;
     }
 
-    public AbstractMySqlBuilderTemplate getMySqlBuilderTemplate() {
-        return mySqlBuilderTemplate;
+    public MySqlPartBuilderTemplate getMySqlPartBuilderTemplate() {
+        return this.mySqlPartBuilderTemplate;
     }
 
-    public SqlBuilderOptions setMySqlBuilderTemplate(AbstractMySqlBuilderTemplate mySqlBuilderTemplate) {
+    public void setMySqlPartBuilderTemplate(MySqlPartBuilderTemplate mySqlPartBuilderTemplate) {
+        this.mySqlPartBuilderTemplate = mySqlPartBuilderTemplate;
+    }
+
+    public MySqlBuilderTemplate getMySqlBuilderTemplate() {
+        this.mySqlBuilderTemplate.setSqlPartBuilderTemplate(this.mySqlPartBuilderTemplate);
+        return this.mySqlBuilderTemplate;
+    }
+
+    public SqlBuilderOptions setMySqlBuilderTemplate(MySqlBuilderTemplate mySqlBuilderTemplate) {
         this.mySqlBuilderTemplate = mySqlBuilderTemplate;
         return this;
     }

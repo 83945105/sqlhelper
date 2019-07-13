@@ -15,9 +15,19 @@ import java.util.*;
  * @author 白超
  * @date 2019/5/22
  */
-public final class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
+public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
 
     public static final DefaultMySqlBuilderTemplate DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE = new DefaultMySqlBuilderTemplate();
+
+    /**
+     * Sql片段构建器模板
+     */
+    private SqlPartBuilderTemplate<SqlBuilderResult> sqlPartBuilderTemplate = DefaultMySqlPartBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_PART_BUILDER_TEMPLATE;
+
+    @Override
+    public void setSqlPartBuilderTemplate(SqlPartBuilderTemplate<SqlBuilderResult> sqlPartBuilderTemplate) {
+        this.sqlPartBuilderTemplate = sqlPartBuilderTemplate;
+    }
 
     @Override
     public SqlBuilderResult buildCopyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData) {
