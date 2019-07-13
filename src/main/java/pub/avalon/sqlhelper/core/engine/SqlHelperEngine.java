@@ -8,6 +8,7 @@ import pub.avalon.sqlhelper.core.callback.*;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.Collection;
@@ -25,7 +26,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS, SqlHelperEngine<T, TO, TC, TW, TG, TS>>, SqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS, SqlHelperEngine<T, TO, TC, TW, TG, TS>>, DefaultSqlBuilder, SqlDataProducer {
 
     private DefaultTableEngine<T, TO, TC, TW, TG, TS> tableEngine;
 
@@ -269,107 +270,107 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
+    public DefaultSqlBuilder copyTable(String targetTableName, boolean copyData) {
         return this.tableEngine.copyTable(targetTableName, copyData);
     }
 
     @Override
-    public SqlBuilder deleteTable() {
+    public DefaultSqlBuilder deleteTable() {
         return this.tableEngine.deleteTable();
     }
 
     @Override
-    public SqlBuilder renameTable(String newTableName) {
+    public DefaultSqlBuilder renameTable(String newTableName) {
         return this.tableEngine.renameTable(newTableName);
     }
 
     @Override
-    public SqlBuilder isTableExist() {
+    public DefaultSqlBuilder isTableExist() {
         return this.tableEngine.isTableExist();
     }
 
     @Override
-    public SqlBuilder insertArgs(Object... args) {
+    public DefaultSqlBuilder insertArgs(Object... args) {
         return this.tableEngine.insertArgs(args);
     }
 
     @Override
-    public SqlBuilder insertJavaBean(Object javaBean) {
+    public DefaultSqlBuilder insertJavaBean(Object javaBean) {
         return this.tableEngine.insertJavaBean(javaBean);
     }
 
     @Override
-    public SqlBuilder insertJavaBeanSelective(Object javaBean) {
+    public DefaultSqlBuilder insertJavaBeanSelective(Object javaBean) {
         return this.tableEngine.insertJavaBeanSelective(javaBean);
     }
 
     @Override
-    public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
+    public DefaultSqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
         return this.tableEngine.batchInsertJavaBeans(javaBeans);
     }
 
     @Override
-    public SqlBuilder delete() {
+    public DefaultSqlBuilder delete() {
         return this.tableEngine.delete();
     }
 
     @Override
-    public SqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
+    public DefaultSqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
         return this.tableEngine.deleteByPrimaryKey(primaryKeyValue);
     }
 
     @Override
-    public SqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
+    public DefaultSqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
         return this.tableEngine.batchDeleteByPrimaryKeys(primaryKeyValues);
     }
 
     @Override
-    public SqlBuilder updateJavaBean(Object javaBean) {
+    public DefaultSqlBuilder updateJavaBean(Object javaBean) {
         return this.tableEngine.updateJavaBean(javaBean);
     }
 
     @Override
-    public SqlBuilder updateJavaBeanSelective(Object javaBean) {
+    public DefaultSqlBuilder updateJavaBeanSelective(Object javaBean) {
         return this.tableEngine.updateJavaBeanSelective(javaBean);
     }
 
     @Override
-    public SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
+    public DefaultSqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
         return this.tableEngine.updateArgsByPrimaryKey(primaryKeyValue, args);
     }
 
     @Override
-    public SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
+    public DefaultSqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
         return this.tableEngine.updateJavaBeanByPrimaryKey(primaryKeyValue, javaBean);
     }
 
     @Override
-    public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
+    public DefaultSqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
         return this.tableEngine.updateJavaBeanByPrimaryKeySelective(primaryKeyValue, javaBean);
     }
 
     @Override
-    public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
+    public DefaultSqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
         return this.tableEngine.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
     }
 
     @Override
-    public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
+    public DefaultSqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
         return this.tableEngine.updateOrInsertJavaBeans(javaBeans);
     }
 
     @Override
-    public SqlBuilder query() {
+    public DefaultSqlBuilder query() {
         return this.tableEngine.query();
     }
 
     @Override
-    public SqlBuilder queryCount() {
+    public DefaultSqlBuilder queryCount() {
         return this.tableEngine.queryCount();
     }
 
     @Override
-    public SqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
+    public DefaultSqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
         return this.tableEngine.queryByPrimaryKey(primaryKeyValue);
     }
 

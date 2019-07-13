@@ -5,6 +5,9 @@ import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,7 +17,7 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/20
  */
-public class SqlBuilderProxy implements SqlBuilder {
+public class SqlBuilderProxy implements InvocationHandler, DefaultSqlBuilder {
 
     private SqlData sqlData;
 
@@ -49,129 +52,141 @@ public class SqlBuilderProxy implements SqlBuilder {
     }
 
     @Override
-    public SqlBuilder copyTable(String targetTableName, boolean copyData) {
+    public DefaultSqlBuilder copyTable(String targetTableName, boolean copyData) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildCopyTable(this.sqlData, targetTableName, copyData);
         return this;
     }
 
     @Override
-    public SqlBuilder deleteTable() {
+    public DefaultSqlBuilder deleteTable() {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildDeleteTable(this.sqlData);
         return this;
     }
 
     @Override
-    public SqlBuilder renameTable(String newTableName) {
+    public DefaultSqlBuilder renameTable(String newTableName) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildRenameTable(this.sqlData, newTableName);
         return this;
     }
 
     @Override
-    public SqlBuilder isTableExist() {
+    public DefaultSqlBuilder isTableExist() {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildIsTableExist(this.sqlData);
         return this;
     }
 
     @Override
-    public SqlBuilder insertArgs(Object... args) {
+    public DefaultSqlBuilder insertArgs(Object... args) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildInsertArgs(this.sqlData, args);
         return this;
     }
 
     @Override
-    public SqlBuilder insertJavaBean(Object javaBean) {
+    public DefaultSqlBuilder insertJavaBean(Object javaBean) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildInsertJavaBean(this.sqlData, javaBean);
         return this;
     }
 
     @Override
-    public SqlBuilder insertJavaBeanSelective(Object javaBean) {
+    public DefaultSqlBuilder insertJavaBeanSelective(Object javaBean) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildInsertJavaBeanSelective(this.sqlData, javaBean);
         return this;
     }
 
     @Override
-    public SqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
+    public DefaultSqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildBatchInsertJavaBeans(this.sqlData, javaBeans);
         return this;
     }
 
     @Override
-    public SqlBuilder delete() {
+    public DefaultSqlBuilder delete() {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildDelete(this.sqlData);
         return this;
     }
 
     @Override
-    public SqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
+    public DefaultSqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildDeleteByPrimaryKey(this.sqlData, primaryKeyValue);
         return this;
     }
 
     @Override
-    public SqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
+    public DefaultSqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildBatchDeleteByPrimaryKeys(this.sqlData, primaryKeyValues);
         return this;
     }
 
     @Override
-    public SqlBuilder updateJavaBean(Object javaBean) {
+    public DefaultSqlBuilder updateJavaBean(Object javaBean) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildUpdateJavaBean(this.sqlData, javaBean);
         return this;
     }
 
     @Override
-    public SqlBuilder updateJavaBeanSelective(Object javaBean) {
+    public DefaultSqlBuilder updateJavaBeanSelective(Object javaBean) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildUpdateJavaBeanSelective(this.sqlData, javaBean);
         return this;
     }
 
     @Override
-    public SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
+    public DefaultSqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildUpdateArgsByPrimaryKey(this.sqlData, primaryKeyValue, args);
         return this;
     }
 
     @Override
-    public SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
+    public DefaultSqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildUpdateJavaBeanByPrimaryKey(this.sqlData, primaryKeyValue, javaBean);
         return this;
     }
 
     @Override
-    public SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
+    public DefaultSqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildUpdateJavaBeanByPrimaryKeySelective(this.sqlData, primaryKeyValue, javaBean);
         return this;
     }
 
     @Override
-    public SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
+    public DefaultSqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildBatchUpdateJavaBeansByPrimaryKeys(this.sqlData, javaBeans);
         return this;
     }
 
     @Override
-    public SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
+    public DefaultSqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildUpdateOrInsertJavaBeans(this.sqlData, javaBeans);
         return this;
     }
 
     @Override
-    public SqlBuilder query() {
+    public DefaultSqlBuilder query() {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildQuery(this.sqlData);
         return this;
     }
 
     @Override
-    public SqlBuilder queryCount() {
+    public DefaultSqlBuilder queryCount() {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildQueryCount(this.sqlData);
         return this;
     }
 
     @Override
-    public SqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
+    public DefaultSqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildQueryByPrimaryKey(this.sqlData, primaryKeyValue);
         return this;
+    }
+
+    private Object proxyObject;
+
+    public <T> SqlBuilder proxy(Class<T> proxyClass) {
+        this.proxyObject = Proxy.newProxyInstance(this.getClass().getClassLoader(), proxyClass.getInterfaces(), this);
+        return this;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        return method.invoke(this.proxyObject, args);
     }
 
 }

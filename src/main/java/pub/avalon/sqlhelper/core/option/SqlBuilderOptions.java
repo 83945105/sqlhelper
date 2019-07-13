@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.MySqlBuilderTemplate;
 import pub.avalon.sqlhelper.core.sqlbuilder.MySqlPartBuilderTemplate;
 
 /**
- * sql构建配置
+ * Sql构建配置
  *
  * @author 白超
  * @date 2019/5/20
@@ -14,6 +14,15 @@ import pub.avalon.sqlhelper.core.sqlbuilder.MySqlPartBuilderTemplate;
 public final class SqlBuilderOptions {
 
     public final static SqlBuilderOptions DEFAULT_SQL_BUILDER_OPTIONS = new SqlBuilderOptions();
+
+    /**
+     * 获取默认Sql构建配置
+     *
+     * @return {@link SqlBuilderOptions}
+     */
+    public static SqlBuilderOptions getDefaultSqlBuilderOptions() {
+        return DEFAULT_SQL_BUILDER_OPTIONS;
+    }
 
     /**
      * Sql片段数据构建器配置
@@ -57,8 +66,9 @@ public final class SqlBuilderOptions {
         return this.mySqlPartBuilderTemplate;
     }
 
-    public void setMySqlPartBuilderTemplate(MySqlPartBuilderTemplate mySqlPartBuilderTemplate) {
+    public SqlBuilderOptions setMySqlPartBuilderTemplate(MySqlPartBuilderTemplate mySqlPartBuilderTemplate) {
         this.mySqlPartBuilderTemplate = mySqlPartBuilderTemplate;
+        return this;
     }
 
     public MySqlBuilderTemplate getMySqlBuilderTemplate() {
