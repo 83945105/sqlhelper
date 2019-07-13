@@ -11,10 +11,14 @@ import pub.avalon.sqlhelper.core.exception.SqlException;
 import java.util.*;
 
 /**
+ * 默认Sql片段构建器模板
+ *
  * @author 白超
  * @date 2018/8/23
  */
 public class DefaultSqlPartBuilderTemplate implements SqlPartBuilderTemplate {
+
+    public final static DefaultSqlPartBuilderTemplate DEFAULT_SQL_PART_BUILDER_TEMPLATE = new DefaultSqlPartBuilderTemplate();
 
     @Override
     public SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer) {

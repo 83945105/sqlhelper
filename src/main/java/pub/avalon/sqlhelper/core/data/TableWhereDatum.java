@@ -1,7 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.helper.TableHelper;
-
 import java.util.List;
 
 /**
@@ -10,28 +8,18 @@ import java.util.List;
  * @author 白超
  * @date 2019/6/13
  */
-public final class TableWhereDatum<T extends TableHelper> {
-
-    private Class<T> tableHelperClass;
+public final class TableWhereDatum {
 
     private String tableAlias;
 
     private List<WhereDataLinker> whereDataLinkers;
 
-    public TableWhereDatum(Class<T> tableHelperClass, String tableAlias, List<WhereDataLinker> whereDataLinkers) {
-        if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
-        }
+    public TableWhereDatum(String tableAlias, List<WhereDataLinker> whereDataLinkers) {
         if (tableAlias == null) {
             throw new RuntimeException("tableAlias can not be null.");
         }
-        this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.whereDataLinkers = whereDataLinkers;
-    }
-
-    public Class<T> getTableHelperClass() {
-        return tableHelperClass;
     }
 
     public String getTableAlias() {

@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.GroupType;
-import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 import java.util.Set;
 
@@ -11,9 +10,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public final class TableFunctionColumnDatum<T extends TableHelper> {
-
-    private Class<T> tableHelperClass;
+public final class TableFunctionColumnDatum {
 
     private String tableAlias;
 
@@ -21,21 +18,13 @@ public final class TableFunctionColumnDatum<T extends TableHelper> {
 
     private Set<ColumnDatum> columnData;
 
-    public TableFunctionColumnDatum(Class<T> tableHelperClass, String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
-        if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
-        }
+    public TableFunctionColumnDatum(String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
         if (tableAlias == null) {
             throw new RuntimeException("tableAlias can not be null.");
         }
-        this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.groupType = groupType;
         this.columnData = columnData;
-    }
-
-    public Class<T> getTableHelperClass() {
-        return tableHelperClass;
     }
 
     public String getTableAlias() {

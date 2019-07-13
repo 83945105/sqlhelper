@@ -1,7 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.helper.TableHelper;
-
 import java.util.Set;
 
 /**
@@ -11,28 +9,18 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class TableSortDatum<T extends TableHelper> {
-
-    private Class<T> tableHelperClass;
+public final class TableSortDatum {
 
     private String tableAlias;
 
     private Set<SortDatum> sortData;
 
-    public TableSortDatum(Class<T> tableHelperClass, String tableAlias, Set<SortDatum> sortData) {
-        if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
-        }
+    public TableSortDatum(String tableAlias, Set<SortDatum> sortData) {
         if (tableAlias == null) {
             throw new RuntimeException("tableAlias can not be null.");
         }
-        this.tableHelperClass = tableHelperClass;
         this.tableAlias = tableAlias;
         this.sortData = sortData;
-    }
-
-    public Class<T> getTableHelperClass() {
-        return tableHelperClass;
     }
 
     public String getTableAlias() {

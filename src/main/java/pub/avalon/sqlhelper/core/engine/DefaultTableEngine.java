@@ -181,7 +181,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(this.tableHelperClass);
         }
-        this.addTableColumnDatum(new TableColumnDatum<>(this.tableHelperClass, this.tableAlias, columnData));
+        this.addTableColumnDatum(new TableColumnDatum(this.tableAlias, columnData));
         return this;
     }
 
@@ -205,7 +205,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(tableHelperClass);
         }
-        this.addTableColumnDatum(new TableColumnDatum<>(tableHelperClass, tableAlias, columnData));
+        this.addTableColumnDatum(new TableColumnDatum(tableAlias, columnData));
         return this;
     }
 
@@ -235,7 +235,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(this.tableHelperClass, this.tableAlias, groupType, columnData));
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(this.tableAlias, groupType, columnData));
         return this;
     }
 
@@ -263,7 +263,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum<>(tableHelperClass, tableAlias, groupType, columnData));
+        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(tableAlias, groupType, columnData));
         return this;
     }
 
@@ -312,7 +312,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
         }
-        joinTableDatum.setTableOnDatum(new TableOnDatum<>(tableHelperClass, tableAlias, onDataLinkers));
+        joinTableDatum.setTableOnDatum(new TableOnDatum(tableAlias, onDataLinkers));
         return this;
     }
 
@@ -332,7 +332,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }
-        this.addTableWhereDatum(new TableWhereDatum<>(this.tableHelperClass, this.tableAlias, whereDataLinkers));
+        this.addTableWhereDatum(new TableWhereDatum(this.tableAlias, whereDataLinkers));
         return this;
     }
 
@@ -365,7 +365,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
         }
-        this.addTableWhereDatum(new TableWhereDatum<>(tableHelperClass, tableAlias, whereDataLinkers));
+        this.addTableWhereDatum(new TableWhereDatum(tableAlias, whereDataLinkers));
         return this;
     }
 
@@ -391,7 +391,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        this.addTableGroupDatum(new TableGroupDatum<>(this.tableHelperClass, this.tableAlias, groupData));
+        this.addTableGroupDatum(new TableGroupDatum(this.tableAlias, groupData));
         return this;
     }
 
@@ -415,7 +415,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (groupData == null || groupData.size() == 0) {
             return this;
         }
-        this.addTableGroupDatum(new TableGroupDatum<>(tableHelperClass, tableAlias, groupData));
+        this.addTableGroupDatum(new TableGroupDatum(tableAlias, groupData));
         return this;
     }
 
@@ -441,7 +441,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (sortData == null || sortData.size() == 0) {
             return this;
         }
-        this.addTableSortDatum(new TableSortDatum<>(this.tableHelperClass, this.tableAlias, sortData));
+        this.addTableSortDatum(new TableSortDatum(this.tableAlias, sortData));
         return this;
     }
 
@@ -465,7 +465,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (sortData == null || sortData.size() == 0) {
             return this;
         }
-        this.addTableSortDatum(new TableSortDatum<>(tableHelperClass, tableAlias, sortData));
+        this.addTableSortDatum(new TableSortDatum(tableAlias, sortData));
         return this;
     }
 
