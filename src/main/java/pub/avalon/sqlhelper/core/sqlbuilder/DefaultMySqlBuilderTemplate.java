@@ -15,7 +15,7 @@ import java.util.*;
  * @author 白超
  * @date 2019/5/22
  */
-public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
+public final class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
 
     public static final DefaultMySqlBuilderTemplate DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE = new DefaultMySqlBuilderTemplate();
 
@@ -214,9 +214,10 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` ")
                 .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildWhere(sqlDataConsumer));
+        return sqlBuilderResult;
     }
 
     @Override
@@ -253,39 +254,37 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
 
     @Override
     public SqlBuilderResult buildUpdateJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean) {
-        StringBuilder preparedStatementSql = new StringBuilder(512);
-        List<Object> preparedStatementArgs = new ArrayList<>(64);
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(512), new ArrayList<>(64));
         String tableAlias = sqlDataConsumer.getMainTableDatum().getTableAlias();
-        preparedStatementSql.append("update `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` ")
-                .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        preparedStatementSql.append(" set ");
+        sqlBuilderResult.appendSqlPart("update `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` ")
+                .appendSqlPart(tableAlias);
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
+        sqlBuilderResult.appendSqlPart(" set ");
         int i = 0;
         Set<ColumnDatum> columnData = getOnlyColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
             }
-            preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getColumnName()).append("`").append(" = ?");
-            preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+            sqlBuilderResult.appendSqlPart(tableAlias).appendSqlPart(".`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`").appendSqlPart(" = ?");
+            sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
         }
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildWhere(sqlDataConsumer));
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildUpdateJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean) {
-        StringBuilder preparedStatementSql = new StringBuilder(512);
-        List<Object> preparedStatementArgs = new ArrayList<>(64);
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(512), new ArrayList<>(64));
         String tableAlias = sqlDataConsumer.getMainTableDatum().getTableAlias();
-        preparedStatementSql.append("update `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` ")
-                .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        preparedStatementSql.append(" set ");
+        sqlBuilderResult.appendSqlPart("update `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` ")
+                .appendSqlPart(tableAlias);
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
+        sqlBuilderResult.appendSqlPart(" set ");
         int i = 0;
         Object value;
         Set<ColumnDatum> columnData = getOnlyColumnData(sqlDataConsumer);
@@ -295,22 +294,21 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 continue;
             }
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
             }
-            preparedStatementSql.append(tableAlias).append(".`").append(columnDatum.getColumnName()).append("`").append(" = ?");
-            preparedStatementArgs.add(value);
+            sqlBuilderResult.appendSqlPart(tableAlias).appendSqlPart(".`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`").appendSqlPart(" = ?");
+            sqlBuilderResult.appendArg(value);
         }
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildWhere(sqlDataConsumer));
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildUpdateArgsByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object... args) {
-        StringBuilder preparedStatementSql = new StringBuilder(512);
-        List<Object> preparedStatementArgs = new ArrayList<>(args.length + 1);
-        preparedStatementSql.append("update `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` set ");
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(512), new ArrayList<>(args.length + 1));
+        sqlBuilderResult.appendSqlPart("update `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` set ");
         TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
         String primaryKeyName = tableHelper.getPrimaryKeyName();
         int i = 0;
@@ -320,25 +318,24 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 continue;
             }
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
             }
-            preparedStatementSql.append("`").append(columnDatum.getColumnName()).append("`").append(" = ?");
+            sqlBuilderResult.appendSqlPart("`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`").appendSqlPart(" = ?");
         }
-        preparedStatementSql.append(" where `")
-                .append(primaryKeyName)
-                .append("` = ?");
-        preparedStatementArgs.addAll(Arrays.asList(args));
-        preparedStatementArgs.add(primaryKeyValue);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.appendSqlPart(" where `")
+                .appendSqlPart(primaryKeyName)
+                .appendSqlPart("` = ?");
+        sqlBuilderResult.appendArgs(Arrays.asList(args));
+        sqlBuilderResult.appendArg(primaryKeyValue);
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildUpdateJavaBeanByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean) {
-        StringBuilder preparedStatementSql = new StringBuilder(512);
-        List<Object> preparedStatementArgs = new ArrayList<>(65);
-        preparedStatementSql.append("update `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` set ");
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(512), new ArrayList<>(65));
+        sqlBuilderResult.appendSqlPart("update `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` set ");
         TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
         String primaryKeyName = tableHelper.getPrimaryKeyName();
         int i = 0;
@@ -348,25 +345,24 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 continue;
             }
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
             }
-            preparedStatementSql.append("`").append(columnDatum.getColumnName()).append("`").append(" = ?");
-            preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+            sqlBuilderResult.appendSqlPart("`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`").appendSqlPart(" = ?");
+            sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
         }
-        preparedStatementSql.append(" where `")
-                .append(primaryKeyName)
-                .append("` = ?");
-        preparedStatementArgs.add(primaryKeyValue);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.appendSqlPart(" where `")
+                .appendSqlPart(primaryKeyName)
+                .appendSqlPart("` = ?");
+        sqlBuilderResult.appendArg(primaryKeyValue);
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildUpdateJavaBeanByPrimaryKeySelective(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean) {
-        StringBuilder preparedStatementSql = new StringBuilder(512);
-        List<Object> preparedStatementArgs = new ArrayList<>(65);
-        preparedStatementSql.append("update `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` set ");
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(512), new ArrayList<>(65));
+        sqlBuilderResult.appendSqlPart("update `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` set ");
         TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
         String primaryKeyName = tableHelper.getPrimaryKeyName();
         int i = 0;
@@ -381,29 +377,28 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 continue;
             }
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
             }
-            preparedStatementSql.append("`").append(columnDatum.getColumnName()).append("`").append(" = ?");
-            preparedStatementArgs.add(value);
+            sqlBuilderResult.appendSqlPart("`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`").appendSqlPart(" = ?");
+            sqlBuilderResult.appendArg(value);
         }
-        preparedStatementSql.append(" where `")
-                .append(primaryKeyName)
-                .append("` = ?");
-        preparedStatementArgs.add(primaryKeyValue);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.appendSqlPart(" where `")
+                .appendSqlPart(primaryKeyName)
+                .appendSqlPart("` = ?");
+        sqlBuilderResult.appendArg(primaryKeyValue);
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildBatchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
-        StringBuilder preparedStatementSql = new StringBuilder(2048);
-        List<Object> preparedStatementArgs = new ArrayList<>(128);
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(2048), new ArrayList<>(128));
         String tableAlias = sqlDataConsumer.getMainTableDatum().getTableAlias();
-        preparedStatementSql.append("update `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` ")
-                .append(tableAlias);
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        preparedStatementSql.append(" set ");
+        sqlBuilderResult.appendSqlPart("update `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` ")
+                .appendSqlPart(tableAlias);
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
+        sqlBuilderResult.appendSqlPart(" set ");
         int i = 0;
         TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
         String primaryKeyName = tableHelper.getPrimaryKeyName();
@@ -445,58 +440,57 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
             // 非主键计算sql
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
             }
-            preparedStatementSql.append(tableAlias)
-                    .append(".`")
-                    .append(columnDatum.getColumnName())
-                    .append("`=case ")
-                    .append(tableAlias)
-                    .append(".`")
-                    .append(primaryKeyName)
-                    .append("` ")
-                    .append(whenSql.toString())
-                    .append(" end");
+            sqlBuilderResult.appendSqlPart(tableAlias)
+                    .appendSqlPart(".`")
+                    .appendSqlPart(columnDatum.getColumnName())
+                    .appendSqlPart("`=case ")
+                    .appendSqlPart(tableAlias)
+                    .appendSqlPart(".`")
+                    .appendSqlPart(primaryKeyName)
+                    .appendSqlPart("` ")
+                    .appendSqlPart(whenSql.toString())
+                    .appendSqlPart(" end");
             // 非主键计算参数
             for (Object javaBean : javaBeans) {
                 if (javaBean instanceof Map) {
-                    preparedStatementArgs.add(((Map) javaBean).get(columnDatum.getColumnAlias()));
+                    sqlBuilderResult.appendArg(((Map) javaBean).get(columnDatum.getColumnAlias()));
                 } else {
-                    preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+                    sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
                 }
             }
         }
         //拼接上最后的where条件
-        preparedStatementSql.append(" where ")
-                .append(tableAlias)
-                .append(".`")
-                .append(primaryKeyName)
-                .append("` in (")
-                .append(inSql.toString())
-                .append(")");
-        preparedStatementArgs.addAll(inArgs);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.appendSqlPart(" where ")
+                .appendSqlPart(tableAlias)
+                .appendSqlPart(".`")
+                .appendSqlPart(primaryKeyName)
+                .appendSqlPart("` in (")
+                .appendSqlPart(inSql.toString())
+                .appendSqlPart(")");
+        sqlBuilderResult.appendArgs(inArgs);
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildUpdateOrInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
-        StringBuilder preparedStatementSql = new StringBuilder(2048);
-        List<Object> preparedStatementArgs = new ArrayList<>(128);
-        preparedStatementSql.append("insert into ")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append(" (");
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(2048), new ArrayList<>(128));
+        sqlBuilderResult.appendSqlPart("insert into ")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart(" (");
         int i = 0;
         StringBuilder onSql = new StringBuilder(64);
         Set<ColumnDatum> columnData = getOnlyColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
                 onSql.append(",");
             }
-            preparedStatementSql.append("`").append(columnDatum.getColumnName()).append("`");
+            sqlBuilderResult.appendSqlPart("`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`");
             onSql.append("`").append(columnDatum.getColumnName()).append("` = values(`").append(columnDatum.getColumnName()).append("`)");
         }
-        preparedStatementSql.append(") values ");
+        sqlBuilderResult.appendSqlPart(") values ");
         StringBuilder valueSql = new StringBuilder(32).append("(");
         for (; i > 0; i--) {
             if (i == 1) {
@@ -508,91 +502,82 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         i = 0;
         for (Object javaBean : javaBeans) {
             if (i++ > 0) {
-                preparedStatementSql.append(",");
+                sqlBuilderResult.appendSqlPart(",");
             }
-            preparedStatementSql.append(valueSql.toString());
+            sqlBuilderResult.appendSqlPart(valueSql.toString());
             for (ColumnDatum columnDatum : columnData) {
-                preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+                sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
             }
         }
-        preparedStatementSql.append(" on duplicate key update ").append(onSql.toString());
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        sqlBuilderResult.appendSqlPart(" on duplicate key update ").appendSqlPart(onSql.toString());
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildQuery(SqlDataConsumer sqlDataConsumer) {
-        StringBuilder preparedStatementSql = new StringBuilder(1024);
-        List<Object> preparedStatementArgs = new ArrayList<>(32);
-        preparedStatementSql.append("select");
-        this.appendColumnSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        preparedStatementSql.append(" from `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` ")
-                .append(sqlDataConsumer.getMainTableDatum().getTableAlias());
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        this.appendGroupSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        this.appendSortSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        this.appendLimitSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(1024), new ArrayList<>(32));
+        sqlBuilderResult.appendSqlPart("select");
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildColumn(sqlDataConsumer));
+        sqlBuilderResult.appendSqlPart(" from `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` ")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableAlias());
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildWhere(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildGroup(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildSort(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildLimit(sqlDataConsumer));
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildQueryCount(SqlDataConsumer sqlDataConsumer) {
-        StringBuilder preparedStatementSql = new StringBuilder(1024);
-        List<Object> preparedStatementArgs = new ArrayList<>(32);
-        StringBuilder groupSqlBuilder = new StringBuilder(32);
-        this.appendGroupSqlArgs(groupSqlBuilder, null, sqlDataConsumer);
-        String groupSql = groupSqlBuilder.toString();
-        StringBuilder limitSqlBuilder = new StringBuilder(16);
-        List<Object> limitArgs = new ArrayList<>(2);
-        this.appendLimitSqlArgs(limitSqlBuilder, limitArgs, sqlDataConsumer);
-        String limitSql = limitSqlBuilder.toString();
-        boolean hasGroup = groupSql.length() > 0;
-        boolean hasLimit = limitSql.length() > 0;
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(1024), new ArrayList<>(32));
+        SqlBuilderResult group = this.sqlPartBuilderTemplate.buildGroup(sqlDataConsumer);
+        SqlBuilderResult limit = this.sqlPartBuilderTemplate.buildLimit(sqlDataConsumer);
+        boolean hasGroup = group.hasPreparedStatementSql();
+        boolean hasLimit = limit.hasPreparedStatementSql();
         if (hasGroup || hasLimit) {
-            preparedStatementSql.append("select count(1) from (select ")
-                    .append(sqlDataConsumer.getMainTableDatum().getTableAlias())
-                    .append(".`")
-                    .append(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
-                    .append("` from `");
+            sqlBuilderResult.appendSqlPart("select count(1) from (select ")
+                    .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableAlias())
+                    .appendSqlPart(".`")
+                    .appendSqlPart(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
+                    .appendSqlPart("` from `");
         } else {
-            preparedStatementSql.append("select count(1) from `");
+            sqlBuilderResult.appendSqlPart("select count(1) from `");
         }
-        preparedStatementSql.append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` ")
-                .append(sqlDataConsumer.getMainTableDatum().getTableAlias());
-        this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
+        sqlBuilderResult.appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` ")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableAlias());
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildWhere(sqlDataConsumer));
         if (hasGroup || hasLimit) {
             if (hasGroup) {
-                preparedStatementSql.append(groupSql);
+                sqlBuilderResult.append(group);
             }
             if (hasLimit) {
-                preparedStatementSql.append(limitSql);
-                preparedStatementArgs.addAll(limitArgs);
+                sqlBuilderResult.append(limit);
             }
-            preparedStatementSql.append(") C");
+            sqlBuilderResult.appendSqlPart(") C");
         }
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        return sqlBuilderResult;
     }
 
     @Override
     public SqlBuilderResult buildQueryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue) {
-        StringBuilder preparedStatementSql = new StringBuilder(128);
-        List<Object> preparedStatementArgs = Collections.singletonList(primaryKeyValue);
-        preparedStatementSql.append("select");
-        this.appendColumnSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        preparedStatementSql.append(" from `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` ")
-                .append(sqlDataConsumer.getMainTableDatum().getTableAlias())
-                .append(" where ")
-                .append(sqlDataConsumer.getMainTableDatum().getTableAlias())
-                .append(".`")
-                .append(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
-                .append("` = ?");
-        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
+        SqlBuilderResult sqlBuilderResult = SqlBuilderResult.init(new StringBuilder(128), Collections.singletonList(primaryKeyValue));
+        sqlBuilderResult.appendSqlPart("select");
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildColumn(sqlDataConsumer));
+        sqlBuilderResult.appendSqlPart(" from `")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
+                .appendSqlPart("` ")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableAlias())
+                .appendSqlPart(" where ")
+                .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableAlias())
+                .appendSqlPart(".`")
+                .appendSqlPart(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
+                .appendSqlPart("` = ?");
+        return sqlBuilderResult;
     }
 
 }

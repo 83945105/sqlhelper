@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.option;
 
+import pub.avalon.sqlhelper.core.sqlbuilder.AbstractMySqlBuilderTemplate;
 import pub.avalon.sqlhelper.core.sqlbuilder.DefaultMySqlBuilderTemplate;
-import pub.avalon.sqlhelper.core.sqlbuilder.MySqlBuilderTemplate;
 
 /**
  * sql构建配置
@@ -26,7 +26,7 @@ public final class SqlBuilderOptions {
     /**
      * MySql构建器
      */
-    private MySqlBuilderTemplate mySqlBuilderTemplate = DefaultMySqlBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE;
+    private AbstractMySqlBuilderTemplate mySqlBuilderTemplate = DefaultMySqlBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE;
 
     public SqlPartDatumBuilderOptions getSqlPartDatumBuilderOptions() {
         return sqlPartDatumBuilderOptions;
@@ -46,11 +46,11 @@ public final class SqlBuilderOptions {
         return this;
     }
 
-    public MySqlBuilderTemplate getMySqlBuilderTemplate() {
+    public AbstractMySqlBuilderTemplate getMySqlBuilderTemplate() {
         return mySqlBuilderTemplate;
     }
 
-    public SqlBuilderOptions setMySqlBuilderTemplate(MySqlBuilderTemplate mySqlBuilderTemplate) {
+    public SqlBuilderOptions setMySqlBuilderTemplate(AbstractMySqlBuilderTemplate mySqlBuilderTemplate) {
         this.mySqlBuilderTemplate = mySqlBuilderTemplate;
         return this;
     }

@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
 
 /**
@@ -9,18 +8,18 @@ import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
  * @author 白超
  * @date 2019/7/13
  */
-public interface SqlPartBuilderTemplate {
+public interface SqlPartBuilderTemplate<T> {
 
-    SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer);
+    T buildColumn(SqlDataConsumer sqlDataConsumer);
 
-    SqlBuilderResult buildJoin(SqlDataConsumer sqlDataConsumer);
+    T buildJoin(SqlDataConsumer sqlDataConsumer);
 
-    SqlBuilderResult buildWhere(SqlDataConsumer sqlDataConsumer);
+    T buildWhere(SqlDataConsumer sqlDataConsumer);
 
-    SqlBuilderResult buildGroup(SqlDataConsumer sqlDataConsumer);
+    T buildGroup(SqlDataConsumer sqlDataConsumer);
 
-    SqlBuilderResult buildSort(SqlDataConsumer sqlDataConsumer);
+    T buildSort(SqlDataConsumer sqlDataConsumer);
 
-    SqlBuilderResult buildLimit(SqlDataConsumer sqlDataConsumer);
+    T buildLimit(SqlDataConsumer sqlDataConsumer);
 
 }

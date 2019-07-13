@@ -13,6 +13,14 @@ import java.util.Collection;
 public interface SqlBuilderTemplate<T> {
 
     /**
+     * 设置Sql片段构建器模板
+     *
+     * @param sqlPartBuilderTemplate {@link SqlPartBuilderTemplate}
+     * @return
+     */
+    void setSqlPartBuilderTemplate(SqlPartBuilderTemplate<T> sqlPartBuilderTemplate);
+
+    /**
      * 复制表
      *
      * @param sqlDataConsumer sql数据消费者
