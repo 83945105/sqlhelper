@@ -20,7 +20,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
     public static final DefaultMySqlBuilderTemplate DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE = new DefaultMySqlBuilderTemplate();
 
     @Override
-    public SqlBuilderResult copyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData) {
+    public SqlBuilderResult buildCopyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData) {
         String tableName = sqlDataConsumer.getMainTableDatum().getTableName();
         StringBuilder preparedStatementSql = new StringBuilder(128);
         preparedStatementSql.append("create table `")
@@ -34,35 +34,32 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                     .append("` select * from `")
                     .append(tableName)
                     .append("`");
-            return new SqlBuilderResult(preparedStatementSql.toString(), new ArrayList<>(0));
+            return SqlBuilderResult.newInstance(preparedStatementSql.toString());
         }
-        return new SqlBuilderResult(preparedStatementSql.toString(), new ArrayList<>(0));
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString());
     }
 
     @Override
-    public SqlBuilderResult deleteTable(SqlDataConsumer sqlDataConsumer) {
-        return new SqlBuilderResult(new StringBuilder(32)
-                .append("drop table `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("`").toString(), new ArrayList<>(0));
+    public SqlBuilderResult buildDeleteTable(SqlDataConsumer sqlDataConsumer) {
+        return SqlBuilderResult.newInstance("drop table `" +
+                sqlDataConsumer.getMainTableDatum().getTableName() +
+                "`");
     }
 
     @Override
-    public SqlBuilderResult renameTable(SqlDataConsumer sqlDataConsumer, String newTableName) {
-        return new SqlBuilderResult(new StringBuilder(32)
-                .append("rename table `")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("` to `")
-                .append(newTableName)
-                .append("`").toString(), new ArrayList<>(0));
+    public SqlBuilderResult buildRenameTable(SqlDataConsumer sqlDataConsumer, String newTableName) {
+        return SqlBuilderResult.newInstance("rename table `" +
+                sqlDataConsumer.getMainTableDatum().getTableName() +
+                "` to `" +
+                newTableName +
+                "`");
     }
 
     @Override
-    public SqlBuilderResult isTableExist(SqlDataConsumer sqlDataConsumer) {
-        return new SqlBuilderResult(new StringBuilder(128)
-                .append("select table_name from information_schema.TABLES where table_name = '")
-                .append(sqlDataConsumer.getMainTableDatum().getTableName())
-                .append("' and table_schema = (select database())").toString(), new ArrayList<>(0));
+    public SqlBuilderResult buildIsTableExist(SqlDataConsumer sqlDataConsumer) {
+        return SqlBuilderResult.newInstance("select table_name from information_schema.TABLES where table_name = '" +
+                sqlDataConsumer.getMainTableDatum().getTableName() +
+                "' and table_schema = (select database())");
     }
 
     private Set<ColumnDatum> getOnlyColumnData(SqlDataConsumer sqlDataConsumer) {
@@ -82,7 +79,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
     }
 
     @Override
-    public SqlBuilderResult insertArgs(SqlDataConsumer sqlDataConsumer, Object... args) {
+    public SqlBuilderResult buildInsertArgs(SqlDataConsumer sqlDataConsumer, Object... args) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(args.length);
         preparedStatementSql.append("insert into `")
@@ -106,11 +103,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
         }
         preparedStatementSql.append(")");
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult insertJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean) {
+    public SqlBuilderResult buildInsertJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(64);
         preparedStatementSql.append("insert into `")
@@ -134,11 +131,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
         }
         preparedStatementSql.append(")");
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult insertJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean) {
+    public SqlBuilderResult buildInsertJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(64);
         preparedStatementSql.append("insert into `")
@@ -167,11 +164,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
         }
         preparedStatementSql.append(")");
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult batchInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
+    public SqlBuilderResult buildBatchInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
         StringBuilder preparedStatementSql = new StringBuilder(2048);
         List<Object> preparedStatementArgs = new ArrayList<>(64 * javaBeans.size());
         preparedStatementSql.append("insert into `")
@@ -203,11 +200,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
             }
         }
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult delete(SqlDataConsumer sqlDataConsumer) {
+    public SqlBuilderResult buildDelete(SqlDataConsumer sqlDataConsumer) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(64);
         String tableAlias = sqlDataConsumer.getMainTableDatum().getTableAlias();
@@ -219,11 +216,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(tableAlias);
         this.appendJoinSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult deleteByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue) {
+    public SqlBuilderResult buildDeleteByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue) {
         StringBuilder preparedStatementSql = new StringBuilder(128);
         List<Object> preparedStatementArgs = Collections.singletonList(primaryKeyValue);
         preparedStatementSql.append("delete from `")
@@ -231,11 +228,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append("` where `")
                 .append(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
                 .append("` = ?");
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult batchDeleteByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Object... primaryKeyValues) {
+    public SqlBuilderResult buildBatchDeleteByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Object... primaryKeyValues) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = Arrays.asList(primaryKeyValues);
         preparedStatementSql.append("delete from `")
@@ -251,11 +248,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             preparedStatementSql.append("?");
         }
         preparedStatementSql.append(")");
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult updateJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean) {
+    public SqlBuilderResult buildUpdateJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(64);
         String tableAlias = sqlDataConsumer.getMainTableDatum().getTableAlias();
@@ -275,11 +272,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
         }
         this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult updateJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean) {
+    public SqlBuilderResult buildUpdateJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(64);
         String tableAlias = sqlDataConsumer.getMainTableDatum().getTableAlias();
@@ -304,11 +301,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             preparedStatementArgs.add(value);
         }
         this.appendWhereSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult updateArgsByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object... args) {
+    public SqlBuilderResult buildUpdateArgsByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object... args) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(args.length + 1);
         preparedStatementSql.append("update `")
@@ -332,11 +329,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append("` = ?");
         preparedStatementArgs.addAll(Arrays.asList(args));
         preparedStatementArgs.add(primaryKeyValue);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult updateJavaBeanByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean) {
+    public SqlBuilderResult buildUpdateJavaBeanByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(65);
         preparedStatementSql.append("update `")
@@ -360,11 +357,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(primaryKeyName)
                 .append("` = ?");
         preparedStatementArgs.add(primaryKeyValue);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult updateJavaBeanByPrimaryKeySelective(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean) {
+    public SqlBuilderResult buildUpdateJavaBeanByPrimaryKeySelective(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean) {
         StringBuilder preparedStatementSql = new StringBuilder(512);
         List<Object> preparedStatementArgs = new ArrayList<>(65);
         preparedStatementSql.append("update `")
@@ -393,11 +390,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(primaryKeyName)
                 .append("` = ?");
         preparedStatementArgs.add(primaryKeyValue);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
+    public SqlBuilderResult buildBatchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
         StringBuilder preparedStatementSql = new StringBuilder(2048);
         List<Object> preparedStatementArgs = new ArrayList<>(128);
         String tableAlias = sqlDataConsumer.getMainTableDatum().getTableAlias();
@@ -478,11 +475,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(inSql.toString())
                 .append(")");
         preparedStatementArgs.addAll(inArgs);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult updateOrInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
+    public SqlBuilderResult buildUpdateOrInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans) {
         StringBuilder preparedStatementSql = new StringBuilder(2048);
         List<Object> preparedStatementArgs = new ArrayList<>(128);
         preparedStatementSql.append("insert into ")
@@ -519,11 +516,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
         }
         preparedStatementSql.append(" on duplicate key update ").append(onSql.toString());
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult query(SqlDataConsumer sqlDataConsumer) {
+    public SqlBuilderResult buildQuery(SqlDataConsumer sqlDataConsumer) {
         StringBuilder preparedStatementSql = new StringBuilder(1024);
         List<Object> preparedStatementArgs = new ArrayList<>(32);
         preparedStatementSql.append("select");
@@ -537,11 +534,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
         this.appendGroupSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         this.appendSortSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
         this.appendLimitSqlArgs(preparedStatementSql, preparedStatementArgs, sqlDataConsumer);
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult queryCount(SqlDataConsumer sqlDataConsumer) {
+    public SqlBuilderResult buildQueryCount(SqlDataConsumer sqlDataConsumer) {
         StringBuilder preparedStatementSql = new StringBuilder(1024);
         List<Object> preparedStatementArgs = new ArrayList<>(32);
         StringBuilder groupSqlBuilder = new StringBuilder(32);
@@ -577,11 +574,11 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
             }
             preparedStatementSql.append(") C");
         }
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
     @Override
-    public SqlBuilderResult queryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue) {
+    public SqlBuilderResult buildQueryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue) {
         StringBuilder preparedStatementSql = new StringBuilder(128);
         List<Object> preparedStatementArgs = Collections.singletonList(primaryKeyValue);
         preparedStatementSql.append("select");
@@ -595,7 +592,7 @@ public class DefaultMySqlBuilderTemplate extends AbstractMySqlBuilderTemplate {
                 .append(".`")
                 .append(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
                 .append("` = ?");
-        return new SqlBuilderResult(preparedStatementSql.toString(), preparedStatementArgs);
+        return SqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
 
 }

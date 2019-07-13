@@ -323,7 +323,7 @@ public class MySqlDynamicEngineDeleteTest {
     /**
      * 条件删除 - 所有Where条件子查询
      */
-    @Test
+//    @Test
     void Test_delete_allWhereSubQuery() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on

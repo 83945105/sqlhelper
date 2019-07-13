@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.beans;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,6 +10,25 @@ import java.util.List;
  * @date 2019/5/25
  */
 public final class SqlBuilderResult {
+
+    private final static String EMPTY_STRING = "";
+
+    /**
+     * 空结果
+     */
+    public final static SqlBuilderResult NONE = new SqlBuilderResult(EMPTY_STRING, Collections.emptyList());
+
+    public static SqlBuilderResult newInstance(String preparedStatementSql) {
+        return new SqlBuilderResult(preparedStatementSql, Collections.emptyList());
+    }
+
+    public static SqlBuilderResult newInstance(List<Object> preparedStatementArgs) {
+        return new SqlBuilderResult(EMPTY_STRING, preparedStatementArgs);
+    }
+
+    public static SqlBuilderResult newInstance(String preparedStatementSql, List<Object> preparedStatementArgs) {
+        return new SqlBuilderResult(preparedStatementSql, preparedStatementArgs);
+    }
 
     /**
      * 预编译sql
@@ -20,7 +40,7 @@ public final class SqlBuilderResult {
      */
     private List<Object> preparedStatementArgs;
 
-    public SqlBuilderResult(String preparedStatementSql, List<Object> preparedStatementArgs) {
+    private SqlBuilderResult(String preparedStatementSql, List<Object> preparedStatementArgs) {
         this.preparedStatementSql = preparedStatementSql;
         this.preparedStatementArgs = preparedStatementArgs;
     }

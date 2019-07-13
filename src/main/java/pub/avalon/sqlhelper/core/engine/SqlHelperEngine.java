@@ -29,6 +29,47 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
 
     private DefaultTableEngine<T, TO, TC, TW, TG, TS> tableEngine;
 
+    /*@Override
+    public String getSql() {
+        //TODO 待实现 通过正则表达式将预编译参数替换进预编译sql
+        return null;
+    }
+
+    @Override
+    public String getPreparedStatementSql() {
+        String sql = this.preparedStatementSql.toString();
+        if (this.sqlEnabled && this.logger.isDebugEnabled()) {
+            if (this.colour) {
+                logger.debug("sqlhelper PreparedStatementSQL  [" + sql + "]");
+            } else {
+                logger.debug(Ansi.ansi().eraseScreen()
+                        .fg(Ansi.Color.CYAN)
+                        .a("sqlhelper ")
+                        .fg(Ansi.Color.YELLOW)
+                        .a("PreparedStatementSQL  [" + sql + "]")
+                        .reset());
+            }
+        }
+        return sql;
+    }
+
+    @Override
+    public List<Object> getPreparedStatementArgs() {
+        if (this.argsEnabled && this.logger.isDebugEnabled()) {
+            if (this.colour) {
+                logger.debug("sqlhelper PreparedStatementArgs " + this.preparedStatementArgs.toString());
+            } else {
+                logger.debug(Ansi.ansi().eraseScreen()
+                        .fg(Ansi.Color.CYAN)
+                        .a("sqlhelper ")
+                        .fg(Ansi.Color.RED)
+                        .a("PreparedStatementArgs " + this.preparedStatementArgs.toString())
+                        .reset());
+            }
+        }
+        return this.preparedStatementArgs;
+    }*/
+
     public SqlHelperEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableHelperClass);
     }

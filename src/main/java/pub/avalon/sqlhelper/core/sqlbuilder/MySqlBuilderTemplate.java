@@ -3,6 +3,8 @@ package pub.avalon.sqlhelper.core.sqlbuilder;
 import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 
 /**
+ * MySql构建器模板
+ *
  * @author 白超
  * @date 2019/5/23
  */

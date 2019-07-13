@@ -156,12 +156,19 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (columnHelpers == null || columnHelpers.length == 0) {
             return this;
         }
+        Set<ColumnDatum> columnData;
+        for (ColumnHelper<?> columnHelper : columnHelpers) {
+            columnData = columnHelper.takeoutSqlPartData();
+        }
         //TODO 未实现 待确认该方法是否限定TableHelper类型
         return this;
     }
 
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
+        if (callback == null) {
+            return this;
+        }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
         // 设置配置开始
         tc.setTableName(this.tableName);
