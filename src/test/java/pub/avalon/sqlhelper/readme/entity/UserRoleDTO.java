@@ -201,20 +201,40 @@ public class UserRoleDTO {
             return new Helper();
         }
 
+        public static On on() {
+            return new On(TABLE_ALIAS);
+        }
+
         public static On on(String tableAlias) {
             return new On(tableAlias);
+        }
+
+        public static Column column() {
+            return new Column(TABLE_ALIAS);
         }
 
         public static Column column(String tableAlias) {
             return new Column(tableAlias);
         }
 
+        public static Where where() {
+            return new Where(TABLE_ALIAS);
+        }
+
         public static Where where(String tableAlias) {
             return new Where(tableAlias);
         }
 
+        public static Group group() {
+            return new Group(TABLE_ALIAS);
+        }
+
         public static Group group(String tableAlias) {
             return new Group(tableAlias);
+        }
+
+        public static Sort sort() {
+            return new Sort(TABLE_ALIAS);
         }
 
         public static Sort sort(String tableAlias) {
