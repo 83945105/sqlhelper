@@ -201,24 +201,24 @@ public class UserRoleDTO {
             return new Helper();
         }
 
-        public static On on() {
-            return new On();
+        public static On on(String tableAlias) {
+            return new On(tableAlias);
         }
 
-        public static Column column() {
-            return new Column();
+        public static Column column(String tableAlias) {
+            return new Column(tableAlias);
         }
 
-        public static Where where() {
-            return new Where();
+        public static Where where(String tableAlias) {
+            return new Where(tableAlias);
         }
 
-        public static Group group() {
-            return new Group();
+        public static Group group(String tableAlias) {
+            return new Group(tableAlias);
         }
 
-        public static Sort sort() {
-            return new Sort();
+        public static Sort sort(String tableAlias) {
+            return new Sort(tableAlias);
         }
 
         @Override
@@ -252,34 +252,34 @@ public class UserRoleDTO {
         }
 
         @Override
-        public On newOnHelper() {
-            return on();
+        public On newOnHelper(String tableAlias) {
+            return on(tableAlias);
         }
 
         @Override
-        public Column newColumnHelper() {
-            return column();
+        public Column newColumnHelper(String tableAlias) {
+            return column(tableAlias);
         }
 
         @Override
-        public Where newWhereHelper() {
-            return where();
+        public Where newWhereHelper(String tableAlias) {
+            return where(tableAlias);
         }
 
         @Override
-        public Group newGroupHelper() {
-            return group();
+        public Group newGroupHelper(String tableAlias) {
+            return group(tableAlias);
         }
 
         @Override
-        public Sort newSortHelper() {
-            return sort();
+        public Sort newSortHelper(String tableAlias) {
+            return sort(tableAlias);
         }
 
         public final static class On extends OnHelper<On> {
 
-            private On() {
-                super();
+            private On(String tableAlias) {
+                super(tableAlias);
             }
 
             public OnSqlPartDatumBuilder<On> primaryKey() {
@@ -308,8 +308,8 @@ public class UserRoleDTO {
 
         public final static class Column extends ColumnHelper<Column> {
 
-            private Column() {
-                super();
+            private Column(String tableAlias) {
+                super(tableAlias);
             }
 
             public Column primaryKey() {
@@ -362,8 +362,8 @@ public class UserRoleDTO {
 
         public final static class Where extends WhereHelper<Where> {
 
-            private Where() {
-                super();
+            private Where(String tableAlias) {
+                super(tableAlias);
             }
 
             public WhereSqlPartDatumBuilder<Where> primaryKey() {
@@ -392,8 +392,8 @@ public class UserRoleDTO {
 
         public final static class Group extends GroupHelper<Group> {
 
-            private Group() {
-                super();
+            private Group(String tableAlias) {
+                super(tableAlias);
             }
 
             public Group primaryKey() {
@@ -422,8 +422,8 @@ public class UserRoleDTO {
 
         public final static class Sort extends SortHelper<Sort> {
 
-            private Sort() {
-                super();
+            private Sort(String tableAlias) {
+                super(tableAlias);
             }
 
             public SortSqlPartDatumBuilder<Sort> primaryKey() {

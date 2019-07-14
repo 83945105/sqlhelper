@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
  */
 public class SortHelper<T extends SortHelper<T>> extends Helper<T, SortDatum> {
 
-    public SortHelper() {
-        super(new SortSqlPartDatumBuilder<>());
+    public SortHelper(String tableAlias) {
+        super(new SortSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override
-    protected SortSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (SortSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected SortSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
+        return (SortSqlPartDatumBuilder<T>) super.apply(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
     }
 
 }

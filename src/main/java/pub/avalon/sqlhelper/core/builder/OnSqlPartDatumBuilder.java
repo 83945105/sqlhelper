@@ -26,23 +26,16 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
 
     private OnDatum onDatum;
 
-    private String tableName;
-    private String tableAlias;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
-        this.onDatum = new OnDatum(this.tableName == null ? tableName : this.tableName, this.tableAlias == null ? tableAlias : this.tableAlias, columnName, columnAlias, fieldName);
+    public OnSqlPartDatumBuilder(String tableAlias) {
+        super(tableAlias);
     }
 
     @Override
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    @Override
-    public void setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.onDatum = new OnDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
+                .setOwnerTableAlias(this.tableAlias);
     }
 
     @Override
@@ -57,19 +50,19 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
 
     @Override
     public T isNull() {
-        this.onDatum.setOnType(OnType.IS_NULL);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(0);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.IS_NULL)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(0));
         return this.getHelper();
     }
 
     @Override
     public T isNotNull() {
-        this.onDatum.setOnType(OnType.IS_NOT_NULL);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(0);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.IS_NOT_NULL)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(0));
         return this.getHelper();
     }
 
@@ -85,11 +78,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.EQUAL);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(1);
-        this.onDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.EQUAL)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -105,11 +98,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.NOT_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(1);
-        this.onDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.NOT_EQUAL)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -125,11 +118,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.GREATER);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(1);
-        this.onDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.GREATER)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -145,11 +138,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.GREATER_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(1);
-        this.onDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.GREATER_EQUAL)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -165,11 +158,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.LESS);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(1);
-        this.onDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.LESS)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -185,11 +178,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.LESS_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(1);
-        this.onDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.LESS_EQUAL)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -215,12 +208,12 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.BETWEEN);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(2);
-        this.onDatum.setTargetValue(value);
-        this.onDatum.setTargetSecondValue(secondValue);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.BETWEEN)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(2)
+                .setTargetValue(value)
+                .setTargetSecondValue(secondValue));
         return this.getHelper();
     }
 
@@ -236,11 +229,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.LIKE);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(1);
-        this.onDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.LIKE)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -256,11 +249,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.IN);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(values.length);
-        this.onDatum.setTargetValue(values);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.IN)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(values.length)
+                .setTargetValue(values));
         return this.getHelper();
     }
 
@@ -276,11 +269,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.IN);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(values.size());
-        this.onDatum.setTargetValue(values);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.IN)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(values.size())
+                .setTargetValue(values));
         return this.getHelper();
     }
 
@@ -296,11 +289,11 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
                     throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
             }
         }
-        this.onDatum.setOnType(OnType.NOT_IN);
-        this.onDatum.setOnValueType(OnValueType.VALUE);
-        this.onDatum.setValueCount(values.length);
-        this.onDatum.setTargetValue(values);
-        this.addSqlPartDatum(this.onDatum);
+        this.addSqlPartDatum(this.onDatum
+                .setOnType(OnType.NOT_IN)
+                .setOnValueType(OnValueType.VALUE)
+                .setValueCount(values.length)
+                .setTargetValue(values));
         return this.getHelper();
     }
 
@@ -417,7 +410,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
@@ -446,7 +440,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.NOT_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
@@ -475,7 +470,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
@@ -504,7 +500,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
@@ -533,7 +530,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
@@ -562,7 +560,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
-        SC sc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();

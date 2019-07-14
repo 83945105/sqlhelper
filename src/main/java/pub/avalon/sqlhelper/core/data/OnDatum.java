@@ -14,6 +14,26 @@ import java.util.Objects;
  */
 public final class OnDatum implements SqlPartDatum {
 
+    private String ownerTemplateTableName;
+
+    private String ownerTemplateTableAlias;
+
+    private String ownerTemplateColumnName;
+
+    private String ownerTemplateColumnAlias;
+
+    private String ownerMappingFieldName;
+
+    private String targetTemplateTableName;
+
+    private String targetTemplateTableAlias;
+
+    private String targetTemplateColumnName;
+
+    private String targetTemplateColumnAlias;
+
+    private String targetMappingFieldName;
+
     private String ownerTableName;
 
     private String ownerTableAlias;
@@ -21,8 +41,6 @@ public final class OnDatum implements SqlPartDatum {
     private String ownerColumnName;
 
     private String ownerColumnAlias;
-
-    private String ownerMappingFieldName;
 
     private OnType onType = OnType.EQUAL;
 
@@ -36,140 +54,229 @@ public final class OnDatum implements SqlPartDatum {
 
     private String targetColumnAlias;
 
-    private String targetMappingFieldName;
-
     private Object targetValue;
 
     private Object targetSecondValue;
 
     private int valueCount;
 
-    public OnDatum(String ownerTableName, String ownerTableAlias, String ownerColumnName, String ownerColumnAlias, String ownerMappingFieldName) {
-        this.ownerTableName = ownerTableName;
-        this.ownerTableAlias = ownerTableAlias;
-        this.ownerColumnName = ownerColumnName;
-        this.ownerColumnAlias = ownerColumnAlias;
+    public OnDatum(String ownerTemplateTableName, String ownerTemplateTableAlias, String ownerTemplateColumnName, String ownerTemplateColumnAlias, String ownerMappingFieldName) {
+        this.ownerTemplateTableName = ownerTemplateTableName;
+        this.ownerTemplateTableAlias = ownerTemplateTableAlias;
+        this.ownerTemplateColumnName = ownerTemplateColumnName;
+        this.ownerTemplateColumnAlias = ownerTemplateColumnAlias;
         this.ownerMappingFieldName = ownerMappingFieldName;
+        this.ownerTableName = ownerTemplateTableName;
+        this.ownerTableAlias = ownerTemplateTableAlias;
+        this.ownerColumnName = ownerTemplateColumnName;
+        this.ownerColumnAlias = ownerTemplateColumnAlias;
     }
 
-    public String getOwnerTableName() {
-        return ownerTableName;
+    public OnDatum setOwnerTemplateTableName(String ownerTemplateTableName) {
+        this.ownerTemplateTableName = ownerTemplateTableName;
+        return this;
     }
 
-    public void setOwnerTableName(String ownerTableName) {
+    public OnDatum setOwnerTemplateTableAlias(String ownerTemplateTableAlias) {
+        this.ownerTemplateTableAlias = ownerTemplateTableAlias;
+        return this;
+    }
+
+    public OnDatum setOwnerTemplateColumnName(String ownerTemplateColumnName) {
+        this.ownerTemplateColumnName = ownerTemplateColumnName;
+        return this;
+    }
+
+    public OnDatum setOwnerTemplateColumnAlias(String ownerTemplateColumnAlias) {
+        this.ownerTemplateColumnAlias = ownerTemplateColumnAlias;
+        return this;
+    }
+
+    public OnDatum setOwnerMappingFieldName(String ownerMappingFieldName) {
+        this.ownerMappingFieldName = ownerMappingFieldName;
+        return this;
+    }
+
+    public OnDatum setTargetTemplateTableName(String targetTemplateTableName) {
+        this.targetTemplateTableName = targetTemplateTableName;
+        return this;
+    }
+
+    public OnDatum setTargetTemplateTableAlias(String targetTemplateTableAlias) {
+        this.targetTemplateTableAlias = targetTemplateTableAlias;
+        return this;
+    }
+
+    public OnDatum setTargetTemplateColumnName(String targetTemplateColumnName) {
+        this.targetTemplateColumnName = targetTemplateColumnName;
+        return this;
+    }
+
+    public OnDatum setTargetTemplateColumnAlias(String targetTemplateColumnAlias) {
+        this.targetTemplateColumnAlias = targetTemplateColumnAlias;
+        return this;
+    }
+
+    public OnDatum setTargetMappingFieldName(String targetMappingFieldName) {
+        this.targetMappingFieldName = targetMappingFieldName;
+        return this;
+    }
+
+    public OnDatum setOwnerTableName(String ownerTableName) {
         this.ownerTableName = ownerTableName;
+        return this;
     }
 
-    public String getOwnerTableAlias() {
-        return ownerTableAlias;
-    }
-
-    public void setOwnerTableAlias(String ownerTableAlias) {
+    public OnDatum setOwnerTableAlias(String ownerTableAlias) {
         this.ownerTableAlias = ownerTableAlias;
+        return this;
     }
 
-    public String getOwnerColumnName() {
-        return ownerColumnName;
-    }
-
-    public void setOwnerColumnName(String ownerColumnName) {
+    public OnDatum setOwnerColumnName(String ownerColumnName) {
         this.ownerColumnName = ownerColumnName;
+        return this;
     }
 
-    public String getOwnerColumnAlias() {
-        return ownerColumnAlias;
-    }
-
-    public void setOwnerColumnAlias(String ownerColumnAlias) {
+    public OnDatum setOwnerColumnAlias(String ownerColumnAlias) {
         this.ownerColumnAlias = ownerColumnAlias;
+        return this;
+    }
+
+    public OnDatum setOnType(OnType onType) {
+        this.onType = onType;
+        return this;
+    }
+
+    public OnDatum setOnValueType(OnValueType onValueType) {
+        this.onValueType = onValueType;
+        return this;
+    }
+
+    public OnDatum setTargetTableName(String targetTableName) {
+        this.targetTableName = targetTableName;
+        return this;
+    }
+
+    public OnDatum setTargetTableAlias(String targetTableAlias) {
+        this.targetTableAlias = targetTableAlias;
+        return this;
+    }
+
+    public OnDatum setTargetColumnName(String targetColumnName) {
+        this.targetColumnName = targetColumnName;
+        return this;
+    }
+
+    public OnDatum setTargetColumnAlias(String targetColumnAlias) {
+        this.targetColumnAlias = targetColumnAlias;
+        return this;
+    }
+
+    public OnDatum setTargetValue(Object targetValue) {
+        this.targetValue = targetValue;
+        return this;
+    }
+
+    public OnDatum setTargetSecondValue(Object targetSecondValue) {
+        this.targetSecondValue = targetSecondValue;
+        return this;
+    }
+
+    public OnDatum setValueCount(int valueCount) {
+        this.valueCount = valueCount;
+        return this;
+    }
+
+    public String getOwnerTemplateTableName() {
+        return ownerTemplateTableName;
+    }
+
+    public String getOwnerTemplateTableAlias() {
+        return ownerTemplateTableAlias;
+    }
+
+    public String getOwnerTemplateColumnName() {
+        return ownerTemplateColumnName;
+    }
+
+    public String getOwnerTemplateColumnAlias() {
+        return ownerTemplateColumnAlias;
     }
 
     public String getOwnerMappingFieldName() {
         return ownerMappingFieldName;
     }
 
-    public void setOwnerMappingFieldName(String ownerMappingFieldName) {
-        this.ownerMappingFieldName = ownerMappingFieldName;
+    public String getTargetTemplateTableName() {
+        return targetTemplateTableName;
     }
 
-    public OnType getOnType() {
-        return onType;
+    public String getTargetTemplateTableAlias() {
+        return targetTemplateTableAlias;
     }
 
-    public void setOnType(OnType onType) {
-        this.onType = onType;
+    public String getTargetTemplateColumnName() {
+        return targetTemplateColumnName;
     }
 
-    public OnValueType getOnValueType() {
-        return onValueType;
-    }
-
-    public void setOnValueType(OnValueType onValueType) {
-        this.onValueType = onValueType;
-    }
-
-    public String getTargetTableName() {
-        return targetTableName;
-    }
-
-    public void setTargetTableName(String targetTableName) {
-        this.targetTableName = targetTableName;
-    }
-
-    public String getTargetTableAlias() {
-        return targetTableAlias;
-    }
-
-    public void setTargetTableAlias(String targetTableAlias) {
-        this.targetTableAlias = targetTableAlias;
-    }
-
-    public String getTargetColumnName() {
-        return targetColumnName;
-    }
-
-    public void setTargetColumnName(String targetColumnName) {
-        this.targetColumnName = targetColumnName;
-    }
-
-    public String getTargetColumnAlias() {
-        return targetColumnAlias;
-    }
-
-    public void setTargetColumnAlias(String targetColumnAlias) {
-        this.targetColumnAlias = targetColumnAlias;
+    public String getTargetTemplateColumnAlias() {
+        return targetTemplateColumnAlias;
     }
 
     public String getTargetMappingFieldName() {
         return targetMappingFieldName;
     }
 
-    public void setTargetMappingFieldName(String targetMappingFieldName) {
-        this.targetMappingFieldName = targetMappingFieldName;
+    public String getOwnerTableName() {
+        return ownerTableName;
+    }
+
+    public String getOwnerTableAlias() {
+        return ownerTableAlias;
+    }
+
+    public String getOwnerColumnName() {
+        return ownerColumnName;
+    }
+
+    public String getOwnerColumnAlias() {
+        return ownerColumnAlias;
+    }
+
+    public OnType getOnType() {
+        return onType;
+    }
+
+    public OnValueType getOnValueType() {
+        return onValueType;
+    }
+
+    public String getTargetTableName() {
+        return targetTableName;
+    }
+
+    public String getTargetTableAlias() {
+        return targetTableAlias;
+    }
+
+    public String getTargetColumnName() {
+        return targetColumnName;
+    }
+
+    public String getTargetColumnAlias() {
+        return targetColumnAlias;
     }
 
     public Object getTargetValue() {
         return targetValue;
     }
 
-    public void setTargetValue(Object targetValue) {
-        this.targetValue = targetValue;
-    }
-
     public Object getTargetSecondValue() {
         return targetSecondValue;
     }
 
-    public void setTargetSecondValue(Object targetSecondValue) {
-        this.targetSecondValue = targetSecondValue;
-    }
-
     public int getValueCount() {
         return valueCount;
-    }
-
-    public void setValueCount(int valueCount) {
-        this.valueCount = valueCount;
     }
 
     @Override
@@ -181,25 +288,33 @@ public final class OnDatum implements SqlPartDatum {
             return false;
         }
         OnDatum onDatum = (OnDatum) o;
-        return Objects.equals(getOwnerTableName(), onDatum.getOwnerTableName()) &&
+        return getValueCount() == onDatum.getValueCount() &&
+                Objects.equals(getOwnerTemplateTableName(), onDatum.getOwnerTemplateTableName()) &&
+                Objects.equals(getOwnerTemplateTableAlias(), onDatum.getOwnerTemplateTableAlias()) &&
+                Objects.equals(getOwnerTemplateColumnName(), onDatum.getOwnerTemplateColumnName()) &&
+                Objects.equals(getOwnerTemplateColumnAlias(), onDatum.getOwnerTemplateColumnAlias()) &&
+                Objects.equals(getOwnerMappingFieldName(), onDatum.getOwnerMappingFieldName()) &&
+                Objects.equals(getTargetTemplateTableName(), onDatum.getTargetTemplateTableName()) &&
+                Objects.equals(getTargetTemplateTableAlias(), onDatum.getTargetTemplateTableAlias()) &&
+                Objects.equals(getTargetTemplateColumnName(), onDatum.getTargetTemplateColumnName()) &&
+                Objects.equals(getTargetTemplateColumnAlias(), onDatum.getTargetTemplateColumnAlias()) &&
+                Objects.equals(getTargetMappingFieldName(), onDatum.getTargetMappingFieldName()) &&
+                Objects.equals(getOwnerTableName(), onDatum.getOwnerTableName()) &&
                 Objects.equals(getOwnerTableAlias(), onDatum.getOwnerTableAlias()) &&
                 Objects.equals(getOwnerColumnName(), onDatum.getOwnerColumnName()) &&
                 Objects.equals(getOwnerColumnAlias(), onDatum.getOwnerColumnAlias()) &&
-                Objects.equals(getOwnerMappingFieldName(), onDatum.getOwnerMappingFieldName()) &&
                 getOnType() == onDatum.getOnType() &&
                 getOnValueType() == onDatum.getOnValueType() &&
                 Objects.equals(getTargetTableName(), onDatum.getTargetTableName()) &&
                 Objects.equals(getTargetTableAlias(), onDatum.getTargetTableAlias()) &&
                 Objects.equals(getTargetColumnName(), onDatum.getTargetColumnName()) &&
                 Objects.equals(getTargetColumnAlias(), onDatum.getTargetColumnAlias()) &&
-                Objects.equals(getTargetMappingFieldName(), onDatum.getTargetMappingFieldName()) &&
                 Objects.equals(getTargetValue(), onDatum.getTargetValue()) &&
                 Objects.equals(getTargetSecondValue(), onDatum.getTargetSecondValue());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getOwnerMappingFieldName(), getOnType(), getOnValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetColumnAlias(), getTargetMappingFieldName(), getTargetValue(), getTargetSecondValue());
+        return Objects.hash(getOwnerTemplateTableName(), getOwnerTemplateTableAlias(), getOwnerTemplateColumnName(), getOwnerTemplateColumnAlias(), getOwnerMappingFieldName(), getTargetTemplateTableName(), getTargetTemplateTableAlias(), getTargetTemplateColumnName(), getTargetTemplateColumnAlias(), getTargetMappingFieldName(), getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getOnType(), getOnValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetColumnAlias(), getTargetValue(), getTargetSecondValue(), getValueCount());
     }
-
 }

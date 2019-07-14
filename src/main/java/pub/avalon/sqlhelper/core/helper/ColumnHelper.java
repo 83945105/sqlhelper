@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
  */
 public class ColumnHelper<T extends ColumnHelper<T>> extends Helper<T, ColumnDatum> {
 
-    public ColumnHelper() {
-        super(new ColumnSqlPartDatumBuilder<>());
+    public ColumnHelper(String tableAlias) {
+        super(new ColumnSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override
-    protected ColumnSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (ColumnSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected ColumnSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
+        return (ColumnSqlPartDatumBuilder<T>) super.apply(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
     }
 
 }

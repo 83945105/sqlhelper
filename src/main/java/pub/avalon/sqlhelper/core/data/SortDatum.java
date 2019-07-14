@@ -13,6 +13,16 @@ import java.util.Objects;
  */
 public final class SortDatum implements SqlPartDatum {
 
+    private String templateTableName;
+
+    private String templateTableAlias;
+
+    private String templateColumnName;
+
+    private String templateColumnAlias;
+
+    private String mappingFieldName;
+
     private String tableName;
 
     private String tableAlias;
@@ -21,64 +31,108 @@ public final class SortDatum implements SqlPartDatum {
 
     private String columnAlias;
 
-    private String mappingFieldName;
-
     private SortType sortType = SortType.ASC;
 
-    public SortDatum(String tableName, String tableAlias, String columnName, String columnAlias, String mappingFieldName) {
-        this.tableName = tableName;
-        this.tableAlias = tableAlias;
-        this.columnName = columnName;
-        this.columnAlias = columnAlias;
+    public SortDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.templateTableName = templateTableName;
+        this.templateTableAlias = templateTableAlias;
+        this.templateColumnName = templateColumnName;
+        this.templateColumnAlias = templateColumnAlias;
         this.mappingFieldName = mappingFieldName;
+        this.tableName = templateTableName;
+        this.tableAlias = templateTableAlias;
+        this.columnName = templateColumnName;
+        this.columnAlias = templateColumnAlias;
     }
 
-    public String getTableName() {
-        return tableName;
+    public SortDatum setTemplateTableName(String templateTableName) {
+        this.templateTableName = templateTableName;
+        return this;
     }
 
-    public void setTableName(String tableName) {
+    public SortDatum setTemplateTableAlias(String templateTableAlias) {
+        this.templateTableAlias = templateTableAlias;
+        return this;
+    }
+
+    public SortDatum setTemplateColumnName(String templateColumnName) {
+        this.templateColumnName = templateColumnName;
+        return this;
+    }
+
+    public SortDatum setTemplateColumnAlias(String templateColumnAlias) {
+        this.templateColumnAlias = templateColumnAlias;
+        return this;
+    }
+
+    public SortDatum setMappingFieldName(String mappingFieldName) {
+        this.mappingFieldName = mappingFieldName;
+        return this;
+    }
+
+    public SortDatum setTableName(String tableName) {
         this.tableName = tableName;
+        return this;
     }
 
-    public String getTableAlias() {
-        return tableAlias;
-    }
-
-    public void setTableAlias(String tableAlias) {
+    public SortDatum setTableAlias(String tableAlias) {
         this.tableAlias = tableAlias;
+        return this;
     }
 
-    public String getColumnName() {
-        return columnName;
-    }
-
-    public void setColumnName(String columnName) {
+    public SortDatum setColumnName(String columnName) {
         this.columnName = columnName;
+        return this;
     }
 
-    public String getColumnAlias() {
-        return columnAlias;
-    }
-
-    public void setColumnAlias(String columnAlias) {
+    public SortDatum setColumnAlias(String columnAlias) {
         this.columnAlias = columnAlias;
+        return this;
+    }
+
+    public SortDatum setSortType(SortType sortType) {
+        this.sortType = sortType;
+        return this;
+    }
+
+    public String getTemplateTableName() {
+        return templateTableName;
+    }
+
+    public String getTemplateTableAlias() {
+        return templateTableAlias;
+    }
+
+    public String getTemplateColumnName() {
+        return templateColumnName;
+    }
+
+    public String getTemplateColumnAlias() {
+        return templateColumnAlias;
     }
 
     public String getMappingFieldName() {
         return mappingFieldName;
     }
 
-    public void setMappingFieldName(String mappingFieldName) {
-        this.mappingFieldName = mappingFieldName;
+    public String getTableName() {
+        return tableName;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public String getColumnAlias() {
+        return columnAlias;
     }
 
     public SortType getSortType() {
         return sortType;
-    }
-
-    public void setSortType(SortType sortType) {
-        this.sortType = sortType;
     }
 
     @Override
@@ -90,17 +144,20 @@ public final class SortDatum implements SqlPartDatum {
             return false;
         }
         SortDatum sortDatum = (SortDatum) o;
-        return Objects.equals(getTableName(), sortDatum.getTableName()) &&
+        return Objects.equals(getTemplateTableName(), sortDatum.getTemplateTableName()) &&
+                Objects.equals(getTemplateTableAlias(), sortDatum.getTemplateTableAlias()) &&
+                Objects.equals(getTemplateColumnName(), sortDatum.getTemplateColumnName()) &&
+                Objects.equals(getTemplateColumnAlias(), sortDatum.getTemplateColumnAlias()) &&
+                Objects.equals(getMappingFieldName(), sortDatum.getMappingFieldName()) &&
+                Objects.equals(getTableName(), sortDatum.getTableName()) &&
                 Objects.equals(getTableAlias(), sortDatum.getTableAlias()) &&
                 Objects.equals(getColumnName(), sortDatum.getColumnName()) &&
                 Objects.equals(getColumnAlias(), sortDatum.getColumnAlias()) &&
-                Objects.equals(getMappingFieldName(), sortDatum.getMappingFieldName()) &&
                 getSortType() == sortDatum.getSortType();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTableName(), getTableAlias(), getColumnName(), getColumnAlias(), getMappingFieldName(), getSortType());
+        return Objects.hash(getTemplateTableName(), getTemplateTableAlias(), getTemplateColumnName(), getTemplateColumnAlias(), getMappingFieldName(), getTableName(), getTableAlias(), getColumnName(), getColumnAlias(), getSortType());
     }
-
 }

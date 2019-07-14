@@ -170,10 +170,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (callback == null) {
             return this;
         }
-        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
+        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper(this.tableAlias);
         // 设置配置开始
-        tc.setTableName(this.tableName);
-        tc.setTableAlias(this.tableAlias);
         tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         tc = callback.apply(tc);
@@ -194,11 +192,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
-        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
-        SC sc = s.newColumnHelper();
+        SC sc = s.newColumnHelper(tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias);
         // 设置配置开始
-        sc.setTableName(s.getTableName());
-        sc.setTableAlias(tableAlias);
         sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         sc = callback.apply(sc);
@@ -224,10 +219,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (groupType == null) {
             return this;
         }
-        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper();
+        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper(this.tableAlias);
         // 设置配置开始
-        tc.setTableName(this.tableName);
-        tc.setTableAlias(this.tableAlias);
         tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         tc = callback.apply(tc);
@@ -251,11 +244,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             return this;
         }
         S s = BeanUtils.tableHelper(tableHelperClass);
-        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
-        SC sc = s.newColumnHelper();
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         // 设置配置开始
-        sc.setTableName(s.getTableName());
-        sc.setTableAlias(tableAlias);
         sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         sc = callback.apply(sc);
@@ -292,17 +282,13 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
         JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, tableHelperClass, s, tableName, tableAlias);
         this.addJoinTableDatum(joinTableDatum);
-        TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper();
+        TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper(this.tableAlias);
         // 设置配置开始
-        to.setTableName(this.tableName);
-        to.setTableAlias(this.tableAlias);
         to.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
-        SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper();
+        SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper(tableAlias);
         // 设置配置开始
-        so.setTableName(tableName);
-        so.setTableAlias(tableAlias);
         so.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         if (callback == null) {
@@ -322,10 +308,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (callback == null) {
             return this;
         }
-        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper(this.tableAlias);
         // 设置配置开始
-        tw.setTableName(this.tableName);
-        tw.setTableAlias(this.tableAlias);
         tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), tw);
@@ -349,16 +333,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         }
         S s = BeanUtils.tableHelper(tableHelperClass);
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
-        SW sw = s.newWhereHelper();
+        SW sw = s.newWhereHelper(tableAlias);
         // 设置配置开始
-        sw.setTableName(s.getTableName());
-        sw.setTableAlias(tableAlias);
         sw.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper();
+        TW tw = BeanUtils.tableHelper(this.tableHelperClass).newWhereHelper(this.tableAlias);
         // 设置配置开始
-        tw.setTableName(this.tableName);
-        tw.setTableAlias(this.tableAlias);
         tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw, tw);
@@ -381,10 +361,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
-        TG tg = BeanUtils.tableHelper(this.tableHelperClass).newGroupHelper();
+        TG tg = BeanUtils.tableHelper(this.tableHelperClass).newGroupHelper(this.tableAlias);
         // 设置配置开始
-        tg.setTableName(this.tableName);
-        tg.setTableAlias(this.tableAlias);
         tg.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         tg = callback.apply(tg);
@@ -405,10 +383,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
-        SG sg = s.newGroupHelper();
+        SG sg = s.newGroupHelper(tableAlias);
         // 设置配置开始
-        sg.setTableName(s.getTableName());
-        sg.setTableAlias(tableAlias);
         sg.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         sg = callback.apply(sg);
@@ -431,10 +407,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
-        TS ts = BeanUtils.tableHelper(this.tableHelperClass).newSortHelper();
+        TS ts = BeanUtils.tableHelper(this.tableHelperClass).newSortHelper(this.tableAlias);
         // 设置配置开始
-        ts.setTableName(this.tableName);
-        ts.setTableAlias(this.tableAlias);
         ts.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         ts = callback.apply(ts);
@@ -455,10 +429,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
-        SS ss = s.newSortHelper();
+        SS ss = s.newSortHelper(tableAlias);
         // 设置配置开始
-        ss.setTableName(s.getTableName());
-        ss.setTableAlias(tableAlias);
         ss.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         ss = callback.apply(ss);

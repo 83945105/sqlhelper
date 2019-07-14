@@ -25,37 +25,19 @@ public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
     /**
      * 接收数据
      *
-     * @param tableName   表名
-     * @param tableAlias  表别名
-     * @param columnName  列名
-     * @param columnAlias 列别名
+     * @param templateTableName   模板表名
+     * @param templateTableAlias  模板表别名
+     * @param templateColumnName  模板列名
+     * @param templateColumnAlias 模板列别名
      * @return {@link SqlPartDatumBuilder}
      */
-    protected SqlPartDatumBuilder<T, E> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.sqlPartDatumBuilder.accept(tableName, tableAlias, columnName, columnAlias);
+    protected SqlPartDatumBuilder<T, E> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
+        this.sqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
         return this.sqlPartDatumBuilder;
     }
 
     public Set<E> takeoutSqlPartData() {
         return this.sqlPartDatumBuilder.takeoutSqlPartData();
-    }
-
-    /**
-     * 设置表名
-     *
-     * @param tableName 表名
-     */
-    public void setTableName(String tableName) {
-        this.sqlPartDatumBuilder.setTableName(tableName);
-    }
-
-    /**
-     * 设置表别名
-     *
-     * @param tableAlias 表别名
-     */
-    public void setTableAlias(String tableAlias) {
-        this.sqlPartDatumBuilder.setTableAlias(tableAlias);
     }
 
     /**

@@ -12,23 +12,16 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
  */
 public final class GroupSqlPartDatumBuilder<T extends Helper<T, GroupDatum>> extends AbstractSqlPartDatumBuilder<T, GroupDatum> {
 
-    private String tableName;
-    private String tableAlias;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
-        this.addSqlPartDatum(new GroupDatum(this.tableName == null ? tableName : this.tableName, this.tableAlias == null ? tableAlias : this.tableAlias, columnName, columnAlias, fieldName));
+    public GroupSqlPartDatumBuilder(String tableAlias) {
+        super(tableAlias);
     }
 
     @Override
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    @Override
-    public void setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.addSqlPartDatum(new GroupDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
+                .setTableAlias(this.tableAlias));
     }
 
     @Override

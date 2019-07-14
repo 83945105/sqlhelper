@@ -10,6 +10,16 @@ import java.util.Objects;
  */
 public final class ColumnDatum implements SqlPartDatum {
 
+    private String templateTableName;
+
+    private String templateTableAlias;
+
+    private String templateColumnName;
+
+    private String templateColumnAlias;
+
+    private String mappingFieldName;
+
     private String tableName;
 
     private String tableAlias;
@@ -18,54 +28,97 @@ public final class ColumnDatum implements SqlPartDatum {
 
     private String columnAlias;
 
-    private String mappingFieldName;
-
-    public ColumnDatum(String tableName, String tableAlias, String columnName, String columnAlias, String mappingFieldName) {
-        this.tableName = tableName;
-        this.tableAlias = tableAlias;
-        this.columnName = columnName;
-        this.columnAlias = columnAlias;
+    public ColumnDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.templateTableName = templateTableName;
+        this.templateTableAlias = templateTableAlias;
+        this.templateColumnName = templateColumnName;
+        this.templateColumnAlias = templateColumnAlias;
         this.mappingFieldName = mappingFieldName;
+        this.tableName = templateTableName;
+        this.tableAlias = templateTableAlias;
+        this.columnName = templateColumnName;
+        this.columnAlias = templateColumnAlias;
     }
 
-    public String getTableName() {
-        return tableName;
+    public ColumnDatum setTemplateTableName(String templateTableName) {
+        this.templateTableName = templateTableName;
+        return this;
     }
 
-    public void setTableName(String tableName) {
+    public ColumnDatum setTemplateTableAlias(String templateTableAlias) {
+        this.templateTableAlias = templateTableAlias;
+        return this;
+    }
+
+    public ColumnDatum setTemplateColumnName(String templateColumnName) {
+        this.templateColumnName = templateColumnName;
+        return this;
+    }
+
+    public ColumnDatum setTemplateColumnAlias(String templateColumnAlias) {
+        this.templateColumnAlias = templateColumnAlias;
+        return this;
+    }
+
+    public ColumnDatum setMappingFieldName(String mappingFieldName) {
+        this.mappingFieldName = mappingFieldName;
+        return this;
+    }
+
+    public ColumnDatum setTableName(String tableName) {
         this.tableName = tableName;
+        return this;
     }
 
-    public String getTableAlias() {
-        return tableAlias;
-    }
-
-    public void setTableAlias(String tableAlias) {
+    public ColumnDatum setTableAlias(String tableAlias) {
         this.tableAlias = tableAlias;
+        return this;
     }
 
-    public String getColumnName() {
-        return columnName;
-    }
-
-    public void setColumnName(String columnName) {
+    public ColumnDatum setColumnName(String columnName) {
         this.columnName = columnName;
+        return this;
     }
 
-    public String getColumnAlias() {
-        return columnAlias;
-    }
-
-    public void setColumnAlias(String columnAlias) {
+    public ColumnDatum setColumnAlias(String columnAlias) {
         this.columnAlias = columnAlias;
+        return this;
+    }
+
+    public String getTemplateTableName() {
+        return templateTableName;
+    }
+
+    public String getTemplateTableAlias() {
+        return templateTableAlias;
+    }
+
+    public String getTemplateColumnName() {
+        return templateColumnName;
+    }
+
+    public String getTemplateColumnAlias() {
+        return templateColumnAlias;
     }
 
     public String getMappingFieldName() {
         return mappingFieldName;
     }
 
-    public void setMappingFieldName(String mappingFieldName) {
-        this.mappingFieldName = mappingFieldName;
+    public String getTableName() {
+        return tableName;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public String getColumnAlias() {
+        return columnAlias;
     }
 
     @Override
@@ -77,16 +130,19 @@ public final class ColumnDatum implements SqlPartDatum {
             return false;
         }
         ColumnDatum that = (ColumnDatum) o;
-        return Objects.equals(getTableName(), that.getTableName()) &&
+        return Objects.equals(getTemplateTableName(), that.getTemplateTableName()) &&
+                Objects.equals(getTemplateTableAlias(), that.getTemplateTableAlias()) &&
+                Objects.equals(getTemplateColumnName(), that.getTemplateColumnName()) &&
+                Objects.equals(getTemplateColumnAlias(), that.getTemplateColumnAlias()) &&
+                Objects.equals(getMappingFieldName(), that.getMappingFieldName()) &&
+                Objects.equals(getTableName(), that.getTableName()) &&
                 Objects.equals(getTableAlias(), that.getTableAlias()) &&
                 Objects.equals(getColumnName(), that.getColumnName()) &&
-                Objects.equals(getColumnAlias(), that.getColumnAlias()) &&
-                Objects.equals(getMappingFieldName(), that.getMappingFieldName());
+                Objects.equals(getColumnAlias(), that.getColumnAlias());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTableName(), getTableAlias(), getColumnName(), getColumnAlias(), getMappingFieldName());
+        return Objects.hash(getTemplateTableName(), getTemplateTableAlias(), getTemplateColumnName(), getTemplateColumnAlias(), getMappingFieldName(), getTableName(), getTableAlias(), getColumnName(), getColumnAlias());
     }
-
 }

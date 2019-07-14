@@ -12,23 +12,16 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
  */
 public final class ColumnSqlPartDatumBuilder<S extends Helper<S, ColumnDatum>> extends AbstractSqlPartDatumBuilder<S, ColumnDatum> {
 
-    private String tableName;
-    private String tableAlias;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
-        this.addSqlPartDatum(new ColumnDatum(this.tableName == null ? tableName : this.tableName, this.tableAlias == null ? tableAlias : this.tableAlias, columnName, columnAlias, fieldName));
+    public ColumnSqlPartDatumBuilder(String tableAlias) {
+        super(tableAlias);
     }
 
     @Override
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    @Override
-    public void setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.addSqlPartDatum(new ColumnDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
+                .setTableAlias(this.tableAlias));
     }
 
     @Override

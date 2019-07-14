@@ -62,36 +62,41 @@ public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     /**
      * 创建On助手
      *
+     * @param tableAlias 表别名
      * @return {@link OnHelper}
      */
-    TO newOnHelper();
+    TO newOnHelper(String tableAlias);
 
     /**
      * 创建列助手
      *
+     * @param tableAlias 表别名
      * @return {@link ColumnHelper}
      */
-    TC newColumnHelper();
+    TC newColumnHelper(String tableAlias);
 
     /**
      * 创建条件助手
      *
+     * @param tableAlias 表别名
      * @return {@link WhereHelper}
      */
-    TW newWhereHelper();
+    TW newWhereHelper(String tableAlias);
 
     /**
      * 创建分组助手
      *
+     * @param tableAlias 表别名
      * @return {@link GroupHelper}
      */
-    TG newGroupHelper();
+    TG newGroupHelper(String tableAlias);
 
     /**
      * 创建排序助手
      *
+     * @param tableAlias 表别名
      * @return {@link SortHelper}
      */
-    TS newSortHelper();
+    TS newSortHelper(String tableAlias);
 
 }

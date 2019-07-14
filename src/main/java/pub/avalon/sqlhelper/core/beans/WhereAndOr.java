@@ -73,7 +73,8 @@ public final class WhereAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SS extends SortHelper<SS>> WhereAndOr<T, TO, TC, TW, TG, TS> and(Class<S> tableHelperClass,
                                                                              String tableAlias,
                                                                              WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
-        SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
@@ -130,7 +131,7 @@ public final class WhereAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * 或
      *
      * @param tableHelperClass 目标条件类
-     * @param alias            目标条件别名
+     * @param tableAlias            目标条件别名
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
@@ -142,7 +143,8 @@ public final class WhereAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SS extends SortHelper<SS>> WhereAndOr<T, TO, TC, TW, TG, TS> or(Class<S> tableHelperClass,
                                                                             String tableAlias,
                                                                             WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
-        SW sw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper();
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {

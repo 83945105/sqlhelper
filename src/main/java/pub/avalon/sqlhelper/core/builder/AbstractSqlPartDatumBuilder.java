@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -13,6 +14,15 @@ import java.util.Set;
  * @date 2019/5/2
  */
 public abstract class AbstractSqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDatum> implements SqlPartDatumBuilder<S, E> {
+
+    protected String tableAlias;
+
+    public AbstractSqlPartDatumBuilder(String tableAlias) {
+        if (tableAlias == null) {
+            ExceptionUtils.tableAliasNullException();
+        }
+        this.tableAlias = tableAlias;
+    }
 
     private S helper;
     private Set<E> sqlPartData = null;

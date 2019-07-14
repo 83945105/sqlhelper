@@ -46,40 +46,25 @@ public interface SqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDa
     /**
      * 接收数据
      *
-     * @param tableName   表名
-     * @param tableAlias  表别名
-     * @param columnName  列名
-     * @param columnAlias 列别名
-     * @param fieldName   属性名
+     * @param templateTableName   模板表名
+     * @param templateTableAlias  模板表别名
+     * @param templateColumnName  模板列名
+     * @param templateColumnAlias 模板列别名
+     * @param mappingFieldName    映射属性名
      */
-    void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName);
+    void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName);
 
     /**
      * 接收数据
      *
-     * @param tableName   表名
-     * @param tableAlias  表别名
-     * @param columnName  列名
-     * @param columnAlias 列别名
+     * @param templateTableName   模板表名
+     * @param templateTableAlias  模板表别名
+     * @param templateColumnName  模板列名
+     * @param templateColumnAlias 模板列别名
      */
-    default void accept(String tableName, String tableAlias, String columnName, String columnAlias) {
-        this.accept(tableName, tableAlias, columnName, columnAlias, columnAlias);
+    default void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
+        this.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, templateColumnAlias);
     }
-
-    /**
-     * 设置表名
-     *
-     * @param tableName 表名
-     */
-    void setTableName(String tableName);
-
-    /**
-     * 设置表别名
-     *
-     * @param tableAlias 表别名
-     */
-    void setTableAlias(String tableAlias);
-
 
     /**
      * 设置Sql构建配置

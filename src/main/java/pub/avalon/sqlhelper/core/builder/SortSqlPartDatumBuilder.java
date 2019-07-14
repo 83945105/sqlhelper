@@ -16,23 +16,16 @@ public final class SortSqlPartDatumBuilder<T extends Helper<T, SortDatum>> exten
 
     private SortDatum sortDatum;
 
-    private String tableName;
-    private String tableAlias;
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    @Override
-    public void accept(String tableName, String tableAlias, String columnName, String columnAlias, String fieldName) {
-        this.sortDatum = new SortDatum(this.tableName == null ? tableName : this.tableName, this.tableAlias == null ? tableAlias : this.tableAlias, columnName, columnAlias, fieldName);
+    public SortSqlPartDatumBuilder(String tableAlias) {
+        super(tableAlias);
     }
 
     @Override
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
-
-    @Override
-    public void setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.sortDatum = new SortDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
+                .setTableAlias(this.tableAlias);
     }
 
     @Override

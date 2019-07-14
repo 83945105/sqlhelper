@@ -11,13 +11,13 @@ import pub.avalon.sqlhelper.core.data.GroupDatum;
  */
 public class GroupHelper<T extends GroupHelper<T>> extends Helper<T, GroupDatum> {
 
-    public GroupHelper() {
-        super(new GroupSqlPartDatumBuilder<>());
+    public GroupHelper(String tableAlias) {
+        super(new GroupSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override
-    protected GroupSqlPartDatumBuilder<T> apply(String tableName, String tableAlias, String columnName, String columnAlias) {
-        return (GroupSqlPartDatumBuilder<T>) super.apply(tableName, tableAlias, columnName, columnAlias);
+    protected GroupSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
+        return (GroupSqlPartDatumBuilder<T>) super.apply(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
     }
 
 }
