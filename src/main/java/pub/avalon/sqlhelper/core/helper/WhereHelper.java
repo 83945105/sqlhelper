@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.data.WhereDatum;
 public class WhereHelper<T extends WhereHelper<T>> extends Helper<T, WhereDatum> {
 
     public WhereHelper(String tableAlias) {
-        super(new WhereSqlPartDatumBuilder<>(tableAlias));
+        super(tableAlias, new WhereSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override

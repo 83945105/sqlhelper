@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ public final class TableOnDatum {
 
     public TableOnDatum(String tableAlias, List<OnDataLinker> onDataLinkers) {
         if (tableAlias == null) {
-            throw new RuntimeException("tableAlias can not be null.");
+            ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
         this.onDataLinkers = onDataLinkers;

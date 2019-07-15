@@ -14,10 +14,13 @@ import java.util.Set;
  */
 public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
 
+    protected String tableAlias;
+
     private SqlPartDatumBuilder<T, E> sqlPartDatumBuilder;
 
     @SuppressWarnings("unchecked")
-    public Helper(SqlPartDatumBuilder<T, E> sqlPartDatumBuilder) {
+    public Helper(String tableAlias, SqlPartDatumBuilder<T, E> sqlPartDatumBuilder) {
+        this.tableAlias = tableAlias;
         sqlPartDatumBuilder.setHelper((T) this);
         this.sqlPartDatumBuilder = sqlPartDatumBuilder;
     }
@@ -34,6 +37,10 @@ public class Helper<T extends Helper<T, E>, E extends SqlPartDatum> {
     protected SqlPartDatumBuilder<T, E> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
         this.sqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
         return this.sqlPartDatumBuilder;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
     }
 
     public Set<E> takeoutSqlPartData() {

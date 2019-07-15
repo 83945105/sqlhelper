@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ public final class TableWhereDatum {
 
     public TableWhereDatum(String tableAlias, List<WhereDataLinker> whereDataLinkers) {
         if (tableAlias == null) {
-            throw new RuntimeException("tableAlias can not be null.");
+            ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
         this.whereDataLinkers = whereDataLinkers;

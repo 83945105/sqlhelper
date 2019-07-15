@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+
 import java.util.Set;
 
 /**
@@ -17,7 +19,7 @@ public final class TableSortDatum {
 
     public TableSortDatum(String tableAlias, Set<SortDatum> sortData) {
         if (tableAlias == null) {
-            throw new RuntimeException("tableAlias can not be null.");
+            ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
         this.sortData = sortData;

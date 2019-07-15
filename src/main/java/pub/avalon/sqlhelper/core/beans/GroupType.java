@@ -22,5 +22,17 @@ public enum GroupType {
     /**
      * 总和
      */
-    SUM
+    SUM,
+    /**
+     * 平均值
+     */
+    AVG,
+    /**
+     * 标准偏差
+     */
+    STDDEV,
+    /**
+     * 方差
+     */
+    VARIANCE
 }

@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
 public class ColumnHelper<T extends ColumnHelper<T>> extends Helper<T, ColumnDatum> {
 
     public ColumnHelper(String tableAlias) {
-        super(new ColumnSqlPartDatumBuilder<>(tableAlias));
+        super(tableAlias, new ColumnSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override

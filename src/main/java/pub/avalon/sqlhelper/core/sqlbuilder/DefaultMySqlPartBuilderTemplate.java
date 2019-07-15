@@ -7,6 +7,7 @@ import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.*;
 
@@ -255,8 +256,17 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                     case SUM:
                         sql.append("sum(");
                         break;
+                    case AVG:
+                        sql.append("avg(");
+                        break;
+                    case STDDEV:
+                        sql.append("stddev(");
+                        break;
+                    case VARIANCE:
+                        sql.append("variance(");
+                        break;
                     default:
-                        throw new SqlException("the functionColumnType is wrong.");
+                        ExceptionUtils.groupTypeNotSupportException();
                 }
                 sql.append(tableFunctionColumnDatum.getTableAlias())
                         .append(".`")

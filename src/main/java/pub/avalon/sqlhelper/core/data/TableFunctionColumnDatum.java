@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.GroupType;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Set;
 
@@ -20,7 +21,7 @@ public final class TableFunctionColumnDatum {
 
     public TableFunctionColumnDatum(String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
         if (tableAlias == null) {
-            throw new RuntimeException("tableAlias can not be null.");
+            ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
         this.groupType = groupType;

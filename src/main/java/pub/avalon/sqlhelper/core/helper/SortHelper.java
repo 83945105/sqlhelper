@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
 public class SortHelper<T extends SortHelper<T>> extends Helper<T, SortDatum> {
 
     public SortHelper(String tableAlias) {
-        super(new SortSqlPartDatumBuilder<>(tableAlias));
+        super(tableAlias, new SortSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override

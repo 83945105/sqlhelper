@@ -340,7 +340,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     @Test
     void TestFunctionColumn01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .functionColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
+                .groupColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilder, "select count(SysUser.`id`) `id` from `sys_user` SysUser where SysUser.`id` = ?");
     }
@@ -348,7 +348,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     @Test
     void TestFunctionColumnAndVirtualColumn01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .functionColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
+                .groupColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
                 .virtualColumn(1, "AA")
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilder, "select count(SysUser.`id`) `id`, 1 `AA` from `sys_user` SysUser where SysUser.`id` = ?");
@@ -357,7 +357,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     @Test
     void TestFunctionColumnAndVirtualColumnAndColumn01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .functionColumn(GroupType.COUNT, table -> table.id("idCount"))
+                .groupColumn(GroupType.COUNT, table -> table.id("idCount"))
                 .virtualColumn(1, "AA")
                 .column(table -> table)
                 .queryByPrimaryKey(arg());

@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
+import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
@@ -20,18 +21,87 @@ public class MySqlDynamicEngineColumnTest {
     /**
      * 测试列 - 传统方式
      */
-//    @Test
+    @Test
     void Test_column() {
         SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id().loginName();
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(column)
                 .query();
-        Assertions.assertEquals("delete from `sys_user` where `id` = ?", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
     }
 
     /**
-     * 测试列 - lambda方式
+     * 测试列 - 指定表名
+     */
+    @Test
+    void Test_column_assignTableName() {
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id().loginName();
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+                .column(column)
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName` from `sys_user_custom` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试列 - 指定表别名
+     */
+    @Test
+    void Test_column_assignTableAlias() {
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column("A").id().loginName();
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class, "A")
+                .column(column)
+                .query();
+        Assertions.assertEquals("select A.`id` `id`,A.`login_name` `loginName` from `sys_user_custom` A", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试列 - 指定表名 & 指定表别名
+     */
+    @Test
+    void Test_column_assignTableName_assignTableAlias() {
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column("A").id().loginName();
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
+                .column(column)
+                .query();
+        Assertions.assertEquals("select A.`id` `id`,A.`login_name` `loginName` from `sys_user` A", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试列 - 指定列别名
+     */
+    @Test
+    void Test_column_assignColumnAlias() {
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id("idAlias").loginName("loginNameAlias");
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(column)
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `idAlias`,SysUser.`login_name` `loginNameAlias` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试多列 - 指定列别名
+     */
+    @Test
+    void Test_multiColumn_assignColumnAlias() {
+        SysUserDTO.Helper.Column column1 = SysUserDTO.Helper.column().id().loginName();
+        SysUserDTO.Helper.Column column2 = SysUserDTO.Helper.column().id("idAlias").loginName("loginNameAlias");
+        UserRoleDTO.Helper.Column column3 = UserRoleDTO.Helper.column().roleId().id("userRoleId");
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(column1, column2, column3)
+                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName`,SysUser.`id` `idAlias`,SysUser.`login_name` `loginNameAlias`,UserRole.`role_id` `roleId`,UserRole.`id` `userRoleId` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试lambda列
      */
     @Test
     void Test_lambdaColumn() {
@@ -43,7 +113,7 @@ public class MySqlDynamicEngineColumnTest {
     }
 
     /**
-     * 测试列 - lambda方式 & 指定表名
+     * 测试lambda列 - 指定表名
      */
     @Test
     void Test_lambdaColumn_assignTableName() {
@@ -55,7 +125,7 @@ public class MySqlDynamicEngineColumnTest {
     }
 
     /**
-     * 测试列 - lambda方式 & 指定表别名
+     * 测试lambda列 - 指定表别名
      */
     @Test
     void Test_lambdaColumn_assignTableAlias() {
@@ -66,7 +136,54 @@ public class MySqlDynamicEngineColumnTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
     }
 
+    /**
+     * 测试lambda多列 - 指定列别名
+     */
+    @Test
+    void Test_lambdaMultiColumn_assignColumnAlias() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(table -> table.id().loginName())
+                .column(UserRoleDTO.Helper.class, table -> table.id("userRoleId").roleId())
+                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName`,UserRole.`id` `userRoleId`,UserRole.`role_id` `roleId` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
 
+    /**
+     * 测试虚拟列
+     */
+    @Test
+    void Test_virtualColumn() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .virtualColumn(null, "null")
+                .virtualColumn("0", null)
+                .virtualColumn(1, "1")
+                .virtualColumn(2L, "2")
+                .virtualColumn(3.0, "3.0")
+                .virtualColumn("4", "4")
+                .query();
+        Assertions.assertEquals("select null `null`,1 `1`,2 `2`,3.0 `3.0`,'4' `4` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
 
+    /**
+     * 测试聚合列 - 指定列别名
+     */
+    @Test
+    void Test_groupColumn_assignColumnAlias() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .groupColumn(GroupType.COUNT, table -> table.id("countId"))
+                .groupColumn(GroupType.MIN, table -> table.id("minId"))
+                .groupColumn(GroupType.MAX, table -> table.id("maxId"))
+                .groupColumn(GroupType.SUM, table -> table.id("sumId"))
+                .groupColumn(GroupType.AVG, table -> table.id("avgId"))
+                .groupColumn(GroupType.STDDEV, table -> table.id("stddevId"))
+                .groupColumn(GroupType.VARIANCE, table -> table.id("varianceId"))
+                .query();
+        Assertions.assertEquals("select count(SysUser.`id`) `countId`,min(SysUser.`id`) `minId`,max(SysUser.`id`) `maxId`,sum(SysUser.`id`) `sumId`,avg(SysUser.`id`) `avgId`,stddev(SysUser.`id`) `stddevId`,variance(SysUser.`id`) `varianceId` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
 
 }

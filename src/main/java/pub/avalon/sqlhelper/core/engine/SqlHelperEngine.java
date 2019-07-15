@@ -129,8 +129,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> functionColumn(GroupType groupType, ColumnCallback<TC> callback) {
-        this.tableEngine.functionColumn(groupType, callback);
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> callback) {
+        this.tableEngine.groupColumn(groupType, callback);
         return this;
     }
 
@@ -140,8 +140,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
-        this.tableEngine.functionColumn(tableHelperClass, tableAlias, groupType, callback);
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
+        this.tableEngine.groupColumn(tableHelperClass, tableAlias, groupType, callback);
         return this;
     }
 

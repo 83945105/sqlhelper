@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.data.OnDatum;
 public class OnHelper<T extends OnHelper<T>> extends Helper<T, OnDatum> {
 
     public OnHelper(String tableAlias) {
-        super(new OnSqlPartDatumBuilder<>(tableAlias));
+        super(tableAlias, new OnSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override

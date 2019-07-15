@@ -36,9 +36,9 @@ public class Test {
                         .where((condition, mainTable) -> condition
                                 .and(mainTable.userName().equalTo(""))).query(), "subQuery")*/
                 .virtualColumn(1, "")
-                .functionColumn(GroupType.COUNT, table -> table.id("").id(""))
-                .functionColumn(SysUserDTO.Helper.class, GroupType.MIN, table -> table.userName().userName(""))
-                .functionColumn(SysUserDTO.Helper.class, "", GroupType.MIN, table -> table.userName().userName(""))
+                .groupColumn(GroupType.COUNT, table -> table.id("").id(""))
+                .groupColumn(SysUserDTO.Helper.class, GroupType.MIN, table -> table.userName().userName(""))
+                .groupColumn(SysUserDTO.Helper.class, "", GroupType.MIN, table -> table.userName().userName(""))
                 .innerJoin(SysUserDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userName().equalTo(mainTable.id()))
                         .and(mainTable.id().equalTo(joinTable.userName()))

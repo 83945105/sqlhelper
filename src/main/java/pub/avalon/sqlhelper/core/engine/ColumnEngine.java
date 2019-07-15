@@ -19,10 +19,30 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>, R extends ColumnEngine<T, TO, TC, TW, TG, TS, R>> {
 
+    /**
+     * 设置列
+     *
+     * @param columnHelpers {@link ColumnHelper}
+     * @return {@link ColumnEngine}
+     */
     R column(ColumnHelper<?>... columnHelpers);
 
+    /**
+     * 执行列回调
+     *
+     * @param callback {@link ColumnCallback}
+     * @return {@link ColumnEngine}
+     */
     R column(ColumnCallback<TC> callback);
 
+    /**
+     * 执行指定列回调
+     *
+     * @param tableHelperClass 表助手
+     * @param tableAlias       表别名
+     * @param callback         {@link ColumnCallback}
+     * @return {@link ColumnEngine}
+     */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
@@ -30,6 +50,13 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback);
 
+    /**
+     * 执行指定列回调
+     *
+     * @param tableHelperClass 表助手
+     * @param callback         {@link ColumnCallback}
+     * @return {@link ColumnEngine}
+     */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
@@ -39,24 +66,32 @@ public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         return column(tableHelperClass, null, callback);
     }
 
+    /**
+     * 虚拟列
+     *
+     * @param value 值
+     * @param alias 别名
+     * @return {@link ColumnEngine}
+     */
     R virtualColumn(Object value, String alias);
 
-    R functionColumn(GroupType groupType, ColumnCallback<TC> callback);
+
+    R groupColumn(GroupType groupType, ColumnCallback<TC> callback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R functionColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback);
+            SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R functionColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> callback) {
-        return functionColumn(tableHelperClass, null, groupType, callback);
+            SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> callback) {
+        return groupColumn(tableHelperClass, null, groupType, callback);
     }
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,

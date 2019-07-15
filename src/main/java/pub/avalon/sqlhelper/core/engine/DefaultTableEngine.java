@@ -10,6 +10,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -47,7 +48,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
+            ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
@@ -61,7 +62,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
         if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
+            ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
@@ -75,7 +76,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
         if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
+            ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
@@ -89,7 +90,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
         if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
+            ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
@@ -103,10 +104,10 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, String tableAlias) {
         if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
+            ExceptionUtils.tableHelperClassNullException();
         }
         if (tableAlias == null) {
-            throw new RuntimeException("tableAlias can not be null.");
+            ExceptionUtils.tableAliasNullException();
         }
         this.tableHelperClass = tableHelperClass;
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
@@ -120,10 +121,10 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
         if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
+            ExceptionUtils.tableHelperClassNullException();
         }
         if (tableAlias == null) {
-            throw new RuntimeException("tableAlias can not be null.");
+            ExceptionUtils.tableAliasNullException();
         }
         this.tableHelperClass = tableHelperClass;
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
@@ -137,10 +138,10 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     public DefaultTableEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
         if (tableHelperClass == null) {
-            throw new RuntimeException("tableHelperClass can not be null.");
+            ExceptionUtils.tableHelperClassNullException();
         }
         if (tableAlias == null) {
-            throw new RuntimeException("tableAlias can not be null.");
+            ExceptionUtils.tableAliasNullException();
         }
         this.tableHelperClass = tableHelperClass;
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
@@ -160,8 +161,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         Set<ColumnDatum> columnData;
         for (ColumnHelper<?> columnHelper : columnHelpers) {
             columnData = columnHelper.takeoutSqlPartData();
+            this.addTableColumnDatum(new TableColumnDatum(columnHelper.getTableAlias(), columnData));
         }
-        //TODO 未实现 待确认该方法是否限定TableHelper类型
         return this;
     }
 
@@ -191,6 +192,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
+        if (tableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
+        if (callback == null) {
+            return this;
+        }
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias);
         // 设置配置开始
@@ -207,6 +214,9 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
 
     @Override
     public DefaultTableEngine<T, TO, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
+        if (alias == null) {
+            return this;
+        }
         VirtualFieldDatum virtualFieldDatum = new VirtualFieldDatum();
         virtualFieldDatum.setValue(value);
         virtualFieldDatum.setAlias(alias);
@@ -215,8 +225,11 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> functionColumn(GroupType groupType, ColumnCallback<TC> callback) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> callback) {
         if (groupType == null) {
+            ExceptionUtils.groupTypeNullException();
+        }
+        if (callback == null) {
             return this;
         }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper(this.tableAlias);
@@ -239,8 +252,14 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> functionColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
         if (groupType == null) {
+            ExceptionUtils.groupTypeNullException();
+        }
+        if (tableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
+        if (callback == null) {
             return this;
         }
         S s = BeanUtils.tableHelper(tableHelperClass);

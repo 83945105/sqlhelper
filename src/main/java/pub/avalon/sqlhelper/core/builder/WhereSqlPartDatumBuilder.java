@@ -12,6 +12,7 @@ import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.exception.ComparisonException;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Collection;
 import java.util.Set;
@@ -88,7 +89,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] equalTo, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.EQUAL);
@@ -107,7 +108,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] notEqualTo, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
@@ -126,7 +127,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] greaterThan, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.GREATER);
@@ -145,7 +146,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
@@ -164,7 +165,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] lessThan, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.LESS);
@@ -183,7 +184,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] lessThanAndEqualTo, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
@@ -202,7 +203,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] between, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         if (secondValue == null) {
@@ -212,7 +213,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] between, the secondValue can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.BETWEEN);
@@ -232,7 +233,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] like, the value can not be null.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.LIKE);
@@ -251,7 +252,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.IN);
@@ -270,7 +271,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.IN);
@@ -289,7 +290,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.NOT_IN);
@@ -308,7 +309,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
                 case NULL_THROW_EXCEPTION:
                     throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
                 default:
-                    throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being");
+                    ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
         this.whereDatum.setWhereType(WhereType.NOT_IN);

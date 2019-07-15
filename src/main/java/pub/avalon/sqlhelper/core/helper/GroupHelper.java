@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.data.GroupDatum;
 public class GroupHelper<T extends GroupHelper<T>> extends Helper<T, GroupDatum> {
 
     public GroupHelper(String tableAlias) {
-        super(new GroupSqlPartDatumBuilder<>(tableAlias));
+        super(tableAlias, new GroupSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override
