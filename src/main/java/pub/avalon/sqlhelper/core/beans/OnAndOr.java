@@ -16,18 +16,13 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class OnAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>,
+public final class OnAndOr<TO extends OnHelper<TO>,
         S extends TableHelper<S, SO, SC, SW, SG, SS>,
         SO extends OnHelper<SO>,
         SC extends ColumnHelper<SC>,
         SW extends WhereHelper<SW>,
         SG extends GroupHelper<SG>,
-        SS extends SortHelper<SS>> implements OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> {
+        SS extends SortHelper<SS>> implements OnLinker<TO, S, SO, SC, SW, SG, SS> {
 
     private List<OnDataLinker> onDataLinkers = new ArrayList<>();
 
@@ -39,7 +34,7 @@ public final class OnAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public OnAndOr<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> and(OnHelper<?> onHelper) {
+    public OnAndOr<TO, S, SO, SC, SW, SG, SS> and(OnHelper<?> onHelper) {
         if (onHelper == null) {
             return this;
         }
@@ -54,8 +49,8 @@ public final class OnAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public OnAndOr<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> and(OnLinkerCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
-        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = callback.apply(new OnAndOr<>());
+    public OnAndOr<TO, S, SO, SC, SW, SG, SS> and(OnLinkerCallback<TO, S, SO, SC, SW, SG, SS> callback) {
+        OnLinker<TO, S, SO, SC, SW, SG, SS> onLinker = callback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
@@ -72,7 +67,7 @@ public final class OnAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param onHelper On助手
      * @return {@link OnAndOr}
      */
-    public OnAndOr<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> or(OnHelper<?> onHelper) {
+    public OnAndOr<TO, S, SO, SC, SW, SG, SS> or(OnHelper<?> onHelper) {
         if (onHelper == null) {
             return this;
         }
@@ -92,8 +87,8 @@ public final class OnAndOr<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param callback On条件连接器回调
      * @return {@link OnAndOr}
      */
-    public OnAndOr<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> or(OnLinkerCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
-        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = callback.apply(new OnAndOr<>());
+    public OnAndOr<TO, S, SO, SC, SW, SG, SS> or(OnLinkerCallback<TO, S, SO, SC, SW, SG, SS> callback) {
+        OnLinker<TO, S, SO, SC, SW, SG, SS> onLinker = callback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;

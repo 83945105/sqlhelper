@@ -8,12 +8,7 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @date 2019/5/16
  */
 @FunctionalInterface
-public interface OnCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>,
+public interface OnCallback<TO extends OnHelper<TO>,
         S extends TableHelper<S, SO, SC, SW, SG, SS>,
         SO extends OnHelper<SO>,
         SC extends ColumnHelper<SC>,
@@ -29,6 +24,6 @@ public interface OnCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param mainTable 主表
      * @return {@link OnLinker}
      */
-    OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> apply(OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> on, SO joinTable, TO mainTable);
+    OnLinker<TO, S, SO, SC, SW, SG, SS> apply(OnLinker<TO, S, SO, SC, SW, SG, SS> on, SO joinTable, TO mainTable);
 
 }

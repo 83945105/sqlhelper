@@ -295,7 +295,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TO, S, SO, SC, SW, SG, SS> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         tableName = tableName == null ? s.getTableName() : tableName;
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
@@ -305,7 +305,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         // 设置配置开始
         to.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
+        OnLinker<TO, S, SO, SC, SW, SG, SS> onLinker = new OnAndOr<>();
         SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper(tableAlias);
         // 设置配置开始
         so.setSqlBuilderOptions(this.sqlBuilderOptions);
@@ -313,7 +313,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         if (callback == null) {
             return this;
         }
-        OnLinker<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
+        OnLinker<TO, S, SO, SC, SW, SG, SS> linker = callback.apply(onLinker, so, to);
         List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;

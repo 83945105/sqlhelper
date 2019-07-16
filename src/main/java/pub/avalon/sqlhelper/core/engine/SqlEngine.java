@@ -68,11 +68,6 @@ public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback) {
-        return null;
-    }
-
-    @Override
     public SqlEngine<T, TO, TC, TW, TG, TS> limitTop(Long num) {
         return null;
     }
@@ -117,4 +112,8 @@ public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         return null;
     }
 
+    @Override
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TO, S, SO, SC, SW, SG, SS> callback) {
+        return null;
+    }
 }

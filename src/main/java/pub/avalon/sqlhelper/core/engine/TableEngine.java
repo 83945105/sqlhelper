@@ -16,9 +16,9 @@ public interface TableEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TS extends SortHelper<TS>,
         R extends TableEngine<T, TO, TC, TW, TG, TS, R>> extends
         ColumnEngine<TC, R>,
-        JoinEngine<T, TO, TC, TW, TG, TS, R>,
+        JoinEngine<TO, R>,
         WhereEngine<TW, R>,
         GroupEngine<TG, R>,
         SortEngine<TS, R>,
-        LimitEngine<T, TO, TC, TW, TG, TS, R> {
+        LimitEngine<R> {
 }

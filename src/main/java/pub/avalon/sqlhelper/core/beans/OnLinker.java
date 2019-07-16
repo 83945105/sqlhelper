@@ -13,12 +13,7 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface OnLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>,
+public interface OnLinker<TO extends OnHelper<TO>,
         S extends TableHelper<S, SO, SC, SW, SG, SS>,
         SO extends OnHelper<SO>,
         SC extends ColumnHelper<SC>,
@@ -40,7 +35,7 @@ public interface OnLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param onHelper On助手
      * @return {@link OnAndOr}
      */
-    OnAndOr<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> and(OnHelper<?> onHelper);
+    OnAndOr<TO, S, SO, SC, SW, SG, SS> and(OnHelper<?> onHelper);
 
     /**
      * 且
@@ -48,6 +43,6 @@ public interface OnLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param callback On条件连接器回调
      * @return On条件连接器 {@link OnAndOr}
      */
-    OnAndOr<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> and(OnLinkerCallback<T, TO, TC, TW, TG, TS, S, SO, SC, SW, SG, SS> callback);
+    OnAndOr<TO, S, SO, SC, SW, SG, SS> and(OnLinkerCallback<TO, S, SO, SC, SW, SG, SS> callback);
 
 }
