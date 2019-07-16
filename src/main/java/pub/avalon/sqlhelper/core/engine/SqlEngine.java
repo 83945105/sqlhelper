@@ -108,12 +108,13 @@ public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback) {
+    public SqlEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
         return null;
     }
+
 }

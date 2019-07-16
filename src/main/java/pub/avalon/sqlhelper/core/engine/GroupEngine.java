@@ -10,12 +10,7 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface GroupEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>, R extends GroupEngine<T, TO, TC, TW, TG, TS, R>> {
+public interface GroupEngine<TG extends GroupHelper<TG>, R extends GroupEngine<TG, R>> {
 
     R group(GroupHelper<?>... groupHelpers);
 

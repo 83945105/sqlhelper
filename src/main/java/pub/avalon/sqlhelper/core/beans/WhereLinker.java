@@ -14,12 +14,7 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> {
+public interface WhereLinker<TW extends WhereHelper<TW>> {
 
     /**
      * 取出条件数据连接器
@@ -35,7 +30,7 @@ public interface WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param whereHelper 条件助手
      * @return {@link WhereAndOr}
      */
-    WhereAndOr<T, TO, TC, TW, TG, TS> and(WhereHelper<?> whereHelper);
+    WhereAndOr<TW> and(WhereHelper<?> whereHelper);
 
     /**
      * 且
@@ -43,7 +38,7 @@ public interface WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param callback 条件连接器回调
      * @return {@link pub.avalon.sqlhelper.core.callback.WhereCallback}
      */
-    WhereAndOr<T, TO, TC, TW, TG, TS> and(WhereLinkerCallback<T, TO, TC, TW, TG, TS> callback);
+    WhereAndOr<TW> and(WhereLinkerCallback<TW> callback);
 
     /**
      * 且
@@ -58,9 +53,9 @@ public interface WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> WhereAndOr<T, TO, TC, TW, TG, TS> and(Class<S> tableHelperClass,
-                                                                             String tableAlias,
-                                                                             WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback);
+            SS extends SortHelper<SS>> WhereAndOr<TW> and(Class<S> tableHelperClass,
+                                                          String tableAlias,
+                                                          WhereJoinLinkerCallback<TW, SW> callback);
 
     /**
      * 且
@@ -74,8 +69,8 @@ public interface WhereLinker<T extends TableHelper<T, TO, TC, TW, TG, TS>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> WhereAndOr<T, TO, TC, TW, TG, TS> and(Class<S> tableHelperClass,
-                                                                             WhereJoinLinkerCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+            SS extends SortHelper<SS>> WhereAndOr<TW> and(Class<S> tableHelperClass,
+                                                          WhereJoinLinkerCallback<TW, SW> callback) {
         return and(tableHelperClass, null, callback);
     }
 

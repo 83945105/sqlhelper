@@ -323,7 +323,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<T, TO, TC, TW, TG, TS> callback) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
         if (callback == null) {
             return this;
         }
@@ -331,7 +331,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         // 设置配置开始
         tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), tw);
+        WhereLinker<TW> whereLinker = callback.apply(new WhereAndOr<>(), tw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
@@ -346,7 +346,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<T, TO, TC, TW, TG, TS, SW> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
         if (callback == null) {
             return this;
         }
@@ -360,7 +360,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         // 设置配置开始
         tw.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        WhereLinker<T, TO, TC, TW, TG, TS> whereLinker = callback.apply(new WhereAndOr<>(), sw, tw);
+        WhereLinker<TW> whereLinker = callback.apply(new WhereAndOr<>(), sw, tw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;

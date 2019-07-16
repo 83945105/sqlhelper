@@ -1,19 +1,13 @@
 package pub.avalon.sqlhelper.core.callback;
 
 import pub.avalon.sqlhelper.core.beans.WhereLinker;
-import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.helper.WhereHelper;
 
 /**
  * @author 白超
  * @date 2019/5/18
  */
-public interface WhereJoinCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>,
-        SW extends WhereHelper<SW>> {
+public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereHelper<SW>> {
 
     /**
      * 接收条件连接器
@@ -23,5 +17,5 @@ public interface WhereJoinCallback<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * @param mainTable 主表
      * @return {@link WhereLinker}
      */
-    WhereLinker<T, TO, TC, TW, TG, TS> apply(WhereLinker<T, TO, TC, TW, TG, TS> condition, SW joinTable, TW mainTable);
+    WhereLinker<TW> apply(WhereLinker<TW> condition, SW joinTable, TW mainTable);
 }

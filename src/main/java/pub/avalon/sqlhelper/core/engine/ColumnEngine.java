@@ -12,12 +12,7 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface ColumnEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>, R extends ColumnEngine<T, TO, TC, TW, TG, TS, R>> {
+public interface ColumnEngine<TC extends ColumnHelper<TC>, R extends ColumnEngine<TC, R>> {
 
     /**
      * 设置列

@@ -15,10 +15,10 @@ public interface TableEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>,
         R extends TableEngine<T, TO, TC, TW, TG, TS, R>> extends
-        ColumnEngine<T, TO, TC, TW, TG, TS, R>,
+        ColumnEngine<TC, R>,
         JoinEngine<T, TO, TC, TW, TG, TS, R>,
-        WhereEngine<T, TO, TC, TW, TG, TS, R>,
-        GroupEngine<T, TO, TC, TW, TG, TS, R>,
-        SortEngine<T, TO, TC, TW, TG, TS, R>,
+        WhereEngine<TW, R>,
+        GroupEngine<TG, R>,
+        SortEngine<TS, R>,
         LimitEngine<T, TO, TC, TW, TG, TS, R> {
 }
