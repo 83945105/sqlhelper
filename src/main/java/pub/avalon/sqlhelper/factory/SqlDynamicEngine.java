@@ -27,7 +27,7 @@ public class SqlDynamicEngine {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(DataBaseType dataBaseType, Class<T> tableHelperClass) {
-        return table(dataBaseType, tableHelperClass);
+        return new SqlHelperEngine<>(dataBaseType, tableHelperClass);
     }
 
 }
