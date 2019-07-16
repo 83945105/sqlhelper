@@ -99,8 +99,12 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
         this.tableEngine = new DefaultTableEngine<>(dataBaseType, tableName, tableHelperClass, tableAlias, sqlBuilderOptions);
     }
 
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> sql(SqlEngine<T, TO, TC, TW, TG, TS> tableEngine) {
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> sql(SqlEngine<T, TO, TC, TW, TG, TS> sqlEngine) {
         return this;
+    }
+
+    public SqlHelperEngine<T, TO, TC, TW, TG, TS> sqlColumn(SqlColumnEngine<TC> sqlColumnEngine) {
+        return null;
     }
 
     @Override

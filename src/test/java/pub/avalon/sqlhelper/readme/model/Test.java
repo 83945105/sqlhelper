@@ -3,15 +3,13 @@ package pub.avalon.sqlhelper.readme.model;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.engine.DefaultTableEngine;
+import pub.avalon.sqlhelper.core.engine.SqlColumnEngine;
 import pub.avalon.sqlhelper.core.engine.SqlEngine;
 import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.factory.SqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
-
-import java.util.ArrayList;
 
 /**
  * Created by 白超 on 2019/5/9.
@@ -28,9 +26,16 @@ public class Test {
         SysUserDTO.Helper.Sort joinSort = SysUserDTO.Helper.sort().userName().asc().userName().desc();
 
         SqlHelperEngine sqlEngine = SqlDynamicEngine.table(DataBaseType.MYSQL, "", RoleResourceDTO.Helper.class)
-                .sql(new SqlEngine<RoleResourceDTO.Helper, RoleResourceDTO.Helper.On, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Sort>(){{
+                .sql(new SqlEngine<RoleResourceDTO.Helper, RoleResourceDTO.Helper.On, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Sort>() {{
 
-                    if(true) {
+                    if (true) {
+                        column(table -> table.id().resourceName());
+                    }
+
+                }})
+                .sqlColumn(new SqlColumnEngine<RoleResourceDTO.Helper.Column>() {{
+
+                    if (true) {
                         column(table -> table.id().resourceName());
                     }
 
