@@ -3,10 +3,12 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.GroupType;
+import pub.avalon.sqlhelper.core.engine.SqlColumn;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
+import pub.avalon.sqlhelper.readme.model.SysUserColumn;
 
 /**
  * MySql动态引擎 - 列测试
@@ -179,6 +181,36 @@ public class MySqlDynamicEngineColumnTest {
                 .query();
         Assertions.assertEquals("select count(SysUser.`id`) `countId`,min(SysUser.`id`) `minId`,max(SysUser.`id`) `maxId`,sum(SysUser.`id`) `sumId`,avg(SysUser.`id`) `avgId`,stddev(SysUser.`id`) `stddevId`,variance(SysUser.`id`) `varianceId` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    @Test
+    void Test() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+
+                .sqlColumn(new SysUserColumn() {{
+
+                    column(table -> table.id().loginName());
+
+                }})
+
+                .sqlColumn(new SysUserColumn())
+
+                .sqlColumn(new SysUserColumn() {})
+
+                .sqlColumn(new SysUserDTO.Helper.SqlColumn())
+
+                .sqlColumn(new SysUserDTO.Helper.SqlColumn(){})
+
+                .sqlColumn(new SysUserDTO.Helper.SqlColumn(){{}})
+
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {})
+
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {{}})
+
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+
     }
 
 }

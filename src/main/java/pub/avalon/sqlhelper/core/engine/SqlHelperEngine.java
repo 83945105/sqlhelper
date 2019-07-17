@@ -2,9 +2,7 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitSql;
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.GroupType;
-import pub.avalon.sqlhelper.core.beans.JoinType;
+import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.callback.*;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -115,7 +113,14 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
         if (sqlColumn == null) {
             return this;
         }
-        FC fc = BeanUtils.getColumnHelper(sqlColumn);
+        List<SqlColumnBean<FC>> sqlColumnBeans = sqlColumn.getSqlColumnBeans();
+        for (SqlColumnBean<FC> sqlColumnBean : sqlColumnBeans) {
+            if (sqlColumnBean instanceof SqlColumnBeanJoin) {
+                this.column(((SqlColumnBeanJoin) sqlColumnBean).getTableHelperClass(), ((SqlColumnBeanJoin) sqlColumnBean).getTableAlias(), ((SqlColumnBeanJoin) sqlColumnBean).getColumnCallbackJoin());
+                continue;
+            }
+            this.column((ColumnCallback<TC>) sqlColumnBean.getColumnCallback());
+        }
         return this;
     }
 

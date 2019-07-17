@@ -158,7 +158,11 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     public final static class Join extends JoinHelper<Join> {
 
-        private Join(String tableAlias) {
+        public Join() {
+            super(TABLE_ALIAS);
+        }
+
+        public Join(String tableAlias) {
             super(tableAlias);
         }
 
@@ -176,7 +180,11 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     public final static class Column extends ColumnHelper<Column> {
 
-        private Column(String tableAlias) {
+        public Column() {
+            super(TABLE_ALIAS);
+        }
+
+        public Column(String tableAlias) {
             super(tableAlias);
         }
 
@@ -202,7 +210,11 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     public final static class Where extends WhereHelper<Where> {
 
-        private Where(String tableAlias) {
+        public Where() {
+            super(TABLE_ALIAS);
+        }
+
+        public Where(String tableAlias) {
             super(tableAlias);
         }
 
@@ -220,7 +232,11 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     public final static class Group extends GroupHelper<Group> {
 
-        private Group(String tableAlias) {
+        public Group() {
+            super(TABLE_ALIAS);
+        }
+
+        public Group(String tableAlias) {
             super(tableAlias);
         }
 
@@ -238,7 +254,11 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     public final static class Sort extends SortHelper<Sort> {
 
-        private Sort(String tableAlias) {
+        public Sort() {
+            super(TABLE_ALIAS);
+        }
+
+        public Sort(String tableAlias) {
             super(tableAlias);
         }
 
@@ -254,16 +274,58 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     }
 
-    public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], Join, Column, Where, Group, Sort> {}
+    public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], Join, Column, Where, Group, Sort> {
+        public Sql() {
+            super(TABLE_ALIAS);
+        }
+        public Sql(String tableAlias) {
+            super(tableAlias);
+        }
+    }
 
-    public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {}
+    public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {
+        public SqlJoin() {
+            super(TABLE_ALIAS);
+        }
+        public SqlJoin(String tableAlias) {
+            super(tableAlias);
+        }
+    }
 
-    public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {}
+    public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {
+        public SqlColumn() {
+            super(TABLE_ALIAS);
+        }
+        public SqlColumn(String tableAlias) {
+            super(tableAlias);
+        }
+    }
 
-    public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {}
+    public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {
+        public SqlWhere() {
+            super(TABLE_ALIAS);
+        }
+        public SqlWhere(String tableAlias) {
+            super(tableAlias);
+        }
+    }
 
-    public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.SqlGroup<Group> {}
+    public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.SqlGroup<Group> {
+        public SqlGroup() {
+            super(TABLE_ALIAS);
+        }
+        public SqlGroup(String tableAlias) {
+            super(tableAlias);
+        }
+    }
 
-    public static class SqlSort extends pub.avalon.sqlhelper.core.engine.SqlSort<Sort> {}
+    public static class SqlSort extends pub.avalon.sqlhelper.core.engine.SqlSort<Sort> {
+        public SqlSort() {
+            super(TABLE_ALIAS);
+        }
+        public SqlSort(String tableAlias) {
+            super(tableAlias);
+        }
+    }
 
 }

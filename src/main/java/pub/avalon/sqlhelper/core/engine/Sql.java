@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.LimitSql;
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
@@ -19,14 +20,24 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>> implements TableEngine<T, TJ, TC, TW, TG, TS, Sql<T, TJ, TC, TW, TG, TS>> {
 
+    private String tableAlias;
+
+    public Sql() {
+
+    }
+
+    public Sql(String tableAlias) {
+        this.tableAlias = tableAlias;
+    }
+
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> column(ColumnCallback<TC> columnCallback) {
-        return null;
+        return this;
     }
 
     @Override
@@ -36,17 +47,17 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
-        return null;
+        return this;
     }
 
     @Override
@@ -56,7 +67,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
-        return null;
+        return this;
     }
 
     @Override
@@ -66,17 +77,17 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> group(GroupHelper<?>... groupHelpers) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
-        return null;
+        return this;
     }
 
     @Override
@@ -86,7 +97,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
-        return null;
+        return this;
     }
 
     @Override
@@ -96,47 +107,52 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TJ, SJ> callback) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> limitTop(Long num) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> limitOne() {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> limit(LimitSql limit) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> sort(SortHelper<?>... sortHelpers) {
-        return null;
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
-        return null;
+        return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>, SJ extends JoinHelper<SJ>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
-        return null;
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
+        return this;
     }
 
     @Override
     public Sql<T, TJ, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
-        return null;
+        return this;
     }
 
     @Override
@@ -146,6 +162,10 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
-        return null;
+        return this;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
     }
 }

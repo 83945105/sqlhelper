@@ -13,199 +13,199 @@ import java.util.Set;
 @SuppressWarnings("all")
 public class RoleResourceDTO {
 
-    
-        
+
+
             /**
-             * 
+             *
              */
          private String id;
-        
+
             /**
-             * 
+             *
              */
          private String roleId;
-        
+
             /**
-             * 
+             *
              */
          private String roleName;
-        
+
             /**
-             * 
+             *
              */
          private String resourceId;
-        
+
             /**
-             * 
+             *
              */
          private String resourceName;
-        
+
             /**
-             * 
+             *
              */
          private Long sortIndex;
-    
 
 
-    
+
+
         public String getId() {
             return this.id;
         }
-        
-            
+
+
                 public RoleResourceDTO setId(String id) {
                     this.id = id;
                     return this;
                 }
-            
-            
-        
+
+
+
         public String getRoleId() {
             return this.roleId;
         }
-        
-            
+
+
                 public RoleResourceDTO setRoleId(String roleId) {
                     this.roleId = roleId;
                     return this;
                 }
-            
-            
-        
+
+
+
         public String getRoleName() {
             return this.roleName;
         }
-        
-            
+
+
                 public RoleResourceDTO setRoleName(String roleName) {
                     this.roleName = roleName;
                     return this;
                 }
-            
-            
-        
+
+
+
         public String getResourceId() {
             return this.resourceId;
         }
-        
-            
+
+
                 public RoleResourceDTO setResourceId(String resourceId) {
                     this.resourceId = resourceId;
                     return this;
                 }
-            
-            
-        
+
+
+
         public String getResourceName() {
             return this.resourceName;
         }
-        
-            
+
+
                 public RoleResourceDTO setResourceName(String resourceName) {
                     this.resourceName = resourceName;
                     return this;
                 }
-            
-            
-        
+
+
+
         public Long getSortIndex() {
             return this.sortIndex;
         }
-        
-            
+
+
                 public RoleResourceDTO setSortIndex(Long sortIndex) {
                     this.sortIndex = sortIndex;
                     return this;
                 }
-            
-            
-        
-    
+
+
+
+
 
     public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
-        
+
             /**
              * 表名
              */
          public final static String TABLE_NAME = "role_resource";
-        
+
             /**
              * 表 - 别名
              */
          public final static String TABLE_ALIAS = "RoleResource";
-        
+
             /**
              * 主键名
              */
          public final static String PRIMARY_KEY_NAME = "id";
-        
+
             /**
              * 主键 - 别名
              */
          public final static String PRIMARY_KEY_ALIAS = "id";
-        
-            
+
+
                 /**
-                 * 
+                 *
                  */
              public final static String ID = "id";
-            
+
                 /**
                  *  - 别名
                  */
              public final static String ID_ALIAS = "id";
-            
+
                 /**
-                 * 
+                 *
                  */
              public final static String ROLE_ID = "role_id";
-            
+
                 /**
                  *  - 别名
                  */
              public final static String ROLE_ID_ALIAS = "roleId";
-            
+
                 /**
-                 * 
+                 *
                  */
              public final static String ROLE_NAME = "role_name";
-            
+
                 /**
                  *  - 别名
                  */
              public final static String ROLE_NAME_ALIAS = "roleName";
-            
+
                 /**
-                 * 
+                 *
                  */
              public final static String RESOURCE_ID = "resource_id";
-            
+
                 /**
                  *  - 别名
                  */
              public final static String RESOURCE_ID_ALIAS = "resourceId";
-            
+
                 /**
-                 * 
+                 *
                  */
              public final static String RESOURCE_NAME = "resource_name";
-            
+
                 /**
                  *  - 别名
                  */
              public final static String RESOURCE_NAME_ALIAS = "resourceName";
-            
+
                 /**
-                 * 
+                 *
                  */
              public final static String SORT_INDEX = "sort_index";
-            
+
                 /**
                  *  - 别名
                  */
              public final static String SORT_INDEX_ALIAS = "sortIndex";
-        
-        
+
+
             /**
              * 表列数据
              */
@@ -215,14 +215,14 @@ public class RoleResourceDTO {
             TABLE_COLUMNS = new LinkedHashSet<>(6);
             TableColumn primaryKeyTableColumn = new TableColumn(PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, TABLE_NAME, TABLE_ALIAS, null, TABLE_COLUMNS);
             primaryKeyTableColumn.setPrimaryKeyColumnInfo(primaryKeyTableColumn);
-            
+
                 TABLE_COLUMNS.add(new TableColumn(ID, ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
                 TABLE_COLUMNS.add(new TableColumn(ROLE_ID, ROLE_ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
                 TABLE_COLUMNS.add(new TableColumn(ROLE_NAME, ROLE_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
                 TABLE_COLUMNS.add(new TableColumn(RESOURCE_ID, RESOURCE_ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
                 TABLE_COLUMNS.add(new TableColumn(RESOURCE_NAME, RESOURCE_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
                 TABLE_COLUMNS.add(new TableColumn(SORT_INDEX, SORT_INDEX_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-            
+
         }
 
         public static Helper helper() {
@@ -326,7 +326,11 @@ public class RoleResourceDTO {
 
         public final static class Join extends JoinHelper<Join> {
 
-            private Join(String tableAlias) {
+            public Join() {
+                super(TABLE_ALIAS);
+            }
+
+            public Join(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -334,7 +338,7 @@ public class RoleResourceDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
-            
+
                 public JoinSqlPartDatumBuilder<Join> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
@@ -353,13 +357,17 @@ public class RoleResourceDTO {
                 public JoinSqlPartDatumBuilder<Join> sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS);
                 }
-            
+
 
         }
 
         public final static class Column extends ColumnHelper<Column> {
 
-            private Column(String tableAlias) {
+            public Column() {
+                super(TABLE_ALIAS);
+            }
+
+            public Column(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -371,7 +379,7 @@ public class RoleResourceDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias).getHelper();
             }
 
-            
+
                 public Column id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS).getHelper();
                 }
@@ -414,13 +422,17 @@ public class RoleResourceDTO {
                 public Column sortIndex(String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, alias).getHelper();
                 }
-            
+
 
         }
 
         public final static class Where extends WhereHelper<Where> {
 
-            private Where(String tableAlias) {
+            public Where() {
+                super(TABLE_ALIAS);
+            }
+
+            public Where(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -428,7 +440,7 @@ public class RoleResourceDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
-            
+
                 public WhereSqlPartDatumBuilder<Where> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
@@ -447,13 +459,17 @@ public class RoleResourceDTO {
                 public WhereSqlPartDatumBuilder<Where> sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS);
                 }
-            
+
 
         }
 
         public final static class Group extends GroupHelper<Group> {
 
-            private Group(String tableAlias) {
+            public Group() {
+                super(TABLE_ALIAS);
+            }
+
+            public Group(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -461,7 +477,7 @@ public class RoleResourceDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
             }
 
-            
+
                 public Group id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS).getHelper();
                 }
@@ -480,13 +496,17 @@ public class RoleResourceDTO {
                 public Group sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS).getHelper();
                 }
-            
+
 
         }
 
         public final static class Sort extends SortHelper<Sort> {
 
-            private Sort(String tableAlias) {
+            public Sort() {
+                super(TABLE_ALIAS);
+            }
+
+            public Sort(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -494,7 +514,7 @@ public class RoleResourceDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
-            
+
                 public SortSqlPartDatumBuilder<Sort> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
@@ -513,7 +533,7 @@ public class RoleResourceDTO {
                 public SortSqlPartDatumBuilder<Sort> sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS);
                 }
-            
+
 
         }
 
@@ -521,7 +541,14 @@ public class RoleResourceDTO {
 
         public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {}
 
-        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {}
+        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {
+            public SqlColumn() {
+                super(TABLE_ALIAS);
+            }
+            public SqlColumn(String tableAlias) {
+                super(tableAlias);
+            }
+        }
 
         public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {}
 

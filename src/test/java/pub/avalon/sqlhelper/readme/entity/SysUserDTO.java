@@ -242,7 +242,11 @@ public class SysUserDTO {
 
         public final static class Join extends JoinHelper<Join> {
 
-            private Join(String tableAlias) {
+            public Join() {
+                super(TABLE_ALIAS);
+            }
+
+            public Join(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -266,7 +270,11 @@ public class SysUserDTO {
 
         public final static class Column extends ColumnHelper<Column> {
 
-            private Column(String tableAlias) {
+            public Column() {
+                super(TABLE_ALIAS);
+            }
+
+            public Column(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -306,7 +314,11 @@ public class SysUserDTO {
 
         public final static class Where extends WhereHelper<Where> {
 
-            private Where(String tableAlias) {
+            public Where() {
+                super(TABLE_ALIAS);
+            }
+
+            public Where(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -330,7 +342,11 @@ public class SysUserDTO {
 
         public final static class Group extends GroupHelper<Group> {
 
-            private Group(String tableAlias) {
+            public Group() {
+                super(TABLE_ALIAS);
+            }
+
+            public Group(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -354,7 +370,11 @@ public class SysUserDTO {
 
         public final static class Sort extends SortHelper<Sort> {
 
-            private Sort(String tableAlias) {
+            public Sort() {
+                super(TABLE_ALIAS);
+            }
+
+            public Sort(String tableAlias) {
                 super(tableAlias);
             }
 

@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
 import pub.avalon.sqlhelper.core.helper.*;
 
@@ -8,6 +9,16 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @date 2019/7/17
  */
 public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<TS, SqlSort<TS>> {
+
+    private String tableAlias;
+
+    public SqlSort() {
+        this.tableAlias = BeanUtils.getSortHelper(this).getTableAlias();
+    }
+
+    public SqlSort(String tableAlias) {
+        this.tableAlias = tableAlias;
+    }
 
     @Override
     public SqlSort<TS> sort(SortHelper<?>... sortHelpers) {
@@ -27,5 +38,9 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<TS, SqlSor
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlSort<TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
         return null;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
     }
 }

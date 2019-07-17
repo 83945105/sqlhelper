@@ -1,7 +1,9 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.SqlColumnBean;
+import pub.avalon.sqlhelper.core.beans.SqlColumnBeanJoin;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -14,6 +16,16 @@ import java.util.List;
  * @date 2019/7/16
  */
 public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEngine<TC, SqlColumn<TC>> {
+
+    private String tableAlias;
+
+    public SqlColumn() {
+        this.tableAlias = BeanUtils.getColumnHelper(this).getTableAlias();
+    }
+
+    public SqlColumn(String tableAlias) {
+        this.tableAlias = tableAlias;
+    }
 
     private List<SqlColumnBean<TC>> sqlColumnBeans = new ArrayList<>(1);
 
@@ -36,6 +48,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlColumn<TC> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SS, TC>().setTableHelperClass(tableHelperClass).setTableAlias(tableAlias).setColumnCallbackJoin(columnCallback));
         return this;
     }
 
@@ -67,6 +80,10 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SG extends GroupHelper<SG>,
             SS extends SortHelper<SS>> SqlColumn<TC> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
         return null;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
     }
 
     public List<SqlColumnBean<TC>> getSqlColumnBeans() {
