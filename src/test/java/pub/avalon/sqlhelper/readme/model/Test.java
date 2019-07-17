@@ -3,8 +3,8 @@ package pub.avalon.sqlhelper.readme.model;
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.engine.SqlColumnEngine;
-import pub.avalon.sqlhelper.core.engine.SqlEngine;
+import pub.avalon.sqlhelper.core.engine.Sql;
+import pub.avalon.sqlhelper.core.engine.SqlColumn;
 import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.factory.SqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
@@ -26,20 +26,35 @@ public class Test {
         SysUserDTO.Helper.Sort joinSort = SysUserDTO.Helper.sort().userName().asc().userName().desc();
 
         SqlHelperEngine sqlEngine = SqlDynamicEngine.table(DataBaseType.MYSQL, "", RoleResourceDTO.Helper.class)
-                .sql(new SqlEngine<RoleResourceDTO.Helper, RoleResourceDTO.Helper.On, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Sort>() {{
+
+                .sql(new Sql<RoleResourceDTO.Helper, RoleResourceDTO.Helper.On, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Sort>() {{
 
                     if (true) {
                         column(table -> table.id().resourceName());
                     }
 
                 }})
-                .sqlColumn(new SqlColumnEngine<RoleResourceDTO.Helper.Column>() {{
+                .sql(new RoleResourceDTO.Helper.Sql())
+
+
+                .sqlColumn(new SqlColumn<RoleResourceDTO.Helper.Column>() {
+                }.column(table -> table.id().primaryKey()))
+                .sqlColumn(new SqlColumn<RoleResourceDTO.Helper.Column>() {{
 
                     if (true) {
                         column(table -> table.id().resourceName());
                     }
 
                 }})
+                .sqlColumn(new RoleResourceDTO.Helper.SqlColumn().column(table -> table.id().resourceId()))
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {
+                }.column(table -> table.id().loginName()))
+                .sqlColumn(new RoleResourceDTO.Helper.SqlColumn(){{
+
+                    column(SysUserDTO.Helper.class, table -> table.userName().userName(""));
+
+                }})
+
                 .column(table -> table.id().id())
                 .column(table -> table.id().id().id(""))
                 .column(SysUserDTO.Helper.class, table -> table.userName().userName(""))

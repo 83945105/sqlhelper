@@ -3,6 +3,8 @@ package pub.avalon.sqlhelper.core.callback;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 
 /**
+ * 列回调
+ *
  * @author 白超
  * @date 2019/5/16
  */

@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface ColumnEngine<TC extends ColumnHelper<TC>, R extends ColumnEngine<TC, R>> {
+public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
 
     /**
      * 设置列
@@ -25,17 +25,17 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R extends ColumnEngin
     /**
      * 执行列回调
      *
-     * @param callback {@link ColumnCallback}
+     * @param columnCallback {@link ColumnCallback}
      * @return {@link ColumnEngine}
      */
-    R column(ColumnCallback<TC> callback);
+    R column(ColumnCallback<TC> columnCallback);
 
     /**
      * 执行指定列回调
      *
      * @param tableHelperClass 表助手
      * @param tableAlias       表别名
-     * @param callback         {@link ColumnCallback}
+     * @param columnCallback   {@link ColumnCallback}
      * @return {@link ColumnEngine}
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -43,13 +43,13 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R extends ColumnEngin
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback);
+            SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback);
 
     /**
      * 执行指定列回调
      *
      * @param tableHelperClass 表助手
-     * @param callback         {@link ColumnCallback}
+     * @param columnCallback   {@link ColumnCallback}
      * @return {@link ColumnEngine}
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
@@ -57,8 +57,8 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R extends ColumnEngin
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, ColumnCallback<SC> callback) {
-        return column(tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, ColumnCallback<SC> columnCallback) {
+        return column(tableHelperClass, null, columnCallback);
     }
 
     /**
@@ -71,22 +71,22 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R extends ColumnEngin
     R virtualColumn(Object value, String alias);
 
 
-    R groupColumn(GroupType groupType, ColumnCallback<TC> callback);
+    R groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback);
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback);
+            SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback);
 
     default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
             SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> callback) {
-        return groupColumn(tableHelperClass, null, groupType, callback);
+            SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> columnCallback) {
+        return groupColumn(tableHelperClass, null, groupType, columnCallback);
     }
 
     <S extends TableHelper<S, SO, SC, SW, SG, SS>,

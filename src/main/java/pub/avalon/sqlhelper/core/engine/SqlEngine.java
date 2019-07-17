@@ -1,121 +1,24 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.beans.LimitSql;
-import pub.avalon.sqlhelper.core.beans.GroupType;
-import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.callback.*;
 import pub.avalon.sqlhelper.core.helper.*;
 
 /**
- * Sql
+ * Sql引擎
  *
  * @author 白超
- * @date 2019/7/16
+ * @date 2019/7/17
  */
-public class SqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS, SqlEngine<T, TO, TC, TW, TG, TS>> {
+public interface SqlEngine<R> {
 
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
-        return null;
-    }
+    <F extends TableHelper<F, FO, FC, FW, FG, FS>,
+            FO extends OnHelper<FO>,
+            FC extends ColumnHelper<FC>,
+            FW extends WhereHelper<FW>,
+            FG extends GroupHelper<FG>,
+            FS extends SortHelper<FS>> R sql(Sql<F, FO, FC, FW, FG, FS> sql);
 
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
-        return null;
-    }
 
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
-        return null;
-    }
+    <FC extends ColumnHelper<FC>> R sqlColumn(SqlColumn<FC> sqlColumn);
 
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> callback) {
-        return null;
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
-        return null;
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupHelpers) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
-        return null;
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
-        return null;
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> callback) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> limitTop(Long num) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> limitOne() {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> limit(LimitSql limit) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> sort(SortHelper<?>... sortHelpers) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
-        return null;
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
-        return null;
-    }
-
-    @Override
-    public SqlEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
-        return null;
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SS extends SortHelper<SS>> SqlEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
-        return null;
-    }
+    <FO extends OnHelper<FO>> R sqlJoin(SqlJoin<FO> sqlJoin);
 }

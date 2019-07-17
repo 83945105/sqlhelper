@@ -167,15 +167,15 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> callback) {
-        if (callback == null) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> columnCallback) {
+        if (columnCallback == null) {
             return this;
         }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper(this.tableAlias);
         // 设置配置开始
         tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        tc = callback.apply(tc);
+        tc = columnCallback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
         // 调用了column方法但是没有设置任何列,则使用该模组对应的表所有列
         if (columnData == null || columnData.size() == 0) {
@@ -191,11 +191,11 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        if (callback == null) {
+        if (columnCallback == null) {
             return this;
         }
         S s = BeanUtils.tableHelper(tableHelperClass);
@@ -203,7 +203,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         // 设置配置开始
         sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        sc = callback.apply(sc);
+        sc = columnCallback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(tableHelperClass);
@@ -225,18 +225,18 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> callback) {
+    public DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
         if (groupType == null) {
             ExceptionUtils.groupTypeNullException();
         }
-        if (callback == null) {
+        if (columnCallback == null) {
             return this;
         }
         TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper(this.tableAlias);
         // 设置配置开始
         tc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        tc = callback.apply(tc);
+        tc = columnCallback.apply(tc);
         Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
         // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
@@ -252,14 +252,14 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
         if (groupType == null) {
             ExceptionUtils.groupTypeNullException();
         }
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        if (callback == null) {
+        if (columnCallback == null) {
             return this;
         }
         S s = BeanUtils.tableHelper(tableHelperClass);
@@ -267,7 +267,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
         // 设置配置开始
         sc.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        sc = callback.apply(sc);
+        sc = columnCallback.apply(sc);
         Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
