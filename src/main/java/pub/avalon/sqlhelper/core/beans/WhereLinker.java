@@ -48,8 +48,8 @@ public interface WhereLinker<TW extends WhereHelper<TW>> {
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -64,8 +64,8 @@ public interface WhereLinker<TW extends WhereHelper<TW>> {
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

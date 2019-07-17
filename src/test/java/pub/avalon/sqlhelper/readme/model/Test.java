@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.engine.Sql;
 import pub.avalon.sqlhelper.core.engine.SqlColumn;
 import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
+import pub.avalon.sqlhelper.core.engine.SqlJoin;
 import pub.avalon.sqlhelper.factory.SqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
@@ -27,7 +28,7 @@ public class Test {
 
         SqlHelperEngine sqlEngine = SqlDynamicEngine.table(DataBaseType.MYSQL, "", RoleResourceDTO.Helper.class)
 
-                .sql(new Sql<RoleResourceDTO.Helper, RoleResourceDTO.Helper.On, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Sort>() {{
+                .sql(new Sql<RoleResourceDTO.Helper, RoleResourceDTO.Helper.Join, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Sort>() {{
 
                     if (true) {
                         column(table -> table.id().resourceName());
@@ -52,6 +53,11 @@ public class Test {
                 .sqlColumn(new RoleResourceDTO.Helper.SqlColumn(){{
 
                     column(SysUserDTO.Helper.class, table -> table.userName().userName(""));
+
+                }})
+
+                .sqlJoin(new SqlJoin<SysUserDTO.Helper.Join>() {{
+
 
                 }})
 

@@ -69,8 +69,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -85,8 +85,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -103,8 +103,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -119,8 +119,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -137,8 +137,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -153,8 +153,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -171,8 +171,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -187,8 +187,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -205,8 +205,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -221,8 +221,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -239,8 +239,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -255,8 +255,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

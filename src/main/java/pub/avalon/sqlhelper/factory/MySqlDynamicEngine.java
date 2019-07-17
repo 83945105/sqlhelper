@@ -16,39 +16,39 @@ public final class MySqlDynamicEngine {
     private MySqlDynamicEngine() {
     }
 
-    public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
-            TO extends OnHelper<TO>,
+    public static <T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+            TJ extends JoinHelper<TJ>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableHelperClass, String tableAlias) {
+            TS extends SortHelper<TS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> table(String tableName, Class<T> tableHelperClass, String tableAlias) {
         return new SqlHelperEngine<>(DataBaseType.MYSQL, tableName, tableHelperClass, tableAlias);
     }
 
-    public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
-            TO extends OnHelper<TO>,
+    public static <T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+            TJ extends JoinHelper<TJ>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(String tableName, Class<T> tableHelperClass) {
+            TS extends SortHelper<TS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> table(String tableName, Class<T> tableHelperClass) {
         return new SqlHelperEngine<>(DataBaseType.MYSQL, tableName, tableHelperClass);
     }
 
-    public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
-            TO extends OnHelper<TO>,
+    public static <T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+            TJ extends JoinHelper<TJ>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableHelperClass, String tableAlias) {
+            TS extends SortHelper<TS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> table(Class<T> tableHelperClass, String tableAlias) {
         return new SqlHelperEngine<>(DataBaseType.MYSQL, tableHelperClass, tableAlias);
     }
 
-    public static <T extends TableHelper<T, TO, TC, TW, TG, TS>,
-            TO extends OnHelper<TO>,
+    public static <T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+            TJ extends JoinHelper<TJ>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> table(Class<T> tableHelperClass) {
+            TS extends SortHelper<TS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> table(Class<T> tableHelperClass) {
         return new SqlHelperEngine<>(DataBaseType.MYSQL, tableHelperClass);
     }
 

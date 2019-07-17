@@ -10,15 +10,15 @@ import pub.avalon.sqlhelper.core.helper.*;
  */
 public interface SqlEngine<R> {
 
-    <F extends TableHelper<F, FO, FC, FW, FG, FS>,
-            FO extends OnHelper<FO>,
+    <F extends TableHelper<F, FJ, FC, FW, FG, FS>,
+            FJ extends JoinHelper<FJ>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
-            FS extends SortHelper<FS>> R sql(Sql<F, FO, FC, FW, FG, FS> sql);
+            FS extends SortHelper<FS>> R sql(Sql<F, FJ, FC, FW, FG, FS> sql);
 
 
     <FC extends ColumnHelper<FC>> R sqlColumn(SqlColumn<FC> sqlColumn);
 
-    <FO extends OnHelper<FO>> R sqlJoin(SqlJoin<FO> sqlJoin);
+    <FJ extends JoinHelper<FJ>> R sqlJoin(SqlJoin<FJ> sqlJoin);
 }

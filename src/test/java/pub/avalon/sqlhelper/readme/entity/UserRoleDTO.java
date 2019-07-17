@@ -105,7 +105,7 @@ public class UserRoleDTO {
         
     
 
-    public final static class Helper implements TableHelper<Helper, Helper.On, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
+    public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
         
             /**
              * 表名
@@ -201,12 +201,12 @@ public class UserRoleDTO {
             return new Helper();
         }
 
-        public static On on() {
-            return new On(TABLE_ALIAS);
+        public static Join join() {
+            return new Join(TABLE_ALIAS);
         }
 
-        public static On on(String tableAlias) {
-            return new On(tableAlias);
+        public static Join join(String tableAlias) {
+            return new Join(tableAlias);
         }
 
         public static Column column() {
@@ -272,8 +272,8 @@ public class UserRoleDTO {
         }
 
         @Override
-        public On newOnHelper(String tableAlias) {
-            return on(tableAlias);
+        public Join newJoinHelper(String tableAlias) {
+            return join(tableAlias);
         }
 
         @Override
@@ -296,30 +296,30 @@ public class UserRoleDTO {
             return sort(tableAlias);
         }
 
-        public final static class On extends OnHelper<On> {
+        public final static class Join extends JoinHelper<Join> {
 
-            private On(String tableAlias) {
+            private Join(String tableAlias) {
                 super(tableAlias);
             }
 
-            public OnSqlPartDatumBuilder<On> primaryKey() {
+            public OnSqlPartDatumBuilder<Join> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
             
-                public OnSqlPartDatumBuilder<On> id() {
+                public OnSqlPartDatumBuilder<Join> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<On> userId() {
+                public OnSqlPartDatumBuilder<Join> userId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<On> roleId() {
+                public OnSqlPartDatumBuilder<Join> roleId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<On> roleName() {
+                public OnSqlPartDatumBuilder<Join> roleName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<On> sortIndex() {
+                public OnSqlPartDatumBuilder<Join> sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS);
                 }
             

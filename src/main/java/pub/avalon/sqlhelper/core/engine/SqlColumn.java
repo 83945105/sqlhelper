@@ -30,8 +30,8 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -50,8 +50,8 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -60,12 +60,12 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlColumn<TC> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> SqlColumn<TC> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
         return null;
     }
 

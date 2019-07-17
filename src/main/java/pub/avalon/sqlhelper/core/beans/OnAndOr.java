@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.beans;
 import pub.avalon.sqlhelper.core.callback.OnLinkerCallback;
 import pub.avalon.sqlhelper.core.data.OnDataLinker;
 import pub.avalon.sqlhelper.core.data.OnDatum;
-import pub.avalon.sqlhelper.core.helper.OnHelper;
+import pub.avalon.sqlhelper.core.helper.JoinHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> implements OnLinker<TO, SO> {
+public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> implements OnLinker<TJ, SJ> {
 
     private List<OnDataLinker> onDataLinkers = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
     }
 
     @Override
-    public OnAndOr<TO, SO> and(OnHelper<?> onHelper) {
+    public OnAndOr<TJ, SJ> and(JoinHelper<?> onHelper) {
         if (onHelper == null) {
             return this;
         }
@@ -43,8 +43,8 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
     }
 
     @Override
-    public OnAndOr<TO, SO> and(OnLinkerCallback<TO, SO> callback) {
-        OnLinker<TO, SO> onLinker = callback.apply(new OnAndOr<>());
+    public OnAndOr<TJ, SJ> and(OnLinkerCallback<TJ, SJ> callback) {
+        OnLinker<TJ, SJ> onLinker = callback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
@@ -61,7 +61,7 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
      * @param onHelper On助手
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TO, SO> or(OnHelper<?> onHelper) {
+    public OnAndOr<TJ, SJ> or(JoinHelper<?> onHelper) {
         if (onHelper == null) {
             return this;
         }
@@ -81,8 +81,8 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
      * @param callback On条件连接器回调
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TO, SO> or(OnLinkerCallback<TO, SO> callback) {
-        OnLinker<TO, SO> onLinker = callback.apply(new OnAndOr<>());
+    public OnAndOr<TJ, SJ> or(OnLinkerCallback<TJ, SJ> callback) {
+        OnLinker<TJ, SJ> onLinker = callback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;

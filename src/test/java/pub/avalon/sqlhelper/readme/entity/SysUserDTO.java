@@ -71,7 +71,7 @@ public class SysUserDTO {
         
     
 
-    public final static class Helper implements TableHelper<Helper, Helper.On, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
+    public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
         
             /**
              * 表名
@@ -145,12 +145,12 @@ public class SysUserDTO {
             return new Helper();
         }
 
-        public static On on() {
-            return new On(TABLE_ALIAS);
+        public static Join join() {
+            return new Join(TABLE_ALIAS);
         }
 
-        public static On on(String tableAlias) {
-            return new On(tableAlias);
+        public static Join join(String tableAlias) {
+            return new Join(tableAlias);
         }
 
         public static Column column() {
@@ -216,8 +216,8 @@ public class SysUserDTO {
         }
 
         @Override
-        public On newOnHelper(String tableAlias) {
-            return on(tableAlias);
+        public Join newJoinHelper(String tableAlias) {
+            return join(tableAlias);
         }
 
         @Override
@@ -240,24 +240,24 @@ public class SysUserDTO {
             return sort(tableAlias);
         }
 
-        public final static class On extends OnHelper<On> {
+        public final static class Join extends JoinHelper<Join> {
 
-            private On(String tableAlias) {
+            private Join(String tableAlias) {
                 super(tableAlias);
             }
 
-            public OnSqlPartDatumBuilder<On> primaryKey() {
+            public OnSqlPartDatumBuilder<Join> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
             
-                public OnSqlPartDatumBuilder<On> id() {
+                public OnSqlPartDatumBuilder<Join> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<On> userName() {
+                public OnSqlPartDatumBuilder<Join> userName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<On> loginName() {
+                public OnSqlPartDatumBuilder<Join> loginName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS);
                 }
             

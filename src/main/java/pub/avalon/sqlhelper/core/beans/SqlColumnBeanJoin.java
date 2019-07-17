@@ -7,8 +7,8 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @author 白超
  * @date 2019/7/17
  */
-public final class SqlColumnBeanJoin<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
+public final class SqlColumnBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+        TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
@@ -24,7 +24,7 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TO, TC, TW, TG, TS
         return tableHelperClass;
     }
 
-    public SqlColumnBeanJoin<T, TO, TC, TW, TG, TS, SC> setTableHelperClass(Class<T> tableHelperClass) {
+    public SqlColumnBeanJoin<T, TJ, TC, TW, TG, TS, SC> setTableHelperClass(Class<T> tableHelperClass) {
         this.tableHelperClass = tableHelperClass;
         return this;
     }
@@ -33,7 +33,7 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TO, TC, TW, TG, TS
         return tableAlias;
     }
 
-    public SqlColumnBeanJoin<T, TO, TC, TW, TG, TS, SC> setTableAlias(String tableAlias) {
+    public SqlColumnBeanJoin<T, TJ, TC, TW, TG, TS, SC> setTableAlias(String tableAlias) {
         this.tableAlias = tableAlias;
         return this;
     }
@@ -42,7 +42,7 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TO, TC, TW, TG, TS
         return columnCallbackJoin;
     }
 
-    public SqlColumnBeanJoin<T, TO, TC, TW, TG, TS, SC> setColumnCallbackJoin(ColumnCallback<TC> columnCallbackJoin) {
+    public SqlColumnBeanJoin<T, TJ, TC, TW, TG, TS, SC> setColumnCallbackJoin(ColumnCallback<TC> columnCallbackJoin) {
         this.columnCallbackJoin = columnCallbackJoin;
         return this;
     }

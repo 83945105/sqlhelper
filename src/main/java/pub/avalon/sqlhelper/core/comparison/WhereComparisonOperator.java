@@ -102,8 +102,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -118,8 +118,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -136,8 +136,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -152,8 +152,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -170,8 +170,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -186,8 +186,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -204,8 +204,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -220,8 +220,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -238,8 +238,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -254,8 +254,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -272,8 +272,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -288,8 +288,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -306,8 +306,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -322,8 +322,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -340,8 +340,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -356,8 +356,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -374,8 +374,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -390,8 +390,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -408,8 +408,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -424,8 +424,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return {@link Helper}
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -445,12 +445,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 等于
@@ -459,12 +459,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.equalToSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -476,12 +476,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.equalToSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -494,12 +494,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 不等于
@@ -508,12 +508,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.notEqualToSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -525,12 +525,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.notEqualToSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -543,12 +543,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 大于
@@ -557,12 +557,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.greaterThanSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -574,12 +574,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.greaterThanSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -592,12 +592,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 大于等于
@@ -606,12 +606,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.greaterThanAndEqualToSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -623,12 +623,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.greaterThanAndEqualToSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -641,12 +641,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 小于
@@ -655,12 +655,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.lessThanSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -672,12 +672,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.lessThanSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -690,12 +690,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 小于等于
@@ -704,12 +704,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.lessThanAndEqualToSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -721,12 +721,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.lessThanAndEqualToSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -739,12 +739,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 模糊匹配
@@ -753,12 +753,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.likeSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -770,12 +770,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.likeSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -788,12 +788,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 在...内
@@ -802,12 +802,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.inSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -819,12 +819,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.inSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 
@@ -837,12 +837,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback);
+            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback);
 
     /**
      * 不在...内
@@ -851,12 +851,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.notInSubQuery(null, tableHelperClass, null, callback);
     }
 
@@ -868,12 +868,12 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         列回调
      * @return
      */
-    default <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback) {
+            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
         return this.notInSubQuery(null, tableHelperClass, tableAlias, callback);
     }
 

@@ -8,15 +8,15 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @author 白超
  * @date 2019/6/26
  */
-public interface TableEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
+public interface TableEngine<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+        TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TS extends SortHelper<TS>,
-        R extends TableEngine<T, TO, TC, TW, TG, TS, R>> extends
+        R extends TableEngine<T, TJ, TC, TW, TG, TS, R>> extends
         ColumnEngine<TC, R>,
-        JoinEngine<TO, R>,
+        JoinEngine<TJ, R>,
         WhereEngine<TW, R>,
         GroupEngine<TG, R>,
         SortEngine<TS, R>,

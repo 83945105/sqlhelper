@@ -1,14 +1,14 @@
 package pub.avalon.sqlhelper.core.callback;
 
 import pub.avalon.sqlhelper.core.beans.OnLinker;
-import pub.avalon.sqlhelper.core.helper.OnHelper;
+import pub.avalon.sqlhelper.core.helper.JoinHelper;
 
 /**
  * @author 白超
  * @date 2019/5/16
  */
 @FunctionalInterface
-public interface OnCallback<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
+public interface OnCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {
 
     /**
      * 接收条件连接器
@@ -18,6 +18,6 @@ public interface OnCallback<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
      * @param mainTable 主表
      * @return {@link OnLinker}
      */
-    OnLinker<TO, SO> apply(OnLinker<TO, SO> on, SO joinTable, TO mainTable);
+    OnLinker<TJ, SJ> apply(OnLinker<TJ, SJ> on, SJ joinTable, TJ mainTable);
 
 }

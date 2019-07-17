@@ -10,8 +10,8 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/15
  */
-public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
+public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+        TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
@@ -63,9 +63,9 @@ public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TS>,
      * 创建On助手
      *
      * @param tableAlias 表别名
-     * @return {@link OnHelper}
+     * @return {@link JoinHelper}
      */
-    TO newOnHelper(String tableAlias);
+    TJ newJoinHelper(String tableAlias);
 
     /**
      * 创建列助手

@@ -23,12 +23,12 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
+public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+        TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> implements TableEngine<T, TO, TC, TW, TG, TS, DefaultTableEngine<T, TO, TC, TW, TG, TS>>, DefaultSqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> implements TableEngine<T, TJ, TC, TW, TG, TS, DefaultTableEngine<T, TJ, TC, TW, TG, TS>>, DefaultSqlBuilder, SqlDataProducer {
 
     protected Class<T> tableHelperClass;
 
@@ -154,7 +154,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
         if (columnHelpers == null || columnHelpers.length == 0) {
             return this;
         }
@@ -167,7 +167,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> columnCallback) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> column(ColumnCallback<TC> columnCallback) {
         if (columnCallback == null) {
             return this;
         }
@@ -186,12 +186,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
@@ -213,7 +213,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
         if (alias == null) {
             return this;
         }
@@ -225,7 +225,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
         if (groupType == null) {
             ExceptionUtils.groupTypeNullException();
         }
@@ -247,12 +247,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
         if (groupType == null) {
             ExceptionUtils.groupTypeNullException();
         }
@@ -278,42 +278,42 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
 //        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getSqlData(), tableName, tableHelperClass, alias, callback);
 //        this.addSubQueryData(columnAlias, sqlBuilder);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TJ, SJ> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         tableName = tableName == null ? s.getTableName() : tableName;
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
         JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, tableHelperClass, s, tableName, tableAlias);
         this.addJoinTableDatum(joinTableDatum);
-        TO to = BeanUtils.tableHelper(this.tableHelperClass).newOnHelper(this.tableAlias);
+        TJ tj = BeanUtils.tableHelper(this.tableHelperClass).newJoinHelper(this.tableAlias);
         // 设置配置开始
-        to.setSqlBuilderOptions(this.sqlBuilderOptions);
+        tj.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
-        OnLinker<TO, SO> onLinker = new OnAndOr<>();
-        SO so = BeanUtils.tableHelper(tableHelperClass).newOnHelper(tableAlias);
+        OnLinker<TJ, SJ> onLinker = new OnAndOr<>();
+        SJ sj = BeanUtils.tableHelper(tableHelperClass).newJoinHelper(tableAlias);
         // 设置配置开始
-        so.setSqlBuilderOptions(this.sqlBuilderOptions);
+        sj.setSqlBuilderOptions(this.sqlBuilderOptions);
         // 设置配置结束
         if (callback == null) {
             return this;
         }
-        OnLinker<TO, SO> linker = callback.apply(onLinker, so, to);
+        OnLinker<TJ, SJ> linker = callback.apply(onLinker, sj, tj);
         List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
@@ -323,7 +323,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
         if (callback == null) {
             return this;
         }
@@ -341,12 +341,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
         if (callback == null) {
             return this;
         }
@@ -370,7 +370,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupHelpers) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> group(GroupHelper<?>... groupHelpers) {
         if (groupHelpers == null || groupHelpers.length == 0) {
             return this;
         }
@@ -379,7 +379,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
         TG tg = BeanUtils.tableHelper(this.tableHelperClass).newGroupHelper(this.tableAlias);
         // 设置配置开始
         tg.setSqlBuilderOptions(this.sqlBuilderOptions);
@@ -394,12 +394,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
         SG sg = s.newGroupHelper(tableAlias);
@@ -416,7 +416,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> sort(SortHelper<?>... sortHelpers) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> sort(SortHelper<?>... sortHelpers) {
         if (sortHelpers == null || sortHelpers.length == 0) {
             return this;
         }
@@ -425,7 +425,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
         TS ts = BeanUtils.tableHelper(this.tableHelperClass).newSortHelper(this.tableAlias);
         // 设置配置开始
         ts.setSqlBuilderOptions(this.sqlBuilderOptions);
@@ -440,12 +440,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
         SS ss = s.newSortHelper(tableAlias);
@@ -462,25 +462,25 @@ public final class DefaultTableEngine<T extends TableHelper<T, TO, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limitTop(Long num) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> limitTop(Long num) {
         this.buildLimitData(1L, num);
         return this;
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limitOne() {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> limitOne() {
         this.buildLimitData(1L, 1L);
         return this;
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(LimitSql limit) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> limit(LimitSql limit) {
         this.setLimitData(limit);
         return this;
     }
 
     @Override
-    public DefaultTableEngine<T, TO, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
         this.buildLimitData(total, currentPage, pageSize);
         return this;
     }

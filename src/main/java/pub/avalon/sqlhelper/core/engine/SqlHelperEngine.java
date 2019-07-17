@@ -22,14 +22,14 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
-        TO extends OnHelper<TO>,
+public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+        TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
-        TS extends SortHelper<TS>> implements SqlEngine<SqlHelperEngine<T, TO, TC, TW, TG, TS>>, TableEngine<T, TO, TC, TW, TG, TS, SqlHelperEngine<T, TO, TC, TW, TG, TS>>, DefaultSqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> implements SqlEngine<SqlHelperEngine<T, TJ, TC, TW, TG, TS>>, TableEngine<T, TJ, TC, TW, TG, TS, SqlHelperEngine<T, TJ, TC, TW, TG, TS>>, DefaultSqlBuilder, SqlDataProducer {
 
-    private DefaultTableEngine<T, TO, TC, TW, TG, TS> tableEngine;
+    private DefaultTableEngine<T, TJ, TC, TW, TG, TS> tableEngine;
 
     /*@Override
     public String getSql() {
@@ -101,17 +101,17 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public <F extends TableHelper<F, FO, FC, FW, FG, FS>,
-            FO extends OnHelper<FO>,
+    public <F extends TableHelper<F, FJ, FC, FW, FG, FS>,
+            FJ extends JoinHelper<FJ>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
-            FS extends SortHelper<FS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> sql(Sql<F, FO, FC, FW, FG, FS> sql) {
+            FS extends SortHelper<FS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sql(Sql<F, FJ, FC, FW, FG, FS> sql) {
         return this;
     }
 
     @Override
-    public <FC extends ColumnHelper<FC>> SqlHelperEngine<T, TO, TC, TW, TG, TS> sqlColumn(SqlColumn<FC> sqlColumn) {
+    public <FC extends ColumnHelper<FC>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlColumn(SqlColumn<FC> sqlColumn) {
         if (sqlColumn == null) {
             return this;
         }
@@ -120,161 +120,161 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TS>,
     }
 
     @Override
-    public <FO extends OnHelper<FO>> SqlHelperEngine<T, TO, TC, TW, TG, TS> sqlJoin(SqlJoin<FO> sqlJoin) {
+    public <FJ extends JoinHelper<FJ>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlJoin(SqlJoin<FJ> sqlJoin) {
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> column(ColumnHelper<?>... columnHelpers) {
         this.tableEngine.column(columnHelpers);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> column(ColumnCallback<TC> columnCallback) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> column(ColumnCallback<TC> columnCallback) {
         this.tableEngine.column(columnCallback);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         this.tableEngine.column(tableHelperClass, tableAlias, columnCallback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> virtualColumn(Object value, String alias) {
         this.tableEngine.virtualColumn(value, alias);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
         this.tableEngine.groupColumn(groupType, columnCallback);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
         this.tableEngine.groupColumn(tableHelperClass, tableAlias, groupType, columnCallback);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SO, SC, SW, SG, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
         this.tableEngine.subQuery(tableName, tableHelperClass, tableAlias, callback, columnAlias);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> callback) {
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TJ, SJ> callback) {
         this.tableEngine.join(joinType, tableName, tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> where(WhereCallback<TW> callback) {
         this.tableEngine.where(callback);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
         this.tableEngine.where(tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> group(GroupHelper<?>... groupHelpers) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> group(GroupHelper<?>... groupHelpers) {
         this.tableEngine.group(groupHelpers);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> group(GroupCallback<TG> callback) {
         this.tableEngine.group(callback);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
         this.tableEngine.group(tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> sort(SortHelper<?>... sortHelpers) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> sort(SortHelper<?>... sortHelpers) {
         this.tableEngine.sort(sortHelpers);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> sort(SortCallback<TS> callback) {
         this.tableEngine.sort(callback);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
         this.tableEngine.sort(tableHelperClass, tableAlias, callback);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limitTop(Long num) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> limitTop(Long num) {
         this.tableEngine.limitTop(num);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limitOne() {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> limitOne() {
         this.tableEngine.limitOne();
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(LimitSql limit) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> limit(LimitSql limit) {
         this.tableEngine.limit(limit);
         return this;
     }
 
     @Override
-    public SqlHelperEngine<T, TO, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TS> limit(Long total, Long currentPage, Long pageSize) {
         this.tableEngine.limit(total, currentPage, pageSize);
         return this;
     }

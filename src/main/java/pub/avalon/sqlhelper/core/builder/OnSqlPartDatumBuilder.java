@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
- * On Sql片段数据构建器
+ * Join Sql片段数据构建器
  *
  * @author 白超
  * @version 1.0
@@ -403,8 +403,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -433,8 +433,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -463,8 +463,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -493,8 +493,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -523,8 +523,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -553,8 +553,8 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SS>,
-            SO extends OnHelper<SO>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+            SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
