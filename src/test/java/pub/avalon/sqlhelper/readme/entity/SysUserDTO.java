@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.readme.entity;
 
 import pub.avalon.sqlhelper.core.beans.TableColumn;
-import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -16,17 +16,17 @@ public class SysUserDTO {
     
         
             /**
-             * 主键ID
+             * 
              */
          private String id;
         
             /**
-             * 用户名
+             * 
              */
          private String userName;
         
             /**
-             * 登录名
+             * 
              */
          private String loginName;
     
@@ -95,32 +95,32 @@ public class SysUserDTO {
         
             
                 /**
-                 * 主键ID
+                 * 
                  */
              public final static String ID = "id";
             
                 /**
-                 * 主键ID - 别名
+                 *  - 别名
                  */
              public final static String ID_ALIAS = "id";
             
                 /**
-                 * 用户名
+                 * 
                  */
              public final static String USER_NAME = "user_name";
             
                 /**
-                 * 用户名 - 别名
+                 *  - 别名
                  */
              public final static String USER_NAME_ALIAS = "userName";
             
                 /**
-                 * 登录名
+                 * 
                  */
              public final static String LOGIN_NAME = "login_name";
             
                 /**
-                 * 登录名 - 别名
+                 *  - 别名
                  */
              public final static String LOGIN_NAME_ALIAS = "loginName";
         
@@ -246,18 +246,18 @@ public class SysUserDTO {
                 super(tableAlias);
             }
 
-            public OnSqlPartDatumBuilder<Join> primaryKey() {
+            public JoinSqlPartDatumBuilder<Join> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
             
-                public OnSqlPartDatumBuilder<Join> id() {
+                public JoinSqlPartDatumBuilder<Join> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<Join> userName() {
+                public JoinSqlPartDatumBuilder<Join> userName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<Join> loginName() {
+                public JoinSqlPartDatumBuilder<Join> loginName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS);
                 }
             
@@ -375,6 +375,18 @@ public class SysUserDTO {
             
 
         }
+
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<Helper, Join, Column, Where, Group, Sort> {}
+
+        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {}
+
+        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {}
+
+        public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {}
+
+        public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.SqlGroup<Group> {}
+
+        public static class SqlSort extends pub.avalon.sqlhelper.core.engine.SqlSort<Sort> {}
 
     }
 

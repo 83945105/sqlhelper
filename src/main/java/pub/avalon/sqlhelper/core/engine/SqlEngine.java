@@ -17,8 +17,14 @@ public interface SqlEngine<R> {
             FG extends GroupHelper<FG>,
             FS extends SortHelper<FS>> R sql(Sql<F, FJ, FC, FW, FG, FS> sql);
 
+    <FJ extends JoinHelper<FJ>> R sqlJoin(SqlJoin<FJ> sqlJoin);
 
     <FC extends ColumnHelper<FC>> R sqlColumn(SqlColumn<FC> sqlColumn);
 
-    <FJ extends JoinHelper<FJ>> R sqlJoin(SqlJoin<FJ> sqlJoin);
+    <FW extends WhereHelper<FW>> R sqlWhere(SqlWhere<FW> sqlWhere);
+
+    <FG extends GroupHelper<FG>> R sqlGroup(SqlGroup<FG> sqlGroup);
+
+    <FS extends SortHelper<FS>> R sqlSort(SqlSort<FS> sqlSort);
+
 }

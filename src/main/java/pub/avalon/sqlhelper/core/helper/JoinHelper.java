@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.OnDatum;
 
 /**
@@ -12,12 +12,12 @@ import pub.avalon.sqlhelper.core.data.OnDatum;
 public class JoinHelper<T extends JoinHelper<T>> extends Helper<T, OnDatum> {
 
     public JoinHelper(String tableAlias) {
-        super(tableAlias, new OnSqlPartDatumBuilder<>(tableAlias));
+        super(tableAlias, new JoinSqlPartDatumBuilder<>(tableAlias));
     }
 
     @Override
-    protected OnSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
-        return (OnSqlPartDatumBuilder<T>) super.apply(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+    protected JoinSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
+        return (JoinSqlPartDatumBuilder<T>) super.apply(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
     }
 
 }

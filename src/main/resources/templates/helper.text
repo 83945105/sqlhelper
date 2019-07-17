@@ -9,7 +9,7 @@ import java.util.Set;
 import java.lang.String;
 
 @SuppressWarnings("all")
-public final class [(${table.tableAlias})][(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], [(${table.tableAlias})][(${table.generateOptions.helperClassName})].On, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Column, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Where, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Group, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Sort> {
+public final class [(${table.tableAlias})][(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Join, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Column, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Where, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Group, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Sort> {
     [# th:if="${table.generateOptions.entityFieldComment == true}"]
         /**
          * 表名
@@ -61,12 +61,12 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         return new [(${table.tableAlias})][(${table.generateOptions.helperClassName})]();
     }
 
-    public static On on() {
-        return new On(TABLE_ALIAS);
+    public static Join join() {
+        return new Join(TABLE_ALIAS);
     }
 
-    public static On on(String tableAlias) {
-        return new On(tableAlias);
+    public static Join join(String tableAlias) {
+        return new Join(tableAlias);
     }
 
     public static Column column() {
@@ -132,8 +132,8 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
     }
 
     @Override
-    public On newOnHelper(String tableAlias) {
-        return on(tableAlias);
+    public Join newJoinHelper(String tableAlias) {
+        return join(tableAlias);
     }
 
     @Override
@@ -156,18 +156,18 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         return sort(tableAlias);
     }
 
-    public final static class On extends OnHelper<On> {
+    public final static class Join extends JoinHelper<Join> {
 
-        private On(String tableAlias) {
+        private Join(String tableAlias) {
             super(tableAlias);
         }
 
-        public OnSqlPartDatumBuilder<On> primaryKey() {
+        public JoinSqlPartDatumBuilder<Join> primaryKey() {
             return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
         }
 
         [# th:each="column : ${table.columns}"]
-            public OnSqlPartDatumBuilder<On> [(${table.getColumnAlias(column)})]() {
+            public JoinSqlPartDatumBuilder<Join> [(${table.getColumnAlias(column)})]() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS);
             }
         [/]
@@ -253,5 +253,17 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         [/]
 
     }
+
+    public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], Join, Column, Where, Group, Sort> {}
+
+    public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {}
+
+    public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {}
+
+    public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {}
+
+    public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.SqlGroup<Group> {}
+
+    public static class SqlSort extends pub.avalon.sqlhelper.core.engine.SqlSort<Sort> {}
 
 }

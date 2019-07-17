@@ -23,13 +23,13 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {
+public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {
 
     private OnDatum onDatum;
 
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    public OnSqlPartDatumBuilder(String tableAlias) {
+    public JoinSqlPartDatumBuilder(String tableAlias) {
         super(tableAlias);
     }
 
@@ -319,7 +319,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T equalTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
+    public T equalTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         OnDatum onDatum = onSqlDataBuilder.onDatum;
@@ -333,7 +333,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T notEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
+    public T notEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.NOT_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         OnDatum onDatum = onSqlDataBuilder.onDatum;
@@ -347,7 +347,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T greaterThan(OnSqlPartDatumBuilder onSqlDataBuilder) {
+    public T greaterThan(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.GREATER);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         OnDatum onDatum = onSqlDataBuilder.onDatum;
@@ -361,7 +361,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T greaterThanAndEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
+    public T greaterThanAndEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         OnDatum onDatum = onSqlDataBuilder.onDatum;
@@ -375,7 +375,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T lessThan(OnSqlPartDatumBuilder onSqlDataBuilder) {
+    public T lessThan(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.LESS);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         OnDatum onDatum = onSqlDataBuilder.onDatum;
@@ -389,7 +389,7 @@ public final class OnSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends A
     }
 
     @Override
-    public T lessThanAndEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
+    public T lessThanAndEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.LESS_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
         OnDatum onDatum = onSqlDataBuilder.onDatum;

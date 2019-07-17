@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.comparison;
 
-import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.callback.OnColumnCallback;
 import pub.avalon.sqlhelper.core.helper.*;
 
@@ -16,50 +16,50 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 等于
      *
-     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
+     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
      * @return On条件模组
      */
-    T equalTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
+    T equalTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
 
     /**
      * 不等于
      *
-     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
+     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
      * @return On条件模组
      */
-    T notEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
+    T notEqualTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
 
     /**
      * 大于
      *
-     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
+     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
      * @return On条件模组
      */
-    T greaterThan(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
+    T greaterThan(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
 
     /**
      * 大于等于
      *
-     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
+     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
      * @return On条件模组
      */
-    T greaterThanAndEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
+    T greaterThanAndEqualTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
 
     /**
      * 小于
      *
-     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
+     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
      * @return On条件模组
      */
-    T lessThan(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
+    T lessThan(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
 
     /**
      * 小于等于
      *
-     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
+     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
      * @return On条件模组
      */
-    T lessThanAndEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
+    T lessThanAndEqualTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
 
     /**
      * 等于

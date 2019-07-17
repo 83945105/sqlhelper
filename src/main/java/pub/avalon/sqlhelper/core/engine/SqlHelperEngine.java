@@ -120,6 +120,21 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
     }
 
     @Override
+    public <FW extends WhereHelper<FW>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlWhere(SqlWhere<FW> sqlWhere) {
+        return this;
+    }
+
+    @Override
+    public <FG extends GroupHelper<FG>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlGroup(SqlGroup<FG> sqlGroup) {
+        return this;
+    }
+
+    @Override
+    public <FS extends SortHelper<FS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlSort(SqlSort<FS> sqlSort) {
+        return this;
+    }
+
+    @Override
     public <FJ extends JoinHelper<FJ>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlJoin(SqlJoin<FJ> sqlJoin) {
         return this;
     }

@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.readme.entity;
 
 import pub.avalon.sqlhelper.core.beans.TableColumn;
-import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -302,24 +302,24 @@ public class UserRoleDTO {
                 super(tableAlias);
             }
 
-            public OnSqlPartDatumBuilder<Join> primaryKey() {
+            public JoinSqlPartDatumBuilder<Join> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
             
-                public OnSqlPartDatumBuilder<Join> id() {
+                public JoinSqlPartDatumBuilder<Join> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<Join> userId() {
+                public JoinSqlPartDatumBuilder<Join> userId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<Join> roleId() {
+                public JoinSqlPartDatumBuilder<Join> roleId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<Join> roleName() {
+                public JoinSqlPartDatumBuilder<Join> roleName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS);
                 }
-                public OnSqlPartDatumBuilder<Join> sortIndex() {
+                public JoinSqlPartDatumBuilder<Join> sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS);
                 }
             
@@ -469,6 +469,18 @@ public class UserRoleDTO {
             
 
         }
+
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<Helper, Join, Column, Where, Group, Sort> {}
+
+        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {}
+
+        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {}
+
+        public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {}
+
+        public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.SqlGroup<Group> {}
+
+        public static class SqlSort extends pub.avalon.sqlhelper.core.engine.SqlSort<Sort> {}
 
     }
 
