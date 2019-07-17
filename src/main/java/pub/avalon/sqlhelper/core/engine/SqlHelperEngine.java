@@ -105,11 +105,13 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FS extends SortHelper<FS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sql(Sql<F, FJ, FC, FW, FG, FS> sql) {
+        // 暂未实现
         return this;
     }
 
     @Override
     public <FC extends ColumnHelper<FC>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlColumn(SqlColumn<FC> sqlColumn) {
+        // 暂未实现
         if (sqlColumn == null) {
             return this;
         }
@@ -126,21 +128,25 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
 
     @Override
     public <FW extends WhereHelper<FW>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlWhere(SqlWhere<FW> sqlWhere) {
+        // 暂未实现
         return this;
     }
 
     @Override
     public <FG extends GroupHelper<FG>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlGroup(SqlGroup<FG> sqlGroup) {
+        // 暂未实现
         return this;
     }
 
     @Override
     public <FS extends SortHelper<FS>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlSort(SqlSort<FS> sqlSort) {
+        // 暂未实现
         return this;
     }
 
     @Override
     public <FJ extends JoinHelper<FJ>> SqlHelperEngine<T, TJ, TC, TW, TG, TS> sqlJoin(SqlJoin<FJ> sqlJoin) {
+        // 暂未实现
         return this;
     }
 
