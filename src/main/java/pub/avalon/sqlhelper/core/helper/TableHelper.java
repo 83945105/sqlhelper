@@ -10,11 +10,12 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/15
  */
-public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
+        TH extends HavingHelper<TH>,
         TS extends SortHelper<TS>> {
 
     /**
@@ -90,6 +91,14 @@ public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
      * @return {@link GroupHelper}
      */
     TG newGroupHelper(String tableAlias);
+
+    /**
+     * 创建分组条件租售
+     *
+     * @param tableAlias 表别名
+     * @return {@link HavingHelper}
+     */
+    TH newHavingHelper(String tableAlias);
 
     /**
      * 创建排序助手

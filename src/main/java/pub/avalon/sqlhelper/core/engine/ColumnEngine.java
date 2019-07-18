@@ -38,11 +38,12 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
      * @param columnCallback   {@link ColumnCallback}
      * @return {@link ColumnEngine}
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback);
 
     /**
@@ -52,11 +53,12 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
      * @param columnCallback   {@link ColumnCallback}
      * @return {@link ColumnEngine}
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, ColumnCallback<SC> columnCallback) {
         return column(tableHelperClass, null, columnCallback);
     }
@@ -73,53 +75,59 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
 
     R groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback);
 
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback);
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, GroupType groupType, ColumnCallback<SC> columnCallback) {
         return groupColumn(tableHelperClass, null, groupType, columnCallback);
     }
 
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias);
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias);
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
         return this.subQuery(tableName, tableHelperClass, null, callback, columnAlias);
     }
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
         return this.subQuery(null, tableHelperClass, null, callback, columnAlias);
     }
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
         return this.subQuery(null, tableHelperClass, tableAlias, callback, columnAlias);
     }
 

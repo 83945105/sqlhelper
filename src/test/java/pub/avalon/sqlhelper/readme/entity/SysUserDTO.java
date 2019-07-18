@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.readme.entity;
 
 import pub.avalon.sqlhelper.core.beans.TableColumn;
+import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
@@ -16,17 +17,17 @@ public class SysUserDTO {
     
         
             /**
-             * 
+             * 主键ID
              */
          private String id;
         
             /**
-             * 
+             * 用户名
              */
          private String userName;
         
             /**
-             * 
+             * 登录名
              */
          private String loginName;
     
@@ -71,7 +72,7 @@ public class SysUserDTO {
         
     
 
-    public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Sort> {
+    public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
         
             /**
              * 表名
@@ -95,32 +96,32 @@ public class SysUserDTO {
         
             
                 /**
-                 * 
+                 * 主键ID
                  */
              public final static String ID = "id";
             
                 /**
-                 *  - 别名
+                 * 主键ID - 别名
                  */
              public final static String ID_ALIAS = "id";
             
                 /**
-                 * 
+                 * 用户名
                  */
              public final static String USER_NAME = "user_name";
             
                 /**
-                 *  - 别名
+                 * 用户名 - 别名
                  */
              public final static String USER_NAME_ALIAS = "userName";
             
                 /**
-                 * 
+                 * 登录名
                  */
              public final static String LOGIN_NAME = "login_name";
             
                 /**
-                 *  - 别名
+                 * 登录名 - 别名
                  */
              public final static String LOGIN_NAME_ALIAS = "loginName";
         
@@ -175,6 +176,14 @@ public class SysUserDTO {
 
         public static Group group(String tableAlias) {
             return new Group(tableAlias);
+        }
+
+        public static Having having() {
+            return new Having(TABLE_ALIAS);
+        }
+
+        public static Having having(String tableAlias) {
+            return new Having(tableAlias);
         }
 
         public static Sort sort() {
@@ -233,6 +242,11 @@ public class SysUserDTO {
         @Override
         public Group newGroupHelper(String tableAlias) {
             return group(tableAlias);
+        }
+
+        @Override
+        public Having newHavingHelper(String tableAlias) {
+            return having(tableAlias);
         }
 
         @Override
@@ -368,6 +382,34 @@ public class SysUserDTO {
 
         }
 
+        public final static class Having extends HavingHelper<Having> {
+
+            public Having() {
+                super(TABLE_ALIAS);
+            }
+
+            public Having(String tableAlias) {
+                super(tableAlias);
+            }
+
+            public HavingSqlPartDatumBuilder<Having> primaryKey() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
+            }
+
+            
+                public HavingSqlPartDatumBuilder<Having> id() {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
+                }
+                public HavingSqlPartDatumBuilder<Having> userName() {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS);
+                }
+                public HavingSqlPartDatumBuilder<Having> loginName() {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS);
+                }
+            
+
+        }
+
         public final static class Sort extends SortHelper<Sort> {
 
             public Sort() {
@@ -396,17 +438,68 @@ public class SysUserDTO {
 
         }
 
-        public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<Helper, Join, Column, Where, Group, Sort> {}
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
+            public Sql() {
+                super(TABLE_ALIAS);
+            }
+            public Sql(String tableAlias) {
+                super(tableAlias);
+            }
+        }
 
-        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {}
+        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.SqlJoin<Join> {
+            public SqlJoin() {
+                super(TABLE_ALIAS);
+            }
+            public SqlJoin(String tableAlias) {
+                super(tableAlias);
+            }
+        }
 
-        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {}
+        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.SqlColumn<Column> {
+            public SqlColumn() {
+                super(TABLE_ALIAS);
+            }
+            public SqlColumn(String tableAlias) {
+                super(tableAlias);
+            }
+        }
 
-        public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {}
+        public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.SqlWhere<Where> {
+            public SqlWhere() {
+                super(TABLE_ALIAS);
+            }
+            public SqlWhere(String tableAlias) {
+                super(tableAlias);
+            }
+        }
 
-        public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.SqlGroup<Group> {}
+        public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.SqlGroup<Group> {
+            public SqlGroup() {
+                super(TABLE_ALIAS);
+            }
+            public SqlGroup(String tableAlias) {
+                super(tableAlias);
+            }
+        }
 
-        public static class SqlSort extends pub.avalon.sqlhelper.core.engine.SqlSort<Sort> {}
+        public static class SqlHaving extends pub.avalon.sqlhelper.core.engine.SqlHaving<Having> {
+            public SqlHaving() {
+                super(TABLE_ALIAS);
+            }
+            public SqlHaving(String tableAlias) {
+                super(tableAlias);
+            }
+        }
+
+        public static class SqlSort extends pub.avalon.sqlhelper.core.engine.SqlSort<Sort> {
+            public SqlSort() {
+                super(TABLE_ALIAS);
+            }
+            public SqlSort(String tableAlias) {
+                super(tableAlias);
+            }
+        }
 
     }
 

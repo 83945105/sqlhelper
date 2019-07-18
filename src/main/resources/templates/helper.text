@@ -9,7 +9,7 @@ import java.util.Set;
 import java.lang.String;
 
 @SuppressWarnings("all")
-public final class [(${table.tableAlias})][(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Join, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Column, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Where, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Group, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Sort> {
+public final class [(${table.tableAlias})][(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Join, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Column, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Where, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Group, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Having, [(${table.tableAlias})][(${table.generateOptions.helperClassName})].Sort> {
     [# th:if="${table.generateOptions.entityFieldComment == true}"]
         /**
          * 表名
@@ -93,6 +93,14 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         return new Group(tableAlias);
     }
 
+    public static Having having() {
+        return new Having(TABLE_ALIAS);
+    }
+
+    public static Having having(String tableAlias) {
+        return new Having(tableAlias);
+    }
+
     public static Sort sort() {
         return new Sort(TABLE_ALIAS);
     }
@@ -149,6 +157,11 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
     @Override
     public Group newGroupHelper(String tableAlias) {
         return group(tableAlias);
+    }
+
+    @Override
+    public Having newHavingHelper(String tableAlias) {
+        return having(tableAlias);
     }
 
     @Override
@@ -252,6 +265,28 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     }
 
+    public final static class Having extends HavingHelper<Having> {
+
+        public Having() {
+            super(TABLE_ALIAS);
+        }
+
+        public Having(String tableAlias) {
+            super(tableAlias);
+        }
+
+        public HavingSqlPartDatumBuilder<Having> primaryKey() {
+            return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
+        }
+
+        [# th:each="column : ${table.columns}"]
+            public HavingSqlPartDatumBuilder<Having> [(${table.getColumnAlias(column)})]() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS);
+            }
+        [/]
+
+    }
+
     public final static class Sort extends SortHelper<Sort> {
 
         public Sort() {
@@ -274,7 +309,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
 
     }
 
-    public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], Join, Column, Where, Group, Sort> {
+    public static class Sql extends pub.avalon.sqlhelper.core.engine.Sql<[(${table.tableAlias})][(${table.generateOptions.helperClassName})], Join, Column, Where, Group, Having, Sort> {
         public Sql() {
             super(TABLE_ALIAS);
         }
@@ -315,6 +350,15 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
             super(TABLE_ALIAS);
         }
         public SqlGroup(String tableAlias) {
+            super(tableAlias);
+        }
+    }
+
+    public static class SqlHaving extends pub.avalon.sqlhelper.core.engine.SqlHaving<Having> {
+        public SqlHaving() {
+            super(TABLE_ALIAS);
+        }
+        public SqlHaving(String tableAlias) {
             super(tableAlias);
         }
     }

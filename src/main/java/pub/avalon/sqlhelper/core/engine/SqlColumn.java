@@ -42,13 +42,14 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlColumn<TC> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SS, TC>().setTableHelperClass(tableHelperClass).setTableAlias(tableAlias).setColumnCallbackJoin(columnCallback));
+        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SH, SS, TC>().setTableHelperClass(tableHelperClass).setTableAlias(tableAlias).setColumnCallbackJoin(columnCallback));
         return this;
     }
 
@@ -63,22 +64,24 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlColumn<TC> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> SqlColumn<TC> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback, String columnAlias) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> SqlColumn<TC> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
         return null;
     }
 

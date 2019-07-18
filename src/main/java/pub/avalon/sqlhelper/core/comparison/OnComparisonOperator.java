@@ -69,11 +69,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass,
                                                  String tableAlias,
                                                  OnColumnCallback<SC> callback);
@@ -85,11 +86,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass,
                                                  OnColumnCallback<SC> callback) {
         return this.equalTo(tableHelperClass, null, callback);
@@ -103,11 +105,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass,
                                                     String tableAlias,
                                                     OnColumnCallback<SC> callback);
@@ -119,11 +122,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass,
                                                     OnColumnCallback<SC> callback) {
         return this.notEqualTo(tableHelperClass, null, callback);
@@ -137,11 +141,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass,
                                                      String tableAlias,
                                                      OnColumnCallback<SC> callback);
@@ -153,11 +158,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass,
                                                      OnColumnCallback<SC> callback) {
         return this.greaterThan(tableHelperClass, null, callback);
@@ -171,11 +177,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass,
                                                                String tableAlias,
                                                                OnColumnCallback<SC> callback);
@@ -187,11 +194,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass,
                                                                OnColumnCallback<SC> callback) {
         return this.greaterThanAndEqualTo(tableHelperClass, null, callback);
@@ -205,11 +213,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass,
                                                   String tableAlias,
                                                   OnColumnCallback<SC> callback);
@@ -221,11 +230,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass,
                                                   OnColumnCallback<SC> callback) {
         return this.lessThan(tableHelperClass, null, callback);
@@ -239,11 +249,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass,
                                                             String tableAlias,
                                                             OnColumnCallback<SC> callback);
@@ -255,11 +266,12 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param callback         On处理
      * @return On条件模组
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass,
                                                             OnColumnCallback<SC> callback) {
         return this.lessThanAndEqualTo(tableHelperClass, null, callback);

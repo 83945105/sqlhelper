@@ -16,18 +16,20 @@ public interface GroupEngine<TG extends GroupHelper<TG>, R extends GroupEngine<T
 
     R group(GroupCallback<TG> callback);
 
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback);
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, GroupCallback<SG> callback) {
         return group(tableHelperClass, null, callback);
     }

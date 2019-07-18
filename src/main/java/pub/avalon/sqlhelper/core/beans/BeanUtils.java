@@ -100,6 +100,17 @@ public final class BeanUtils {
     }
 
     @SuppressWarnings("unchecked")
+    public static <T extends HavingHelper<T>> Class<T> getHavingHelperClass(SqlHaving<T> sqlHaving) {
+        return GenericsUtils.getExpectAncestorsClassGenricType(sqlHaving.getClass(), HavingHelper.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends HavingHelper<T>> T getHavingHelper(SqlHaving<T> sqlHaving) {
+        Object obj = org.springframework.beans.BeanUtils.instantiateClass(getHavingHelperClass(sqlHaving));
+        return (T) obj;
+    }
+
+    @SuppressWarnings("unchecked")
     public static <T extends SortHelper<T>> Class<T> getSortHelperClass(SqlSort<T> sqlSort) {
         return GenericsUtils.getExpectAncestorsClassGenricType(sqlSort.getClass(), SortHelper.class);
     }

@@ -16,18 +16,20 @@ public interface SortEngine<TS extends SortHelper<TS>, R extends SortEngine<TS, 
 
     R sort(SortCallback<TS> callback);
 
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback);
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, SortCallback<SS> callback) {
         return sort(tableHelperClass, null, callback);
     }

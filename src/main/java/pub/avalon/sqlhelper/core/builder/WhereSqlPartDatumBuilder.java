@@ -464,11 +464,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -485,11 +486,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -506,11 +508,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -527,11 +530,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -548,11 +552,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -569,11 +574,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -590,11 +596,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -614,11 +621,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T like(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -635,11 +643,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T in(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -656,11 +665,12 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T notIn(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
@@ -677,12 +687,13 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
 /*        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getModel().getSqlData(), tableName, modelClass, alias, callback);
         this.whereDatum.setWhereType(WhereType.EQUAL);
         this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
@@ -692,82 +703,90 @@ public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> ext
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
-            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SS> callback) {
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
         return null;
     }
 

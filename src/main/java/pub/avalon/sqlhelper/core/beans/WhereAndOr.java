@@ -60,11 +60,12 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> WhereAndOr<TW> and(Class<S> tableHelperClass,
                                                           String tableAlias,
                                                           WhereJoinLinkerCallback<TW, SW> callback) {
@@ -130,11 +131,12 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> WhereAndOr<TW> or(Class<S> tableHelperClass,
                                                          String tableAlias,
                                                          WhereJoinLinkerCallback<TW, SW> callback) {
@@ -158,11 +160,12 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> WhereAndOr<TW> or(Class<S> tableHelperClass,
                                                          WhereJoinLinkerCallback<TW, SW> callback) {
         return or(tableHelperClass, null, callback);

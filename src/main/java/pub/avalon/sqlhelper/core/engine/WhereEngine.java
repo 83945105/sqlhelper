@@ -15,18 +15,20 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
 
     R where(WhereCallback<TW> callback);
 
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback);
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, WhereJoinCallback<TW, SW> callback) {
         return where(tableHelperClass, null, callback);
     }

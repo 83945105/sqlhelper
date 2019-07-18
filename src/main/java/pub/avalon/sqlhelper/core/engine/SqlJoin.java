@@ -22,11 +22,12 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<T
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlJoin<TJ> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TJ, SJ> callback) {
         return null;
     }

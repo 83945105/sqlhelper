@@ -17,11 +17,12 @@ import java.util.Map;
  * @date 2018/11/18
  */
 @FunctionalInterface
-public interface SubQueryCallback<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+public interface SubQueryCallback<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
+        TH extends HavingHelper<TH>,
         TS extends SortHelper<TS>> {
 
     /**
@@ -30,7 +31,7 @@ public interface SubQueryCallback<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
      * @param query
      * @return
      */
-    SqlBuilder apply(SqlHelperEngine<T, TJ, TC, TW, TG, TS> query);
+    SqlBuilder apply(SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> query);
 
     /**
      * 执行SubQuery
@@ -43,13 +44,14 @@ public interface SubQueryCallback<T extends TableHelper<T, TJ, TC, TW, TG, TS>,
      * @param <T>
      * @return
      */
-    static <T extends TableHelper<T, TJ, TC, TW, TG, TS>,
+    static <T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             TJ extends JoinHelper<TJ>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
-            TS extends SortHelper<TS>> SqlBuilder execute(SqlData sqlData, String tableName, Class<T> tableHelperClass, String tableAlias, SubQueryCallback<T, TJ, TC, TW, TG, TS> subQuery) {
-        SqlHelperEngine<T, TJ, TC, TW, TG, TS> tableEngine;
+            TH extends HavingHelper<TH>,
+            TS extends SortHelper<TS>> SqlBuilder execute(SqlData sqlData, String tableName, Class<T> tableHelperClass, String tableAlias, SubQueryCallback<T, TJ, TC, TW, TG, TH, TS> subQuery) {
+        SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> tableEngine;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
                 tableEngine = new SqlHelperEngine<>(sqlData.getDataBaseType(), tableName, tableHelperClass, tableAlias);

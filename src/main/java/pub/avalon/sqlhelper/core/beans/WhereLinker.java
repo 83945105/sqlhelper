@@ -48,11 +48,12 @@ public interface WhereLinker<TW extends WhereHelper<TW>> {
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> WhereAndOr<TW> and(Class<S> tableHelperClass,
                                                           String tableAlias,
                                                           WhereJoinLinkerCallback<TW, SW> callback);
@@ -64,11 +65,12 @@ public interface WhereLinker<TW extends WhereHelper<TW>> {
      * @param callback         条件连接器回调
      * @return {@link WhereAndOr}
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> WhereAndOr<TW> and(Class<S> tableHelperClass,
                                                           WhereJoinLinkerCallback<TW, SW> callback) {
         return and(tableHelperClass, null, callback);

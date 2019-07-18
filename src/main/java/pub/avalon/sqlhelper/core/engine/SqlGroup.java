@@ -31,11 +31,12 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlGroup<TG> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
         return null;
     }

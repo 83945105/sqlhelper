@@ -28,7 +28,7 @@ public class Test {
 
         SqlHelperEngine sqlEngine = SqlDynamicEngine.table(DataBaseType.MYSQL, "", RoleResourceDTO.Helper.class)
 
-                .sql(new Sql<RoleResourceDTO.Helper, RoleResourceDTO.Helper.Join, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Sort>() {{
+                .sql(new Sql<RoleResourceDTO.Helper, RoleResourceDTO.Helper.Join, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Having, RoleResourceDTO.Helper.Sort>() {{
 
                     if (true) {
                         column(table -> table.id().resourceName());
@@ -50,7 +50,7 @@ public class Test {
                 .sqlColumn(new RoleResourceDTO.Helper.SqlColumn().column(table -> table.id().resourceId()))
                 .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {
                 }.column(table -> table.id().loginName()))
-                .sqlColumn(new RoleResourceDTO.Helper.SqlColumn(){{
+                .sqlColumn(new RoleResourceDTO.Helper.SqlColumn() {{
 
                     column(SysUserDTO.Helper.class, table -> table.userName().userName(""));
 

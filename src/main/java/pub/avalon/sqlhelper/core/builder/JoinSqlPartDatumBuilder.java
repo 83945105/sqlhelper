@@ -403,11 +403,12 @@ public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
@@ -433,11 +434,12 @@ public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.NOT_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
@@ -463,11 +465,12 @@ public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER);
         this.onDatum.setOnValueType(OnValueType.JOIN);
@@ -493,11 +496,12 @@ public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
@@ -523,11 +527,12 @@ public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS);
         this.onDatum.setOnValueType(OnValueType.JOIN);
@@ -553,11 +558,12 @@ public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SS>,
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS_EQUAL);
         this.onDatum.setOnValueType(OnValueType.JOIN);
