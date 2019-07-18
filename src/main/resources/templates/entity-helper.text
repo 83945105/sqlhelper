@@ -237,7 +237,15 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
             }
 
+            public Column primaryKey(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
+            }
+
             public Column primaryKey(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias).getHelper();
+            }
+
+            public Column primaryKey(String alias, ColumnHandler... columnHandlers) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias).getHelper();
             }
 

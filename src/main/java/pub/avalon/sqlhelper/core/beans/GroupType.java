@@ -6,7 +6,7 @@ package pub.avalon.sqlhelper.core.beans;
  * @author 白超
  * @date 2019/6/17
  */
-public enum GroupType {
+public enum GroupType implements ColumnHandler {
     /**
      * 最小值
      */

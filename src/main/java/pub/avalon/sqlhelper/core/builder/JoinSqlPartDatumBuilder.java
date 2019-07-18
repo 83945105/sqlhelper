@@ -23,14 +23,14 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class JoinSqlPartDatumBuilder<T extends Helper<T, OnDatum>> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {
+public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {
 
     private OnDatum onDatum;
 
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    public JoinSqlPartDatumBuilder(String tableAlias) {
-        super(tableAlias);
+    public JoinSqlPartDatumBuilder(String tableAlias, T helper) {
+        super(tableAlias, helper);
     }
 
     @Override

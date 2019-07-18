@@ -12,28 +12,28 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public interface SqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDatum> {
+public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
 
     /**
      * 获取助手
      *
      * @return {@link Helper}
      */
-    S getHelper();
+    T getHelper();
 
     /**
      * 设置助手
      *
      * @param helper {@link Helper}
      */
-    void setHelper(S helper);
+    void setHelper(T helper);
 
     /**
      * 添加sql片段数据
      *
      * @param sqlPartDatum {@link SqlPartDatum}
      */
-    void addSqlPartDatum(E sqlPartDatum);
+    void addSqlPartDatum(S sqlPartDatum);
 
     /**
      * 取出sql片段数据
@@ -41,7 +41,7 @@ public interface SqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDa
      *
      * @return {@link java.util.LinkedHashSet}
      */
-    Set<E> takeoutSqlPartData();
+    Set<S> takeoutSqlPartData();
 
     /**
      * 接收数据

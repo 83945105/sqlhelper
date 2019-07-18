@@ -8,14 +8,14 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
  * @author 白超
  * @date 2019/7/18
  */
-public class HavingSqlPartDatumBuilder<T extends Helper<T, HavingDatum>> extends AbstractSqlPartDatumBuilder<T, HavingDatum> {
+public class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, HavingDatum> {
 
     private HavingDatum havingDatum;
 
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    public HavingSqlPartDatumBuilder(String tableAlias) {
-        super(tableAlias);
+    public HavingSqlPartDatumBuilder(String tableAlias, T helper) {
+        super(tableAlias, helper);
     }
 
     @Override

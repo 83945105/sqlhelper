@@ -63,7 +63,7 @@ public class Test {
 
                 .column(table -> table.id().id())
                 .column(table -> table.id().id().id(""))
-                .column(SysUserDTO.Helper.class, table -> table.userName().userName(""))
+                .column(SysUserDTO.Helper.class, table -> table.userName().userName("").id(GroupType.COUNT))
                 .column(SysUserDTO.Helper.class, "", table -> table.userName().userName(""))
                 .column(table -> column)
                 .column(column)
@@ -128,6 +128,9 @@ public class Test {
                 .group(table -> group)
                 .group(SysUserDTO.Helper.class, table -> joinGroup)
                 .group(group, joinGroup)
+
+
+
                 .sort(table -> table.id().asc().id().desc())
                 .sort(SysUserDTO.Helper.class, table -> table.userName().asc().userName().desc())
                 .sort(table -> sort)

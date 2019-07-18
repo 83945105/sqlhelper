@@ -13,32 +13,33 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public abstract class AbstractSqlPartDatumBuilder<S extends Helper<S, E>, E extends SqlPartDatum> implements SqlPartDatumBuilder<S, E> {
+public abstract class AbstractSqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> implements SqlPartDatumBuilder<T, S> {
 
     protected String tableAlias;
+    private T helper;
 
-    public AbstractSqlPartDatumBuilder(String tableAlias) {
+    public AbstractSqlPartDatumBuilder(String tableAlias, T helper) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
+        this.helper = helper;
     }
 
-    private S helper;
-    private Set<E> sqlPartData = null;
+    private Set<S> sqlPartData = null;
 
     @Override
-    public S getHelper() {
+    public T getHelper() {
         return this.helper;
     }
 
     @Override
-    public void setHelper(S helper) {
+    public void setHelper(T helper) {
         this.helper = helper;
     }
 
     @Override
-    public void addSqlPartDatum(E sqlPartDatum) {
+    public void addSqlPartDatum(S sqlPartDatum) {
         if (sqlPartDatum == null) {
             return;
         }
@@ -49,8 +50,8 @@ public abstract class AbstractSqlPartDatumBuilder<S extends Helper<S, E>, E exte
     }
 
     @Override
-    public Set<E> takeoutSqlPartData() {
-        Set<E> sqlModelData = this.sqlPartData;
+    public Set<S> takeoutSqlPartData() {
+        Set<S> sqlModelData = this.sqlPartData;
         this.sqlPartData = null;
         return sqlModelData;
     }

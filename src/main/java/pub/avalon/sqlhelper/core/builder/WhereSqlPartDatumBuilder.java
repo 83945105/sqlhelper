@@ -24,14 +24,14 @@ import java.util.Set;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class WhereSqlPartDatumBuilder<T extends Helper<T, WhereDatum>> extends AbstractSqlPartDatumBuilder<T, WhereDatum> implements WhereComparisonOperator<T> {
+public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, WhereDatum> implements WhereComparisonOperator<T> {
 
     private WhereDatum whereDatum;
 
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    public WhereSqlPartDatumBuilder(String tableAlias) {
-        super(tableAlias);
+    public WhereSqlPartDatumBuilder(String tableAlias, T helper) {
+        super(tableAlias, helper);
     }
 
     @Override

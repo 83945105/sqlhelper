@@ -12,14 +12,14 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class SortSqlPartDatumBuilder<T extends Helper<T, SortDatum>> extends AbstractSqlPartDatumBuilder<T, SortDatum> {
+public final class SortSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, SortDatum> {
 
     private SortDatum sortDatum;
 
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    public SortSqlPartDatumBuilder(String tableAlias) {
-        super(tableAlias);
+    public SortSqlPartDatumBuilder(String tableAlias, T helper) {
+        super(tableAlias, helper);
     }
 
     @Override

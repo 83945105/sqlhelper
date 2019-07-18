@@ -10,12 +10,12 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
  * @author 白超
  * @date 2019/5/6
  */
-public final class GroupSqlPartDatumBuilder<T extends Helper<T, GroupDatum>> extends AbstractSqlPartDatumBuilder<T, GroupDatum> {
+public final class GroupSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, GroupDatum> {
 
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    public GroupSqlPartDatumBuilder(String tableAlias) {
-        super(tableAlias);
+    public GroupSqlPartDatumBuilder(String tableAlias, T helper) {
+        super(tableAlias, helper);
     }
 
     @Override

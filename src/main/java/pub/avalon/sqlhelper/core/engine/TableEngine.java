@@ -20,6 +20,7 @@ public interface TableEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         JoinEngine<TJ, R>,
         WhereEngine<TW, R>,
         GroupEngine<TG, R>,
+        HavingEngine<TH, R>,
         SortEngine<TS, R>,
         LimitEngine<R> {
 }
