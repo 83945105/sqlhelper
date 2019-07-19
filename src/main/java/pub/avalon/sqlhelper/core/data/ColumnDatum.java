@@ -1,5 +1,8 @@
 package pub.avalon.sqlhelper.core.data;
 
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
+
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -20,6 +23,8 @@ public final class ColumnDatum implements SqlPartDatum {
 
     private String mappingFieldName;
 
+    private ColumnHandler[] columnHandlers;
+
     private String tableName;
 
     private String tableAlias;
@@ -34,6 +39,19 @@ public final class ColumnDatum implements SqlPartDatum {
         this.templateColumnName = templateColumnName;
         this.templateColumnAlias = templateColumnAlias;
         this.mappingFieldName = mappingFieldName;
+        this.tableName = templateTableName;
+        this.tableAlias = templateTableAlias;
+        this.columnName = templateColumnName;
+        this.columnAlias = templateColumnAlias;
+    }
+
+    public ColumnDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler[] columnHandlers) {
+        this.templateTableName = templateTableName;
+        this.templateTableAlias = templateTableAlias;
+        this.templateColumnName = templateColumnName;
+        this.templateColumnAlias = templateColumnAlias;
+        this.mappingFieldName = mappingFieldName;
+        this.columnHandlers = columnHandlers;
         this.tableName = templateTableName;
         this.tableAlias = templateTableAlias;
         this.columnName = templateColumnName;
@@ -105,6 +123,14 @@ public final class ColumnDatum implements SqlPartDatum {
         return mappingFieldName;
     }
 
+    public ColumnHandler[] getColumnHandlers() {
+        return columnHandlers;
+    }
+
+    public void setColumnHandlers(ColumnHandler[] columnHandlers) {
+        this.columnHandlers = columnHandlers;
+    }
+
     public String getTableName() {
         return tableName;
     }
@@ -135,6 +161,7 @@ public final class ColumnDatum implements SqlPartDatum {
                 Objects.equals(getTemplateColumnName(), that.getTemplateColumnName()) &&
                 Objects.equals(getTemplateColumnAlias(), that.getTemplateColumnAlias()) &&
                 Objects.equals(getMappingFieldName(), that.getMappingFieldName()) &&
+                Arrays.equals(getColumnHandlers(), that.getColumnHandlers()) &&
                 Objects.equals(getTableName(), that.getTableName()) &&
                 Objects.equals(getTableAlias(), that.getTableAlias()) &&
                 Objects.equals(getColumnName(), that.getColumnName()) &&
@@ -143,6 +170,8 @@ public final class ColumnDatum implements SqlPartDatum {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getTemplateTableName(), getTemplateTableAlias(), getTemplateColumnName(), getTemplateColumnAlias(), getMappingFieldName(), getTableName(), getTableAlias(), getColumnName(), getColumnAlias());
+        int result = Objects.hash(getTemplateTableName(), getTemplateTableAlias(), getTemplateColumnName(), getTemplateColumnAlias(), getMappingFieldName(), getTableName(), getTableAlias(), getColumnName(), getColumnAlias());
+        result = 31 * result + Arrays.hashCode(getColumnHandlers());
+        return result;
     }
 }

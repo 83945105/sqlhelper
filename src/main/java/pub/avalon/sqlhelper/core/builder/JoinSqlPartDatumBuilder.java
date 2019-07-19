@@ -1,9 +1,6 @@
 package pub.avalon.sqlhelper.core.builder;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.ComparisonRule;
-import pub.avalon.sqlhelper.core.beans.OnType;
-import pub.avalon.sqlhelper.core.beans.OnValueType;
+import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.callback.OnColumnCallback;
 import pub.avalon.sqlhelper.core.comparison.OnComparisonOperator;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
@@ -34,7 +31,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
         this.onDatum = new OnDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
                 .setOwnerTableAlias(this.tableAlias);
     }

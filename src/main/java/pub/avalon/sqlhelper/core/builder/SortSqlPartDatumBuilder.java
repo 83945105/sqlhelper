@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.builder;
 
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.SortType;
 import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
@@ -23,7 +24,7 @@ public final class SortSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
         this.sortDatum = new SortDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
                 .setTableAlias(this.tableAlias);
     }

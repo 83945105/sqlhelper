@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.HavingDatum;
@@ -20,6 +21,21 @@ public class HavingHelper<T extends HavingHelper<T>> extends Helper {
     public HavingHelper(String tableAlias) {
         super(tableAlias);
         this.havingSqlPartDatumBuilder = new HavingSqlPartDatumBuilder<>(tableAlias, (T) this);
+    }
+
+    /**
+     * 接收数据
+     *
+     * @param templateTableName   模板表名
+     * @param templateTableAlias  模板表别名
+     * @param templateColumnName  模板列名
+     * @param templateColumnAlias 模板列别名
+     * @param columnHandlers      列处理
+     * @return {@link SqlPartDatumBuilder}
+     */
+    protected HavingSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, ColumnHandler... columnHandlers) {
+        this.havingSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+        return this.havingSqlPartDatumBuilder;
     }
 
     /**

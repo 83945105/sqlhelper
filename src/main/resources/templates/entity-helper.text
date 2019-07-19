@@ -238,7 +238,7 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
             }
 
             public Column primaryKey(ColumnHandler... columnHandlers) {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, columnHandlers).getHelper();
             }
 
             public Column primaryKey(String alias) {
@@ -246,7 +246,7 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
             }
 
             public Column primaryKey(String alias, ColumnHandler... columnHandlers) {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias, columnHandlers).getHelper();
             }
 
             [# th:each="column : ${table.columns}"]
@@ -254,8 +254,16 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS).getHelper();
                 }
 
+                public Column [(${table.getColumnAlias(column)})](ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, columnHandlers).getHelper();
+                }
+
                 public Column [(${table.getColumnAlias(column)})](String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], alias).getHelper();
+                }
+
+                public Column [(${table.getColumnAlias(column)})](String alias, ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], alias, columnHandlers).getHelper();
                 }
             [/]
 
@@ -319,9 +327,17 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
+            public HavingSqlPartDatumBuilder<Having> primaryKey(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, columnHandlers);
+            }
+
             [# th:each="column : ${table.columns}"]
                 public HavingSqlPartDatumBuilder<Having> [(${table.getColumnAlias(column)})]() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS);
+                }
+
+                public HavingSqlPartDatumBuilder<Having> [(${table.getColumnAlias(column)})](ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, columnHandlers);
                 }
             [/]
 

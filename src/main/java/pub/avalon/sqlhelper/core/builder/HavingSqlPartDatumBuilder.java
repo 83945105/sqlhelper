@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.builder;
 
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.data.HavingDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -19,7 +20,7 @@ public class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPart
     }
 
     @Override
-    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
 
     }
 

@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.readme.entity;
 
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.TableColumn;
 import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
@@ -389,8 +390,16 @@ public class RoleResourceDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
             }
 
+            public Column primaryKey(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, columnHandlers).getHelper();
+            }
+
             public Column primaryKey(String alias) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias).getHelper();
+            }
+
+            public Column primaryKey(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias, columnHandlers).getHelper();
             }
 
             
@@ -398,43 +407,91 @@ public class RoleResourceDTO {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS).getHelper();
                 }
 
+                public Column id(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, columnHandlers).getHelper();
+                }
+
                 public Column id(String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, alias).getHelper();
+                }
+
+                public Column id(String alias, ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, alias, columnHandlers).getHelper();
                 }
                 public Column roleId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS).getHelper();
                 }
 
+                public Column roleId(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, columnHandlers).getHelper();
+                }
+
                 public Column roleId(String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, alias).getHelper();
+                }
+
+                public Column roleId(String alias, ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, alias, columnHandlers).getHelper();
                 }
                 public Column roleName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS).getHelper();
                 }
 
+                public Column roleName(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, columnHandlers).getHelper();
+                }
+
                 public Column roleName(String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, alias).getHelper();
+                }
+
+                public Column roleName(String alias, ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, alias, columnHandlers).getHelper();
                 }
                 public Column resourceId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_ID, RESOURCE_ID_ALIAS).getHelper();
                 }
 
+                public Column resourceId(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_ID, RESOURCE_ID_ALIAS, columnHandlers).getHelper();
+                }
+
                 public Column resourceId(String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_ID, alias).getHelper();
+                }
+
+                public Column resourceId(String alias, ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_ID, alias, columnHandlers).getHelper();
                 }
                 public Column resourceName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_NAME, RESOURCE_NAME_ALIAS).getHelper();
                 }
 
+                public Column resourceName(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_NAME, RESOURCE_NAME_ALIAS, columnHandlers).getHelper();
+                }
+
                 public Column resourceName(String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_NAME, alias).getHelper();
+                }
+
+                public Column resourceName(String alias, ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_NAME, alias, columnHandlers).getHelper();
                 }
                 public Column sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS).getHelper();
                 }
 
+                public Column sortIndex(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, columnHandlers).getHelper();
+                }
+
                 public Column sortIndex(String alias) {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, alias).getHelper();
+                }
+
+                public Column sortIndex(String alias, ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, alias, columnHandlers).getHelper();
                 }
             
 
@@ -528,24 +585,52 @@ public class RoleResourceDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
             }
 
+            public HavingSqlPartDatumBuilder<Having> primaryKey(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, columnHandlers);
+            }
+
             
                 public HavingSqlPartDatumBuilder<Having> id() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS);
                 }
+
+                public HavingSqlPartDatumBuilder<Having> id(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, columnHandlers);
+                }
                 public HavingSqlPartDatumBuilder<Having> roleId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS);
+                }
+
+                public HavingSqlPartDatumBuilder<Having> roleId(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, columnHandlers);
                 }
                 public HavingSqlPartDatumBuilder<Having> roleName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS);
                 }
+
+                public HavingSqlPartDatumBuilder<Having> roleName(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, columnHandlers);
+                }
                 public HavingSqlPartDatumBuilder<Having> resourceId() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_ID, RESOURCE_ID_ALIAS);
+                }
+
+                public HavingSqlPartDatumBuilder<Having> resourceId(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_ID, RESOURCE_ID_ALIAS, columnHandlers);
                 }
                 public HavingSqlPartDatumBuilder<Having> resourceName() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_NAME, RESOURCE_NAME_ALIAS);
                 }
+
+                public HavingSqlPartDatumBuilder<Having> resourceName(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, RESOURCE_NAME, RESOURCE_NAME_ALIAS, columnHandlers);
+                }
                 public HavingSqlPartDatumBuilder<Having> sortIndex() {
                     return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS);
+                }
+
+                public HavingSqlPartDatumBuilder<Having> sortIndex(ColumnHandler... columnHandlers) {
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, columnHandlers);
                 }
             
 

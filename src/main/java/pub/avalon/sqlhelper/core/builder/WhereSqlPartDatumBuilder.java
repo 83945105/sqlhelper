@@ -1,9 +1,6 @@
 package pub.avalon.sqlhelper.core.builder;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.ComparisonRule;
-import pub.avalon.sqlhelper.core.beans.WhereType;
-import pub.avalon.sqlhelper.core.beans.WhereValueType;
+import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
 import pub.avalon.sqlhelper.core.callback.WhereColumnCallback;
 import pub.avalon.sqlhelper.core.comparison.WhereComparisonOperator;
@@ -35,7 +32,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     }
 
     @Override
-    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+    public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
         this.whereDatum = new WhereDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
                 .setOwnerTableAlias(this.tableAlias);
     }
