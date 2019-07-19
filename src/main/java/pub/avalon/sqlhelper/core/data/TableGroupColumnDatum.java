@@ -11,7 +11,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/2
  */
-public final class TableFunctionColumnDatum {
+public final class TableGroupColumnDatum {
 
     private String tableAlias;
 
@@ -19,7 +19,7 @@ public final class TableFunctionColumnDatum {
 
     private Set<ColumnDatum> columnData;
 
-    public TableFunctionColumnDatum(String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
+    public TableGroupColumnDatum(String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }

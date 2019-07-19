@@ -54,11 +54,11 @@ public interface SqlDataConsumer {
     Set<VirtualFieldDatum> getVirtualFieldData();
 
     /**
-     * 获取函数列属性
+     * 获取聚合函数列属性
      *
-     * @return {@link TableFunctionColumnDatum}
+     * @return {@link TableGroupColumnDatum}
      */
-    List<TableFunctionColumnDatum> getTableFunctionColumnData();
+    List<TableGroupColumnDatum> getTableGroupColumnData();
 
     /**
      * 获取连接表数据

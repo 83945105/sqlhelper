@@ -41,11 +41,11 @@ public interface SqlDataProducer {
     void addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum);
 
     /**
-     * 添加函数列数据
+     * 添加聚合函数列数据
      *
-     * @param tableFunctionColumnDatum {@link TableFunctionColumnDatum}
+     * @param tableGroupColumnDatum {@link TableGroupColumnDatum}
      */
-    void addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum);
+    void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum);
 
     /**
      * 添加条件数据

@@ -27,7 +27,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     /**
      * 函数列数据
      */
-    private List<TableFunctionColumnDatum> tableFunctionColumnData;
+    private List<TableGroupColumnDatum> tableGroupColumnData;
     /**
      * where条件数据
      */
@@ -64,8 +64,8 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public List<TableFunctionColumnDatum> getTableFunctionColumnData() {
-        return this.tableFunctionColumnData;
+    public List<TableGroupColumnDatum> getTableGroupColumnData() {
+        return this.tableGroupColumnData;
     }
 
     @Override
@@ -116,14 +116,14 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public void addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
-        if (tableFunctionColumnDatum == null) {
+    public void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum) {
+        if (tableGroupColumnDatum == null) {
             return;
         }
-        if (this.tableFunctionColumnData == null) {
-            this.tableFunctionColumnData = new ArrayList<>();
+        if (this.tableGroupColumnData == null) {
+            this.tableGroupColumnData = new ArrayList<>();
         }
-        this.tableFunctionColumnData.add(tableFunctionColumnDatum);
+        this.tableGroupColumnData.add(tableGroupColumnDatum);
     }
 
     @Override

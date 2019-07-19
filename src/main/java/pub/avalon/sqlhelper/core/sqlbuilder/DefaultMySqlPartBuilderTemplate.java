@@ -24,11 +24,11 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     @Override
     public SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer) {
         Map<String, SqlBuilder> subQueryAliasMap = sqlDataConsumer.getSubQueryDataMap();
-        List<TableFunctionColumnDatum> tableFunctionColumnData = sqlDataConsumer.getTableFunctionColumnData();
+        List<TableGroupColumnDatum> tableGroupColumnData = sqlDataConsumer.getTableGroupColumnData();
         Set<VirtualFieldDatum> virtualFieldData = sqlDataConsumer.getVirtualFieldData();
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
-        boolean hasF = tableFunctionColumnData != null && tableFunctionColumnData.size() != 0;
+        boolean hasF = tableGroupColumnData != null && tableGroupColumnData.size() != 0;
         boolean hasV = virtualFieldData != null && virtualFieldData.size() != 0;
         boolean hasC = tableColumnData != null && tableColumnData.size() != 0;
         StringBuilder sql = new StringBuilder(128);
@@ -44,7 +44,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             if (hasS) {
                 sql.append(",");
             }
-            this.appendTableFunctionColumnSqlArgs(sql, args, tableFunctionColumnData);
+            this.appendTableGroupColumnSqlArgs(sql, args, tableGroupColumnData);
         }
         if (hasV) {
             if (hasS || hasF) {
@@ -227,16 +227,16 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendTableFunctionColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableFunctionColumnDatum> tableFunctionColumnData) {
+    private void appendTableGroupColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableGroupColumnDatum> tableGroupColumnData) {
         int i = 0;
         GroupType groupType;
         Set<ColumnDatum> columnData;
-        for (TableFunctionColumnDatum tableFunctionColumnDatum : tableFunctionColumnData) {
-            columnData = tableFunctionColumnDatum.getColumnData();
+        for (TableGroupColumnDatum tableGroupColumnDatum : tableGroupColumnData) {
+            columnData = tableGroupColumnDatum.getColumnData();
             if (columnData == null || columnData.size() == 0) {
                 continue;
             }
-            groupType = tableFunctionColumnDatum.getGroupType();
+            groupType = tableGroupColumnDatum.getGroupType();
             for (ColumnDatum columnDatum : columnData) {
                 if (i++ > 0) {
                     sql.append(",");
@@ -268,7 +268,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                     default:
                         ExceptionUtils.groupTypeNotSupportException();
                 }
-                sql.append(tableFunctionColumnDatum.getTableAlias())
+                sql.append(tableGroupColumnDatum.getTableAlias())
                         .append(".`")
                         .append(columnDatum.getColumnName())
                         .append("`) `")

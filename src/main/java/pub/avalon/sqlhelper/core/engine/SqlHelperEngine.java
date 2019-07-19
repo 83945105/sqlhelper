@@ -450,8 +450,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
     }
 
     @Override
-    public void addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
-        this.tableEngine.addTableFunctionColumnDatum(tableFunctionColumnDatum);
+    public void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum) {
+        this.tableEngine.addTableGroupColumnDatum(tableGroupColumnDatum);
     }
 
     @Override

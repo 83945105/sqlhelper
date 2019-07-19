@@ -244,7 +244,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(this.tableAlias, groupType, columnData));
+        this.addTableGroupColumnDatum(new TableGroupColumnDatum(this.tableAlias, groupType, columnData));
         return this;
     }
 
@@ -276,7 +276,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
         if (columnData == null || columnData.size() == 0) {
             return this;
         }
-        this.addTableFunctionColumnDatum(new TableFunctionColumnDatum(tableAlias, groupType, columnData));
+        this.addTableGroupColumnDatum(new TableGroupColumnDatum(tableAlias, groupType, columnData));
         return this;
     }
 
@@ -629,8 +629,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
     }
 
     @Override
-    public void addTableFunctionColumnDatum(TableFunctionColumnDatum tableFunctionColumnDatum) {
-        this.sqlData.addTableFunctionColumnDatum(tableFunctionColumnDatum);
+    public void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum) {
+        this.sqlData.addTableGroupColumnDatum(tableGroupColumnDatum);
     }
 
     @Override
