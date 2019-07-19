@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.GroupType;
+import pub.avalon.sqlhelper.core.beans.Keyword;
 import pub.avalon.sqlhelper.core.engine.SqlColumn;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
@@ -197,8 +198,6 @@ public class MySqlDynamicEngineColumnTest {
     }
 
 
-
-
     @Test
     void Test() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
@@ -211,17 +210,22 @@ public class MySqlDynamicEngineColumnTest {
 
                 .sqlColumn(new SysUserColumn())
 
-                .sqlColumn(new SysUserColumn() {})
+                .sqlColumn(new SysUserColumn() {
+                })
 
                 .sqlColumn(new SysUserDTO.Helper.SqlColumn())
 
-                .sqlColumn(new SysUserDTO.Helper.SqlColumn(){})
+                .sqlColumn(new SysUserDTO.Helper.SqlColumn() {
+                })
 
-                .sqlColumn(new SysUserDTO.Helper.SqlColumn(){{}})
+                .sqlColumn(new SysUserDTO.Helper.SqlColumn() {{
+                }})
 
-                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {})
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {
+                })
 
-                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {{}})
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {{
+                }})
 
                 .query();
         Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());

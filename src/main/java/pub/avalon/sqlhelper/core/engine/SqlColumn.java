@@ -17,10 +17,15 @@ import java.util.List;
  */
 public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEngine<TC, SqlColumn<TC>> {
 
+    private TC columnHelper;
     private String tableAlias;
 
+    {
+        this.columnHelper = BeanUtils.getColumnHelper(this);
+    }
+
     public SqlColumn() {
-        this.tableAlias = BeanUtils.getColumnHelper(this).getTableAlias();
+        this.tableAlias = this.columnHelper.getTableAlias();
     }
 
     public SqlColumn(String tableAlias) {
@@ -83,6 +88,10 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlColumn<TC> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
         return null;
+    }
+
+    public TC getColumnHelper() {
+        return columnHelper;
     }
 
     public String getTableAlias() {

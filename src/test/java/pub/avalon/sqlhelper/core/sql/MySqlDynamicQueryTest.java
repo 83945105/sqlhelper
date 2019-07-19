@@ -338,7 +338,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     }
 
     @Test
-    void TestFunctionColumn01() {
+    void TestGroupColumn01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .groupColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
                 .queryByPrimaryKey(arg());
@@ -346,7 +346,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     }
 
     @Test
-    void TestFunctionColumnAndVirtualColumn01() {
+    void TestGroupColumnAndVirtualColumn01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .groupColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
                 .virtualColumn(1, "AA")
@@ -355,7 +355,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     }
 
     @Test
-    void TestFunctionColumnAndVirtualColumnAndColumn01() {
+    void TestGroupColumnAndVirtualColumnAndColumn01() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .groupColumn(GroupType.COUNT, table -> table.id("idCount"))
                 .virtualColumn(1, "AA")

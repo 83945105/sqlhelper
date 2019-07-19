@@ -4,6 +4,7 @@ import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.builder.ColumnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Set;
@@ -63,6 +64,14 @@ public class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
      */
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.columnSqlPartDatumBuilder.setSqlBuilderOptions(sqlBuilderOptions);
+    }
+
+    public TableColumnDatum execute() {
+        return execute(this);
+    }
+
+    public static TableColumnDatum execute(ColumnHelper<?> columnHelper) {
+        return new TableColumnDatum(columnHelper.getTableAlias(), columnHelper.takeoutSqlPartData());
     }
 
 }

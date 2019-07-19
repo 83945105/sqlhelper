@@ -72,9 +72,24 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
      */
     R virtualColumn(Object value, String alias);
 
-
+    /**
+     * 聚合列
+     *
+     * @param groupType      聚合类型
+     * @param columnCallback 列回调
+     * @return {@link ColumnEngine}
+     */
     R groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback);
 
+    /**
+     * 聚合列
+     *
+     * @param tableHelperClass 表助手
+     * @param tableAlias       表别名
+     * @param groupType        聚合类型
+     * @param columnCallback   列回调
+     * @return {@link ColumnEngine}
+     */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -83,6 +98,14 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback);
 
+    /**
+     * 聚合列
+     *
+     * @param tableHelperClass 表助手
+     * @param groupType        聚合类型
+     * @param columnCallback   列回调
+     * @return {@link ColumnEngine}
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
