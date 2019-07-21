@@ -13,7 +13,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/18
  */
-public class SortHelper<T extends SortHelper<T>> extends Helper {
+public abstract class SortHelper<T extends SortHelper<T>> extends Helper {
 
     private SortSqlPartDatumBuilder<T> sortSqlPartDatumBuilder;
 

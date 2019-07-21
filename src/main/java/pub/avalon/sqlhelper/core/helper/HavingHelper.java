@@ -14,7 +14,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/7/18
  */
-public class HavingHelper<T extends HavingHelper<T>> extends Helper {
+public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
 
     private HavingSqlPartDatumBuilder<T> havingSqlPartDatumBuilder;
 

@@ -13,7 +13,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/18
  */
-public class JoinHelper<T extends JoinHelper<T>> extends Helper {
+public abstract class JoinHelper<T extends JoinHelper<T>> extends Helper {
 
     private JoinSqlPartDatumBuilder<T> joinSqlPartDatumBuilder;
 

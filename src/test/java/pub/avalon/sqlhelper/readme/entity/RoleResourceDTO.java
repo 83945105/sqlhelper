@@ -389,6 +389,11 @@ public class RoleResourceDTO {
                 super(tableAlias);
             }
 
+            @Override
+            protected Set<TableColumn> getTableDefaultColumns() {
+                return Helper.HELPER.getTableColumns();
+            }
+
             public Column primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
             }

@@ -13,7 +13,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/18
  */
-public class GroupHelper<T extends GroupHelper<T>> extends Helper {
+public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
 
     private GroupSqlPartDatumBuilder<T> groupSqlPartDatumBuilder;
 

@@ -13,7 +13,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/18
  */
-public class WhereHelper<T extends WhereHelper<T>> extends Helper {
+public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
 
     private WhereSqlPartDatumBuilder<T> whereSqlPartDatumBuilder;
 

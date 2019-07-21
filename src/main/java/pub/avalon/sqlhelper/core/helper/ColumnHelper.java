@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.helper;
 
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
+import pub.avalon.sqlhelper.core.beans.TableColumn;
 import pub.avalon.sqlhelper.core.builder.ColumnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
@@ -15,7 +16,7 @@ import java.util.Set;
  * @author 白超
  * @date 2019/5/18
  */
-public class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
+public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
 
     private ColumnSqlPartDatumBuilder<T> columnSqlPartDatumBuilder;
 
@@ -23,6 +24,13 @@ public class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
         super(tableAlias);
         this.columnSqlPartDatumBuilder = new ColumnSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
+
+    /**
+     * 获取表默认列数据
+     *
+     * @return {@link java.util.LinkedHashSet}
+     */
+    protected abstract Set<TableColumn> getTableDefaultColumns();
 
     /**
      * 接收数据
