@@ -311,7 +311,6 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
 
     private void appendTableColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableColumnDatum> tableColumnData) {
         int i = 0;
-        TableDatum tableDatum;
         Set<ColumnDatum> columnData;
         for (TableColumnDatum tableColumnDatum : tableColumnData) {
             columnData = tableColumnDatum.getColumnData();

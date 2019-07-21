@@ -19,16 +19,18 @@ public final class VirtualFieldDatum {
         return value;
     }
 
-    public void setValue(Object value) {
+    public VirtualFieldDatum setValue(Object value) {
         this.value = value;
+        return this;
     }
 
     public String getAlias() {
         return alias;
     }
 
-    public void setAlias(String alias) {
+    public VirtualFieldDatum setAlias(String alias) {
         this.alias = alias;
+        return this;
     }
 
     @Override

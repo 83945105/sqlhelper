@@ -36,13 +36,13 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
 
     @Override
     public SqlColumn<TC> column(ColumnHelper<?>... columnHelpers) {
-        this.sqlColumnBeans.add(new SqlColumnBean<TC>().setColumnHelpers(columnHelpers));
+        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper).setColumnHelpers(columnHelpers));
         return this;
     }
 
     @Override
     public SqlColumn<TC> column(ColumnCallback<TC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBean<TC>().setColumnCallback(columnCallback));
+        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper).setColumnCallback(columnCallback));
         return this;
     }
 
@@ -54,7 +54,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlColumn<TC> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SH, SS, TC>().setTableHelperClass(tableHelperClass).setTableAlias(tableAlias).setColumnCallbackJoin(columnCallback));
+        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SH, SS, TC>(this.columnHelper).setTableHelperClass(tableHelperClass).setTableAlias(tableAlias).setColumnCallbackJoin(columnCallback));
         return this;
     }
 

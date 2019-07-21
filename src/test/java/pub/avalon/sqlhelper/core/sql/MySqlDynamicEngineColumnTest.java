@@ -3,7 +3,6 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.GroupType;
-import pub.avalon.sqlhelper.core.beans.Keyword;
 import pub.avalon.sqlhelper.core.engine.SqlColumn;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
@@ -17,11 +16,10 @@ import pub.avalon.sqlhelper.readme.model.SysUserColumn;
 public class MySqlDynamicEngineColumnTest {
 
     /**
-     * 测试列 - 默认
+     * 测试列 - 默认列
      */
     @Test
     void Test_column_default() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id().loginName();
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .query();
         Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
@@ -111,6 +109,21 @@ public class MySqlDynamicEngineColumnTest {
     }
 
     /**
+     * 测试多列 - 默认列
+     */
+    @Test
+    void Test_multiColumn_default() {
+        UserRoleDTO.Helper.Column column = UserRoleDTO.Helper.column();
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(column)
+                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .query();
+        Assertions.assertEquals("select UserRole.`id` `id`,UserRole.`user_id` `userId`,UserRole.`role_id` `roleId`,UserRole.`role_name` `roleName`,UserRole.`sort_index` `sortIndex` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
      * 测试lambda列
      */
     @Test
@@ -162,6 +175,20 @@ public class MySqlDynamicEngineColumnTest {
     }
 
     /**
+     * 测试lambda多列 - 默认列
+     */
+    @Test
+    void Test_lambdaMultiColumn_default() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(UserRoleDTO.Helper.class, table -> table)
+                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .query();
+        Assertions.assertEquals("select UserRole.`id` `id`,UserRole.`user_id` `userId`,UserRole.`role_id` `roleId`,UserRole.`role_name` `roleName`,UserRole.`sort_index` `sortIndex` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
      * 测试虚拟列
      */
     @Test
@@ -206,6 +233,19 @@ public class MySqlDynamicEngineColumnTest {
                 }.column(table -> table.id().userName()))
                 .query();
         Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试Sql列 - 指定表名
+     */
+    @Test
+    void Test_sqlColumn_assignTableName() {
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {
+                }.column(table -> table.id().userName()))
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName` from `sys_user_custom` SysUser", sqlBuilder.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
     }
 

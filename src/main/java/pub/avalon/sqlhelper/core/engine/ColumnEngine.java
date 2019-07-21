@@ -1,9 +1,22 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
+import pub.avalon.sqlhelper.core.data.ColumnDatum;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
+import pub.avalon.sqlhelper.core.data.TableGroupColumnDatum;
+import pub.avalon.sqlhelper.core.data.VirtualFieldDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 列引擎
@@ -154,4 +167,50 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
         return this.subQuery(null, tableHelperClass, tableAlias, callback, columnAlias);
     }
 
+    static List<TableColumnDatum> executeColumn(ColumnHelper<?>... columnHelpers) {
+        if (columnHelpers == null || columnHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(columnHelpers).map(columnHelper -> columnHelper.execute()).collect(Collectors.toList());
+    }
+
+    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
+            FJ extends JoinHelper<FJ>,
+            FC extends ColumnHelper<FC>,
+            FW extends WhereHelper<FW>,
+            FG extends GroupHelper<FG>,
+            FH extends HavingHelper<FH>,
+            FS extends SortHelper<FS>> TableColumnDatum executeColumn(Class<F> tableHelperClass, String tableAlias, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
+        return ColumnCallback.execute(tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
+    }
+
+    static VirtualFieldDatum executeVirtualColumn(Object value, String alias) {
+        return alias == null ? null : new VirtualFieldDatum().setValue(value).setAlias(alias);
+    }
+
+    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
+            FJ extends JoinHelper<FJ>,
+            FC extends ColumnHelper<FC>,
+            FW extends WhereHelper<FW>,
+            FG extends GroupHelper<FG>,
+            FH extends HavingHelper<FH>,
+            FS extends SortHelper<FS>> TableGroupColumnDatum executeGroupColumn(Class<F> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (groupType == null) {
+            ExceptionUtils.groupTypeNullException();
+        }
+        if (columnCallback == null) {
+            return null;
+        }
+        FC fc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper(tableAlias);
+        // 设置配置开始
+        fc.setSqlBuilderOptions(sqlBuilderOptions);
+        // 设置配置结束
+        fc = columnCallback.apply(fc);
+        Set<ColumnDatum> columnData = fc.takeoutSqlPartData();
+        // 如果没设置列, 则跳过
+        if (columnData == null || columnData.size() == 0) {
+            return null;
+        }
+        return new TableGroupColumnDatum(tableAlias, groupType, columnData);
+    }
 }

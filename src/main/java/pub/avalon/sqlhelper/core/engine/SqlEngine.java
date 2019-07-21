@@ -1,6 +1,11 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Sql引擎
@@ -28,4 +33,9 @@ public interface SqlEngine<R> {
 
     <FS extends SortHelper<FS>> R sqlSort(SqlSort<FS> sqlSort);
 
+    static <FC extends ColumnHelper<FC>> List<TableColumnDatum> execute(SqlColumn<FC> sqlColumn, SqlBuilderOptions sqlBuilderOptions) {
+        List<TableColumnDatum> tableColumnData = new ArrayList<>();
+        sqlColumn.getSqlColumnBeans().forEach(sqlColumnBean -> tableColumnData.addAll(sqlColumnBean.execute(sqlBuilderOptions)));
+        return tableColumnData;
+    }
 }

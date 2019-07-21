@@ -7,9 +7,6 @@ import pub.avalon.sqlhelper.core.callback.*;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
-import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -59,18 +56,13 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
 
     @Override
     public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnHelper<?>... columnHelpers) {
-        if (columnHelpers == null || columnHelpers.length == 0) {
-            return this;
-        }
-        for (ColumnHelper<?> columnHelper : columnHelpers) {
-            this.addTableColumnDatum(columnHelper.execute());
-        }
+        ColumnEngine.executeColumn(columnHelpers).forEach(this::addTableColumnDatum);
         return this;
     }
 
     @Override
     public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallback.execute(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -82,41 +74,19 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallback.execute(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
     public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> virtualColumn(Object value, String alias) {
-        if (alias == null) {
-            return this;
-        }
-        VirtualFieldDatum virtualFieldDatum = new VirtualFieldDatum();
-        virtualFieldDatum.setValue(value);
-        virtualFieldDatum.setAlias(alias);
-        this.addVirtualFieldDatum(virtualFieldDatum);
+        this.addVirtualFieldDatum(ColumnEngine.executeVirtualColumn(value, alias));
         return this;
     }
 
     @Override
     public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
-        if (groupType == null) {
-            ExceptionUtils.groupTypeNullException();
-        }
-        if (columnCallback == null) {
-            return this;
-        }
-        TC tc = BeanUtils.tableHelper(this.tableHelperClass).newColumnHelper(this.tableAlias);
-        // 设置配置开始
-        tc.setSqlBuilderOptions(this.sqlBuilderOptions);
-        // 设置配置结束
-        tc = columnCallback.apply(tc);
-        Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
-        // 如果没设置列, 则跳过
-        if (columnData == null || columnData.size() == 0) {
-            return this;
-        }
-        this.addTableGroupColumnDatum(new TableGroupColumnDatum(this.tableAlias, groupType, columnData));
+        this.addTableGroupColumnDatum(ColumnEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -128,27 +98,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
-        if (groupType == null) {
-            ExceptionUtils.groupTypeNullException();
-        }
-        if (tableHelperClass == null) {
-            ExceptionUtils.tableHelperClassNullException();
-        }
-        if (columnCallback == null) {
-            return this;
-        }
-        S s = BeanUtils.tableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        // 设置配置开始
-        sc.setSqlBuilderOptions(this.sqlBuilderOptions);
-        // 设置配置结束
-        sc = columnCallback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
-        // 如果没设置列, 则跳过
-        if (columnData == null || columnData.size() == 0) {
-            return this;
-        }
-        this.addTableGroupColumnDatum(new TableGroupColumnDatum(tableAlias, groupType, columnData));
+        this.addTableGroupColumnDatum(ColumnEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -173,29 +123,7 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TJ, SJ> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
-        tableName = tableName == null ? s.getTableName() : tableName;
-        tableAlias = tableAlias == null ? s.getTableAlias() : tableAlias;
-        JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, tableHelperClass, s, tableName, tableAlias);
-        this.addJoinTableDatum(joinTableDatum);
-        TJ tj = BeanUtils.tableHelper(this.tableHelperClass).newJoinHelper(this.tableAlias);
-        // 设置配置开始
-        tj.setSqlBuilderOptions(this.sqlBuilderOptions);
-        // 设置配置结束
-        OnLinker<TJ, SJ> onLinker = new OnAndOr<>();
-        SJ sj = BeanUtils.tableHelper(tableHelperClass).newJoinHelper(tableAlias);
-        // 设置配置开始
-        sj.setSqlBuilderOptions(this.sqlBuilderOptions);
-        // 设置配置结束
-        if (callback == null) {
-            return this;
-        }
-        OnLinker<TJ, SJ> linker = callback.apply(onLinker, sj, tj);
-        List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkers();
-        if (onDataLinkers == null || onDataLinkers.size() == 0) {
-            return this;
-        }
-        joinTableDatum.setTableOnDatum(new TableOnDatum(tableAlias, onDataLinkers));
+        this.addJoinTableDatum(JoinEngine.execute(joinType, this.tableHelperClass, tableName, tableHelperClass, tableAlias, callback, this.sqlBuilderOptions));
         return this;
     }
 

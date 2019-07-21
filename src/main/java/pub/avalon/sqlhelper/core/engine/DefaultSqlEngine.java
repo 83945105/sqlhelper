@@ -1,16 +1,8 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.SqlColumnBean;
-import pub.avalon.sqlhelper.core.beans.SqlColumnBeanJoin;
-import pub.avalon.sqlhelper.core.data.ColumnDatum;
-import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author 白超
@@ -60,53 +52,32 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>> DefaultSqlEngine sql(Sql<F, FJ, FC, FW, FG, FH, FS> sql) {
-        return null;
+        return this;
     }
 
     @Override
     public <FJ extends JoinHelper<FJ>> DefaultSqlEngine sqlJoin(SqlJoin<FJ> sqlJoin) {
-        return null;
+        return this;
     }
 
     @Override
     public <FC extends ColumnHelper<FC>> DefaultSqlEngine sqlColumn(SqlColumn<FC> sqlColumn) {
-        FC fc = sqlColumn.getColumnHelper();
-        String tableAlias = sqlColumn.getTableAlias();
-        List<SqlColumnBean<FC>> sqlColumnBeans = sqlColumn.getSqlColumnBeans();
-        // 设置配置开始
-        fc.setSqlBuilderOptions(this.sqlBuilderOptions);
-        // 设置配置结束
-
-        for (SqlColumnBean<FC> sqlColumnBean : sqlColumnBeans) {
-            if (sqlColumnBean instanceof SqlColumnBeanJoin) {
-
-                continue;
-            }
-
-        }
-
-/*        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            columnData = BeanUtils.getColumnData(tableHelperClass);
-        }
-        this.addTableColumnDatum(new TableColumnDatum(tableAlias, columnData));*/
-
-
+        SqlEngine.execute(sqlColumn, this.sqlBuilderOptions).forEach(this::addTableColumnDatum);
         return this;
     }
 
     @Override
     public <FW extends WhereHelper<FW>> DefaultSqlEngine sqlWhere(SqlWhere<FW> sqlWhere) {
-        return null;
+        return this;
     }
 
     @Override
     public <FG extends GroupHelper<FG>> DefaultSqlEngine sqlGroup(SqlGroup<FG> sqlGroup) {
-        return null;
+        return this;
     }
 
     @Override
     public <FS extends SortHelper<FS>> DefaultSqlEngine sqlSort(SqlSort<FS> sqlSort) {
-        return null;
+        return this;
     }
 }

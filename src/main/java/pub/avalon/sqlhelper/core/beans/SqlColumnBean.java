@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.beans;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,12 @@ import java.util.List;
  * @date 2019/7/17
  */
 public class SqlColumnBean<TC extends ColumnHelper<TC>> {
+
+    protected TC columnHelper;
+
+    public SqlColumnBean(TC columnHelper) {
+        this.columnHelper = columnHelper;
+    }
 
     private ColumnHelper<?>[] columnHelpers;
 
@@ -35,18 +42,17 @@ public class SqlColumnBean<TC extends ColumnHelper<TC>> {
         return this;
     }
 
-/*    public List<TableColumnDatum> execute() {
+    public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
         List<TableColumnDatum> tableColumnData = new ArrayList<>(1);
-        ColumnHelper<?>[] columnHelpers = this.getColumnHelpers();
-        if (columnHelpers != null) {
-            for (ColumnHelper<?> columnHelper : columnHelpers) {
+        if (this.columnHelpers != null) {
+            for (ColumnHelper<?> columnHelper : this.columnHelpers) {
                 tableColumnData.add(columnHelper.execute());
             }
         }
-        ColumnCallback<TC> columnCallback = this.getColumnCallback();
-        if (columnCallback != null) {
-            tableColumnData.add(ColumnCallback.execute());
+        if (this.columnCallback != null) {
+            tableColumnData.add(ColumnCallback.execute(this.columnHelper, this.columnCallback, sqlBuilderOptions));
         }
-    }*/
+        return tableColumnData;
+    }
 
 }

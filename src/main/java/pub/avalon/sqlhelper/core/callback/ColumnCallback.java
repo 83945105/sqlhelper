@@ -61,4 +61,22 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
         return new TableColumnDatum(tableAlias, columnData);
     }
 
+    static <TC extends ColumnHelper<TC>> TableColumnDatum execute(TC columnHelper, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (columnHelper == null) {
+            ExceptionUtils.columnHelperNullException();
+        }
+        if (columnCallback == null) {
+            return null;
+        }
+        // 设置配置开始
+        columnHelper.setSqlBuilderOptions(sqlBuilderOptions);
+        // 设置配置结束
+        columnHelper = columnCallback.apply(columnHelper);
+        Set<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
+        if (columnData == null || columnData.size() == 0) {
+            columnData = BeanUtils.getColumnData(columnHelper);
+        }
+        return new TableColumnDatum(columnHelper.getTableAlias(), columnData);
+    }
+
 }

@@ -15,6 +15,10 @@ public class ExceptionUtils {
         throw new RuntimeException("tableHelperClass is null.");
     }
 
+    public static void columnHelperNullException() {
+        throw new RuntimeException("columnHelper is null.");
+    }
+
     public static void tableAliasNullException() {
         throw new RuntimeException("tableAlias is null.");
     }

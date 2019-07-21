@@ -45,6 +45,19 @@ public final class BeanUtils {
     }
 
     @SuppressWarnings("unchecked")
+    public static Set<ColumnDatum> getColumnData(ColumnHelper columnHelper) {
+        Set<ColumnDatum> columnData = new LinkedHashSet<>();
+        Set<TableColumn> tableColumns = columnHelper.getTableDefaultColumns();
+        if (tableColumns == null) {
+            return columnData;
+        }
+        for (TableColumn tableColumn : tableColumns) {
+            columnData.add(new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias(), tableColumn.getAlias()));
+        }
+        return columnData;
+    }
+
+    @SuppressWarnings("unchecked")
     public static <T extends TableHelper> Set<ColumnDatum> getColumnData(Class<T> clazz) {
         return getColumnData(tableHelper(clazz));
     }

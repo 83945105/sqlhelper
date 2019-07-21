@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.TableColumn;
 import pub.avalon.sqlhelper.core.builder.ColumnSqlPartDatumBuilder;
@@ -30,7 +31,7 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
      *
      * @return {@link java.util.LinkedHashSet}
      */
-    protected abstract Set<TableColumn> getTableDefaultColumns();
+    public abstract Set<TableColumn> getTableDefaultColumns();
 
     /**
      * 接收数据
@@ -79,7 +80,11 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
     }
 
     public static TableColumnDatum execute(ColumnHelper<?> columnHelper) {
-        return new TableColumnDatum(columnHelper.getTableAlias(), columnHelper.takeoutSqlPartData());
+        Set<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
+        if (columnData == null || columnData.size() == 0) {
+            columnData = BeanUtils.getColumnData(columnHelper);
+        }
+        return new TableColumnDatum(columnHelper.getTableAlias(), columnData);
     }
 
 }

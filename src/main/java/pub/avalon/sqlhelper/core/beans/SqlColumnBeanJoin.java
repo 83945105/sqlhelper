@@ -1,7 +1,12 @@
 package pub.avalon.sqlhelper.core.beans;
 
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author 白超
@@ -20,6 +25,10 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH
     private String tableAlias;
 
     private ColumnCallback<TC> columnCallbackJoin;
+
+    public SqlColumnBeanJoin(SC columnHelper) {
+        super(columnHelper);
+    }
 
     public Class<T> getTableHelperClass() {
         return tableHelperClass;
@@ -47,4 +56,10 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.columnCallbackJoin = columnCallbackJoin;
         return this;
     }
+
+    @Override
+    public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
+        return Collections.singletonList(ColumnCallback.execute(this.tableHelperClass, this.tableAlias, this.columnCallbackJoin, sqlBuilderOptions));
+    }
+
 }
