@@ -42,6 +42,9 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
     [/]
 [/]
     public final static class [(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.generateOptions.helperClassName})], [(${table.generateOptions.helperClassName})].Join, [(${table.generateOptions.helperClassName})].Column, [(${table.generateOptions.helperClassName})].Where, [(${table.generateOptions.helperClassName})].Group, [(${table.generateOptions.helperClassName})].Having, [(${table.generateOptions.helperClassName})].Sort> {
+
+        public final static [(${table.generateOptions.helperClassName})] HELPER = new [(${table.generateOptions.helperClassName})]();
+
         [# th:if="${table.generateOptions.entityFieldComment == true}"]
             /**
              * 表名
@@ -167,8 +170,8 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         }
 
         @Override
-        public Helper newHelper() {
-            return helper();
+        public Helper getSingleHelper() {
+            return HELPER;
         }
 
         @Override

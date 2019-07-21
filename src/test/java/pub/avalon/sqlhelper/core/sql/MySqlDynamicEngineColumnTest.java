@@ -17,6 +17,18 @@ import pub.avalon.sqlhelper.readme.model.SysUserColumn;
 public class MySqlDynamicEngineColumnTest {
 
     /**
+     * 测试列 - 默认
+     */
+    @Test
+    void Test_column_default() {
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id().loginName();
+        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+    }
+
+    /**
      * 测试列 - 传统方式
      */
     @Test

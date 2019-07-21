@@ -35,7 +35,7 @@ public class SqlColumnBean<TC extends ColumnHelper<TC>> {
         return this;
     }
 
-    public List<TableColumnDatum> execute() {
+/*    public List<TableColumnDatum> execute() {
         List<TableColumnDatum> tableColumnData = new ArrayList<>(1);
         ColumnHelper<?>[] columnHelpers = this.getColumnHelpers();
         if (columnHelpers != null) {
@@ -47,6 +47,6 @@ public class SqlColumnBean<TC extends ColumnHelper<TC>> {
         if (columnCallback != null) {
             tableColumnData.add(ColumnCallback.execute());
         }
-    }
+    }*/
 
 }

@@ -125,6 +125,9 @@ public class RoleResourceDTO {
     
 
     public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
+
+        public final static Helper HELPER = new Helper();
+
         
             /**
              * 表名
@@ -305,8 +308,8 @@ public class RoleResourceDTO {
         }
 
         @Override
-        public Helper newHelper() {
-            return helper();
+        public Helper getSingleHelper() {
+            return HELPER;
         }
 
         @Override

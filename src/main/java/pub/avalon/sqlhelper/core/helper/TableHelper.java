@@ -54,11 +54,11 @@ public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     Set<TableColumn> getTableColumns();
 
     /**
-     * 创建助手
+     * 获取单例助手
      *
      * @return {@link Helper}
      */
-    T newHelper();
+    T getSingleHelper();
 
     /**
      * 创建On助手

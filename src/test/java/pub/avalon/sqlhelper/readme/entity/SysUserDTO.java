@@ -18,17 +18,17 @@ public class SysUserDTO {
     
         
             /**
-             * 
+             * 主键ID
              */
          private String id;
         
             /**
-             * 
+             * 用户名
              */
          private String userName;
         
             /**
-             * 
+             * 登录名
              */
          private String loginName;
     
@@ -74,6 +74,9 @@ public class SysUserDTO {
     
 
     public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
+
+        public final static Helper HELPER = new Helper();
+
         
             /**
              * 表名
@@ -97,32 +100,32 @@ public class SysUserDTO {
         
             
                 /**
-                 * 
+                 * 主键ID
                  */
              public final static String ID = "id";
             
                 /**
-                 *  - 别名
+                 * 主键ID - 别名
                  */
              public final static String ID_ALIAS = "id";
             
                 /**
-                 * 
+                 * 用户名
                  */
              public final static String USER_NAME = "user_name";
             
                 /**
-                 *  - 别名
+                 * 用户名 - 别名
                  */
              public final static String USER_NAME_ALIAS = "userName";
             
                 /**
-                 * 
+                 * 登录名
                  */
              public final static String LOGIN_NAME = "login_name";
             
                 /**
-                 *  - 别名
+                 * 登录名 - 别名
                  */
              public final static String LOGIN_NAME_ALIAS = "loginName";
         
@@ -221,8 +224,8 @@ public class SysUserDTO {
         }
 
         @Override
-        public Helper newHelper() {
-            return helper();
+        public Helper getSingleHelper() {
+            return HELPER;
         }
 
         @Override

@@ -85,12 +85,11 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
 
         }
 
-        sc = columnCallback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+/*        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(tableHelperClass);
         }
-        this.addTableColumnDatum(new TableColumnDatum(tableAlias, columnData));
+        this.addTableColumnDatum(new TableColumnDatum(tableAlias, columnData));*/
 
 
         return this;
