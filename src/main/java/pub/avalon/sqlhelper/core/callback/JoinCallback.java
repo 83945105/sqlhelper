@@ -8,7 +8,7 @@ import pub.avalon.sqlhelper.core.helper.JoinHelper;
  * @date 2019/5/16
  */
 @FunctionalInterface
-public interface OnCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {
+public interface JoinCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {
 
     /**
      * 接收条件连接器
