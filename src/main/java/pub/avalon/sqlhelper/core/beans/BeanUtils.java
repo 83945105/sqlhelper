@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.data.TableDatum;
 import pub.avalon.sqlhelper.core.engine.*;
 import pub.avalon.sqlhelper.core.helper.*;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

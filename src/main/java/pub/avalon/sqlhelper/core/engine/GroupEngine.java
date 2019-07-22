@@ -58,17 +58,6 @@ public interface GroupEngine<TG extends GroupHelper<TG>, R extends GroupEngine<T
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>> TableGroupDatum execute(Class<F> tableHelperClass, String tableAlias, GroupCallback<FG> callback, SqlBuilderOptions sqlBuilderOptions) {
-        F f = BeanUtils.tableHelper(tableHelperClass);
-        tableAlias = tableAlias == null ? f.getTableAlias() : tableAlias;
-        FG fg = f.newGroupHelper(tableAlias);
-        // 设置配置开始
-        fg.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        fg = callback.apply(fg);
-        Set<GroupDatum> groupData = fg.takeoutSqlPartData();
-        if (groupData == null || groupData.size() == 0) {
-            return null;
-        }
-        return new TableGroupDatum(tableAlias, groupData);
+        return GroupCallback.execute(tableHelperClass, tableAlias, callback, sqlBuilderOptions);
     }
 }

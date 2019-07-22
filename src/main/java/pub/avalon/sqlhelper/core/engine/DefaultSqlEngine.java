@@ -62,7 +62,7 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
 
     @Override
     public <FC extends ColumnHelper<FC>> DefaultSqlEngine sqlColumn(SqlColumn<FC> sqlColumn) {
-        SqlEngine.execute(sqlColumn, this.sqlBuilderOptions).forEach(this::addTableColumnDatum);
+        SqlEngine.executeColumn(sqlColumn, this.sqlBuilderOptions).forEach(this::addTableColumnDatum);
         return this;
     }
 
@@ -73,6 +73,7 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
 
     @Override
     public <FG extends GroupHelper<FG>> DefaultSqlEngine sqlGroup(SqlGroup<FG> sqlGroup) {
+        SqlEngine.executeGroup(sqlGroup, this.sqlBuilderOptions).forEach(this::addTableGroupDatum);
         return this;
     }
 

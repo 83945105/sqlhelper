@@ -90,10 +90,6 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
         return null;
     }
 
-    public TC getColumnHelper() {
-        return columnHelper;
-    }
-
     public String getTableAlias() {
         return tableAlias;
     }
