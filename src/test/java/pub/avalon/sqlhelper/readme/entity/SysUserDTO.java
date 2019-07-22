@@ -297,7 +297,7 @@ public class SysUserDTO {
             }
 
             @Override
-            protected Set<TableColumn> getTableDefaultColumns() {
+            public Set<TableColumn> getTableDefaultColumns() {
                 return Helper.HELPER.getTableColumns();
             }
 

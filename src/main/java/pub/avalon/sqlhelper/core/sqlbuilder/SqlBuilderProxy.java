@@ -5,9 +5,6 @@ import pub.avalon.sqlhelper.core.data.SqlData;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,7 +14,7 @@ import java.util.List;
  * @author 白超
  * @date 2018/8/20
  */
-public class SqlBuilderProxy implements InvocationHandler, DefaultSqlBuilder {
+public class SqlBuilderProxy implements DefaultSqlBuilder {
 
     private SqlData sqlData;
 
@@ -175,18 +172,6 @@ public class SqlBuilderProxy implements InvocationHandler, DefaultSqlBuilder {
     public DefaultSqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
         this.sqlBuilderResult = this.sqlBuilderTemplate.buildQueryByPrimaryKey(this.sqlData, primaryKeyValue);
         return this;
-    }
-
-    private Object proxyObject;
-
-    public <T> SqlBuilder proxy(Class<T> proxyClass) {
-        this.proxyObject = Proxy.newProxyInstance(this.getClass().getClassLoader(), proxyClass.getInterfaces(), this);
-        return this;
-    }
-
-    @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return method.invoke(this.proxyObject, args);
     }
 
 }

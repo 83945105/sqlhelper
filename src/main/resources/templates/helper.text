@@ -205,7 +205,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         }
 
         @Override
-        protected Set<TableColumn> getTableDefaultColumns() {
+        public Set<TableColumn> getTableDefaultColumns() {
             return [(${table.tableAlias})][(${table.generateOptions.helperClassName})].HELPER.getTableColumns();
         }
 

@@ -390,7 +390,7 @@ public class RoleResourceDTO {
             }
 
             @Override
-            protected Set<TableColumn> getTableDefaultColumns() {
+            public Set<TableColumn> getTableDefaultColumns() {
                 return Helper.HELPER.getTableColumns();
             }
 

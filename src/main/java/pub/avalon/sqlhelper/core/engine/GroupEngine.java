@@ -1,7 +1,17 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
+import pub.avalon.sqlhelper.core.data.GroupDatum;
+import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 分组引擎
@@ -34,4 +44,31 @@ public interface GroupEngine<TG extends GroupHelper<TG>, R extends GroupEngine<T
         return group(tableHelperClass, null, callback);
     }
 
+    static List<TableGroupDatum> execute(GroupHelper<?>... groupHelpers) {
+        if (groupHelpers == null || groupHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(groupHelpers).map(groupHelper -> groupHelper.execute()).collect(Collectors.toList());
+    }
+
+    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
+            FJ extends JoinHelper<FJ>,
+            FC extends ColumnHelper<FC>,
+            FW extends WhereHelper<FW>,
+            FG extends GroupHelper<FG>,
+            FH extends HavingHelper<FH>,
+            FS extends SortHelper<FS>> TableGroupDatum execute(Class<F> tableHelperClass, String tableAlias, GroupCallback<FG> callback, SqlBuilderOptions sqlBuilderOptions) {
+        F f = BeanUtils.tableHelper(tableHelperClass);
+        tableAlias = tableAlias == null ? f.getTableAlias() : tableAlias;
+        FG fg = f.newGroupHelper(tableAlias);
+        // 设置配置开始
+        fg.setSqlBuilderOptions(sqlBuilderOptions);
+        // 设置配置结束
+        fg = callback.apply(fg);
+        Set<GroupDatum> groupData = fg.takeoutSqlPartData();
+        if (groupData == null || groupData.size() == 0) {
+            return null;
+        }
+        return new TableGroupDatum(tableAlias, groupData);
+    }
 }

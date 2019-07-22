@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.helper;
 import pub.avalon.sqlhelper.core.builder.GroupSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.GroupDatum;
+import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Set;
@@ -48,4 +49,17 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.groupSqlPartDatumBuilder.setSqlBuilderOptions(sqlBuilderOptions);
     }
+
+    public TableGroupDatum execute() {
+        return execute(this);
+    }
+
+    public static TableGroupDatum execute(GroupHelper<?> groupHelper) {
+        Set<GroupDatum> groupData = groupHelper.takeoutSqlPartData();
+        if (groupData == null || groupData.size() == 0) {
+            return null;
+        }
+        return new TableGroupDatum(groupHelper.getTableAlias(), groupData);
+    }
+
 }

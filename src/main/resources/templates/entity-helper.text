@@ -237,7 +237,7 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
             }
 
             @Override
-            protected Set<TableColumn> getTableDefaultColumns() {
+            public Set<TableColumn> getTableDefaultColumns() {
                 return [(${table.generateOptions.helperClassName})].HELPER.getTableColumns();
             }
 

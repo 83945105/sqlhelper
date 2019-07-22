@@ -193,17 +193,17 @@ public interface JoinEngine<TJ extends JoinHelper<TJ>, R extends JoinEngine<TJ, 
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,
             EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, Class<F> mainTableHelperClass, String tableName, Class<E> joinTableHelperClass, String tableAlias, OnCallback<FJ, EJ> callback, SqlBuilderOptions sqlBuilderOptions) {
+            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, Class<F> mainTableHelperClass, String mainTableAlias, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, OnCallback<FJ, EJ> callback, SqlBuilderOptions sqlBuilderOptions) {
         E e = BeanUtils.tableHelper(joinTableHelperClass);
-        tableName = tableName == null ? e.getTableName() : tableName;
-        tableAlias = tableAlias == null ? e.getTableAlias() : tableAlias;
-        JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, joinTableHelperClass, e, tableName, tableAlias);
-        EJ ej = BeanUtils.tableHelper(joinTableHelperClass).newJoinHelper(tableAlias);
+        joinTableName = joinTableName == null ? e.getTableName() : joinTableName;
+        joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
+        JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, joinTableHelperClass, e, joinTableName, joinTableAlias);
+        EJ ej = BeanUtils.tableHelper(joinTableHelperClass).newJoinHelper(joinTableAlias);
         // 设置配置开始
         ej.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         OnLinker<FJ, EJ> onLinker = new OnAndOr<>();
-        FJ fj = BeanUtils.tableHelper(mainTableHelperClass).newJoinHelper(tableAlias);
+        FJ fj = BeanUtils.tableHelper(mainTableHelperClass).newJoinHelper(mainTableAlias);
         // 设置配置开始
         fj.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
@@ -215,7 +215,7 @@ public interface JoinEngine<TJ extends JoinHelper<TJ>, R extends JoinEngine<TJ, 
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return joinTableDatum;
         }
-        joinTableDatum.setTableOnDatum(new TableOnDatum(tableAlias, onDataLinkers));
+        joinTableDatum.setTableOnDatum(new TableOnDatum(joinTableAlias, onDataLinkers));
         return joinTableDatum;
     }
 
