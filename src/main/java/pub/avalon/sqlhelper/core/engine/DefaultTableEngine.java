@@ -125,8 +125,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereCallback<TW> callback) {
-        this.addTableWhereDatum(WhereEngine.execute(this.tableHelperClass, this.tableAlias, callback, this.sqlBuilderOptions));
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereCallback<TW> whereCallback) {
+        this.addTableWhereDatum(WhereEngine.execute(this.tableHelperClass, this.tableAlias, whereCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -137,8 +137,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
-        this.addTableWhereDatum(WhereEngine.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, callback, this.sqlBuilderOptions));
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback) {
+        this.addTableWhereDatum(WhereEngine.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, whereCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -149,8 +149,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> callback) {
-        this.addTableGroupDatum(GroupEngine.execute(this.tableHelperClass, this.tableAlias, callback, this.sqlBuilderOptions));
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> groupCallback) {
+        this.addTableGroupDatum(GroupEngine.execute(this.tableHelperClass, this.tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -161,8 +161,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
-        this.addTableGroupDatum(GroupEngine.execute(tableHelperClass, tableAlias, callback, this.sqlBuilderOptions));
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
+        this.addTableGroupDatum(GroupEngine.execute(tableHelperClass, tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -173,8 +173,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
     }
 
     @Override
-    public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> callback) {
-        this.addTableSortDatum(SortEngine.execute(this.tableHelperClass, this.tableAlias, callback, this.sqlBuilderOptions));
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> sortCallback) {
+        this.addTableSortDatum(SortEngine.execute(this.tableHelperClass, this.tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -185,8 +185,8 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
-        this.addTableSortDatum(SortEngine.execute(tableHelperClass, tableAlias, callback, this.sqlBuilderOptions));
+            SS extends SortHelper<SS>> DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
+        this.addTableSortDatum(SortEngine.execute(tableHelperClass, tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }
 

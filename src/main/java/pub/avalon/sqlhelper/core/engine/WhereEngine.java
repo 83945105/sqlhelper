@@ -21,7 +21,7 @@ import java.util.List;
  */
 public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<TW, R>> {
 
-    R where(WhereCallback<TW> callback);
+    R where(WhereCallback<TW> whereCallback);
 
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
@@ -29,8 +29,8 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, WhereJoinCallback<TW, SW> callback) {
-        return where(tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, WhereJoinCallback<TW, SW> whereCallback) {
+        return where(tableHelperClass, null, whereCallback);
     }
 
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -39,7 +39,7 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback);
+            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback);
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
             FJ extends JoinHelper<FJ>,
@@ -47,20 +47,8 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableWhereDatum execute(Class<F> tableHelperClass, String tableAlias, WhereCallback<FW> callback, SqlBuilderOptions sqlBuilderOptions) {
-        if (callback == null) {
-            return null;
-        }
-        FW fw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper(tableAlias);
-        // 设置配置开始
-        fw.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        WhereLinker<FW> whereLinker = callback.apply(new WhereAndOr<>(), fw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
-            return null;
-        }
-        return new TableWhereDatum(tableAlias, whereDataLinkers);
+            FS extends SortHelper<FS>> TableWhereDatum execute(Class<F> tableHelperClass, String tableAlias, WhereCallback<FW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
+        return WhereCallback.execute(tableHelperClass, tableAlias, whereCallback, sqlBuilderOptions);
     }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
@@ -76,8 +64,8 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,
             EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> TableWhereDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<FW, EW> callback, SqlBuilderOptions sqlBuilderOptions) {
-        if (callback == null) {
+            ES extends SortHelper<ES>> TableWhereDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<FW, EW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (whereCallback == null) {
             return null;
         }
         E e = BeanUtils.tableHelper(joinTableHelperClass);
@@ -90,7 +78,7 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
         // 设置配置开始
         fw.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
-        WhereLinker<FW> whereLinker = callback.apply(new WhereAndOr<>(), ew, fw);
+        WhereLinker<FW> whereLinker = whereCallback.apply(new WhereAndOr<>(), ew, fw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return null;

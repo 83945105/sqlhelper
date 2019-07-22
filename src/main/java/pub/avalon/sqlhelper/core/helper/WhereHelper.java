@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.helper;
 
 import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
@@ -49,4 +50,15 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
         this.whereSqlPartDatumBuilder.setSqlBuilderOptions(sqlBuilderOptions);
     }
 
+    public TableWhereDatum execute() {
+        return execute(this);
+    }
+
+    public static TableWhereDatum execute(WhereHelper<?> whereHelper) {
+        Set<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
+        if (whereData == null || whereData.size() == 0) {
+            return null;
+        }
+        return new TableWhereDatum(whereHelper.getTableAlias(), whereData);
+    }
 }
