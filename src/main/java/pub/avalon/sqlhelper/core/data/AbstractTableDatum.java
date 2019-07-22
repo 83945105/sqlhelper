@@ -1,7 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.helper.TableHelper;
-
 import java.util.Objects;
 
 /**
@@ -15,27 +13,19 @@ public abstract class AbstractTableDatum implements TableDatum {
 
     private Class<?> tableHelperClass;
 
-    private TableHelper tableHelper;
-
     protected String tableName;
 
     protected String tableAlias;
 
-    public AbstractTableDatum(Class<?> tableHelperClass, TableHelper tableHelper) {
+    public AbstractTableDatum(Class<?> tableHelperClass, String tableName, String tableAlias) {
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = tableHelper;
-        this.tableName = tableHelper.getTableName();
-        this.tableAlias = tableHelper.getTableAlias();
+        this.tableName = tableName;
+        this.tableAlias = tableAlias;
     }
 
     @Override
     public Class<?> getTableHelperClass() {
         return this.tableHelperClass;
-    }
-
-    @Override
-    public TableHelper getTableHelper() {
-        return this.tableHelper;
     }
 
     @Override

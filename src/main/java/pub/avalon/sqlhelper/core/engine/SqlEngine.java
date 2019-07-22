@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.sqlhelper.core.data.JoinTableDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -7,6 +8,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Sql引擎
@@ -33,6 +35,10 @@ public interface SqlEngine<R> {
     <FG extends GroupHelper<FG>> R sqlGroup(SqlGroup<FG> sqlGroup);
 
     <FS extends SortHelper<FS>> R sqlSort(SqlSort<FS> sqlSort);
+
+    static <FJ extends JoinHelper<FJ>> List<JoinTableDatum> executeJoin(SqlJoin<FJ> sqlJoin, SqlBuilderOptions sqlBuilderOptions) {
+        return sqlJoin.getSqlJoinBeans().stream().map(sqlJoinBean -> sqlJoinBean.execute(sqlBuilderOptions)).collect(Collectors.toList());
+    }
 
     static <FC extends ColumnHelper<FC>> List<TableColumnDatum> executeColumn(SqlColumn<FC> sqlColumn, SqlBuilderOptions sqlBuilderOptions) {
         List<TableColumnDatum> tableColumnData = new ArrayList<>();

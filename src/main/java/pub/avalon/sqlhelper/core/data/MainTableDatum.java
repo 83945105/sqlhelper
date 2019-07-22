@@ -1,7 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.sqlhelper.core.helper.TableHelper;
-
 /**
  * 主表数据
  *
@@ -11,14 +9,7 @@ import pub.avalon.sqlhelper.core.helper.TableHelper;
  */
 public final class MainTableDatum extends AbstractTableDatum {
 
-    public MainTableDatum(Class<?> tableHelperClass, TableHelper tableHelper) {
-        super(tableHelperClass, tableHelper);
+    public MainTableDatum(Class<?> tableHelperClass, String tableName, String tableAlias) {
+        super(tableHelperClass, tableName, tableAlias);
     }
-
-    public MainTableDatum(Class<?> tableHelperClass, TableHelper tableHelper, String tableName, String tableAlias) {
-        super(tableHelperClass, tableHelper);
-        this.setTableName(tableName);
-        this.setTableAlias(tableAlias);
-    }
-
 }

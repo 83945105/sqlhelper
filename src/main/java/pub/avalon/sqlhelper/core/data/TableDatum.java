@@ -18,13 +18,6 @@ public interface TableDatum {
     Class<?> getTableHelperClass();
 
     /**
-     * 获取表助手
-     *
-     * @return {@link TableHelper}
-     */
-    TableHelper getTableHelper();
-
-    /**
      * 获取表名称
      *
      * @return 表名称

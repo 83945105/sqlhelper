@@ -67,7 +67,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public <FJ extends JoinHelper<FJ>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sqlJoin(SqlJoin<FJ> sqlJoin) {
-//        this.sqlEngine.sqlJoin(sqlJoin);
+        SqlEngine.executeJoin(sqlJoin, this.sqlBuilderOptions).forEach(this::addJoinTableDatum);
         return this;
     }
 

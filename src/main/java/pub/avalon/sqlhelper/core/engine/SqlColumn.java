@@ -54,7 +54,10 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlColumn<TC> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SH, SS, TC>(this.columnHelper).setTableHelperClass(tableHelperClass).setTableAlias(tableAlias).setColumnCallbackJoin(columnCallback));
+        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SH, SS, TC>(this.columnHelper)
+                .setTableHelperClass(tableHelperClass)
+                .setTableAlias(tableAlias)
+                .setColumnCallbackJoin(columnCallback));
         return this;
     }
 

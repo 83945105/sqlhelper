@@ -50,7 +50,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = this.tableHelper.getTableAlias();
-        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
@@ -64,7 +64,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = this.tableHelper.getTableAlias();
-        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
@@ -78,7 +78,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = this.tableHelper.getTableAlias();
-        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
@@ -92,7 +92,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = this.tableHelper.getTableAlias();
-        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
@@ -109,7 +109,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = tableAlias;
-        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
@@ -126,7 +126,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = tableAlias;
-        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
@@ -143,7 +143,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = tableAlias;
-        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableHelper, this.tableName, this.tableAlias);
+        this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
