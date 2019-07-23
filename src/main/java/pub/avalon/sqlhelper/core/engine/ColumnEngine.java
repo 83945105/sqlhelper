@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
-import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
+import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableGroupColumnDatum;
@@ -135,7 +135,7 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias);
+            SS extends SortHelper<SS>> R subQueryColumn(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback, String columnAlias);
 
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
@@ -143,8 +143,8 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R subQuery(String tableName, Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
-        return this.subQuery(tableName, tableHelperClass, null, callback, columnAlias);
+            SS extends SortHelper<SS>> R subQueryColumn(String tableName, Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback, String columnAlias) {
+        return this.subQueryColumn(tableName, tableHelperClass, null, subQueryColumnCallback, columnAlias);
     }
 
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -153,8 +153,8 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
-        return this.subQuery(null, tableHelperClass, null, callback, columnAlias);
+            SS extends SortHelper<SS>> R subQueryColumn(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback, String columnAlias) {
+        return this.subQueryColumn(null, tableHelperClass, null, subQueryColumnCallback, columnAlias);
     }
 
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -163,8 +163,8 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R subQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
-        return this.subQuery(null, tableHelperClass, tableAlias, callback, columnAlias);
+            SS extends SortHelper<SS>> R subQueryColumn(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback, String columnAlias) {
+        return this.subQueryColumn(null, tableHelperClass, tableAlias, subQueryColumnCallback, columnAlias);
     }
 
     static List<TableColumnDatum> executeColumn(ColumnHelper<?>... columnHelpers) {

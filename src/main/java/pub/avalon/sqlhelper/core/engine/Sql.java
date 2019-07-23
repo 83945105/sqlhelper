@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.LimitSql;
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
@@ -21,6 +20,12 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TH extends HavingHelper<TH>,
         TS extends SortHelper<TS>> implements TableEngine<T, TJ, TC, TW, TG, TH, TS, Sql<T, TJ, TC, TW, TG, TH, TS>> {
 
+    private TJ joinHelper;
+    private TC columnHelper;
+    private TW whereHelper;
+    private TG groupHelper;
+    private TH havingHelper;
+    private TS sortHelper;
     private String tableAlias;
 
     public Sql() {
@@ -80,7 +85,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> subQueryColumn(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback, String columnAlias) {
         return this;
     }
 

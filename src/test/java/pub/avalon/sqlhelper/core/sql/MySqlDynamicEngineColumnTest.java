@@ -8,7 +8,6 @@ import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
-import pub.avalon.sqlhelper.readme.model.SysUserColumn;
 
 /**
  * MySql动态引擎 - 列测试
@@ -247,42 +246,6 @@ public class MySqlDynamicEngineColumnTest {
                 .query();
         Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName` from `sys_user_custom` SysUser", sqlBuilder.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
-    }
-
-
-    @Test
-    void Test() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-
-                .sqlColumn(new SysUserColumn() {{
-
-                    column(table -> table.id().loginName());
-
-                }})
-
-                .sqlColumn(new SysUserColumn())
-
-                .sqlColumn(new SysUserColumn() {
-                })
-
-                .sqlColumn(new SysUserDTO.Helper.SqlColumn())
-
-                .sqlColumn(new SysUserDTO.Helper.SqlColumn() {
-                })
-
-                .sqlColumn(new SysUserDTO.Helper.SqlColumn() {{
-                }})
-
-                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {
-                })
-
-                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>() {{
-                }})
-
-                .query();
-        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`login_name` `loginName` from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
-
     }
 
 }

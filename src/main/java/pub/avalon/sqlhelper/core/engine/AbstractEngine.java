@@ -24,7 +24,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> implements DefaultSqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> implements Engine, DefaultSqlBuilder, SqlDataProducer {
 
     protected Class<T> tableHelperClass;
 

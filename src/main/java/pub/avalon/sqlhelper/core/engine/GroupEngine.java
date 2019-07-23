@@ -1,8 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
-import pub.avalon.sqlhelper.core.data.GroupDatum;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -10,7 +8,6 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**

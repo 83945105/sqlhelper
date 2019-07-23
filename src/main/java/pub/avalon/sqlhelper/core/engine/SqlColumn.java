@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.SqlColumnBean;
 import pub.avalon.sqlhelper.core.beans.SqlColumnBeanJoin;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
-import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
+import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlColumn<TC> subQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback, String columnAlias) {
+            SS extends SortHelper<SS>> SqlColumn<TC> subQueryColumn(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback, String columnAlias) {
         return null;
     }
 

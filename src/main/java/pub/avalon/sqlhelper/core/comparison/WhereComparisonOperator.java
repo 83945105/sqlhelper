@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.comparison;
 
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.callback.SubQueryCallback;
+import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.callback.WhereColumnCallback;
 import pub.avalon.sqlhelper.core.helper.*;
 
@@ -460,9 +460,9 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * 等于
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -471,13 +471,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T equalToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -486,16 +486,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.equalToSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.equalToSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -504,17 +504,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.equalToSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T equalToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.equalToSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 不等于
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -523,13 +523,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T notEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 不等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -538,16 +538,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.notEqualToSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.notEqualToSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 不等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -556,17 +556,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.notEqualToSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T notEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.notEqualToSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 大于
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -575,13 +575,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T greaterThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 大于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -590,16 +590,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.greaterThanSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.greaterThanSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 大于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -608,17 +608,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.greaterThanSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T greaterThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.greaterThanSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 大于等于
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -627,13 +627,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 大于等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -642,16 +642,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.greaterThanAndEqualToSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.greaterThanAndEqualToSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 大于等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -660,17 +660,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.greaterThanAndEqualToSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T greaterThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.greaterThanAndEqualToSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 小于
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -679,13 +679,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T lessThanSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 小于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -694,16 +694,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.lessThanSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.lessThanSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 小于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -712,17 +712,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.lessThanSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T lessThanSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.lessThanSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 小于等于
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -731,13 +731,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 小于等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -746,16 +746,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.lessThanAndEqualToSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.lessThanAndEqualToSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 小于等于
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -764,17 +764,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.lessThanAndEqualToSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T lessThanAndEqualToSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.lessThanAndEqualToSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 模糊匹配
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -783,13 +783,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T likeSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 模糊匹配
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -798,16 +798,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.likeSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.likeSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 模糊匹配
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -816,17 +816,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.likeSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T likeSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.likeSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 在...内
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -835,13 +835,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T inSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 在...内
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -850,16 +850,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.inSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.inSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 在...内
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -868,17 +868,17 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.inSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T inSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.inSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
     /**
      * 不在...内
      *
      * @param tableName
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -887,13 +887,13 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback);
+            SS extends SortHelper<SS>> T notInSubQuery(String tableName, Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback);
 
     /**
      * 不在...内
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -902,16 +902,16 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.notInSubQuery(null, tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.notInSubQuery(null, tableHelperClass, null, subQueryColumnCallback);
     }
 
     /**
      * 不在...内
      *
-     * @param tableHelperClass {@link TableHelper}
-     * @param tableAlias       表别名
-     * @param callback         列回调
+     * @param tableHelperClass       {@link TableHelper}
+     * @param tableAlias             表别名
+     * @param subQueryColumnCallback 列回调
      * @return
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -920,8 +920,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryCallback<S, SJ, SC, SW, SG, SH, SS> callback) {
-        return this.notInSubQuery(null, tableHelperClass, tableAlias, callback);
+            SS extends SortHelper<SS>> T notInSubQuery(Class<S> tableHelperClass, String tableAlias, SubQueryColumnCallback<S, SJ, SC, SW, SG, SH, SS> subQueryColumnCallback) {
+        return this.notInSubQuery(null, tableHelperClass, tableAlias, subQueryColumnCallback);
     }
 
 }

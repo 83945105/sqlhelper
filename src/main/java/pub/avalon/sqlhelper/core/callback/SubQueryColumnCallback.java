@@ -17,7 +17,7 @@ import java.util.Map;
  * @date 2018/11/18
  */
 @FunctionalInterface
-public interface SubQueryCallback<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
+public interface SubQueryColumnCallback<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
@@ -50,7 +50,7 @@ public interface SubQueryCallback<T extends TableHelper<T, TJ, TC, TW, TG, TH, T
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TH extends HavingHelper<TH>,
-            TS extends SortHelper<TS>> SqlBuilder execute(SqlData sqlData, String tableName, Class<T> tableHelperClass, String tableAlias, SubQueryCallback<T, TJ, TC, TW, TG, TH, TS> subQuery) {
+            TS extends SortHelper<TS>> SqlBuilder execute(SqlData sqlData, String tableName, Class<T> tableHelperClass, String tableAlias, SubQueryColumnCallback<T, TJ, TC, TW, TG, TH, TS> subQuery) {
         SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> tableEngine;
         switch (sqlData.getDataBaseType()) {
             case MYSQL:
