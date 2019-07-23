@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.SqlWhereBean;
+import pub.avalon.sqlhelper.core.beans.SqlWhereBeanJoin;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -34,12 +35,14 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
 
     @Override
     public SqlWhere<TW> where(WhereHelper<?>... whereHelpers) {
-        return null;
+        this.sqlWhereBeans.add(new SqlWhereBean<>(this.whereHelper).setWhereHelpers(whereHelpers));
+        return this;
     }
 
     @Override
     public SqlWhere<TW> where(WhereCallback<TW> whereCallback) {
-        return null;
+        this.sqlWhereBeans.add(new SqlWhereBean<>(this.whereHelper).setWhereCallback(whereCallback));
+        return this;
     }
 
     @Override
@@ -50,7 +53,11 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlWhere<TW> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereJoinCallback) {
-        return null;
+        this.sqlWhereBeans.add(new SqlWhereBeanJoin<S, SJ, SC, SW, SG, SH, SS, TW>(this.whereHelper)
+                .setTableHelperClass(tableHelperClass)
+                .setTableAlias(tableAlias)
+                .setWhereJoinCallback(whereJoinCallback));
+        return this;
     }
 
     public String getTableAlias() {

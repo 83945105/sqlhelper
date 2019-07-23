@@ -76,25 +76,7 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,
             EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> TableWhereDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<FW, EW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (whereCallback == null) {
-            return null;
-        }
-        E e = BeanUtils.tableHelper(joinTableHelperClass);
-        joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
-        EW ew = e.newWhereHelper(joinTableAlias);
-        // 设置配置开始
-        ew.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        FW fw = BeanUtils.tableHelper(mainTableHelperClass).newWhereHelper(mainTableAlias);
-        // 设置配置开始
-        fw.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        WhereLinker<FW> whereLinker = whereCallback.apply(new WhereAndOr<>(), ew, fw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
-            return null;
-        }
-        return new TableWhereDatum(joinTableAlias, whereDataLinkers);
+            ES extends SortHelper<ES>> TableWhereDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<FW, EW> whereJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
+        return WhereJoinCallback.execute(mainTableHelperClass, mainTableAlias, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
     }
 }

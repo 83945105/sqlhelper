@@ -81,7 +81,7 @@ public interface JoinCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<S
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,
             EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, FJ joinHelper, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, JoinCallback<FJ, EJ> joinCallback, SqlBuilderOptions sqlBuilderOptions) {
+            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, FJ mainJoinHelper, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, JoinCallback<FJ, EJ> joinCallback, SqlBuilderOptions sqlBuilderOptions) {
         E e = BeanUtils.tableHelper(joinTableHelperClass);
         joinTableName = joinTableName == null ? e.getTableName() : joinTableName;
         joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
@@ -92,12 +92,12 @@ public interface JoinCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<S
         // 设置配置结束
         OnLinker<FJ, EJ> onLinker = new OnAndOr<>();
         // 设置配置开始
-        joinHelper.setSqlBuilderOptions(sqlBuilderOptions);
+        mainJoinHelper.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         if (joinCallback == null) {
             return joinTableDatum;
         }
-        OnLinker<FJ, EJ> linker = joinCallback.apply(onLinker, ej, joinHelper);
+        OnLinker<FJ, EJ> linker = joinCallback.apply(onLinker, ej, mainJoinHelper);
         List<OnDataLinker> onDataLinkers = linker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return joinTableDatum;
