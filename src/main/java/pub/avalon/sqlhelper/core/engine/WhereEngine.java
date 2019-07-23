@@ -10,7 +10,10 @@ import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 条件引擎
@@ -20,6 +23,8 @@ import java.util.List;
  * @since 2018/7/10
  */
 public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<TW, R>> {
+
+    R where(WhereHelper<?>... whereHelpers);
 
     R where(WhereCallback<TW> whereCallback);
 
@@ -40,6 +45,13 @@ public interface WhereEngine<TW extends WhereHelper<TW>, R extends WhereEngine<T
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback);
+
+    static List<TableWhereDatum> execute(WhereHelper<?>... whereHelpers) {
+        if (whereHelpers == null || whereHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(whereHelpers).map(whereHelper -> whereHelper.execute()).collect(Collectors.toList());
+    }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
             FJ extends JoinHelper<FJ>,

@@ -3,7 +3,6 @@ package pub.avalon.sqlhelper.core.beans;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.helper.WhereHelper;
-import pub.avalon.sqlhelper.core.helper.WhereHelper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;

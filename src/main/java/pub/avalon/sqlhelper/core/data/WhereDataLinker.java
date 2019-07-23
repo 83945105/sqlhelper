@@ -32,15 +32,17 @@ public final class WhereDataLinker {
         return whereData;
     }
 
-    public void setWhereData(Set<WhereDatum> whereData) {
+    public WhereDataLinker setWhereData(Set<WhereDatum> whereData) {
         this.whereData = whereData;
+        return this;
     }
 
     public List<WhereDataLinker> getWhereDataLinkers() {
         return whereDataLinkers;
     }
 
-    public void setWhereDataLinkers(List<WhereDataLinker> whereDataLinkers) {
+    public WhereDataLinker setWhereDataLinkers(List<WhereDataLinker> whereDataLinkers) {
         this.whereDataLinkers = whereDataLinkers;
+        return this;
     }
 }

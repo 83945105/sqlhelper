@@ -158,6 +158,11 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
+    public Sql<T, TJ, TC, TW, TG, TH, TS> where(WhereHelper<?>... whereHelpers) {
+        return this;
+    }
+
+    @Override
     public Sql<T, TJ, TC, TW, TG, TH, TS> where(WhereCallback<TW> callback) {
         return this;
     }

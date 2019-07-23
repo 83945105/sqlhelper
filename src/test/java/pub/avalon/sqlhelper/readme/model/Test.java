@@ -90,6 +90,7 @@ public class Test {
                                 .and(joinTable.userName().equalTo(mainTable.id()))
                                 .or(mainTable.id().equalTo(joinTable.userName()))))
                 .where((condition, mainTable) -> condition
+                        .and(where)
                         .and(mainTable.id().equalTo("")
                                 .id().greaterThan("")))
                 .where((condition, mainTable) -> condition

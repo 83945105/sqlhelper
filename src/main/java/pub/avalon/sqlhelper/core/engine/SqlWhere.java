@@ -33,7 +33,12 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
     private List<SqlWhereBean<TW>> sqlWhereBeans = new ArrayList<>(1);
 
     @Override
-    public SqlWhere<TW> where(WhereCallback<TW> callback) {
+    public SqlWhere<TW> where(WhereHelper<?>... whereHelpers) {
+        return null;
+    }
+
+    @Override
+    public SqlWhere<TW> where(WhereCallback<TW> whereCallback) {
         return null;
     }
 
@@ -44,7 +49,7 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlWhere<TW> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
+            SS extends SortHelper<SS>> SqlWhere<TW> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereJoinCallback) {
         return null;
     }
 

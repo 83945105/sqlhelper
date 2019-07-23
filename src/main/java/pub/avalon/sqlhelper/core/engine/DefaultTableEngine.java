@@ -125,6 +125,12 @@ public final class DefaultTableEngine<T extends TableHelper<T, TJ, TC, TW, TG, T
     }
 
     @Override
+    public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereHelper<?>... whereHelpers) {
+        WhereEngine.execute(whereHelpers).forEach(this::addTableWhereDatum);
+        return this;
+    }
+
+    @Override
     public DefaultTableEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereCallback<TW> whereCallback) {
         this.addTableWhereDatum(WhereEngine.execute(this.tableHelperClass, this.tableAlias, whereCallback, this.sqlBuilderOptions));
         return this;

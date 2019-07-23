@@ -1,11 +1,14 @@
 package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
+import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -59,6 +62,7 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
         if (whereData == null || whereData.size() == 0) {
             return null;
         }
-        return new TableWhereDatum(whereHelper.getTableAlias(), whereData);
+        return new TableWhereDatum(whereHelper.getTableAlias(),
+                Collections.singletonList(new WhereDataLinker(LinkType.AND).setWhereData(whereData)));
     }
 }

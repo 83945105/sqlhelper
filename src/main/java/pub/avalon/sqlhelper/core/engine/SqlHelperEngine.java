@@ -168,6 +168,12 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
     }
 
     @Override
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereHelper<?>... whereHelpers) {
+        WhereEngine.execute(whereHelpers).forEach(this::addTableWhereDatum);
+        return this;
+    }
+
+    @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereCallback<TW> callback) {
         this.addTableWhereDatum(WhereEngine.execute(this.tableHelperClass, this.tableAlias, callback, this.sqlBuilderOptions));
         return this;

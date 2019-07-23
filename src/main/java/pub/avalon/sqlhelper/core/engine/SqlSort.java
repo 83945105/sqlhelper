@@ -26,7 +26,7 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<TS, SqlSor
     }
 
     @Override
-    public SqlSort<TS> sort(SortCallback<TS> callback) {
+    public SqlSort<TS> sort(SortCallback<TS> sortCallback) {
         return null;
     }
 
@@ -37,7 +37,7 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<TS, SqlSor
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlSort<TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
+            SS extends SortHelper<SS>> SqlSort<TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
         return null;
     }
 
