@@ -7,6 +7,7 @@ import pub.avalon.sqlhelper.core.engine.Sql;
 import pub.avalon.sqlhelper.core.engine.SqlColumn;
 import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.core.engine.SqlJoin;
+import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.factory.SqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
@@ -71,9 +72,13 @@ public class Test {
                 .column(column)
                 .column(column, column, column, joinColumn)
                 .column(SysUserDTO.Helper.class, table -> joinColumn)
-/*                .subQuery("sys_user", SysUserDTO.Helper.class, "SysUserDTO", query -> query
-                        .where((condition, mainTable) -> condition
-                                .and(mainTable.userName().equalTo(""))).query(), "subQuery")*/
+
+                .subQueryColumn("", parentTable -> {
+                    return MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                            .where((condition, mainTable) -> condition
+                                    .and(mainTable.id().equalTo(parentTable.resourceName())));
+                })
+
                 .virtualColumn(1, "")
                 .groupColumn(GroupType.COUNT, table -> table.id("").id(""))
                 .groupColumn(SysUserDTO.Helper.class, GroupType.MIN, table -> table.userName().userName(""))
@@ -121,17 +126,22 @@ public class Test {
                                 .and(joinTable.userName().equalTo(UserRoleTable.roleId()))))
                 .where((condition, mainTable) -> condition
                         .and(mainTable.id().equalTo(SysUserDTO.Helper.class, table -> table.userName().userName())))
-/*                .where((condition, mainTable) -> condition
-                        .and(mainTable.id().equalToSubQuery("sys_user", SysUserDTO.Helper.class, "SysUserDTO", query -> query
-                                .where((cd, mt) -> cd
-                                        .and(mt.userName().equalTo(""))).query())))*/
+                .where((condition, mainTable) -> condition
+                        .and(mainTable.id().equalToSubQuery(() -> {
+
+
+                            return MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                                    .where((cd, mt) -> cd
+                                            .and(mt.id().equalTo("")));
+
+
+                        })))
                 .where((condition, mainTable) -> condition.and(where))
                 .group(table -> table.id().id())
                 .group(SysUserDTO.Helper.class, table -> table.userName().userName())
                 .group(table -> group)
                 .group(SysUserDTO.Helper.class, table -> joinGroup)
                 .group(group, joinGroup)
-
 
 
                 .sort(table -> table.id().asc().id().desc())

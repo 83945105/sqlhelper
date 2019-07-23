@@ -1,14 +1,7 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.data.JoinTableDatum;
-import pub.avalon.sqlhelper.core.data.SqlData;
-import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
-import pub.avalon.sqlhelper.core.exception.SqlException;
-import pub.avalon.sqlhelper.core.helper.*;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
-
-import java.util.Map;
+import pub.avalon.sqlhelper.core.engine.Engine;
+import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 
 /**
  * 子查询
@@ -17,21 +10,9 @@ import java.util.Map;
  * @date 2018/11/18
  */
 @FunctionalInterface
-public interface SubQueryColumnCallback<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
-        TJ extends JoinHelper<TJ>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> {
+public interface SubQueryColumnCallback<TC extends ColumnHelper<TC>> {
 
-    /**
-     * 子查询处理
-     *
-     * @param query
-     * @return
-     */
-    SqlBuilder apply(SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> query);
+    Engine apply(TC parentTable);
 
     /**
      * 执行SubQuery
@@ -44,7 +25,7 @@ public interface SubQueryColumnCallback<T extends TableHelper<T, TJ, TC, TW, TG,
      * @param <T>
      * @return
      */
-    static <T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
+/*    static <T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             TJ extends JoinHelper<TJ>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
@@ -72,6 +53,6 @@ public interface SubQueryColumnCallback<T extends TableHelper<T, TJ, TC, TW, TG,
             }
         }
         return subQuery.apply(tableEngine);
-    }
+    }*/
 
 }
