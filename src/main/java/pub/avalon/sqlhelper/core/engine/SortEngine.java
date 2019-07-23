@@ -57,18 +57,7 @@ public interface SortEngine<TS extends SortHelper<TS>, R extends SortEngine<TS, 
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableSortDatum execute(Class<F> tableHelperClass, String tableAlias, SortCallback<FS> callback, SqlBuilderOptions sqlBuilderOptions) {
-        F f = BeanUtils.tableHelper(tableHelperClass);
-        tableAlias = tableAlias == null ? f.getTableAlias() : tableAlias;
-        FS fs = f.newSortHelper(tableAlias);
-        // 设置配置开始
-        fs.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        fs = callback.apply(fs);
-        Set<SortDatum> sortData = fs.takeoutSqlPartData();
-        if (sortData == null || sortData.size() == 0) {
-            return null;
-        }
-        return new TableSortDatum(tableAlias, sortData);
+            FS extends SortHelper<FS>> TableSortDatum execute(Class<F> tableHelperClass, String tableAlias, SortCallback<FS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
+        return SortCallback.execute(tableHelperClass, tableAlias, sortCallback, sqlBuilderOptions);
     }
 }

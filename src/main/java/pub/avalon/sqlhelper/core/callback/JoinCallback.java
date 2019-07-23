@@ -68,13 +68,7 @@ public interface JoinCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<S
         return joinTableDatum;
     }
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>,
+    static <FJ extends JoinHelper<FJ>,
             E extends TableHelper<E, EJ, EC, EW, EG, EH, ES>,
             EJ extends JoinHelper<EJ>,
             EC extends ColumnHelper<EC>,

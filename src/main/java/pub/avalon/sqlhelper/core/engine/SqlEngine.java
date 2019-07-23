@@ -1,8 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.sqlhelper.core.data.JoinTableDatum;
-import pub.avalon.sqlhelper.core.data.TableColumnDatum;
-import pub.avalon.sqlhelper.core.data.TableGroupDatum;
+import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
@@ -46,10 +44,22 @@ public interface SqlEngine<R> {
         return tableColumnData;
     }
 
+    static <FW extends WhereHelper<FW>> List<TableWhereDatum> executeWhere(SqlWhere<FW> sqlWhere, SqlBuilderOptions sqlBuilderOptions) {
+        List<TableWhereDatum> tableWhereData = new ArrayList<>();
+        sqlWhere.getSqlWhereBeans().forEach(sqlWhereBean -> tableWhereData.addAll(sqlWhereBean.execute(sqlBuilderOptions)));
+        return tableWhereData;
+    }
+
     static <FG extends GroupHelper<FG>> List<TableGroupDatum> executeGroup(SqlGroup<FG> sqlGroup, SqlBuilderOptions sqlBuilderOptions) {
         List<TableGroupDatum> tableGroupData = new ArrayList<>();
         sqlGroup.getSqlGroupBeans().forEach(sqlGroupBean -> tableGroupData.addAll(sqlGroupBean.execute(sqlBuilderOptions)));
         return tableGroupData;
+    }
+
+    static <FS extends SortHelper<FS>> List<TableSortDatum> executeSort(SqlSort<FS> sqlSort, SqlBuilderOptions sqlBuilderOptions) {
+        List<TableSortDatum> tableSortData = new ArrayList<>();
+        sqlSort.getSqlSortBeans().forEach(sqlSortBean -> tableSortData.addAll(sqlSortBean.execute(sqlBuilderOptions)));
+        return tableSortData;
     }
 
 }

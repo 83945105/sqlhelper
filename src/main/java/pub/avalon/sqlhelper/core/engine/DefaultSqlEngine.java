@@ -69,6 +69,7 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
 
     @Override
     public <FW extends WhereHelper<FW>> DefaultSqlEngine sqlWhere(SqlWhere<FW> sqlWhere) {
+        SqlEngine.executeWhere(sqlWhere, this.sqlBuilderOptions).forEach(this::addTableWhereDatum);
         return this;
     }
 
@@ -80,6 +81,7 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
 
     @Override
     public <FS extends SortHelper<FS>> DefaultSqlEngine sqlSort(SqlSort<FS> sqlSort) {
+        SqlEngine.executeSort(sqlSort, this.sqlBuilderOptions).forEach(this::addTableSortDatum);
         return this;
     }
 }
