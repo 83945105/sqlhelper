@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
+import pub.avalon.sqlhelper.core.sqlbuilder.SelectSqlBuilder;
 
 /**
  * 子查询
@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 @FunctionalInterface
 public interface SubQueryColumnCallback<TC extends ColumnHelper<TC>> {
 
-    Engine apply(TC parentTable);
+    SelectSqlBuilder apply(TC parentTable);
 
     /**
      * 执行SubQuery

@@ -320,18 +320,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     }
 
     @Override
-    public void addSubQueryData(String alias, SqlBuilder sqlBuilder) {
-        this.sqlData.addSubQueryData(alias, sqlBuilder);
-    }
-
-    @Override
     public void addJoinTableDatum(JoinTableDatum joinTableDatum) {
         this.sqlData.addJoinTableDatum(joinTableDatum);
-    }
-
-    @Override
-    public void addSubQueryJoinTableDatum(JoinTableDatum joinTableDatum) {
-        this.sqlData.addSubQueryJoinTableDatum(joinTableDatum);
     }
 
         /*@Override

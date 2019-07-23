@@ -43,21 +43,6 @@ public abstract class AbstractSqlDataCache implements SqlData {
     }
 
     @Override
-    public JoinTableDatum getJoinTableDatum(String tableAlias) {
-        if (tableAlias == null || tableAlias.trim().length() == 0) {
-            throw new TableDataException("alias can not be null or empty.");
-        }
-        JoinTableDatum joinTableDatum = null;
-        if (this.aliasJoinTableDataCache != null) {
-            joinTableDatum = this.aliasJoinTableDataCache.get(tableAlias);
-        }
-        if (joinTableDatum == null) {
-            throw new TableDataException("the alias table [" + tableAlias + "] no joined.");
-        }
-        return joinTableDatum;
-    }
-
-    @Override
     public LinkedHashMap<String, JoinTableDatum> getAliasJoinTableData() {
         return this.aliasJoinTableDataCache;
     }
@@ -77,10 +62,6 @@ public abstract class AbstractSqlDataCache implements SqlData {
             throw new TableDataException("alias table [" + joinTableDatum.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
         }
         this.aliasJoinTableDataCache.put(joinTableDatum.getTableAlias(), joinTableDatum);
-    }
-
-    @Override
-    public void addSubQueryJoinTableDatum(JoinTableDatum joinTableDatum) {
     }
 
 

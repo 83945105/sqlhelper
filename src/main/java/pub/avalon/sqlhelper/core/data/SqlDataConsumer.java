@@ -32,14 +32,6 @@ public interface SqlDataConsumer {
     MainTableDatum getMainTableDatum();
 
     /**
-     * 获取连接表数据
-     *
-     * @param tableAlias 连接表别名
-     * @return {@link JoinTableDatum}
-     */
-    JoinTableDatum getJoinTableDatum(String tableAlias);
-
-    /**
      * 获取列数据
      *
      * @return {@link TableColumnDatum}

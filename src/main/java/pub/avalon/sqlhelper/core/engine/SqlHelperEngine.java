@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitSql;
+import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
@@ -9,6 +10,8 @@ import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.SelectSqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 /**
  * SqlHelper引擎
@@ -145,6 +148,13 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback) {
+        T t = BeanUtils.tableHelper(this.tableHelperClass);
+        TC tc = t.newColumnHelper(this.tableAlias);
+        tc.setSqlBuilderOptions(this.sqlBuilderOptions);
+
+        SqlBuilder sqlBuilder = subQueryColumnCallback.apply(tc);
+
+
         return this;
     }
 

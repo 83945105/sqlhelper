@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.engine.Engine;
+import pub.avalon.sqlhelper.core.sqlbuilder.SelectSqlBuilder;
 
 /**
  * 子查询
@@ -11,6 +11,6 @@ import pub.avalon.sqlhelper.core.engine.Engine;
 @FunctionalInterface
 public interface SubQueryCallback {
 
-    Engine apply();
+    SelectSqlBuilder apply();
 
 }

@@ -2,7 +2,6 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.LimitSql;
 import pub.avalon.beans.Pagination;
-import pub.avalon.sqlhelper.core.exception.TableDataException;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.*;
@@ -44,10 +43,6 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
      * limit条件数据
      */
     private LimitSql limitData;
-    /**
-     * 子查询数据
-     */
-    private Map<String, SqlBuilder> subQueryDataMap;
 
     public AbstractSqlData(MainTableDatum mainTableDatum) {
         super(mainTableDatum);
@@ -90,7 +85,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
 
     @Override
     public Map<String, SqlBuilder> getSubQueryDataMap() {
-        return this.subQueryDataMap;
+        return null;
     }
 
     @Override
@@ -172,17 +167,6 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     @Override
     public void buildLimitData(Long total, Long currentPage, Long pageSize) {
         this.limitData = new Pagination(this.getDataBaseType(), total, currentPage, pageSize);
-    }
-
-    @Override
-    public void addSubQueryData(String alias, SqlBuilder sqlBuilder) {
-        if (alias == null || alias.trim().length() == 0) {
-            throw new TableDataException("subQuery alias can not be null or empty.");
-        }
-        if (this.subQueryDataMap == null) {
-            this.subQueryDataMap = new LinkedHashMap<>();
-        }
-        this.subQueryDataMap.put(alias, sqlBuilder);
     }
 
 }

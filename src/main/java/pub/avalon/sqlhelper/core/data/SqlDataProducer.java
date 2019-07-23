@@ -2,7 +2,6 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitSql;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 /**
  * sql数据生产者
@@ -91,22 +90,5 @@ public interface SqlDataProducer {
      * @param pageSize    每页显示数量
      */
     void buildLimitData(Long total, Long currentPage, Long pageSize);
-
-    /**
-     * 添加子查询数据
-     *
-     * @param alias      子查询别名
-     * @param sqlBuilder 子查询
-     * @return void
-     */
-    void addSubQueryData(String alias, SqlBuilder sqlBuilder);
-
-    /**
-     * 添加子查询连接表数据
-     *
-     * @param joinTableDatum 连接表数据
-     * @return void
-     */
-    void addSubQueryJoinTableDatum(JoinTableDatum joinTableDatum);
 
 }
