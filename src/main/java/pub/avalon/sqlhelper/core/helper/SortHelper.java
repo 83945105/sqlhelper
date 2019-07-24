@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,7 +38,7 @@ public abstract class SortHelper<T extends SortHelper<T>> extends Helper {
         return this.sortSqlPartDatumBuilder;
     }
 
-    public Set<SortDatum> takeoutSqlPartData() {
+    public List<SortDatum> takeoutSqlPartData() {
         return this.sortSqlPartDatumBuilder.takeoutSqlPartData();
     }
 
@@ -55,7 +56,7 @@ public abstract class SortHelper<T extends SortHelper<T>> extends Helper {
     }
 
     public static TableSortDatum execute(SortHelper<?> sortHelper) {
-        Set<SortDatum> sortData = sortHelper.takeoutSqlPartData();
+        List<SortDatum> sortData = sortHelper.takeoutSqlPartData();
         if (sortData == null || sortData.size() == 0) {
             return null;
         }

@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * @author 白超
@@ -37,7 +37,7 @@ public interface SortCallback<T extends SortHelper<T>> {
         fs.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         fs = callback.apply(fs);
-        Set<SortDatum> sortData = fs.takeoutSqlPartData();
+        List<SortDatum> sortData = fs.takeoutSqlPartData();
         if (sortData == null || sortData.size() == 0) {
             return null;
         }
@@ -49,7 +49,7 @@ public interface SortCallback<T extends SortHelper<T>> {
         sortHelper.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         sortHelper = callback.apply(sortHelper);
-        Set<SortDatum> sortData = sortHelper.takeoutSqlPartData();
+        List<SortDatum> sortData = sortHelper.takeoutSqlPartData();
         if (sortData == null || sortData.size() == 0) {
             return null;
         }

@@ -7,6 +7,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -38,7 +39,7 @@ public interface GroupCallback<T extends GroupHelper<T>> {
         tg.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         tg = callback.apply(tg);
-        Set<GroupDatum> groupData = tg.takeoutSqlPartData();
+        List<GroupDatum> groupData = tg.takeoutSqlPartData();
         if (groupData == null || groupData.size() == 0) {
             return null;
         }
@@ -56,7 +57,7 @@ public interface GroupCallback<T extends GroupHelper<T>> {
         groupHelper.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         groupHelper = groupCallback.apply(groupHelper);
-        Set<GroupDatum> groupData = groupHelper.takeoutSqlPartData();
+        List<GroupDatum> groupData = groupHelper.takeoutSqlPartData();
         if (groupData == null || groupData.size() == 0) {
             return null;
         }

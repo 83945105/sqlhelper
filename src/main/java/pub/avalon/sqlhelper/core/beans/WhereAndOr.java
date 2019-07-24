@@ -34,7 +34,7 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
             return this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
-        Set<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
+        List<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
         if (whereData == null || whereData.size() == 0) {
             return this;
         }
@@ -93,7 +93,7 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
             return this;
         }
         WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        Set<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
+        List<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
         if (whereData == null || whereData.size() == 0) {
             return this;
         }

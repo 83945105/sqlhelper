@@ -3,7 +3,6 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * On条件数据连接器
@@ -19,7 +18,7 @@ public final class OnDataLinker {
         this.linkType = linkType;
     }
 
-    private Set<OnDatum> onData;
+    private List<OnDatum> onData;
 
     private List<OnDataLinker> onDataLinkers;
 
@@ -27,11 +26,11 @@ public final class OnDataLinker {
         return linkType;
     }
 
-    public Set<OnDatum> getOnData() {
+    public List<OnDatum> getOnData() {
         return onData;
     }
 
-    public void setOnData(Set<OnDatum> onData) {
+    public void setOnData(List<OnDatum> onData) {
         this.onData = onData;
     }
 

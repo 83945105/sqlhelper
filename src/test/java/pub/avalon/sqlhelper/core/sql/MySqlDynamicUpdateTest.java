@@ -133,7 +133,9 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
     void TestUpdateJavaBeanAndJoinAndWhere01() {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId("666");
-        javaBean.setUserName(arg());
+        javaBean.setUserName("1");
+        arg("1");
+        arg("1");
 
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.userName().userName())
@@ -142,7 +144,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
                 .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .updateJavaBean(javaBean);
-        setSqlBuilder(sqlBuilder, "update `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` set SysUser.`user_name` = ? where UserRole.`role_name` = ?");
+        setSqlBuilder(sqlBuilder, "update `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` set SysUser.`user_name` = ?,SysUser.`user_name` = ? where UserRole.`role_name` = ?");
     }
 
     @Test

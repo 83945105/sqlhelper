@@ -9,6 +9,7 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -62,7 +63,7 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
         return this.columnSqlPartDatumBuilder;
     }
 
-    public Set<ColumnDatum> takeoutSqlPartData() {
+    public List<ColumnDatum> takeoutSqlPartData() {
         return this.columnSqlPartDatumBuilder.takeoutSqlPartData();
     }
 
@@ -80,7 +81,7 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
     }
 
     public static TableColumnDatum execute(ColumnHelper<?> columnHelper) {
-        Set<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(columnHelper);
         }

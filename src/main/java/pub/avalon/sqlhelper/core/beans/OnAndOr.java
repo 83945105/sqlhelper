@@ -33,7 +33,7 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
-        Set<OnDatum> onData = onHelper.takeoutSqlPartData();
+        List<OnDatum> onData = onHelper.takeoutSqlPartData();
         if (onData == null || onData.size() == 0) {
             return this;
         }
@@ -66,7 +66,7 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
-        Set<OnDatum> onData = onHelper.takeoutSqlPartData();
+        List<OnDatum> onData = onHelper.takeoutSqlPartData();
         if (onData == null || onData.size() == 0) {
             return this;
         }

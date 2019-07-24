@@ -4,10 +4,7 @@ import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.beans.WhereValueType;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 /**
  * 条件数据
@@ -70,7 +67,7 @@ public final class WhereDatum implements SqlPartDatum {
 
     private WhereDatum[] targetWhereData;
 
-    private Set<ColumnDatum> targetColumnData;
+    private List<ColumnDatum> targetColumnData;
 
     private Object targetValue;
 
@@ -224,7 +221,7 @@ public final class WhereDatum implements SqlPartDatum {
         return this;
     }
 
-    public WhereDatum setTargetColumnData(Set<ColumnDatum> targetColumnData) {
+    public WhereDatum setTargetColumnData(List<ColumnDatum> targetColumnData) {
         this.targetColumnData = targetColumnData;
         return this;
     }
@@ -358,7 +355,7 @@ public final class WhereDatum implements SqlPartDatum {
         return targetWhereData;
     }
 
-    public Set<ColumnDatum> getTargetColumnData() {
+    public List<ColumnDatum> getTargetColumnData() {
         return targetColumnData;
     }
 
@@ -382,53 +379,4 @@ public final class WhereDatum implements SqlPartDatum {
         return sqlPart;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        WhereDatum that = (WhereDatum) o;
-        return getValueCount() == that.getValueCount() &&
-                Objects.equals(getOwnerTemplateTableName(), that.getOwnerTemplateTableName()) &&
-                Objects.equals(getOwnerTemplateTableAlias(), that.getOwnerTemplateTableAlias()) &&
-                Objects.equals(getOwnerTemplateColumnName(), that.getOwnerTemplateColumnName()) &&
-                Objects.equals(getOwnerTemplateColumnAlias(), that.getOwnerTemplateColumnAlias()) &&
-                Objects.equals(getOwnerMappingFieldName(), that.getOwnerMappingFieldName()) &&
-                Objects.equals(getTargetTemplateTableName(), that.getTargetTemplateTableName()) &&
-                Objects.equals(getTargetTemplateTableAlias(), that.getTargetTemplateTableAlias()) &&
-                Objects.equals(getTargetTemplateColumnName(), that.getTargetTemplateColumnName()) &&
-                Objects.equals(getTargetTemplateColumnAlias(), that.getTargetTemplateColumnAlias()) &&
-                Objects.equals(getTargetMappingFieldName(), that.getTargetMappingFieldName()) &&
-                Objects.equals(getOwnerTableName(), that.getOwnerTableName()) &&
-                Objects.equals(getOwnerTableAlias(), that.getOwnerTableAlias()) &&
-                Objects.equals(getOwnerColumnName(), that.getOwnerColumnName()) &&
-                Objects.equals(getOwnerColumnAlias(), that.getOwnerColumnAlias()) &&
-                getWhereType() == that.getWhereType() &&
-                getWhereValueType() == that.getWhereValueType() &&
-                Objects.equals(getTargetTableName(), that.getTargetTableName()) &&
-                Objects.equals(getTargetTableAlias(), that.getTargetTableAlias()) &&
-                Objects.equals(getTargetColumnName(), that.getTargetColumnName()) &&
-                Objects.equals(getTargetColumnAlias(), that.getTargetColumnAlias()) &&
-                Objects.equals(getTargetSecondTableName(), that.getTargetSecondTableName()) &&
-                Objects.equals(getTargetSecondTableAlias(), that.getTargetSecondTableAlias()) &&
-                Objects.equals(getTargetSecondColumnName(), that.getTargetSecondColumnName()) &&
-                Objects.equals(getTargetSecondColumnAlias(), that.getTargetSecondColumnAlias()) &&
-                Objects.equals(getTargetSecondMappingFieldName(), that.getTargetSecondMappingFieldName()) &&
-                Arrays.equals(getTargetWhereData(), that.getTargetWhereData()) &&
-                Objects.equals(getTargetColumnData(), that.getTargetColumnData()) &&
-                Objects.equals(getTargetValue(), that.getTargetValue()) &&
-                Objects.equals(getTargetSecondValue(), that.getTargetSecondValue()) &&
-                Objects.equals(getTargetSubQuery(), that.getTargetSubQuery()) &&
-                Objects.equals(getSqlPart(), that.getSqlPart());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(getOwnerTemplateTableName(), getOwnerTemplateTableAlias(), getOwnerTemplateColumnName(), getOwnerTemplateColumnAlias(), getOwnerMappingFieldName(), getTargetTemplateTableName(), getTargetTemplateTableAlias(), getTargetTemplateColumnName(), getTargetTemplateColumnAlias(), getTargetMappingFieldName(), getOwnerTableName(), getOwnerTableAlias(), getOwnerColumnName(), getOwnerColumnAlias(), getWhereType(), getWhereValueType(), getTargetTableName(), getTargetTableAlias(), getTargetColumnName(), getTargetColumnAlias(), getTargetSecondTableName(), getTargetSecondTableAlias(), getTargetSecondColumnName(), getTargetSecondColumnAlias(), getTargetSecondMappingFieldName(), getTargetColumnData(), getTargetValue(), getTargetSecondValue(), getValueCount(), getTargetSubQuery(), getSqlPart());
-        result = 31 * result + Arrays.hashCode(getTargetWhereData());
-        return result;
-    }
 }

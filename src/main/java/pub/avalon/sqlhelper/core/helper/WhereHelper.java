@@ -9,6 +9,7 @@ import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -40,7 +41,7 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
         return this.whereSqlPartDatumBuilder;
     }
 
-    public Set<WhereDatum> takeoutSqlPartData() {
+    public List<WhereDatum> takeoutSqlPartData() {
         return this.whereSqlPartDatumBuilder.takeoutSqlPartData();
     }
 
@@ -58,7 +59,7 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
     }
 
     public static TableWhereDatum execute(WhereHelper<?> whereHelper) {
-        Set<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
+        List<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
         if (whereData == null || whereData.size() == 0) {
             return null;
         }

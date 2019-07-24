@@ -25,7 +25,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     public SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer) {
         Map<String, SqlBuilder> subQueryAliasMap = sqlDataConsumer.getSubQueryDataMap();
         List<TableGroupColumnDatum> tableGroupColumnData = sqlDataConsumer.getTableGroupColumnData();
-        Set<VirtualFieldDatum> virtualFieldData = sqlDataConsumer.getVirtualFieldData();
+        List<VirtualFieldDatum> virtualFieldData = sqlDataConsumer.getVirtualFieldData();
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
         boolean hasF = tableGroupColumnData != null && tableGroupColumnData.size() != 0;
@@ -126,7 +126,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         StringBuilder sql = new StringBuilder(32);
         sql.append(" group by ");
         int i = 0;
-        Set<GroupDatum> groupData;
+        List<GroupDatum> groupData;
         for (TableGroupDatum tableGroupDatum : tableGroupData) {
             groupData = tableGroupDatum.getGroupData();
             if (groupData == null || groupData.size() == 0) {
@@ -154,7 +154,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         StringBuilder sql = new StringBuilder(32);
         sql.append(" order by ");
         int i = 0;
-        Set<SortDatum> sortData;
+        List<SortDatum> sortData;
         for (TableSortDatum tableSortDatum : tableSortData) {
             sortData = tableSortDatum.getSortData();
             if (sortData == null || sortData.size() == 0) {
@@ -192,7 +192,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         return SqlBuilderResult.newInstance(" limit ?,?", Arrays.asList(limit.getLimitStartNum(), limit.getLimitEndNum()));
     }
 
-    private void appendColumnSqlArgs(StringBuilder sql, List<Object> args, Set<ColumnDatum> columnData) {
+    private void appendColumnSqlArgs(StringBuilder sql, List<Object> args, List<ColumnDatum> columnData) {
         int i = 0;
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
@@ -230,7 +230,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     private void appendTableGroupColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableGroupColumnDatum> tableGroupColumnData) {
         int i = 0;
         GroupType groupType;
-        Set<ColumnDatum> columnData;
+        List<ColumnDatum> columnData;
         for (TableGroupColumnDatum tableGroupColumnDatum : tableGroupColumnData) {
             columnData = tableGroupColumnDatum.getColumnData();
             if (columnData == null || columnData.size() == 0) {
@@ -278,7 +278,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendVirtualColumnSqlArgs(StringBuilder sql, List<Object> args, Set<VirtualFieldDatum> virtualFieldData) {
+    private void appendVirtualColumnSqlArgs(StringBuilder sql, List<Object> args, List<VirtualFieldDatum> virtualFieldData) {
         Object value;
         String alias;
         int i = 0;
@@ -311,7 +311,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
 
     private void appendTableColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableColumnDatum> tableColumnData) {
         int i = 0;
-        Set<ColumnDatum> columnData;
+        List<ColumnDatum> columnData;
         for (TableColumnDatum tableColumnDatum : tableColumnData) {
             columnData = tableColumnDatum.getColumnData();
             if (columnData.size() == 0) {
@@ -333,7 +333,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendOnDataSqlArgs(StringBuilder sql, List<Object> args, Set<OnDatum> onData, LinkType linkType) {
+    private void appendOnDataSqlArgs(StringBuilder sql, List<Object> args, List<OnDatum> onData, LinkType linkType) {
         if (onData == null || onData.size() == 0) {
             return;
         }
@@ -451,7 +451,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             return;
         }
         int length = sql.length();
-        Set<OnDatum> onData;
+        List<OnDatum> onData;
         int i = 0;
         boolean brackets = false;
         for (OnDataLinker onDataLinker : onDataLinkers) {
@@ -699,7 +699,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     }
 
     private void appendWhereDataColumnSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        Set<ColumnDatum> columnData = whereDatum.getTargetColumnData();
+        List<ColumnDatum> columnData = whereDatum.getTargetColumnData();
         if (columnData == null || columnData.size() == 0) {
             return;
         }
@@ -939,7 +939,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendWhereDataListSqlArgs(StringBuilder sql, List<Object> args, Set<WhereDatum> whereData, LinkType linkType) {
+    private void appendWhereDataListSqlArgs(StringBuilder sql, List<Object> args, List<WhereDatum> whereData, LinkType linkType) {
         if (whereData == null || whereData.size() == 0) {
             return;
         }
@@ -967,7 +967,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             return;
         }
         int length = sql.length();
-        Set<WhereDatum> whereData;
+        List<WhereDatum> whereData;
         int i = 0;
         boolean brackets = false;
         for (WhereDataLinker whereDataLinker : whereDataLinkerList) {

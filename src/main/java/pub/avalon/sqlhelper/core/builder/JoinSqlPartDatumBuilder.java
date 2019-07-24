@@ -11,6 +11,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -411,7 +412,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
         this.onDatum.setOnValueType(OnValueType.JOIN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -442,7 +443,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
         this.onDatum.setOnValueType(OnValueType.JOIN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -473,7 +474,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
         this.onDatum.setOnValueType(OnValueType.JOIN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -504,7 +505,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
         this.onDatum.setOnValueType(OnValueType.JOIN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -535,7 +536,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
         this.onDatum.setOnValueType(OnValueType.JOIN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -566,7 +567,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
         this.onDatum.setOnValueType(OnValueType.JOIN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        Set<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }

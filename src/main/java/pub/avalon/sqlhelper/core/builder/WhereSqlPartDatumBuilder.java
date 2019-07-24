@@ -12,6 +12,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -471,7 +472,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -493,7 +494,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -515,7 +516,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -537,7 +538,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -559,7 +560,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -581,7 +582,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -603,7 +604,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -628,7 +629,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -650,7 +651,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -672,7 +673,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        Set<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }

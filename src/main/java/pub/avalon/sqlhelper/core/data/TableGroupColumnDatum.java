@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,9 +18,9 @@ public final class TableGroupColumnDatum {
 
     private GroupType groupType;
 
-    private Set<ColumnDatum> columnData;
+    private List<ColumnDatum> columnData;
 
-    public TableGroupColumnDatum(String tableAlias, GroupType groupType, Set<ColumnDatum> columnData) {
+    public TableGroupColumnDatum(String tableAlias, GroupType groupType, List<ColumnDatum> columnData) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
@@ -36,10 +37,7 @@ public final class TableGroupColumnDatum {
         return groupType;
     }
 
-    public Set<ColumnDatum> getColumnData() {
+    public List<ColumnDatum> getColumnData() {
         return columnData;
     }
-
-
-
 }

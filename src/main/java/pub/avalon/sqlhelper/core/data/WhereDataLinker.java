@@ -3,7 +3,6 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 条件数据连接器
@@ -20,7 +19,7 @@ public final class WhereDataLinker {
         this.linkType = linkType;
     }
 
-    private Set<WhereDatum> whereData;
+    private List<WhereDatum> whereData;
 
     private List<WhereDataLinker> whereDataLinkers;
 
@@ -28,11 +27,11 @@ public final class WhereDataLinker {
         return linkType;
     }
 
-    public Set<WhereDatum> getWhereData() {
+    public List<WhereDatum> getWhereData() {
         return whereData;
     }
 
-    public WhereDataLinker setWhereData(Set<WhereDatum> whereData) {
+    public WhereDataLinker setWhereData(List<WhereDatum> whereData) {
         this.whereData = whereData;
         return this;
     }

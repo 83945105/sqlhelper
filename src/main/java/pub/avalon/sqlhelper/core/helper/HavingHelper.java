@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.HavingDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -52,7 +53,7 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
         return this.havingSqlPartDatumBuilder;
     }
 
-    public Set<HavingDatum> takeoutSqlPartData() {
+    public List<HavingDatum> takeoutSqlPartData() {
         return this.havingSqlPartDatumBuilder.takeoutSqlPartData();
     }
 

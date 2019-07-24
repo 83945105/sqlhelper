@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * 表列数据
@@ -14,9 +14,9 @@ public final class TableColumnDatum {
 
     private String tableAlias;
 
-    private Set<ColumnDatum> columnData;
+    private List<ColumnDatum> columnData;
 
-    public TableColumnDatum(String tableAlias, Set<ColumnDatum> columnData) {
+    public TableColumnDatum(String tableAlias, List<ColumnDatum> columnData) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
@@ -28,8 +28,7 @@ public final class TableColumnDatum {
         return tableAlias;
     }
 
-    public Set<ColumnDatum> getColumnData() {
+    public List<ColumnDatum> getColumnData() {
         return columnData;
     }
-
 }

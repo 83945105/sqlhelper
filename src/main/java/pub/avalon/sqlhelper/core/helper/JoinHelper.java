@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.OnDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,7 +37,7 @@ public abstract class JoinHelper<T extends JoinHelper<T>> extends Helper {
         return this.joinSqlPartDatumBuilder;
     }
 
-    public Set<OnDatum> takeoutSqlPartData() {
+    public List<OnDatum> takeoutSqlPartData() {
         return this.joinSqlPartDatumBuilder.takeoutSqlPartData();
     }
 

@@ -4,7 +4,9 @@ import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,7 +28,7 @@ public abstract class AbstractSqlPartDatumBuilder<T extends Helper, S extends Sq
         this.helper = helper;
     }
 
-    private Set<S> sqlPartData = null;
+    private List<S> sqlPartData = null;
 
     @Override
     public T getHelper() {
@@ -44,14 +46,14 @@ public abstract class AbstractSqlPartDatumBuilder<T extends Helper, S extends Sq
             return;
         }
         if (this.sqlPartData == null) {
-            this.sqlPartData = new LinkedHashSet<>();
+            this.sqlPartData = new ArrayList<>();
         }
         this.sqlPartData.add(sqlPartDatum);
     }
 
     @Override
-    public Set<S> takeoutSqlPartData() {
-        Set<S> sqlModelData = this.sqlPartData;
+    public List<S> takeoutSqlPartData() {
+        List<S> sqlModelData = this.sqlPartData;
         this.sqlPartData = null;
         return sqlModelData;
     }

@@ -170,7 +170,7 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
         fc.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         fc = columnCallback.apply(fc);
-        Set<ColumnDatum> columnData = fc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = fc.takeoutSqlPartData();
         // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
             return null;

@@ -6,7 +6,8 @@ import pub.avalon.sqlhelper.core.data.TableDatum;
 import pub.avalon.sqlhelper.core.engine.*;
 import pub.avalon.sqlhelper.core.helper.*;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,8 +32,8 @@ public final class BeanUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static Set<ColumnDatum> getColumnData(TableHelper tableHelper) {
-        Set<ColumnDatum> columnData = new LinkedHashSet<>();
+    public static List<ColumnDatum> getColumnData(TableHelper tableHelper) {
+        List<ColumnDatum> columnData = new ArrayList<>();
         Set<TableColumn> tableColumns = tableHelper.getTableColumns();
         if (tableColumns == null) {
             return columnData;
@@ -44,8 +45,8 @@ public final class BeanUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static Set<ColumnDatum> getColumnData(ColumnHelper columnHelper) {
-        Set<ColumnDatum> columnData = new LinkedHashSet<>();
+    public static List<ColumnDatum> getColumnData(ColumnHelper columnHelper) {
+        List<ColumnDatum> columnData = new ArrayList<>();
         Set<TableColumn> tableColumns = columnHelper.getTableDefaultColumns();
         if (tableColumns == null) {
             return columnData;
@@ -57,12 +58,12 @@ public final class BeanUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends TableHelper> Set<ColumnDatum> getColumnData(Class<T> clazz) {
+    public static <T extends TableHelper> List<ColumnDatum> getColumnData(Class<T> clazz) {
         return getColumnData(tableHelper(clazz));
     }
 
     @SuppressWarnings("unchecked")
-    public static Set<ColumnDatum> getColumnData(TableDatum tableDatum) {
+    public static List<ColumnDatum> getColumnData(TableDatum tableDatum) {
         Class clazz = tableDatum.getTableHelperClass();
         return getColumnData(clazz);
     }

@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.data.SqlPartDatum;
 import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -42,7 +43,7 @@ public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
      *
      * @return {@link java.util.LinkedHashSet}
      */
-    Set<S> takeoutSqlPartData();
+    List<S> takeoutSqlPartData();
 
     /**
      * 接收数据

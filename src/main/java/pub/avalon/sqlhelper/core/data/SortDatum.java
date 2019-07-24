@@ -2,8 +2,6 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.SortType;
 
-import java.util.Objects;
-
 /**
  * 排序数据
  *
@@ -135,29 +133,4 @@ public final class SortDatum implements SqlPartDatum {
         return sortType;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SortDatum sortDatum = (SortDatum) o;
-        return Objects.equals(getTemplateTableName(), sortDatum.getTemplateTableName()) &&
-                Objects.equals(getTemplateTableAlias(), sortDatum.getTemplateTableAlias()) &&
-                Objects.equals(getTemplateColumnName(), sortDatum.getTemplateColumnName()) &&
-                Objects.equals(getTemplateColumnAlias(), sortDatum.getTemplateColumnAlias()) &&
-                Objects.equals(getMappingFieldName(), sortDatum.getMappingFieldName()) &&
-                Objects.equals(getTableName(), sortDatum.getTableName()) &&
-                Objects.equals(getTableAlias(), sortDatum.getTableAlias()) &&
-                Objects.equals(getColumnName(), sortDatum.getColumnName()) &&
-                Objects.equals(getColumnAlias(), sortDatum.getColumnAlias()) &&
-                getSortType() == sortDatum.getSortType();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getTemplateTableName(), getTemplateTableAlias(), getTemplateColumnName(), getTemplateColumnAlias(), getMappingFieldName(), getTableName(), getTableAlias(), getColumnName(), getColumnAlias(), getSortType());
-    }
 }

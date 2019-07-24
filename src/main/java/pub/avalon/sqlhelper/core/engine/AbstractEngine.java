@@ -7,7 +7,6 @@ import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 

@@ -7,7 +7,6 @@ import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * sql数据消费者
@@ -43,7 +42,7 @@ public interface SqlDataConsumer {
      *
      * @return {@link VirtualFieldDatum}
      */
-    Set<VirtualFieldDatum> getVirtualFieldData();
+    List<VirtualFieldDatum> getVirtualFieldData();
 
     /**
      * 获取聚合函数列属性

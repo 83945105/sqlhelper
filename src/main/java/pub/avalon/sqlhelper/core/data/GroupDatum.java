@@ -1,7 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import java.util.Objects;
-
 /**
  * 分组数据
  *
@@ -121,28 +119,4 @@ public final class GroupDatum implements SqlPartDatum {
         return columnAlias;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        GroupDatum that = (GroupDatum) o;
-        return Objects.equals(getTemplateTableName(), that.getTemplateTableName()) &&
-                Objects.equals(getTemplateTableAlias(), that.getTemplateTableAlias()) &&
-                Objects.equals(getTemplateColumnName(), that.getTemplateColumnName()) &&
-                Objects.equals(getTemplateColumnAlias(), that.getTemplateColumnAlias()) &&
-                Objects.equals(getMappingFieldName(), that.getMappingFieldName()) &&
-                Objects.equals(getTableName(), that.getTableName()) &&
-                Objects.equals(getTableAlias(), that.getTableAlias()) &&
-                Objects.equals(getColumnName(), that.getColumnName()) &&
-                Objects.equals(getColumnAlias(), that.getColumnAlias());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getTemplateTableName(), getTemplateTableAlias(), getTemplateColumnName(), getTemplateColumnAlias(), getMappingFieldName(), getTableName(), getTableAlias(), getColumnName(), getColumnAlias());
-    }
 }

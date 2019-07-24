@@ -4,7 +4,9 @@ import pub.avalon.beans.LimitSql;
 import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Sql数据
@@ -22,7 +24,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     /**
      * 虚拟列数据
      */
-    private Set<VirtualFieldDatum> virtualFieldData;
+    private List<VirtualFieldDatum> virtualFieldData;
     /**
      * 函数列数据
      */
@@ -54,7 +56,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public Set<VirtualFieldDatum> getVirtualFieldData() {
+    public List<VirtualFieldDatum> getVirtualFieldData() {
         return this.virtualFieldData;
     }
 
@@ -105,7 +107,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             return;
         }
         if (this.virtualFieldData == null) {
-            this.virtualFieldData = new LinkedHashSet<>();
+            this.virtualFieldData = new ArrayList<>();
         }
         this.virtualFieldData.add(virtualFieldDatum);
     }

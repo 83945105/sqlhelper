@@ -222,7 +222,7 @@ public class MySqlDynamicEngineColumnTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
     }
 
-    @Test
+//    @Test
     void Test_subQueryColumn() {
         SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .subQueryColumn("", parentTable -> MySqlDynamicEngine.table(UserRoleDTO.Helper.class)

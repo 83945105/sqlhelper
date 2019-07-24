@@ -2,9 +2,6 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 /**
  * 列数据
  *
@@ -147,31 +144,4 @@ public final class ColumnDatum implements SqlPartDatum {
         return columnAlias;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ColumnDatum that = (ColumnDatum) o;
-        return Objects.equals(getTemplateTableName(), that.getTemplateTableName()) &&
-                Objects.equals(getTemplateTableAlias(), that.getTemplateTableAlias()) &&
-                Objects.equals(getTemplateColumnName(), that.getTemplateColumnName()) &&
-                Objects.equals(getTemplateColumnAlias(), that.getTemplateColumnAlias()) &&
-                Objects.equals(getMappingFieldName(), that.getMappingFieldName()) &&
-                Arrays.equals(getColumnHandlers(), that.getColumnHandlers()) &&
-                Objects.equals(getTableName(), that.getTableName()) &&
-                Objects.equals(getTableAlias(), that.getTableAlias()) &&
-                Objects.equals(getColumnName(), that.getColumnName()) &&
-                Objects.equals(getColumnAlias(), that.getColumnAlias());
-    }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(getTemplateTableName(), getTemplateTableAlias(), getTemplateColumnName(), getTemplateColumnAlias(), getMappingFieldName(), getTableName(), getTableAlias(), getColumnName(), getColumnAlias());
-        result = 31 * result + Arrays.hashCode(getColumnHandlers());
-        return result;
-    }
 }

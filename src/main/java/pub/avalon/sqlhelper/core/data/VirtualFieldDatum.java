@@ -1,7 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import java.util.Objects;
-
 /**
  * 虚拟属性数据
  *
@@ -33,21 +31,4 @@ public final class VirtualFieldDatum {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        VirtualFieldDatum that = (VirtualFieldDatum) o;
-        return Objects.equals(getValue(), that.getValue()) &&
-                Objects.equals(getAlias(), that.getAlias());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getValue(), getAlias());
-    }
 }

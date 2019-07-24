@@ -7,6 +7,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,7 +55,7 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
         tc.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         tc = columnCallback.apply(tc);
-        Set<ColumnDatum> columnData = tc.takeoutSqlPartData();
+        List<ColumnDatum> columnData = tc.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(tableHelperClass);
         }
@@ -72,7 +73,7 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
         columnHelper.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         columnHelper = columnCallback.apply(columnHelper);
-        Set<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             columnData = BeanUtils.getColumnData(columnHelper);
         }

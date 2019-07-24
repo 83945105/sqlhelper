@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * 表排序数据
@@ -15,9 +15,9 @@ public final class TableSortDatum {
 
     private String tableAlias;
 
-    private Set<SortDatum> sortData;
+    private List<SortDatum> sortData;
 
-    public TableSortDatum(String tableAlias, Set<SortDatum> sortData) {
+    public TableSortDatum(String tableAlias, List<SortDatum> sortData) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
@@ -29,7 +29,7 @@ public final class TableSortDatum {
         return tableAlias;
     }
 
-    public Set<SortDatum> getSortData() {
+    public List<SortDatum> getSortData() {
         return sortData;
     }
 

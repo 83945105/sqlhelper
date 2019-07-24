@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.data.GroupDatum;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,7 +38,7 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
         return this.groupSqlPartDatumBuilder;
     }
 
-    public Set<GroupDatum> takeoutSqlPartData() {
+    public List<GroupDatum> takeoutSqlPartData() {
         return this.groupSqlPartDatumBuilder.takeoutSqlPartData();
     }
 
@@ -55,7 +56,7 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
     }
 
     public static TableGroupDatum execute(GroupHelper<?> groupHelper) {
-        Set<GroupDatum> groupData = groupHelper.takeoutSqlPartData();
+        List<GroupDatum> groupData = groupHelper.takeoutSqlPartData();
         if (groupData == null || groupData.size() == 0) {
             return null;
         }

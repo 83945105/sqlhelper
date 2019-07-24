@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * 表分组数据
@@ -14,9 +14,9 @@ public final class TableGroupDatum {
 
     private String tableAlias;
 
-    private Set<GroupDatum> groupData;
+    private List<GroupDatum> groupData;
 
-    public TableGroupDatum(String tableAlias, Set<GroupDatum> groupData) {
+    public TableGroupDatum(String tableAlias, List<GroupDatum> groupData) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
@@ -28,7 +28,7 @@ public final class TableGroupDatum {
         return tableAlias;
     }
 
-    public Set<GroupDatum> getGroupData() {
+    public List<GroupDatum> getGroupData() {
         return groupData;
     }
     
