@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
+import pub.avalon.sqlhelper.core.beans.ColumnType;
 
 /**
  * 列数据
@@ -29,6 +30,8 @@ public final class ColumnDatum implements SqlPartDatum {
     private String columnName;
 
     private String columnAlias;
+
+    private ColumnType columnType = ColumnType.DEFAULT;
 
     public ColumnDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
         this.templateTableName = templateTableName;
@@ -80,6 +83,11 @@ public final class ColumnDatum implements SqlPartDatum {
         return this;
     }
 
+    public ColumnDatum setColumnHandlers(ColumnHandler[] columnHandlers) {
+        this.columnHandlers = columnHandlers;
+        return this;
+    }
+
     public ColumnDatum setTableName(String tableName) {
         this.tableName = tableName;
         return this;
@@ -97,6 +105,11 @@ public final class ColumnDatum implements SqlPartDatum {
 
     public ColumnDatum setColumnAlias(String columnAlias) {
         this.columnAlias = columnAlias;
+        return this;
+    }
+
+    public ColumnDatum setColumnType(ColumnType columnType) {
+        this.columnType = columnType;
         return this;
     }
 
@@ -124,10 +137,6 @@ public final class ColumnDatum implements SqlPartDatum {
         return columnHandlers;
     }
 
-    public void setColumnHandlers(ColumnHandler[] columnHandlers) {
-        this.columnHandlers = columnHandlers;
-    }
-
     public String getTableName() {
         return tableName;
     }
@@ -142,6 +151,10 @@ public final class ColumnDatum implements SqlPartDatum {
 
     public String getColumnAlias() {
         return columnAlias;
+    }
+
+    public ColumnType getColumnType() {
+        return columnType;
     }
 
 }
