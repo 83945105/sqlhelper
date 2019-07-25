@@ -5,10 +5,8 @@ import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
-import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
 
 /**
  * SqlHelper引擎
@@ -23,7 +21,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> extends AbstractEngine<T, TJ, TC, TW, TG, TH, TS> implements SqlEngine<SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS>>, TableEngine<T, TJ, TC, TW, TG, TH, TS, SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS>>, DefaultSqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> extends AbstractEngine<T, TJ, TC, TW, TG, TH, TS> implements SqlEngine<SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS>>, TableEngine<T, TJ, TC, TW, TG, TH, TS, SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS>> {
 
     public SqlHelperEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         super(dataBaseType, tableHelperClass);

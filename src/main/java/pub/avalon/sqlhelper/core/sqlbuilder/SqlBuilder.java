@@ -1,12 +1,11 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
 /**
- * Sql构建器
+ * SQL构建器
  *
  * @author 白超
- * @date 2019/7/13
+ * @date 2018/8/15
  */
-public interface SqlBuilder {
-
+public interface SqlBuilder extends TableSqlBuilder, SelectSqlBuilder, InsertSqlBuilder, UpdateSqlBuilder, DeleteSqlBuilder {
 
 }

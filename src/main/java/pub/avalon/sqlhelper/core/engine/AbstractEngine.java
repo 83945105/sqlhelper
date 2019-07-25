@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
@@ -24,7 +23,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> implements Engine, DefaultSqlBuilder, SqlDataProducer {
+        TS extends SortHelper<TS>> implements Engine, SqlBuilder, SqlDataProducer {
 
     protected Class<T> tableHelperClass;
 

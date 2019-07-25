@@ -13,7 +13,7 @@ import java.util.Collection;
  * @author 白超
  * @date 2018/8/20
  */
-public class SqlBuilderProxy implements DefaultSqlBuilder, SqlBuilder {
+public class SqlBuilderProxy implements SqlBuilder {
 
     private SqlData sqlData;
 
