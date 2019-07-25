@@ -33,11 +33,11 @@ public interface SqlDataProducer {
     void addJoinTableDatum(JoinTableDatum joinTableDatum);
 
     /**
-     * 添加虚拟属性数据
+     * 添加虚拟列数据
      *
-     * @param virtualFieldDatum {@link VirtualFieldDatum}
+     * @param virtualColumnDatum {@link VirtualColumnDatum}
      */
-    void addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum);
+    void addVirtualColumnDatum(VirtualColumnDatum virtualColumnDatum);
 
     /**
      * 添加聚合函数列数据

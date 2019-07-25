@@ -279,8 +279,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     }
 
     @Override
-    public void addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
-        this.sqlData.addVirtualFieldDatum(virtualFieldDatum);
+    public void addVirtualColumnDatum(VirtualColumnDatum virtualColumnDatum) {
+        this.sqlData.addVirtualColumnDatum(virtualColumnDatum);
     }
 
     @Override

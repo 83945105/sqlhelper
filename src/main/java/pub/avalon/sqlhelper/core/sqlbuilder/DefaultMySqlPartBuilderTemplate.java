@@ -25,7 +25,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     public SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer) {
         Map<String, SqlBuilder> subQueryAliasMap = sqlDataConsumer.getSubQueryDataMap();
         List<TableGroupColumnDatum> tableGroupColumnData = sqlDataConsumer.getTableGroupColumnData();
-        List<VirtualFieldDatum> virtualFieldData = sqlDataConsumer.getVirtualFieldData();
+        List<VirtualColumnDatum> virtualFieldData = sqlDataConsumer.getVirtualColumnData();
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
         boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
         boolean hasF = tableGroupColumnData != null && tableGroupColumnData.size() != 0;
@@ -278,18 +278,18 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendVirtualColumnSqlArgs(StringBuilder sql, List<Object> args, List<VirtualFieldDatum> virtualFieldData) {
+    private void appendVirtualColumnSqlArgs(StringBuilder sql, List<Object> args, List<VirtualColumnDatum> virtualColumnData) {
         Object value;
         String alias;
         int i = 0;
-        for (VirtualFieldDatum virtualFieldDatum : virtualFieldData) {
+        for (VirtualColumnDatum virtualColumnDatum : virtualColumnData) {
             if (i++ > 0) {
                 sql.append(",");
             } else {
                 sql.append(" ");
             }
-            value = virtualFieldDatum.getValue();
-            alias = virtualFieldDatum.getAlias();
+            value = virtualColumnDatum.getValue();
+            alias = virtualColumnDatum.getAlias();
             if (value == null) {
                 sql.append("null");
             } else if (value instanceof String) {

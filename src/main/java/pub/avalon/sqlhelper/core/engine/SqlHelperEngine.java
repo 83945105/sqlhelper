@@ -124,7 +124,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> virtualColumn(Object value, String alias) {
-        this.addVirtualFieldDatum(ColumnEngine.executeVirtualColumn(value, alias));
+        this.addVirtualColumnDatum(ColumnEngine.executeVirtualColumn(value, alias));
         return this;
     }
 

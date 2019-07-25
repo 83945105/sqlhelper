@@ -7,7 +7,7 @@ package pub.avalon.sqlhelper.core.data;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class VirtualFieldDatum {
+public final class VirtualColumnDatum {
 
     private Object value;
 
@@ -17,7 +17,7 @@ public final class VirtualFieldDatum {
         return value;
     }
 
-    public VirtualFieldDatum setValue(Object value) {
+    public VirtualColumnDatum setValue(Object value) {
         this.value = value;
         return this;
     }
@@ -26,7 +26,7 @@ public final class VirtualFieldDatum {
         return alias;
     }
 
-    public VirtualFieldDatum setAlias(String alias) {
+    public VirtualColumnDatum setAlias(String alias) {
         this.alias = alias;
         return this;
     }

@@ -24,7 +24,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     /**
      * 虚拟列数据
      */
-    private List<VirtualFieldDatum> virtualFieldData;
+    private List<VirtualColumnDatum> virtualColumnData;
     /**
      * 函数列数据
      */
@@ -56,8 +56,8 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public List<VirtualFieldDatum> getVirtualFieldData() {
-        return this.virtualFieldData;
+    public List<VirtualColumnDatum> getVirtualColumnData() {
+        return this.virtualColumnData;
     }
 
     @Override
@@ -102,14 +102,14 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public void addVirtualFieldDatum(VirtualFieldDatum virtualFieldDatum) {
-        if (virtualFieldDatum == null) {
+    public void addVirtualColumnDatum(VirtualColumnDatum virtualColumnDatum) {
+        if (virtualColumnDatum == null) {
             return;
         }
-        if (this.virtualFieldData == null) {
-            this.virtualFieldData = new ArrayList<>();
+        if (this.virtualColumnData == null) {
+            this.virtualColumnData = new ArrayList<>();
         }
-        this.virtualFieldData.add(virtualFieldDatum);
+        this.virtualColumnData.add(virtualColumnDatum);
     }
 
     @Override

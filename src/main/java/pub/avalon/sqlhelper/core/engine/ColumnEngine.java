@@ -7,7 +7,7 @@ import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableGroupColumnDatum;
-import pub.avalon.sqlhelper.core.data.VirtualFieldDatum;
+import pub.avalon.sqlhelper.core.data.VirtualColumnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
@@ -15,7 +15,6 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -148,8 +147,8 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
         return ColumnCallback.execute(tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
     }
 
-    static VirtualFieldDatum executeVirtualColumn(Object value, String alias) {
-        return alias == null ? null : new VirtualFieldDatum().setValue(value).setAlias(alias);
+    static VirtualColumnDatum executeVirtualColumn(Object value, String alias) {
+        return alias == null ? null : new VirtualColumnDatum().setValue(value).setAlias(alias);
     }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,

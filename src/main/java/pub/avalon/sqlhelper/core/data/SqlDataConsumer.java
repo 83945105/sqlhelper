@@ -40,9 +40,9 @@ public interface SqlDataConsumer {
     /**
      * 获取虚拟属性
      *
-     * @return {@link VirtualFieldDatum}
+     * @return {@link VirtualColumnDatum}
      */
-    List<VirtualFieldDatum> getVirtualFieldData();
+    List<VirtualColumnDatum> getVirtualColumnData();
 
     /**
      * 获取聚合函数列属性
