@@ -17,7 +17,7 @@ public class SqlBuilderProxy implements SqlBuilder {
 
     private SqlData sqlData;
 
-    private SqlBuilderTemplate<SqlBuilderResult> sqlBuilderTemplate;
+    private SqlBuilderTemplate sqlBuilderTemplate;
 
     public SqlBuilderProxy(SqlData sqlData, SqlBuilderOptions sqlBuilderOptions) {
         this.sqlData = sqlData;

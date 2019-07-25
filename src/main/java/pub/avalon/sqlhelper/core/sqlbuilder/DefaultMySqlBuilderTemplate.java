@@ -22,10 +22,10 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
     /**
      * Sql片段构建器模板
      */
-    private SqlPartBuilderTemplate<SqlBuilderResult> sqlPartBuilderTemplate = DefaultMySqlPartBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_PART_BUILDER_TEMPLATE;
+    private SqlPartBuilderTemplate sqlPartBuilderTemplate = DefaultMySqlPartBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_PART_BUILDER_TEMPLATE;
 
     @Override
-    public void setSqlPartBuilderTemplate(SqlPartBuilderTemplate<SqlBuilderResult> sqlPartBuilderTemplate) {
+    public void setSqlPartBuilderTemplate(SqlPartBuilderTemplate sqlPartBuilderTemplate) {
         this.sqlPartBuilderTemplate = sqlPartBuilderTemplate;
     }
 

@@ -11,7 +11,7 @@ import java.util.Collection;
  * @author 白超
  * @date 2019/5/20
  */
-public interface SqlBuilderTemplate<T> {
+public interface SqlBuilderTemplate {
 
     /**
      * 设置Sql片段构建器模板
@@ -19,7 +19,7 @@ public interface SqlBuilderTemplate<T> {
      * @param sqlPartBuilderTemplate {@link SqlPartBuilderTemplate}
      * @return
      */
-    void setSqlPartBuilderTemplate(SqlPartBuilderTemplate<T> sqlPartBuilderTemplate);
+    void setSqlPartBuilderTemplate(SqlPartBuilderTemplate sqlPartBuilderTemplate);
 
     /**
      * 复制表
