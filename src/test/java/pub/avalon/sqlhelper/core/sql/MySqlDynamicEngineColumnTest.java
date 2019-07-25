@@ -257,7 +257,7 @@ public class MySqlDynamicEngineColumnTest {
     }
 
     /**
-     * 测试子查询列 - 指定表名
+     * 测试子查询列 - 指定表别名
      */
     @Test
     void Test_subQueryColumn_assignTableAlias() {
