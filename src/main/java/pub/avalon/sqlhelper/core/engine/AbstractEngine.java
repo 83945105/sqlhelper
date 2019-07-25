@@ -7,11 +7,12 @@ import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.DefaultSqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * @author 白超
@@ -149,128 +150,118 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     }
 
     @Override
-    public String getSql() {
-        return this.sqlBuilderProxy.getSql();
-    }
-
-    @Override
-    public String getPreparedStatementSql() {
-        return this.sqlBuilderProxy.getPreparedStatementSql();
-    }
-
-    @Override
-    public List<Object> getPreparedStatementArgs() {
-        return this.sqlBuilderProxy.getPreparedStatementArgs();
-    }
-
-    @Override
-    public DefaultSqlBuilder copyTable(String targetTableName, boolean copyData) {
+    public SqlBuilderResult copyTable(String targetTableName, boolean copyData) {
         return this.sqlBuilderProxy.copyTable(targetTableName, copyData);
     }
 
     @Override
-    public DefaultSqlBuilder deleteTable() {
+    public SqlBuilderResult deleteTable() {
         return this.sqlBuilderProxy.deleteTable();
     }
 
     @Override
-    public DefaultSqlBuilder renameTable(String newTableName) {
+    public SqlBuilderResult renameTable(String newTableName) {
         return this.sqlBuilderProxy.renameTable(newTableName);
     }
 
     @Override
-    public DefaultSqlBuilder isTableExist() {
+    public SqlBuilderResult isTableExist() {
         return this.sqlBuilderProxy.isTableExist();
     }
 
     @Override
-    public DefaultSqlBuilder insertArgs(Object... args) {
+    public SqlBuilderResult insertArgs(Object... args) {
         return this.sqlBuilderProxy.insertArgs(args);
     }
 
     @Override
-    public DefaultSqlBuilder insertJavaBean(Object javaBean) {
+    public SqlBuilderResult insertJavaBean(Object javaBean) {
         return this.sqlBuilderProxy.insertJavaBean(javaBean);
     }
 
     @Override
-    public DefaultSqlBuilder insertJavaBeanSelective(Object javaBean) {
+    public SqlBuilderResult insertJavaBeanSelective(Object javaBean) {
         return this.sqlBuilderProxy.insertJavaBeanSelective(javaBean);
     }
 
     @Override
-    public DefaultSqlBuilder batchInsertJavaBeans(Collection<?> javaBeans) {
+    public SqlBuilderResult batchInsertJavaBeans(Collection<?> javaBeans) {
         return this.sqlBuilderProxy.batchInsertJavaBeans(javaBeans);
     }
 
     @Override
-    public DefaultSqlBuilder delete() {
+    public SqlBuilderResult delete() {
         return this.sqlBuilderProxy.delete();
     }
 
     @Override
-    public DefaultSqlBuilder deleteByPrimaryKey(Object primaryKeyValue) {
+    public SqlBuilderResult deleteByPrimaryKey(Object primaryKeyValue) {
         return this.sqlBuilderProxy.deleteByPrimaryKey(primaryKeyValue);
     }
 
     @Override
-    public DefaultSqlBuilder batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
+    public SqlBuilderResult batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
         return this.sqlBuilderProxy.batchDeleteByPrimaryKeys(primaryKeyValues);
     }
 
     @Override
-    public DefaultSqlBuilder updateJavaBean(Object javaBean) {
+    public SqlBuilderResult updateJavaBean(Object javaBean) {
         return this.sqlBuilderProxy.updateJavaBean(javaBean);
     }
 
     @Override
-    public DefaultSqlBuilder updateJavaBeanSelective(Object javaBean) {
+    public SqlBuilderResult updateJavaBeanSelective(Object javaBean) {
         return this.sqlBuilderProxy.updateJavaBeanSelective(javaBean);
     }
 
     @Override
-    public DefaultSqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
+    public SqlBuilderResult updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
         return this.sqlBuilderProxy.updateArgsByPrimaryKey(primaryKeyValue, args);
     }
 
     @Override
-    public DefaultSqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
+    public SqlBuilderResult updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
         return this.sqlBuilderProxy.updateJavaBeanByPrimaryKey(primaryKeyValue, javaBean);
     }
 
     @Override
-    public DefaultSqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
+    public SqlBuilderResult updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
         return this.sqlBuilderProxy.updateJavaBeanByPrimaryKeySelective(primaryKeyValue, javaBean);
     }
 
     @Override
-    public DefaultSqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
+    public SqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
         return this.sqlBuilderProxy.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
     }
 
     @Override
-    public DefaultSqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans) {
+    public SqlBuilderResult updateOrInsertJavaBeans(Collection<?> javaBeans) {
         return this.sqlBuilderProxy.updateOrInsertJavaBeans(javaBeans);
     }
 
     @Override
-    public DefaultSqlBuilder query() {
+    public SqlBuilderResult query() {
         return this.sqlBuilderProxy.query();
     }
 
     @Override
-    public DefaultSqlBuilder queryCount() {
+    public SqlBuilderResult queryCount() {
         return this.sqlBuilderProxy.queryCount();
     }
 
     @Override
-    public DefaultSqlBuilder queryByPrimaryKey(Object primaryKeyValue) {
+    public SqlBuilderResult queryByPrimaryKey(Object primaryKeyValue) {
         return this.sqlBuilderProxy.queryByPrimaryKey(primaryKeyValue);
     }
 
     @Override
     public void setDataBaseType(DataBaseType dataBaseType) {
         this.sqlData.setDataBaseType(dataBaseType);
+    }
+
+    @Override
+    public void addJoinTableDatum(JoinTableDatum joinTableDatum) {
+        this.sqlData.addJoinTableDatum(joinTableDatum);
     }
 
     @Override
@@ -286,6 +277,11 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     @Override
     public void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum) {
         this.sqlData.addTableGroupColumnDatum(tableGroupColumnDatum);
+    }
+
+    @Override
+    public void addSubQueryColumnDatum(SubQueryColumnDatum subQueryColumnDatum) {
+        this.sqlData.addSubQueryColumnDatum(subQueryColumnDatum);
     }
 
     @Override
@@ -316,11 +312,6 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     @Override
     public void buildLimitData(Long total, Long currentPage, Long pageSize) {
         this.sqlData.buildLimitData(total, currentPage, pageSize);
-    }
-
-    @Override
-    public void addJoinTableDatum(JoinTableDatum joinTableDatum) {
-        this.sqlData.addJoinTableDatum(joinTableDatum);
     }
 
         /*@Override

@@ -1,12 +1,14 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+
 import java.util.Collection;
 
 /**
  * @author 白超
  * @date 2019/7/23
  */
-public interface UpdateSqlBuilder extends SqlBuilder {
+public interface UpdateSqlBuilder {
 
     /**
      * 使用JavaBean更新
@@ -14,7 +16,7 @@ public interface UpdateSqlBuilder extends SqlBuilder {
      * @param javaBean
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder updateJavaBean(Object javaBean);
+    SqlBuilderResult updateJavaBean(Object javaBean);
 
     /**
      * 使用JavaBean更新
@@ -23,7 +25,7 @@ public interface UpdateSqlBuilder extends SqlBuilder {
      * @param javaBean
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder updateJavaBeanSelective(Object javaBean);
+    SqlBuilderResult updateJavaBeanSelective(Object javaBean);
 
     /**
      * 根据主键更新参数
@@ -32,7 +34,7 @@ public interface UpdateSqlBuilder extends SqlBuilder {
      * @param args            参数
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
+    SqlBuilderResult updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
 
     /**
      * 根据主键,使用JavaBean更新
@@ -41,7 +43,7 @@ public interface UpdateSqlBuilder extends SqlBuilder {
      * @param javaBean
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
+    SqlBuilderResult updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
 
     /**
      * 根据主键,使用JavaBean更新
@@ -51,7 +53,7 @@ public interface UpdateSqlBuilder extends SqlBuilder {
      * @param javaBean
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
+    SqlBuilderResult updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
 
     /**
      * 使用JavaBean批量更新
@@ -59,7 +61,7 @@ public interface UpdateSqlBuilder extends SqlBuilder {
      * @param javaBeans
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
+    SqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
 
     /**
      * 使用JavaBean更新或插入
@@ -68,6 +70,6 @@ public interface UpdateSqlBuilder extends SqlBuilder {
      * @param javaBeans
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder updateOrInsertJavaBeans(Collection<?> javaBeans);
+    SqlBuilderResult updateOrInsertJavaBeans(Collection<?> javaBeans);
 
 }

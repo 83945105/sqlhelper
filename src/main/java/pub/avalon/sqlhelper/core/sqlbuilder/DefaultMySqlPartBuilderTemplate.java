@@ -4,9 +4,10 @@ import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
-import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.FinalSqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.*;
@@ -23,11 +24,11 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
 
     @Override
     public SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer) {
-        Map<String, SqlBuilder> subQueryAliasMap = sqlDataConsumer.getSubQueryDataMap();
+        List<SubQueryColumnDatum> subQueryColumnData = sqlDataConsumer.getSubQueryColumnData();
         List<TableGroupColumnDatum> tableGroupColumnData = sqlDataConsumer.getTableGroupColumnData();
         List<VirtualColumnDatum> virtualFieldData = sqlDataConsumer.getVirtualColumnData();
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
-        boolean hasS = subQueryAliasMap != null && subQueryAliasMap.size() != 0;
+        boolean hasS = subQueryColumnData != null && subQueryColumnData.size() != 0;
         boolean hasF = tableGroupColumnData != null && tableGroupColumnData.size() != 0;
         boolean hasV = virtualFieldData != null && virtualFieldData.size() != 0;
         boolean hasC = tableColumnData != null && tableColumnData.size() != 0;
@@ -35,10 +36,10 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         List<Object> args = new ArrayList<>(16);
         if (!hasS && !hasF && !hasV && !hasC) {
             this.appendColumnSqlArgs(sql, args, BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum()));
-            return SqlBuilderResult.newInstance(sql.toString(), args);
+            return FinalSqlBuilderResult.newInstance(sql.toString(), args);
         }
         if (hasS) {
-            this.appendSubQuerySqlArgs(sql, args, subQueryAliasMap);
+            this.appendSubQuerySqlArgs(sql, args, subQueryColumnData);
         }
         if (hasF) {
             if (hasS) {
@@ -58,14 +59,14 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             }
             this.appendTableColumnSqlArgs(sql, args, tableColumnData);
         }
-        return SqlBuilderResult.newInstance(sql.toString(), args);
+        return FinalSqlBuilderResult.newInstance(sql.toString(), args);
     }
 
     @Override
     public SqlBuilderResult buildJoin(SqlDataConsumer sqlDataConsumer) {
         LinkedHashMap<String, JoinTableDatum> joinTableDataAliasMap = sqlDataConsumer.getAliasJoinTableData();
         if (joinTableDataAliasMap == null || joinTableDataAliasMap.size() == 0) {
-            return SqlBuilderResult.NONE;
+            return FinalSqlBuilderResult.NONE;
         }
         StringBuilder sql = new StringBuilder(128);
         List<Object> args = new ArrayList<>(16);
@@ -95,14 +96,14 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 this.appendOnDataLinkersSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
             }
         }
-        return SqlBuilderResult.newInstance(sql.toString(), args);
+        return FinalSqlBuilderResult.newInstance(sql.toString(), args);
     }
 
     @Override
     public SqlBuilderResult buildWhere(SqlDataConsumer sqlDataConsumer) {
         List<TableWhereDatum> tableWhereData = sqlDataConsumer.getTableWhereData();
         if (tableWhereData == null || tableWhereData.size() == 0) {
-            return SqlBuilderResult.NONE;
+            return FinalSqlBuilderResult.NONE;
         }
         StringBuilder sql = new StringBuilder(128);
         List<Object> args = new ArrayList<>(16);
@@ -114,14 +115,14 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             }
             this.appendWhereDataLinkerListSqlArgs(sql, args, tableWhereDatum.getWhereDataLinkers(), LinkType.AND, tableWhereData.size() > 1);
         }
-        return SqlBuilderResult.newInstance(sql.toString(), args);
+        return FinalSqlBuilderResult.newInstance(sql.toString(), args);
     }
 
     @Override
     public SqlBuilderResult buildGroup(SqlDataConsumer sqlDataConsumer) {
         List<TableGroupDatum> tableGroupData = sqlDataConsumer.getTableGroupData();
         if (tableGroupData == null || tableGroupData.size() == 0) {
-            return SqlBuilderResult.NONE;
+            return FinalSqlBuilderResult.NONE;
         }
         StringBuilder sql = new StringBuilder(32);
         sql.append(" group by ");
@@ -142,14 +143,14 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                         .append("`");
             }
         }
-        return SqlBuilderResult.newInstance(sql.toString());
+        return FinalSqlBuilderResult.newInstance(sql.toString());
     }
 
     @Override
     public SqlBuilderResult buildSort(SqlDataConsumer sqlDataConsumer) {
         List<TableSortDatum> tableSortData = sqlDataConsumer.getTableSortData();
         if (tableSortData == null || tableSortData.size() == 0) {
-            return SqlBuilderResult.NONE;
+            return FinalSqlBuilderResult.NONE;
         }
         StringBuilder sql = new StringBuilder(32);
         sql.append(" order by ");
@@ -180,16 +181,16 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 }
             }
         }
-        return SqlBuilderResult.newInstance(sql.toString());
+        return FinalSqlBuilderResult.newInstance(sql.toString());
     }
 
     @Override
     public SqlBuilderResult buildLimit(SqlDataConsumer sqlDataConsumer) {
         LimitSql limit = sqlDataConsumer.getLimitData();
         if (limit == null) {
-            return SqlBuilderResult.NONE;
+            return FinalSqlBuilderResult.NONE;
         }
-        return SqlBuilderResult.newInstance(" limit ?,?", Arrays.asList(limit.getLimitStartNum(), limit.getLimitEndNum()));
+        return FinalSqlBuilderResult.newInstance(" limit ?,?", Arrays.asList(limit.getLimitStartNum(), limit.getLimitEndNum()));
     }
 
     private void appendColumnSqlArgs(StringBuilder sql, List<Object> args, List<ColumnDatum> columnData) {
@@ -209,21 +210,21 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendSubQuerySqlArgs(StringBuilder sql, List<Object> args, Map<String, SqlBuilder> subQueryAliasMap) {
-        if (subQueryAliasMap == null) {
+    private void appendSubQuerySqlArgs(StringBuilder sql, List<Object> args, List<SubQueryColumnDatum> subQueryColumnData) {
+        if (subQueryColumnData == null) {
             return;
         }
         int i = 0;
-        for (Map.Entry<String, SqlBuilder> entry : subQueryAliasMap.entrySet()) {
-            String alias = entry.getKey();
-            SqlBuilder sqlBuilder = entry.getValue();
+        SqlBuilderResult sqlBuilderResult;
+        for (SubQueryColumnDatum subQueryColumnDatum : subQueryColumnData) {
+            sqlBuilderResult = subQueryColumnDatum.getSqlBuilderResult();
             if (i++ > 0) {
                 sql.append(",(");
             } else {
                 sql.append(" (");
             }
-            sql.append(sqlBuilder.getPreparedStatementSql()).append(") ").append(alias);
-            args.addAll(sqlBuilder.getPreparedStatementArgs());
+            sql.append(sqlBuilderResult.getPreparedStatementSql()).append(") ").append(subQueryColumnDatum.getColumnAlias());
+            args.addAll(sqlBuilderResult.getPreparedStatementArgs());
         }
     }
 

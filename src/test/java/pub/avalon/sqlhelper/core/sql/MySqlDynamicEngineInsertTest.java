@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.sql;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
 
@@ -19,10 +19,10 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertArgs() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .insertArgs("1", "2", "3");
-        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", "2", "3"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", "2", "3"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -30,10 +30,10 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertArgs_assignTableName() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .insertArgs("1", "2", "3");
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", "2", "3"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", "2", "3"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -41,11 +41,11 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertArgs_assignColumns() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(SysUserDTO.Helper.Column::id)
                 .insertArgs("1", "2", "3");
-        Assertions.assertEquals("insert into `sys_user` (`id`) values (?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`) values (?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -53,11 +53,11 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertArgs_assignTableName_assignColumns() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .column(SysUserDTO.Helper.Column::id)
                 .insertArgs("1", "2", "3");
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`) values (?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`) values (?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -68,10 +68,10 @@ public class MySqlDynamicEngineInsertTest {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId("1");
         javaBean.setLoginName("3");
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .insertJavaBean(javaBean);
-        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", null, "3"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", null, "3"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -82,10 +82,10 @@ public class MySqlDynamicEngineInsertTest {
         SysUserDTO javaBean = new SysUserDTO();
         javaBean.setId("1");
         javaBean.setLoginName("3");
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .insertJavaBean(javaBean);
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", null, "3"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`,`login_name`) values (?,?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", null, "3"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -97,11 +97,11 @@ public class MySqlDynamicEngineInsertTest {
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName("3");
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .insertJavaBean(javaBean);
-        Assertions.assertEquals("insert into `sys_user` (`id`,`login_name`) values (?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", "3"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`,`login_name`) values (?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", "3"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -113,11 +113,11 @@ public class MySqlDynamicEngineInsertTest {
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName("3");
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .insertJavaBean(javaBean);
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`login_name`) values (?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", "3"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`login_name`) values (?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", "3"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -129,10 +129,10 @@ public class MySqlDynamicEngineInsertTest {
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .insertJavaBeanSelective(javaBean);
-        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`) values (?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", "2"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`) values (?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", "2"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -144,10 +144,10 @@ public class MySqlDynamicEngineInsertTest {
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .insertJavaBeanSelective(javaBean);
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`) values (?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1", "2"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`) values (?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1", "2"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -159,11 +159,11 @@ public class MySqlDynamicEngineInsertTest {
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .insertJavaBeanSelective(javaBean);
-        Assertions.assertEquals("insert into `sys_user` (`id`) values (?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`) values (?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -175,11 +175,11 @@ public class MySqlDynamicEngineInsertTest {
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .insertJavaBeanSelective(javaBean);
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`) values (?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`) values (?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -201,10 +201,10 @@ public class MySqlDynamicEngineInsertTest {
         javaBean2.setLoginName(null);
         javaBeans.add(javaBean2);
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .batchInsertJavaBeans(javaBeans);
-        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?),(?,?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{null, null, "3", "1", "2", null}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`,`user_name`,`login_name`) values (?,?,?),(?,?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{null, null, "3", "1", "2", null}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -226,10 +226,10 @@ public class MySqlDynamicEngineInsertTest {
         javaBean2.setLoginName(null);
         javaBeans.add(javaBean2);
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .batchInsertJavaBeans(javaBeans);
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`,`login_name`) values (?,?,?),(?,?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{null, null, "3", "1", "2", null}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`user_name`,`login_name`) values (?,?,?),(?,?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{null, null, "3", "1", "2", null}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -251,11 +251,11 @@ public class MySqlDynamicEngineInsertTest {
         javaBean2.setLoginName(null);
         javaBeans.add(javaBean2);
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .batchInsertJavaBeans(javaBeans);
-        Assertions.assertEquals("insert into `sys_user` (`id`,`login_name`) values (?,?),(?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{null, "3", "1", null}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user` (`id`,`login_name`) values (?,?),(?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{null, "3", "1", null}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -277,10 +277,10 @@ public class MySqlDynamicEngineInsertTest {
         javaBean2.setLoginName(null);
         javaBeans.add(javaBean2);
 
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .column(table -> table.id().loginName())
                 .batchInsertJavaBeans(javaBeans);
-        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`login_name`) values (?,?),(?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new String[]{null, "3", "1", null}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("insert into `sys_user_custom` (`id`,`login_name`) values (?,?),(?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new String[]{null, "3", "1", null}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 }

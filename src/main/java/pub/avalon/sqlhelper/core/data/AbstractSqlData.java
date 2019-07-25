@@ -26,9 +26,13 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
      */
     private List<VirtualColumnDatum> virtualColumnData;
     /**
-     * 函数列数据
+     * 聚合列数据
      */
     private List<TableGroupColumnDatum> tableGroupColumnData;
+    /**
+     * 子查询列
+     */
+    private List<SubQueryColumnDatum> subQueryColumnData;
     /**
      * where条件数据
      */
@@ -66,6 +70,11 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
+    public List<SubQueryColumnDatum> getSubQueryColumnData() {
+        return this.subQueryColumnData;
+    }
+
+    @Override
     public List<TableWhereDatum> getTableWhereData() {
         return this.tableWhereData;
     }
@@ -83,11 +92,6 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     @Override
     public LimitSql getLimitData() {
         return this.limitData;
-    }
-
-    @Override
-    public Map<String, SqlBuilder> getSubQueryDataMap() {
-        return null;
     }
 
     @Override
@@ -121,6 +125,17 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             this.tableGroupColumnData = new ArrayList<>();
         }
         this.tableGroupColumnData.add(tableGroupColumnDatum);
+    }
+
+    @Override
+    public void addSubQueryColumnDatum(SubQueryColumnDatum subQueryColumnDatum) {
+        if (subQueryColumnDatum == null) {
+            return;
+        }
+        if (this.subQueryColumnData == null) {
+            this.subQueryColumnData = new ArrayList<>();
+        }
+        this.subQueryColumnData.add(subQueryColumnDatum);
     }
 
     @Override

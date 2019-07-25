@@ -76,7 +76,8 @@ public class Test {
                 .subQueryColumn("", parentTable -> {
                     return MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                             .where((condition, mainTable) -> condition
-                                    .and(mainTable.id().equalTo(parentTable.resourceName())));
+                                    .and(mainTable.id().equalTo(parentTable.resourceName())))
+                            .query();
                 })
 
                 .virtualColumn(1, "")

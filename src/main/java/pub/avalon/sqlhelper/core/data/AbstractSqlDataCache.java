@@ -64,17 +64,4 @@ public abstract class AbstractSqlDataCache implements SqlData {
         this.aliasJoinTableDataCache.put(joinTableDatum.getTableAlias(), joinTableDatum);
     }
 
-
-/*    public <T extends TableHelper> SqlData<T> fission(Class<T> clazz) {
-        FissionSqlData<T> fission = new FissionSqlData<T>(new MainTableData<>(clazz));
-        fission.setDataBaseType(this.getDataBaseType());
-        this.getJoinTableDataMap().forEach((s, joinTableData) -> {
-            // 排除目标主表, 防止自身关联自身
-            if (joinTableData.getTableClass() != clazz) {
-                fission.addJoinTableData(joinTableData);
-            }
-        });
-        return fission;
-    }*/
-
 }

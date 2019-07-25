@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
@@ -22,10 +22,10 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_deleteByPrimaryKey() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .deleteByPrimaryKey("1");
-        Assertions.assertEquals("delete from `sys_user` where `id` = ?", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("delete from `sys_user` where `id` = ?", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -33,10 +33,10 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_deleteByPrimaryKey_assignTableName() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .deleteByPrimaryKey("1");
-        Assertions.assertEquals("delete from `sys_user_custom` where `id` = ?", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("delete from `sys_user_custom` where `id` = ?", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -44,10 +44,10 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_batchDeleteByPrimaryKeys() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .batchDeleteByPrimaryKeys("1", "2");
-        Assertions.assertEquals("delete from `sys_user` where `id` in (?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{"1", "2"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("delete from `sys_user` where `id` in (?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{"1", "2"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -55,10 +55,10 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_batchDeleteByPrimaryKeys_assignTableName() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .batchDeleteByPrimaryKeys("1", "2");
-        Assertions.assertEquals("delete from `sys_user_custom` where `id` in (?,?)", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{"1", "2"}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("delete from `sys_user_custom` where `id` in (?,?)", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{"1", "2"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -66,10 +66,10 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .delete();
-        Assertions.assertEquals("delete SysUser from `sys_user` SysUser", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("delete SysUser from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -77,10 +77,10 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_assignTableName() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .delete();
-        Assertions.assertEquals("delete SysUser from `sys_user_custom` SysUser", sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("delete SysUser from `sys_user_custom` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -88,7 +88,7 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_allWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable
 
@@ -146,7 +146,7 @@ public class MySqlDynamicEngineDeleteTest {
                         ))
                 .delete();
         Assertions.assertEquals("delete SysUser from `sys_user` SysUser where SysUser.`id` is null and SysUser.`id` is not null and SysUser.`id` = ? and SysUser.`id` = ? and SysUser.`id` != ? and SysUser.`id` != ? and SysUser.`id` > ? and SysUser.`id` > ? and SysUser.`id` >= ? and SysUser.`id` >= ? and SysUser.`id` < ? and SysUser.`id` < ? and SysUser.`id` <= ? and SysUser.`id` <= ? and SysUser.`id` between ? and ? and SysUser.`id` between ? and ? and SysUser.`id` like ? and SysUser.`id` like ? and SysUser.`id` in (?,?) and SysUser.`id` in (?) and SysUser.`id` in (?,?) and SysUser.`id` in (?) and SysUser.`id` in (?,?) and SysUser.`id` in (?,?) and SysUser.`id` in (?,?) and SysUser.`id` in (?,?) and SysUser.`id` not in (?,?) and SysUser.`id` not in (?) and SysUser.`id` not in (?,?) and SysUser.`id` not in (?) and SysUser.`id` not in (?,?) and SysUser.`id` not in (?,?) and SysUser.`id` not in (?,?) and SysUser.`id` not in (?,?)",
-                sqlBuilder.getPreparedStatementSql());
+                sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{
                 "A-1", "A-2",
                 "B-1", "B-2",
@@ -162,7 +162,7 @@ public class MySqlDynamicEngineDeleteTest {
                 "L-1", "L-2",
                 "M-1", "M-2", "M-3", "M-4", "M-5", "M-6", "M-7", "M-8",
                 "N-1", "N-2", "N-3", "N-4"
-        }, sqlBuilder.getPreparedStatementArgs().toArray());
+        }, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -170,7 +170,7 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_combinationWhere() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable
                                 .id().greaterThan("A-1").id().greaterThan("A-2")
@@ -193,7 +193,7 @@ public class MySqlDynamicEngineDeleteTest {
                         .and(mainTable.id().equalTo("K-1")))
                 .delete();
         Assertions.assertEquals("delete SysUser from `sys_user` SysUser where (SysUser.`id` > ? and SysUser.`id` > ? and SysUser.`id` >= ? and SysUser.`id` >= ? and SysUser.`id` < ? and SysUser.`id` < ? and SysUser.`id` <= ? and SysUser.`id` <= ? or SysUser.`id` = ? or (SysUser.`id` = ? and SysUser.`id` = ?) or (SysUser.`id` = ? and SysUser.`id` = ? and SysUser.`id` = ?) and (SysUser.`id` = ? or SysUser.`id` = ?)) and SysUser.`id` = ?",
-                sqlBuilder.getPreparedStatementSql());
+                sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{
                 "A-1", "A-2",
                 "B-1", "B-2",
@@ -206,7 +206,7 @@ public class MySqlDynamicEngineDeleteTest {
                 "I-1",
                 "J-1",
                 "K-1"
-        }, sqlBuilder.getPreparedStatementArgs().toArray());
+        }, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -214,13 +214,13 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_assignInnerJoin() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .delete();
         Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
-                sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+                sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -228,13 +228,13 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_assignLeftJoin() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.LEFT, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .delete();
         Assertions.assertEquals("delete SysUser from `sys_user` SysUser left join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
-                sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+                sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -242,13 +242,13 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_assignRightJoin() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.RIGHT, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .delete();
         Assertions.assertEquals("delete SysUser from `sys_user` SysUser right join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`",
-                sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+                sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -256,7 +256,7 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_allWhereJoin() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .where(UserRoleDTO.Helper.class, (condition, joinTable, mainTable) -> condition
@@ -276,8 +276,8 @@ public class MySqlDynamicEngineDeleteTest {
                         ))
                 .delete();
         Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where UserRole.`user_id` is null and UserRole.`user_id` is not null and UserRole.`user_id` = SysUser.`id` and UserRole.`user_id` != SysUser.`id` and UserRole.`user_id` > SysUser.`id` and UserRole.`user_id` >= SysUser.`id` and UserRole.`user_id` < SysUser.`id` and UserRole.`user_id` <= SysUser.`id` and UserRole.`user_id` between SysUser.`id` and SysUser.`id` and UserRole.`user_id` like SysUser.`id` and UserRole.`user_id` in (SysUser.`id`) and UserRole.`user_id` not in (SysUser.`id`)",
-                sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+                sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -285,7 +285,7 @@ public class MySqlDynamicEngineDeleteTest {
      */
     @Test
     void Test_delete_allWhereColumn() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .join(JoinType.INNER, RoleResourceDTO.Helper.class, "RR", (on, joinTable, mainTable) -> on
@@ -316,8 +316,8 @@ public class MySqlDynamicEngineDeleteTest {
                         ))
                 .delete();
         Assertions.assertEquals("delete SysUser from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` inner join `role_resource` RR on RR.`role_id` = UserRole.`id` where SysUser.`id` = UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` != UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` > UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` >= UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` < UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` <= UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` between UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` like UserRole.`role_id` and UserRole.`role_name` and SysUser.`id` in (UserRole.`role_id`,UserRole.`role_name`) and SysUser.`id` not in (UserRole.`role_id`,UserRole.`role_name`) and SysUser.`id` = RR.`resource_id` and RR.`resource_name` and SysUser.`id` != RR.`resource_id` and RR.`resource_name` and SysUser.`id` > RR.`resource_id` and RR.`resource_name` and SysUser.`id` >= RR.`resource_id` and RR.`resource_name` and SysUser.`id` < RR.`resource_id` and RR.`resource_name` and SysUser.`id` <= RR.`resource_id` and RR.`resource_name` and SysUser.`id` between RR.`resource_id` and RR.`resource_name` and SysUser.`id` like RR.`resource_id` and RR.`resource_name` and SysUser.`id` in (RR.`resource_id`,RR.`resource_name`) and SysUser.`id` not in (RR.`resource_id`,RR.`resource_name`)",
-                sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+                sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**
@@ -325,7 +325,7 @@ public class MySqlDynamicEngineDeleteTest {
      */
 //    @Test
 /*    void Test_delete_allWhereSubQuery() {
-        SqlBuilder sqlBuilder = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .join(JoinType.INNER, RoleResourceDTO.Helper.class, "RR", (on, joinTable, mainTable) -> on
@@ -336,8 +336,8 @@ public class MySqlDynamicEngineDeleteTest {
                         ))
                 .delete();
         Assertions.assertEquals("",
-                sqlBuilder.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilder.getPreparedStatementArgs().toArray());
+                sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }*/
 
 }

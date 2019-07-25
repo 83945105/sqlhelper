@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.WhereType;
 import pub.avalon.sqlhelper.core.beans.WhereValueType;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
 import java.util.List;
 
@@ -75,7 +75,7 @@ public final class WhereDatum implements SqlPartDatum {
 
     private int valueCount;
 
-    private SqlBuilder targetSubQuery;
+    private SqlBuilderResult targetSubQuery;
 
     private String sqlPart;
 
@@ -241,7 +241,7 @@ public final class WhereDatum implements SqlPartDatum {
         return this;
     }
 
-    public WhereDatum setTargetSubQuery(SqlBuilder targetSubQuery) {
+    public WhereDatum setTargetSubQuery(SqlBuilderResult targetSubQuery) {
         this.targetSubQuery = targetSubQuery;
         return this;
     }
@@ -371,7 +371,7 @@ public final class WhereDatum implements SqlPartDatum {
         return valueCount;
     }
 
-    public SqlBuilder getTargetSubQuery() {
+    public SqlBuilderResult getTargetSubQuery() {
         return targetSubQuery;
     }
 

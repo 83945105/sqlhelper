@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.beans.SqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
 /**
  * MySql构建器模板

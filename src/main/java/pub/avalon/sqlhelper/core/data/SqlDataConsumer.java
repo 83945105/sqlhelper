@@ -52,6 +52,13 @@ public interface SqlDataConsumer {
     List<TableGroupColumnDatum> getTableGroupColumnData();
 
     /**
+     * 获取子查询列属性
+     *
+     * @return {@link SubQueryColumnDatum}
+     */
+    List<SubQueryColumnDatum> getSubQueryColumnData();
+
+    /**
      * 获取连接表数据
      *
      * @return key - 表别名 value - {@link JoinTableDatum}
@@ -85,12 +92,5 @@ public interface SqlDataConsumer {
      * @return {@link LimitSql}
      */
     LimitSql getLimitData();
-
-    /**
-     * 获取子查询数据集合
-     *
-     * @return 子查询集合
-     */
-    Map<String, SqlBuilder> getSubQueryDataMap();
 
 }

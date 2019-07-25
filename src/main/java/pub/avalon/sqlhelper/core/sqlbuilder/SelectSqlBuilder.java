@@ -1,24 +1,26 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+
 /**
  * @author 白超
  * @date 2019/7/23
  */
-public interface SelectSqlBuilder extends SqlBuilder {
+public interface SelectSqlBuilder {
 
     /**
      * 查询
      *
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder query();
+    SqlBuilderResult query();
 
     /**
      * 查询数量
      *
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder queryCount();
+    SqlBuilderResult queryCount();
 
     /**
      * 根据主键查询
@@ -26,6 +28,6 @@ public interface SelectSqlBuilder extends SqlBuilder {
      * @param primaryKeyValue 主键值
      * @return {@link DefaultSqlBuilder}
      */
-    SqlBuilder queryByPrimaryKey(Object primaryKeyValue);
+    SqlBuilderResult queryByPrimaryKey(Object primaryKeyValue);
 
 }

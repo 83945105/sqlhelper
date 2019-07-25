@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ public abstract class AbstractTest {
 
     private static List<List<Object>> argListList;
     private static List<String> sqlList;
-    private static List<SqlBuilder> sqlBuilderList;
+    private static List<SqlBuilderResult> sqlBuilderList;
     private static long nanoTime;
 
     protected <T> T arg(T arg) {
@@ -29,7 +29,7 @@ public abstract class AbstractTest {
         return arg(arg);
     }
 
-    protected void setSqlBuilder(SqlBuilder sqlBuilder, String sql) {
+    protected void setSqlBuilder(SqlBuilderResult sqlBuilder, String sql) {
         AbstractTest.argListList.add(new ArrayList<>());
         AbstractTest.sqlList.add(sql);
         AbstractTest.sqlBuilderList.add(sqlBuilder);
@@ -54,7 +54,7 @@ public abstract class AbstractTest {
 //        long nanoTime = System.nanoTime() - AbstractTest.nanoTime;
 //        System.out.println("nanoTime:" + nanoTime);
 
-        SqlBuilder sqlBuilder;
+        SqlBuilderResult sqlBuilder;
         for (int i = 0; i < AbstractTest.sqlBuilderList.size(); i++) {
             sqlBuilder = AbstractTest.sqlBuilderList.get(i);
             //产出预编译sql

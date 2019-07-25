@@ -4,12 +4,10 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
-import pub.avalon.sqlhelper.core.data.ColumnDatum;
-import pub.avalon.sqlhelper.core.data.TableColumnDatum;
-import pub.avalon.sqlhelper.core.data.TableGroupColumnDatum;
-import pub.avalon.sqlhelper.core.data.VirtualColumnDatum;
+import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Arrays;
@@ -176,4 +174,23 @@ public interface ColumnEngine<TC extends ColumnHelper<TC>, R> {
         }
         return new TableGroupColumnDatum(tableAlias, groupType, columnData);
     }
+
+    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
+            FJ extends JoinHelper<FJ>,
+            FC extends ColumnHelper<FC>,
+            FW extends WhereHelper<FW>,
+            FG extends GroupHelper<FG>,
+            FH extends HavingHelper<FH>,
+            FS extends SortHelper<FS>> SubQueryColumnDatum executeSubQueryColumn(Class<F> tableHelperClass, String tableAlias, String columnAlias, SubQueryColumnCallback<FC> subQueryColumnCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (columnAlias == null) {
+            return null;
+        }
+        FC fc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper(tableAlias);
+        // 设置配置开始
+        fc.setSqlBuilderOptions(sqlBuilderOptions);
+        // 设置配置结束
+        SqlBuilderResult sqlBuilderResult = subQueryColumnCallback.apply(fc);
+        return new SubQueryColumnDatum(columnAlias, sqlBuilderResult);
+    }
+
 }

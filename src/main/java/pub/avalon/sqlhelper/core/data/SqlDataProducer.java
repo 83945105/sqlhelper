@@ -19,18 +19,18 @@ public interface SqlDataProducer {
     void setDataBaseType(DataBaseType dataBaseType);
 
     /**
-     * 添加列数据
-     *
-     * @param tableColumnDatum {@link TableColumnDatum}
-     */
-    void addTableColumnDatum(TableColumnDatum tableColumnDatum);
-
-    /**
      * 添加连接表数据
      *
      * @param joinTableDatum {@link JoinTableDatum}
      */
     void addJoinTableDatum(JoinTableDatum joinTableDatum);
+
+    /**
+     * 添加列数据
+     *
+     * @param tableColumnDatum {@link TableColumnDatum}
+     */
+    void addTableColumnDatum(TableColumnDatum tableColumnDatum);
 
     /**
      * 添加虚拟列数据
@@ -45,6 +45,13 @@ public interface SqlDataProducer {
      * @param tableGroupColumnDatum {@link TableGroupColumnDatum}
      */
     void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum);
+
+    /**
+     * 添加子查询列数据
+     *
+     * @param subQueryColumnDatum {@link SubQueryColumnDatum}
+     */
+    void addSubQueryColumnDatum(SubQueryColumnDatum subQueryColumnDatum);
 
     /**
      * 添加条件数据
