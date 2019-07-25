@@ -97,6 +97,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 等于
      *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T equalTo(ColumnHelper<?> columnHelper);
+
+    /**
+     * 等于
+     *
      * @param tableHelperClass {@link TableHelper}
      * @param tableAlias       表别名
      * @param callback         列回调
@@ -129,6 +137,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
                                                  WhereColumnCallback<SC> callback) {
         return equalTo(tableHelperClass, null, callback);
     }
+
+    /**
+     * 不等于
+     *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T notEqualTo(ColumnHelper<?> columnHelper);
 
     /**
      * 不等于
@@ -169,6 +185,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 大于
      *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T greaterThan(ColumnHelper<?> columnHelper);
+
+    /**
+     * 大于
+     *
      * @param tableHelperClass {@link TableHelper}
      * @param tableAlias       表别名
      * @param callback         列回调
@@ -201,6 +225,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
                                                      WhereColumnCallback<SC> callback) {
         return greaterThan(tableHelperClass, null, callback);
     }
+
+    /**
+     * 大于等于
+     *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T greaterThanAndEqualTo(ColumnHelper<?> columnHelper);
 
     /**
      * 大于等于
@@ -241,6 +273,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 小于
      *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T lessThan(ColumnHelper<?> columnHelper);
+
+    /**
+     * 小于
+     *
      * @param tableHelperClass {@link TableHelper}
      * @param tableAlias       表别名
      * @param callback         列回调
@@ -273,6 +313,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
                                                   WhereColumnCallback<SC> callback) {
         return lessThan(tableHelperClass, null, callback);
     }
+
+    /**
+     * 小于等于
+     *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T lessThanAndEqualTo(ColumnHelper<?> columnHelper);
 
     /**
      * 小于等于
@@ -313,6 +361,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 介于
      *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T between(ColumnHelper<?> columnHelper);
+
+    /**
+     * 介于
+     *
      * @param tableHelperClass {@link TableHelper}
      * @param tableAlias       表别名
      * @param callback         列回调
@@ -345,6 +401,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
                                                  WhereColumnCallback<SC> callback) {
         return between(tableHelperClass, null, callback);
     }
+
+    /**
+     * 模糊匹配
+     *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T like(ColumnHelper<?> columnHelper);
 
     /**
      * 模糊匹配
@@ -385,6 +449,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * 在...内
      *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T in(ColumnHelper<?> columnHelper);
+
+    /**
+     * 在...内
+     *
      * @param tableHelperClass {@link TableHelper}
      * @param tableAlias       表别名
      * @param callback         列回调
@@ -417,6 +489,14 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
                                             WhereColumnCallback<SC> callback) {
         return in(tableHelperClass, null, callback);
     }
+
+    /**
+     * 不在...内
+     *
+     * @param columnHelper 列助手
+     * @return {@link Helper}
+     */
+    T notIn(ColumnHelper<?> columnHelper);
 
     /**
      * 不在...内

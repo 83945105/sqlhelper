@@ -222,18 +222,56 @@ public class MySqlDynamicEngineColumnTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
+    /**
+     * 测试子查询列
+     */
     @Test
     void Test_subQueryColumn() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .subQueryColumn("subColumn", parentTable ->
                         MySqlDynamicEngine.table(UserRoleDTO.Helper.class)
-                                .column(table -> table.id())
+                                .column(table -> table.id("userRoleId"))
+                                .where((condition, mainTable) -> condition.and(mainTable.userId().equalTo(parentTable.id())))
+                                .query()
+                )
+                .query();
+        Assertions.assertEquals("select (select UserRole.`id` `userRoleId` from `user_role` UserRole where UserRole.`user_id` = SysUser.`id`) subColumn from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试子查询列 - 指定表名
+     */
+    @Test
+    void Test_subQueryColumn_assignTableName() {
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+                .subQueryColumn("subColumn", parentTable ->
+                        MySqlDynamicEngine.table("user_role_custom", UserRoleDTO.Helper.class)
+                                .column(table -> table.id("userRoleId"))
                                 .where((condition, mainTable) -> condition.and(mainTable.id().equalTo("1")))
                                 .query()
                 )
                 .query();
-        Assertions.assertEquals("select (select UserRole.`id` `id` from `user_role` UserRole where UserRole.`id` = ?) subColumn from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertEquals("select (select UserRole.`id` `userRoleId` from `user_role_custom` UserRole where UserRole.`id` = ?) subColumn from `sys_user_custom` SysUser", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试子查询列 - 指定表名
+     */
+    @Test
+    void Test_subQueryColumn_assignTableAlias() {
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
+                .subQueryColumn("subColumn", parentTable ->
+                        MySqlDynamicEngine.table(UserRoleDTO.Helper.class, "B")
+                                .column(table -> table.id("userRoleId"))
+                                .where((condition, mainTable) -> condition
+                                        .and(mainTable.userId().equalTo(parentTable.id())))
+                                .query()
+                )
+                .query();
+        Assertions.assertEquals("select (select B.`id` `userRoleId` from `user_role` B where B.`user_id` = A.`id`) subColumn from `sys_user` A", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
     /**

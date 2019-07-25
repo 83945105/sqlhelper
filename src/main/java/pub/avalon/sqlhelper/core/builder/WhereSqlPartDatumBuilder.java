@@ -462,17 +462,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+    public T equalTo(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -490,11 +481,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return equalTo(sc);
+    }
+
+    @Override
+    public T notEqualTo(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -512,11 +508,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return notEqualTo(sc);
+    }
+
+    @Override
+    public T greaterThan(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -534,11 +535,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return greaterThan(sc);
+    }
+
+    @Override
+    public T greaterThanAndEqualTo(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -556,11 +562,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return greaterThanAndEqualTo(sc);
+    }
+
+    @Override
+    public T lessThan(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -578,11 +589,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return lessThan(sc);
+    }
+
+    @Override
+    public T lessThanAndEqualTo(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -600,11 +616,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return lessThanAndEqualTo(sc);
+    }
+
+    @Override
+    public T between(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -625,11 +646,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T like(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return between(sc);
+    }
+
+    @Override
+    public T like(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -647,11 +673,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T in(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T like(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return like(sc);
+    }
+
+    @Override
+    public T in(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -669,11 +700,16 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notIn(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T in(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = callback.apply(sc);
-        List<ColumnDatum> columnData = sc.takeoutSqlPartData();
+        return in(sc);
+    }
+
+    @Override
+    public T notIn(ColumnHelper<?> columnHelper) {
+        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -682,6 +718,20 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
+    }
+
+    @Override
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> T notIn(Class<S> tableHelperClass, String tableAlias, WhereColumnCallback<SC> callback) {
+        S s = BeanUtils.tableHelper(tableHelperClass);
+        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
+        sc = callback.apply(sc);
+        return notIn(sc);
     }
 
     @Override
