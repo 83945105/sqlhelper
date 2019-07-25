@@ -9,7 +9,7 @@ import java.util.List;
  * @author 白超
  * @date 2019/5/25
  */
-public final class FinalSqlBuilderResult implements SqlBuilderResult {
+public final class FinalSqlBuilderResult implements TableSqlBuilderResult, SelectSqlBuilderResult, InsertSqlBuilderResult, UpdateSqlBuilderResult, DeleteSqlBuilderResult {
 
     private final static StringBuilder EMPTY_SQL_CONTAINER = new StringBuilder(0);
 

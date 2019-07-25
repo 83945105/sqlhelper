@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.UpdateSqlBuilderResult;
 
 import java.util.Collection;
 
@@ -14,36 +14,36 @@ public interface UpdateSqlBuilder {
      * 使用JavaBean更新
      *
      * @param javaBean
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link UpdateSqlBuilderResult}
      */
-    SqlBuilderResult updateJavaBean(Object javaBean);
+    UpdateSqlBuilderResult updateJavaBean(Object javaBean);
 
     /**
      * 使用JavaBean更新
      * <p>如果值为{@code null}则跳过该属性
      *
      * @param javaBean
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link UpdateSqlBuilderResult}
      */
-    SqlBuilderResult updateJavaBeanSelective(Object javaBean);
+    UpdateSqlBuilderResult updateJavaBeanSelective(Object javaBean);
 
     /**
      * 根据主键更新参数
      *
      * @param primaryKeyValue 主键值
      * @param args            参数
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link UpdateSqlBuilderResult}
      */
-    SqlBuilderResult updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
+    UpdateSqlBuilderResult updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
 
     /**
      * 根据主键,使用JavaBean更新
      *
      * @param primaryKeyValue 主键值
      * @param javaBean
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link UpdateSqlBuilderResult}
      */
-    SqlBuilderResult updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
+    UpdateSqlBuilderResult updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
 
     /**
      * 根据主键,使用JavaBean更新
@@ -51,25 +51,25 @@ public interface UpdateSqlBuilder {
      *
      * @param primaryKeyValue 主键值
      * @param javaBean
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link UpdateSqlBuilderResult}
      */
-    SqlBuilderResult updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
+    UpdateSqlBuilderResult updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
 
     /**
      * 使用JavaBean批量更新
      *
      * @param javaBeans
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link UpdateSqlBuilderResult}
      */
-    SqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
+    UpdateSqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
 
     /**
      * 使用JavaBean更新或插入
      * <p>存在更新,不存在插入
      *
      * @param javaBeans
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link UpdateSqlBuilderResult}
      */
-    SqlBuilderResult updateOrInsertJavaBeans(Collection<?> javaBeans);
+    UpdateSqlBuilderResult updateOrInsertJavaBeans(Collection<?> javaBeans);
 
 }

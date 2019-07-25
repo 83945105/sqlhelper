@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
 import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.*;
 
 import java.util.Collection;
 
@@ -28,7 +29,7 @@ public interface SqlBuilderTemplate<T> {
      * @param copyData        是否复制表数据
      * @return T
      */
-    T buildCopyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData);
+    TableSqlBuilderResult buildCopyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData);
 
     /**
      * 删除表
@@ -36,7 +37,7 @@ public interface SqlBuilderTemplate<T> {
      * @param sqlDataConsumer sql数据消费者
      * @return T
      */
-    T buildDeleteTable(SqlDataConsumer sqlDataConsumer);
+    TableSqlBuilderResult buildDeleteTable(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 重命名表
@@ -45,7 +46,7 @@ public interface SqlBuilderTemplate<T> {
      * @param newTableName    新的表名
      * @return T
      */
-    T buildRenameTable(SqlDataConsumer sqlDataConsumer, String newTableName);
+    TableSqlBuilderResult buildRenameTable(SqlDataConsumer sqlDataConsumer, String newTableName);
 
     /**
      * 判断表是否存在
@@ -53,7 +54,7 @@ public interface SqlBuilderTemplate<T> {
      * @param sqlDataConsumer sql数据消费者
      * @return T
      */
-    T buildIsTableExist(SqlDataConsumer sqlDataConsumer);
+    TableSqlBuilderResult buildIsTableExist(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 插入参数
@@ -62,7 +63,7 @@ public interface SqlBuilderTemplate<T> {
      * @param args            参数
      * @return T
      */
-    T buildInsertArgs(SqlDataConsumer sqlDataConsumer, Object... args);
+    InsertSqlBuilderResult buildInsertArgs(SqlDataConsumer sqlDataConsumer, Object... args);
 
     /**
      * 使用JavaBean插入
@@ -71,7 +72,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBean
      * @return T
      */
-    T buildInsertJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
+    InsertSqlBuilderResult buildInsertJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 使用JavaBean插入
@@ -81,7 +82,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBean
      * @return T
      */
-    T buildInsertJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
+    InsertSqlBuilderResult buildInsertJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 使用JavaBean批量插入
@@ -90,7 +91,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBeans
      * @return T
      */
-    T buildBatchInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
+    InsertSqlBuilderResult buildBatchInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
      * 删除
@@ -98,7 +99,7 @@ public interface SqlBuilderTemplate<T> {
      * @param sqlDataConsumer sql数据消费者
      * @return T
      */
-    T buildDelete(SqlDataConsumer sqlDataConsumer);
+    DeleteSqlBuilderResult buildDelete(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 根据主键删除
@@ -107,7 +108,7 @@ public interface SqlBuilderTemplate<T> {
      * @param primaryKeyValue 主键值
      * @return T
      */
-    T buildDeleteByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
+    DeleteSqlBuilderResult buildDeleteByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
 
     /**
      * 根据主键批量删除
@@ -116,7 +117,7 @@ public interface SqlBuilderTemplate<T> {
      * @param primaryKeyValues 主键值集合
      * @return T
      */
-    T buildBatchDeleteByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Object... primaryKeyValues);
+    DeleteSqlBuilderResult buildBatchDeleteByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Object... primaryKeyValues);
 
     /**
      * 使用JavaBean更新
@@ -125,7 +126,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBean
      * @return T
      */
-    T buildUpdateJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
+    UpdateSqlBuilderResult buildUpdateJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 使用JavaBean更新
@@ -135,7 +136,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBean
      * @return T
      */
-    T buildUpdateJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
+    UpdateSqlBuilderResult buildUpdateJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
      * 根据主键更新参数
@@ -145,7 +146,7 @@ public interface SqlBuilderTemplate<T> {
      * @param args            参数
      * @return T
      */
-    T buildUpdateArgsByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object... args);
+    UpdateSqlBuilderResult buildUpdateArgsByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object... args);
 
     /**
      * 根据主键,使用JavaBean更新
@@ -155,7 +156,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBean
      * @return T
      */
-    T buildUpdateJavaBeanByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
+    UpdateSqlBuilderResult buildUpdateJavaBeanByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
 
     /**
      * 根据主键,使用JavaBean更新
@@ -166,7 +167,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBean
      * @return T
      */
-    T buildUpdateJavaBeanByPrimaryKeySelective(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
+    UpdateSqlBuilderResult buildUpdateJavaBeanByPrimaryKeySelective(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
 
     /**
      * 使用JavaBean批量更新
@@ -175,7 +176,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBeans
      * @return
      */
-    T buildBatchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
+    UpdateSqlBuilderResult buildBatchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
      * 使用JavaBean更新或插入
@@ -185,7 +186,7 @@ public interface SqlBuilderTemplate<T> {
      * @param javaBeans
      * @return T
      */
-    T buildUpdateOrInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
+    UpdateSqlBuilderResult buildUpdateOrInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
      * 查询
@@ -193,7 +194,7 @@ public interface SqlBuilderTemplate<T> {
      * @param sqlDataConsumer sql数据消费者
      * @return T
      */
-    T buildQuery(SqlDataConsumer sqlDataConsumer);
+    SelectSqlBuilderResult buildQuery(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 查询数量
@@ -201,7 +202,7 @@ public interface SqlBuilderTemplate<T> {
      * @param sqlDataConsumer sql数据消费者
      * @return T
      */
-    T buildQueryCount(SqlDataConsumer sqlDataConsumer);
+    SelectSqlBuilderResult buildQueryCount(SqlDataConsumer sqlDataConsumer);
 
     /**
      * 根据主键查询
@@ -210,6 +211,6 @@ public interface SqlBuilderTemplate<T> {
      * @param primaryKeyValue 主键值
      * @return T
      */
-    T buildQueryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
+    SelectSqlBuilderResult buildQueryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
 
 }

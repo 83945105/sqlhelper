@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.DeleteSqlBuilderResult;
 
 /**
  * @author 白超
@@ -11,24 +11,24 @@ public interface DeleteSqlBuilder {
     /**
      * 删除
      *
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link DeleteSqlBuilderResult}
      */
-    SqlBuilderResult delete();
+    DeleteSqlBuilderResult delete();
 
     /**
      * 根据主键删除
      *
      * @param primaryKeyValue 主键值
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link DeleteSqlBuilderResult}
      */
-    SqlBuilderResult deleteByPrimaryKey(Object primaryKeyValue);
+    DeleteSqlBuilderResult deleteByPrimaryKey(Object primaryKeyValue);
 
     /**
      * 根据主键批量删除
      *
      * @param primaryKeyValues 主键值集合
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link DeleteSqlBuilderResult}
      */
-    SqlBuilderResult batchDeleteByPrimaryKeys(Object... primaryKeyValues);
+    DeleteSqlBuilderResult batchDeleteByPrimaryKeys(Object... primaryKeyValues);
 
 }

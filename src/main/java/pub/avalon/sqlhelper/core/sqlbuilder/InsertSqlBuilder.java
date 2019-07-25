@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.InsertSqlBuilderResult;
 
 import java.util.Collection;
 
@@ -14,33 +14,33 @@ public interface InsertSqlBuilder {
      * 插入参数
      *
      * @param args 参数
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link InsertSqlBuilderResult}
      */
-    SqlBuilderResult insertArgs(Object... args);
+    InsertSqlBuilderResult insertArgs(Object... args);
 
     /**
      * 使用JavaBean插入
      *
      * @param javaBean
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link InsertSqlBuilderResult}
      */
-    SqlBuilderResult insertJavaBean(Object javaBean);
+    InsertSqlBuilderResult insertJavaBean(Object javaBean);
 
     /**
      * 使用JavaBean插入
      * <p>如果值为{@code null}则跳过该属性
      *
      * @param javaBean
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link InsertSqlBuilderResult}
      */
-    SqlBuilderResult insertJavaBeanSelective(Object javaBean);
+    InsertSqlBuilderResult insertJavaBeanSelective(Object javaBean);
 
     /**
      * 使用JavaBean批量插入
      *
      * @param javaBeans
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link InsertSqlBuilderResult}
      */
-    SqlBuilderResult batchInsertJavaBeans(Collection<?> javaBeans);
+    InsertSqlBuilderResult batchInsertJavaBeans(Collection<?> javaBeans);
 
 }

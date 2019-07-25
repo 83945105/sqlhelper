@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.callback;
 
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
-import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SelectSqlBuilderResult;
 
 /**
  * 子查询
@@ -12,6 +12,6 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 @FunctionalInterface
 public interface SubQueryColumnCallback<TC extends ColumnHelper<TC>> {
 
-    SqlBuilderResult apply(TC parentTable);
+    SelectSqlBuilderResult apply(TC parentTable);
 
 }

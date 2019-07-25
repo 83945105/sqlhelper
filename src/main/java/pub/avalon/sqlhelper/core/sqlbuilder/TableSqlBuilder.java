@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.TableSqlBuilderResult;
 
 /**
  * @author 白超
@@ -13,30 +13,30 @@ public interface TableSqlBuilder {
      *
      * @param targetTableName 目标表名
      * @param copyData        是否复制表数据
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link TableSqlBuilderResult}
      */
-    SqlBuilderResult copyTable(String targetTableName, boolean copyData);
+    TableSqlBuilderResult copyTable(String targetTableName, boolean copyData);
 
     /**
      * 删除表
      *
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link TableSqlBuilderResult}
      */
-    SqlBuilderResult deleteTable();
+    TableSqlBuilderResult deleteTable();
 
     /**
      * 重命名表
      *
      * @param newTableName 新的表名
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link TableSqlBuilderResult}
      */
-    SqlBuilderResult renameTable(String newTableName);
+    TableSqlBuilderResult renameTable(String newTableName);
 
     /**
      * 判断表是否存在
      *
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link TableSqlBuilderResult}
      */
-    SqlBuilderResult isTableExist();
+    TableSqlBuilderResult isTableExist();
 
 }

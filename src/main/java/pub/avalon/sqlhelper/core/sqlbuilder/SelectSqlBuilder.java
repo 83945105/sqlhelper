@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SelectSqlBuilderResult;
 
 /**
  * @author 白超
@@ -11,23 +11,23 @@ public interface SelectSqlBuilder {
     /**
      * 查询
      *
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link SelectSqlBuilderResult}
      */
-    SqlBuilderResult query();
+    SelectSqlBuilderResult query();
 
     /**
      * 查询数量
      *
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link SelectSqlBuilderResult}
      */
-    SqlBuilderResult queryCount();
+    SelectSqlBuilderResult queryCount();
 
     /**
      * 根据主键查询
      *
      * @param primaryKeyValue 主键值
-     * @return {@link DefaultSqlBuilder}
+     * @return {@link SelectSqlBuilderResult}
      */
-    SqlBuilderResult queryByPrimaryKey(Object primaryKeyValue);
+    SelectSqlBuilderResult queryByPrimaryKey(Object primaryKeyValue);
 
 }
