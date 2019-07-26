@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.sqlbuilder;
 
 import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
@@ -319,15 +320,20 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 continue;
             }
             for (ColumnDatum columnDatum : columnData) {
+                ColumnHandler[] columnHandlers = columnDatum.getColumnHandlers();
                 if (i++ > 0) {
                     sql.append(",");
                 } else {
                     sql.append(" ");
                 }
-                sql.append(columnDatum.getTableAlias())
-                        .append(".`")
-                        .append(columnDatum.getColumnName())
-                        .append("` `")
+                String columnSql = columnDatum.getTableAlias() + ".`" + columnDatum.getColumnName() + "`";
+                if (columnHandlers != null && columnHandlers.length > 0) {
+                    for (ColumnHandler columnHandler : columnHandlers) {
+                        columnSql = columnHandler.execute(columnSql);
+                    }
+                }
+                sql.append(columnSql)
+                        .append(" `")
                         .append(columnDatum.getColumnAlias())
                         .append("`");
             }

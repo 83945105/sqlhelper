@@ -122,6 +122,16 @@ public class MySqlDynamicEngineColumnTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
+    @Test
+    void Test_columnHandler() {
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id(GroupType.COUNT);
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(column)
+                .query();
+        Assertions.assertEquals("select count(SysUser.`id`) `id` from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
     /**
      * 测试lambda列
      */
