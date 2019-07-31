@@ -4,6 +4,7 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.SqlSortBean;
 import pub.avalon.sqlhelper.core.beans.SqlSortBeanJoin;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
+import pub.avalon.sqlhelper.core.engine.callback.SortCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<TS, SqlSort<TS>> {
+public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS>>, SortCallbackEngine<TS, SqlSort<TS>> {
 
     private TS sortHelper;
     private String tableAlias;

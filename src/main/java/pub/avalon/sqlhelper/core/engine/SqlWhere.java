@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.beans.SqlWhereBean;
 import pub.avalon.sqlhelper.core.beans.SqlWhereBeanJoin;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
+import pub.avalon.sqlhelper.core.engine.callback.WhereCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngine<TW, SqlWhere<TW>> {
+public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngine<SqlWhere<TW>>, WhereCallbackEngine<TW, SqlWhere<TW>> {
 
     private TW whereHelper;
     private String tableAlias;

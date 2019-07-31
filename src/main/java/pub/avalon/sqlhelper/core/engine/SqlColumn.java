@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.beans.SqlColumnBean;
 import pub.avalon.sqlhelper.core.beans.SqlColumnBeanJoin;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
+import pub.avalon.sqlhelper.core.engine.callback.ColumnCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/16
  */
-public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEngine<TC, SqlColumn<TC>> {
+public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEngine<SqlColumn<TC>>, ColumnCallbackEngine<TC, SqlColumn<TC>> {
 
     private TC columnHelper;
     private String tableAlias;

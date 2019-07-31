@@ -5,4 +5,5 @@ package pub.avalon.sqlhelper.core.engine;
  * @date 2019/7/23
  */
 public interface Engine {
+
 }

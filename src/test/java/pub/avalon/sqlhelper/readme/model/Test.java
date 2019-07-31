@@ -31,16 +31,6 @@ public class Test {
 
         SqlHelperEngine sqlEngine = SqlDynamicEngine.table(DataBaseType.MYSQL, "", RoleResourceDTO.Helper.class)
 
-                .sql(new Sql<RoleResourceDTO.Helper, RoleResourceDTO.Helper.Join, RoleResourceDTO.Helper.Column, RoleResourceDTO.Helper.Where, RoleResourceDTO.Helper.Group, RoleResourceDTO.Helper.Having, RoleResourceDTO.Helper.Sort>() {{
-
-                    if (true) {
-                        column(table -> table.id().resourceName());
-                    }
-
-                }})
-                .sql(new RoleResourceDTO.Helper.Sql())
-
-
                 .sqlColumn(new SqlColumn<RoleResourceDTO.Helper.Column>() {
                 }.column(table -> table.id().primaryKey()))
                 .sqlColumn(new SqlColumn<RoleResourceDTO.Helper.Column>() {{

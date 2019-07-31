@@ -4,6 +4,7 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.SqlGroupBean;
 import pub.avalon.sqlhelper.core.beans.SqlGroupBeanJoin;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
+import pub.avalon.sqlhelper.core.engine.callback.GroupCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngine<TG, SqlGroup<TG>> {
+public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngine<SqlGroup<TG>>, GroupCallbackEngine<TG, SqlGroup<TG>> {
 
     private TG groupHelper;
     private String tableAlias;

@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.beans.SqlJoinBean;
 import pub.avalon.sqlhelper.core.beans.SqlJoinBeanFinal;
 import pub.avalon.sqlhelper.core.callback.JoinCallback;
+import pub.avalon.sqlhelper.core.engine.callback.JoinCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<TJ, SqlJoin<TJ>> {
+public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<SqlJoin<TJ>>, JoinCallbackEngine<TJ, SqlJoin<TJ>> {
 
     private TJ joinHelper;
     private String tableAlias;

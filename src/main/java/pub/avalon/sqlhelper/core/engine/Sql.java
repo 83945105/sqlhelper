@@ -4,6 +4,7 @@ import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
+import pub.avalon.sqlhelper.core.engine.callback.JdbcCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 /**
@@ -18,7 +19,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> implements TableEngine<T, TJ, TC, TW, TG, TH, TS, Sql<T, TJ, TC, TW, TG, TH, TS>> {
+        TS extends SortHelper<TS>> implements JdbcEngine<Sql<T, TJ, TC, TW, TG, TH, TS>>, JdbcCallbackEngine<TJ, TC, TW, TG, TH, TS, Sql<T, TJ, TC, TW, TG, TH, TS>> {
 
     private TJ joinHelper;
     private TC columnHelper;

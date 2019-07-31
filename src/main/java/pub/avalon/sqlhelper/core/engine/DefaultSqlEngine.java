@@ -45,17 +45,6 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
     }
 
     @Override
-    public <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> DefaultSqlEngine sql(Sql<F, FJ, FC, FW, FG, FH, FS> sql) {
-        return this;
-    }
-
-    @Override
     public <FJ extends JoinHelper<FJ>> DefaultSqlEngine sqlJoin(SqlJoin<FJ> sqlJoin) {
         SqlEngine.executeJoin(sqlJoin, this.sqlBuilderOptions).forEach(this::addJoinTableDatum);
         return this;
