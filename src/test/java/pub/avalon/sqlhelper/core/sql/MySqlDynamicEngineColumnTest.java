@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.GroupType;
-import pub.avalon.sqlhelper.core.engine.SqlColumn;
+import pub.avalon.sqlhelper.core.engine.sql.SqlColumn;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;

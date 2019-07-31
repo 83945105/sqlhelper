@@ -1,10 +1,11 @@
-package pub.avalon.sqlhelper.core.engine;
+package pub.avalon.sqlhelper.core.engine.sql;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.SqlWhereBean;
 import pub.avalon.sqlhelper.core.beans.SqlWhereBeanJoin;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
+import pub.avalon.sqlhelper.core.engine.WhereEngine;
 import pub.avalon.sqlhelper.core.engine.callback.WhereCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 

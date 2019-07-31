@@ -1,6 +1,7 @@
-package pub.avalon.sqlhelper.core.engine;
+package pub.avalon.sqlhelper.core.engine.sql;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
+import pub.avalon.sqlhelper.core.engine.HavingEngine;
 import pub.avalon.sqlhelper.core.engine.callback.HavingCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.HavingHelper;
 
