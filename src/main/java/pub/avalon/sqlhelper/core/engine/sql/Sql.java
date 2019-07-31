@@ -40,11 +40,6 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
-    public DataBaseType getDataBaseType() {
-        return null;
-    }
-
-    @Override
     public Sql<T, TJ, TC, TW, TG, TH, TS> column(ColumnHelper<?>... columnHelpers) {
         return this;
     }

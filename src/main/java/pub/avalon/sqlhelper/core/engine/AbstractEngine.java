@@ -148,6 +148,10 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
     }
 
+    public DataBaseType getDataBaseType() {
+        return this.sqlData.getDataBaseType();
+    }
+
     @Override
     public TableSqlBuilderResult copyTable(String targetTableName, boolean copyData) {
         return this.sqlBuilderProxy.copyTable(targetTableName, copyData);
