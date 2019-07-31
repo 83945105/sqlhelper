@@ -247,4 +247,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
         return this;
     }
 
+    @Override
+    public DataBaseType getDataBaseType() {
+        return this.sqlData.getDataBaseType();
+    }
 }

@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.engine;
 
+import pub.avalon.beans.DataBaseType;
+
 /**
  * jdbc引擎
  *
@@ -14,4 +16,7 @@ public interface JdbcEngine<R> extends
         HavingEngine<R>,
         SortEngine<R>,
         LimitEngine<R> {
+
+    DataBaseType getDataBaseType();
+
 }

@@ -9,7 +9,7 @@ import pub.avalon.beans.LimitSql;
  * @version 1.0
  * @since 2018/7/10
  */
-public interface LimitEngine<R> {
+public interface LimitEngine<R> extends Engine {
 
     R limitTop(Long num);
 

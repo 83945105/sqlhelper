@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine.sql;
 
+import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
@@ -36,6 +37,11 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
 
     public Sql(String tableAlias) {
         this.tableAlias = tableAlias;
+    }
+
+    @Override
+    public DataBaseType getDataBaseType() {
+        return null;
     }
 
     @Override

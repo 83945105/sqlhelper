@@ -21,4 +21,5 @@ public interface JdbcCallbackEngine<TJ extends JoinHelper<TJ>,
         GroupCallbackEngine<TG, R>,
         HavingCallbackEngine<TH, R>,
         SortCallbackEngine<TS, R> {
+
 }
