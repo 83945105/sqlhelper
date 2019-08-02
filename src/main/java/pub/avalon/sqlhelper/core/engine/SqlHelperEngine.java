@@ -5,6 +5,7 @@ import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
+import pub.avalon.sqlhelper.core.data.LimitDatum;
 import pub.avalon.sqlhelper.core.engine.callback.*;
 import pub.avalon.sqlhelper.core.engine.sql.*;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -225,25 +226,25 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> limitTop(Long num) {
-        this.buildLimitData(1L, num);
+        this.setLimitDatum(new LimitDatum(1L, num));
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> limitOne() {
-        this.buildLimitData(1L, 1L);
+        this.setLimitDatum(new LimitDatum(1L, 1L));
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> limit(LimitSql limit) {
-        this.setLimitData(limit);
+        this.setLimitDatum(new LimitDatum(limit.getTotal(), limit.getCurrentPage(), limit.getPageSize()));
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> limit(Long total, Long currentPage, Long pageSize) {
-        this.buildLimitData(total, currentPage, pageSize);
+        this.setLimitDatum(new LimitDatum(total, currentPage, pageSize));
         return this;
     }
 

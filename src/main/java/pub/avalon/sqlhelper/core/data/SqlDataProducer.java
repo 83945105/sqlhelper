@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.beans.LimitSql;
 
 /**
  * sql数据生产者
@@ -75,27 +74,10 @@ public interface SqlDataProducer {
     void addTableSortDatum(TableSortDatum tableSortDatum);
 
     /**
-     * 设置分页数据
+     * 添加分页数据
      *
-     * @param limitData {@link LimitSql}
+     * @param limitDatum {@link LimitDatum}
      */
-    void setLimitData(LimitSql limitData);
-
-    /**
-     * 构建分页
-     *
-     * @param currentPage 当前页号
-     * @param pageSize    每页显示数量
-     */
-    void buildLimitData(Long currentPage, Long pageSize);
-
-    /**
-     * 构建分页
-     *
-     * @param total       总数
-     * @param currentPage 当前页号
-     * @param pageSize    每页显示数量
-     */
-    void buildLimitData(Long total, Long currentPage, Long pageSize);
+    void setLimitDatum(LimitDatum limitDatum);
 
 }

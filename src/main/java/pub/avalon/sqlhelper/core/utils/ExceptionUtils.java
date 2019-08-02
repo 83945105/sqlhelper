@@ -6,7 +6,7 @@ package pub.avalon.sqlhelper.core.utils;
  * @author 白超
  * @date 2019/7/14
  */
-public class ExceptionUtils {
+public final class ExceptionUtils {
 
     private ExceptionUtils() {
     }

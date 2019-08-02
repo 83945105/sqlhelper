@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.sqlbuilder;
+package pub.avalon.sqlhelper.core.sqlbuilder.template;
 
 /**
  * MySql构建器模板

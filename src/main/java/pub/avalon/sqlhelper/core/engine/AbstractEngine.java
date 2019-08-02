@@ -6,8 +6,8 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.sqlbuilder.AbstractSqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilderProxy;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.*;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
@@ -39,7 +39,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
 
     protected SqlBuilderOptions sqlBuilderOptions;
 
-    protected SqlBuilderProxy sqlBuilderProxy;
+    protected SqlBuilder sqlBuilder;
 
     public AbstractEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         if (tableHelperClass == null) {
@@ -52,7 +52,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
+        };
     }
 
     public AbstractEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
@@ -66,7 +67,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
+        };
     }
 
     public AbstractEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass) {
@@ -80,7 +82,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
+        };
     }
 
     public AbstractEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, SqlBuilderOptions sqlBuilderOptions) {
@@ -94,7 +97,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
+        };
     }
 
     public AbstractEngine(DataBaseType dataBaseType, Class<T> tableHelperClass, String tableAlias) {
@@ -111,7 +115,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
+        };
     }
 
     public AbstractEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias) {
@@ -128,7 +133,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
+        };
     }
 
     public AbstractEngine(DataBaseType dataBaseType, String tableName, Class<T> tableHelperClass, String tableAlias, SqlBuilderOptions sqlBuilderOptions) {
@@ -145,7 +151,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
         this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
-        this.sqlBuilderProxy = new SqlBuilderProxy(this.sqlData, this.sqlBuilderOptions);
+        this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
+        };
     }
 
     public DataBaseType getDataBaseType() {
@@ -154,107 +161,107 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
 
     @Override
     public TableSqlBuilderResult copyTable(String targetTableName, boolean copyData) {
-        return this.sqlBuilderProxy.copyTable(targetTableName, copyData);
+        return this.sqlBuilder.copyTable(targetTableName, copyData);
     }
 
     @Override
     public TableSqlBuilderResult deleteTable() {
-        return this.sqlBuilderProxy.deleteTable();
+        return this.sqlBuilder.deleteTable();
     }
 
     @Override
     public TableSqlBuilderResult renameTable(String newTableName) {
-        return this.sqlBuilderProxy.renameTable(newTableName);
+        return this.sqlBuilder.renameTable(newTableName);
     }
 
     @Override
     public TableSqlBuilderResult isTableExist() {
-        return this.sqlBuilderProxy.isTableExist();
+        return this.sqlBuilder.isTableExist();
     }
 
     @Override
     public InsertSqlBuilderResult insertArgs(Object... args) {
-        return this.sqlBuilderProxy.insertArgs(args);
+        return this.sqlBuilder.insertArgs(args);
     }
 
     @Override
     public InsertSqlBuilderResult insertJavaBean(Object javaBean) {
-        return this.sqlBuilderProxy.insertJavaBean(javaBean);
+        return this.sqlBuilder.insertJavaBean(javaBean);
     }
 
     @Override
     public InsertSqlBuilderResult insertJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilderProxy.insertJavaBeanSelective(javaBean);
+        return this.sqlBuilder.insertJavaBeanSelective(javaBean);
     }
 
     @Override
     public InsertSqlBuilderResult batchInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.batchInsertJavaBeans(javaBeans);
+        return this.sqlBuilder.batchInsertJavaBeans(javaBeans);
     }
 
     @Override
     public DeleteSqlBuilderResult delete() {
-        return this.sqlBuilderProxy.delete();
+        return this.sqlBuilder.delete();
     }
 
     @Override
     public DeleteSqlBuilderResult deleteByPrimaryKey(Object primaryKeyValue) {
-        return this.sqlBuilderProxy.deleteByPrimaryKey(primaryKeyValue);
+        return this.sqlBuilder.deleteByPrimaryKey(primaryKeyValue);
     }
 
     @Override
     public DeleteSqlBuilderResult batchDeleteByPrimaryKeys(Object... primaryKeyValues) {
-        return this.sqlBuilderProxy.batchDeleteByPrimaryKeys(primaryKeyValues);
+        return this.sqlBuilder.batchDeleteByPrimaryKeys(primaryKeyValues);
     }
 
     @Override
     public UpdateSqlBuilderResult updateJavaBean(Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBean(javaBean);
+        return this.sqlBuilder.updateJavaBean(javaBean);
     }
 
     @Override
     public UpdateSqlBuilderResult updateJavaBeanSelective(Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanSelective(javaBean);
+        return this.sqlBuilder.updateJavaBeanSelective(javaBean);
     }
 
     @Override
     public UpdateSqlBuilderResult updateArgsByPrimaryKey(Object primaryKeyValue, Object... args) {
-        return this.sqlBuilderProxy.updateArgsByPrimaryKey(primaryKeyValue, args);
+        return this.sqlBuilder.updateArgsByPrimaryKey(primaryKeyValue, args);
     }
 
     @Override
     public UpdateSqlBuilderResult updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanByPrimaryKey(primaryKeyValue, javaBean);
+        return this.sqlBuilder.updateJavaBeanByPrimaryKey(primaryKeyValue, javaBean);
     }
 
     @Override
     public UpdateSqlBuilderResult updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean) {
-        return this.sqlBuilderProxy.updateJavaBeanByPrimaryKeySelective(primaryKeyValue, javaBean);
+        return this.sqlBuilder.updateJavaBeanByPrimaryKeySelective(primaryKeyValue, javaBean);
     }
 
     @Override
     public UpdateSqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
+        return this.sqlBuilder.batchUpdateJavaBeansByPrimaryKeys(javaBeans);
     }
 
     @Override
     public UpdateSqlBuilderResult updateOrInsertJavaBeans(Collection<?> javaBeans) {
-        return this.sqlBuilderProxy.updateOrInsertJavaBeans(javaBeans);
+        return this.sqlBuilder.updateOrInsertJavaBeans(javaBeans);
     }
 
     @Override
     public SelectSqlBuilderResult query() {
-        return this.sqlBuilderProxy.query();
+        return this.sqlBuilder.query();
     }
 
     @Override
     public SelectSqlBuilderResult queryCount() {
-        return this.sqlBuilderProxy.queryCount();
+        return this.sqlBuilder.queryCount();
     }
 
     @Override
     public SelectSqlBuilderResult queryByPrimaryKey(Object primaryKeyValue) {
-        return this.sqlBuilderProxy.queryByPrimaryKey(primaryKeyValue);
+        return this.sqlBuilder.queryByPrimaryKey(primaryKeyValue);
     }
 
     @Override
@@ -303,21 +310,11 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     }
 
     @Override
-    public void setLimitData(LimitSql limitData) {
-        this.sqlData.setLimitData(limitData);
+    public void setLimitDatum(LimitDatum limitDatum) {
+        this.sqlData.setLimitDatum(limitDatum);
     }
 
-    @Override
-    public void buildLimitData(Long currentPage, Long pageSize) {
-        this.sqlData.buildLimitData(currentPage, pageSize);
-    }
-
-    @Override
-    public void buildLimitData(Long total, Long currentPage, Long pageSize) {
-        this.sqlData.buildLimitData(total, currentPage, pageSize);
-    }
-
-        /*@Override
+/*@Override
     public String getSql() {
         //TODO 待实现 通过正则表达式将预编译参数替换进预编译sql
         return null;

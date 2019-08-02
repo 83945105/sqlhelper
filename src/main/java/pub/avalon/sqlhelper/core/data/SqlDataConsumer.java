@@ -1,12 +1,9 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.beans.LimitSql;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * sql数据消费者
@@ -89,8 +86,8 @@ public interface SqlDataConsumer {
     /**
      * 获取分页数据
      *
-     * @return {@link LimitSql}
+     * @return {@link LimitDatum}
      */
-    LimitSql getLimitData();
+    LimitDatum getLimitDatum();
 
 }

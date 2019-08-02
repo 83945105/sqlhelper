@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.sqlbuilder;
+package pub.avalon.sqlhelper.core.sqlbuilder.template;
 
 import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.*;

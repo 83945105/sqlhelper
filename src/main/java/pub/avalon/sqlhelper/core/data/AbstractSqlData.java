@@ -1,12 +1,9 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.LimitSql;
-import pub.avalon.beans.Pagination;
-import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Sql数据
@@ -48,7 +45,7 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     /**
      * limit条件数据
      */
-    private LimitSql limitData;
+    private LimitDatum limitDatum;
 
     public AbstractSqlData(MainTableDatum mainTableDatum) {
         super(mainTableDatum);
@@ -90,8 +87,8 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public LimitSql getLimitData() {
-        return this.limitData;
+    public LimitDatum getLimitDatum() {
+        return this.limitDatum;
     }
 
     @Override
@@ -172,18 +169,10 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public void setLimitData(LimitSql limitData) {
-        this.limitData = limitData;
+    public void setLimitDatum(LimitDatum limitDatum) {
+        if (limitDatum == null) {
+            return;
+        }
+        this.limitDatum = limitDatum;
     }
-
-    @Override
-    public void buildLimitData(Long currentPage, Long pageSize) {
-        this.limitData = new Pagination(this.getDataBaseType(), currentPage, pageSize);
-    }
-
-    @Override
-    public void buildLimitData(Long total, Long currentPage, Long pageSize) {
-        this.limitData = new Pagination(this.getDataBaseType(), total, currentPage, pageSize);
-    }
-
 }

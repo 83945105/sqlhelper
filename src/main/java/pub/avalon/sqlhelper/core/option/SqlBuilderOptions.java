@@ -1,9 +1,9 @@
 package pub.avalon.sqlhelper.core.option;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.DefaultMySqlBuilderTemplate;
-import pub.avalon.sqlhelper.core.sqlbuilder.DefaultMySqlPartBuilderTemplate;
-import pub.avalon.sqlhelper.core.sqlbuilder.MySqlBuilderTemplate;
-import pub.avalon.sqlhelper.core.sqlbuilder.MySqlPartBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.template.DefaultMySqlBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.template.DefaultMySqlPartBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.template.MySqlBuilderTemplate;
+import pub.avalon.sqlhelper.core.sqlbuilder.template.MySqlPartBuilderTemplate;
 
 /**
  * Sql构建配置
