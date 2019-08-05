@@ -13,59 +13,13 @@ import java.util.List;
  * @version 1.0
  * @since 2018/7/10
  */
-public final class WhereDatum implements SqlPartDatum {
-
-    private String ownerTemplateTableName;
-
-    private String ownerTemplateTableAlias;
-
-    private String ownerTemplateColumnName;
-
-    private String ownerTemplateColumnAlias;
-
-    private String ownerMappingFieldName;
-
-    private String targetTemplateTableName;
-
-    private String targetTemplateTableAlias;
-
-    private String targetTemplateColumnName;
-
-    private String targetTemplateColumnAlias;
-
-    private String targetMappingFieldName;
-
-    private String ownerTableName;
-
-    private String ownerTableAlias;
-
-    private String ownerColumnName;
-
-    private String ownerColumnAlias;
+public final class WhereDatum extends AbstractSqlPartDatum<WhereDatum> {
 
     private WhereType whereType = WhereType.EQUAL;
 
     private WhereValueType whereValueType = WhereValueType.VALUE;
 
-    private String targetTableName;
-
-    private String targetTableAlias;
-
-    private String targetColumnName;
-
-    private String targetColumnAlias;
-
-    private String targetSecondTableName;
-
-    private String targetSecondTableAlias;
-
-    private String targetSecondColumnName;
-
-    private String targetSecondColumnAlias;
-
-    private String targetSecondMappingFieldName;
-
-    private WhereDatum[] targetWhereData;
+    private List<WhereDatum> targetWhereData;
 
     private List<ColumnDatum> targetColumnData;
 
@@ -79,87 +33,14 @@ public final class WhereDatum implements SqlPartDatum {
 
     private String sqlPart;
 
-    public WhereDatum(String ownerTemplateTableName, String ownerTemplateTableAlias, String ownerTemplateColumnName, String ownerTemplateColumnAlias, String ownerMappingFieldName) {
-        this.ownerTemplateTableName = ownerTemplateTableName;
-        this.ownerTemplateTableAlias = ownerTemplateTableAlias;
-        this.ownerTemplateColumnName = ownerTemplateColumnName;
-        this.ownerTemplateColumnAlias = ownerTemplateColumnAlias;
-        this.ownerMappingFieldName = ownerMappingFieldName;
-        this.ownerTableName = ownerTemplateTableName;
-        this.ownerTableAlias = ownerTemplateTableAlias;
-        this.ownerColumnName = ownerTemplateColumnName;
-        this.ownerColumnAlias = ownerTemplateColumnAlias;
+    public WhereDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
+        super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
     }
 
-    public WhereDatum setOwnerTemplateTableName(String ownerTemplateTableName) {
-        this.ownerTemplateTableName = ownerTemplateTableName;
-        return this;
+    public WhereDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
     }
 
-    public WhereDatum setOwnerTemplateTableAlias(String ownerTemplateTableAlias) {
-        this.ownerTemplateTableAlias = ownerTemplateTableAlias;
-        return this;
-    }
-
-    public WhereDatum setOwnerTemplateColumnName(String ownerTemplateColumnName) {
-        this.ownerTemplateColumnName = ownerTemplateColumnName;
-        return this;
-    }
-
-    public WhereDatum setOwnerTemplateColumnAlias(String ownerTemplateColumnAlias) {
-        this.ownerTemplateColumnAlias = ownerTemplateColumnAlias;
-        return this;
-    }
-
-    public WhereDatum setOwnerMappingFieldName(String ownerMappingFieldName) {
-        this.ownerMappingFieldName = ownerMappingFieldName;
-        return this;
-    }
-
-    public WhereDatum setTargetTemplateTableName(String targetTemplateTableName) {
-        this.targetTemplateTableName = targetTemplateTableName;
-        return this;
-    }
-
-    public WhereDatum setTargetTemplateTableAlias(String targetTemplateTableAlias) {
-        this.targetTemplateTableAlias = targetTemplateTableAlias;
-        return this;
-    }
-
-    public WhereDatum setTargetTemplateColumnName(String targetTemplateColumnName) {
-        this.targetTemplateColumnName = targetTemplateColumnName;
-        return this;
-    }
-
-    public WhereDatum setTargetTemplateColumnAlias(String targetTemplateColumnAlias) {
-        this.targetTemplateColumnAlias = targetTemplateColumnAlias;
-        return this;
-    }
-
-    public WhereDatum setTargetMappingFieldName(String targetMappingFieldName) {
-        this.targetMappingFieldName = targetMappingFieldName;
-        return this;
-    }
-
-    public WhereDatum setOwnerTableName(String ownerTableName) {
-        this.ownerTableName = ownerTableName;
-        return this;
-    }
-
-    public WhereDatum setOwnerTableAlias(String ownerTableAlias) {
-        this.ownerTableAlias = ownerTableAlias;
-        return this;
-    }
-
-    public WhereDatum setOwnerColumnName(String ownerColumnName) {
-        this.ownerColumnName = ownerColumnName;
-        return this;
-    }
-
-    public WhereDatum setOwnerColumnAlias(String ownerColumnAlias) {
-        this.ownerColumnAlias = ownerColumnAlias;
-        return this;
-    }
 
     public WhereDatum setWhereType(WhereType whereType) {
         this.whereType = whereType;
@@ -171,52 +52,7 @@ public final class WhereDatum implements SqlPartDatum {
         return this;
     }
 
-    public WhereDatum setTargetTableName(String targetTableName) {
-        this.targetTableName = targetTableName;
-        return this;
-    }
-
-    public WhereDatum setTargetTableAlias(String targetTableAlias) {
-        this.targetTableAlias = targetTableAlias;
-        return this;
-    }
-
-    public WhereDatum setTargetColumnName(String targetColumnName) {
-        this.targetColumnName = targetColumnName;
-        return this;
-    }
-
-    public WhereDatum setTargetColumnAlias(String targetColumnAlias) {
-        this.targetColumnAlias = targetColumnAlias;
-        return this;
-    }
-
-    public WhereDatum setTargetSecondTableName(String targetSecondTableName) {
-        this.targetSecondTableName = targetSecondTableName;
-        return this;
-    }
-
-    public WhereDatum setTargetSecondTableAlias(String targetSecondTableAlias) {
-        this.targetSecondTableAlias = targetSecondTableAlias;
-        return this;
-    }
-
-    public WhereDatum setTargetSecondColumnName(String targetSecondColumnName) {
-        this.targetSecondColumnName = targetSecondColumnName;
-        return this;
-    }
-
-    public WhereDatum setTargetSecondColumnAlias(String targetSecondColumnAlias) {
-        this.targetSecondColumnAlias = targetSecondColumnAlias;
-        return this;
-    }
-
-    public WhereDatum setTargetSecondMappingFieldName(String targetSecondMappingFieldName) {
-        this.targetSecondMappingFieldName = targetSecondMappingFieldName;
-        return this;
-    }
-
-    public WhereDatum setTargetWhereData(WhereDatum[] targetWhereData) {
+    public WhereDatum setTargetWhereData(List<WhereDatum> targetWhereData) {
         this.targetWhereData = targetWhereData;
         return this;
     }
@@ -251,62 +87,6 @@ public final class WhereDatum implements SqlPartDatum {
         return this;
     }
 
-    public String getOwnerTemplateTableName() {
-        return ownerTemplateTableName;
-    }
-
-    public String getOwnerTemplateTableAlias() {
-        return ownerTemplateTableAlias;
-    }
-
-    public String getOwnerTemplateColumnName() {
-        return ownerTemplateColumnName;
-    }
-
-    public String getOwnerTemplateColumnAlias() {
-        return ownerTemplateColumnAlias;
-    }
-
-    public String getOwnerMappingFieldName() {
-        return ownerMappingFieldName;
-    }
-
-    public String getTargetTemplateTableName() {
-        return targetTemplateTableName;
-    }
-
-    public String getTargetTemplateTableAlias() {
-        return targetTemplateTableAlias;
-    }
-
-    public String getTargetTemplateColumnName() {
-        return targetTemplateColumnName;
-    }
-
-    public String getTargetTemplateColumnAlias() {
-        return targetTemplateColumnAlias;
-    }
-
-    public String getTargetMappingFieldName() {
-        return targetMappingFieldName;
-    }
-
-    public String getOwnerTableName() {
-        return ownerTableName;
-    }
-
-    public String getOwnerTableAlias() {
-        return ownerTableAlias;
-    }
-
-    public String getOwnerColumnName() {
-        return ownerColumnName;
-    }
-
-    public String getOwnerColumnAlias() {
-        return ownerColumnAlias;
-    }
-
     public WhereType getWhereType() {
         return whereType;
     }
@@ -315,43 +95,7 @@ public final class WhereDatum implements SqlPartDatum {
         return whereValueType;
     }
 
-    public String getTargetTableName() {
-        return targetTableName;
-    }
-
-    public String getTargetTableAlias() {
-        return targetTableAlias;
-    }
-
-    public String getTargetColumnName() {
-        return targetColumnName;
-    }
-
-    public String getTargetColumnAlias() {
-        return targetColumnAlias;
-    }
-
-    public String getTargetSecondTableName() {
-        return targetSecondTableName;
-    }
-
-    public String getTargetSecondTableAlias() {
-        return targetSecondTableAlias;
-    }
-
-    public String getTargetSecondColumnName() {
-        return targetSecondColumnName;
-    }
-
-    public String getTargetSecondColumnAlias() {
-        return targetSecondColumnAlias;
-    }
-
-    public String getTargetSecondMappingFieldName() {
-        return targetSecondMappingFieldName;
-    }
-
-    public WhereDatum[] getTargetWhereData() {
+    public List<WhereDatum> getTargetWhereData() {
         return targetWhereData;
     }
 

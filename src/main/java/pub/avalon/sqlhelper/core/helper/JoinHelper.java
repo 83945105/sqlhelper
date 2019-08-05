@@ -23,6 +23,11 @@ public abstract class JoinHelper<T extends JoinHelper<T>> extends Helper {
         this.joinSqlPartDatumBuilder = new JoinSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    protected JoinSqlPartDatumBuilder<T> apply(String sqlPart) {
+        this.joinSqlPartDatumBuilder.accept(sqlPart);
+        return this.joinSqlPartDatumBuilder;
+    }
+
     /**
      * 接收数据
      *
@@ -32,8 +37,8 @@ public abstract class JoinHelper<T extends JoinHelper<T>> extends Helper {
      * @param templateColumnAlias 模板列别名
      * @return {@link SqlPartDatumBuilder}
      */
-    protected JoinSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
-        this.joinSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+    protected JoinSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.joinSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
         return this.joinSqlPartDatumBuilder;
     }
 

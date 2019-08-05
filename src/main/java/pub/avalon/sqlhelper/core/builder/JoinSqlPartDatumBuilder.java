@@ -11,8 +11,8 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Join Sql片段数据构建器
@@ -32,9 +32,14 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
+    public void accept(String sqlPart) {
+
+    }
+
+    @Override
     public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
         this.onDatum = new OnDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
-                .setOwnerTableAlias(this.tableAlias);
+                .setTableAlias(this.tableAlias);
     }
 
     @Override
@@ -72,7 +77,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] equalTo, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] equalTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -92,7 +97,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] notEqualTo, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] notEqualTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -112,7 +117,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] greaterThan, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] greaterThan, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -132,7 +137,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -152,7 +157,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] lessThan, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] lessThan, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -172,7 +177,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] lessThanAndEqualTo, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] lessThanAndEqualTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -192,7 +197,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] between, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] between, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -202,7 +207,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] between, the secondValue can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] between, the secondValue can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -223,7 +228,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] like, the value can not be null.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] like, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -243,7 +248,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -263,7 +268,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -283,7 +288,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -303,7 +308,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("join table alias [" + this.onDatum.getOwnerTableAlias() + "] column [" + this.onDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("join table alias [" + this.onDatum.getTableAlias() + "] column [" + this.onDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -319,13 +324,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     @Override
     public T equalTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
-        OnDatum onDatum = onSqlDataBuilder.onDatum;
-        this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
-        this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
-        this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
-        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
+        this.onDatum.setOnValueType(OnValueType.JOIN_ON);
+        this.onDatum.setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum));
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -333,13 +333,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     @Override
     public T notEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.NOT_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
-        OnDatum onDatum = onSqlDataBuilder.onDatum;
-        this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
-        this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
-        this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
-        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
+        this.onDatum.setOnValueType(OnValueType.JOIN_ON);
+        this.onDatum.setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum));
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -347,13 +342,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     @Override
     public T greaterThan(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.GREATER);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
-        OnDatum onDatum = onSqlDataBuilder.onDatum;
-        this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
-        this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
-        this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
-        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
+        this.onDatum.setOnValueType(OnValueType.JOIN_ON);
+        this.onDatum.setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum));
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -361,13 +351,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     @Override
     public T greaterThanAndEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
-        OnDatum onDatum = onSqlDataBuilder.onDatum;
-        this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
-        this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
-        this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
-        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
+        this.onDatum.setOnValueType(OnValueType.JOIN_ON);
+        this.onDatum.setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum));
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -375,13 +360,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     @Override
     public T lessThan(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.LESS);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
-        OnDatum onDatum = onSqlDataBuilder.onDatum;
-        this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
-        this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
-        this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
-        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
+        this.onDatum.setOnValueType(OnValueType.JOIN_ON);
+        this.onDatum.setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum));
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -389,13 +369,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     @Override
     public T lessThanAndEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
         this.onDatum.setOnType(OnType.LESS_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
-        OnDatum onDatum = onSqlDataBuilder.onDatum;
-        this.onDatum.setTargetTableName(onDatum.getOwnerTableName());
-        this.onDatum.setTargetTableAlias(onDatum.getOwnerTableAlias());
-        this.onDatum.setTargetColumnName(onDatum.getOwnerColumnName());
-        this.onDatum.setTargetColumnAlias(onDatum.getOwnerColumnAlias());
-        this.onDatum.setTargetMappingFieldName(onDatum.getOwnerMappingFieldName());
+        this.onDatum.setOnValueType(OnValueType.JOIN_ON);
+        this.onDatum.setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum));
         this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
@@ -409,25 +384,15 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
+        this.onDatum.setOnValueType(OnValueType.JOIN_COLUMN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        OnDatum onDatum;
-        for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
-            onDatum.setOnType(OnType.EQUAL);
-            onDatum.setOnValueType(OnValueType.JOIN);
-            onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
-            onDatum.setTargetColumnName(columnDatum.getColumnName());
-            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
-            this.addSqlPartDatum(onDatum);
-        }
+        this.onDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
 
@@ -440,25 +405,15 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.NOT_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
+        this.onDatum.setOnValueType(OnValueType.JOIN_COLUMN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        OnDatum onDatum;
-        for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
-            onDatum.setOnType(OnType.NOT_EQUAL);
-            onDatum.setOnValueType(OnValueType.JOIN);
-            onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
-            onDatum.setTargetColumnName(columnDatum.getColumnName());
-            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
-            this.addSqlPartDatum(onDatum);
-        }
+        this.onDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
 
@@ -471,25 +426,15 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
+        this.onDatum.setOnValueType(OnValueType.JOIN_COLUMN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        OnDatum onDatum;
-        for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
-            onDatum.setOnType(OnType.GREATER);
-            onDatum.setOnValueType(OnValueType.JOIN);
-            onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
-            onDatum.setTargetColumnName(columnDatum.getColumnName());
-            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
-            this.addSqlPartDatum(onDatum);
-        }
+        this.onDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
 
@@ -502,25 +447,15 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.GREATER_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
+        this.onDatum.setOnValueType(OnValueType.JOIN_COLUMN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        OnDatum onDatum;
-        for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
-            onDatum.setOnType(OnType.GREATER_EQUAL);
-            onDatum.setOnValueType(OnValueType.JOIN);
-            onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
-            onDatum.setTargetColumnName(columnDatum.getColumnName());
-            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
-            this.addSqlPartDatum(onDatum);
-        }
+        this.onDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
 
@@ -533,25 +468,15 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
+        this.onDatum.setOnValueType(OnValueType.JOIN_COLUMN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        OnDatum onDatum;
-        for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
-            onDatum.setOnType(OnType.LESS);
-            onDatum.setOnValueType(OnValueType.JOIN);
-            onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
-            onDatum.setTargetColumnName(columnDatum.getColumnName());
-            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
-            this.addSqlPartDatum(onDatum);
-        }
+        this.onDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
 
@@ -564,25 +489,15 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
         this.onDatum.setOnType(OnType.LESS_EQUAL);
-        this.onDatum.setOnValueType(OnValueType.JOIN);
+        this.onDatum.setOnValueType(OnValueType.JOIN_COLUMN);
         S s = BeanUtils.tableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        OnDatum onDatum;
-        for (ColumnDatum columnDatum : columnData) {
-            onDatum = new OnDatum(this.onDatum.getOwnerTableName(), this.onDatum.getOwnerTableAlias(), this.onDatum.getOwnerColumnName(), this.onDatum.getOwnerColumnAlias(), this.onDatum.getOwnerMappingFieldName());
-            onDatum.setOnType(OnType.LESS_EQUAL);
-            onDatum.setOnValueType(OnValueType.JOIN);
-            onDatum.setTargetTableName(columnDatum.getTableName());
-            onDatum.setTargetTableAlias(tableAlias == null ? columnDatum.getTableAlias() : tableAlias);
-            onDatum.setTargetColumnName(columnDatum.getColumnName());
-            onDatum.setTargetColumnAlias(columnDatum.getColumnAlias());
-            onDatum.setTargetMappingFieldName(columnDatum.getMappingFieldName());
-            this.addSqlPartDatum(onDatum);
-        }
+        this.onDatum.setTargetColumnData(columnData);
+        this.addSqlPartDatum(this.onDatum);
         return this.getHelper();
     }
 

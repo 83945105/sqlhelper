@@ -53,7 +53,7 @@ public class Test {
 
                 }})
 
-                .column(table -> table.id().id())
+                .column(table -> table.id().sqlPart("").resourceId())
                 .column(table -> table.id().id().id(""))
                 .column(SysUserDTO.Helper.class, table -> table.userName().userName("").id(GroupType.COUNT))
                 .column(SysUserDTO.Helper.class, "", table -> table.userName().userName(""))

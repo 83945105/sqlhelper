@@ -24,6 +24,11 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
         this.groupSqlPartDatumBuilder = new GroupSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    protected GroupSqlPartDatumBuilder<T> apply(String sqlPart) {
+        this.groupSqlPartDatumBuilder.accept(sqlPart);
+        return this.groupSqlPartDatumBuilder;
+    }
+
     /**
      * 接收数据
      *
@@ -33,8 +38,8 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
      * @param templateColumnAlias 模板列别名
      * @return {@link SqlPartDatumBuilder}
      */
-    protected GroupSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
-        this.groupSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+    protected GroupSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.groupSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
         return this.groupSqlPartDatumBuilder;
     }
 

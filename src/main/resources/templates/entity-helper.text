@@ -214,13 +214,17 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
+                return this.apply(sqlPart);
+            }
+
             public JoinSqlPartDatumBuilder<Join> primaryKey() {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
             [# th:each="column : ${table.columns}"]
                 public JoinSqlPartDatumBuilder<Join> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
                 }
             [/]
 
@@ -241,37 +245,41 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return [(${table.generateOptions.helperClassName})].HELPER.getTableColumns();
             }
 
+            public Column sqlPart(String sqlPart) {
+                return this.apply(sqlPart).getHelper();
+            }
+
             public Column primaryKey() {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS).getHelper();
             }
 
             public Column primaryKey(ColumnHandler... columnHandlers) {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, columnHandlers).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS, columnHandlers).getHelper();
             }
 
             public Column primaryKey(String alias) {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, alias).getHelper();
             }
 
             public Column primaryKey(String alias, ColumnHandler... columnHandlers) {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, alias, columnHandlers).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, alias, columnHandlers).getHelper();
             }
 
             [# th:each="column : ${table.columns}"]
                 public Column [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS).getHelper();
                 }
 
                 public Column [(${table.getColumnAlias(column)})](ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, columnHandlers).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS, columnHandlers).getHelper();
                 }
 
                 public Column [(${table.getColumnAlias(column)})](String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], alias).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, alias).getHelper();
                 }
 
                 public Column [(${table.getColumnAlias(column)})](String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], alias, columnHandlers).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, alias, columnHandlers).getHelper();
                 }
             [/]
 
@@ -287,13 +295,17 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
+                return this.apply(sqlPart);
+            }
+
             public WhereSqlPartDatumBuilder<Where> primaryKey() {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
             [# th:each="column : ${table.columns}"]
                 public WhereSqlPartDatumBuilder<Where> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
                 }
             [/]
 
@@ -309,13 +321,17 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            public Group sqlPart(String sqlPart) {
+                return this.apply(sqlPart).getHelper();
+            }
+
             public Group primaryKey() {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS).getHelper();
             }
 
             [# th:each="column : ${table.columns}"]
                 public Group [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS).getHelper();
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS).getHelper();
                 }
             [/]
 
@@ -331,21 +347,25 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
+                return this.apply(sqlPart);
+            }
+
             public HavingSqlPartDatumBuilder<Having> primaryKey() {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
             public HavingSqlPartDatumBuilder<Having> primaryKey(ColumnHandler... columnHandlers) {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, columnHandlers);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS, columnHandlers);
             }
 
             [# th:each="column : ${table.columns}"]
                 public HavingSqlPartDatumBuilder<Having> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
                 }
 
                 public HavingSqlPartDatumBuilder<Having> [(${table.getColumnAlias(column)})](ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, columnHandlers);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS, columnHandlers);
                 }
             [/]
 
@@ -361,13 +381,17 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {
+                return this.apply(sqlPart);
+            }
+
             public SortSqlPartDatumBuilder<Sort> primaryKey() {
-                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
             [# th:each="column : ${table.columns}"]
                 public SortSqlPartDatumBuilder<Sort> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS);
+                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
                 }
             [/]
 

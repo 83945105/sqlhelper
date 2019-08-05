@@ -11,9 +11,8 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 条件Sql片段数据构建器
@@ -33,9 +32,14 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     }
 
     @Override
+    public void accept(String sqlPart) {
+
+    }
+
+    @Override
     public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
         this.whereDatum = new WhereDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
-                .setOwnerTableAlias(this.tableAlias);
+                .setTableAlias(this.tableAlias);
     }
 
     @Override
@@ -85,7 +89,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] equalTo, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] equalTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -104,7 +108,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] notEqualTo, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] notEqualTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -123,7 +127,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] greaterThan, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] greaterThan, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -142,7 +146,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] greaterThanAndEqualTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -161,7 +165,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] lessThan, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] lessThan, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -180,7 +184,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] lessThanAndEqualTo, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] lessThanAndEqualTo, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -199,7 +203,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] between, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] between, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -209,7 +213,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] between, the secondValue can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] between, the secondValue can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -229,7 +233,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] like, the value can not be null.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] like, the value can not be null.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -248,7 +252,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -267,7 +271,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -286,7 +290,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -305,7 +309,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                 case NULL_SKIP:
                     return this.getHelper();
                 case NULL_THROW_EXCEPTION:
-                    throw new ComparisonException("table alias [" + this.whereDatum.getOwnerTableAlias() + "] column [" + this.whereDatum.getOwnerColumnName() + "] in, the values can not be null or size = 0.");
+                    throw new ComparisonException("table alias [" + this.whereDatum.getColumnName() + "] column [" + this.whereDatum.getColumnName() + "] in, the values can not be null or size = 0.");
                 default:
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
@@ -320,13 +324,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T equalTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -334,13 +333,9 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T notEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
+        ;
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -348,13 +343,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T greaterThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.GREATER);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -362,13 +352,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T greaterThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -376,13 +361,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T lessThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.LESS);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -390,13 +370,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T lessThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -404,19 +379,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T between(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder, WhereSqlPartDatumBuilder secondWhereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.BETWEEN);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
-        WhereDatum secondWhereDatum = secondWhereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetSecondTableName(secondWhereDatum.getOwnerTableName());
-        this.whereDatum.setTargetSecondTableAlias(secondWhereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetSecondColumnName(secondWhereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetSecondColumnAlias(secondWhereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetSecondMappingFieldName(secondWhereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(new ArrayList<WhereDatum>(2) {{
+            add(whereSqlPartDatumBuilder.whereDatum);
+            add(secondWhereSqlPartDatumBuilder.whereDatum);
+        }});
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -424,13 +391,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T like(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
         this.whereDatum.setWhereType(WhereType.LIKE);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum whereDatum = whereSqlPartDatumBuilder.whereDatum;
-        this.whereDatum.setTargetTableName(whereDatum.getOwnerTableName());
-        this.whereDatum.setTargetTableAlias(whereDatum.getOwnerTableAlias());
-        this.whereDatum.setTargetColumnName(whereDatum.getOwnerColumnName());
-        this.whereDatum.setTargetColumnAlias(whereDatum.getOwnerColumnAlias());
-        this.whereDatum.setTargetMappingFieldName(whereDatum.getOwnerMappingFieldName());
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -438,12 +400,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T in(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders) {
         this.whereDatum.setWhereType(WhereType.IN);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum[] targetWhereData = new WhereDatum[whereSqlPartDatumBuilders.length];
-        for (int i = 0; i < whereSqlPartDatumBuilders.length; i++) {
-            targetWhereData[i] = whereSqlPartDatumBuilders[i].whereDatum;
-        }
-        this.whereDatum.setTargetWhereData(targetWhereData);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Arrays.stream(whereSqlPartDatumBuilders).map(b -> b.whereDatum).collect(Collectors.toList()));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -451,12 +409,8 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     @Override
     public T notIn(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders) {
         this.whereDatum.setWhereType(WhereType.NOT_IN);
-        this.whereDatum.setWhereValueType(WhereValueType.JOIN);
-        WhereDatum[] targetWhereData = new WhereDatum[whereSqlPartDatumBuilders.length];
-        for (int i = 0; i < whereSqlPartDatumBuilders.length; i++) {
-            targetWhereData[i] = whereSqlPartDatumBuilders[i].whereDatum;
-        }
-        this.whereDatum.setTargetWhereData(targetWhereData);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_WHERE);
+        this.whereDatum.setTargetWhereData(Arrays.stream(whereSqlPartDatumBuilders).map(b -> b.whereDatum).collect(Collectors.toList()));
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
     }
@@ -468,7 +422,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -495,7 +449,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -522,7 +476,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.GREATER);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -549,7 +503,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -576,7 +530,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.LESS);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -603,7 +557,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -633,7 +587,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             throw new RuntimeException("ColumnData size must be 2 in between.");
         }
         this.whereDatum.setWhereType(WhereType.BETWEEN);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -660,7 +614,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.LIKE);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -687,7 +641,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.IN);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();
@@ -714,7 +668,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
             return this.getHelper();
         }
         this.whereDatum.setWhereType(WhereType.NOT_IN);
-        this.whereDatum.setWhereValueType(WhereValueType.COLUMN);
+        this.whereDatum.setWhereValueType(WhereValueType.JOIN_COLUMN);
         this.whereDatum.setTargetColumnData(columnData);
         this.addSqlPartDatum(this.whereDatum);
         return this.getHelper();

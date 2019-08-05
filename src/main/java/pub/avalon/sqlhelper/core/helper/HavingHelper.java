@@ -24,6 +24,11 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
         this.havingSqlPartDatumBuilder = new HavingSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    protected HavingSqlPartDatumBuilder<T> apply(String sqlPart) {
+        this.havingSqlPartDatumBuilder.accept(sqlPart);
+        return this.havingSqlPartDatumBuilder;
+    }
+
     /**
      * 接收数据
      *
@@ -34,8 +39,8 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
      * @param columnHandlers      列处理
      * @return {@link SqlPartDatumBuilder}
      */
-    protected HavingSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, ColumnHandler... columnHandlers) {
-        this.havingSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+    protected HavingSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
+        this.havingSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName, columnHandlers);
         return this.havingSqlPartDatumBuilder;
     }
 
@@ -48,8 +53,8 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
      * @param templateColumnAlias 模板列别名
      * @return {@link SqlPartDatumBuilder}
      */
-    protected HavingSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
-        this.havingSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+    protected HavingSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.havingSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
         return this.havingSqlPartDatumBuilder;
     }
 

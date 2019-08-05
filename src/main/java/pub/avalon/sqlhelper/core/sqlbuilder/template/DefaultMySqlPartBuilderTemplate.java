@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.sqlbuilder.template;
 
-import pub.avalon.beans.LimitSql;
 import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
@@ -354,9 +353,9 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             if (i++ > 0) {
                 sql.append(" and ");
             }
-            sql.append(onDatum.getOwnerTableAlias())
+            sql.append(onDatum.getTableAlias())
                     .append(".`")
-                    .append(onDatum.getOwnerColumnName())
+                    .append(onDatum.getColumnName())
                     .append("`");
             switch (onDatum.getOnType()) {
                 case IS_NULL:
@@ -440,10 +439,20 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                     sql.append("?");
                     args.add(onDatum.getTargetValue());
                     continue;
-                case JOIN:
-                    sql.append(onDatum.getTargetTableAlias())
+                case JOIN_ON:
+                    List<OnDatum> onDatumList = onDatum.getTargetOnData();
+                    // TODO 暂时只支持单个对象条件
+                    sql.append(onDatumList.get(0).getTableAlias())
                             .append(".`")
-                            .append(onDatum.getTargetColumnName())
+                            .append(onDatumList.get(0).getColumnName())
+                            .append("`");
+                    continue;
+                case JOIN_COLUMN:
+                    List<ColumnDatum> columnData = onDatum.getTargetColumnData();
+                    // TODO 暂时只支持单个对象条件
+                    sql.append(columnData.get(0).getTableAlias())
+                            .append(".`")
+                            .append(columnData.get(0).getColumnName())
                             .append("`");
                     continue;
                 default:
@@ -600,7 +609,8 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendWhereDataJoinSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
+    private void appendWhereDataJoinWhereSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
+        List<WhereDatum> targetWhereData = whereDatum.getTargetWhereData();
         switch (whereDatum.getWhereType()) {
             case IS_NULL:
                 sql.append(" is null");
@@ -610,94 +620,86 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 break;
             case EQUAL:
                 sql.append(" = ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("`");
                 break;
             case NOT_EQUAL:
                 sql.append(" != ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("`");
                 break;
             case GREATER:
                 sql.append(" > ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("`");
                 break;
             case GREATER_EQUAL:
                 sql.append(" >= ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("`");
                 break;
             case LESS:
                 sql.append(" < ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("`");
                 break;
             case LESS_EQUAL:
                 sql.append(" <= ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("`");
                 break;
             case BETWEEN:
                 sql.append(" between ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("` and ")
-                        .append(whereDatum.getTargetSecondTableAlias())
+                        .append(targetWhereData.get(1).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetSecondColumnName())
+                        .append(targetWhereData.get(1).getColumnName())
                         .append("`");
                 break;
             case LIKE:
                 sql.append(" like ")
-                        .append(whereDatum.getTargetTableAlias())
+                        .append(targetWhereData.get(0).getTableAlias())
                         .append(".`")
-                        .append(whereDatum.getTargetColumnName())
+                        .append(targetWhereData.get(0).getColumnName())
                         .append("`");
                 break;
             case IN:
-                WhereDatum[] whereData = whereDatum.getTargetWhereData();
-                if (whereData == null || whereData.length == 0) {
-                    break;
-                }
                 sql.append(" in (");
-                for (int i = 0; i < whereData.length; i++) {
+                for (int i = 0; i < targetWhereData.size(); i++) {
                     if (i > 0) {
                         sql.append(",");
                     }
-                    sql.append(whereData[i].getOwnerTableAlias())
+                    sql.append(targetWhereData.get(i).getTableAlias())
                             .append(".`")
-                            .append(whereData[i].getOwnerColumnName())
+                            .append(targetWhereData.get(i).getColumnName())
                             .append("`");
                 }
                 sql.append(")");
                 break;
             case NOT_IN:
-                whereData = whereDatum.getTargetWhereData();
-                if (whereData == null || whereData.length == 0) {
-                    break;
-                }
                 sql.append(" not in (");
-                for (int i = 0; i < whereData.length; i++) {
+                for (int i = 0; i < targetWhereData.size(); i++) {
                     if (i > 0) {
                         sql.append(",");
                     }
-                    sql.append(whereData[i].getOwnerTableAlias())
+                    sql.append(targetWhereData.get(i).getTableAlias())
                             .append(".`")
-                            .append(whereData[i].getOwnerColumnName())
+                            .append(targetWhereData.get(i).getColumnName())
                             .append("`");
                 }
                 sql.append(")");
@@ -707,7 +709,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendWhereDataColumnSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
+    private void appendWhereDataJoinColumnSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
         List<ColumnDatum> columnData = whereDatum.getTargetColumnData();
         if (columnData == null || columnData.size() == 0) {
             return;
@@ -931,11 +933,11 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             case VALUE:
                 this.appendWhereDataValueSqlArgs(sql, args, whereDatum);
                 break;
-            case JOIN:
-                this.appendWhereDataJoinSqlArgs(sql, args, whereDatum);
+            case JOIN_WHERE:
+                this.appendWhereDataJoinWhereSqlArgs(sql, args, whereDatum);
                 break;
-            case COLUMN:
-                this.appendWhereDataColumnSqlArgs(sql, args, whereDatum);
+            case JOIN_COLUMN:
+                this.appendWhereDataJoinColumnSqlArgs(sql, args, whereDatum);
                 break;
             case SUB_QUERY:
                 this.appendWhereDataSubQuerySqlArgs(sql, args, whereDatum);
@@ -960,9 +962,9 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             if (i++ > 0) {
                 sql.append(" and ");
             }
-            sql.append(whereDatum.getOwnerTableAlias())
+            sql.append(whereDatum.getTableAlias())
                     .append(".`")
-                    .append(whereDatum.getOwnerColumnName())
+                    .append(whereDatum.getColumnName())
                     .append("`");
             this.appendWhereDataSqlArgs(sql, args, whereDatum);
         }

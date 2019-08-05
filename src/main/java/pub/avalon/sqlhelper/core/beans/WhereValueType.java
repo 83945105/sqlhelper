@@ -9,13 +9,13 @@ package pub.avalon.sqlhelper.core.beans;
  */
 public enum WhereValueType {
     /**
-     * 连接其它字段
+     * 连接其它条件字段
      */
-    JOIN,
+    JOIN_WHERE,
     /**
-     * 列
+     * 连接其它列字段
      */
-    COLUMN,
+    JOIN_COLUMN,
     /**
      * 具体值
      */

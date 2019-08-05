@@ -24,6 +24,11 @@ public abstract class SortHelper<T extends SortHelper<T>> extends Helper {
         this.sortSqlPartDatumBuilder = new SortSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    protected SortSqlPartDatumBuilder<T> apply(String sqlPart) {
+        this.sortSqlPartDatumBuilder.accept(sqlPart);
+        return this.sortSqlPartDatumBuilder;
+    }
+
     /**
      * 接收数据
      *
@@ -33,8 +38,8 @@ public abstract class SortHelper<T extends SortHelper<T>> extends Helper {
      * @param templateColumnAlias 模板列别名
      * @return {@link SqlPartDatumBuilder}
      */
-    protected SortSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
-        this.sortSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+    protected SortSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.sortSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
         return this.sortSqlPartDatumBuilder;
     }
 

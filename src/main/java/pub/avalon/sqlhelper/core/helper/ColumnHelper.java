@@ -35,17 +35,13 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
     public abstract Set<TableColumn> getTableDefaultColumns();
 
     /**
-     * 接收数据
+     * 接收sql片段
      *
-     * @param templateTableName   模板表名
-     * @param templateTableAlias  模板表别名
-     * @param templateColumnName  模板列名
-     * @param templateColumnAlias 模板列别名
-     * @param columnHandlers      列处理
+     * @param sqlPart sql片段
      * @return {@link SqlPartDatumBuilder}
      */
-    protected ColumnSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, ColumnHandler... columnHandlers) {
-        this.columnSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, columnHandlers);
+    protected ColumnSqlPartDatumBuilder<T> apply(String sqlPart) {
+        this.columnSqlPartDatumBuilder.accept(sqlPart);
         return this.columnSqlPartDatumBuilder;
     }
 
@@ -56,10 +52,26 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
      * @param templateTableAlias  模板表别名
      * @param templateColumnName  模板列名
      * @param templateColumnAlias 模板列别名
+     * @param columnHandlers      列处理
      * @return {@link SqlPartDatumBuilder}
      */
-    protected ColumnSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
-        this.columnSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
+    protected ColumnSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
+        this.columnSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName, columnHandlers);
+        return this.columnSqlPartDatumBuilder;
+    }
+
+    /**
+     * 接收数据
+     *
+     * @param templateTableName   模板表名
+     * @param templateTableAlias  模板表别名
+     * @param templateColumnName  模板列名
+     * @param templateColumnAlias 模板列别名
+     * @param mappingFieldName    映射的属性名
+     * @return {@link SqlPartDatumBuilder}
+     */
+    protected ColumnSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName) {
+        this.columnSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
         return this.columnSqlPartDatumBuilder;
     }
 

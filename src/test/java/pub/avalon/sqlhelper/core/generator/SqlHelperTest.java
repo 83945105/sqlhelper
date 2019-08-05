@@ -22,7 +22,7 @@ public class SqlHelperTest {
         );
 
         new TemplateEngine(jdbcTemplate)
-                .setGenerateOptions(new GenerateOptions().setEntityAlone(false))
+                .setGenerateOptions(new GenerateOptions().setEntityAlone(true))
                 .addTable("sys_user", "SysUser")
                 .addTable("role_resource", "RoleResource")
                 .addTable("user_role", "UserRole")

@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Sql片段数据构建器
@@ -45,6 +44,8 @@ public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
      */
     List<S> takeoutSqlPartData();
 
+    void accept(String sqlPart);
+
     /**
      * 接收数据
      *
@@ -56,31 +57,6 @@ public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
      * @param columnHandlers      列处理
      */
     void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers);
-
-    /**
-     * 接收数据
-     *
-     * @param templateTableName   模板表名
-     * @param templateTableAlias  模板表别名
-     * @param templateColumnName  模板列名
-     * @param templateColumnAlias 模板列别名
-     */
-    default void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
-        this.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, templateColumnAlias);
-    }
-
-    /**
-     * 接收数据
-     *
-     * @param templateTableName   模板表名
-     * @param templateTableAlias  模板表别名
-     * @param templateColumnName  模板列名
-     * @param templateColumnAlias 模板列别名
-     * @param columnHandlers      列处理
-     */
-    default void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, ColumnHandler... columnHandlers) {
-        this.accept(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, templateColumnAlias, columnHandlers);
-    }
 
     /**
      * 设置Sql构建配置

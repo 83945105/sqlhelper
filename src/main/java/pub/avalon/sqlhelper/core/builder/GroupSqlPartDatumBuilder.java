@@ -20,8 +20,13 @@ public final class GroupSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     }
 
     @Override
+    public void accept(String sqlPart) {
+
+    }
+
+    @Override
     public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
-        this.addSqlPartDatum(new GroupDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
+        this.addSqlPartDatum(new GroupDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias)
                 .setTableAlias(this.tableAlias));
     }
 
