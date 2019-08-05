@@ -1,6 +1,5 @@
-package pub.avalon.sqlhelper.core.engine.sql;
+package pub.avalon.sqlhelper.core.engine.builder;
 
-import pub.avalon.beans.DataBaseType;
 import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;

@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.sql;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.GroupType;
-import pub.avalon.sqlhelper.core.engine.sql.SqlColumn;
+import pub.avalon.sqlhelper.core.engine.builder.SqlColumn;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
@@ -241,7 +241,8 @@ public class MySqlDynamicEngineColumnTest {
                 .subQueryColumn("subColumn", parentTable ->
                         MySqlDynamicEngine.table(UserRoleDTO.Helper.class)
                                 .column(table -> table.id("userRoleId"))
-                                .where((condition, mainTable) -> condition.and(mainTable.userId().equalTo(parentTable.id())))
+                                .where((condition, mainTable) -> condition
+                                        .and(mainTable.userId().equalTo(parentTable.id())))
                                 .query()
                 )
                 .query();
@@ -258,7 +259,8 @@ public class MySqlDynamicEngineColumnTest {
                 .subQueryColumn("subColumn", parentTable ->
                         MySqlDynamicEngine.table("user_role_custom", UserRoleDTO.Helper.class)
                                 .column(table -> table.id("userRoleId"))
-                                .where((condition, mainTable) -> condition.and(mainTable.id().equalTo("1")))
+                                .where((condition, mainTable) -> condition
+                                        .and(mainTable.id().equalTo("1")))
                                 .query()
                 )
                 .query();

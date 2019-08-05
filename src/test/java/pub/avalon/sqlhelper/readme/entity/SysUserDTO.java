@@ -495,7 +495,7 @@ public class SysUserDTO {
 
         }
 
-        public static class Sql extends pub.avalon.sqlhelper.core.engine.sql.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
             public Sql() {
                 super(TABLE_ALIAS);
             }
@@ -504,7 +504,7 @@ public class SysUserDTO {
             }
         }
 
-        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.sql.SqlJoin<Join> {
+        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<Join> {
             public SqlJoin() {
                 super(TABLE_ALIAS);
             }
@@ -513,7 +513,7 @@ public class SysUserDTO {
             }
         }
 
-        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.sql.SqlColumn<Column> {
+        public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.builder.SqlColumn<Column> {
             public SqlColumn() {
                 super(TABLE_ALIAS);
             }
@@ -522,7 +522,7 @@ public class SysUserDTO {
             }
         }
 
-        public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.sql.SqlWhere<Where> {
+        public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.builder.SqlWhere<Where> {
             public SqlWhere() {
                 super(TABLE_ALIAS);
             }
@@ -531,7 +531,7 @@ public class SysUserDTO {
             }
         }
 
-        public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.sql.SqlGroup<Group> {
+        public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.builder.SqlGroup<Group> {
             public SqlGroup() {
                 super(TABLE_ALIAS);
             }
@@ -540,7 +540,7 @@ public class SysUserDTO {
             }
         }
 
-        public static class SqlHaving extends pub.avalon.sqlhelper.core.engine.sql.SqlHaving<Having> {
+        public static class SqlHaving extends pub.avalon.sqlhelper.core.engine.builder.SqlHaving<Having> {
             public SqlHaving() {
                 super(TABLE_ALIAS);
             }
@@ -549,7 +549,7 @@ public class SysUserDTO {
             }
         }
 
-        public static class SqlSort extends pub.avalon.sqlhelper.core.engine.sql.SqlSort<Sort> {
+        public static class SqlSort extends pub.avalon.sqlhelper.core.engine.builder.SqlSort<Sort> {
             public SqlSort() {
                 super(TABLE_ALIAS);
             }

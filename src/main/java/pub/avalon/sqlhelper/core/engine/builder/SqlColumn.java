@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.engine.sql;
+package pub.avalon.sqlhelper.core.engine.builder;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
