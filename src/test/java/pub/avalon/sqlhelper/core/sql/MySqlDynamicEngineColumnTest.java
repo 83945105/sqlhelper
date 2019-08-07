@@ -108,6 +108,23 @@ public class MySqlDynamicEngineColumnTest {
     }
 
     /**
+     * 测试多列 - 指定表别名 & 指定列别名
+     */
+    @Test
+    void Test_multiColumn_assignTableAlias_assignColumnAlias() {
+        SysUserDTO.Helper.Column column1 = SysUserDTO.Helper.column("A").id().loginName();
+        SysUserDTO.Helper.Column column2 = SysUserDTO.Helper.column("A").id("idAlias").loginName("loginNameAlias");
+        UserRoleDTO.Helper.Column column3 = UserRoleDTO.Helper.column("B").roleId().id("userRoleId");
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
+                .column(column1, column2, column3)
+                .innerJoin(UserRoleDTO.Helper.class, "B", (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .query();
+        Assertions.assertEquals("select A.`id` `id`,A.`login_name` `loginName`,A.`id` `idAlias`,A.`login_name` `loginNameAlias`,B.`role_id` `roleId`,B.`id` `userRoleId` from `sys_user` A inner join `user_role` B on B.`user_id` = A.`id`", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
+    /**
      * 测试多列 - 默认列
      */
     @Test
@@ -325,6 +342,19 @@ public class MySqlDynamicEngineColumnTest {
                 }.column(table -> table.id().userName()))
                 .query();
         Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName` from `sys_user_custom` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试Sql列 - 指定表别名
+     */
+    @Test
+    void Test_sqlColumn_assignTableAlias() {
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>("A") {
+                }.column(table -> table.id().userName()))
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName` from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
