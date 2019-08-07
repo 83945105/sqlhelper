@@ -20,14 +20,14 @@ public final class ColumnSqlPartDatumBuilder<T extends Helper> extends AbstractS
     }
 
     @Override
-    public void accept(String sqlPart) {
-
+    public void accept(String templateTableName, String templateTableAlias, String sqlPart) {
+        this.addSqlPartDatum(new ColumnDatum(templateTableName, templateTableAlias, sqlPart)
+                .setTableAlias(this.tableAlias));
     }
 
     @Override
     public void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
-        this.addSqlPartDatum(new ColumnDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName)
-                .setColumnHandlers(columnHandlers)
+        this.addSqlPartDatum(new ColumnDatum(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName, columnHandlers)
                 .setTableAlias(this.tableAlias));
     }
 

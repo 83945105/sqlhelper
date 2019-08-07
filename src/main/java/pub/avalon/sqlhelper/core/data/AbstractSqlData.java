@@ -1,7 +1,5 @@
 package pub.avalon.sqlhelper.core.data;
 
-import pub.avalon.beans.LimitSql;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,18 +16,6 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
      * 原始列数据
      */
     private List<TableColumnDatum> tableColumnData;
-    /**
-     * 虚拟列数据
-     */
-    private List<VirtualColumnDatum> virtualColumnData;
-    /**
-     * 聚合列数据
-     */
-    private List<TableGroupColumnDatum> tableGroupColumnData;
-    /**
-     * 子查询列
-     */
-    private List<SubQueryColumnDatum> subQueryColumnData;
     /**
      * where条件数据
      */
@@ -54,21 +40,6 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     @Override
     public List<TableColumnDatum> getTableColumnData() {
         return this.tableColumnData;
-    }
-
-    @Override
-    public List<VirtualColumnDatum> getVirtualColumnData() {
-        return this.virtualColumnData;
-    }
-
-    @Override
-    public List<TableGroupColumnDatum> getTableGroupColumnData() {
-        return this.tableGroupColumnData;
-    }
-
-    @Override
-    public List<SubQueryColumnDatum> getSubQueryColumnData() {
-        return this.subQueryColumnData;
     }
 
     @Override
@@ -100,39 +71,6 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             this.tableColumnData = new ArrayList<>();
         }
         this.tableColumnData.add(tableColumnDatum);
-    }
-
-    @Override
-    public void addVirtualColumnDatum(VirtualColumnDatum virtualColumnDatum) {
-        if (virtualColumnDatum == null) {
-            return;
-        }
-        if (this.virtualColumnData == null) {
-            this.virtualColumnData = new ArrayList<>();
-        }
-        this.virtualColumnData.add(virtualColumnDatum);
-    }
-
-    @Override
-    public void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum) {
-        if (tableGroupColumnDatum == null) {
-            return;
-        }
-        if (this.tableGroupColumnData == null) {
-            this.tableGroupColumnData = new ArrayList<>();
-        }
-        this.tableGroupColumnData.add(tableGroupColumnDatum);
-    }
-
-    @Override
-    public void addSubQueryColumnDatum(SubQueryColumnDatum subQueryColumnDatum) {
-        if (subQueryColumnDatum == null) {
-            return;
-        }
-        if (this.subQueryColumnData == null) {
-            this.subQueryColumnData = new ArrayList<>();
-        }
-        this.subQueryColumnData.add(subQueryColumnDatum);
     }
 
     @Override

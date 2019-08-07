@@ -3,7 +3,6 @@ package pub.avalon.sqlhelper.core.sqlbuilder.template;
 import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
-import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
@@ -25,41 +24,15 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
 
     @Override
     public SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer) {
-        List<SubQueryColumnDatum> subQueryColumnData = sqlDataConsumer.getSubQueryColumnData();
-        List<TableGroupColumnDatum> tableGroupColumnData = sqlDataConsumer.getTableGroupColumnData();
-        List<VirtualColumnDatum> virtualFieldData = sqlDataConsumer.getVirtualColumnData();
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
-        boolean hasS = subQueryColumnData != null && subQueryColumnData.size() != 0;
-        boolean hasF = tableGroupColumnData != null && tableGroupColumnData.size() != 0;
-        boolean hasV = virtualFieldData != null && virtualFieldData.size() != 0;
         boolean hasC = tableColumnData != null && tableColumnData.size() != 0;
         StringBuilder sql = new StringBuilder(128);
         List<Object> args = new ArrayList<>(16);
-        if (!hasS && !hasF && !hasV && !hasC) {
+        if (!hasC) {
             this.appendColumnSqlArgs(sql, args, BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum()));
             return FinalSqlBuilderResult.newInstance(sql.toString(), args);
         }
-        if (hasS) {
-            this.appendSubQuerySqlArgs(sql, args, subQueryColumnData);
-        }
-        if (hasF) {
-            if (hasS) {
-                sql.append(",");
-            }
-            this.appendTableGroupColumnSqlArgs(sql, args, tableGroupColumnData);
-        }
-        if (hasV) {
-            if (hasS || hasF) {
-                sql.append(",");
-            }
-            this.appendVirtualColumnSqlArgs(sql, args, virtualFieldData);
-        }
-        if (hasC) {
-            if (hasS || hasF || hasV) {
-                sql.append(",");
-            }
-            this.appendTableColumnSqlArgs(sql, args, tableColumnData);
-        }
+        this.appendTableColumnSqlArgs(sql, args, tableColumnData);
         return FinalSqlBuilderResult.newInstance(sql.toString(), args);
     }
 
@@ -203,111 +176,54 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             } else {
                 sql.append(" ");
             }
-            sql.append(columnDatum.getTableAlias())
-                    .append(".`")
-                    .append(columnDatum.getColumnName())
-                    .append("` `")
-                    .append(columnDatum.getColumnAlias())
-                    .append("`");
-        }
-    }
-
-    private void appendSubQuerySqlArgs(StringBuilder sql, List<Object> args, List<SubQueryColumnDatum> subQueryColumnData) {
-        if (subQueryColumnData == null) {
-            return;
-        }
-        int i = 0;
-        SqlBuilderResult sqlBuilderResult;
-        for (SubQueryColumnDatum subQueryColumnDatum : subQueryColumnData) {
-            sqlBuilderResult = subQueryColumnDatum.getSqlBuilderResult();
-            if (i++ > 0) {
-                sql.append(",(");
-            } else {
-                sql.append(" (");
-            }
-            sql.append(sqlBuilderResult.getPreparedStatementSql()).append(") ").append(subQueryColumnDatum.getColumnAlias());
-            args.addAll(sqlBuilderResult.getPreparedStatementArgs());
-        }
-    }
-
-    private void appendTableGroupColumnSqlArgs(StringBuilder sql, List<Object> args, List<TableGroupColumnDatum> tableGroupColumnData) {
-        int i = 0;
-        GroupType groupType;
-        List<ColumnDatum> columnData;
-        for (TableGroupColumnDatum tableGroupColumnDatum : tableGroupColumnData) {
-            columnData = tableGroupColumnDatum.getColumnData();
-            if (columnData == null || columnData.size() == 0) {
-                continue;
-            }
-            groupType = tableGroupColumnDatum.getGroupType();
-            for (ColumnDatum columnDatum : columnData) {
-                if (i++ > 0) {
-                    sql.append(",");
-                } else {
-                    sql.append(" ");
-                }
-                switch (groupType) {
-                    case MIN:
-                        sql.append("min(");
-                        break;
-                    case MAX:
-                        sql.append("max(");
-                        break;
-                    case COUNT:
-                        sql.append("count(");
-                        break;
-                    case SUM:
-                        sql.append("sum(");
-                        break;
-                    case AVG:
-                        sql.append("avg(");
-                        break;
-                    case STDDEV:
-                        sql.append("stddev(");
-                        break;
-                    case VARIANCE:
-                        sql.append("variance(");
-                        break;
-                    default:
-                        ExceptionUtils.groupTypeNotSupportException();
-                }
-                sql.append(tableGroupColumnDatum.getTableAlias())
-                        .append(".`")
-                        .append(columnDatum.getColumnName())
-                        .append("`) `")
-                        .append(columnDatum.getColumnAlias())
-                        .append("`");
-            }
-        }
-    }
-
-    private void appendVirtualColumnSqlArgs(StringBuilder sql, List<Object> args, List<VirtualColumnDatum> virtualColumnData) {
-        Object value;
-        String alias;
-        int i = 0;
-        for (VirtualColumnDatum virtualColumnDatum : virtualColumnData) {
-            if (i++ > 0) {
-                sql.append(",");
-            } else {
-                sql.append(" ");
-            }
-            value = virtualColumnDatum.getValue();
-            alias = virtualColumnDatum.getAlias();
-            if (value == null) {
-                sql.append("null");
-            } else if (value instanceof String) {
-                sql.append("'").append((String) value).append("'");
-            } else if (value instanceof Integer) {
-                sql.append(String.valueOf(value));
-            } else if (value instanceof Long) {
-                sql.append(String.valueOf(value));
-            } else if (value instanceof Double) {
-                sql.append(String.valueOf(value));
-            } else {
-                throw new SqlException("the VirtualFieldData value type is wrong.");
-            }
-            if (alias != null) {
-                sql.append(" `").append(alias).append("`");
+            switch (columnDatum.getColumnType()) {
+                case DEFAULT:
+                    sql.append(columnDatum.getTableAlias())
+                            .append(".`")
+                            .append(columnDatum.getColumnName())
+                            .append("` `")
+                            .append(columnDatum.getColumnAlias())
+                            .append("`");
+                    continue;
+                case VIRTUAL:
+                    Object columnValue = columnDatum.getColumnValue();
+                    if (columnValue == null) {
+                        sql.append("null");
+                    } else if (columnValue instanceof Integer) {
+                        sql.append(String.valueOf(columnValue));
+                    } else if (columnValue instanceof Long) {
+                        sql.append(String.valueOf(columnValue));
+                    } else if (columnValue instanceof Double) {
+                        sql.append(String.valueOf(columnValue));
+                    } else {
+                        sql.append("'").append(columnValue).append("'");
+                    }
+                    sql.append(" `").append(columnDatum.getColumnAlias()).append("`");
+                    continue;
+                case SUB_QUERY:
+                    sql.append("(");
+                    SqlBuilderResult sqlBuilderResult = columnDatum.getSqlBuilderResult();
+                    sql.append(sqlBuilderResult.getPreparedStatementSql()).append(") `").append(columnDatum.getColumnAlias()).append("`");
+                    args.addAll(sqlBuilderResult.getPreparedStatementArgs());
+                    continue;
+                case HANDLER:
+                    ColumnHandler[] columnHandlers = columnDatum.getColumnHandlers();
+                    String columnSql = columnDatum.getTableAlias() + ".`" + columnDatum.getColumnName() + "`";
+                    if (columnHandlers != null && columnHandlers.length > 0) {
+                        for (ColumnHandler columnHandler : columnHandlers) {
+                            columnSql = columnHandler.execute(columnSql);
+                        }
+                    }
+                    sql.append(columnSql)
+                            .append(" `")
+                            .append(columnDatum.getColumnAlias())
+                            .append("`");
+                    continue;
+                case SQL_PART:
+                    sql.append(columnDatum.getSqlPart());
+                    continue;
+                default:
+                    ExceptionUtils.columnTypeNotSupportException();
             }
         }
     }
@@ -321,22 +237,60 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 continue;
             }
             for (ColumnDatum columnDatum : columnData) {
-                ColumnHandler[] columnHandlers = columnDatum.getColumnHandlers();
                 if (i++ > 0) {
                     sql.append(",");
                 } else {
                     sql.append(" ");
                 }
-                String columnSql = columnDatum.getTableAlias() + ".`" + columnDatum.getColumnName() + "`";
-                if (columnHandlers != null && columnHandlers.length > 0) {
-                    for (ColumnHandler columnHandler : columnHandlers) {
-                        columnSql = columnHandler.execute(columnSql);
-                    }
+                switch (columnDatum.getColumnType()) {
+                    case DEFAULT:
+                        sql.append(columnDatum.getTableAlias())
+                                .append(".`")
+                                .append(columnDatum.getColumnName())
+                                .append("` `")
+                                .append(columnDatum.getColumnAlias())
+                                .append("`");
+                        continue;
+                    case VIRTUAL:
+                        Object columnValue = columnDatum.getColumnValue();
+                        if (columnValue == null) {
+                            sql.append("null");
+                        } else if (columnValue instanceof Integer) {
+                            sql.append(String.valueOf(columnValue));
+                        } else if (columnValue instanceof Long) {
+                            sql.append(String.valueOf(columnValue));
+                        } else if (columnValue instanceof Double) {
+                            sql.append(String.valueOf(columnValue));
+                        } else {
+                            sql.append("'").append(columnValue).append("'");
+                        }
+                        sql.append(" `").append(columnDatum.getColumnAlias()).append("`");
+                        continue;
+                    case SUB_QUERY:
+                        sql.append("(");
+                        SqlBuilderResult sqlBuilderResult = columnDatum.getSqlBuilderResult();
+                        sql.append(sqlBuilderResult.getPreparedStatementSql()).append(") `").append(columnDatum.getColumnAlias()).append("`");
+                        args.addAll(sqlBuilderResult.getPreparedStatementArgs());
+                        continue;
+                    case HANDLER:
+                        ColumnHandler[] columnHandlers = columnDatum.getColumnHandlers();
+                        String columnSql = columnDatum.getTableAlias() + ".`" + columnDatum.getColumnName() + "`";
+                        if (columnHandlers != null && columnHandlers.length > 0) {
+                            for (ColumnHandler columnHandler : columnHandlers) {
+                                columnSql = columnHandler.execute(columnSql);
+                            }
+                        }
+                        sql.append(columnSql)
+                                .append(" `")
+                                .append(columnDatum.getColumnAlias())
+                                .append("`");
+                        continue;
+                    case SQL_PART:
+                        sql.append(columnDatum.getSqlPart());
+                        continue;
+                    default:
+                        ExceptionUtils.columnTypeNotSupportException();
                 }
-                sql.append(columnSql)
-                        .append(" `")
-                        .append(columnDatum.getColumnAlias())
-                        .append("`");
             }
         }
     }

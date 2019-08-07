@@ -35,27 +35,6 @@ public interface SqlDataConsumer {
     List<TableColumnDatum> getTableColumnData();
 
     /**
-     * 获取虚拟属性
-     *
-     * @return {@link VirtualColumnDatum}
-     */
-    List<VirtualColumnDatum> getVirtualColumnData();
-
-    /**
-     * 获取聚合函数列属性
-     *
-     * @return {@link TableGroupColumnDatum}
-     */
-    List<TableGroupColumnDatum> getTableGroupColumnData();
-
-    /**
-     * 获取子查询列属性
-     *
-     * @return {@link SubQueryColumnDatum}
-     */
-    List<SubQueryColumnDatum> getSubQueryColumnData();
-
-    /**
      * 获取连接表数据
      *
      * @return key - 表别名 value - {@link JoinTableDatum}

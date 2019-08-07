@@ -71,7 +71,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
 
     @Override
     public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
-        this.addTableGroupColumnDatum(ColumnCallbackEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnCallbackEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -83,7 +83,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
-        this.addTableGroupColumnDatum(ColumnCallbackEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnCallbackEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 

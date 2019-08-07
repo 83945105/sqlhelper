@@ -32,7 +32,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public void accept(String sqlPart) {
+    public void accept(String templateTableName, String templateTableAlias, String sqlPart) {
 
     }
 

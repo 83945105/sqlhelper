@@ -88,7 +88,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnHelper<?>... columnHelpers) {
-        ColumnEngine.executeColumn(columnHelpers).forEach(this::addTableColumnDatum);
+        ColumnEngine.execute(columnHelpers).forEach(this::addTableColumnDatum);
         return this;
     }
 
@@ -111,14 +111,14 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
     }
 
     @Override
-    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> virtualColumn(Object value, String alias) {
-        this.addVirtualColumnDatum(ColumnEngine.executeVirtualColumn(value, alias));
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> virtualColumn(Object columnValue, String columnAlias) {
+        this.addTableColumnDatum(ColumnCallbackEngine.executeVirtualColumn(this.tableHelperClass, this.tableAlias, columnValue, columnAlias));
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
-        this.addTableGroupColumnDatum(ColumnCallbackEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnCallbackEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -130,13 +130,13 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
-        this.addTableGroupColumnDatum(ColumnCallbackEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnCallbackEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback) {
-        this.addSubQueryColumnDatum(ColumnCallbackEngine.executeSubQueryColumn(this.tableHelperClass, this.tableAlias, columnAlias, subQueryColumnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnCallbackEngine.executeSubQueryColumn(this.tableHelperClass, this.tableAlias, columnAlias, subQueryColumnCallback, this.sqlBuilderOptions));
         return this;
     }
 

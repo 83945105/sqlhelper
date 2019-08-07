@@ -122,6 +122,9 @@ public class MySqlDynamicEngineColumnTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
+    /**
+     * 测试列操作
+     */
     @Test
     void Test_columnHandler() {
         SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id(GroupType.COUNT);
@@ -129,6 +132,19 @@ public class MySqlDynamicEngineColumnTest {
                 .column(column)
                 .query();
         Assertions.assertEquals("select count(SysUser.`id`) `id` from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
+    /**
+     * 测试sql片段列
+     */
+    @Test
+    void Test_sqlPartColumn() {
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().sqlPart("id `sqlPartColumn`");
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(column)
+                .query();
+        Assertions.assertEquals("select id `sqlPartColumn` from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
@@ -246,7 +262,7 @@ public class MySqlDynamicEngineColumnTest {
                                 .query()
                 )
                 .query();
-        Assertions.assertEquals("select (select UserRole.`id` `userRoleId` from `user_role` UserRole where UserRole.`user_id` = SysUser.`id`) subColumn from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertEquals("select (select UserRole.`id` `userRoleId` from `user_role` UserRole where UserRole.`user_id` = SysUser.`id`) `subColumn` from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
@@ -264,7 +280,7 @@ public class MySqlDynamicEngineColumnTest {
                                 .query()
                 )
                 .query();
-        Assertions.assertEquals("select (select UserRole.`id` `userRoleId` from `user_role_custom` UserRole where UserRole.`id` = ?) subColumn from `sys_user_custom` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertEquals("select (select UserRole.`id` `userRoleId` from `user_role_custom` UserRole where UserRole.`id` = ?) `subColumn` from `sys_user_custom` SysUser", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
@@ -282,7 +298,7 @@ public class MySqlDynamicEngineColumnTest {
                                 .query()
                 )
                 .query();
-        Assertions.assertEquals("select (select B.`id` `userRoleId` from `user_role` B where B.`user_id` = A.`id`) subColumn from `sys_user` A", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertEquals("select (select B.`id` `userRoleId` from `user_role` B where B.`user_id` = A.`id`) `subColumn` from `sys_user` A", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 

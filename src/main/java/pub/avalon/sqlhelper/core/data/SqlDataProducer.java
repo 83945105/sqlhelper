@@ -32,27 +32,6 @@ public interface SqlDataProducer {
     void addTableColumnDatum(TableColumnDatum tableColumnDatum);
 
     /**
-     * 添加虚拟列数据
-     *
-     * @param virtualColumnDatum {@link VirtualColumnDatum}
-     */
-    void addVirtualColumnDatum(VirtualColumnDatum virtualColumnDatum);
-
-    /**
-     * 添加聚合函数列数据
-     *
-     * @param tableGroupColumnDatum {@link TableGroupColumnDatum}
-     */
-    void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum);
-
-    /**
-     * 添加子查询列数据
-     *
-     * @param subQueryColumnDatum {@link SubQueryColumnDatum}
-     */
-    void addSubQueryColumnDatum(SubQueryColumnDatum subQueryColumnDatum);
-
-    /**
      * 添加条件数据
      *
      * @param tableWhereDatum {@link TableWhereDatum}

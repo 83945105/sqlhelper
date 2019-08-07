@@ -44,7 +44,14 @@ public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
      */
     List<S> takeoutSqlPartData();
 
-    void accept(String sqlPart);
+    /**
+     * 接收sql片段
+     *
+     * @param templateTableName  模板表名
+     * @param templateTableAlias 模板表别名
+     * @param sqlPart            sql片段
+     */
+    void accept(String templateTableName, String templateTableAlias, String sqlPart);
 
     /**
      * 接收数据

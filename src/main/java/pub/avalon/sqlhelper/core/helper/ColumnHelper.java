@@ -37,11 +37,13 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
     /**
      * 接收sql片段
      *
-     * @param sqlPart sql片段
+     * @param templateTableName  模板表名
+     * @param templateTableAlias 模板表别名
+     * @param sqlPart            sql片段
      * @return {@link SqlPartDatumBuilder}
      */
-    protected ColumnSqlPartDatumBuilder<T> apply(String sqlPart) {
-        this.columnSqlPartDatumBuilder.accept(sqlPart);
+    protected ColumnSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String sqlPart) {
+        this.columnSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, sqlPart);
         return this.columnSqlPartDatumBuilder;
     }
 

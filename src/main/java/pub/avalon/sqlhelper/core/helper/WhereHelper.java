@@ -27,8 +27,16 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
         this.whereSqlPartDatumBuilder = new WhereSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
-    protected WhereSqlPartDatumBuilder<T> apply(String sqlPart) {
-        this.whereSqlPartDatumBuilder.accept(sqlPart);
+    /**
+     * 接收sql片段
+     *
+     * @param templateTableName  模板表名
+     * @param templateTableAlias 模板表别名
+     * @param sqlPart            sql片段
+     * @return {@link SqlPartDatumBuilder}
+     */
+    protected WhereSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String sqlPart) {
+        this.whereSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, sqlPart);
         return this.whereSqlPartDatumBuilder;
     }
 

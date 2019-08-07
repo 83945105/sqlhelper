@@ -24,8 +24,16 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
         this.havingSqlPartDatumBuilder = new HavingSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
-    protected HavingSqlPartDatumBuilder<T> apply(String sqlPart) {
-        this.havingSqlPartDatumBuilder.accept(sqlPart);
+    /**
+     * 接收sql片段
+     *
+     * @param templateTableName  模板表名
+     * @param templateTableAlias 模板表别名
+     * @param sqlPart            sql片段
+     * @return {@link SqlPartDatumBuilder}
+     */
+    protected HavingSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String sqlPart) {
+        this.havingSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, sqlPart);
         return this.havingSqlPartDatumBuilder;
     }
 

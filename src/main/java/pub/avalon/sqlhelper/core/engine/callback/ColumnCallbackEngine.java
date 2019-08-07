@@ -5,9 +5,7 @@ import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
-import pub.avalon.sqlhelper.core.data.SubQueryColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
-import pub.avalon.sqlhelper.core.data.TableGroupColumnDatum;
 import pub.avalon.sqlhelper.core.engine.ColumnEngine;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -15,6 +13,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -133,7 +132,7 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableGroupColumnDatum executeGroupColumn(Class<F> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
+            FS extends SortHelper<FS>> TableColumnDatum executeGroupColumn(Class<F> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
         if (groupType == null) {
             ExceptionUtils.groupTypeNullException();
         }
@@ -150,7 +149,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
         if (columnData == null || columnData.size() == 0) {
             return null;
         }
-        return new TableGroupColumnDatum(tableAlias, groupType, columnData);
+        columnData.forEach(columnDatum -> columnDatum.setColumnHandlers(groupType));
+        return new TableColumnDatum(tableAlias, columnData);
     }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
@@ -159,7 +159,17 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> SubQueryColumnDatum executeSubQueryColumn(Class<F> tableHelperClass, String tableAlias, String columnAlias, SubQueryColumnCallback<FC> subQueryColumnCallback, SqlBuilderOptions sqlBuilderOptions) {
+            FS extends SortHelper<FS>> TableColumnDatum executeVirtualColumn(Class<F> tableHelperClass, String tableAlias, Object columnValue, String columnAlias) {
+        return columnAlias == null ? null : new TableColumnDatum(tableAlias, Collections.singletonList(new ColumnDatum(null, null, columnValue, columnAlias)));
+    }
+
+    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
+            FJ extends JoinHelper<FJ>,
+            FC extends ColumnHelper<FC>,
+            FW extends WhereHelper<FW>,
+            FG extends GroupHelper<FG>,
+            FH extends HavingHelper<FH>,
+            FS extends SortHelper<FS>> TableColumnDatum executeSubQueryColumn(Class<F> tableHelperClass, String tableAlias, String columnAlias, SubQueryColumnCallback<FC> subQueryColumnCallback, SqlBuilderOptions sqlBuilderOptions) {
         if (columnAlias == null) {
             return null;
         }
@@ -168,6 +178,6 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
         fc.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         SqlBuilderResult sqlBuilderResult = subQueryColumnCallback.apply(fc);
-        return new SubQueryColumnDatum(columnAlias, sqlBuilderResult);
+        return new TableColumnDatum(tableAlias, Collections.singletonList(new ColumnDatum(null, null, sqlBuilderResult, columnAlias)));
     }
 }

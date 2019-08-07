@@ -7,7 +7,6 @@ package pub.avalon.sqlhelper.core.beans;
  * @date 2019/7/24
  */
 public enum ColumnType {
-
     /**
      * 默认
      */
@@ -17,12 +16,16 @@ public enum ColumnType {
      */
     VIRTUAL,
     /**
-     * 聚合
-     */
-    GROUP,
-    /**
      * 子查询
      */
-    SUB_QUERY
+    SUB_QUERY,
+    /**
+     * 操作列
+     */
+    HANDLER,
+    /**
+     * sql片段
+     */
+    SQL_PART
 
 }

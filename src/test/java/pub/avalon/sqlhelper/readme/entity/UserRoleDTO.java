@@ -325,7 +325,7 @@ public class UserRoleDTO {
             }
 
             public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
-                return this.apply(sqlPart);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
             public JoinSqlPartDatumBuilder<Join> primaryKey() {
@@ -368,7 +368,7 @@ public class UserRoleDTO {
             }
 
             public Column sqlPart(String sqlPart) {
-                return this.apply(sqlPart).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart).getHelper();
             }
 
             public Column primaryKey() {
@@ -478,7 +478,7 @@ public class UserRoleDTO {
             }
 
             public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
-                return this.apply(sqlPart);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
             public WhereSqlPartDatumBuilder<Where> primaryKey() {
@@ -516,7 +516,7 @@ public class UserRoleDTO {
             }
 
             public Group sqlPart(String sqlPart) {
-                return this.apply(sqlPart).getHelper();
+                return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart).getHelper();
             }
 
             public Group primaryKey() {
@@ -554,7 +554,7 @@ public class UserRoleDTO {
             }
 
             public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
-                return this.apply(sqlPart);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
             public HavingSqlPartDatumBuilder<Having> primaryKey() {
@@ -616,7 +616,7 @@ public class UserRoleDTO {
             }
 
             public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {
-                return this.apply(sqlPart);
+                return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
             public SortSqlPartDatumBuilder<Sort> primaryKey() {

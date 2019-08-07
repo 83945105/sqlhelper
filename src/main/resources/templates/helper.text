@@ -183,7 +183,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         }
 
         public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
-            return this.apply(sqlPart);
+            return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
         }
 
         public JoinSqlPartDatumBuilder<Join> primaryKey() {
@@ -214,7 +214,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         }
 
         public Column sqlPart(String sqlPart) {
-            return this.apply(sqlPart).getHelper();
+            return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart).getHelper();
         }
 
         public Column primaryKey() {
@@ -264,7 +264,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         }
 
         public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
-            return this.apply(sqlPart);
+            return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
         }
 
         public WhereSqlPartDatumBuilder<Where> primaryKey() {
@@ -290,7 +290,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         }
 
         public Group sqlPart(String sqlPart) {
-            return this.apply(sqlPart).getHelper();
+            return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart).getHelper();
         }
 
         public Group primaryKey() {
@@ -316,7 +316,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         }
 
         public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
-            return this.apply(sqlPart);
+            return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
         }
 
         public HavingSqlPartDatumBuilder<Having> primaryKey() {
@@ -350,7 +350,7 @@ public final class [(${table.tableAlias})][(${table.generateOptions.helperClassN
         }
 
         public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {
-            return this.apply(sqlPart);
+            return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
         }
 
         public SortSqlPartDatumBuilder<Sort> primaryKey() {

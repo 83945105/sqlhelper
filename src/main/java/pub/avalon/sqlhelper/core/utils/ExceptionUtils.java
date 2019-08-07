@@ -31,6 +31,10 @@ public final class ExceptionUtils {
         throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being.");
     }
 
+    public static void columnTypeNotSupportException() {
+        throw new RuntimeException("ColumnType's enumeration value is not supported for the time being.");
+    }
+
     public static void groupTypeNullException() {
         throw new RuntimeException("groupType is null.");
     }

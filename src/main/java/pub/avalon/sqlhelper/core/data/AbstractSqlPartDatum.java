@@ -44,21 +44,25 @@ public abstract class AbstractSqlPartDatum<R extends AbstractSqlPartDatum<R>> im
         this.columnAlias = mappingFieldName;
     }
 
+    @SuppressWarnings("unchecked")
     public R setTableName(String tableName) {
         this.tableName = tableName;
         return (R) this;
     }
 
+    @SuppressWarnings("unchecked")
     public R setTableAlias(String tableAlias) {
         this.tableAlias = tableAlias;
         return (R) this;
     }
 
+    @SuppressWarnings("unchecked")
     public R setColumnName(String columnName) {
         this.columnName = columnName;
         return (R) this;
     }
 
+    @SuppressWarnings("unchecked")
     public R setColumnAlias(String columnAlias) {
         this.columnAlias = columnAlias;
         return (R) this;

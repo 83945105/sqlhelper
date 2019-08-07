@@ -64,7 +64,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public SqlColumn<TC> virtualColumn(Object value, String alias) {
+    public SqlColumn<TC> virtualColumn(Object columnValue, String columnAlias) {
         return null;
     }
 

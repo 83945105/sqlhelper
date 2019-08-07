@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
-import pub.avalon.sqlhelper.core.data.VirtualColumnDatum;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 
 import java.util.Arrays;
@@ -29,21 +28,17 @@ public interface ColumnEngine<R> extends Engine {
     /**
      * 虚拟列
      *
-     * @param value 值
-     * @param alias 别名
+     * @param columnValue 值
+     * @param columnAlias 别名
      * @return {@link ColumnEngine}
      */
-    R virtualColumn(Object value, String alias);
+    R virtualColumn(Object columnValue, String columnAlias);
 
-    static List<TableColumnDatum> executeColumn(ColumnHelper<?>... columnHelpers) {
+    static List<TableColumnDatum> execute(ColumnHelper<?>... columnHelpers) {
         if (columnHelpers == null || columnHelpers.length == 0) {
             return Collections.emptyList();
         }
         return Arrays.stream(columnHelpers).map(columnHelper -> columnHelper.execute()).collect(Collectors.toList());
-    }
-
-    static VirtualColumnDatum executeVirtualColumn(Object value, String alias) {
-        return alias == null ? null : new VirtualColumnDatum().setValue(value).setAlias(alias);
     }
 
 }

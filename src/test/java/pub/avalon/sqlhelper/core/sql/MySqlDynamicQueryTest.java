@@ -334,7 +334,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .virtualColumn(1, "AA")
                 .column(table -> table)
                 .queryByPrimaryKey(arg());
-        setSqlBuilder(sqlBuilderResult, "select 1 `AA`, SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`id` = ?");
+        setSqlBuilder(sqlBuilderResult, "select 1 `AA`,SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`id` = ?");
     }
 
     @Test
@@ -351,7 +351,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .groupColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
                 .virtualColumn(1, "AA")
                 .queryByPrimaryKey(arg());
-        setSqlBuilder(sqlBuilderResult, "select count(SysUser.`id`) `id`, 1 `AA` from `sys_user` SysUser where SysUser.`id` = ?");
+        setSqlBuilder(sqlBuilderResult, "select count(SysUser.`id`) `id`,1 `AA` from `sys_user` SysUser where SysUser.`id` = ?");
     }
 
     @Test
@@ -361,7 +361,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
                 .virtualColumn(1, "AA")
                 .column(table -> table)
                 .queryByPrimaryKey(arg());
-        setSqlBuilder(sqlBuilderResult, "select count(SysUser.`id`) `idCount`, 1 `AA`, SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`id` = ?");
+        setSqlBuilder(sqlBuilderResult, "select count(SysUser.`id`) `idCount`,1 `AA`,SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`id` = ?");
     }
 
     @Test

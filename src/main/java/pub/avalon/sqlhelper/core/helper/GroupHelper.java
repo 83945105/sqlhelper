@@ -24,8 +24,16 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
         this.groupSqlPartDatumBuilder = new GroupSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
-    protected GroupSqlPartDatumBuilder<T> apply(String sqlPart) {
-        this.groupSqlPartDatumBuilder.accept(sqlPart);
+    /**
+     * 接收sql片段
+     *
+     * @param templateTableName  模板表名
+     * @param templateTableAlias 模板表别名
+     * @param sqlPart            sql片段
+     * @return {@link SqlPartDatumBuilder}
+     */
+    protected GroupSqlPartDatumBuilder<T> apply(String templateTableName, String templateTableAlias, String sqlPart) {
+        this.groupSqlPartDatumBuilder.accept(templateTableName, templateTableAlias, sqlPart);
         return this.groupSqlPartDatumBuilder;
     }
 

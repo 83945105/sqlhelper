@@ -20,7 +20,7 @@ public class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPart
     }
 
     @Override
-    public void accept(String sqlPart) {
+    public void accept(String templateTableName, String templateTableAlias, String sqlPart) {
 
     }
 

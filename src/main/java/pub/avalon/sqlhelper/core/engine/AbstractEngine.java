@@ -280,21 +280,6 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     }
 
     @Override
-    public void addVirtualColumnDatum(VirtualColumnDatum virtualColumnDatum) {
-        this.sqlData.addVirtualColumnDatum(virtualColumnDatum);
-    }
-
-    @Override
-    public void addTableGroupColumnDatum(TableGroupColumnDatum tableGroupColumnDatum) {
-        this.sqlData.addTableGroupColumnDatum(tableGroupColumnDatum);
-    }
-
-    @Override
-    public void addSubQueryColumnDatum(SubQueryColumnDatum subQueryColumnDatum) {
-        this.sqlData.addSubQueryColumnDatum(subQueryColumnDatum);
-    }
-
-    @Override
     public void addTableWhereDatum(TableWhereDatum tableWhereDatum) {
         this.sqlData.addTableWhereDatum(tableWhereDatum);
     }

@@ -60,7 +60,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> virtualColumn(Object value, String alias) {
+    public Sql<T, TJ, TC, TW, TG, TH, TS> virtualColumn(Object columnValue, String columnAlias) {
         return this;
     }
 

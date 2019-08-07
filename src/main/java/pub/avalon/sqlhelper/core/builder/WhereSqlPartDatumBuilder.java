@@ -32,7 +32,7 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     }
 
     @Override
-    public void accept(String sqlPart) {
+    public void accept(String templateTableName, String templateTableAlias, String sqlPart) {
 
     }
 
