@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.List;
 
@@ -15,12 +16,6 @@ import java.util.List;
 @FunctionalInterface
 public interface SortCallback<T extends SortHelper<T>> {
 
-    /**
-     * 接收排序助手
-     *
-     * @param table {@link SortHelper}
-     * @return {@link SortHelper}
-     */
     T apply(T table);
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
@@ -29,26 +24,27 @@ public interface SortCallback<T extends SortHelper<T>> {
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableSortDatum execute(Class<F> tableHelperClass, String tableAlias, SortCallback<FS> callback, SqlBuilderOptions sqlBuilderOptions) {
+            FS extends SortHelper<FS>> TableSortDatum execute(Class<F> tableHelperClass, String tableAlias, SortCallback<FS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (tableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
         F f = BeanUtils.tableHelper(tableHelperClass);
         tableAlias = tableAlias == null ? f.getTableAlias() : tableAlias;
         FS fs = f.newSortHelper(tableAlias);
-        // 设置配置开始
-        fs.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        fs = callback.apply(fs);
-        List<SortDatum> sortData = fs.takeoutSqlPartData();
-        if (sortData == null || sortData.size() == 0) {
-            return null;
-        }
-        return new TableSortDatum(tableAlias, sortData);
+        return execute(fs, sortCallback, sqlBuilderOptions);
     }
 
-    static <FS extends SortHelper<FS>> TableSortDatum execute(FS sortHelper, SortCallback<FS> callback, SqlBuilderOptions sqlBuilderOptions) {
+    static <FS extends SortHelper<FS>> TableSortDatum execute(FS sortHelper, SortCallback<FS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (sortHelper == null) {
+            ExceptionUtils.sortHelperNullException();
+        }
+        if (sortCallback == null) {
+            return null;
+        }
         // 设置配置开始
         sortHelper.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
-        sortHelper = callback.apply(sortHelper);
+        sortHelper = sortCallback.apply(sortHelper);
         List<SortDatum> sortData = sortHelper.takeoutSqlPartData();
         if (sortData == null || sortData.size() == 0) {
             return null;

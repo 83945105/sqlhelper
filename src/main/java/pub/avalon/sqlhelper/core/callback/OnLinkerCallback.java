@@ -10,12 +10,6 @@ import pub.avalon.sqlhelper.core.helper.JoinHelper;
 @FunctionalInterface
 public interface OnLinkerCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {
 
-    /**
-     * 接收On条件连接器
-     *
-     * @param on {@link OnLinker}
-     * @return {@link OnLinker}
-     */
     OnLinker<TJ, SJ> apply(OnLinker<TJ, SJ> on);
 
 }

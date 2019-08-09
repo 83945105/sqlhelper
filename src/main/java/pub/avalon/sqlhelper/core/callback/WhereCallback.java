@@ -7,6 +7,7 @@ import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.List;
 
@@ -18,13 +19,6 @@ import java.util.List;
 @FunctionalInterface
 public interface WhereCallback<TW extends WhereHelper<TW>> {
 
-    /**
-     * 接收条件连接器
-     *
-     * @param condition {@link WhereLinker}
-     * @param mainTable 主表
-     * @return {@link WhereLinker}
-     */
     WhereLinker<TW> apply(WhereLinker<TW> condition, TW mainTable);
 
     static <T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
@@ -34,22 +28,17 @@ public interface WhereCallback<TW extends WhereHelper<TW>> {
             TG extends GroupHelper<TG>,
             TH extends HavingHelper<TH>,
             TS extends SortHelper<TS>> TableWhereDatum execute(Class<T> tableHelperClass, String tableAlias, WhereCallback<TW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (whereCallback == null) {
-            return null;
+        if (tableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
         }
         TW tw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper(tableAlias);
-        // 设置配置开始
-        tw.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        WhereLinker<TW> whereLinker = whereCallback.apply(new WhereAndOr<>(), tw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
-            return null;
-        }
-        return new TableWhereDatum(tableAlias, whereDataLinkers);
+        return execute(tw, whereCallback, sqlBuilderOptions);
     }
 
     static <TW extends WhereHelper<TW>> TableWhereDatum execute(TW whereHelper, WhereCallback<TW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (whereHelper == null) {
+            ExceptionUtils.whereHelperNullException();
+        }
         if (whereCallback == null) {
             return null;
         }

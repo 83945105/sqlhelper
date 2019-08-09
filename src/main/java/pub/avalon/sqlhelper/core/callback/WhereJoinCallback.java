@@ -7,6 +7,7 @@ import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.List;
 
@@ -16,14 +17,6 @@ import java.util.List;
  */
 public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereHelper<SW>> {
 
-    /**
-     * 接收条件连接器
-     *
-     * @param condition {@link WhereLinker}
-     * @param joinTable 连接表
-     * @param mainTable 主表
-     * @return {@link WhereLinker}
-     */
     WhereLinker<TW> apply(WhereLinker<TW> condition, SW joinTable, TW mainTable);
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
@@ -40,25 +33,11 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
             EG extends GroupHelper<EG>,
             EH extends HavingHelper<EH>,
             ES extends SortHelper<ES>> TableWhereDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<FW, EW> whereJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (whereJoinCallback == null) {
-            return null;
+        if (mainTableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
         }
-        E e = BeanUtils.tableHelper(joinTableHelperClass);
-        joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
-        EW ew = e.newWhereHelper(joinTableAlias);
-        // 设置配置开始
-        ew.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
         FW fw = BeanUtils.tableHelper(mainTableHelperClass).newWhereHelper(mainTableAlias);
-        // 设置配置开始
-        fw.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        WhereLinker<FW> whereLinker = whereJoinCallback.apply(new WhereAndOr<>(), ew, fw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
-            return null;
-        }
-        return new TableWhereDatum(joinTableAlias, whereDataLinkers);
+        return execute(fw, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
     }
 
     static <FW extends WhereHelper<FW>,
@@ -72,14 +51,14 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
         if (whereJoinCallback == null) {
             return null;
         }
+        // 设置配置开始
+        mainWhereHelper.setSqlBuilderOptions(sqlBuilderOptions);
+        // 设置配置结束
         E e = BeanUtils.tableHelper(joinTableHelperClass);
         joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
         EW ew = e.newWhereHelper(joinTableAlias);
         // 设置配置开始
         ew.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        // 设置配置开始
-        mainWhereHelper.setSqlBuilderOptions(sqlBuilderOptions);
         // 设置配置结束
         WhereLinker<FW> whereLinker = whereJoinCallback.apply(new WhereAndOr<>(), ew, mainWhereHelper);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();

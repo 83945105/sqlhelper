@@ -10,12 +10,5 @@ import pub.avalon.sqlhelper.core.helper.WhereHelper;
 @FunctionalInterface
 public interface WhereJoinLinkerCallback<TW extends WhereHelper<TW>, SW extends WhereHelper<SW>> {
 
-    /**
-     * 接收条件连接器
-     *
-     * @param condition {@link WhereLinker}
-     * @param joinTable 连接表
-     * @return {@link WhereLinker}
-     */
     WhereLinker<TW> apply(WhereLinker<TW> condition, SW joinTable);
 }

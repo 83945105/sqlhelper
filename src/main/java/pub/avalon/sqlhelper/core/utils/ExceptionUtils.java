@@ -23,6 +23,14 @@ public final class ExceptionUtils {
         throw new RuntimeException("groupHelper is null.");
     }
 
+    public static void sortHelperNullException() {
+        throw new RuntimeException("sortHelper is null.");
+    }
+
+    public static void whereHelperNullException() {
+        throw new RuntimeException("whereHelper is null.");
+    }
+
     public static void tableAliasNullException() {
         throw new RuntimeException("tableAlias is null.");
     }

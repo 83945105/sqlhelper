@@ -8,7 +8,6 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author 白超
@@ -17,12 +16,6 @@ import java.util.Set;
 @FunctionalInterface
 public interface GroupCallback<T extends GroupHelper<T>> {
 
-    /**
-     * 接收分组助手
-     *
-     * @param table {@link GroupHelper}
-     * @return {@link GroupHelper}
-     */
     T apply(T table);
 
     static <T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
@@ -31,19 +24,13 @@ public interface GroupCallback<T extends GroupHelper<T>> {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TH extends HavingHelper<TH>,
-            TS extends SortHelper<TS>> TableGroupDatum execute(Class<T> tableHelperClass, String tableAlias, GroupCallback<TG> callback, SqlBuilderOptions sqlBuilderOptions) {
-        T t = BeanUtils.tableHelper(tableHelperClass);
-        tableAlias = tableAlias == null ? t.getTableAlias() : tableAlias;
-        TG tg = t.newGroupHelper(tableAlias);
-        // 设置配置开始
-        tg.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        tg = callback.apply(tg);
-        List<GroupDatum> groupData = tg.takeoutSqlPartData();
-        if (groupData == null || groupData.size() == 0) {
-            return null;
+            TS extends SortHelper<TS>> TableGroupDatum execute(Class<T> tableHelperClass, String tableAlias, GroupCallback<TG> groupCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (tableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
         }
-        return new TableGroupDatum(tableAlias, groupData);
+        T t = BeanUtils.tableHelper(tableHelperClass);
+        TG tg = t.newGroupHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
+        return execute(tg, groupCallback, sqlBuilderOptions);
     }
 
     static <TG extends GroupHelper<TG>> TableGroupDatum execute(TG groupHelper, GroupCallback<TG> groupCallback, SqlBuilderOptions sqlBuilderOptions) {

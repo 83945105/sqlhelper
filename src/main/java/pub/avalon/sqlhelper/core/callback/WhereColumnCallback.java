@@ -10,12 +10,6 @@ import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 @FunctionalInterface
 public interface WhereColumnCallback<TC extends ColumnHelper<TC>> {
 
-    /**
-     * 接收条件助手
-     *
-     * @param table {@link ColumnHelper}
-     * @return {@link ColumnHelper}
-     */
     TC apply(TC table);
 
 }

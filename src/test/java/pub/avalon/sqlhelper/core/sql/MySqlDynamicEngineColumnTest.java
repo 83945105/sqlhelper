@@ -348,7 +348,7 @@ public class MySqlDynamicEngineColumnTest {
     /**
      * 测试Sql列 - 指定表别名
      */
-//    @Test
+    @Test
     void Test_sqlColumn_assignTableAlias() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
                 .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>("A") {
