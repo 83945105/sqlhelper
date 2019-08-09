@@ -1,10 +1,10 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
-import pub.avalon.sqlhelper.core.beans.SqlSortBean;
-import pub.avalon.sqlhelper.core.beans.SqlSortBeanJoin;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
 import pub.avalon.sqlhelper.core.engine.SortEngine;
+import pub.avalon.sqlhelper.core.engine.builder.beans.SqlSortBean;
+import pub.avalon.sqlhelper.core.engine.builder.beans.SqlSortBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.SortCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 

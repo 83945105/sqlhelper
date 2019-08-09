@@ -1,5 +1,6 @@
-package pub.avalon.sqlhelper.core.beans;
+package pub.avalon.sqlhelper.core.engine.builder.beans;
 
+import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.JoinCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableDatum;
 import pub.avalon.sqlhelper.core.helper.*;
