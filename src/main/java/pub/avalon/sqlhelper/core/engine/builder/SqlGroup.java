@@ -30,6 +30,7 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
     }
 
     public SqlGroup(String tableAlias) {
+        this.groupHelper.setTableAlias(tableAlias);
         this.tableAlias = tableAlias;
     }
 

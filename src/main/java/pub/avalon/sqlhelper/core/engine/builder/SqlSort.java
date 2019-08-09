@@ -30,6 +30,7 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
     }
 
     public SqlSort(String tableAlias) {
+        this.sortHelper.setTableAlias(tableAlias);
         this.tableAlias = tableAlias;
     }
 

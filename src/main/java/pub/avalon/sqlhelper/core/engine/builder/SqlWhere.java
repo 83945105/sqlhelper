@@ -31,6 +31,7 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
     }
 
     public SqlWhere(String tableAlias) {
+        this.whereHelper.setTableAlias(tableAlias);
         this.tableAlias = tableAlias;
     }
 

@@ -30,6 +30,7 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<S
     }
 
     public SqlJoin(String tableAlias) {
+        this.joinHelper.setTableAlias(tableAlias);
         this.tableAlias = tableAlias;
     }
 

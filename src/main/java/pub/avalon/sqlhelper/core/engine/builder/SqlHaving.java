@@ -11,13 +11,19 @@ import pub.avalon.sqlhelper.core.helper.HavingHelper;
  */
 public abstract class SqlHaving<TH extends HavingHelper<TH>> implements HavingEngine<SqlHaving<TH>>, HavingCallbackEngine<TH, SqlHaving<TH>> {
 
+    private TH havingHelper;
     private String tableAlias;
+
+    {
+        this.havingHelper = BeanUtils.getHavingHelper(this);
+    }
 
     public SqlHaving() {
         this.tableAlias = BeanUtils.getHavingHelper(this).getTableAlias();
     }
 
     public SqlHaving(String tableAlias) {
+        this.havingHelper.setTableAlias(tableAlias);
         this.tableAlias = tableAlias;
     }
 

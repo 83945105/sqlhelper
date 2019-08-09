@@ -32,6 +32,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     public SqlColumn(String tableAlias) {
+        this.columnHelper.setTableAlias(tableAlias);
         this.tableAlias = tableAlias;
     }
 
