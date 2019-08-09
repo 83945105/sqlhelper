@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.engine.ColumnEngine;
+import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlColumnBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlColumnBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlColumnBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.ColumnCallbackEngine;
@@ -34,17 +35,17 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
         this.tableAlias = tableAlias;
     }
 
-    private List<SqlColumnBean<TC>> sqlColumnBeans = new ArrayList<>(1);
+    private List<AbstractSqlColumnBean> sqlColumnBeans = new ArrayList<>(1);
 
     @Override
     public SqlColumn<TC> column(ColumnHelper<?>... columnHelpers) {
-        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper).setColumnHelpers(columnHelpers));
+        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnHelpers(columnHelpers));
         return this;
     }
 
     @Override
     public SqlColumn<TC> column(ColumnCallback<TC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper).setColumnCallback(columnCallback));
+        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnCallback(columnCallback));
         return this;
     }
 
@@ -56,10 +57,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlColumn<TC> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBeanJoin<S, SJ, SC, SW, SG, SH, SS, TC>(this.columnHelper)
-                .setTableHelperClass(tableHelperClass)
-                .setTableAlias(tableAlias)
-                .setColumnCallbackJoin(columnCallback));
+        this.sqlColumnBeans.add(new SqlColumnBeanJoin<>(tableHelperClass, tableAlias, columnCallback));
         return this;
     }
 
@@ -93,7 +91,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
         return tableAlias;
     }
 
-    public List<SqlColumnBean<TC>> getSqlColumnBeans() {
+    public List<AbstractSqlColumnBean> getSqlColumnBeans() {
         return sqlColumnBeans;
     }
 }

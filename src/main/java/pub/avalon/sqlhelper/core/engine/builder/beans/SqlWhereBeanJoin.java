@@ -12,49 +12,26 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public final class SqlWhereBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
-        TJ extends JoinHelper<TJ>,
-        TC extends ColumnHelper<TC>,
-        TW extends WhereHelper<TW>,
-        TG extends GroupHelper<TG>,
-        TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>, SW extends WhereHelper<SW>> extends SqlWhereBean<SW> {
+public final class SqlWhereBeanJoin<TW extends WhereHelper<TW>,
+        S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+        SJ extends JoinHelper<SJ>,
+        SC extends ColumnHelper<SC>,
+        SW extends WhereHelper<SW>,
+        SG extends GroupHelper<SG>,
+        SH extends HavingHelper<SH>,
+        SS extends SortHelper<SS>> extends AbstractSqlWhereBean {
 
-    private Class<T> tableHelperClass;
+    private TW whereHelper;
 
-    private String tableAlias;
+    private Class<S> tableHelperClass;
 
-    private WhereJoinCallback<SW, TW> whereJoinCallback;
+    private WhereJoinCallback<TW, SW> whereJoinCallback;
 
-    public SqlWhereBeanJoin(SW whereHelper) {
-        super(whereHelper);
-    }
-
-    public Class<T> getTableHelperClass() {
-        return tableHelperClass;
-    }
-
-    public SqlWhereBeanJoin<T, TJ, TC, TW, TG, TH, TS, SW> setTableHelperClass(Class<T> tableHelperClass) {
+    public SqlWhereBeanJoin(TW whereHelper, Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereJoinCallback) {
+        super(tableAlias);
+        this.whereHelper = whereHelper;
         this.tableHelperClass = tableHelperClass;
-        return this;
-    }
-
-    public String getTableAlias() {
-        return tableAlias;
-    }
-
-    public SqlWhereBeanJoin<T, TJ, TC, TW, TG, TH, TS, SW> setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
-        return this;
-    }
-
-    public WhereJoinCallback<SW, TW> getWhereJoinCallback() {
-        return whereJoinCallback;
-    }
-
-    public SqlWhereBeanJoin<T, TJ, TC, TW, TG, TH, TS, SW> setWhereJoinCallback(WhereJoinCallback<SW, TW> whereJoinCallback) {
         this.whereJoinCallback = whereJoinCallback;
-        return this;
     }
 
     @Override

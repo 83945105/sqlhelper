@@ -18,48 +18,21 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>, SC extends ColumnHelper<SC>> extends SqlColumnBean<SC> {
+        TS extends SortHelper<TS>> extends AbstractSqlColumnBean {
 
     private Class<T> tableHelperClass;
 
-    private String tableAlias;
+    private ColumnCallback<TC> columnCallback;
 
-    private ColumnCallback<TC> columnCallbackJoin;
-
-    public SqlColumnBeanJoin(SC columnHelper) {
-        super(columnHelper);
-    }
-
-    public Class<T> getTableHelperClass() {
-        return tableHelperClass;
-    }
-
-    public SqlColumnBeanJoin<T, TJ, TC, TW, TG, TH, TS, SC> setTableHelperClass(Class<T> tableHelperClass) {
+    public SqlColumnBeanJoin(Class<T> tableHelperClass, String tableAlias, ColumnCallback<TC> columnCallback) {
+        super(tableAlias);
         this.tableHelperClass = tableHelperClass;
-        return this;
-    }
-
-    public String getTableAlias() {
-        return tableAlias;
-    }
-
-    public SqlColumnBeanJoin<T, TJ, TC, TW, TG, TH, TS, SC> setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
-        return this;
-    }
-
-    public ColumnCallback<TC> getColumnCallbackJoin() {
-        return columnCallbackJoin;
-    }
-
-    public SqlColumnBeanJoin<T, TJ, TC, TW, TG, TH, TS, SC> setColumnCallbackJoin(ColumnCallback<TC> columnCallbackJoin) {
-        this.columnCallbackJoin = columnCallbackJoin;
-        return this;
+        this.columnCallback = columnCallback;
     }
 
     @Override
     public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return Collections.singletonList(ColumnCallback.execute(this.tableHelperClass, this.tableAlias, this.columnCallbackJoin, sqlBuilderOptions));
+        return Collections.singletonList(ColumnCallback.execute(this.tableHelperClass, this.tableAlias, this.columnCallback, sqlBuilderOptions));
     }
 
 }

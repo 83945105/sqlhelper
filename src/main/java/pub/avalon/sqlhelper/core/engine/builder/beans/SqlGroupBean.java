@@ -12,20 +12,17 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public class SqlGroupBean<TG extends GroupHelper<TG>> {
+public final class SqlGroupBean<TG extends GroupHelper<TG>> extends AbstractSqlGroupBean {
 
-    protected TG groupHelper;
-
-    public SqlGroupBean(TG groupHelper) {
-        this.groupHelper = groupHelper;
-    }
+    private TG groupHelper;
 
     private GroupHelper<?>[] groupHelpers;
 
     private GroupCallback<TG> groupCallback;
 
-    public GroupHelper<?>[] getGroupHelpers() {
-        return groupHelpers;
+    public SqlGroupBean(TG groupHelper, String tableAlias) {
+        super(tableAlias);
+        this.groupHelper = groupHelper;
     }
 
     public SqlGroupBean<TG> setGroupHelpers(GroupHelper<?>[] groupHelpers) {
@@ -33,15 +30,12 @@ public class SqlGroupBean<TG extends GroupHelper<TG>> {
         return this;
     }
 
-    public GroupCallback<TG> getGroupCallback() {
-        return groupCallback;
-    }
-
     public SqlGroupBean<TG> setGroupCallback(GroupCallback<TG> groupCallback) {
         this.groupCallback = groupCallback;
         return this;
     }
 
+    @Override
     public List<TableGroupDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
         List<TableGroupDatum> tableGroupData = new ArrayList<>(1);
         if (this.groupHelpers != null) {

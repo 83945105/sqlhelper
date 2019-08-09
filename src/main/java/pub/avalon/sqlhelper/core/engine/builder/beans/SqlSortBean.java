@@ -12,20 +12,17 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public class SqlSortBean<TG extends SortHelper<TG>> {
+public final class SqlSortBean<TG extends SortHelper<TG>> extends AbstractSqlSortBean {
 
-    protected TG sortHelper;
-
-    public SqlSortBean(TG sortHelper) {
-        this.sortHelper = sortHelper;
-    }
+    private TG sortHelper;
 
     private SortHelper<?>[] sortHelpers;
 
     private SortCallback<TG> sortCallback;
 
-    public SortHelper<?>[] getSortHelpers() {
-        return sortHelpers;
+    public SqlSortBean(TG sortHelper, String tableAlias) {
+        super(tableAlias);
+        this.sortHelper = sortHelper;
     }
 
     public SqlSortBean<TG> setSortHelpers(SortHelper<?>[] sortHelpers) {
@@ -33,15 +30,12 @@ public class SqlSortBean<TG extends SortHelper<TG>> {
         return this;
     }
 
-    public SortCallback<TG> getSortCallback() {
-        return sortCallback;
-    }
-
     public SqlSortBean<TG> setSortCallback(SortCallback<TG> sortCallback) {
         this.sortCallback = sortCallback;
         return this;
     }
 
+    @Override
     public List<TableSortDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
         List<TableSortDatum> tableSortData = new ArrayList<>(1);
         if (this.sortHelpers != null) {

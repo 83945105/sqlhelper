@@ -4,6 +4,7 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.engine.WhereEngine;
+import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlWhereBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlWhereBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlWhereBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.WhereCallbackEngine;
@@ -33,17 +34,17 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
         this.tableAlias = tableAlias;
     }
 
-    private List<SqlWhereBean<TW>> sqlWhereBeans = new ArrayList<>(1);
+    private List<AbstractSqlWhereBean> sqlWhereBeans = new ArrayList<>(1);
 
     @Override
     public SqlWhere<TW> where(WhereHelper<?>... whereHelpers) {
-        this.sqlWhereBeans.add(new SqlWhereBean<>(this.whereHelper).setWhereHelpers(whereHelpers));
+        this.sqlWhereBeans.add(new SqlWhereBean<>(this.whereHelper, this.tableAlias).setWhereHelpers(whereHelpers));
         return this;
     }
 
     @Override
     public SqlWhere<TW> where(WhereCallback<TW> whereCallback) {
-        this.sqlWhereBeans.add(new SqlWhereBean<>(this.whereHelper).setWhereCallback(whereCallback));
+        this.sqlWhereBeans.add(new SqlWhereBean<>(this.whereHelper, this.tableAlias).setWhereCallback(whereCallback));
         return this;
     }
 
@@ -55,10 +56,7 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlWhere<TW> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereJoinCallback) {
-        this.sqlWhereBeans.add(new SqlWhereBeanJoin<S, SJ, SC, SW, SG, SH, SS, TW>(this.whereHelper)
-                .setTableHelperClass(tableHelperClass)
-                .setTableAlias(tableAlias)
-                .setWhereJoinCallback(whereJoinCallback));
+        this.sqlWhereBeans.add(new SqlWhereBeanJoin<>(this.whereHelper, tableHelperClass, tableAlias, whereJoinCallback));
         return this;
     }
 
@@ -66,7 +64,7 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
         return tableAlias;
     }
 
-    public List<SqlWhereBean<TW>> getSqlWhereBeans() {
+    public List<AbstractSqlWhereBean> getSqlWhereBeans() {
         return sqlWhereBeans;
     }
 }

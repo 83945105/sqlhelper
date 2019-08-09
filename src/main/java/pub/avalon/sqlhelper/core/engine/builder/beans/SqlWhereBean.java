@@ -12,20 +12,17 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public class SqlWhereBean<TW extends WhereHelper<TW>> {
+public final class SqlWhereBean<TW extends WhereHelper<TW>> extends AbstractSqlWhereBean {
 
-    protected TW whereHelper;
-
-    public SqlWhereBean(TW whereHelper) {
-        this.whereHelper = whereHelper;
-    }
+    private TW whereHelper;
 
     private WhereHelper<?>[] whereHelpers;
 
     private WhereCallback<TW> whereCallback;
 
-    public WhereHelper<?>[] getWhereHelpers() {
-        return whereHelpers;
+    public SqlWhereBean(TW whereHelper, String tableAlias) {
+        super(tableAlias);
+        this.whereHelper = whereHelper;
     }
 
     public SqlWhereBean<TW> setWhereHelpers(WhereHelper<?>[] whereHelpers) {
@@ -33,15 +30,12 @@ public class SqlWhereBean<TW extends WhereHelper<TW>> {
         return this;
     }
 
-    public WhereCallback<TW> getWhereCallback() {
-        return whereCallback;
-    }
-
     public SqlWhereBean<TW> setWhereCallback(WhereCallback<TW> whereCallback) {
         this.whereCallback = whereCallback;
         return this;
     }
 
+    @Override
     public List<TableWhereDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
         List<TableWhereDatum> tableWhereData = new ArrayList<>(1);
         if (this.whereHelpers != null) {

@@ -18,48 +18,21 @@ public final class SqlGroupBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>, SG extends GroupHelper<SG>> extends SqlGroupBean<SG> {
+        TS extends SortHelper<TS>> extends AbstractSqlGroupBean {
 
     private Class<T> tableHelperClass;
 
-    private String tableAlias;
+    private GroupCallback<TG> groupCallback;
 
-    private GroupCallback<TG> groupCallbackJoin;
-
-    public SqlGroupBeanJoin(SG groupHelper) {
-        super(groupHelper);
-    }
-
-    public Class<T> getTableHelperClass() {
-        return tableHelperClass;
-    }
-
-    public SqlGroupBeanJoin<T, TJ, TC, TW, TG, TH, TS, SG> setTableHelperClass(Class<T> tableHelperClass) {
+    public SqlGroupBeanJoin(Class<T> tableHelperClass, String tableAlias, GroupCallback<TG> groupCallback) {
+        super(tableAlias);
         this.tableHelperClass = tableHelperClass;
-        return this;
-    }
-
-    public String getTableAlias() {
-        return tableAlias;
-    }
-
-    public SqlGroupBeanJoin<T, TJ, TC, TW, TG, TH, TS, SG> setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
-        return this;
-    }
-
-    public GroupCallback<TG> getGroupCallbackJoin() {
-        return groupCallbackJoin;
-    }
-
-    public SqlGroupBeanJoin<T, TJ, TC, TW, TG, TH, TS, SG> setGroupCallbackJoin(GroupCallback<TG> groupCallbackJoin) {
-        this.groupCallbackJoin = groupCallbackJoin;
-        return this;
+        this.groupCallback = groupCallback;
     }
 
     @Override
     public List<TableGroupDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return Collections.singletonList(GroupCallback.execute(this.tableHelperClass, this.tableAlias, this.groupCallbackJoin, sqlBuilderOptions));
+        return Collections.singletonList(GroupCallback.execute(this.tableHelperClass, this.tableAlias, this.groupCallback, sqlBuilderOptions));
     }
 
 }

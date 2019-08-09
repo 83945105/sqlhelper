@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine.builder;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
 import pub.avalon.sqlhelper.core.engine.GroupEngine;
+import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlGroupBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlGroupBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlGroupBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.GroupCallbackEngine;
@@ -32,17 +33,17 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
         this.tableAlias = tableAlias;
     }
 
-    private List<SqlGroupBean<TG>> sqlGroupBeans = new ArrayList<>(1);
+    private List<AbstractSqlGroupBean> sqlGroupBeans = new ArrayList<>(1);
 
     @Override
     public SqlGroup<TG> group(GroupHelper<?>... groupHelpers) {
-        this.sqlGroupBeans.add(new SqlGroupBean<>(this.groupHelper).setGroupHelpers(groupHelpers));
+        this.sqlGroupBeans.add(new SqlGroupBean<>(this.groupHelper, this.tableAlias).setGroupHelpers(groupHelpers));
         return this;
     }
 
     @Override
     public SqlGroup<TG> group(GroupCallback<TG> groupCallback) {
-        this.sqlGroupBeans.add(new SqlGroupBean<>(this.groupHelper).setGroupCallback(groupCallback));
+        this.sqlGroupBeans.add(new SqlGroupBean<>(this.groupHelper, this.tableAlias).setGroupCallback(groupCallback));
         return this;
     }
 
@@ -54,7 +55,7 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlGroup<TG> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
-        this.sqlGroupBeans.add(new SqlGroupBeanJoin<S, SJ, SC, SW, SG, SH, SS, TG>(this.groupHelper).setTableHelperClass(tableHelperClass).setTableAlias(tableAlias).setGroupCallbackJoin(groupCallback));
+        this.sqlGroupBeans.add(new SqlGroupBeanJoin<>(tableHelperClass, tableAlias, groupCallback));
         return this;
     }
 
@@ -62,7 +63,7 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
         return tableAlias;
     }
 
-    public List<SqlGroupBean<TG>> getSqlGroupBeans() {
+    public List<AbstractSqlGroupBean> getSqlGroupBeans() {
         return sqlGroupBeans;
     }
 }

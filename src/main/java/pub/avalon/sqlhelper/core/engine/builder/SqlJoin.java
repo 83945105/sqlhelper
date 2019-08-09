@@ -4,8 +4,8 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.JoinCallback;
 import pub.avalon.sqlhelper.core.engine.JoinEngine;
+import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlJoinBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlJoinBean;
-import pub.avalon.sqlhelper.core.engine.builder.beans.SqlJoinBeanFinal;
 import pub.avalon.sqlhelper.core.engine.callback.JoinCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
@@ -33,7 +33,7 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<S
         this.tableAlias = tableAlias;
     }
 
-    private List<SqlJoinBean<TJ>> sqlJoinBeans = new ArrayList<>(1);
+    private List<AbstractSqlJoinBean> sqlJoinBeans = new ArrayList<>(1);
 
     @Override
     public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -42,13 +42,8 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<S
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlJoin<TJ> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, JoinCallback<TJ, SJ> joinCallback) {
-        this.sqlJoinBeans.add(new SqlJoinBeanFinal<S, SJ, SC, SW, SG, SH, SS, TJ>(this.joinHelper)
-                .setJoinType(joinType)
-                .setTableName(tableName)
-                .setTableHelperClass(tableHelperClass)
-                .setTableAlias(tableAlias)
-                .setJoinCallback(joinCallback));
+            SS extends SortHelper<SS>> SqlJoin<TJ> join(JoinType joinType, String joinTableName, Class<S> joinTableHelperClass, String joinTableAlias, JoinCallback<TJ, SJ> joinCallback) {
+        this.sqlJoinBeans.add(new SqlJoinBean<>(this.joinHelper, joinType, joinTableName, joinTableHelperClass, joinTableAlias, joinCallback));
         return this;
     }
 
@@ -56,7 +51,7 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<S
         return tableAlias;
     }
 
-    public List<SqlJoinBean<TJ>> getSqlJoinBeans() {
+    public List<AbstractSqlJoinBean> getSqlJoinBeans() {
         return sqlJoinBeans;
     }
 }

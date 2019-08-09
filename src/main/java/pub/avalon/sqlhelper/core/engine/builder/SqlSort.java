@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine.builder;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
 import pub.avalon.sqlhelper.core.engine.SortEngine;
+import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlSortBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlSortBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlSortBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.SortCallbackEngine;
@@ -32,17 +33,17 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
         this.tableAlias = tableAlias;
     }
 
-    private List<SqlSortBean<TS>> sqlSortBeans = new ArrayList<>(1);
+    private List<AbstractSqlSortBean> sqlSortBeans = new ArrayList<>(1);
 
     @Override
     public SqlSort<TS> sort(SortHelper<?>... sortHelpers) {
-        this.sqlSortBeans.add(new SqlSortBean<>(this.sortHelper).setSortHelpers(sortHelpers));
+        this.sqlSortBeans.add(new SqlSortBean<>(this.sortHelper, this.tableAlias).setSortHelpers(sortHelpers));
         return this;
     }
 
     @Override
     public SqlSort<TS> sort(SortCallback<TS> sortCallback) {
-        this.sqlSortBeans.add(new SqlSortBean<>(this.sortHelper).setSortCallback(sortCallback));
+        this.sqlSortBeans.add(new SqlSortBean<>(this.sortHelper, this.tableAlias).setSortCallback(sortCallback));
         return this;
     }
 
@@ -54,10 +55,7 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlSort<TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
-        this.sqlSortBeans.add(new SqlSortBeanJoin<S, SJ, SC, SW, SG, SH, SS, TS>(this.sortHelper)
-                .setTableHelperClass(tableHelperClass)
-                .setTableAlias(tableAlias)
-                .setSortCallbackJoin(sortCallback));
+        this.sqlSortBeans.add(new SqlSortBeanJoin<>(tableHelperClass, tableAlias, sortCallback));
         return this;
     }
 
@@ -65,7 +63,7 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
         return tableAlias;
     }
 
-    public List<SqlSortBean<TS>> getSqlSortBeans() {
+    public List<AbstractSqlSortBean> getSqlSortBeans() {
         return sqlSortBeans;
     }
 }

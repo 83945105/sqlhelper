@@ -12,20 +12,17 @@ import java.util.List;
  * @author 白超
  * @date 2019/7/17
  */
-public class SqlColumnBean<TC extends ColumnHelper<TC>> {
+public final class SqlColumnBean<TC extends ColumnHelper<TC>> extends AbstractSqlColumnBean {
 
-    protected TC columnHelper;
-
-    public SqlColumnBean(TC columnHelper) {
-        this.columnHelper = columnHelper;
-    }
+    private TC columnHelper;
 
     private ColumnHelper<?>[] columnHelpers;
 
     private ColumnCallback<TC> columnCallback;
 
-    public ColumnHelper<?>[] getColumnHelpers() {
-        return columnHelpers;
+    public SqlColumnBean(TC columnHelper, String tableAlias) {
+        super(tableAlias);
+        this.columnHelper = columnHelper;
     }
 
     public SqlColumnBean<TC> setColumnHelpers(ColumnHelper<?>[] columnHelpers) {
@@ -33,15 +30,12 @@ public class SqlColumnBean<TC extends ColumnHelper<TC>> {
         return this;
     }
 
-    public ColumnCallback<TC> getColumnCallback() {
-        return columnCallback;
-    }
-
     public SqlColumnBean<TC> setColumnCallback(ColumnCallback<TC> columnCallback) {
         this.columnCallback = columnCallback;
         return this;
     }
 
+    @Override
     public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
         List<TableColumnDatum> tableColumnData = new ArrayList<>(1);
         if (this.columnHelpers != null) {
