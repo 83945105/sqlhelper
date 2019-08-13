@@ -24,6 +24,11 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
         this.havingSqlPartDatumBuilder = new HavingSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
+        this.havingSqlPartDatumBuilder.setTableAlias(tableAlias);
+    }
+
     /**
      * 接收sql片段
      *

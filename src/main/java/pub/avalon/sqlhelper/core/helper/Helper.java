@@ -18,7 +18,4 @@ public abstract class Helper {
         return tableAlias;
     }
 
-    public void setTableAlias(String tableAlias) {
-        this.tableAlias = tableAlias;
-    }
 }

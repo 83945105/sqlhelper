@@ -16,6 +16,20 @@ import java.util.List;
 public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
 
     /**
+     * 获取表别名
+     *
+     * @return 表别名
+     */
+    String getTableAlias();
+
+    /**
+     * 设置表别名
+     *
+     * @param tableAlias 表别名
+     */
+    void setTableAlias(String tableAlias);
+
+    /**
      * 获取助手
      *
      * @return {@link Helper}

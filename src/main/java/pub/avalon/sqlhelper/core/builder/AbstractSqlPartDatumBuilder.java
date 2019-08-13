@@ -31,6 +31,16 @@ public abstract class AbstractSqlPartDatumBuilder<T extends Helper, S extends Sq
     private List<S> sqlPartData = null;
 
     @Override
+    public String getTableAlias() {
+        return this.tableAlias;
+    }
+
+    @Override
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
+    }
+
+    @Override
     public T getHelper() {
         return this.helper;
     }

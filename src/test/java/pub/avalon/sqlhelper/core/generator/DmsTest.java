@@ -16,7 +16,7 @@ public class DmsTest {
 
         JdbcTemplate jdbcTemplate = new MySqlJdbcTemplate(
                 "com.mysql.cj.jdbc.Driver",
-                "jdbc:mysql://localhost:3306/ds0?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false",
+                "jdbc:mysql://localhost:3306/dms?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false",
                 "root",
                 "root"
         );

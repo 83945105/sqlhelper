@@ -24,6 +24,11 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
         this.groupSqlPartDatumBuilder = new GroupSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
+        this.groupSqlPartDatumBuilder.setTableAlias(tableAlias);
+    }
+
     /**
      * 接收sql片段
      *

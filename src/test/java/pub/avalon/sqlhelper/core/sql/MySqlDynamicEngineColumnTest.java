@@ -354,7 +354,7 @@ public class MySqlDynamicEngineColumnTest {
                 .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>("A") {
                 }.column(table -> table.id().userName()))
                 .query();
-        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName` from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertEquals("select A.`id` `id`,A.`user_name` `userName` from `sys_user` A", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 

@@ -23,6 +23,11 @@ public abstract class JoinHelper<T extends JoinHelper<T>> extends Helper {
         this.joinSqlPartDatumBuilder = new JoinSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
+        this.joinSqlPartDatumBuilder.setTableAlias(tableAlias);
+    }
+
     /**
      * 接收sql片段
      *

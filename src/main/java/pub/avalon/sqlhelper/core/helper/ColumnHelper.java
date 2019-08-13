@@ -27,6 +27,11 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
         this.columnSqlPartDatumBuilder = new ColumnSqlPartDatumBuilder<>(tableAlias, (T) this);
     }
 
+    public void setTableAlias(String tableAlias) {
+        this.tableAlias = tableAlias;
+        this.columnSqlPartDatumBuilder.setTableAlias(tableAlias);
+    }
+
     /**
      * 获取表默认列数据
      *
