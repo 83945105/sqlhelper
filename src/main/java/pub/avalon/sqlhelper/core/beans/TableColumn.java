@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * 表列
  *
- * @author 白超
+ * @author baichao
  * @date 2019/6/16
  */
 public final class TableColumn {

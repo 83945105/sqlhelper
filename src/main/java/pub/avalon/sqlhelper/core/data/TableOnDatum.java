@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * on数据
  *
- * @author 白超
+ * @author baichao
  * @date 2019/6/13
  */
 public final class TableOnDatum {

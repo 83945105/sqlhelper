@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/8/1
  */
 public final class LimitDatum {

@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.generator.beans;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/6/4
  */
 public enum JavaType {

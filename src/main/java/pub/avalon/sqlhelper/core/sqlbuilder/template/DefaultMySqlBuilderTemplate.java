@@ -12,7 +12,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.*;
 import java.util.*;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/5/22
  */
 public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {

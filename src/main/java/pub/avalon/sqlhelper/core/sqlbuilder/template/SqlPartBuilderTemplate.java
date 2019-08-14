@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 /**
  * Sql片段构建器模板
  *
- * @author 白超
+ * @author baichao
  * @date 2019/7/13
  */
 public interface SqlPartBuilderTemplate {

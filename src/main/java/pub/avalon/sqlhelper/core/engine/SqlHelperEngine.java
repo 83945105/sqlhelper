@@ -14,8 +14,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 /**
  * SqlHelper引擎
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,

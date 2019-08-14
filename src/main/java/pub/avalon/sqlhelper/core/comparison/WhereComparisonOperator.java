@@ -8,7 +8,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 /**
  * Where条件比较运算符
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/18
  */
 public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {

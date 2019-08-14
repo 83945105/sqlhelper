@@ -11,7 +11,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 /**
  * Sql
  *
- * @author 白超
+ * @author baichao
  * @date 2019/7/16
  */
 public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,

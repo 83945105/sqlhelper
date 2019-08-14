@@ -7,8 +7,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 /**
  * MySql引擎
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class MySqlDynamicEngine {

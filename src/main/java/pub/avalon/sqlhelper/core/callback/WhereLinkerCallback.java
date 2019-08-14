@@ -4,8 +4,7 @@ import pub.avalon.sqlhelper.core.beans.WhereLinker;
 import pub.avalon.sqlhelper.core.helper.WhereHelper;
 
 /**
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 @FunctionalInterface

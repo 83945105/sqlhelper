@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.generator.beans.DataBaseType;
 /**
  * 数据库类型鉴别器
  *
- * @author 白超
+ * @author baichao
  * @date 2019/6/9
  */
 @FunctionalInterface

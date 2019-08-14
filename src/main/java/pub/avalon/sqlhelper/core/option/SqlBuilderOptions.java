@@ -8,7 +8,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.template.MySqlPartBuilderTemplate;
 /**
  * Sql构建配置
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/20
  */
 public final class SqlBuilderOptions {

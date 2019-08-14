@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.cache;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/22
  */
 public interface Cache<K, V> {

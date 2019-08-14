@@ -14,7 +14,7 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.Collection;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/19
  */
 public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,

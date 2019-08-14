@@ -9,8 +9,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 /**
  * 排序引擎
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine {

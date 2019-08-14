@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.UpdateSqlBuilderResult;
 import java.util.Collection;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/23
  */
 public interface UpdateSqlBuilder {

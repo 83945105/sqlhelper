@@ -5,8 +5,7 @@ import java.util.Objects;
 /**
  * 表数据
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public abstract class AbstractTableDatum implements TableDatum {

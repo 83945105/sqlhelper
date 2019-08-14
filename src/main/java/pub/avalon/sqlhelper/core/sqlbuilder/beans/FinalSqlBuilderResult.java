@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Sql构建结果
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/25
  */
 public final class FinalSqlBuilderResult implements TableSqlBuilderResult, SelectSqlBuilderResult, InsertSqlBuilderResult, UpdateSqlBuilderResult, DeleteSqlBuilderResult {

@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * On条件连接器
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public interface OnLinker<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {

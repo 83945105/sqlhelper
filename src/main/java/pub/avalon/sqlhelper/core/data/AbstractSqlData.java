@@ -6,8 +6,7 @@ import java.util.List;
 /**
  * Sql数据
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public abstract class AbstractSqlData extends AbstractSqlDataCache {

@@ -11,7 +11,7 @@ import java.util.Collection;
 /**
  * Sql构建代理
  *
- * @author 白超
+ * @author baichao
  * @date 2018/8/20
  */
 public abstract class AbstractSqlBuilder implements SqlBuilder {

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * On条件数据连接器
  *
- * @author 白超
+ * @author baichao
  * @date 2018/11/18
  */
 public final class OnDataLinker {

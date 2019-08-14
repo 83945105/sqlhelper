@@ -10,8 +10,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 /**
  * 连接回调引擎
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine {

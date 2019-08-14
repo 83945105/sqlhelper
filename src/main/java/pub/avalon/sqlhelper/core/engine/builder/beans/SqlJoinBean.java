@@ -7,7 +7,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/17
  */
 public final class SqlJoinBean<TJ extends JoinHelper<TJ>,

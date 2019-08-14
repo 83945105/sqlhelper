@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * 列助手
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/18
  */
 public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {

@@ -8,7 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/6/9
  */
 public class GenerateOptions {

@@ -5,7 +5,7 @@ import pub.avalon.beans.DataBaseType;
 /**
  * sql数据生产者
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/20
  */
 public interface SqlDataProducer {

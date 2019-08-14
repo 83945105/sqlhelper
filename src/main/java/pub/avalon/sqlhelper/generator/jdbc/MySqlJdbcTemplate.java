@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/6/9
  */
 public class MySqlJdbcTemplate extends AbstractJdbcTemplate {

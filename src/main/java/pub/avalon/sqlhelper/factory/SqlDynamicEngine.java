@@ -7,7 +7,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 /**
  * Sql动态引擎
  *
- * @author 白超
+ * @author baichao
  * @date 2019/2/22
  */
 public class SqlDynamicEngine {

@@ -3,8 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 /**
  * 虚拟属性数据
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class VirtualColumnDatum {

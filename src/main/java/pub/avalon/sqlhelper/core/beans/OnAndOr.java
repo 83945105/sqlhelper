@@ -7,13 +7,11 @@ import pub.avalon.sqlhelper.core.helper.JoinHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * and or On条件连接器
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> implements OnLinker<TJ, SJ> {

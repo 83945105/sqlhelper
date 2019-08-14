@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.helper.TableHelper;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/22
  */
 public class SingleTableHelperClassCache implements Cache<Class, TableHelper> {

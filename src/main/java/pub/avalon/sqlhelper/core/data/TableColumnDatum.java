@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 表列数据
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/2
  */
 public final class TableColumnDatum {

@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Sql片段数据构建器
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/2
  */
 public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {

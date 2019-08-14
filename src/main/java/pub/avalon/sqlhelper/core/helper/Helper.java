@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.helper;
 /**
  * 助手
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/18
  */
 public abstract class Helper {

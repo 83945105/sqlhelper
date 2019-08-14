@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 /**
  * jdbc回调引擎
  *
- * @author 白超
+ * @author baichao
  * @date 2019/6/26
  */
 public interface JdbcCallbackEngine<TJ extends JoinHelper<TJ>,

@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.beans.DataBaseType;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2018/8/20
  */
 public final class FinalSqlData extends AbstractSqlData {

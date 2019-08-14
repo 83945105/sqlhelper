@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.generator.jdbc;
 import java.sql.*;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/6/9
  */
 public abstract class AbstractJdbcTemplate implements JdbcTemplate {

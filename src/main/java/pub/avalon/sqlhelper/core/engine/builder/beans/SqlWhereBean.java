@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/17
  */
 public final class SqlWhereBean<TW extends WhereHelper<TW>> extends AbstractSqlWhereBean {

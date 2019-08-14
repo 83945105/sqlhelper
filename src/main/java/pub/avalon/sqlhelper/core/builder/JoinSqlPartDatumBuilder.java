@@ -17,8 +17,7 @@ import java.util.List;
 /**
  * Join Sql片段数据构建器
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {

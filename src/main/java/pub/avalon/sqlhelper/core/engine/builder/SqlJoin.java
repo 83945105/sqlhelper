@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/17
  */
 public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<SqlJoin<TJ>>, JoinCallbackEngine<TJ, SqlJoin<TJ>> {

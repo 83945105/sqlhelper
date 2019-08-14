@@ -9,13 +9,12 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * 排序助手
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/18
  */
 public abstract class SortHelper<T extends SortHelper<T>> extends Helper {

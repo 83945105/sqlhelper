@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.beans.ComparisonRule;
 /**
  * Sql片段数据构建器配置
  *
- * @author 白超
+ * @author baichao
  * @date 2019/6/19
  */
 public final class SqlPartDatumBuilderOptions {

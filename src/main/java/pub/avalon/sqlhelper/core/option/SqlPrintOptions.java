@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.option;
 /**
  * sql打印配置
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/20
  */
 public final class SqlPrintOptions {

@@ -3,8 +3,7 @@ package pub.avalon.sqlhelper.core.callback;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 
 /**
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 @FunctionalInterface

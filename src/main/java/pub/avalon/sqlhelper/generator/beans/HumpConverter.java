@@ -5,7 +5,7 @@ import pub.avalon.holygrail.utils.ClassUtil;
 /**
  * 驼峰转换
  *
- * @author 白超
+ * @author baichao
  * @date 2019/6/9
  */
 public class HumpConverter implements StringConverter {

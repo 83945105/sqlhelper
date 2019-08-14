@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.sqlbuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.TableSqlBuilderResult;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/23
  */
 public interface TableSqlBuilder {

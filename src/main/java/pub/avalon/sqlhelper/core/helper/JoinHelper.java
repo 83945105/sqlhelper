@@ -6,12 +6,11 @@ import pub.avalon.sqlhelper.core.data.OnDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Join 助手
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/18
  */
 public abstract class JoinHelper<T extends JoinHelper<T>> extends Helper {

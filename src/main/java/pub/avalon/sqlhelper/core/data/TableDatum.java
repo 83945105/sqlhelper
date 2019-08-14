@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.helper.TableHelper;
 /**
  * 表数据
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/2
  */
 public interface TableDatum {

@@ -4,7 +4,7 @@ import pub.avalon.sqlhelper.core.data.JoinTableDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/8/9
  */
 public abstract class AbstractSqlJoinBean extends SqlBean {

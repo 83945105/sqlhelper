@@ -5,14 +5,12 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Sql片段数据构建器基类
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/2
  */
 public abstract class AbstractSqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> implements SqlPartDatumBuilder<T, S> {

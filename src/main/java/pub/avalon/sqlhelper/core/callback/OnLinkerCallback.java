@@ -4,7 +4,7 @@ import pub.avalon.sqlhelper.core.beans.OnLinker;
 import pub.avalon.sqlhelper.core.helper.JoinHelper;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/5/16
  */
 @FunctionalInterface

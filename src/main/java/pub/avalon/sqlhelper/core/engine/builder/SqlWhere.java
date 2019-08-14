@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/17
  */
 public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngine<SqlWhere<TW>>, WhereCallbackEngine<TW, SqlWhere<TW>> {

@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * 表助手
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/15
  */
 public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,

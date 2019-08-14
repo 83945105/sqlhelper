@@ -3,8 +3,7 @@ package pub.avalon.sqlhelper.core.exception;
 /**
  * 表数据异常
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public class TableDataException extends SqlException {

@@ -10,7 +10,7 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.List;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/5/18
  */
 @FunctionalInterface

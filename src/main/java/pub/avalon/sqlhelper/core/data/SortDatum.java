@@ -5,8 +5,7 @@ import pub.avalon.sqlhelper.core.beans.SortType;
 /**
  * 排序数据
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class SortDatum extends AbstractSqlPartDatum<SortDatum> {

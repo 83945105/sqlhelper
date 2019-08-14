@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import java.util.List;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/8/9
  */
 public abstract class AbstractSqlGroupBean extends SqlBean {

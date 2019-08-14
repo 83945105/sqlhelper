@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 表分组数据
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/6
  */
 public final class TableGroupDatum {

@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 /**
  * 数据缓存
  *
- * @author 白超
+ * @author baichao
  * @date 2019/3/4
  */
 public abstract class AbstractSqlDataCache implements SqlData {

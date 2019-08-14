@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 /**
  * 分组数据
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/6
  */
 public final class GroupDatum extends AbstractSqlPartDatum<GroupDatum> {

@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * 默认MySql片段构建器模板
  *
- * @author 白超
+ * @author baichao
  * @date 2018/8/23
  */
 public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTemplate {

@@ -12,7 +12,7 @@ import java.util.Set;
 /**
  * 分组条件助手
  *
- * @author 白超
+ * @author baichao
  * @date 2019/7/18
  */
 public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {

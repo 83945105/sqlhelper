@@ -8,7 +8,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 /**
  * 分组Sql片段数据构建器
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/6
  */
 public final class GroupSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, GroupDatum> {

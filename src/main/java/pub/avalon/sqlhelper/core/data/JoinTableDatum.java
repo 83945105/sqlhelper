@@ -5,8 +5,7 @@ import pub.avalon.sqlhelper.core.beans.JoinType;
 /**
  * 连接表数据
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class JoinTableDatum extends AbstractTableDatum {

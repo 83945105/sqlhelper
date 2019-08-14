@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.data;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/8/5
  */
 public abstract class AbstractSqlPartDatum<R extends AbstractSqlPartDatum<R>> implements SqlPartDatum {

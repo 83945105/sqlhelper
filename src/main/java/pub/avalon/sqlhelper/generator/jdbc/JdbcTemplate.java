@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/6/9
  */
 public interface JdbcTemplate {

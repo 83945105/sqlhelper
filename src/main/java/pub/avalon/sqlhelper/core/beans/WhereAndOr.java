@@ -8,13 +8,11 @@ import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * and or 条件连接器
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker<TW> {

@@ -7,7 +7,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 /**
  * 列数据
  *
- * @author 白超
+ * @author baichao
  * @date 2019/3/4
  */
 public final class ColumnDatum extends AbstractSqlPartDatum<ColumnDatum> {

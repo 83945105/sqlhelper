@@ -10,8 +10,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 /**
  * 条件引擎
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engine {

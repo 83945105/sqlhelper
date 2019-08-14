@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * 分组过滤条件数据
  *
- * @author 白超
- * @version 1.0
+ * @author baichao
  * @since 2018/7/10
  */
 public final class HavingDatum extends AbstractSqlPartDatum<HavingDatum> {

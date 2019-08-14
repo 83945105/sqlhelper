@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 /**
  * 条件助手
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/18
  */
 public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {

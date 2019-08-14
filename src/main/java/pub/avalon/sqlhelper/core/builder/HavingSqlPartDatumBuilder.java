@@ -6,7 +6,7 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/18
  */
 public class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, HavingDatum> {

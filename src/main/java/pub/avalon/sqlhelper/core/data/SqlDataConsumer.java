@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * sql数据消费者
  *
- * @author 白超
+ * @author baichao
  * @date 2019/5/27
  */
 public interface SqlDataConsumer {

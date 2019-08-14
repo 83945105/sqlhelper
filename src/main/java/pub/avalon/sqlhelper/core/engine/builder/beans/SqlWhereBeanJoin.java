@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author 白超
+ * @author baichao
  * @date 2019/7/17
  */
 public final class SqlWhereBeanJoin<TW extends WhereHelper<TW>,

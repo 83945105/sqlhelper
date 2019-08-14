@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.engine;
 /**
  * jdbc引擎
  *
- * @author 白超
+ * @author baichao
  * @date 2019/7/31
  */
 public interface JdbcEngine<R> extends
