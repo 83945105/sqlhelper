@@ -9,8 +9,11 @@ import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 列助手
@@ -105,6 +108,13 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
             columnData = BeanUtils.getColumnData(columnHelper);
         }
         return new TableColumnDatum(columnHelper.getTableAlias(), columnData);
+    }
+
+    public static List<TableColumnDatum> execute(ColumnHelper<?>... columnHelpers) {
+        if (columnHelpers == null || columnHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(columnHelpers).map(columnHelper -> ColumnHelper.execute(columnHelper)).collect(Collectors.toList());
     }
 
 }

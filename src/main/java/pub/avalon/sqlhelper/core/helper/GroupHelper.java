@@ -6,8 +6,11 @@ import pub.avalon.sqlhelper.core.data.GroupDatum;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 分组助手
@@ -79,6 +82,13 @@ public abstract class GroupHelper<T extends GroupHelper<T>> extends Helper {
             return null;
         }
         return new TableGroupDatum(groupHelper.getTableAlias(), groupData);
+    }
+
+    public static List<TableGroupDatum> execute(GroupHelper<?>... groupHelpers) {
+        if (groupHelpers == null || groupHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(groupHelpers).map(groupHelper -> GroupHelper.execute(groupHelper)).collect(Collectors.toList());
     }
 
 }

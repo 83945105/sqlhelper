@@ -1,12 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
-import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 列引擎
@@ -33,12 +27,5 @@ public interface ColumnEngine<R> extends Engine {
      * @return {@link ColumnEngine}
      */
     R virtualColumn(Object columnValue, String columnAlias);
-
-    static List<TableColumnDatum> execute(ColumnHelper<?>... columnHelpers) {
-        if (columnHelpers == null || columnHelpers.length == 0) {
-            return Collections.emptyList();
-        }
-        return Arrays.stream(columnHelpers).map(columnHelper -> columnHelper.execute()).collect(Collectors.toList());
-    }
 
 }

@@ -6,8 +6,11 @@ import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 排序助手
@@ -79,6 +82,13 @@ public abstract class SortHelper<T extends SortHelper<T>> extends Helper {
             return null;
         }
         return new TableSortDatum(sortHelper.getTableAlias(), sortData);
+    }
+
+    public static List<TableSortDatum> execute(SortHelper<?>... sortHelpers) {
+        if (sortHelpers == null || sortHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(sortHelpers).map(sortHelper -> SortHelper.execute(sortHelper)).collect(Collectors.toList());
     }
 
 }

@@ -84,6 +84,12 @@
             <groupId>com.github.83945105</groupId>
             <artifactId>holygrail</artifactId>
             <version>${holygrail.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>

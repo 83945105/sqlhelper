@@ -358,4 +358,26 @@ public class MySqlDynamicEngineColumnTest {
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
+    /**
+     * 测试Sql列 - 逻辑条件
+     */
+    @Test
+    void Test_sqlColumn_logicalConditions() {
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
+                .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>("A") {{
+                    if(true) {
+                        column(table -> table.id("id"));
+                    }
+                    if(false) {
+                        column(table -> table.userName("userName"));
+                    }
+                    if(true) {
+                        column(table -> table.loginName("loginName"));
+                    }
+                }})
+                .query();
+        Assertions.assertEquals("select A.`id` `id`,A.`login_name` `loginName` from `sys_user` A", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
 }

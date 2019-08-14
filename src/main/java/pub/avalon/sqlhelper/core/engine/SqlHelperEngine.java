@@ -88,7 +88,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnHelper<?>... columnHelpers) {
-        ColumnEngine.execute(columnHelpers).forEach(this::addTableColumnDatum);
+        ColumnHelper.execute(columnHelpers).forEach(this::addTableColumnDatum);
         return this;
     }
 
@@ -154,7 +154,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereHelper<?>... whereHelpers) {
-        WhereEngine.execute(whereHelpers).forEach(this::addTableWhereDatum);
+        WhereHelper.execute(whereHelpers).forEach(this::addTableWhereDatum);
         return this;
     }
 
@@ -178,7 +178,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> group(GroupHelper<?>... groupHelpers) {
-        GroupEngine.execute(groupHelpers).forEach(this::addTableGroupDatum);
+        GroupHelper.execute(groupHelpers).forEach(this::addTableGroupDatum);
         return this;
     }
 
@@ -202,7 +202,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sort(SortHelper<?>... sortHelpers) {
-        SortEngine.execute(sortHelpers).forEach(this::addTableSortDatum);
+        SortHelper.execute(sortHelpers).forEach(this::addTableSortDatum);
         return this;
     }
 

@@ -8,9 +8,10 @@ import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 条件助手
@@ -84,4 +85,12 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
         return new TableWhereDatum(whereHelper.getTableAlias(),
                 Collections.singletonList(new WhereDataLinker(LinkType.AND).setWhereData(whereData)));
     }
+
+    public static List<TableWhereDatum> execute(WhereHelper<?>... whereHelpers) {
+        if (whereHelpers == null || whereHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(whereHelpers).map(whereHelper -> WhereHelper.execute(whereHelper)).collect(Collectors.toList());
+    }
+
 }
