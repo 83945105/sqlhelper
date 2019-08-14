@@ -10,10 +10,7 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.List;
 
 /**
- * 列回调
- *
  * @author baichao
- * @date 2019/5/16
  */
 @FunctionalInterface
 public interface ColumnCallback<TC extends ColumnHelper<TC>> {
@@ -52,5 +49,4 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
         }
         return new TableColumnDatum(columnHelper.getTableAlias(), columnData);
     }
-
 }

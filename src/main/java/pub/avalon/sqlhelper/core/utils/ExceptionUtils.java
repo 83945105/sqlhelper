@@ -1,5 +1,7 @@
 package pub.avalon.sqlhelper.core.utils;
 
+import pub.avalon.sqlhelper.core.exception.ComparisonRuleNullException;
+
 /**
  * 异常工具类
  *
@@ -37,6 +39,10 @@ public final class ExceptionUtils {
 
     public static void comparisonRuleNotSupportException() {
         throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being.");
+    }
+
+    public static void comparisonRuleNullException(Class methodClass, String methodName, String tableName, String tableAlias, String columnName, String columnAlias) {
+        throw new ComparisonRuleNullException(methodClass, methodName, "tableName:" + tableName + ", tableAlias:" + tableAlias + ", columnName:" + columnName + ", columnAlias:" + columnAlias);
     }
 
     public static void columnTypeNotSupportException() {

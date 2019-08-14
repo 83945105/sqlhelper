@@ -3,14 +3,15 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.SortType;
 
 /**
- * 排序数据
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class SortDatum extends AbstractSqlPartDatum<SortDatum> {
 
     private SortType sortType = SortType.ASC;
+
+    private Type type = Type.DEFAULT;
+
+    private String sqlPart;
 
     public SortDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
@@ -20,13 +21,42 @@ public final class SortDatum extends AbstractSqlPartDatum<SortDatum> {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
     }
 
-    public SortDatum setSortType(SortType sortType) {
-        this.sortType = sortType;
-        return this;
+    public SortDatum(String templateTableName, String templateTableAlias, String sqlPart) {
+        super(templateTableName, templateTableAlias, null, null);
+        this.sqlPart = sqlPart;
+        this.type = Type.SQL_PART;
     }
 
     public SortType getSortType() {
         return sortType;
     }
 
+    public Type getType() {
+        return type;
+    }
+
+    public String getSqlPart() {
+        return sqlPart;
+    }
+
+    public SortDatum setSortType(SortType sortType) {
+        this.sortType = sortType;
+        return this;
+    }
+
+    public SortDatum setType(Type type) {
+        this.type = type;
+        return this;
+    }
+
+    public enum Type {
+        /**
+         * default type
+         */
+        DEFAULT,
+        /**
+         * custom column sql
+         */
+        SQL_PART
+    }
 }

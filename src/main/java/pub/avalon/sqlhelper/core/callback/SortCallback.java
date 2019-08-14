@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/5/16
  */
 @FunctionalInterface
 public interface SortCallback<T extends SortHelper<T>> {
@@ -51,5 +50,4 @@ public interface SortCallback<T extends SortHelper<T>> {
         }
         return new TableSortDatum(sortHelper.getTableAlias(), sortData);
     }
-
 }

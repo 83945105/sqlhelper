@@ -5,7 +5,6 @@ import pub.avalon.sqlhelper.core.helper.WhereHelper;
 
 /**
  * @author baichao
- * @since 2018/7/10
  */
 @FunctionalInterface
 public interface WhereLinkerCallback<TW extends WhereHelper<TW>> {

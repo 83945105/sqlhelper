@@ -7,7 +7,6 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
  * @author baichao
- * @date 2019/7/18
  */
 public class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, HavingDatum> {
 
@@ -33,5 +32,4 @@ public class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPart
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.sqlBuilderOptions = sqlBuilderOptions;
     }
-
 }

@@ -1,59 +1,55 @@
 package pub.avalon.sqlhelper.core.beans;
 
 /**
- * On条件类型
- *
  * @author baichao
- * @since 2018/7/10
  */
 public enum OnType {
     /**
-     * 为null
+     * is null
      */
     IS_NULL,
     /**
-     * 不为null
+     * is not null
      */
     IS_NOT_NULL,
     /**
-     * 等于
+     * equal to
      */
     EQUAL,
     /**
-     * 不等于
+     * not equal to
      */
     NOT_EQUAL,
     /**
-     * 大于
+     * greater than
      */
     GREATER,
     /**
-     * 大于等于
+     * greater than or equal to
      */
     GREATER_EQUAL,
     /**
-     * 小于
+     * less than
      */
     LESS,
     /**
-     * 小于等于
+     * less than or equal to
      */
     LESS_EQUAL,
     /**
-     * 介于
+     * between ... and ...
      */
     BETWEEN,
     /**
-     * 模糊匹配
+     * like
      */
     LIKE,
     /**
-     * 在...内
+     * in
      */
     IN,
     /**
-     * 不在...内
+     * not in
      */
     NOT_IN
-
 }

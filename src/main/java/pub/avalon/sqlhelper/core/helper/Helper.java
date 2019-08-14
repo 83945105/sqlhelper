@@ -1,10 +1,7 @@
 package pub.avalon.sqlhelper.core.helper;
 
 /**
- * 助手
- *
  * @author baichao
- * @date 2019/5/18
  */
 public abstract class Helper {
 
@@ -17,5 +14,4 @@ public abstract class Helper {
     public String getTableAlias() {
         return tableAlias;
     }
-
 }

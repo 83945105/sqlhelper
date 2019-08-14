@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * and or 条件连接器
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker<TW> {
 
@@ -42,11 +39,11 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
     }
 
     @Override
-    public WhereAndOr<TW> and(WhereLinkerCallback<TW> callback) {
-        if (callback == null) {
+    public WhereAndOr<TW> and(WhereLinkerCallback<TW> whereLinkerCallback) {
+        if (whereLinkerCallback == null) {
             return this;
         }
-        WhereLinker<TW> whereLinker = callback.apply(new WhereAndOr<>());
+        WhereLinker<TW> whereLinker = whereLinkerCallback.apply(new WhereAndOr<>());
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
@@ -64,12 +61,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> WhereAndOr<TW> and(Class<S> tableHelperClass,
-                                                          String tableAlias,
-                                                          WhereJoinLinkerCallback<TW, SW> callback) {
+            SS extends SortHelper<SS>> WhereAndOr<TW> and(Class<S> tableHelperClass, String tableAlias, WhereJoinLinkerCallback<TW, SW> whereJoinLinkerCallback) {
+        if (whereJoinLinkerCallback == null) {
+            return this;
+        }
         S s = BeanUtils.tableHelper(tableHelperClass);
         SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        WhereLinker<TW> whereLinker = callback.apply(new WhereAndOr<>(), sw);
+        WhereLinker<TW> whereLinker = whereJoinLinkerCallback.apply(new WhereAndOr<>(), sw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
@@ -81,9 +79,9 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
     }
 
     /**
-     * 或
+     * or
      *
-     * @param whereHelper 条件助手
+     * @param whereHelper {@link WhereHelper}
      * @return {@link WhereAndOr}
      */
     public WhereAndOr<TW> or(WhereHelper<?> whereHelper) {
@@ -101,16 +99,16 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
     }
 
     /**
-     * 或
+     * or
      *
-     * @param callback 条件连接器回调
-     * @return {@link pub.avalon.sqlhelper.core.callback.WhereCallback}
+     * @param whereLinkerCallback {@link WhereLinkerCallback}
+     * @return {@link WhereAndOr}
      */
-    public WhereAndOr<TW> or(WhereLinkerCallback<TW> callback) {
-        if (callback == null) {
+    public WhereAndOr<TW> or(WhereLinkerCallback<TW> whereLinkerCallback) {
+        if (whereLinkerCallback == null) {
             return this;
         }
-        WhereLinker<TW> whereLinker = callback.apply(new WhereAndOr<>());
+        WhereLinker<TW> whereLinker = whereLinkerCallback.apply(new WhereAndOr<>());
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
@@ -122,11 +120,11 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
     }
 
     /**
-     * 或
+     * or
      *
-     * @param tableHelperClass 目标条件类
-     * @param tableAlias       目标条件别名
-     * @param callback         条件连接器回调
+     * @param tableHelperClass        target {@link TableHelper} class
+     * @param tableAlias              target {@link TableHelper} alias
+     * @param whereJoinLinkerCallback {@link WhereJoinLinkerCallback}
      * @return {@link WhereAndOr}
      */
     public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -135,12 +133,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> WhereAndOr<TW> or(Class<S> tableHelperClass,
-                                                         String tableAlias,
-                                                         WhereJoinLinkerCallback<TW, SW> callback) {
+            SS extends SortHelper<SS>> WhereAndOr<TW> or(Class<S> tableHelperClass, String tableAlias, WhereJoinLinkerCallback<TW, SW> whereJoinLinkerCallback) {
+        if (whereJoinLinkerCallback == null) {
+            return this;
+        }
         S s = BeanUtils.tableHelper(tableHelperClass);
         SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        WhereLinker<TW> whereLinker = callback.apply(new WhereAndOr<>(), sw);
+        WhereLinker<TW> whereLinker = whereJoinLinkerCallback.apply(new WhereAndOr<>(), sw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return this;
@@ -152,10 +151,10 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
     }
 
     /**
-     * 或
+     * or
      *
-     * @param tableHelperClass 目标条件类
-     * @param callback         条件连接器回调
+     * @param tableHelperClass        target {@link TableHelper} class
+     * @param whereJoinLinkerCallback {@link WhereJoinLinkerCallback}
      * @return {@link WhereAndOr}
      */
     public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -164,9 +163,7 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> WhereAndOr<TW> or(Class<S> tableHelperClass,
-                                                         WhereJoinLinkerCallback<TW, SW> callback) {
-        return or(tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> WhereAndOr<TW> or(Class<S> tableHelperClass, WhereJoinLinkerCallback<TW, SW> whereJoinLinkerCallback) {
+        return or(tableHelperClass, null, whereJoinLinkerCallback);
     }
-
 }

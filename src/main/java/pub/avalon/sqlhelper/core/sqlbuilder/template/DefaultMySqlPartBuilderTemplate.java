@@ -176,7 +176,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             } else {
                 sql.append(" ");
             }
-            switch (columnDatum.getColumnType()) {
+            switch (columnDatum.getType()) {
                 case DEFAULT:
                     sql.append(columnDatum.getTableAlias())
                             .append(".`")
@@ -242,7 +242,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 } else {
                     sql.append(" ");
                 }
-                switch (columnDatum.getColumnType()) {
+                switch (columnDatum.getType()) {
                     case DEFAULT:
                         sql.append(columnDatum.getTableAlias())
                                 .append(".`")
@@ -388,7 +388,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 default:
                     throw new SqlException("the WhereType is wrong.");
             }
-            switch (onDatum.getOnValueType()) {
+            switch (onDatum.getType()) {
                 case VALUE:
                     sql.append("?");
                     args.add(onDatum.getTargetValue());
@@ -883,7 +883,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     }
 
     private void appendWhereDataSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        switch (whereDatum.getWhereValueType()) {
+        switch (whereDatum.getType()) {
             case VALUE:
                 this.appendWhereDataValueSqlArgs(sql, args, whereDatum);
                 break;

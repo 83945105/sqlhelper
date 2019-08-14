@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
-import pub.avalon.sqlhelper.core.beans.ColumnType;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
 /**
@@ -12,7 +11,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
  */
 public final class ColumnDatum extends AbstractSqlPartDatum<ColumnDatum> {
 
-    private ColumnType columnType = ColumnType.DEFAULT;
+    private Type type = Type.DEFAULT;
 
     private ColumnHandler[] columnHandlers;
 
@@ -33,35 +32,35 @@ public final class ColumnDatum extends AbstractSqlPartDatum<ColumnDatum> {
     public ColumnDatum(String templateTableName, String templateTableAlias, Object columnValue, String mappingFieldName) {
         super(templateTableName, templateTableAlias, null, null, mappingFieldName);
         this.columnValue = columnValue;
-        this.columnType = ColumnType.VIRTUAL;
+        this.type = Type.VIRTUAL;
     }
 
     public ColumnDatum(String templateTableName, String templateTableAlias, SqlBuilderResult sqlBuilderResult, String mappingFieldName) {
         super(templateTableName, templateTableAlias, null, null, mappingFieldName);
         this.sqlBuilderResult = sqlBuilderResult;
-        this.columnType = ColumnType.SUB_QUERY;
+        this.type = Type.SUB_QUERY;
     }
 
     public ColumnDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, ColumnHandler... columnHandlers) {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
         this.columnHandlers = columnHandlers;
-        this.columnType = ColumnType.HANDLER;
+        this.type = Type.HANDLER;
     }
 
     public ColumnDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers) {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
         this.columnHandlers = columnHandlers;
-        this.columnType = ColumnType.HANDLER;
+        this.type = Type.HANDLER;
     }
 
     public ColumnDatum(String templateTableName, String templateTableAlias, String sqlPart) {
         super(templateTableName, templateTableAlias, null, null);
         this.sqlPart = sqlPart;
-        this.columnType = ColumnType.SQL_PART;
+        this.type = Type.SQL_PART;
     }
 
-    public ColumnType getColumnType() {
-        return columnType;
+    public Type getType() {
+        return type;
     }
 
     public ColumnHandler[] getColumnHandlers() {
@@ -80,29 +79,51 @@ public final class ColumnDatum extends AbstractSqlPartDatum<ColumnDatum> {
         return sqlBuilderResult;
     }
 
-    public ColumnDatum setColumnType(ColumnType columnType) {
-        this.columnType = columnType;
+    public ColumnDatum setType(Type type) {
+        this.type = type;
         return this;
     }
 
     public ColumnDatum setColumnHandlers(ColumnHandler... columnHandlers) {
         this.columnHandlers = columnHandlers;
-        this.setColumnType(ColumnType.HANDLER);
+        this.setType(Type.HANDLER);
         return this;
     }
 
     public ColumnDatum setVirtualColumn(Object columnValue, String columnAlias) {
         this.columnValue = columnValue;
         this.setColumnAlias(columnAlias);
-        this.setColumnType(ColumnType.VIRTUAL);
+        this.setType(Type.VIRTUAL);
         return this;
     }
 
     public ColumnDatum setSubQueryColumn(SqlBuilderResult sqlBuilderResult, String columnAlias) {
         this.sqlBuilderResult = sqlBuilderResult;
         this.setColumnAlias(columnAlias);
-        this.setColumnType(ColumnType.SUB_QUERY);
+        this.setType(Type.SUB_QUERY);
         return this;
     }
 
+    public enum Type {
+        /**
+         * default type
+         */
+        DEFAULT,
+        /**
+         * virtual column
+         */
+        VIRTUAL,
+        /**
+         * sub query column
+         */
+        SUB_QUERY,
+        /**
+         * column handler {@link ColumnHandler}
+         */
+        HANDLER,
+        /**
+         * custom column sql
+         */
+        SQL_PART
+    }
 }

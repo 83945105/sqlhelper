@@ -6,10 +6,7 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * 列Sql片段数据构建器
- *
  * @author baichao
- * @date 2019/5/2
  */
 public final class ColumnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, ColumnDatum> {
 
@@ -35,5 +32,4 @@ public final class ColumnSqlPartDatumBuilder<T extends Helper> extends AbstractS
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.sqlBuilderOptions = sqlBuilderOptions;
     }
-
 }

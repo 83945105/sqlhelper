@@ -9,10 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * and or On条件连接器
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> implements OnLinker<TJ, SJ> {
 
@@ -26,12 +23,12 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
     }
 
     @Override
-    public OnAndOr<TJ, SJ> and(JoinHelper<?> onHelper) {
-        if (onHelper == null) {
+    public OnAndOr<TJ, SJ> and(JoinHelper<?> joinHelper) {
+        if (joinHelper == null) {
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
-        List<OnDatum> onData = onHelper.takeoutSqlPartData();
+        List<OnDatum> onData = joinHelper.takeoutSqlPartData();
         if (onData == null || onData.size() == 0) {
             return this;
         }
@@ -41,8 +38,11 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
     }
 
     @Override
-    public OnAndOr<TJ, SJ> and(OnLinkerCallback<TJ, SJ> callback) {
-        OnLinker<TJ, SJ> onLinker = callback.apply(new OnAndOr<>());
+    public OnAndOr<TJ, SJ> and(OnLinkerCallback<TJ, SJ> onLinkerCallback) {
+        if (onLinkerCallback == null) {
+            return this;
+        }
+        OnLinker<TJ, SJ> onLinker = onLinkerCallback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
@@ -54,17 +54,17 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
     }
 
     /**
-     * 或
+     * or
      *
-     * @param onHelper On助手
+     * @param joinHelper {@link JoinHelper}
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TJ, SJ> or(JoinHelper<?> onHelper) {
-        if (onHelper == null) {
+    public OnAndOr<TJ, SJ> or(JoinHelper<?> joinHelper) {
+        if (joinHelper == null) {
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
-        List<OnDatum> onData = onHelper.takeoutSqlPartData();
+        List<OnDatum> onData = joinHelper.takeoutSqlPartData();
         if (onData == null || onData.size() == 0) {
             return this;
         }
@@ -74,13 +74,16 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
     }
 
     /**
-     * 或
+     * or
      *
-     * @param callback On条件连接器回调
+     * @param onLinkerCallback {@link OnLinkerCallback}
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TJ, SJ> or(OnLinkerCallback<TJ, SJ> callback) {
-        OnLinker<TJ, SJ> onLinker = callback.apply(new OnAndOr<>());
+    public OnAndOr<TJ, SJ> or(OnLinkerCallback<TJ, SJ> onLinkerCallback) {
+        if (onLinkerCallback == null) {
+            return this;
+        }
+        OnLinker<TJ, SJ> onLinker = onLinkerCallback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
@@ -90,5 +93,4 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
         this.onDataLinkers.add(onDataLinker);
         return this;
     }
-
 }

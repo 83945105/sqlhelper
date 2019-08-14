@@ -1,38 +1,35 @@
 package pub.avalon.sqlhelper.core.beans;
 
 /**
- * 聚合类型
- *
  * @author baichao
- * @date 2019/6/17
  */
 public enum GroupType implements ColumnHandler {
     /**
-     * 最小值
+     * min
      */
     MIN("min"),
     /**
-     * 最大值
+     * max
      */
     MAX("max"),
     /**
-     * 总数
+     * total
      */
     COUNT("count"),
     /**
-     * 总和
+     * sum
      */
     SUM("sum"),
     /**
-     * 平均值
+     * average
      */
     AVG("avg"),
     /**
-     * 标准偏差
+     * standard deviation
      */
     STDDEV("stddev"),
     /**
-     * 方差
+     * variance
      */
     VARIANCE("variance");
 

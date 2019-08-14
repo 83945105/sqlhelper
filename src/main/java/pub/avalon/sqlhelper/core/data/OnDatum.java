@@ -1,21 +1,17 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.OnType;
-import pub.avalon.sqlhelper.core.beans.OnValueType;
 
 import java.util.List;
 
 /**
- * 条件数据
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class OnDatum extends AbstractSqlPartDatum<OnDatum> {
 
     private OnType onType = OnType.EQUAL;
 
-    private OnValueType onValueType = OnValueType.VALUE;
+    private Type type = Type.VALUE;
 
     private List<OnDatum> targetOnData;
 
@@ -27,6 +23,8 @@ public final class OnDatum extends AbstractSqlPartDatum<OnDatum> {
 
     private int valueCount;
 
+    private String sqlPart;
+
     public OnDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
     }
@@ -35,13 +33,51 @@ public final class OnDatum extends AbstractSqlPartDatum<OnDatum> {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
     }
 
+    public OnDatum(String templateTableName, String templateTableAlias, String sqlPart) {
+        super(templateTableName, templateTableAlias, null, null);
+        this.sqlPart = sqlPart;
+        this.type = Type.SQL_PART;
+    }
+
+    public OnType getOnType() {
+        return onType;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public List<OnDatum> getTargetOnData() {
+        return targetOnData;
+    }
+
+    public List<ColumnDatum> getTargetColumnData() {
+        return targetColumnData;
+    }
+
+    public Object getTargetValue() {
+        return targetValue;
+    }
+
+    public Object getTargetSecondValue() {
+        return targetSecondValue;
+    }
+
+    public int getValueCount() {
+        return valueCount;
+    }
+
+    public String getSqlPart() {
+        return sqlPart;
+    }
+
     public OnDatum setOnType(OnType onType) {
         this.onType = onType;
         return this;
     }
 
-    public OnDatum setOnValueType(OnValueType onValueType) {
-        this.onValueType = onValueType;
+    public OnDatum setType(Type type) {
+        this.type = type;
         return this;
     }
 
@@ -70,32 +106,22 @@ public final class OnDatum extends AbstractSqlPartDatum<OnDatum> {
         return this;
     }
 
-    public OnType getOnType() {
-        return onType;
+    public enum Type {
+        /**
+         * join other {@link OnDatum}
+         */
+        JOIN_ON,
+        /**
+         * join other {@link ColumnDatum}
+         */
+        JOIN_COLUMN,
+        /**
+         * specific value
+         */
+        VALUE,
+        /**
+         * custom sql value
+         */
+        SQL_PART
     }
-
-    public OnValueType getOnValueType() {
-        return onValueType;
-    }
-
-    public List<OnDatum> getTargetOnData() {
-        return targetOnData;
-    }
-
-    public List<ColumnDatum> getTargetColumnData() {
-        return targetColumnData;
-    }
-
-    public Object getTargetValue() {
-        return targetValue;
-    }
-
-    public Object getTargetSecondValue() {
-        return targetSecondValue;
-    }
-
-    public int getValueCount() {
-        return valueCount;
-    }
-
 }

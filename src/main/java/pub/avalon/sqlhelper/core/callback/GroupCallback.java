@@ -11,7 +11,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/5/18
  */
 @FunctionalInterface
 public interface GroupCallback<T extends GroupHelper<T>> {

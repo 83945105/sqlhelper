@@ -1,20 +1,18 @@
 package pub.avalon.sqlhelper.core.beans;
 
 /**
- * 比较规则
- *
  * @author baichao
- * @since 2018/7/10
  */
 public enum ComparisonRule {
-
     /**
-     * 参数为null时跳过
+     * when the parameter is null,the current rule is invalid.
+     * {@link pub.avalon.sqlhelper.core.comparison.ComparisonOperator}
      */
     NULL_SKIP,
     /**
-     * 参数为null时抛出异常
+     * when the parameter is null,throw exception.
+     * {@link pub.avalon.sqlhelper.core.comparison.ComparisonOperator}
+     * {@link pub.avalon.sqlhelper.core.exception.ComparisonRuleNullException}
      */
     NULL_THROW_EXCEPTION
-
 }

@@ -15,7 +15,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/5/16
  */
 @FunctionalInterface
 public interface JoinCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {
@@ -74,5 +73,4 @@ public interface JoinCallback<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<S
         joinTableDatum.setTableOnDatum(new TableOnDatum(joinTableAlias, onDataLinkers));
         return joinTableDatum;
     }
-
 }

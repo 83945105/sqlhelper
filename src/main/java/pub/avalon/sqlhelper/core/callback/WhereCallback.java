@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @since 2018/7/10
  */
 @FunctionalInterface
 public interface WhereCallback<TW extends WhereHelper<TW>> {
@@ -51,5 +50,4 @@ public interface WhereCallback<TW extends WhereHelper<TW>> {
         }
         return new TableWhereDatum(whereHelper.getTableAlias(), whereDataLinkers);
     }
-
 }

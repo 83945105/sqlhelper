@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/5/18
  */
 public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereHelper<SW>> {
 

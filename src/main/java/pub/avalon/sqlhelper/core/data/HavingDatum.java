@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.WhereType;
-import pub.avalon.sqlhelper.core.beans.WhereValueType;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 
 import java.util.List;
@@ -15,8 +14,6 @@ import java.util.List;
 public final class HavingDatum extends AbstractSqlPartDatum<HavingDatum> {
 
     private WhereType whereType = WhereType.EQUAL;
-
-    private WhereValueType whereValueType = WhereValueType.VALUE;
 
     private HavingDatum[] targetWhereData;
 
@@ -43,11 +40,6 @@ public final class HavingDatum extends AbstractSqlPartDatum<HavingDatum> {
 
     public HavingDatum setWhereType(WhereType whereType) {
         this.whereType = whereType;
-        return this;
-    }
-
-    public HavingDatum setWhereValueType(WhereValueType whereValueType) {
-        this.whereValueType = whereValueType;
         return this;
     }
 
@@ -91,9 +83,6 @@ public final class HavingDatum extends AbstractSqlPartDatum<HavingDatum> {
         return whereType;
     }
 
-    public WhereValueType getWhereValueType() {
-        return whereValueType;
-    }
 
     public HavingDatum[] getTargetWhereData() {
         return targetWhereData;

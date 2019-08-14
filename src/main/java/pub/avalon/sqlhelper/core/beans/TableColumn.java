@@ -4,10 +4,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * 表列
- *
  * @author baichao
- * @date 2019/6/16
  */
 public final class TableColumn {
 
@@ -99,5 +96,4 @@ public final class TableColumn {
     public int hashCode() {
         return Objects.hash(getName());
     }
-
 }

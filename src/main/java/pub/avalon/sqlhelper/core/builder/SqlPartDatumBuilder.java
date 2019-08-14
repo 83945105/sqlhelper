@@ -8,82 +8,77 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import java.util.List;
 
 /**
- * Sql片段数据构建器
- *
  * @author baichao
- * @date 2019/5/2
  */
 public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
 
     /**
-     * 获取表别名
+     * get table alias
      *
-     * @return 表别名
+     * @return table alias
      */
     String getTableAlias();
 
     /**
-     * 设置表别名
+     * set table alias
      *
-     * @param tableAlias 表别名
+     * @param tableAlias table alias
      */
     void setTableAlias(String tableAlias);
 
     /**
-     * 获取助手
+     * get helper
      *
      * @return {@link Helper}
      */
     T getHelper();
 
     /**
-     * 设置助手
+     * set helper
      *
      * @param helper {@link Helper}
      */
     void setHelper(T helper);
 
     /**
-     * 添加sql片段数据
+     * add sql part datum
      *
      * @param sqlPartDatum {@link SqlPartDatum}
      */
     void addSqlPartDatum(S sqlPartDatum);
 
     /**
-     * 取出sql片段数据
-     * 取出后将清空
+     * Clean up after each takeout.
      *
-     * @return {@link java.util.LinkedHashSet}
+     * @return list {@link SqlPartDatum}
      */
     List<S> takeoutSqlPartData();
 
     /**
-     * 接收sql片段
+     * accept sql part
      *
-     * @param templateTableName  模板表名
-     * @param templateTableAlias 模板表别名
-     * @param sqlPart            sql片段
+     * @param templateTableName  template table name
+     * @param templateTableAlias template table alias
+     * @param sqlPart            sql part
      */
     void accept(String templateTableName, String templateTableAlias, String sqlPart);
 
     /**
-     * 接收数据
+     * accept sql data
      *
-     * @param templateTableName   模板表名
-     * @param templateTableAlias  模板表别名
-     * @param templateColumnName  模板列名
-     * @param templateColumnAlias 模板列别名
-     * @param mappingFieldName    映射属性名
-     * @param columnHandlers      列处理
+     * @param templateTableName   template table name
+     * @param templateTableAlias  template table alias
+     * @param templateColumnName  template column name
+     * @param templateColumnAlias template column alias
+     * @param mappingFieldName    mapping field name
+     * @param columnHandlers      {@link ColumnHandler}
      */
     void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers);
 
     /**
-     * 设置Sql构建配置
+     * set sql builder options
      *
      * @param sqlBuilderOptions {@link SqlBuilderOptions}
      */
     void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions);
-
 }

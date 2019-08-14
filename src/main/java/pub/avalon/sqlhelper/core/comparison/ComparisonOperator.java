@@ -1,288 +1,285 @@
 package pub.avalon.sqlhelper.core.comparison;
 
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
+import pub.avalon.sqlhelper.core.helper.Helper;
 
 import java.util.Collection;
 
 /**
- * 比较运算符
- *
  * @author baichao
- * @since 2018/7/10
  */
 public interface ComparisonOperator<T> {
 
     /**
-     * 获取默认比较规则
+     * get default comparison rule.
      *
      * @return {@link ComparisonRule}
      */
     ComparisonRule getDefaultComparisonRule();
 
     /**
-     * 为null
+     * is null
      *
-     * @return 条件对象
+     * @return extends {@link Helper} object
      */
     T isNull();
 
     /**
-     * 不为null
+     * is not null
      *
-     * @return 条件对象
+     * @return extends {@link Helper} object
      */
     T isNotNull();
 
     /**
-     * 等于
+     * equal to
      *
-     * @param value          比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T equalTo(Object value, ComparisonRule comparisonRule);
 
     /**
-     * 等于
+     * equal to
      *
-     * @param value 比较值
-     * @return 条件对象
+     * @param value comparison value
+     * @return extends {@link Helper} object
      */
     default T equalTo(Object value) {
         return equalTo(value, getDefaultComparisonRule());
     }
 
     /**
-     * 不等于
+     * not equal to
      *
-     * @param value          比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T notEqualTo(Object value, ComparisonRule comparisonRule);
 
     /**
-     * 不等于
+     * not equal to
      *
-     * @param value 比较值
-     * @return 条件对象
+     * @param value comparison value
+     * @return extends {@link Helper} object
      */
     default T notEqualTo(Object value) {
         return notEqualTo(value, getDefaultComparisonRule());
     }
 
     /**
-     * 大于
+     * greater than
      *
-     * @param value          比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T greaterThan(Object value, ComparisonRule comparisonRule);
 
     /**
-     * 大于
+     * greater than
      *
-     * @param value 比较值
-     * @return 条件对象
+     * @param value comparison value
+     * @return extends {@link Helper} object
      */
     default T greaterThan(Object value) {
         return greaterThan(value, getDefaultComparisonRule());
     }
 
     /**
-     * 大于等于
+     * greater than or equal to
      *
-     * @param value          比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T greaterThanAndEqualTo(Object value, ComparisonRule comparisonRule);
 
     /**
-     * 大于等于
+     * greater than or equal to
      *
-     * @param value 比较值
-     * @return 条件对象
+     * @param value comparison value
+     * @return extends {@link Helper} object
      */
     default T greaterThanAndEqualTo(Object value) {
         return greaterThanAndEqualTo(value, getDefaultComparisonRule());
     }
 
     /**
-     * 小于
+     * less than
      *
-     * @param value          比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T lessThan(Object value, ComparisonRule comparisonRule);
 
     /**
-     * 小于
+     * less than
      *
-     * @param value 比较值
-     * @return 条件对象
+     * @param value comparison value
+     * @return extends {@link Helper} object
      */
     default T lessThan(Object value) {
         return lessThan(value, getDefaultComparisonRule());
     }
 
     /**
-     * 小于等于
+     * less than or equal to
      *
-     * @param value          比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T lessThanAndEqualTo(Object value, ComparisonRule comparisonRule);
 
     /**
-     * 小于等于
+     * less than or equal to
      *
-     * @param value 比较值
-     * @return 条件对象
+     * @param value comparison value
+     * @return extends {@link Helper} object
      */
     default T lessThanAndEqualTo(Object value) {
         return lessThanAndEqualTo(value, getDefaultComparisonRule());
     }
 
     /**
-     * 介于
+     * between ... and ...
      *
-     * @param value          比较开始值
-     * @param secondValue    比较结束值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison start value
+     * @param secondValue    comparison end value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T between(Object value, Object secondValue, ComparisonRule comparisonRule);
 
     /**
-     * 介于
+     * between ... and ...
      *
-     * @param value       比较开始值
-     * @param secondValue 比较结束值
-     * @return 条件对象
+     * @param value       comparison start value
+     * @param secondValue comparison end value
+     * @return extends {@link Helper} object
      */
     default T between(Object value, Object secondValue) {
         return between(value, secondValue, getDefaultComparisonRule());
     }
 
     /**
-     * 模糊查询
+     * like
      *
-     * @param value          比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param value          comparison value
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T like(Object value, ComparisonRule comparisonRule);
 
     /**
-     * 模糊查询
+     * like
      *
-     * @param value 比较值
-     * @return 条件对象
+     * @param value comparison value
+     * @return extends {@link Helper} object
      */
     default T like(Object value) {
         return like(value, getDefaultComparisonRule());
     }
 
     /**
-     * 在...内
+     * in
      *
-     * @param values         比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param values         comparison values
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T in(Object[] values, ComparisonRule comparisonRule);
 
     /**
-     * 在...内
+     * in
      *
-     * @param values         比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param values         comparison values
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     default T in(ComparisonRule comparisonRule, Object... values) {
         return in(values, comparisonRule);
     }
 
     /**
-     * 在...内
+     * in
      *
-     * @param values 比较值
-     * @return 条件对象
+     * @param values comparison values
+     * @return extends {@link Helper} object
      */
     default T in(Object... values) {
         return in(getDefaultComparisonRule(), values);
     }
 
     /**
-     * 在...内
+     * in
      *
-     * @param values         比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param values         comparison values
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T in(Collection<Object> values, ComparisonRule comparisonRule);
 
     /**
-     * 在...内
+     * in
      *
-     * @param values 比较值
-     * @return 条件对象
+     * @param values comparison values
+     * @return extends {@link Helper} object
      */
     default T in(Collection<Object> values) {
         return in(values, getDefaultComparisonRule());
     }
 
     /**
-     * 不在...内
+     * not in
      *
-     * @param values         比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param values         comparison values
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T notIn(Object[] values, ComparisonRule comparisonRule);
 
     /**
-     * 不在...内
+     * not in
      *
-     * @param values         比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param values         comparison values
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     default T notIn(ComparisonRule comparisonRule, Object... values) {
         return notIn(values, comparisonRule);
     }
 
     /**
-     * 不在...内
+     * not in
      *
-     * @param values 比较值
-     * @return 条件对象
+     * @param values comparison values
+     * @return extends {@link Helper} object
      */
     default T notIn(Object... values) {
         return notIn(getDefaultComparisonRule(), values);
     }
 
     /**
-     * 不在...内
+     * not in
      *
-     * @param values         比较值
-     * @param comparisonRule 比较规则
-     * @return 条件对象
+     * @param values         comparison values
+     * @param comparisonRule {@link ComparisonRule}
+     * @return extends {@link Helper} object
      */
     T notIn(Collection<Object> values, ComparisonRule comparisonRule);
 
     /**
-     * 不在...内
+     * not in
      *
-     * @param values 比较值
-     * @return 条件对象
+     * @param values comparison values
+     * @return extends {@link Helper} object
      */
     default T notIn(Collection<Object> values) {
         return notIn(values, getDefaultComparisonRule());
     }
-
 }

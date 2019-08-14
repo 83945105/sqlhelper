@@ -7,35 +7,30 @@ import pub.avalon.sqlhelper.core.helper.JoinHelper;
 import java.util.List;
 
 /**
- * On条件连接器
- *
  * @author baichao
- * @since 2018/7/10
  */
 public interface OnLinker<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {
 
     /**
-     * 取出On数据连接器
-     * 取出后清空
+     * Clean up after each takeout.
      *
-     * @return {@link java.util.ArrayList}
+     * @return list {@link OnDataLinker}
      */
     List<OnDataLinker> takeoutOnDataLinkers();
 
     /**
-     * 且
+     * and
      *
-     * @param onHelper On助手
+     * @param joinHelper {@link JoinHelper}
      * @return {@link OnAndOr}
      */
-    OnAndOr<TJ, SJ> and(JoinHelper<?> onHelper);
+    OnAndOr<TJ, SJ> and(JoinHelper<?> joinHelper);
 
     /**
-     * 且
+     * and
      *
-     * @param callback On条件连接器回调
-     * @return On条件连接器 {@link OnAndOr}
+     * @param onLinkerCallback {@link OnLinkerCallback}
+     * @return {@link OnAndOr}
      */
-    OnAndOr<TJ, SJ> and(OnLinkerCallback<TJ, SJ> callback);
-
+    OnAndOr<TJ, SJ> and(OnLinkerCallback<TJ, SJ> onLinkerCallback);
 }

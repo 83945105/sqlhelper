@@ -24,7 +24,8 @@ public final class SortSqlPartDatumBuilder<T extends Helper> extends AbstractSql
 
     @Override
     public void accept(String templateTableName, String templateTableAlias, String sqlPart) {
-
+        this.sortDatum = new SortDatum(templateTableName, templateTableAlias, sqlPart)
+                .setTableAlias(this.tableAlias);
     }
 
     @Override
@@ -59,5 +60,4 @@ public final class SortSqlPartDatumBuilder<T extends Helper> extends AbstractSql
         this.addSqlPartDatum(this.sortDatum);
         return this.getHelper();
     }
-
 }

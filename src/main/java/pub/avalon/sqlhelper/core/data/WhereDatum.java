@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.beans.WhereType;
-import pub.avalon.sqlhelper.core.beans.WhereValueType;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public final class WhereDatum extends AbstractSqlPartDatum<WhereDatum> {
 
     private WhereType whereType = WhereType.EQUAL;
 
-    private WhereValueType whereValueType = WhereValueType.VALUE;
+    private Type type = Type.VALUE;
 
     private List<WhereDatum> targetWhereData;
 
@@ -40,14 +39,19 @@ public final class WhereDatum extends AbstractSqlPartDatum<WhereDatum> {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias, mappingFieldName);
     }
 
+    public WhereDatum(String templateTableName, String templateTableAlias, String sqlPart) {
+        super(templateTableName, templateTableAlias, null, null);
+        this.sqlPart = sqlPart;
+        this.type = Type.SQL_PART;
+    }
 
     public WhereDatum setWhereType(WhereType whereType) {
         this.whereType = whereType;
         return this;
     }
 
-    public WhereDatum setWhereValueType(WhereValueType whereValueType) {
-        this.whereValueType = whereValueType;
+    public WhereDatum setType(Type type) {
+        this.type = type;
         return this;
     }
 
@@ -90,8 +94,8 @@ public final class WhereDatum extends AbstractSqlPartDatum<WhereDatum> {
         return whereType;
     }
 
-    public WhereValueType getWhereValueType() {
-        return whereValueType;
+    public Type getType() {
+        return type;
     }
 
     public List<WhereDatum> getTargetWhereData() {
@@ -122,4 +126,26 @@ public final class WhereDatum extends AbstractSqlPartDatum<WhereDatum> {
         return sqlPart;
     }
 
+    public enum Type {
+        /**
+         * join other {@link WhereDatum}
+         */
+        JOIN_WHERE,
+        /**
+         * join other {@link ColumnDatum}
+         */
+        JOIN_COLUMN,
+        /**
+         * specific value
+         */
+        VALUE,
+        /**
+         * sub query value
+         */
+        SUB_QUERY,
+        /**
+         * custom sql value
+         */
+        SQL_PART
+    }
 }

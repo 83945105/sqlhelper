@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Sql片段数据构建器基类
- *
  * @author baichao
- * @date 2019/5/2
  */
 public abstract class AbstractSqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> implements SqlPartDatumBuilder<T, S> {
 
@@ -65,5 +62,4 @@ public abstract class AbstractSqlPartDatumBuilder<T extends Helper, S extends Sq
         this.sqlPartData = null;
         return sqlModelData;
     }
-
 }
