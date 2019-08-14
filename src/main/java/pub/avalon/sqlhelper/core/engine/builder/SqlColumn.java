@@ -4,12 +4,14 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.engine.ColumnEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlColumnBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlColumnBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlColumnBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.ColumnCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,5 +96,15 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
 
     public List<AbstractSqlColumnBean> getSqlColumnBeans() {
         return sqlColumnBeans;
+    }
+
+    public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
+        return execute(this, sqlBuilderOptions);
+    }
+
+    public static <FC extends ColumnHelper<FC>> List<TableColumnDatum> execute(SqlColumn<FC> sqlColumn, SqlBuilderOptions sqlBuilderOptions) {
+        List<TableColumnDatum> tableColumnData = new ArrayList<>();
+        sqlColumn.getSqlColumnBeans().forEach(sqlColumnBean -> tableColumnData.addAll(sqlColumnBean.execute(sqlBuilderOptions)));
+        return tableColumnData;
     }
 }

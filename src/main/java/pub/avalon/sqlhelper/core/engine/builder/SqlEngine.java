@@ -1,12 +1,6 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
-import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
-import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Sql引擎
@@ -25,33 +19,5 @@ public interface SqlEngine<R> {
     <FG extends GroupHelper<FG>> R sqlGroup(SqlGroup<FG> sqlGroup);
 
     <FS extends SortHelper<FS>> R sqlSort(SqlSort<FS> sqlSort);
-
-    static <FJ extends JoinHelper<FJ>> List<JoinTableDatum> executeJoin(SqlJoin<FJ> sqlJoin, SqlBuilderOptions sqlBuilderOptions) {
-        return sqlJoin.getSqlJoinBeans().stream().map(sqlJoinBean -> sqlJoinBean.execute(sqlBuilderOptions)).collect(Collectors.toList());
-    }
-
-    static <FC extends ColumnHelper<FC>> List<TableColumnDatum> executeColumn(SqlColumn<FC> sqlColumn, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableColumnDatum> tableColumnData = new ArrayList<>();
-        sqlColumn.getSqlColumnBeans().forEach(sqlColumnBean -> tableColumnData.addAll(sqlColumnBean.execute(sqlBuilderOptions)));
-        return tableColumnData;
-    }
-
-    static <FW extends WhereHelper<FW>> List<TableWhereDatum> executeWhere(SqlWhere<FW> sqlWhere, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableWhereDatum> tableWhereData = new ArrayList<>();
-        sqlWhere.getSqlWhereBeans().forEach(sqlWhereBean -> tableWhereData.addAll(sqlWhereBean.execute(sqlBuilderOptions)));
-        return tableWhereData;
-    }
-
-    static <FG extends GroupHelper<FG>> List<TableGroupDatum> executeGroup(SqlGroup<FG> sqlGroup, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableGroupDatum> tableGroupData = new ArrayList<>();
-        sqlGroup.getSqlGroupBeans().forEach(sqlGroupBean -> tableGroupData.addAll(sqlGroupBean.execute(sqlBuilderOptions)));
-        return tableGroupData;
-    }
-
-    static <FS extends SortHelper<FS>> List<TableSortDatum> executeSort(SqlSort<FS> sqlSort, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableSortDatum> tableSortData = new ArrayList<>();
-        sqlSort.getSqlSortBeans().forEach(sqlSortBean -> tableSortData.addAll(sqlSortBean.execute(sqlBuilderOptions)));
-        return tableSortData;
-    }
 
 }

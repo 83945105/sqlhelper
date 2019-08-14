@@ -2,12 +2,14 @@ package pub.avalon.sqlhelper.core.engine.builder;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
+import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.engine.GroupEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlGroupBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlGroupBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlGroupBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.GroupCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,5 +68,15 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
 
     public List<AbstractSqlGroupBean> getSqlGroupBeans() {
         return sqlGroupBeans;
+    }
+
+    public List<TableGroupDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
+        return execute(this, sqlBuilderOptions);
+    }
+
+    public static <FG extends GroupHelper<FG>> List<TableGroupDatum> execute(SqlGroup<FG> sqlGroup, SqlBuilderOptions sqlBuilderOptions) {
+        List<TableGroupDatum> tableGroupData = new ArrayList<>();
+        sqlGroup.getSqlGroupBeans().forEach(sqlGroupBean -> tableGroupData.addAll(sqlGroupBean.execute(sqlBuilderOptions)));
+        return tableGroupData;
     }
 }
