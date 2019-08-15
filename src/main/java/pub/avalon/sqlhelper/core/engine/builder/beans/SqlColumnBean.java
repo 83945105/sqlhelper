@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/17
  */
 public final class SqlColumnBean<TC extends ColumnHelper<TC>> extends AbstractSqlColumnBean {
 
@@ -48,5 +47,4 @@ public final class SqlColumnBean<TC extends ColumnHelper<TC>> extends AbstractSq
         }
         return tableColumnData;
     }
-
 }

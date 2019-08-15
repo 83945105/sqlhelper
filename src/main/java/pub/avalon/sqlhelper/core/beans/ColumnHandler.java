@@ -6,5 +6,4 @@ package pub.avalon.sqlhelper.core.beans;
 public interface ColumnHandler {
 
     String execute(String columnSql);
-
 }

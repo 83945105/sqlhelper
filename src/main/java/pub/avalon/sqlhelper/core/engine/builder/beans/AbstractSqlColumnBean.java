@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/8/9
  */
 public abstract class AbstractSqlColumnBean extends SqlBean {
 
@@ -16,5 +15,4 @@ public abstract class AbstractSqlColumnBean extends SqlBean {
     }
 
     abstract public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions);
-
 }

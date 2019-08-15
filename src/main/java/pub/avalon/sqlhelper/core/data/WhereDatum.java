@@ -6,10 +6,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import java.util.List;
 
 /**
- * 条件数据
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class WhereDatum extends AbstractSqlPartDatum<WhereDatum> {
 

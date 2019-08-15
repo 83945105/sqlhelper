@@ -3,13 +3,15 @@ package pub.avalon.sqlhelper.core.engine;
 import pub.avalon.sqlhelper.core.helper.GroupHelper;
 
 /**
- * 分组引擎
- *
  * @author baichao
- * @since 2018/7/10
  */
 public interface GroupEngine<R> extends Engine {
 
+    /**
+     * add group sql data
+     *
+     * @param groupHelpers extends {@link GroupHelper} objects
+     * @return R
+     */
     R group(GroupHelper<?>... groupHelpers);
-
 }

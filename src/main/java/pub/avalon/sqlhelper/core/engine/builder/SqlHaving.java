@@ -7,7 +7,6 @@ import pub.avalon.sqlhelper.core.helper.HavingHelper;
 
 /**
  * @author baichao
- * @date 2019/7/18
  */
 public abstract class SqlHaving<TH extends HavingHelper<TH>> implements HavingEngine<SqlHaving<TH>>, HavingCallbackEngine<TH, SqlHaving<TH>> {
 

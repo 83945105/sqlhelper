@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/8/9
  */
 public abstract class AbstractSqlWhereBean extends SqlBean {
 

@@ -5,10 +5,7 @@ import pub.avalon.sqlhelper.core.beans.LinkType;
 import java.util.List;
 
 /**
- * 条件数据连接器
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class WhereDataLinker {
 

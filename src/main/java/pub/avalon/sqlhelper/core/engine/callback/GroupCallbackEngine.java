@@ -7,31 +7,49 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * 分组引擎
- *
  * @author baichao
- * @since 2018/7/10
  */
 public interface GroupCallbackEngine<TG extends GroupHelper<TG>, R> extends Engine {
 
-    R group(GroupCallback<TG> callback);
+    /**
+     * use callback to add group sql data
+     *
+     * @param groupCallback {@link GroupCallback}
+     * @return R
+     */
+    R group(GroupCallback<TG> groupCallback);
 
+    /**
+     * use callback to add assign class group sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param groupCallback    {@link GroupCallback}
+     * @return R
+     */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback);
+            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback);
 
+    /**
+     * use callback to add assign class group sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param groupCallback    {@link GroupCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, GroupCallback<SG> callback) {
-        return group(tableHelperClass, null, callback);
+            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, GroupCallback<SG> groupCallback) {
+        return group(tableHelperClass, null, groupCallback);
     }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,

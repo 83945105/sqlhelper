@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
-import pub.avalon.sqlhelper.core.engine.ColumnEngine;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -18,25 +17,24 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/31
  */
 public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends Engine {
 
     /**
-     * 执行列回调
+     * use callback to add column sql data
      *
      * @param columnCallback {@link ColumnCallback}
-     * @return {@link ColumnEngine}
+     * @return R
      */
     R column(ColumnCallback<TC> columnCallback);
 
     /**
-     * 执行指定列回调
+     * use callback to add assign class column sql data
      *
-     * @param tableHelperClass 表助手
-     * @param tableAlias       表别名
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
      * @param columnCallback   {@link ColumnCallback}
-     * @return {@link ColumnEngine}
+     * @return R
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
@@ -47,11 +45,11 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             SS extends SortHelper<SS>> R column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback);
 
     /**
-     * 执行指定列回调
+     * use callback to add assign class column sql data
      *
-     * @param tableHelperClass 表助手
+     * @param tableHelperClass extends {@link TableHelper} class
      * @param columnCallback   {@link ColumnCallback}
-     * @return {@link ColumnEngine}
+     * @return R
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
@@ -64,22 +62,22 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
     }
 
     /**
-     * 聚合列
+     * use callback to add group column sql data
      *
-     * @param groupType      聚合类型
-     * @param columnCallback 列回调
-     * @return {@link ColumnEngine}
+     * @param groupType      {@link GroupType}
+     * @param columnCallback {@link ColumnCallback}
+     * @return R
      */
     R groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback);
 
     /**
-     * 聚合列
+     * use callback to add assign class group column sql data
      *
-     * @param tableHelperClass 表助手
-     * @param tableAlias       表别名
-     * @param groupType        聚合类型
-     * @param columnCallback   列回调
-     * @return {@link ColumnEngine}
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param groupType        {@link GroupType}
+     * @param columnCallback   {@link ColumnCallback}
+     * @return R
      */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
@@ -90,12 +88,12 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             SS extends SortHelper<SS>> R groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback);
 
     /**
-     * 聚合列
+     * use callback to add assign class group column sql data
      *
-     * @param tableHelperClass 表助手
-     * @param groupType        聚合类型
-     * @param columnCallback   列回调
-     * @return {@link ColumnEngine}
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param groupType        {@link GroupType}
+     * @param columnCallback   {@link ColumnCallback}
+     * @return R
      */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
@@ -108,11 +106,11 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
     }
 
     /**
-     * 子查询列
+     * use callback to add sub query column sql data
      *
-     * @param columnAlias            列别名
-     * @param subQueryColumnCallback 子查询列回调
-     * @return {@link ColumnEngine}
+     * @param columnAlias            column alias
+     * @param subQueryColumnCallback {@link SubQueryColumnCallback}
+     * @return R
      */
     R subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback);
 

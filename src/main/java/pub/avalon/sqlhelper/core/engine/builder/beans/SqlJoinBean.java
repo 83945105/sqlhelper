@@ -8,7 +8,6 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
  * @author baichao
- * @date 2019/7/17
  */
 public final class SqlJoinBean<TJ extends JoinHelper<TJ>,
         S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -45,5 +44,4 @@ public final class SqlJoinBean<TJ extends JoinHelper<TJ>,
         }
         return new JoinTableDatum(this.joinType, this.joinTableHelperClass, this.joinTableName, this.tableAlias);
     }
-
 }

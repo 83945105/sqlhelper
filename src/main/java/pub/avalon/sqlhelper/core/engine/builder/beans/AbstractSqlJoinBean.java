@@ -5,7 +5,6 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
  * @author baichao
- * @date 2019/8/9
  */
 public abstract class AbstractSqlJoinBean extends SqlBean {
 

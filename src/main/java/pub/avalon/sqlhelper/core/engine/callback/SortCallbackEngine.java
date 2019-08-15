@@ -7,32 +7,50 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * 排序引擎
- *
  * @author baichao
- * @since 2018/7/10
  */
 public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine {
 
-    R sort(SortCallback<TS> callback);
+    /**
+     * use callback to add sort sql data
+     *
+     * @param sortCallback {@link SortCallback}
+     * @return R
+     */
+    R sort(SortCallback<TS> sortCallback);
 
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, SortCallback<SS> callback) {
-        return sort(tableHelperClass, null, callback);
-    }
-
+    /**
+     * use callback to add assign class sort sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param sortCallback     {@link SortCallback}
+     * @return R
+     */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback);
+            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback);
+
+    /**
+     * use callback to add assign class sort sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param sortCallback     {@link SortCallback}
+     * @return R
+     */
+    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, SortCallback<SS> sortCallback) {
+        return sort(tableHelperClass, null, sortCallback);
+    }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
             FJ extends JoinHelper<FJ>,

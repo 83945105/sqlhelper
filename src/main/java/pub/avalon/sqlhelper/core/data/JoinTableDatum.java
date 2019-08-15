@@ -3,10 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 
 /**
- * 连接表数据
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class JoinTableDatum extends AbstractTableDatum {
 
@@ -30,5 +27,4 @@ public final class JoinTableDatum extends AbstractTableDatum {
     public void setTableOnDatum(TableOnDatum tableOnDatum) {
         this.tableOnDatum = tableOnDatum;
     }
-
 }

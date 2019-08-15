@@ -3,10 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 import java.util.Objects;
 
 /**
- * 表数据
- *
  * @author baichao
- * @since 2018/7/10
  */
 public abstract class AbstractTableDatum implements TableDatum {
 
@@ -69,5 +66,4 @@ public abstract class AbstractTableDatum implements TableDatum {
     public int hashCode() {
         return Objects.hash(tableAlias);
     }
-
 }

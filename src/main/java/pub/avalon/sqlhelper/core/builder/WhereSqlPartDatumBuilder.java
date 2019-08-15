@@ -54,9 +54,9 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
      * @return {@link Helper}
      */
     public T sqlPart(String sqlPart) {
-        this.whereDatum.setType(WhereDatum.Type.SQL_PART);
-        this.whereDatum.setSqlPart(sqlPart);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setType(WhereDatum.Type.SQL_PART)
+                .setSqlPart(sqlPart));
         return this.getHelper();
     }
 
@@ -67,17 +67,17 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
 
     @Override
     public T isNull() {
-        this.whereDatum.setWhereType(WhereType.IS_NULL);
-        this.whereDatum.setValueCount(0);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.IS_NULL)
+                .setValueCount(0));
         return this.getHelper();
     }
 
     @Override
     public T isNotNull() {
-        this.whereDatum.setWhereType(WhereType.IS_NOT_NULL);
-        this.whereDatum.setValueCount(0);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.IS_NOT_NULL)
+                .setValueCount(0));
         return this.getHelper();
     }
 
@@ -94,10 +94,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setValueCount(1);
-        this.whereDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.EQUAL)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -114,10 +114,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
-        this.whereDatum.setValueCount(1);
-        this.whereDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.NOT_EQUAL)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -134,10 +134,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.GREATER);
-        this.whereDatum.setValueCount(1);
-        this.whereDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.GREATER)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -154,10 +154,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
-        this.whereDatum.setValueCount(1);
-        this.whereDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.GREATER_EQUAL)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -174,10 +174,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.LESS);
-        this.whereDatum.setValueCount(1);
-        this.whereDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LESS)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -194,10 +194,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
-        this.whereDatum.setValueCount(1);
-        this.whereDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LESS_EQUAL)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -225,11 +225,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.BETWEEN);
-        this.whereDatum.setValueCount(2);
-        this.whereDatum.setTargetValue(value);
-        this.whereDatum.setTargetSecondValue(secondValue);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.BETWEEN)
+                .setValueCount(2)
+                .setTargetValue(value)
+                .setTargetSecondValue(secondValue));
         return this.getHelper();
     }
 
@@ -246,10 +246,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.LIKE);
-        this.whereDatum.setValueCount(1);
-        this.whereDatum.setTargetValue(value);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LIKE)
+                .setValueCount(1)
+                .setTargetValue(value));
         return this.getHelper();
     }
 
@@ -266,10 +266,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.IN);
-        this.whereDatum.setValueCount(values.length);
-        this.whereDatum.setTargetValue(values);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.IN)
+                .setValueCount(values.length)
+                .setTargetValue(values));
         return this.getHelper();
     }
 
@@ -286,10 +286,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.IN);
-        this.whereDatum.setValueCount(values.size());
-        this.whereDatum.setTargetValue(values);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.IN)
+                .setValueCount(values.size())
+                .setTargetValue(values));
         return this.getHelper();
     }
 
@@ -306,10 +306,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.NOT_IN);
-        this.whereDatum.setValueCount(values.length);
-        this.whereDatum.setTargetValue(values);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.NOT_IN)
+                .setValueCount(values.length)
+                .setTargetValue(values));
         return this.getHelper();
     }
 
@@ -326,103 +326,103 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.whereDatum.setWhereType(WhereType.NOT_IN);
-        this.whereDatum.setValueCount(values.size());
-        this.whereDatum.setTargetValue(values);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.NOT_IN)
+                .setValueCount(values.size())
+                .setTargetValue(values));
         return this.getHelper();
     }
 
     @Override
     public T equalTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.EQUAL)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum)));
         return this.getHelper();
     }
 
     @Override
     public T notEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.NOT_EQUAL)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum)));
         return this.getHelper();
     }
 
     @Override
     public T greaterThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.GREATER);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.GREATER)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum)));
         return this.getHelper();
     }
 
     @Override
     public T greaterThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.GREATER_EQUAL)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum)));
         return this.getHelper();
     }
 
     @Override
     public T lessThan(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.LESS);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LESS)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum)));
         return this.getHelper();
     }
 
     @Override
     public T lessThanAndEqualTo(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LESS_EQUAL)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum)));
         return this.getHelper();
     }
 
     @Override
     public T between(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder, WhereSqlPartDatumBuilder secondWhereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.BETWEEN);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(new ArrayList<WhereDatum>(2) {{
-            add(whereSqlPartDatumBuilder.whereDatum);
-            add(secondWhereSqlPartDatumBuilder.whereDatum);
-        }});
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.BETWEEN)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(new ArrayList<WhereDatum>(2) {{
+                    add(whereSqlPartDatumBuilder.whereDatum);
+                    add(secondWhereSqlPartDatumBuilder.whereDatum);
+                }}));
         return this.getHelper();
     }
 
     @Override
     public T like(WhereSqlPartDatumBuilder whereSqlPartDatumBuilder) {
-        this.whereDatum.setWhereType(WhereType.LIKE);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LIKE)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Collections.singletonList(whereSqlPartDatumBuilder.whereDatum)));
         return this.getHelper();
     }
 
     @Override
     public T in(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders) {
-        this.whereDatum.setWhereType(WhereType.IN);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Arrays.stream(whereSqlPartDatumBuilders).map(b -> b.whereDatum).collect(Collectors.toList()));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.IN)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Arrays.stream(whereSqlPartDatumBuilders).map(whereSqlPartDatumBuilder -> whereSqlPartDatumBuilder.whereDatum).collect(Collectors.toList())));
         return this.getHelper();
     }
 
     @Override
     public T notIn(WhereSqlPartDatumBuilder... whereSqlPartDatumBuilders) {
-        this.whereDatum.setWhereType(WhereType.NOT_IN);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_WHERE);
-        this.whereDatum.setTargetWhereData(Arrays.stream(whereSqlPartDatumBuilders).map(b -> b.whereDatum).collect(Collectors.toList()));
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.NOT_IN)
+                .setType(WhereDatum.Type.JOIN_WHERE)
+                .setTargetWhereData(Arrays.stream(whereSqlPartDatumBuilders).map(whereSqlPartDatumBuilder -> whereSqlPartDatumBuilder.whereDatum).collect(Collectors.toList())));
         return this.getHelper();
     }
 
@@ -432,10 +432,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.EQUAL)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -459,10 +459,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.NOT_EQUAL)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -486,10 +486,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.GREATER);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.GREATER)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -513,10 +513,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.GREATER_EQUAL)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -540,10 +540,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.LESS);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LESS)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -567,10 +567,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LESS_EQUAL)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -597,10 +597,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData.size() != 2) {
             throw new RuntimeException("ColumnData size must be 2 in between.");
         }
-        this.whereDatum.setWhereType(WhereType.BETWEEN);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.BETWEEN)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -624,10 +624,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.LIKE);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.LIKE)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -651,10 +651,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.IN);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.IN)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 
@@ -678,10 +678,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.whereDatum.setWhereType(WhereType.NOT_IN);
-        this.whereDatum.setType(WhereDatum.Type.JOIN_COLUMN);
-        this.whereDatum.setTargetColumnData(columnData);
-        this.addSqlPartDatum(this.whereDatum);
+        this.addSqlPartDatum(this.whereDatum
+                .setWhereType(WhereType.NOT_IN)
+                .setType(WhereDatum.Type.JOIN_COLUMN)
+                .setTargetColumnData(columnData));
         return this.getHelper();
     }
 

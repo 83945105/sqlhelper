@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/17
  */
 public final class SqlWhereBeanJoin<TW extends WhereHelper<TW>,
         S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
@@ -38,5 +37,4 @@ public final class SqlWhereBeanJoin<TW extends WhereHelper<TW>,
     public List<TableWhereDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
         return Collections.singletonList(WhereJoinCallback.execute(this.whereHelper, this.tableHelperClass, this.tableAlias, this.whereJoinCallback, sqlBuilderOptions));
     }
-
 }

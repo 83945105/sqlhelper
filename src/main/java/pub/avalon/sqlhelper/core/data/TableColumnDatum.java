@@ -5,10 +5,7 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.List;
 
 /**
- * 表列数据
- *
  * @author baichao
- * @date 2019/5/2
  */
 public final class TableColumnDatum {
 

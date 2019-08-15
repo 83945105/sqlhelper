@@ -16,7 +16,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/17
  */
 public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngine<SqlGroup<TG>>, GroupCallbackEngine<TG, SqlGroup<TG>> {
 

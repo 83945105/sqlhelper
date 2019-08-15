@@ -574,5 +574,4 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @return
      */
     T notInSubQuery(SubQueryCallback subQueryCallback);
-
 }

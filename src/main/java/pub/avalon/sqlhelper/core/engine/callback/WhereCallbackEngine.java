@@ -8,15 +8,41 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * 条件引擎
- *
  * @author baichao
- * @since 2018/7/10
  */
 public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engine {
 
+    /**
+     * use callback to add where sql data
+     *
+     * @param whereCallback {@link WhereCallback}
+     * @return R
+     */
     R where(WhereCallback<TW> whereCallback);
 
+    /**
+     * use callback to add assign class where sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param whereCallback    {@link WhereCallback}
+     * @return R
+     */
+    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback);
+
+    /**
+     * use callback to add assign class where sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param whereCallback    {@link WhereCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -26,14 +52,6 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
             SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, WhereJoinCallback<TW, SW> whereCallback) {
         return where(tableHelperClass, null, whereCallback);
     }
-
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback);
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
             FJ extends JoinHelper<FJ>,

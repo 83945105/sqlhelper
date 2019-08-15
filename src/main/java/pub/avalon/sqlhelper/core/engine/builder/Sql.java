@@ -9,10 +9,7 @@ import pub.avalon.sqlhelper.core.engine.callback.JdbcCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 
 /**
- * Sql
- *
  * @author baichao
- * @date 2019/7/16
  */
 public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
@@ -91,7 +88,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> callback) {
+    public Sql<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> groupCallback) {
         return this;
     }
 
@@ -102,7 +99,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
+            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
         return this;
     }
 
@@ -143,7 +140,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> callback) {
+    public Sql<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> sortCallback) {
         return this;
     }
 
@@ -154,7 +151,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
+            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
         return this;
     }
 

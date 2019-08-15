@@ -5,10 +5,7 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.List;
 
 /**
- * 表排序数据
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class TableSortDatum {
 
@@ -31,5 +28,4 @@ public final class TableSortDatum {
     public List<SortDatum> getSortData() {
         return sortData;
     }
-
 }

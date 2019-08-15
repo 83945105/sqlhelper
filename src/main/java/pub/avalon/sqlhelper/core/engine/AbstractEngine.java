@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -15,7 +14,6 @@ import java.util.Collection;
 
 /**
  * @author baichao
- * @date 2019/7/19
  */
 public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
@@ -298,45 +296,4 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     public void setLimitDatum(LimitDatum limitDatum) {
         this.sqlData.setLimitDatum(limitDatum);
     }
-
-/*@Override
-    public String getSql() {
-        //TODO 待实现 通过正则表达式将预编译参数替换进预编译sql
-        return null;
-    }
-
-    @Override
-    public String getPreparedStatementSql() {
-        String sql = this.preparedStatementSql.toString();
-        if (this.sqlEnabled && this.logger.isDebugEnabled()) {
-            if (this.colour) {
-                logger.debug("sqlhelper PreparedStatementSQL  [" + sql + "]");
-            } else {
-                logger.debug(Ansi.ansi().eraseScreen()
-                        .fg(Ansi.Color.CYAN)
-                        .a("sqlhelper ")
-                        .fg(Ansi.Color.YELLOW)
-                        .a("PreparedStatementSQL  [" + sql + "]")
-                        .reset());
-            }
-        }
-        return sql;
-    }
-
-    @Override
-    public List<Object> getPreparedStatementArgs() {
-        if (this.argsEnabled && this.logger.isDebugEnabled()) {
-            if (this.colour) {
-                logger.debug("sqlhelper PreparedStatementArgs " + this.preparedStatementArgs.toString());
-            } else {
-                logger.debug(Ansi.ansi().eraseScreen()
-                        .fg(Ansi.Color.CYAN)
-                        .a("sqlhelper ")
-                        .fg(Ansi.Color.RED)
-                        .a("PreparedStatementArgs " + this.preparedStatementArgs.toString())
-                        .reset());
-            }
-        }
-        return this.preparedStatementArgs;
-    }*/
 }

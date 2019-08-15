@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/17
  */
 public final class SqlColumnBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
@@ -34,5 +33,4 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH
     public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
         return Collections.singletonList(ColumnCallback.execute(this.tableHelperClass, this.tableAlias, this.columnCallback, sqlBuilderOptions));
     }
-
 }

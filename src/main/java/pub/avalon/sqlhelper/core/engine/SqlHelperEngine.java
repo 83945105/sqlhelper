@@ -12,10 +12,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * SqlHelper引擎
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
@@ -182,8 +179,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
     }
 
     @Override
-    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> callback) {
-        this.addTableGroupDatum(GroupCallbackEngine.execute(this.tableHelperClass, this.tableAlias, callback, this.sqlBuilderOptions));
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> groupCallback) {
+        this.addTableGroupDatum(GroupCallbackEngine.execute(this.tableHelperClass, this.tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -194,8 +191,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> callback) {
-        this.addTableGroupDatum(GroupCallbackEngine.execute(tableHelperClass, tableAlias, callback, this.sqlBuilderOptions));
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
+        this.addTableGroupDatum(GroupCallbackEngine.execute(tableHelperClass, tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -206,8 +203,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
     }
 
     @Override
-    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> callback) {
-        this.addTableSortDatum(SortCallbackEngine.execute(this.tableHelperClass, this.tableAlias, callback, this.sqlBuilderOptions));
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> sortCallback) {
+        this.addTableSortDatum(SortCallbackEngine.execute(this.tableHelperClass, this.tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -218,8 +215,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> callback) {
-        this.addTableSortDatum(SortCallbackEngine.execute(tableHelperClass, tableAlias, callback, this.sqlBuilderOptions));
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
+        this.addTableSortDatum(SortCallbackEngine.execute(tableHelperClass, tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -246,5 +243,4 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
         this.setLimitDatum(new LimitDatum(total, currentPage, pageSize));
         return this;
     }
-
 }

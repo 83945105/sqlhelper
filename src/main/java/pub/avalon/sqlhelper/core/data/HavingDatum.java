@@ -6,10 +6,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import java.util.List;
 
 /**
- * 分组过滤条件数据
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class HavingDatum extends AbstractSqlPartDatum<HavingDatum> {
 
@@ -111,5 +108,4 @@ public final class HavingDatum extends AbstractSqlPartDatum<HavingDatum> {
     public String getSqlPart() {
         return sqlPart;
     }
-
 }

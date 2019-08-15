@@ -3,46 +3,42 @@ package pub.avalon.sqlhelper.core.data;
 import pub.avalon.sqlhelper.core.helper.TableHelper;
 
 /**
- * 表数据
- *
  * @author baichao
- * @date 2019/5/2
  */
 public interface TableDatum {
 
     /**
-     * 获取表助手Class
+     * get extends {@link TableHelper} class
      *
      * @return {@link TableHelper}
      */
     Class<?> getTableHelperClass();
 
     /**
-     * 获取表名称
+     * get table name
      *
-     * @return 表名称
+     * @return table name
      */
     String getTableName();
 
     /**
-     * 设置表名称
+     * set table name
      *
-     * @param tableName 表名称
+     * @param tableName table name
      */
     void setTableName(String tableName);
 
     /**
-     * 获取表别名
+     * get table alias
      *
-     * @return 表别名
+     * @return table alias
      */
     String getTableAlias();
 
     /**
-     * 设置表别名
+     * set table alias
      *
-     * @param tableAlias 表别名
+     * @param tableAlias table alias
      */
     void setTableAlias(String tableAlias);
-
 }

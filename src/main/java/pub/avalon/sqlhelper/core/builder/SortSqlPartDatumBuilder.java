@@ -7,10 +7,7 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * 排序Sql片段数据构建器
- *
  * @author baichao
- * @since 2018/7/10
  */
 public final class SortSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, SortDatum> {
 

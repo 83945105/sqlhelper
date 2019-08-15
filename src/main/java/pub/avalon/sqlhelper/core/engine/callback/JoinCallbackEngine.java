@@ -8,13 +8,20 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
- * 连接回调引擎
- *
  * @author baichao
- * @since 2018/7/10
  */
 public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine {
 
+    /**
+     * use callback to add join sql data
+     *
+     * @param joinType         {@link JoinType}
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -23,6 +30,15 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, JoinCallback<TJ, SJ> joinCallback);
 
+    /**
+     * use callback to add join sql data
+     *
+     * @param joinType         {@link JoinType}
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -33,6 +49,15 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(joinType, tableName, tableHelperClass, null, joinCallback);
     }
 
+    /**
+     * use callback to add join sql data
+     *
+     * @param joinType         {@link JoinType}
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -43,6 +68,14 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(joinType, null, tableHelperClass, tableAlias, joinCallback);
     }
 
+    /**
+     * use callback to add join sql data
+     *
+     * @param joinType         {@link JoinType}
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -53,6 +86,15 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(joinType, null, tableHelperClass, null, joinCallback);
     }
 
+    /**
+     * use callback to add inner join sql data
+     *
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -63,6 +105,14 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.INNER, tableName, tableHelperClass, tableAlias, joinCallback);
     }
 
+    /**
+     * use callback to add inner join sql data
+     *
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -73,6 +123,14 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.INNER, tableName, tableHelperClass, null, joinCallback);
     }
 
+    /**
+     * use callback to add inner join sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -83,6 +141,13 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.INNER, null, tableHelperClass, tableAlias, joinCallback);
     }
 
+    /**
+     * use callback to add inner join sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -93,6 +158,15 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.INNER, null, tableHelperClass, null, joinCallback);
     }
 
+    /**
+     * use callback to add left join sql data
+     *
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -103,6 +177,14 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.LEFT, tableName, tableHelperClass, tableAlias, joinCallback);
     }
 
+    /**
+     * use callback to add left join sql data
+     *
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -113,6 +195,14 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.LEFT, tableName, tableHelperClass, null, joinCallback);
     }
 
+    /**
+     * use callback to add left join sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -123,6 +213,13 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.LEFT, null, tableHelperClass, tableAlias, joinCallback);
     }
 
+    /**
+     * use callback to add left join sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -133,6 +230,15 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.LEFT, null, tableHelperClass, null, joinCallback);
     }
 
+    /**
+     * use callback to add right join sql data
+     *
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -143,6 +249,14 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.RIGHT, tableName, tableHelperClass, tableAlias, joinCallback);
     }
 
+    /**
+     * use callback to add right join sql data
+     *
+     * @param tableName        table name
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -153,6 +267,14 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.RIGHT, tableName, tableHelperClass, null, joinCallback);
     }
 
+    /**
+     * use callback to add right join sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param tableAlias       table alias
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -163,6 +285,13 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
         return join(JoinType.RIGHT, null, tableHelperClass, tableAlias, joinCallback);
     }
 
+    /**
+     * use callback to add right join sql data
+     *
+     * @param tableHelperClass extends {@link TableHelper} class
+     * @param joinCallback     {@link JoinCallback}
+     * @return R
+     */
     default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -189,5 +318,4 @@ public interface JoinCallbackEngine<TJ extends JoinHelper<TJ>, R> extends Engine
             ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, Class<F> mainTableHelperClass, String mainTableAlias, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, JoinCallback<FJ, EJ> joinCallback, SqlBuilderOptions sqlBuilderOptions) {
         return JoinCallback.execute(joinType, mainTableHelperClass, mainTableAlias, joinTableName, joinTableHelperClass, joinTableAlias, joinCallback, sqlBuilderOptions);
     }
-
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/17
  */
 public final class SqlGroupBean<TG extends GroupHelper<TG>> extends AbstractSqlGroupBean {
 
@@ -48,5 +47,4 @@ public final class SqlGroupBean<TG extends GroupHelper<TG>> extends AbstractSqlG
         }
         return tableGroupData;
     }
-
 }

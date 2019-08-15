@@ -5,10 +5,7 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.List;
 
 /**
- * on数据
- *
  * @author baichao
- * @date 2019/6/13
  */
 public final class TableOnDatum {
 
@@ -31,5 +28,4 @@ public final class TableOnDatum {
     public List<OnDataLinker> getOnDataLinkers() {
         return onDataLinkers;
     }
-
 }

@@ -18,7 +18,6 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/16
  */
 public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEngine<SqlColumn<TC>>, ColumnCallbackEngine<TC, SqlColumn<TC>> {
 

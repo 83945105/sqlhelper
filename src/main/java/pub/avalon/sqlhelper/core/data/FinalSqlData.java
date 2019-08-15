@@ -4,7 +4,6 @@ import pub.avalon.beans.DataBaseType;
 
 /**
  * @author baichao
- * @date 2018/8/20
  */
 public final class FinalSqlData extends AbstractSqlData {
 
@@ -12,5 +11,4 @@ public final class FinalSqlData extends AbstractSqlData {
         super(mainTableDatum);
         this.setDataBaseType(dataBaseType);
     }
-
 }

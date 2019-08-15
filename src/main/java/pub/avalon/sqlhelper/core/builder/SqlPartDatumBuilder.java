@@ -29,28 +29,28 @@ public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
     /**
      * get helper
      *
-     * @return {@link Helper}
+     * @return extends {@link Helper} object
      */
     T getHelper();
 
     /**
      * set helper
      *
-     * @param helper {@link Helper}
+     * @param helper extends {@link Helper} object
      */
     void setHelper(T helper);
 
     /**
      * add sql part datum
      *
-     * @param sqlPartDatum {@link SqlPartDatum}
+     * @param sqlPartDatum implements {@link SqlPartDatum} object
      */
     void addSqlPartDatum(S sqlPartDatum);
 
     /**
      * Clean up after each takeout.
      *
-     * @return list {@link SqlPartDatum}
+     * @return implements {@link SqlPartDatum} objects
      */
     List<S> takeoutSqlPartData();
 
