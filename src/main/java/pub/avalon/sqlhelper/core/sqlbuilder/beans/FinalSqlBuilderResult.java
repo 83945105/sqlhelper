@@ -4,28 +4,16 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Sql构建结果
- *
  * @author baichao
- * @date 2019/5/25
  */
 public final class FinalSqlBuilderResult implements TableSqlBuilderResult, SelectSqlBuilderResult, InsertSqlBuilderResult, UpdateSqlBuilderResult, DeleteSqlBuilderResult {
 
     private final static StringBuilder EMPTY_SQL_CONTAINER = new StringBuilder(0);
 
-    /**
-     * 空结果
-     */
     public final static FinalSqlBuilderResult NONE = new FinalSqlBuilderResult(EMPTY_SQL_CONTAINER, Collections.emptyList());
 
-    /**
-     * Sql容器
-     */
     private StringBuilder sqlContainer;
 
-    /**
-     * 参数容器
-     */
     private List<Object> argsContainer;
 
     private FinalSqlBuilderResult(StringBuilder sqlContainer, List<Object> argsContainer) {
@@ -89,5 +77,4 @@ public final class FinalSqlBuilderResult implements TableSqlBuilderResult, Selec
     public List<Object> getPreparedStatementArgs() {
         return this.argsContainer;
     }
-
 }

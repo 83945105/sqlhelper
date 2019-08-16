@@ -9,14 +9,12 @@ import pub.avalon.sqlhelper.core.sqlbuilder.template.SqlBuilderTemplate;
 import java.util.Collection;
 
 /**
- * Sql构建代理
- *
  * @author baichao
- * @date 2018/8/20
  */
 public abstract class AbstractSqlBuilder implements SqlBuilder {
 
     private SqlData sqlData;
+
     private SqlBuilderOptions sqlBuilderOptions;
 
     private SqlBuilderTemplate sqlBuilderTemplate;
@@ -161,5 +159,4 @@ public abstract class AbstractSqlBuilder implements SqlBuilder {
         this.switchSqlBuilderTemplate();
         return this.sqlBuilderTemplate.buildQueryByPrimaryKey(this.sqlData, primaryKeyValue);
     }
-
 }

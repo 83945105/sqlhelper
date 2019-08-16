@@ -3,10 +3,7 @@ package pub.avalon.sqlhelper.core.utils;
 import pub.avalon.sqlhelper.core.exception.ComparisonRuleNullException;
 
 /**
- * 异常工具类
- *
  * @author baichao
- * @date 2019/7/14
  */
 public final class ExceptionUtils {
 
@@ -56,5 +53,4 @@ public final class ExceptionUtils {
     public static void groupTypeNotSupportException() {
         throw new RuntimeException("GroupType's enumeration value is not supported for the time being.");
     }
-
 }

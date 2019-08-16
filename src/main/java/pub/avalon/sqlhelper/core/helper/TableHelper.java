@@ -5,10 +5,7 @@ import pub.avalon.sqlhelper.core.beans.TableColumn;
 import java.util.Set;
 
 /**
- * 表助手
- *
  * @author baichao
- * @date 2019/5/15
  */
 public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TJ extends JoinHelper<TJ>,
@@ -19,93 +16,92 @@ public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
         TS extends SortHelper<TS>> {
 
     /**
-     * 获取表名
+     * get table name
      *
-     * @return {@link String}
+     * @return table name
      */
     String getTableName();
 
     /**
-     * 获取表别名
+     * get table alias
      *
-     * @return {@link String}
+     * @return table alias
      */
     String getTableAlias();
 
     /**
-     * 获取主键名称
+     * get primary key name
      *
-     * @return {@link String}
+     * @return primary key name
      */
     String getPrimaryKeyName();
 
     /**
-     * 获取主键别名
+     * get primary key alias
      *
-     * @return {@link String}
+     * @return primary key alias
      */
     String getPrimaryKeyAlias();
 
     /**
-     * 获取表列数据
+     * get table columns
      *
-     * @return {@link java.util.LinkedHashSet}
+     * @return set {@link TableColumn}
      */
     Set<TableColumn> getTableColumns();
 
     /**
-     * 获取单例助手
+     * get extends {@link Helper} single object
      *
-     * @return {@link Helper}
+     * @return extends {@link Helper} single object
      */
     T getSingleHelper();
 
     /**
-     * 创建On助手
+     * create new extends {@link JoinHelper} class object
      *
-     * @param tableAlias 表别名
-     * @return {@link JoinHelper}
+     * @param tableAlias table alias
+     * @return extends {@link JoinHelper} class object
      */
     TJ newJoinHelper(String tableAlias);
 
     /**
-     * 创建列助手
+     * create new extends {@link ColumnHelper} class object
      *
-     * @param tableAlias 表别名
-     * @return {@link ColumnHelper}
+     * @param tableAlias table alias
+     * @return extends {@link ColumnHelper} class object
      */
     TC newColumnHelper(String tableAlias);
 
     /**
-     * 创建条件助手
+     * create new extends {@link WhereHelper} class object
      *
-     * @param tableAlias 表别名
-     * @return {@link WhereHelper}
+     * @param tableAlias table alias
+     * @return extends {@link WhereHelper} class object
      */
     TW newWhereHelper(String tableAlias);
 
     /**
-     * 创建分组助手
+     * create new extends {@link GroupHelper} class object
      *
-     * @param tableAlias 表别名
-     * @return {@link GroupHelper}
+     * @param tableAlias table alias
+     * @return extends {@link GroupHelper} class object
      */
     TG newGroupHelper(String tableAlias);
 
     /**
-     * 创建分组条件租售
+     * create new extends {@link HavingHelper} class object
      *
-     * @param tableAlias 表别名
-     * @return {@link HavingHelper}
+     * @param tableAlias table alias
+     * @return extends {@link HavingHelper} class object
      */
     TH newHavingHelper(String tableAlias);
 
     /**
-     * 创建排序助手
+     * create new extends {@link SortHelper} class object
      *
-     * @param tableAlias 表别名
-     * @return {@link SortHelper}
+     * @param tableAlias table alias
+     * @return extends {@link SortHelper} class object
      */
     TS newSortHelper(String tableAlias);
-
 }

@@ -1,33 +1,18 @@
 package pub.avalon.sqlhelper.core.option;
 
 /**
- * sql打印配置
- *
  * @author baichao
- * @date 2019/5/20
  */
 public final class SqlPrintOptions {
 
     public final static SqlPrintOptions DEFAULT_SQL_PRINT_OPTIONS = new SqlPrintOptions();
 
-    /**
-     * 是否开启
-     */
     private boolean enabled = false;
 
-    /**
-     * 是否打印颜色
-     */
     private boolean colour = false;
 
-    /**
-     * 是否开启打印sql
-     */
     private boolean sqlEnabled = true;
 
-    /**
-     * 是否开启打印参数
-     */
     private boolean argsEnabled = true;
 
     public boolean isEnabled() {
@@ -65,5 +50,4 @@ public final class SqlPrintOptions {
         this.argsEnabled = argsEnabled;
         return this;
     }
-
 }

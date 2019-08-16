@@ -14,15 +14,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 条件助手
- *
  * @author baichao
- * @date 2019/5/18
  */
 public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
 
     private WhereSqlPartDatumBuilder<T> whereSqlPartDatumBuilder;
 
+    @SuppressWarnings("unchecked")
     public WhereHelper(String tableAlias) {
         super(tableAlias);
         this.whereSqlPartDatumBuilder = new WhereSqlPartDatumBuilder<>(tableAlias, (T) this);

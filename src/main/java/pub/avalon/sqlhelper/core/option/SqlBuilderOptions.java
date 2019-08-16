@@ -6,17 +6,14 @@ import pub.avalon.sqlhelper.core.sqlbuilder.template.MySqlBuilderTemplate;
 import pub.avalon.sqlhelper.core.sqlbuilder.template.MySqlPartBuilderTemplate;
 
 /**
- * Sql构建配置
- *
  * @author baichao
- * @date 2019/5/20
  */
 public final class SqlBuilderOptions {
 
     public final static SqlBuilderOptions DEFAULT_SQL_BUILDER_OPTIONS = new SqlBuilderOptions();
 
     /**
-     * 获取默认Sql构建配置
+     * get default sql builder options
      *
      * @return {@link SqlBuilderOptions}
      */
@@ -24,24 +21,12 @@ public final class SqlBuilderOptions {
         return DEFAULT_SQL_BUILDER_OPTIONS;
     }
 
-    /**
-     * Sql片段数据构建器配置
-     */
     private SqlPartDatumBuilderOptions sqlPartDatumBuilderOptions = SqlPartDatumBuilderOptions.SQL_PART_DATUM_BUILDER_OPTIONS;
 
-    /**
-     * Sql打印配置
-     */
     private SqlPrintOptions sqlPrintOptions = SqlPrintOptions.DEFAULT_SQL_PRINT_OPTIONS;
 
-    /**
-     * MySql片段构建器模板
-     */
     private MySqlPartBuilderTemplate mySqlPartBuilderTemplate = DefaultMySqlPartBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_PART_BUILDER_TEMPLATE;
 
-    /**
-     * MySql构建器模板
-     */
     private MySqlBuilderTemplate mySqlBuilderTemplate = DefaultMySqlBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE;
 
     public SqlPartDatumBuilderOptions getSqlPartDatumBuilderOptions() {
@@ -80,5 +65,4 @@ public final class SqlBuilderOptions {
         this.mySqlBuilderTemplate = mySqlBuilderTemplate;
         return this;
     }
-
 }

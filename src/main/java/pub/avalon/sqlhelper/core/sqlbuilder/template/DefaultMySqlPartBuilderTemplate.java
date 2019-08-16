@@ -13,10 +13,7 @@ import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import java.util.*;
 
 /**
- * 默认MySql片段构建器模板
- *
  * @author baichao
- * @date 2018/8/23
  */
 public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTemplate {
 
@@ -985,6 +982,4 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
         sql.insert(length, "(").append(")");
     }
-
-
 }

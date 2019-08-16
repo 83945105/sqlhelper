@@ -4,34 +4,34 @@ import java.util.List;
 
 /**
  * @author baichao
- * @date 2019/7/25
  */
 public interface SqlBuilderResult {
 
+    /**
+     * has prepared statement sql
+     *
+     * @return true or false
+     */
     boolean hasPreparedStatementSql();
 
+    /**
+     * has prepared statement args
+     *
+     * @return true or false
+     */
     boolean hasPreparedStatementArgs();
 
     /**
-     * 获取sql
-     * 该sql为填充过参数的sql语句
+     * get prepared statement sql
      *
-     * @return sql
-     */
-//    String getSql();
-
-    /**
-     * 获取预编译SQL
-     *
-     * @return sql
+     * @return prepared statement sql
      */
     String getPreparedStatementSql();
 
     /**
-     * 获取预编译参数
+     * get prepared statement args
      *
-     * @return 参数
+     * @return prepared statement args
      */
     List<Object> getPreparedStatementArgs();
-
 }

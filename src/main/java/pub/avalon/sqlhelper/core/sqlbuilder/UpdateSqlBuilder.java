@@ -6,70 +6,68 @@ import java.util.Collection;
 
 /**
  * @author baichao
- * @date 2019/7/23
  */
 public interface UpdateSqlBuilder {
 
     /**
-     * 使用JavaBean更新
+     * update javaBean
      *
-     * @param javaBean
+     * @param javaBean javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult updateJavaBean(Object javaBean);
 
     /**
-     * 使用JavaBean更新
-     * <p>如果值为{@code null}则跳过该属性
+     * update javaBean
+     * <p>when value is {@code null},skip field
      *
-     * @param javaBean
+     * @param javaBean javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult updateJavaBeanSelective(Object javaBean);
 
     /**
-     * 根据主键更新参数
+     * update args by primary key
      *
-     * @param primaryKeyValue 主键值
-     * @param args            参数
+     * @param primaryKeyValue primary key value
+     * @param args            args
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult updateArgsByPrimaryKey(Object primaryKeyValue, Object... args);
 
     /**
-     * 根据主键,使用JavaBean更新
+     * update javaBean by primary key
      *
-     * @param primaryKeyValue 主键值
-     * @param javaBean
+     * @param primaryKeyValue primary key value
+     * @param javaBean        javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult updateJavaBeanByPrimaryKey(Object primaryKeyValue, Object javaBean);
 
     /**
-     * 根据主键,使用JavaBean更新
-     * <p>如果值为{@code null}则跳过该属性
+     * update javaBean by primary key
+     * <p>when value is {@code null},skip field
      *
-     * @param primaryKeyValue 主键值
-     * @param javaBean
+     * @param primaryKeyValue primary key value
+     * @param javaBean        javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult updateJavaBeanByPrimaryKeySelective(Object primaryKeyValue, Object javaBean);
 
     /**
-     * 使用JavaBean批量更新
+     * batch update javaBeans by primary keys
      *
-     * @param javaBeans
+     * @param javaBeans javaBeans
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans);
 
     /**
-     * 使用JavaBean更新或插入
-     * <p>存在更新,不存在插入
+     * update or insert javaBeans
+     * <p>if exist update else insert
      *
-     * @param javaBeans
+     * @param javaBeans javaBeans
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult updateOrInsertJavaBeans(Collection<?> javaBeans);
-
 }

@@ -6,41 +6,39 @@ import java.util.Collection;
 
 /**
  * @author baichao
- * @date 2019/7/23
  */
 public interface InsertSqlBuilder {
 
     /**
-     * 插入参数
+     * insert args
      *
-     * @param args 参数
+     * @param args args
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult insertArgs(Object... args);
 
     /**
-     * 使用JavaBean插入
+     * insert javaBean
      *
-     * @param javaBean
+     * @param javaBean javaBean
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult insertJavaBean(Object javaBean);
 
     /**
-     * 使用JavaBean插入
-     * <p>如果值为{@code null}则跳过该属性
+     * inset javaBean
+     * <p>when value is {@code null},skip field
      *
-     * @param javaBean
+     * @param javaBean javaBean
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult insertJavaBeanSelective(Object javaBean);
 
     /**
-     * 使用JavaBean批量插入
+     * batch inset javaBeans
      *
-     * @param javaBeans
+     * @param javaBeans javaBeans
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult batchInsertJavaBeans(Collection<?> javaBeans);
-
 }

@@ -4,23 +4,55 @@ import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
 /**
- * Sql片段构建器模板
- *
  * @author baichao
- * @date 2019/7/13
  */
 public interface SqlPartBuilderTemplate {
 
+    /**
+     * build column sql part result
+     *
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @return {@link SqlBuilderResult}
+     */
     SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer);
 
+    /**
+     * build join sql part result
+     *
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @return {@link SqlBuilderResult}
+     */
     SqlBuilderResult buildJoin(SqlDataConsumer sqlDataConsumer);
 
+    /**
+     * build where sql part result
+     *
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @return {@link SqlBuilderResult}
+     */
     SqlBuilderResult buildWhere(SqlDataConsumer sqlDataConsumer);
 
+    /**
+     * build group sql part result
+     *
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @return {@link SqlBuilderResult}
+     */
     SqlBuilderResult buildGroup(SqlDataConsumer sqlDataConsumer);
 
+    /**
+     * build sort sql part result
+     *
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @return {@link SqlBuilderResult}
+     */
     SqlBuilderResult buildSort(SqlDataConsumer sqlDataConsumer);
 
+    /**
+     * build limit sql part result
+     *
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @return {@link SqlBuilderResult}
+     */
     SqlBuilderResult buildLimit(SqlDataConsumer sqlDataConsumer);
-
 }

@@ -6,210 +6,206 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.*;
 import java.util.Collection;
 
 /**
- * Sql构建器模板
- *
  * @author baichao
- * @date 2019/5/20
  */
 public interface SqlBuilderTemplate {
 
     /**
-     * 设置Sql片段构建器模板
+     * set sql part builder template
      *
      * @param sqlPartBuilderTemplate {@link SqlPartBuilderTemplate}
      */
     void setSqlPartBuilderTemplate(SqlPartBuilderTemplate sqlPartBuilderTemplate);
 
     /**
-     * 复制表
+     * build copy table result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param targetTableName 目标表名
-     * @param copyData        是否复制表数据
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param targetTableName target table name
+     * @param copyData        copy data or not
      * @return {@link TableSqlBuilderResult}
      */
     TableSqlBuilderResult buildCopyTable(SqlDataConsumer sqlDataConsumer, String targetTableName, boolean copyData);
 
     /**
-     * 删除表
+     * build delete table result
      *
-     * @param sqlDataConsumer sql数据消费者
+     * @param sqlDataConsumer {@link SqlDataConsumer}
      * @return {@link TableSqlBuilderResult}
      */
     TableSqlBuilderResult buildDeleteTable(SqlDataConsumer sqlDataConsumer);
 
     /**
-     * 重命名表
+     * build rename table result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param newTableName    新的表名
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param newTableName    new table name
      * @return {@link TableSqlBuilderResult}
      */
     TableSqlBuilderResult buildRenameTable(SqlDataConsumer sqlDataConsumer, String newTableName);
 
     /**
-     * 判断表是否存在
+     * build is table exist result
      *
-     * @param sqlDataConsumer sql数据消费者
+     * @param sqlDataConsumer {@link SqlDataConsumer}
      * @return {@link TableSqlBuilderResult}
      */
     TableSqlBuilderResult buildIsTableExist(SqlDataConsumer sqlDataConsumer);
 
     /**
-     * 插入参数
+     * build insert args result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param args            参数
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param args            args
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult buildInsertArgs(SqlDataConsumer sqlDataConsumer, Object... args);
 
     /**
-     * 使用JavaBean插入
+     * build insert javaBean result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param javaBean
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param javaBean        javaBean
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult buildInsertJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
-     * 使用JavaBean插入
-     * <p>如果值为{@code null}则跳过该属性
+     * build insert javaBean result
+     * <p>when value is {@code null},skip field
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param javaBean
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param javaBean        javaBean
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult buildInsertJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
-     * 使用JavaBean批量插入
+     * build batch insert javaBeans result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param javaBeans
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param javaBeans       javaBeans
      * @return {@link InsertSqlBuilderResult}
      */
     InsertSqlBuilderResult buildBatchInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
-     * 删除
+     * build delete result
      *
-     * @param sqlDataConsumer sql数据消费者
+     * @param sqlDataConsumer {@link SqlDataConsumer}
      * @return {@link DeleteSqlBuilderResult}
      */
     DeleteSqlBuilderResult buildDelete(SqlDataConsumer sqlDataConsumer);
 
     /**
-     * 根据主键删除
+     * build delete by primary key result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param primaryKeyValue 主键值
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param primaryKeyValue primary key value
      * @return {@link DeleteSqlBuilderResult}
      */
     DeleteSqlBuilderResult buildDeleteByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
 
     /**
-     * 根据主键批量删除
+     * build batch delete by primary keys result
      *
-     * @param sqlDataConsumer  sql数据消费者
-     * @param primaryKeyValues 主键值集合
+     * @param sqlDataConsumer  {@link SqlDataConsumer}
+     * @param primaryKeyValues primary key values
      * @return {@link DeleteSqlBuilderResult}
      */
     DeleteSqlBuilderResult buildBatchDeleteByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Object... primaryKeyValues);
 
     /**
-     * 使用JavaBean更新
+     * build update javaBean result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param javaBean
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param javaBean        javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult buildUpdateJavaBean(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
-     * 使用JavaBean更新
-     * <p>如果值为{@code null}则跳过该属性
+     * build update javaBean result
+     * <p>when value is {@code null},skip field
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param javaBean
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param javaBean        javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult buildUpdateJavaBeanSelective(SqlDataConsumer sqlDataConsumer, Object javaBean);
 
     /**
-     * 根据主键更新参数
+     * build update args by primary key result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param primaryKeyValue 主键值
-     * @param args            参数
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param primaryKeyValue primary key value
+     * @param args            args
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult buildUpdateArgsByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object... args);
 
     /**
-     * 根据主键,使用JavaBean更新
+     * build update javaBean by primary key result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param primaryKeyValue 主键值
-     * @param javaBean
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param primaryKeyValue primary key value
+     * @param javaBean        javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult buildUpdateJavaBeanByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
 
     /**
-     * 根据主键,使用JavaBean更新
-     * <p>如果值为{@code null}则跳过该属性
+     * build update javaBean by primary key result
+     * <p>when value is {@code null},skip field
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param primaryKeyValue 主键值
-     * @param javaBean
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param primaryKeyValue primary key value
+     * @param javaBean        javaBean
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult buildUpdateJavaBeanByPrimaryKeySelective(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue, Object javaBean);
 
     /**
-     * 使用JavaBean批量更新
+     * build batch update javaBeans by primary keys result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param javaBeans
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param javaBeans       javaBeans
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult buildBatchUpdateJavaBeansByPrimaryKeys(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
-     * 使用JavaBean更新或插入
-     * <p>存在更新,不存在插入
+     * build update or insert javaBeans result
+     * <p>if exist update else insert
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param javaBeans
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param javaBeans       javaBeans
      * @return {@link UpdateSqlBuilderResult}
      */
     UpdateSqlBuilderResult buildUpdateOrInsertJavaBeans(SqlDataConsumer sqlDataConsumer, Collection<?> javaBeans);
 
     /**
-     * 查询
+     * build query result
      *
-     * @param sqlDataConsumer sql数据消费者
+     * @param sqlDataConsumer {@link SqlDataConsumer}
      * @return {@link SelectSqlBuilderResult}
      */
     SelectSqlBuilderResult buildQuery(SqlDataConsumer sqlDataConsumer);
 
     /**
-     * 查询数量
+     * build query count result
      *
-     * @param sqlDataConsumer sql数据消费者
+     * @param sqlDataConsumer {@link SqlDataConsumer}
      * @return {@link SelectSqlBuilderResult}
      */
     SelectSqlBuilderResult buildQueryCount(SqlDataConsumer sqlDataConsumer);
 
     /**
-     * 根据主键查询
+     * build query by primary key result
      *
-     * @param sqlDataConsumer sql数据消费者
-     * @param primaryKeyValue 主键值
+     * @param sqlDataConsumer {@link SqlDataConsumer}
+     * @param primaryKeyValue primary key value
      * @return {@link SelectSqlBuilderResult}
      */
     SelectSqlBuilderResult buildQueryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue);
-
 }

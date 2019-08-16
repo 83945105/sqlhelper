@@ -1,10 +1,7 @@
 package pub.avalon.sqlhelper.generator.beans;
 
 /**
- * 数据库列
- *
  * @author baichao
- * @date 2019/6/4
  */
 public interface Column {
 

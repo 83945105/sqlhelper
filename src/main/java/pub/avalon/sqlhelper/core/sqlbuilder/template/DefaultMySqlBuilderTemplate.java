@@ -13,15 +13,11 @@ import java.util.*;
 
 /**
  * @author baichao
- * @date 2019/5/22
  */
 public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
 
     public static final DefaultMySqlBuilderTemplate DEFAULT_DEFAULT_MY_SQL_BUILDER_TEMPLATE = new DefaultMySqlBuilderTemplate();
 
-    /**
-     * Sql片段构建器模板
-     */
     private SqlPartBuilderTemplate sqlPartBuilderTemplate = DefaultMySqlPartBuilderTemplate.DEFAULT_DEFAULT_MY_SQL_PART_BUILDER_TEMPLATE;
 
     @Override
@@ -589,5 +585,4 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 .appendSqlPart("` = ?");
         return sqlBuilderResult;
     }
-
 }

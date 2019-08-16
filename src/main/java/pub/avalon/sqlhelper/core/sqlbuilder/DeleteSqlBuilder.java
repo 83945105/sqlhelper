@@ -4,31 +4,29 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.DeleteSqlBuilderResult;
 
 /**
  * @author baichao
- * @date 2019/7/23
  */
 public interface DeleteSqlBuilder {
 
     /**
-     * 删除
+     * delete
      *
      * @return {@link DeleteSqlBuilderResult}
      */
     DeleteSqlBuilderResult delete();
 
     /**
-     * 根据主键删除
+     * delete by primary key
      *
-     * @param primaryKeyValue 主键值
+     * @param primaryKeyValue primary key value
      * @return {@link DeleteSqlBuilderResult}
      */
     DeleteSqlBuilderResult deleteByPrimaryKey(Object primaryKeyValue);
 
     /**
-     * 根据主键批量删除
+     * batch delete by primary keys
      *
-     * @param primaryKeyValues 主键值集合
+     * @param primaryKeyValues primary key values
      * @return {@link DeleteSqlBuilderResult}
      */
     DeleteSqlBuilderResult batchDeleteByPrimaryKeys(Object... primaryKeyValues);
-
 }
