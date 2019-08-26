@@ -14,11 +14,11 @@ public abstract class AbstractSqlDataCache implements SqlData {
 
     private MainTableDatum mainTableDatum;
 
+    private LinkedHashMap<String, JoinTableDatum> aliasJoinTableData;
+
     public AbstractSqlDataCache(MainTableDatum mainTableDatum) {
         this.mainTableDatum = mainTableDatum;
     }
-
-    private LinkedHashMap<String, JoinTableDatum> aliasJoinTableDataCache;
 
     @Override
     public DataBaseType getDataBaseType() {
@@ -32,7 +32,7 @@ public abstract class AbstractSqlDataCache implements SqlData {
 
     @Override
     public LinkedHashMap<String, JoinTableDatum> getAliasJoinTableData() {
-        return this.aliasJoinTableDataCache;
+        return this.aliasJoinTableData;
     }
 
     @Override
@@ -42,13 +42,13 @@ public abstract class AbstractSqlDataCache implements SqlData {
 
     @Override
     public void addJoinTableDatum(JoinTableDatum joinTableDatum) {
-        if (this.aliasJoinTableDataCache == null) {
-            this.aliasJoinTableDataCache = new LinkedHashMap<>();
+        if (this.aliasJoinTableData == null) {
+            this.aliasJoinTableData = new LinkedHashMap<>();
         }
-        if (this.aliasJoinTableDataCache.get(joinTableDatum.getTableAlias()) != null) {
+        if (this.aliasJoinTableData.get(joinTableDatum.getTableAlias()) != null) {
             // 同一个表别名不能使用2次
             throw new TableDataException("alias table [" + joinTableDatum.getTableAlias() + "] is already join, you can not join it two times, please change another alias.");
         }
-        this.aliasJoinTableDataCache.put(joinTableDatum.getTableAlias(), joinTableDatum);
+        this.aliasJoinTableData.put(joinTableDatum.getTableAlias(), joinTableDatum);
     }
 }
