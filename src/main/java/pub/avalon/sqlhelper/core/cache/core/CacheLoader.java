@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.cache;
+package pub.avalon.sqlhelper.core.cache.core;
 
 import lombok.extern.slf4j.Slf4j;
 import pub.avalon.sqlhelper.core.cache.spi.service.impl.SelfCache;

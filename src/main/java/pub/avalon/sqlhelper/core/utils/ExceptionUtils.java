@@ -18,6 +18,10 @@ public final class ExceptionUtils {
         throw new RuntimeException("Alias " + alias + "cache does not exist.");
     }
 
+    public static void classNullPointerException() {
+        throw new NullPointerException("Class can not be null.");
+    }
+
     public static void tableHelperClassNullException() {
         throw new RuntimeException("tableHelperClass is null.");
     }

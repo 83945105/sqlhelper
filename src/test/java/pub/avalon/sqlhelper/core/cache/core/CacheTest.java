@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.cache;
+package pub.avalon.sqlhelper.core.cache.core;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -28,5 +28,25 @@ public class CacheTest {
         cache.put("1", "1");
         cache = cacheManager.getCache("String", String.class, String.class);
         Assertions.assertEquals("1", cache.get("1"));
+    }
+
+    @Test
+    void Test_removeCache() {
+        CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
+                .build();
+        Cache<String, String> cache = cacheManager.createCache("String", CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, String.class));
+        cache.put("1", "1");
+        cacheManager.removeCache("String");
+        Assertions.assertThrows(RuntimeException.class, () -> cacheManager.getCache("String", String.class, String.class));
+    }
+
+    @Test
+    void Test_closeCache() {
+        CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder()
+                .build();
+        Cache<String, String> cache = cacheManager.createCache("String", CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, String.class));
+        cache.put("1", "1");
+        cacheManager.close();
+        Assertions.assertThrows(RuntimeException.class, () -> cacheManager.getCache("String", String.class, String.class));
     }
 }

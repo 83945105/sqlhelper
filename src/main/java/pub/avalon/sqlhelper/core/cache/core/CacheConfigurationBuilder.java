@@ -1,9 +1,9 @@
-package pub.avalon.sqlhelper.core.cache;
+package pub.avalon.sqlhelper.core.cache.core;
 
 /**
  * @author baichao
  */
-public class CacheConfigurationBuilder<K, V> implements Builder<CacheConfiguration<K, V>> {
+public final class CacheConfigurationBuilder<K, V> implements Builder<CacheConfiguration<K, V>> {
 
     private final Class<K> keyType;
 

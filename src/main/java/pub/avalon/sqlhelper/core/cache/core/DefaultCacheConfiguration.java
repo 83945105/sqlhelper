@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.cache;
+package pub.avalon.sqlhelper.core.cache.core;
 
 /**
  * @author baichao
