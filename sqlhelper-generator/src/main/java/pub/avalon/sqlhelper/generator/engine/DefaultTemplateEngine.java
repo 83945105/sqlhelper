@@ -7,11 +7,11 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import pub.avalon.sqlhelper.generator.beans.Column;
 import pub.avalon.sqlhelper.generator.beans.Table;
 import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplate;
-import pub.avalon.sqlhelper.generator.option.GenerateOptions;
+import pub.avalon.sqlhelper.generator.options.GenerateOptions;
+import pub.avalon.sqlhelper.generator.options.OutputOptions;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,36 +19,28 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
- * 模板引擎
- *
  * @author baichao
- * @date 2019/6/5
  */
-public class TemplateEngine {
+public final class DefaultTemplateEngine implements TemplateEngine {
 
     private JdbcTemplate jdbcTemplate;
 
+    private GenerateOptions generateOptions;
+
     private List<Table> tables = new ArrayList<>();
 
-    public TemplateEngine(JdbcTemplate jdbcTemplate) {
+    public DefaultTemplateEngine(JdbcTemplate jdbcTemplate, GenerateOptions generateOptions) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    /**
-     * 生成配置
-     */
-    private GenerateOptions generateOptions = GenerateOptions.GENERATE_OPTIONS;
-
-    public TemplateEngine setGenerateOptions(GenerateOptions generateOptions) {
         this.generateOptions = generateOptions;
-        return this;
     }
 
-    public TemplateEngine addTable(String tableName, String tableAlias) throws SQLException {
+    @Override
+    public TemplateEngine addTable(String tableName, String tableAlias) {
         return this.addTable(tableName, tableAlias, this.generateOptions);
     }
 
-    public TemplateEngine addTable(String tableName, String tableAlias, GenerateOptions generateOptions) throws SQLException {
+    @Override
+    public TemplateEngine addTable(String tableName, String tableAlias, GenerateOptions generateOptions) {
         boolean tableExist = false;
         try {
             tableExist = this.jdbcTemplate.isTableExist(tableName);
@@ -71,33 +63,31 @@ public class TemplateEngine {
         return this;
     }
 
-    private static final String PACKAGE_PATH_REGEX = "^([a-z,A-Z,$,_][a-z,A-Z,0-9,$,_,]*.?[a-z,A-Z,$,_][a-z,A-Z,0-9,$,_,]*|[a-z,A-Z,$,_][a-z,A-Z,0-9,$,_,]*)+";
-    private static final String PROJECT_ROOT_PATH_SIGN = "/";
-    private static final String PACKAGE_LINK_REGEX = "\\.";
+    @Override
+    public TemplateEngine setTables(Map<String, String> tableNameAliasMap) {
+        if (tableNameAliasMap == null) {
+            return this;
+        }
+        for (Map.Entry<String, String> entry : tableNameAliasMap.entrySet()) {
+            this.addTable(entry.getKey(), entry.getValue());
+        }
+        return this;
+    }
 
-    public void generate(String projectPath, String packagePath) {
-        if (projectPath == null || projectPath.trim().length() == 0) {
-            throw new RuntimeException("projectPath can not be null or empty.");
-        }
-        if (!Pattern.matches(PACKAGE_PATH_REGEX, packagePath)) {
-            throw new RuntimeException("packagePath format error.");
-        }
-        if (PROJECT_ROOT_PATH_SIGN.equals(projectPath.trim())) {
-            projectPath = System.getProperty("user.dir");
-        }
-        StringBuilder path = new StringBuilder(projectPath)
-                .append(File.separator)
-                .append("src")
-                .append(File.separator)
-                .append("main")
-                .append(File.separator)
-                .append("java");
-        for (String s : packagePath.split(PACKAGE_LINK_REGEX)) {
-            path.append(File.separator).append(s);
-        }
-        path.append(File.separator);
+    @Override
+    public String generateJavaCode(String tableName, OutputOptions outputOptions) {
+        return null;
+    }
 
-        String pathPrefix = path.toString();
+    @Override
+    public void generateJavaFile(String tableName, OutputOptions outputOptions) {
+
+    }
+
+    @Override
+    public void generateJavaFiles(OutputOptions outputOptions) {
+
+        String folderPath = outputOptions.getFolderPath();
 
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
         resolver.setCharacterEncoding("utf-8");
@@ -171,6 +161,16 @@ public class TemplateEngine {
                 .fg(Ansi.Color.RED)
                 .a(pathPrefix)
                 .reset());
+    }
+
+    @Override
+    public void generateClassFile(String tableName, OutputOptions outputOptions) {
+
+    }
+
+    @Override
+    public void generateClassFiles(OutputOptions outputOptions) {
+
     }
 
     private void printFile(String content, String printPath) {

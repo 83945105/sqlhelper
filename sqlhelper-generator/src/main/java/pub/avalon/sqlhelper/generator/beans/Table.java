@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.generator.beans;
 
-import pub.avalon.sqlhelper.generator.option.GenerateOptions;
+import pub.avalon.sqlhelper.generator.options.GenerateOptions;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -8,7 +8,6 @@ import java.util.Set;
 
 /**
  * @author baichao
- * @date 2019/6/9
  */
 public class Table {
 
@@ -116,5 +115,4 @@ public class Table {
         classPaths.addAll(this.getGenerateOptions().getClassPaths());
         return classPaths;
     }
-
 }

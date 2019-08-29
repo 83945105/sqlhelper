@@ -6,8 +6,8 @@ import com.esotericsoftware.reflectasm.MethodAccess;
 import pub.avalon.sqlhelper.core.cache.core.CacheConfigurationBuilder;
 import pub.avalon.sqlhelper.core.cache.core.CacheManager;
 import pub.avalon.sqlhelper.core.cache.core.CacheManagerBuilder;
+import pub.avalon.sqlhelper.core.spi.cache.Cache;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
-import pub.avalon.sqlhelper.spi.cache.Cache;
 
 /**
  * @author baichao

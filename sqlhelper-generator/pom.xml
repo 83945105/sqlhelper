@@ -15,6 +15,32 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.83945105</groupId>
+            <artifactId>sqlhelper-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.83945105</groupId>
+            <artifactId>holygrail</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+        </dependency>
+
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>

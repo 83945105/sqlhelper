@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.cache.spi.service.impl;
 
-import pub.avalon.sqlhelper.spi.cache.Cache;
+import pub.avalon.sqlhelper.core.spi.cache.Cache;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

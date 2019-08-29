@@ -1,11 +1,11 @@
-package pub.avalon.sqlhelper.maven.beans;
+package pub.avalon.sqlhelper.maven;
 
 import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * @author baichao
  */
-public class DataSourceConfig {
+public class DataSource {
 
     @Parameter(required = true)
     private String driverClassName;
@@ -18,4 +18,20 @@ public class DataSourceConfig {
 
     @Parameter(required = true)
     private String password;
+
+    public String getDriverClassName() {
+        return driverClassName;
+    }
+
+    public String getJdbcUrl() {
+        return jdbcUrl;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

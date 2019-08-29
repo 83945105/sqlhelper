@@ -2,7 +2,7 @@ package pub.avalon.sqlhelper.core.cache.core;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pub.avalon.sqlhelper.spi.cache.Cache;
+import pub.avalon.sqlhelper.core.spi.cache.Cache;
 
 /**
  * Cache Test

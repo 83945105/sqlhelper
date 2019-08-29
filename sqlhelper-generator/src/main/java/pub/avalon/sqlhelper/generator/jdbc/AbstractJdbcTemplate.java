@@ -4,7 +4,6 @@ import java.sql.*;
 
 /**
  * @author baichao
- * @date 2019/6/9
  */
 public abstract class AbstractJdbcTemplate implements JdbcTemplate {
 
@@ -77,5 +76,4 @@ public abstract class AbstractJdbcTemplate implements JdbcTemplate {
         }
         this.resultSet = this.preparedStatement.executeQuery();
     }
-
 }

@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.generator.option;
+package pub.avalon.sqlhelper.generator.options;
 
 import pub.avalon.sqlhelper.generator.beans.HumpConverter;
 import pub.avalon.sqlhelper.generator.beans.StringConverter;
@@ -9,11 +9,10 @@ import java.util.Set;
 
 /**
  * @author baichao
- * @date 2019/6/9
  */
-public class GenerateOptions {
+public final class GenerateOptions {
 
-    public final static GenerateOptions GENERATE_OPTIONS = new GenerateOptions();
+    public final static GenerateOptions DEFAULT_GENERATE_OPTIONS = new GenerateOptions();
 
     /**
      * 是否生成实体Bean

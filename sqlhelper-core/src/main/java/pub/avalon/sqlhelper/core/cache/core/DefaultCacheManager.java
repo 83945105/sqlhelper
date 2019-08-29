@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.cache.core;
 
+import pub.avalon.sqlhelper.core.spi.cache.Cache;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
-import pub.avalon.sqlhelper.spi.cache.Cache;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;

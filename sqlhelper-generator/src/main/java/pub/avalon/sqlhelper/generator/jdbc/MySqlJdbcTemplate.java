@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 
 /**
  * @author baichao
- * @date 2019/6/9
  */
 public class MySqlJdbcTemplate extends AbstractJdbcTemplate {
 
@@ -31,7 +30,7 @@ public class MySqlJdbcTemplate extends AbstractJdbcTemplate {
     }
 
     @Override
-    public boolean isTableExist(String tableName) throws SQLException {
+    public boolean isTableExist(String tableName) {
         boolean connection = this.connection();
         if (!connection) {
             throw new RuntimeException("connection to [" + this.dataBaseName + "] fail.");
@@ -40,13 +39,16 @@ public class MySqlJdbcTemplate extends AbstractJdbcTemplate {
             String sql = "SELECT COUNT(*) FROM information_schema.TABLES WHERE table_name = '" + tableName + "'";
             this.executeQuery(sql);
             return this.resultSet.next() && this.resultSet.getInt(1) > 0;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             this.closeConnection();
         }
+        return false;
     }
 
     @Override
-    public Column selectPrimaryKeyColumn(String tableName) throws SQLException {
+    public Column selectPrimaryKeyColumn(String tableName) {
         boolean connection = this.connection();
         if (!connection) {
             throw new RuntimeException("connection to [" + this.dataBaseName + "] fail.");
@@ -68,13 +70,16 @@ public class MySqlJdbcTemplate extends AbstractJdbcTemplate {
                 return null;
             }
             return null;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             this.closeConnection();
         }
+        return null;
     }
 
     @Override
-    public List<Column> selectColumns(String tableName) throws SQLException {
+    public List<Column> selectColumns(String tableName) {
         boolean connection = this.connection();
         if (!connection) {
             throw new RuntimeException("connection to [" + this.dataBaseName + "] fail.");
@@ -91,13 +96,15 @@ public class MySqlJdbcTemplate extends AbstractJdbcTemplate {
                 columns.add(column);
             }
             return columns;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         } finally {
             this.closeConnection();
         }
+        return null;
     }
 
     private String typeToJavaType(String type) {
         return type.replaceAll("\\(.*?\\)|\\{.*?}|\\[.*?]|（.*?）", "").trim().toUpperCase();
     }
-
 }

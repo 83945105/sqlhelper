@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.cache.core;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pub.avalon.sqlhelper.core.cache.spi.service.impl.SelfCache;
-import pub.avalon.sqlhelper.spi.cache.Cache;
+import pub.avalon.sqlhelper.core.spi.cache.Cache;
 
 import java.util.Iterator;
 import java.util.ServiceLoader;

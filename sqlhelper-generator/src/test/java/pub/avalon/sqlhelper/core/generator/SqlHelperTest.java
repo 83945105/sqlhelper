@@ -1,8 +1,8 @@
 package pub.avalon.sqlhelper.core.generator;
 
-import pub.avalon.sqlhelper.generator.engine.TemplateEngine;
+import pub.avalon.sqlhelper.generator.engine.TemplateEngineBuilder;
 import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplate;
-import pub.avalon.sqlhelper.generator.jdbc.MySqlJdbcTemplate;
+import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplateBuilder;
 import pub.avalon.sqlhelper.generator.option.GenerateOptions;
 
 import java.sql.SQLException;
@@ -14,19 +14,22 @@ public class SqlHelperTest {
 
     public static void main(String[] args) throws SQLException {
 
-        JdbcTemplate jdbcTemplate = new MySqlJdbcTemplate(
-                "com.mysql.cj.jdbc.Driver",
-                "jdbc:mysql://localhost:3306/sqlhelper?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false",
-                "root",
-                "root"
-        );
+        JdbcTemplate jdbcTemplate = JdbcTemplateBuilder.newJdbcTemplateBuilder()
+                .setDriverClassName("com.mysql.cj.jdbc.Driver")
+                .setJdbcUrl("jdbc:mysql://localhost:3306/sqlhelper?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false")
+                .setUsername("root")
+                .setPassword("root")
+                .build();
 
-        new TemplateEngine(jdbcTemplate)
+        TemplateEngineBuilder.newTemplateEngineBuilder()
+                .setJdbcTemplate(jdbcTemplate)
+                .build()
                 .setGenerateOptions(new GenerateOptions().setEntityAlone(false))
                 .addTable("sys_user", "SysUser")
                 .addTable("role_resource", "RoleResource")
                 .addTable("user_role", "UserRole")
                 .generate("/", "pub.avalon.sqlhelper.readme.entity");
+
     }
 
 }
