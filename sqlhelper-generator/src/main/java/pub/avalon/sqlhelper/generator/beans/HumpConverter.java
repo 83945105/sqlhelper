@@ -1,12 +1,7 @@
 package pub.avalon.sqlhelper.generator.beans;
 
-import pub.avalon.holygrail.utils.ClassUtil;
-
 /**
- * 驼峰转换
- *
  * @author baichao
- * @date 2019/6/9
  */
 public class HumpConverter implements StringConverter {
 
@@ -29,12 +24,45 @@ public class HumpConverter implements StringConverter {
 
     @Override
     public String converterColumnGetterMethodName(String str, boolean isBoolean) {
-        return ClassUtil.getGetterMethodName(this.converterColumnName(str), isBoolean);
+        return getGetterMethodName(this.converterColumnName(str), isBoolean);
     }
 
     @Override
     public String converterColumnSetterMethodName(String str) {
-        return ClassUtil.getSetterMethodName(this.converterColumnName(str));
+        return getSetterMethodName(this.converterColumnName(str));
     }
 
+    private static String getGetterMethodName(String propertyName, boolean isBoolean) {
+        if (propertyName == null || "".equals(propertyName.trim())) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(propertyName);
+        if (Character.isLowerCase(sb.charAt(0))) {
+            if (sb.length() == 1 || !Character.isUpperCase(sb.charAt(1))) {
+                sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+            }
+        }
+        if (isBoolean) {
+            sb.insert(0, "is");
+        } else {
+            sb.insert(0, "get");
+        }
+        return sb.toString();
+    }
+
+    private static String getSetterMethodName(String propertyName) {
+        if (propertyName == null || "".equals(propertyName.trim())) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(propertyName);
+        if (Character.isLowerCase(sb.charAt(0))) {
+            if (sb.length() == 1 || !Character.isUpperCase(sb.charAt(1))) {
+                sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+            }
+        }
+        sb.insert(0, "set");
+        return sb.toString();
+    }
 }
