@@ -6,18 +6,16 @@ import pub.avalon.sqlhelper.generator.beans.TypeConverter;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author baichao
  */
 public final class GenerateOptions {
 
-    public final static GenerateOptions DEFAULT_GENERATE_OPTIONS = new GenerateOptions();
+    private final static String PACKAGE_PATH_REGEX = "^([a-z,A-Z,$,_][a-z,A-Z,0-9,$,_,]*.?[a-z,A-Z,$,_][a-z,A-Z,0-9,$,_,]*|[a-z,A-Z,$,_][a-z,A-Z,0-9,$,_,]*)+";
 
-    /**
-     * 是否生成实体Bean
-     */
-    private boolean entity = true;
+    public final static GenerateOptions DEFAULT_GENERATE_OPTIONS = new GenerateOptions();
 
     /**
      * 生成的实体Bean后缀
@@ -27,13 +25,7 @@ public final class GenerateOptions {
     /**
      * 生成的实体Bean是否使用链式风格
      */
-    private boolean entityChain = true;
-
-    /**
-     * 是否生成单独的实体Bean
-     * true - 每张表将生成2个类,一个是实体Bean,一个是sqlhelper类
-     */
-    private boolean entityAlone = false;
+    private boolean entityChainStyle = true;
 
     /**
      * 是否生成实体属性注释
@@ -54,23 +46,21 @@ public final class GenerateOptions {
      * 类型转换器
      */
     private TypeConverter typeConverter = new TypeConverter();
+
     /**
      * 字符串转换器
      */
     private StringConverter stringConverter = new HumpConverter();
+
+    /**
+     * 包路径
+     */
+    private String packagePath;
+
     /**
      * 类路径
      */
     private Set<String> classPaths = new LinkedHashSet<>();
-
-    public boolean isEntity() {
-        return entity;
-    }
-
-    public GenerateOptions setEntity(boolean entity) {
-        this.entity = entity;
-        return this;
-    }
 
     public String getEntitySuffix() {
         return entitySuffix;
@@ -81,21 +71,12 @@ public final class GenerateOptions {
         return this;
     }
 
-    public boolean isEntityChain() {
-        return entityChain;
+    public boolean isEntityChainStyle() {
+        return entityChainStyle;
     }
 
-    public GenerateOptions setEntityChain(boolean entityChain) {
-        this.entityChain = entityChain;
-        return this;
-    }
-
-    public boolean isEntityAlone() {
-        return entityAlone;
-    }
-
-    public GenerateOptions setEntityAlone(boolean entityAlone) {
-        this.entityAlone = entityAlone;
+    public GenerateOptions setEntityChainStyle(boolean entityChainStyle) {
+        this.entityChainStyle = entityChainStyle;
         return this;
     }
 
@@ -132,6 +113,18 @@ public final class GenerateOptions {
 
     public GenerateOptions setStringConverter(StringConverter stringConverter) {
         this.stringConverter = stringConverter;
+        return this;
+    }
+
+    public String getPackagePath() {
+        return packagePath;
+    }
+
+    public GenerateOptions setPackagePath(String packagePath) {
+        if (!Pattern.matches(PACKAGE_PATH_REGEX, packagePath)) {
+            throw new RuntimeException("packagePath format error.");
+        }
+        this.packagePath = packagePath;
         return this;
     }
 

@@ -20,7 +20,7 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         public [(${table.getJavaType(column).className})] [(${table.getGetterMethodName(column)})]() {
             return this.[(${table.getColumnAlias(column)})];
         }
-        [# th:switch="${table.generateOptions.entityChain == true}"]
+        [# th:switch="${table.generateOptions.entityChainStyle == true}"]
             [# th:case="true"]
                 public [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] [(${table.getSetterMethodName(column)})]([(${table.getJavaType(column).className})] [(${table.getColumnAlias(column)})]) {
                     this.[(${table.getColumnAlias(column)})] = [(${table.getColumnAlias(column)})];

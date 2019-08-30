@@ -115,4 +115,8 @@ public class Table {
         classPaths.addAll(this.getGenerateOptions().getClassPaths());
         return classPaths;
     }
+
+    public String getJavaFileName() {
+        return getTableAlias() + generateOptions.getEntitySuffix();
+    }
 }

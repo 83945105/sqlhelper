@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.generator.engine;
 
-import org.fusesource.jansi.Ansi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
@@ -10,33 +11,39 @@ import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplate;
 import pub.avalon.sqlhelper.generator.options.GenerateOptions;
 import pub.avalon.sqlhelper.generator.options.OutputOptions;
 
+import javax.tools.*;
 import java.io.*;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
+import java.util.*;
 
 /**
  * @author baichao
  */
 public final class DefaultTemplateEngine implements TemplateEngine {
 
+    private final Logger logger = LoggerFactory.getLogger(DefaultTemplateEngine.class);
+
+    private final static String PROJECT_ROOT_PATH_SIGN = "/";
+
+    private final static String PACKAGE_LINK_REGEX = "\\.";
+
     private JdbcTemplate jdbcTemplate;
 
-    private GenerateOptions generateOptions;
+    private GenerateOptions defaultGenerateOptions;
 
-    private List<Table> tables = new ArrayList<>();
+    private OutputOptions defaultOutputOptions;
 
-    public DefaultTemplateEngine(JdbcTemplate jdbcTemplate, GenerateOptions generateOptions) {
+    private Map<String, Table> tables = new LinkedHashMap<>();
+
+    public DefaultTemplateEngine(JdbcTemplate jdbcTemplate, GenerateOptions defaultGenerateOptions) {
         this.jdbcTemplate = jdbcTemplate;
-        this.generateOptions = generateOptions;
+        this.defaultGenerateOptions = defaultGenerateOptions;
     }
 
     @Override
     public TemplateEngine addTable(String tableName, String tableAlias) {
-        return this.addTable(tableName, tableAlias, this.generateOptions);
+        return this.addTable(tableName, tableAlias, this.defaultGenerateOptions);
     }
 
     @Override
@@ -52,13 +59,12 @@ public final class DefaultTemplateEngine implements TemplateEngine {
         }
         Column primaryKeyColumn = this.jdbcTemplate.selectPrimaryKeyColumn(tableName);
         List<Column> columns = this.jdbcTemplate.selectColumns(tableName);
-        this.tables.add(
-                new Table()
-                        .setTableName(tableName)
-                        .setTableAlias(tableAlias)
-                        .setGenerateOptions(generateOptions)
-                        .setPrimaryKeyColumn(primaryKeyColumn)
-                        .setColumns(columns)
+        this.tables.put(tableName, new Table()
+                .setTableName(tableName)
+                .setTableAlias(tableAlias)
+                .setGenerateOptions(generateOptions)
+                .setPrimaryKeyColumn(primaryKeyColumn)
+                .setColumns(columns)
         );
         return this;
     }
@@ -75,20 +81,68 @@ public final class DefaultTemplateEngine implements TemplateEngine {
     }
 
     @Override
+    public TemplateEngine setTables(Map<String, String> tableNameAliasMap, GenerateOptions generateOptions) {
+        if (tableNameAliasMap == null) {
+            return this;
+        }
+        for (Map.Entry<String, String> entry : tableNameAliasMap.entrySet()) {
+            this.addTable(entry.getKey(), entry.getValue(), generateOptions);
+        }
+        return this;
+    }
+
+    @Override
+    public GenerateOptions getDefaultGenerateOptions() {
+        return defaultGenerateOptions;
+    }
+
+    @Override
+    public TemplateEngine setDefaultGenerateOptions(GenerateOptions defaultGenerateOptions) {
+        this.defaultGenerateOptions = defaultGenerateOptions;
+        return this;
+    }
+
+    @Override
+    public OutputOptions getDefaultOutputOptions() {
+        return defaultOutputOptions;
+    }
+
+    @Override
+    public TemplateEngine setDefaultOutputOptions(OutputOptions defaultOutputOptions) {
+        this.defaultOutputOptions = defaultOutputOptions;
+        return this;
+    }
+
+    private Table getTable(String tableName) {
+        Table table = tables.get(tableName);
+        if (table == null) {
+            throw new RuntimeException("Table " + tableName + " does not exist.");
+        }
+        return table;
+    }
+
+    private String buildPathPrefix(String folderPath, String packagePath) {
+        if (folderPath == null || folderPath.trim().length() == 0) {
+            throw new RuntimeException("folderPath can not be null or empty.");
+        }
+        if (PROJECT_ROOT_PATH_SIGN.equals(folderPath.trim())) {
+            folderPath = System.getProperty("user.dir");
+        }
+        StringBuilder path = new StringBuilder(folderPath);
+        if (packagePath == null) {
+            return path.append(File.separator).toString();
+        }
+        for (String packagePathPart : packagePath.split(PACKAGE_LINK_REGEX)) {
+            path.append(File.separator).append(packagePathPart);
+        }
+        return path.append(File.separator).toString();
+    }
+
+    @Override
     public String generateJavaCode(String tableName, OutputOptions outputOptions) {
-        return null;
-    }
-
-    @Override
-    public void generateJavaFile(String tableName, OutputOptions outputOptions) {
-
-    }
-
-    @Override
-    public void generateJavaFiles(OutputOptions outputOptions) {
-
-        String folderPath = outputOptions.getFolderPath();
-
+        Table table = getTable(tableName);
+        GenerateOptions generateOptions = table.getGenerateOptions();
+        String packagePath = generateOptions.getPackagePath();
         ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
         resolver.setCharacterEncoding("utf-8");
         resolver.setPrefix("templates/");
@@ -97,98 +151,67 @@ public final class DefaultTemplateEngine implements TemplateEngine {
         org.thymeleaf.TemplateEngine templateEngine = new org.thymeleaf.TemplateEngine();
         templateEngine.setTemplateResolver(resolver);
         Context context = new Context();
-        Map<String, Object> setting;
+        Map<String, Object> setting = new HashMap<>(1);
+        setting.put("packagePath", packagePath);
+        context.setVariable("table", table);
+        context.setVariable("setting", setting);
+        String template = "entity-helper";
+        String javaCode = templateEngine.process(template, context);
+        this.logger.info("GenerateJavaCode for Table " + tableName);
+        return javaCode;
+    }
 
-        for (Table table : tables) {
-            System.out.println(Ansi.ansi().eraseScreen()
-                    .fg(Ansi.Color.BLUE)
-                    .a("========================================================================================================================================================================================================\n")
-                    .reset());
-            setting = new HashMap<>(1);
-            setting.put("packagePath", packagePath);
+    @Override
+    public void generateJavaFile(String tableName, OutputOptions outputOptions) {
+        String javaCode = generateJavaCode(tableName, outputOptions);
+        Table table = getTable(tableName);
+        String folderPath = buildPathPrefix(outputOptions.getFolderPath(), table.getGenerateOptions().getPackagePath());
+        printJavaFile(table.getJavaFileName(), folderPath, javaCode);
+        this.logger.info("GenerateJavaFile for Table " + tableName);
+    }
 
-            context.setVariable("table", table);
-            context.setVariable("setting", setting);
-
-            // 根据配置判断是否哪个模板
-            String template = "";
-            if (table.getGenerateOptions().isEntity()) {
-                // 生成实体类
-                if (table.getGenerateOptions().isEntityAlone()) {
-                    // 实体类与helper类分离
-                    template = "entity";
-                    String x = templateEngine.process(template, context);
-                    System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
-                    printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getEntitySuffix() + ".java");
-                    System.out.println(Ansi.ansi().eraseScreen()
-                            .fg(Ansi.Color.BLUE)
-                            .a("\n========================================================================================================================================================================================================")
-                            .reset());
-                    template = "helper";
-                    x = templateEngine.process(template, context);
-                    System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
-                    printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getHelperClassName() + ".java");
-                    System.out.println(Ansi.ansi().eraseScreen()
-                            .fg(Ansi.Color.BLUE)
-                            .a("\n========================================================================================================================================================================================================")
-                            .reset());
-                } else {
-                    // 实体类与helper类一起
-                    template = "entity-helper";
-                    String x = templateEngine.process(template, context);
-                    System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
-                    printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getEntitySuffix() + ".java");
-                    System.out.println(Ansi.ansi().eraseScreen()
-                            .fg(Ansi.Color.BLUE)
-                            .a("\n========================================================================================================================================================================================================")
-                            .reset());
-                }
-            } else {
-                // 不生成实体类
-                template = "helper";
-                String x = templateEngine.process(template, context);
-                System.out.println(Ansi.ansi().eraseScreen().fg(Ansi.Color.YELLOW).a(x).reset());
-                printFile(x, pathPrefix + table.getTableAlias() + table.getGenerateOptions().getHelperClassName() + ".java");
-                System.out.println(Ansi.ansi().eraseScreen()
-                        .fg(Ansi.Color.BLUE)
-                        .a("\n========================================================================================================================================================================================================")
-                        .reset());
-            }
+    @Override
+    public void generateJavaFiles(OutputOptions outputOptions) {
+        for (Map.Entry<String, Table> entry : tables.entrySet()) {
+            this.generateJavaFile(entry.getKey(), outputOptions);
         }
-        System.out.println(Ansi.ansi().eraseScreen()
-                .fg(Ansi.Color.GREEN)
-                .a("the generated java files are in the ")
-                .fg(Ansi.Color.RED)
-                .a(pathPrefix)
-                .reset());
     }
 
     @Override
     public void generateClassFile(String tableName, OutputOptions outputOptions) {
-
+        String javaCode = generateJavaCode(tableName, outputOptions);
+        Table table = getTable(tableName);
+        String folderPath = buildPathPrefix(outputOptions.getFolderPath(), table.getGenerateOptions().getPackagePath());
+        printClassFile(table.getJavaFileName(), folderPath, javaCode, outputOptions.getFolderPath());
+        this.logger.info("GenerateClassFile for Table " + tableName);
     }
 
     @Override
     public void generateClassFiles(OutputOptions outputOptions) {
-
+        for (Map.Entry<String, Table> entry : tables.entrySet()) {
+            this.generateClassFile(entry.getKey(), outputOptions);
+        }
     }
 
-    private void printFile(String content, String printPath) {
-        File file = new File(printPath);
+    private void printJavaFile(final String javaFileName, final String folderPath, final String javaCode) {
+        File file = new File(folderPath + javaFileName + ".java");
         OutputStreamWriter osw = null;
         FileOutputStream fos = null;
         try {
             if (!file.getParentFile().exists()) {
                 if (file.getParentFile().mkdirs()) {
                     if (!file.exists()) {
-                        file.createNewFile();
+                        boolean success = file.createNewFile();
+                        if (!success) {
+                            throw new RuntimeException("create new file fail.");
+                        }
                     }
                 }
             }
             fos = new FileOutputStream(file);
             osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
             BufferedWriter writer = new BufferedWriter(osw);
-            writer.write(content);
+            writer.write(javaCode);
             writer.flush();
             writer.close();
         } catch (IOException e) {
@@ -211,4 +234,29 @@ public final class DefaultTemplateEngine implements TemplateEngine {
         }
     }
 
+    private void printClassFile(final String javaFileName, final String folderPath, final String javaCode, final String outputPath) {
+        JavaCompiler javaCompiler = ToolProvider.getSystemJavaCompiler();
+        StandardJavaFileManager standardFileManager = javaCompiler.getStandardFileManager(null, null,
+                null);
+        URI uri = URI.create("String:///" + javaFileName + JavaFileObject.Kind.SOURCE.extension);
+        JavaFileObject javaFileObject = new SimpleJavaFileObject(uri, JavaFileObject.Kind.SOURCE) {
+            @Override
+            public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+                return javaCode;
+            }
+        };
+        File file = new File(folderPath);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                throw new RuntimeException("create folder [" + folderPath + "] fail.");
+            }
+        }
+        List<String> optionsList = new ArrayList<>(Arrays.asList("-d", outputPath));
+        List<JavaFileObject> javaFileObjects = Collections.singletonList(javaFileObject);
+        JavaCompiler.CompilationTask task = javaCompiler.getTask(null, standardFileManager, null,
+                optionsList, null, javaFileObjects);
+        if (!task.call()) {
+            throw new RuntimeException("compile java file " + javaFileName + " fail. javaCode\n" + javaCode);
+        }
+    }
 }
