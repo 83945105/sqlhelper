@@ -98,6 +98,9 @@ public final class DefaultTemplateEngine implements TemplateEngine {
 
     @Override
     public TemplateEngine setDefaultGenerateOptions(GenerateOptions defaultGenerateOptions) {
+        if (defaultGenerateOptions == null) {
+            return this;
+        }
         this.defaultGenerateOptions = defaultGenerateOptions;
         return this;
     }
@@ -157,7 +160,7 @@ public final class DefaultTemplateEngine implements TemplateEngine {
         context.setVariable("setting", setting);
         String template = "entity-helper";
         String javaCode = templateEngine.process(template, context);
-        this.logger.info("GenerateJavaCode for Table " + tableName);
+        this.logger.info("Generate Java Code For Table " + tableName);
         return javaCode;
     }
 
@@ -167,7 +170,7 @@ public final class DefaultTemplateEngine implements TemplateEngine {
         Table table = getTable(tableName);
         String folderPath = buildPathPrefix(outputOptions.getFolderPath(), table.getGenerateOptions().getPackagePath());
         printJavaFile(table.getJavaFileName(), folderPath, javaCode);
-        this.logger.info("GenerateJavaFile for Table " + tableName);
+        this.logger.info("Generate Java File For Table " + tableName);
     }
 
     @Override
@@ -183,7 +186,7 @@ public final class DefaultTemplateEngine implements TemplateEngine {
         Table table = getTable(tableName);
         String folderPath = buildPathPrefix(outputOptions.getFolderPath(), table.getGenerateOptions().getPackagePath());
         printClassFile(table.getJavaFileName(), folderPath, javaCode, outputOptions.getFolderPath());
-        this.logger.info("GenerateClassFile for Table " + tableName);
+        this.logger.info("Generate Class File For Table " + tableName);
     }
 
     @Override

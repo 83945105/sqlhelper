@@ -1,5 +1,6 @@
+[# th:if="${setting.packagePath != null}"]
 package [[${setting.packagePath}]];
-
+[/]
 import pub.avalon.sqlhelper.core.beans.*;
 import pub.avalon.sqlhelper.core.builder.*;
 import pub.avalon.sqlhelper.core.helper.*;

@@ -4,6 +4,7 @@ import pub.avalon.sqlhelper.generator.beans.HumpConverter;
 import pub.avalon.sqlhelper.generator.beans.StringConverter;
 import pub.avalon.sqlhelper.generator.beans.TypeConverter;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -121,6 +122,9 @@ public final class GenerateOptions {
     }
 
     public GenerateOptions setPackagePath(String packagePath) {
+        if (packagePath == null) {
+            return this;
+        }
         if (!Pattern.matches(PACKAGE_PATH_REGEX, packagePath)) {
             throw new RuntimeException("packagePath format error.");
         }
@@ -129,7 +133,18 @@ public final class GenerateOptions {
     }
 
     public GenerateOptions addClassPath(String classPath) {
+        if (classPath == null) {
+            return this;
+        }
         this.classPaths.add(classPath);
+        return this;
+    }
+
+    public GenerateOptions addAllClassPath(Collection<String> classPaths) {
+        if (classPaths == null) {
+            return this;
+        }
+        this.classPaths.addAll(classPaths);
         return this;
     }
 

@@ -15,4 +15,23 @@ public class Table {
 
     @Parameter
     private GenerateOptions generateOptions;
+
+    @Parameter
+    private OutputOptions outputOptions;
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public String getTableAlias() {
+        return tableAlias;
+    }
+
+    public GenerateOptions getGenerateOptions() {
+        return generateOptions;
+    }
+
+    public OutputOptions getOutputOptions() {
+        return outputOptions;
+    }
 }

@@ -7,6 +7,12 @@ import org.apache.maven.plugins.annotations.Parameter;
  */
 public class OutputOptions {
 
+    public final static OutputOptions DEFAULT_OUTPUT_OPTIONS = new OutputOptions();
+
     @Parameter(required = true, defaultValue = "/")
-    private String folderPath;
+    private String folderPath = "/";
+
+    public String getFolderPath() {
+        return folderPath;
+    }
 }

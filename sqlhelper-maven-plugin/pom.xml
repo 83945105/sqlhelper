@@ -34,7 +34,10 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.83945105</groupId>
+            <artifactId>sqlhelper-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.83945105</groupId>
@@ -45,35 +48,67 @@
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
-            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
     </dependencies>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-plugin-plugin</artifactId>
-                    <version>3.4</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <goalPrefix>sqlhelper</goalPrefix>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>com.github.83945105</groupId>
                 <artifactId>sqlhelper-maven-plugin</artifactId>
-                <version>${parent.version}</version>
+                <version>${project.parent.version}</version>
                 <configuration>
                     <dataSource>
                         <driverClassName>com.mysql.cj.jdbc.Driver</driverClassName>
-                        <jdbcUrl>jdbc:mysql://localhost:3306/sqlhelper?serverTimezone=UTC<![CDATA[&]]>useUnicode=true<![CDATA[&]]>characterEncoding=utf8<![CDATA[&]]>useSSL=false</jdbcUrl>
+                        <jdbcUrl>jdbc:mysql://localhost:3306/sqlhelper?serverTimezone=UTC<![CDATA[&]]>useUnicode=true
+                            <![CDATA[&]]>characterEncoding=utf8<![CDATA[&]]>useSSL=false
+                        </jdbcUrl>
                         <username>root</username>
                         <password>root</password>
                     </dataSource>
+                    <defaultOutputOptions>
+                        <folderPath>D://generateFiles</folderPath>
+                    </defaultOutputOptions>
                     <tables>
                         <table>
-
+                            <tableName>sys_user</tableName>
+                            <tableAlias>SysUser</tableAlias>
+                            <generateOptions>
+                                <packagePath>pub.avalon.test.beans</packagePath>
+                            </generateOptions>
+                            <outputOptions>
+                                <folderPath>D://generateFiles/user</folderPath>
+                            </outputOptions>
+                        </table>
+                        <table>
+                            <tableName>role_resource</tableName>
+                            <tableAlias>RoleResource</tableAlias>
+                            <generateOptions>
+                                <packagePath>pub.avalon.test.beans</packagePath>
+                            </generateOptions>
+                            <outputOptions>
+                                <folderPath>D://generateFiles/role</folderPath>
+                            </outputOptions>
+                        </table>
+                        <table>
+                            <tableName>user_role</tableName>
+                            <tableAlias>UserRole</tableAlias>
+                            <generateOptions>
+                                <packagePath>pub.avalon.test.beans</packagePath>
+                            </generateOptions>
                         </table>
                     </tables>
                 </configuration>

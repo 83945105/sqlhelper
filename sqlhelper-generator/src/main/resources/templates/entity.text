@@ -1,5 +1,6 @@
+[# th:if="${setting.packagePath != null}"]
 package [[${setting.packagePath}]];
-
+[/]
 [# th:each="classPath : ${table.classPaths}"]
 import [(${classPath})];
 [/]
