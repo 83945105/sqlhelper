@@ -2,6 +2,8 @@ package pub.avalon.sqlhelper.maven;
 
 import org.apache.maven.plugins.annotations.Parameter;
 
+import java.util.List;
+
 /**
  * @author baichao
  */
@@ -18,6 +20,15 @@ public class DataSource {
 
     @Parameter(required = true)
     private String password;
+
+    @Parameter
+    protected GenerateOptions defaultGenerateOptions = GenerateOptions.DEFAULT_GENERATE_OPTIONS;
+
+    @Parameter
+    protected OutputOptions defaultOutputOptions = OutputOptions.DEFAULT_OUTPUT_OPTIONS;
+
+    @Parameter(required = true)
+    protected List<Table> tables;
 
     public String getDriverClassName() {
         return driverClassName;

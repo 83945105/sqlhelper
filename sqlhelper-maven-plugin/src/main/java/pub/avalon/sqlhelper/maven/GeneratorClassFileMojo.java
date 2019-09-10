@@ -11,8 +11,8 @@ import pub.avalon.sqlhelper.generator.engine.TemplateEngineBuilder;
 import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplate;
 import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplateBuilder;
 
-@Mojo(name = "generate java file", defaultPhase = LifecyclePhase.COMPILE)
-public class GeneratorJavaFileMojo extends AbstractGeneratorMojo {
+@Mojo(name = "generate class file", defaultPhase = LifecyclePhase.COMPILE)
+public class GeneratorClassFileMojo extends AbstractGeneratorMojo {
 
     private pub.avalon.sqlhelper.generator.options.GenerateOptions convertGenerateOptions(GenerateOptions generateOptions) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         if (generateOptions == null) {
@@ -62,9 +62,9 @@ public class GeneratorJavaFileMojo extends AbstractGeneratorMojo {
                         templateEngine.addTable(table.getTableName(), table.getTableAlias(), convertGenerateOptions(table.getGenerateOptions()));
                     }
                     if (table.getOutputOptions() == null) {
-                        templateEngine.generateJavaFile(table.getTableName(), convertOutputOptions(dataSource.defaultOutputOptions));
+                        templateEngine.generateClassFile(table.getTableName(), convertOutputOptions(dataSource.defaultOutputOptions));
                     } else {
-                        templateEngine.generateJavaFile(table.getTableName(), convertOutputOptions(table.getOutputOptions()));
+                        templateEngine.generateClassFile(table.getTableName(), convertOutputOptions(table.getOutputOptions()));
                     }
                 }
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {

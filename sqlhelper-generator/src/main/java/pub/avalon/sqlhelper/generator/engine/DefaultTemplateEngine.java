@@ -239,27 +239,79 @@ public final class DefaultTemplateEngine implements TemplateEngine {
 
     private void printClassFile(final String javaFileName, final String folderPath, final String javaCode, final String outputPath) {
         JavaCompiler javaCompiler = ToolProvider.getSystemJavaCompiler();
+
         StandardJavaFileManager standardFileManager = javaCompiler.getStandardFileManager(null, null,
                 null);
-        URI uri = URI.create("String:///" + javaFileName + JavaFileObject.Kind.SOURCE.extension);
-        JavaFileObject javaFileObject = new SimpleJavaFileObject(uri, JavaFileObject.Kind.SOURCE) {
-            @Override
-            public CharSequence getCharContent(boolean ignoreEncodingErrors) {
-                return javaCode;
-            }
-        };
+
+
+/*        try {
+            standardFileManager.setLocation(StandardLocation.CLASS_PATH, getFiles(new File(""), JAR_FILE_SUFFIX));
+            standardFileManager.setLocation(StandardLocation.SOURCE_PATH, getFiles(new File(""), JAVA_FILE_SUFFIX));
+            standardFileManager.setLocation(StandardLocation.CLASS_OUTPUT, Collections.singletonList(new File(outputPath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }*/
+
+        StringJavaObject stringJavaObject = new StringJavaObject(javaFileName, javaCode);
+        Iterable<? extends JavaFileObject> javaFileObjects = Arrays.asList(stringJavaObject);
         File file = new File(folderPath);
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 throw new RuntimeException("create folder [" + folderPath + "] fail.");
             }
         }
-        List<String> optionsList = new ArrayList<>(Arrays.asList("-d", outputPath));
-        List<JavaFileObject> javaFileObjects = Collections.singletonList(javaFileObject);
+        List<String> options = new ArrayList<>();
+        options.addAll(Arrays.asList("-d", outputPath));
+        options.addAll(Arrays.asList("-classpath", System.getProperty("java.class.path")));
+
         JavaCompiler.CompilationTask task = javaCompiler.getTask(null, standardFileManager, null,
-                optionsList, null, javaFileObjects);
+                options, null, javaFileObjects);
         if (!task.call()) {
-            throw new RuntimeException("compile java file " + javaFileName + " fail. javaCode\n" + javaCode);
+            throw new RuntimeException("Compile java file " + javaFileName + " fail. javaCode\n" + javaCode);
         }
+        //        standardFileManager.setLocation(StandardLocation.CLASS_PATH, new ArrayList<File>(){{
+//            add(new File(""));
+//        }});
+//        optionsList.addAll(Arrays.asList("-classpath", System.getProperty("java.class.path")));
+//        optionsList.addAll(Arrays.asList("classpath","/lib/framework-core.jar"));
+    }
+
+    private static class StringJavaObject extends SimpleJavaFileObject {
+        private String content;
+
+        private StringJavaObject(String name, String content) {
+            super(URI.create("string:///" + name.replace('.', '/') + Kind.SOURCE.extension), Kind.SOURCE);
+            this.content = content;
+        }
+
+        @Override
+        public CharSequence getCharContent(boolean ignoreEncodingErrors) {
+            return content;
+        }
+    }
+
+    private final static String JAR_FILE_SUFFIX = ".jar";
+    private final static String JAVA_FILE_SUFFIX = ".java";
+
+    private List<File> getFiles(File sourceFile, String suffix) {
+        if (sourceFile == null || !sourceFile.exists()) {
+            return Collections.emptyList();
+        }
+        if (sourceFile.isDirectory()) {
+            File[] files = sourceFile.listFiles(pathname -> pathname.isDirectory() || pathname.getName().endsWith(suffix));
+            if (files == null) {
+                return Collections.emptyList();
+            }
+            List<File> jarFiles = new ArrayList<>();
+            for (File file : files) {
+                jarFiles.addAll(getFiles(file, suffix));
+            }
+            return jarFiles;
+        }
+        if (sourceFile.getName().endsWith(suffix)) {
+            return Collections.singletonList(sourceFile);
+        }
+        return Collections.emptyList();
     }
 }
