@@ -16,6 +16,9 @@ import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplateBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author baichao
+ */
 @Mojo(name = "generate class file",
         defaultPhase = LifecyclePhase.PROCESS_CLASSES,
         requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME)

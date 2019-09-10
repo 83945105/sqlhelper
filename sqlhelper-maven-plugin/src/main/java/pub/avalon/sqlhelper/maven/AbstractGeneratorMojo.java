@@ -5,6 +5,9 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.util.List;
 
+/**
+ * @author baichao
+ */
 public abstract class AbstractGeneratorMojo extends AbstractMojo {
 
     @Parameter(required = true)

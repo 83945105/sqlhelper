@@ -11,6 +11,9 @@ import pub.avalon.sqlhelper.generator.engine.TemplateEngineBuilder;
 import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplate;
 import pub.avalon.sqlhelper.generator.jdbc.JdbcTemplateBuilder;
 
+/**
+ * @author baichao
+ */
 @Mojo(name = "generate java file", defaultPhase = LifecyclePhase.COMPILE)
 public class GeneratorJavaFileMojo extends AbstractGeneratorMojo {
 
