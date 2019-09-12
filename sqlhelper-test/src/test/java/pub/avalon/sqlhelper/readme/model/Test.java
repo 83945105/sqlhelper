@@ -23,10 +23,10 @@ public class Test {
 
         SysUserDTO.Helper.Column joinColumn = SysUserDTO.Helper.column().userName().userName("");
         RoleResourceDTO.Helper.Where where = RoleResourceDTO.Helper.where().id().equalTo("1").id().like("");
-        RoleResourceDTO.Helper.Group group = RoleResourceDTO.Helper.group().id().id();
-        SysUserDTO.Helper.Group joinGroup = SysUserDTO.Helper.group().userName().userName();
-        RoleResourceDTO.Helper.Sort sort = RoleResourceDTO.Helper.sort().id().asc().id().desc();
-        SysUserDTO.Helper.Sort joinSort = SysUserDTO.Helper.sort().userName().asc().userName().desc();
+        RoleResourceDTO.Helper.Group group = RoleResourceDTO.Helper.groupBy().id().id();
+        SysUserDTO.Helper.Group joinGroup = SysUserDTO.Helper.groupBy().userName().userName();
+        RoleResourceDTO.Helper.Sort sort = RoleResourceDTO.Helper.orderBy().id().asc().id().desc();
+        SysUserDTO.Helper.Sort joinSort = SysUserDTO.Helper.orderBy().userName().asc().userName().desc();
 
         SqlHelperEngine sqlEngine = SqlDynamicEngine.table(DataBaseType.MYSQL, "", RoleResourceDTO.Helper.class)
 

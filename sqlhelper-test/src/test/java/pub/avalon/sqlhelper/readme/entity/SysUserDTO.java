@@ -173,11 +173,11 @@ public class SysUserDTO {
             return new Where(tableAlias);
         }
 
-        public static Group group() {
+        public static Group groupBy() {
             return new Group(TABLE_ALIAS);
         }
 
-        public static Group group(String tableAlias) {
+        public static Group groupBy(String tableAlias) {
             return new Group(tableAlias);
         }
 
@@ -189,11 +189,11 @@ public class SysUserDTO {
             return new Having(tableAlias);
         }
 
-        public static Sort sort() {
+        public static Sort orderBy() {
             return new Sort(TABLE_ALIAS);
         }
 
-        public static Sort sort(String tableAlias) {
+        public static Sort orderBy(String tableAlias) {
             return new Sort(tableAlias);
         }
 
@@ -244,7 +244,7 @@ public class SysUserDTO {
 
         @Override
         public Group newGroupHelper(String tableAlias) {
-            return group(tableAlias);
+            return groupBy(tableAlias);
         }
 
         @Override
@@ -254,7 +254,7 @@ public class SysUserDTO {
 
         @Override
         public Sort newSortHelper(String tableAlias) {
-            return sort(tableAlias);
+            return orderBy(tableAlias);
         }
 
         public final static class Join extends JoinHelper<Join> {
