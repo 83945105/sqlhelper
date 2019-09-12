@@ -49,7 +49,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
 
     @Override
     public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnCallbackEngine.executeColumn(true, this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -61,7 +61,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallbackEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions));
+        this.addTableColumnDatum(ColumnCallbackEngine.executeColumn(false, tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions));
         return this;
     }
 
