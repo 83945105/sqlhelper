@@ -1,15 +1,15 @@
+
 package pub.avalon.sqlhelper.readme.entity;
 
-import pub.avalon.sqlhelper.core.beans.ColumnHandler;
-import pub.avalon.sqlhelper.core.beans.TableColumn;
-import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.beans.*;
+import pub.avalon.sqlhelper.core.builder.*;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+
+import java.lang.String;
+import java.lang.Long;
 
 
 @SuppressWarnings("all")

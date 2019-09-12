@@ -42,6 +42,7 @@
         <module>sqlhelper-generator</module>
         <module>sqlhelper-maven-plugin</module>
         <module>sqlhelper-spring</module>
+        <module>sqlhelper-test</module>
     </modules>
 
     <properties>
