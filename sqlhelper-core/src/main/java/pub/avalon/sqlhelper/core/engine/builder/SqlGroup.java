@@ -38,13 +38,13 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
     private List<AbstractSqlGroupBean> sqlGroupBeans = new ArrayList<>(1);
 
     @Override
-    public SqlGroup<TG> group(GroupHelper<?>... groupHelpers) {
+    public SqlGroup<TG> groupBy(GroupHelper<?>... groupHelpers) {
         this.sqlGroupBeans.add(new SqlGroupBean<>(this.groupHelper, this.tableAlias).setGroupHelpers(groupHelpers));
         return this;
     }
 
     @Override
-    public SqlGroup<TG> group(GroupCallback<TG> groupCallback) {
+    public SqlGroup<TG> groupBy(GroupCallback<TG> groupCallback) {
         this.sqlGroupBeans.add(new SqlGroupBean<>(this.groupHelper, this.tableAlias).setGroupCallback(groupCallback));
         return this;
     }
@@ -56,7 +56,7 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlGroup<TG> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
+            SS extends SortHelper<SS>> SqlGroup<TG> groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
         this.sqlGroupBeans.add(new SqlGroupBeanJoin<>(tableHelperClass, tableAlias, groupCallback));
         return this;
     }

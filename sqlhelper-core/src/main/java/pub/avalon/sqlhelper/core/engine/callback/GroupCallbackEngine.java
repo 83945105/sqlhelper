@@ -17,7 +17,7 @@ public interface GroupCallbackEngine<TG extends GroupHelper<TG>, R> extends Engi
      * @param groupCallback {@link GroupCallback}
      * @return R
      */
-    R group(GroupCallback<TG> groupCallback);
+    R groupBy(GroupCallback<TG> groupCallback);
 
     /**
      * use callback to add assign class group sql data
@@ -33,7 +33,7 @@ public interface GroupCallbackEngine<TG extends GroupHelper<TG>, R> extends Engi
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback);
+            SS extends SortHelper<SS>> R groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback);
 
     /**
      * use callback to add assign class group sql data
@@ -48,8 +48,8 @@ public interface GroupCallbackEngine<TG extends GroupHelper<TG>, R> extends Engi
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R group(Class<S> tableHelperClass, GroupCallback<SG> groupCallback) {
-        return group(tableHelperClass, null, groupCallback);
+            SS extends SortHelper<SS>> R groupBy(Class<S> tableHelperClass, GroupCallback<SG> groupCallback) {
+        return groupBy(tableHelperClass, null, groupCallback);
     }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,

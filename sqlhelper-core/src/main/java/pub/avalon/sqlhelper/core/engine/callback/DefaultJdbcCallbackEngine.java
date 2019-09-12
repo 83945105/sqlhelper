@@ -119,7 +119,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> groupCallback) {
+    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupBy(GroupCallback<TG> groupCallback) {
         this.addTableGroupDatum(GroupCallbackEngine.execute(this.tableHelperClass, this.tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
@@ -131,13 +131,13 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
         this.addTableGroupDatum(GroupCallbackEngine.execute(tableHelperClass, tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> sortCallback) {
+    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> orderBy(SortCallback<TS> sortCallback) {
         this.addTableSortDatum(SortCallbackEngine.execute(this.tableHelperClass, this.tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }
@@ -149,7 +149,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
         this.addTableSortDatum(SortCallbackEngine.execute(tableHelperClass, tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }

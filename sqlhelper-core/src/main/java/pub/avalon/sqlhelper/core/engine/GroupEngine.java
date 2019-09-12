@@ -13,5 +13,5 @@ public interface GroupEngine<R> extends Engine {
      * @param groupHelpers extends {@link GroupHelper} objects
      * @return R
      */
-    R group(GroupHelper<?>... groupHelpers);
+    R groupBy(GroupHelper<?>... groupHelpers);
 }

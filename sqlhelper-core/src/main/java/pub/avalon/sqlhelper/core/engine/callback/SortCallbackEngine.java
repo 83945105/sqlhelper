@@ -17,7 +17,7 @@ public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine
      * @param sortCallback {@link SortCallback}
      * @return R
      */
-    R sort(SortCallback<TS> sortCallback);
+    R orderBy(SortCallback<TS> sortCallback);
 
     /**
      * use callback to add assign class sort sql data
@@ -33,7 +33,7 @@ public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback);
+            SS extends SortHelper<SS>> R orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback);
 
     /**
      * use callback to add assign class sort sql data
@@ -48,8 +48,8 @@ public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R sort(Class<S> tableHelperClass, SortCallback<SS> sortCallback) {
-        return sort(tableHelperClass, null, sortCallback);
+            SS extends SortHelper<SS>> R orderBy(Class<S> tableHelperClass, SortCallback<SS> sortCallback) {
+        return orderBy(tableHelperClass, null, sortCallback);
     }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,

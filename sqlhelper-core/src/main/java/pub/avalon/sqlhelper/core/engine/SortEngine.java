@@ -13,5 +13,5 @@ public interface SortEngine<R> extends Engine {
      * @param sortHelpers {@link SortHelper}
      * @return R
      */
-    R sort(SortHelper<?>... sortHelpers);
+    R orderBy(SortHelper<?>... sortHelpers);
 }

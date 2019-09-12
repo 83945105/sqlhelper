@@ -127,18 +127,18 @@ public class Test {
 
                         })))
                 .where((condition, mainTable) -> condition.and(where))
-                .group(table -> table.id().id())
-                .group(SysUserDTO.Helper.class, table -> table.userName().userName())
-                .group(table -> group)
-                .group(SysUserDTO.Helper.class, table -> joinGroup)
-                .group(group, joinGroup)
+                .groupBy(table -> table.id().id())
+                .groupBy(SysUserDTO.Helper.class, table -> table.userName().userName())
+                .groupBy(table -> group)
+                .groupBy(SysUserDTO.Helper.class, table -> joinGroup)
+                .groupBy(group, joinGroup)
 
 
-                .sort(table -> table.id().asc().id().desc())
-                .sort(SysUserDTO.Helper.class, table -> table.userName().asc().userName().desc())
-                .sort(table -> sort)
-                .sort(SysUserDTO.Helper.class, table -> joinSort)
-                .sort(sort, joinSort)
+                .orderBy(table -> table.id().asc().id().desc())
+                .orderBy(SysUserDTO.Helper.class, table -> table.userName().asc().userName().desc())
+                .orderBy(table -> sort)
+                .orderBy(SysUserDTO.Helper.class, table -> joinSort)
+                .orderBy(sort, joinSort)
                 .limitOne();
 
 

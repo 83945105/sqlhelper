@@ -83,12 +83,12 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> group(GroupHelper<?>... groupHelpers) {
+    public Sql<T, TJ, TC, TW, TG, TH, TS> groupBy(GroupHelper<?>... groupHelpers) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> group(GroupCallback<TG> groupCallback) {
+    public Sql<T, TJ, TC, TW, TG, TH, TS> groupBy(GroupCallback<TG> groupCallback) {
         return this;
     }
 
@@ -99,7 +99,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> group(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
+            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
         return this;
     }
 
@@ -135,12 +135,12 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> sort(SortHelper<?>... sortHelpers) {
+    public Sql<T, TJ, TC, TW, TG, TH, TS> orderBy(SortHelper<?>... sortHelpers) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> sort(SortCallback<TS> sortCallback) {
+    public Sql<T, TJ, TC, TW, TG, TH, TS> orderBy(SortCallback<TS> sortCallback) {
         return this;
     }
 
@@ -151,7 +151,7 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
+            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
         return this;
     }
 

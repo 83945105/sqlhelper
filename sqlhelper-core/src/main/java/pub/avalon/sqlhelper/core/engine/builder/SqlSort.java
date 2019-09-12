@@ -38,13 +38,13 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
     private List<AbstractSqlSortBean> sqlSortBeans = new ArrayList<>(1);
 
     @Override
-    public SqlSort<TS> sort(SortHelper<?>... sortHelpers) {
+    public SqlSort<TS> orderBy(SortHelper<?>... sortHelpers) {
         this.sqlSortBeans.add(new SqlSortBean<>(this.sortHelper, this.tableAlias).setSortHelpers(sortHelpers));
         return this;
     }
 
     @Override
-    public SqlSort<TS> sort(SortCallback<TS> sortCallback) {
+    public SqlSort<TS> orderBy(SortCallback<TS> sortCallback) {
         this.sqlSortBeans.add(new SqlSortBean<>(this.sortHelper, this.tableAlias).setSortCallback(sortCallback));
         return this;
     }
@@ -56,7 +56,7 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlSort<TS> sort(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
+            SS extends SortHelper<SS>> SqlSort<TS> orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
         this.sqlSortBeans.add(new SqlSortBeanJoin<>(tableHelperClass, tableAlias, sortCallback));
         return this;
     }
