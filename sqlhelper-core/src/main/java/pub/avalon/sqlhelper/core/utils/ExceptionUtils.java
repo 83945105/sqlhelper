@@ -26,6 +26,15 @@ public final class ExceptionUtils {
         throw new RuntimeException("tableHelperClass is null.");
     }
 
+    public static void selectColumnNullException() {
+        throw new RuntimeException("No query column specified.");
+    }
+
+    public static void multiTableColumnException() {
+        throw new RuntimeException("Cannot use columns from multiple tables.");
+    }
+
+
     public static void columnHelperNullException() {
         throw new RuntimeException("columnHelper is null.");
     }
@@ -60,9 +69,5 @@ public final class ExceptionUtils {
 
     public static void groupTypeNullException() {
         throw new RuntimeException("groupType is null.");
-    }
-
-    public static void groupTypeNotSupportException() {
-        throw new RuntimeException("GroupType's enumeration value is not supported for the time being.");
     }
 }

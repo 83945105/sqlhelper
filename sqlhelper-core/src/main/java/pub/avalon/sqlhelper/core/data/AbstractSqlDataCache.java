@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.exception.TableDataException;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.LinkedHashMap;
 
@@ -10,14 +11,21 @@ import java.util.LinkedHashMap;
  */
 public abstract class AbstractSqlDataCache implements SqlData {
 
-    private DataBaseType dataBaseType;
-
     private MainTableDatum mainTableDatum;
+
+    private SqlBuilderOptions sqlBuilderOptions;
+
+    private DataBaseType dataBaseType;
 
     private LinkedHashMap<String, JoinTableDatum> aliasJoinTableData;
 
     public AbstractSqlDataCache(MainTableDatum mainTableDatum) {
         this.mainTableDatum = mainTableDatum;
+    }
+
+    @Override
+    public SqlBuilderOptions getSqlBuilderOptions() {
+        return this.sqlBuilderOptions;
     }
 
     @Override
@@ -33,6 +41,11 @@ public abstract class AbstractSqlDataCache implements SqlData {
     @Override
     public LinkedHashMap<String, JoinTableDatum> getAliasJoinTableData() {
         return this.aliasJoinTableData;
+    }
+
+    @Override
+    public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlBuilderOptions = sqlBuilderOptions;
     }
 
     @Override

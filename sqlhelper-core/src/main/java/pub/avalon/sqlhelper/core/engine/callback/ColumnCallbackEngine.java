@@ -120,8 +120,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableColumnDatum executeColumn(boolean mainTable, Class<F> tableHelperClass, String tableAlias, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return ColumnCallback.execute(mainTable, tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
+            FS extends SortHelper<FS>> TableColumnDatum executeColumn(Class<F> tableHelperClass, String tableAlias, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
+        return ColumnCallback.execute(tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
     }
 
     static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,

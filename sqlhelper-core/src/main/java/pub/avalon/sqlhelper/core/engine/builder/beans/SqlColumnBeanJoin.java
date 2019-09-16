@@ -31,6 +31,6 @@ public final class SqlColumnBeanJoin<T extends TableHelper<T, TJ, TC, TW, TG, TH
 
     @Override
     public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return Collections.singletonList(ColumnCallback.execute(false, this.tableHelperClass, this.tableAlias, this.columnCallback, sqlBuilderOptions));
+        return Collections.singletonList(ColumnCallback.execute(this.tableHelperClass, this.tableAlias, this.columnCallback, sqlBuilderOptions));
     }
 }

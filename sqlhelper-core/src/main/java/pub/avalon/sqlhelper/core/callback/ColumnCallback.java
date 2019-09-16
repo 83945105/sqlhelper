@@ -24,16 +24,16 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TH extends HavingHelper<TH>,
-            TS extends SortHelper<TS>> TableColumnDatum execute(boolean mainTable, Class<T> tableHelperClass, String tableAlias, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
+            TS extends SortHelper<TS>> TableColumnDatum execute(Class<T> tableHelperClass, String tableAlias, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
         T t = HelperManager.singleTableHelper(tableHelperClass);
         TC tc = t.newColumnHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
-        return execute(mainTable, tc, columnCallback, sqlBuilderOptions);
+        return execute(tc, columnCallback, sqlBuilderOptions);
     }
 
-    static <TC extends ColumnHelper<TC>> TableColumnDatum execute(boolean mainTable, TC columnHelper, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
+    static <TC extends ColumnHelper<TC>> TableColumnDatum execute(TC columnHelper, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
         if (columnHelper == null) {
             ExceptionUtils.columnHelperNullException();
         }
@@ -44,12 +44,6 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
         columnHelper = columnCallback.apply(columnHelper);
         List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
-            if (mainTable && !sqlBuilderOptions.getSqlPartDatumBuilderOptions().isSelectAllColumnForMainTable()) {
-                return null;
-            }
-            if (!mainTable && !sqlBuilderOptions.getSqlPartDatumBuilderOptions().isSelectAllColumnForJoinTable()) {
-                return null;
-            }
             columnData = BeanUtils.getColumnData(columnHelper);
         }
         return new TableColumnDatum(columnHelper.getTableAlias(), columnData);

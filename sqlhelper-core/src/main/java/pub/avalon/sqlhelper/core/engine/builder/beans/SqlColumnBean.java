@@ -43,7 +43,7 @@ public final class SqlColumnBean<TC extends ColumnHelper<TC>> extends AbstractSq
             }
         }
         if (this.columnCallback != null) {
-            tableColumnData.add(ColumnCallback.execute(true, this.columnHelper, this.columnCallback, sqlBuilderOptions));
+            tableColumnData.add(ColumnCallback.execute(this.columnHelper, this.columnCallback, sqlBuilderOptions));
         }
         return tableColumnData;
     }

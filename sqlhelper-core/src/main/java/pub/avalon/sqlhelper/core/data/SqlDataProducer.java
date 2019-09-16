@@ -1,11 +1,19 @@
 package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
  * @author baichao
  */
 public interface SqlDataProducer {
+
+    /**
+     * set sql builder options
+     *
+     * @param sqlBuilderOptions {@link SqlBuilderOptions}
+     */
+    void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions);
 
     /**
      * set data base type

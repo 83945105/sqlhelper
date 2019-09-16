@@ -1,14 +1,15 @@
 package pub.avalon.sqlhelper.core.sqlbuilder.template;
 
 import pub.avalon.beans.Pagination;
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.exception.SqlException;
+import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.FinalSqlBuilderResult;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.*;
 
@@ -26,7 +27,23 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         StringBuilder sql = new StringBuilder(128);
         List<Object> args = new ArrayList<>(16);
         if (!hasC) {
-            this.appendColumnSqlArgs(sql, args, BeanUtils.getColumnData(sqlDataConsumer.getMainTableDatum()));
+            SqlBuilderOptions sqlBuilderOptions = sqlDataConsumer.getSqlBuilderOptions();
+            boolean selectAllColumnForMainTable = sqlBuilderOptions.getSqlPartDatumBuilderOptions().isSelectAllColumnForMainTable();
+            boolean selectAllColumnForJoinTable = sqlBuilderOptions.getSqlPartDatumBuilderOptions().isSelectAllColumnForJoinTable();
+            if (!selectAllColumnForMainTable && !selectAllColumnForJoinTable) {
+                ExceptionUtils.selectColumnNullException();
+            }
+            if (selectAllColumnForMainTable) {
+                this.appendColumnSqlArgs(sql, args, HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass()));
+            }
+            if (selectAllColumnForJoinTable) {
+                LinkedHashMap<String, JoinTableDatum> aliasJoinTableData = sqlDataConsumer.getAliasJoinTableData();
+                if (aliasJoinTableData != null && aliasJoinTableData.size() > 0) {
+                    for (Map.Entry<String, JoinTableDatum> entry : aliasJoinTableData.entrySet()) {
+                        this.appendColumnSqlArgs(sql, args, HelperManager.defaultColumnData(entry.getValue().getTableHelperClass()));
+                    }
+                }
+            }
             return FinalSqlBuilderResult.newInstance(sql.toString(), args);
         }
         this.appendTableColumnSqlArgs(sql, args, tableColumnData);

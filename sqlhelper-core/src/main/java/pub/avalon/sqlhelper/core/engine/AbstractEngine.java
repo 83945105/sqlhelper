@@ -48,8 +48,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
-        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum, this.sqlBuilderOptions);
         this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
         };
     }
@@ -63,8 +63,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
-        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum, this.sqlBuilderOptions);
         this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
         };
     }
@@ -78,8 +78,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableName = tableName;
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
-        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum, this.sqlBuilderOptions);
         this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
         };
     }
@@ -93,8 +93,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableName = tableName;
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
-        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum, this.sqlBuilderOptions);
         this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
         };
     }
@@ -111,8 +111,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = tableAlias;
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
-        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum, this.sqlBuilderOptions);
         this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
         };
     }
@@ -129,8 +129,8 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableName = tableName;
         this.tableAlias = tableAlias;
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
-        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum, this.sqlBuilderOptions);
         this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
         };
     }
@@ -147,14 +147,10 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
         this.tableName = tableName;
         this.tableAlias = tableAlias;
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
-        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum);
         this.sqlBuilderOptions = sqlBuilderOptions;
+        this.sqlData = new FinalSqlData(dataBaseType, this.mainTableDatum, this.sqlBuilderOptions);
         this.sqlBuilder = new AbstractSqlBuilder(this.sqlData, this.sqlBuilderOptions) {
         };
-    }
-
-    public DataBaseType getDataBaseType() {
-        return this.sqlData.getDataBaseType();
     }
 
     @Override
@@ -260,6 +256,15 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
     @Override
     public SelectSqlBuilderResult queryByPrimaryKey(Object primaryKeyValue) {
         return this.sqlBuilder.queryByPrimaryKey(primaryKeyValue);
+    }
+
+    public DataBaseType getDataBaseType() {
+        return this.sqlData.getDataBaseType();
+    }
+
+    @Override
+    public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
+        this.sqlBuilderOptions = sqlBuilderOptions;
     }
 
     @Override

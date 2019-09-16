@@ -31,19 +31,6 @@ public final class BeanUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<ColumnDatum> getColumnData(TableHelper tableHelper) {
-        List<ColumnDatum> columnData = new ArrayList<>();
-        Set<TableColumn> tableColumns = tableHelper.getTableColumns();
-        if (tableColumns == null) {
-            return columnData;
-        }
-        for (TableColumn tableColumn : tableColumns) {
-            columnData.add(new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias(), tableColumn.getAlias()));
-        }
-        return columnData;
-    }
-
-    @SuppressWarnings("unchecked")
     public static List<ColumnDatum> getColumnData(ColumnHelper columnHelper) {
         List<ColumnDatum> columnData = new ArrayList<>();
         Set<TableColumn> tableColumns = columnHelper.getTableDefaultColumns();
@@ -54,17 +41,6 @@ public final class BeanUtils {
             columnData.add(new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias(), tableColumn.getAlias()));
         }
         return columnData;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends TableHelper> List<ColumnDatum> getColumnData(Class<T> clazz) {
-        return getColumnData(tableHelper(clazz));
-    }
-
-    @SuppressWarnings("unchecked")
-    public static List<ColumnDatum> getColumnData(TableDatum tableDatum) {
-        Class clazz = tableDatum.getTableHelperClass();
-        return getColumnData(clazz);
     }
 
     @SuppressWarnings("unchecked")
