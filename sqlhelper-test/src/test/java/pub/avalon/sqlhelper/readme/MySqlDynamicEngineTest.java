@@ -34,7 +34,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
     /**
      * 2、第一个demo，主键查询
      */
-    @Test
+//    @Test
     void TestByPrimaryKey() {
         //使用MySql动态引擎查询SysUserModel对应的表
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
@@ -49,7 +49,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
     /**
      * 3、指定查询列
      */
-    @Test
+//    @Test
     void TestColumn() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 //指定查询表的id、userName字段并给userName字段取个别名userNameAlias
@@ -69,7 +69,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
     /**
      * 4、条件查询
      */
-    @Test
+//    @Test
     void TestWhere() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().userName("userNameAlias"))
@@ -125,7 +125,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
     /**
      * 5、复杂的条件查询
      */
-    @Test
+//    @Test
     void TestWhereAndOr() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().userName("userNameAlias"))
@@ -146,7 +146,7 @@ public class MySqlDynamicEngineTest extends AbstractTest {
     /**
      * 6、连接查询
      */
-    @Test
+//    @Test
     void TestJoin() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table.id().userName("userNameAlias"))

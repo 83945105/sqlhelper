@@ -19,6 +19,7 @@ public class MySqlDynamicEngineJoinTest {
     @Test
     void Test_join_default() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(table -> table)
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .query();
