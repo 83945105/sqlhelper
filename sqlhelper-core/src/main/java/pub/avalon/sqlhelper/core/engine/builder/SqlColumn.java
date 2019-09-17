@@ -4,7 +4,7 @@ import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
-import pub.avalon.sqlhelper.core.data.TableColumnDatum;
+import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.engine.ColumnEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlColumnBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlColumnBean;
@@ -15,6 +15,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author baichao
@@ -37,17 +38,67 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
         this.tableAlias = tableAlias;
     }
 
-    private List<AbstractSqlColumnBean> sqlColumnBeans = new ArrayList<>(1);
+    private List<AbstractSqlColumnBean> selectSqlColumnBeans = new ArrayList<>(1);
+    private List<AbstractSqlColumnBean> insertSqlColumnBeans = new ArrayList<>(1);
+    private List<AbstractSqlColumnBean> updateSqlColumnBeans = new ArrayList<>(1);
 
     @Override
     public SqlColumn<TC> column(ColumnHelper<?>... columnHelpers) {
-        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnHelpers(columnHelpers));
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnHelpers(columnHelpers);
+        this.selectSqlColumnBeans.add(sqlColumnBean);
+        this.insertSqlColumnBeans.add(sqlColumnBean);
+        this.updateSqlColumnBeans.add(sqlColumnBean);
+        return this;
+    }
+
+    @Override
+    public SqlColumn<TC> select(ColumnHelper<?>... columnHelpers) {
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnHelpers(columnHelpers);
+        this.selectSqlColumnBeans.add(sqlColumnBean);
+        return this;
+    }
+
+    @Override
+    public SqlColumn<TC> insert(ColumnHelper<?>... columnHelpers) {
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnHelpers(columnHelpers);
+        this.insertSqlColumnBeans.add(sqlColumnBean);
+        return this;
+    }
+
+    @Override
+    public SqlColumn<TC> update(ColumnHelper<?>... columnHelpers) {
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnHelpers(columnHelpers);
+        this.updateSqlColumnBeans.add(sqlColumnBean);
         return this;
     }
 
     @Override
     public SqlColumn<TC> column(ColumnCallback<TC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnCallback(columnCallback));
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnCallback(columnCallback);
+        this.selectSqlColumnBeans.add(sqlColumnBean);
+        this.insertSqlColumnBeans.add(sqlColumnBean);
+        this.updateSqlColumnBeans.add(sqlColumnBean);
+        return this;
+    }
+
+    @Override
+    public SqlColumn<TC> select(ColumnCallback<TC> columnCallback) {
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnCallback(columnCallback);
+        this.selectSqlColumnBeans.add(sqlColumnBean);
+        return this;
+    }
+
+    @Override
+    public SqlColumn<TC> insert(ColumnCallback<TC> columnCallback) {
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnCallback(columnCallback);
+        this.insertSqlColumnBeans.add(sqlColumnBean);
+        return this;
+    }
+
+    @Override
+    public SqlColumn<TC> update(ColumnCallback<TC> columnCallback) {
+        SqlColumnBean<TC> sqlColumnBean = new SqlColumnBean<>(this.columnHelper, this.tableAlias).setColumnCallback(columnCallback);
+        this.updateSqlColumnBeans.add(sqlColumnBean);
         return this;
     }
 
@@ -59,7 +110,23 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlColumn<TC> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.sqlColumnBeans.add(new SqlColumnBeanJoin<>(tableHelperClass, tableAlias, columnCallback));
+        SqlColumnBeanJoin sqlColumnBeanJoin = new SqlColumnBeanJoin<>(tableHelperClass, tableAlias, columnCallback);
+        this.selectSqlColumnBeans.add(sqlColumnBeanJoin);
+        this.insertSqlColumnBeans.add(sqlColumnBeanJoin);
+        this.updateSqlColumnBeans.add(sqlColumnBeanJoin);
+        return this;
+    }
+
+    @Override
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> SqlColumn<TC> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+        SqlColumnBeanJoin sqlColumnBeanJoin = new SqlColumnBeanJoin<>(tableHelperClass, tableAlias, columnCallback);
+        this.selectSqlColumnBeans.add(sqlColumnBeanJoin);
         return this;
     }
 
@@ -93,17 +160,32 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
         return tableAlias;
     }
 
-    public List<AbstractSqlColumnBean> getSqlColumnBeans() {
-        return sqlColumnBeans;
+    public List<AbstractSqlColumnBean> getSelectSqlColumnBeans() {
+        return selectSqlColumnBeans;
     }
 
-    public List<TableColumnDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return execute(this, sqlBuilderOptions);
+    public List<AbstractSqlColumnBean> getInsertSqlColumnBeans() {
+        return insertSqlColumnBeans;
     }
 
-    public static <FC extends ColumnHelper<FC>> List<TableColumnDatum> execute(SqlColumn<FC> sqlColumn, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableColumnDatum> tableColumnData = new ArrayList<>();
-        sqlColumn.getSqlColumnBeans().forEach(sqlColumnBean -> tableColumnData.addAll(sqlColumnBean.execute(sqlBuilderOptions)));
-        return tableColumnData;
+    public List<AbstractSqlColumnBean> getUpdateSqlColumnBeans() {
+        return updateSqlColumnBeans;
+    }
+
+    public void execute(SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        execute(this, sqlBuilderOptions, supplier);
+    }
+
+    public static <FC extends ColumnHelper<FC>> void execute(SqlColumn<FC> sqlColumn, SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        if (supplier == null) {
+            return;
+        }
+        SqlDataProducer sqlDataProducer = supplier.get();
+        if (sqlDataProducer == null) {
+            return;
+        }
+        sqlColumn.getSelectSqlColumnBeans().forEach(sqlColumnBean -> sqlColumnBean.execute(sqlBuilderOptions).forEach(sqlDataProducer::addSelectTableColumnDatum));
+        sqlColumn.getInsertSqlColumnBeans().forEach(sqlColumnBean -> sqlColumnBean.execute(sqlBuilderOptions).forEach(sqlDataProducer::addInsertTableColumnDatum));
+        sqlColumn.getUpdateSqlColumnBeans().forEach(sqlColumnBean -> sqlColumnBean.execute(sqlBuilderOptions).forEach(sqlDataProducer::addUpdateTableColumnDatum));
     }
 }

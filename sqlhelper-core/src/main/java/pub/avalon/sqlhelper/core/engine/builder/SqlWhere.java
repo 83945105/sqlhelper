@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine.builder;
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
+import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.engine.WhereEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlWhereBean;
@@ -14,6 +15,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author baichao
@@ -70,13 +72,18 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
         return sqlWhereBeans;
     }
 
-    public List<TableWhereDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return execute(this, sqlBuilderOptions);
+    public void execute(SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        execute(this, sqlBuilderOptions, supplier);
     }
 
-    public static <FW extends WhereHelper<FW>> List<TableWhereDatum> execute(SqlWhere<FW> sqlWhere, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableWhereDatum> tableWhereData = new ArrayList<>();
-        sqlWhere.getSqlWhereBeans().forEach(sqlWhereBean -> tableWhereData.addAll(sqlWhereBean.execute(sqlBuilderOptions)));
-        return tableWhereData;
+    public static <FW extends WhereHelper<FW>> void execute(SqlWhere<FW> sqlWhere, SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        if (supplier == null) {
+            return;
+        }
+        SqlDataProducer sqlDataProducer = supplier.get();
+        if (sqlDataProducer == null) {
+            return;
+        }
+        sqlWhere.getSqlWhereBeans().forEach(sqlWhereBean -> sqlWhereBean.execute(sqlBuilderOptions).forEach(sqlDataProducer::addTableWhereDatum));
     }
 }

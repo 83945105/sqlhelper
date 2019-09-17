@@ -16,6 +16,30 @@ public interface ColumnEngine<R> extends Engine {
     R column(ColumnHelper<?>... columnHelpers);
 
     /**
+     * add select column sql data
+     *
+     * @param columnHelpers extends {@link ColumnHelper} objects
+     * @return R
+     */
+    R select(ColumnHelper<?>... columnHelpers);
+
+    /**
+     * add insert column sql data
+     *
+     * @param columnHelpers extends {@link ColumnHelper} objects
+     * @return R
+     */
+    R insert(ColumnHelper<?>... columnHelpers);
+
+    /**
+     * add update column sql data
+     *
+     * @param columnHelpers extends {@link ColumnHelper} objects
+     * @return R
+     */
+    R update(ColumnHelper<?>... columnHelpers);
+
+    /**
      * add virtual column sql data
      *
      * @param columnValue column value

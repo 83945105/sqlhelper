@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.engine.builder;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
+import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.engine.GroupEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlGroupBean;
@@ -13,6 +14,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author baichao
@@ -69,13 +71,18 @@ public abstract class SqlGroup<TG extends GroupHelper<TG>> implements GroupEngin
         return sqlGroupBeans;
     }
 
-    public List<TableGroupDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return execute(this, sqlBuilderOptions);
+    public void execute(SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        execute(this, sqlBuilderOptions, supplier);
     }
 
-    public static <FG extends GroupHelper<FG>> List<TableGroupDatum> execute(SqlGroup<FG> sqlGroup, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableGroupDatum> tableGroupData = new ArrayList<>();
-        sqlGroup.getSqlGroupBeans().forEach(sqlGroupBean -> tableGroupData.addAll(sqlGroupBean.execute(sqlBuilderOptions)));
-        return tableGroupData;
+    public static <FG extends GroupHelper<FG>> void execute(SqlGroup<FG> sqlGroup, SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        if (supplier == null) {
+            return;
+        }
+        SqlDataProducer sqlDataProducer = supplier.get();
+        if (sqlDataProducer == null) {
+            return;
+        }
+        sqlGroup.getSqlGroupBeans().forEach(sqlGroupBean -> sqlGroupBean.execute(sqlBuilderOptions).forEach(sqlDataProducer::addTableGroupDatum));
     }
 }

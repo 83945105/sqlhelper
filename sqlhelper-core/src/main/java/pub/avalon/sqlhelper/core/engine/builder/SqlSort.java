@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.engine.builder;
 
 import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
+import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.engine.SortEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlSortBean;
@@ -13,6 +14,7 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * @author baichao
@@ -69,13 +71,18 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
         return sqlSortBeans;
     }
 
-    public List<TableSortDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return execute(this, sqlBuilderOptions);
+    public void execute(SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        execute(this, sqlBuilderOptions, supplier);
     }
 
-    public static <FS extends SortHelper<FS>> List<TableSortDatum> execute(SqlSort<FS> sqlSort, SqlBuilderOptions sqlBuilderOptions) {
-        List<TableSortDatum> tableSortData = new ArrayList<>();
-        sqlSort.getSqlSortBeans().forEach(sqlSortBean -> tableSortData.addAll(sqlSortBean.execute(sqlBuilderOptions)));
-        return tableSortData;
+    public static <FS extends SortHelper<FS>> void execute(SqlSort<FS> sqlSort, SqlBuilderOptions sqlBuilderOptions, Supplier<SqlDataProducer> supplier) {
+        if (supplier == null) {
+            return;
+        }
+        SqlDataProducer sqlDataProducer = supplier.get();
+        if (sqlDataProducer == null) {
+            return;
+        }
+        sqlSort.getSqlSortBeans().forEach(sqlSortBean -> sqlSortBean.execute(sqlBuilderOptions).forEach(sqlDataProducer::addTableSortDatum));
     }
 }

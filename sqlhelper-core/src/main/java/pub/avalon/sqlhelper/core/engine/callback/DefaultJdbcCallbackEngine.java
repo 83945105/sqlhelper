@@ -58,6 +58,27 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
     }
 
     @Override
+    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> select(ColumnCallback<TC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> insert(ColumnCallback<TC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addInsertTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> update(ColumnCallback<TC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addUpdateTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
     public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
             SJ extends JoinHelper<SJ>,
             SC extends ColumnHelper<SC>,
@@ -69,6 +90,19 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
         this.addSelectTableColumnDatum(tableColumnDatum);
         this.addInsertTableColumnDatum(tableColumnDatum);
         this.addUpdateTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
         return this;
     }
 

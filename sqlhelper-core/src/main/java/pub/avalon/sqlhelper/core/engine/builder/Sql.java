@@ -41,7 +41,37 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
+    public Sql<T, TJ, TC, TW, TG, TH, TS> select(ColumnHelper<?>... columnHelpers) {
+        return null;
+    }
+
+    @Override
+    public Sql<T, TJ, TC, TW, TG, TH, TS> insert(ColumnHelper<?>... columnHelpers) {
+        return null;
+    }
+
+    @Override
+    public Sql<T, TJ, TC, TW, TG, TH, TS> update(ColumnHelper<?>... columnHelpers) {
+        return null;
+    }
+
+    @Override
     public Sql<T, TJ, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
+        return this;
+    }
+
+    @Override
+    public Sql<T, TJ, TC, TW, TG, TH, TS> select(ColumnCallback<TC> columnCallback) {
+        return this;
+    }
+
+    @Override
+    public Sql<T, TJ, TC, TW, TG, TH, TS> insert(ColumnCallback<TC> columnCallback) {
+        return this;
+    }
+
+    @Override
+    public Sql<T, TJ, TC, TW, TG, TH, TS> update(ColumnCallback<TC> columnCallback) {
         return this;
     }
 
@@ -53,6 +83,17 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+        return this;
+    }
+
+    @Override
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         return this;
     }
 

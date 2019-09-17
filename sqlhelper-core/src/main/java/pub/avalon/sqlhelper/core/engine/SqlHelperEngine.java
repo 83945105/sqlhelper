@@ -61,29 +61,25 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
 
     @Override
     public <FC extends ColumnHelper<FC>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sqlColumn(SqlColumn<FC> sqlColumn) {
-        SqlColumn.execute(sqlColumn, this.sqlBuilderOptions).forEach(tableColumnDatum -> {
-            this.addSelectTableColumnDatum(tableColumnDatum);
-            this.addInsertTableColumnDatum(tableColumnDatum);
-            this.addUpdateTableColumnDatum(tableColumnDatum);
-        });
+        SqlColumn.execute(sqlColumn, this.sqlBuilderOptions, () -> this);
         return this;
     }
 
     @Override
     public <FW extends WhereHelper<FW>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sqlWhere(SqlWhere<FW> sqlWhere) {
-        SqlWhere.execute(sqlWhere, this.sqlBuilderOptions).forEach(this::addTableWhereDatum);
+        SqlWhere.execute(sqlWhere, this.sqlBuilderOptions, () -> this);
         return this;
     }
 
     @Override
     public <FG extends GroupHelper<FG>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sqlGroup(SqlGroup<FG> sqlGroup) {
-        SqlGroup.execute(sqlGroup, this.sqlBuilderOptions).forEach(this::addTableGroupDatum);
+        SqlGroup.execute(sqlGroup, this.sqlBuilderOptions, () -> this);
         return this;
     }
 
     @Override
     public <FS extends SortHelper<FS>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> sqlSort(SqlSort<FS> sqlSort) {
-        SqlSort.execute(sqlSort, this.sqlBuilderOptions).forEach(this::addTableSortDatum);
+        SqlSort.execute(sqlSort, this.sqlBuilderOptions, () -> this);
         return this;
     }
 
@@ -98,10 +94,49 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
     }
 
     @Override
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> select(ColumnHelper<?>... columnHelpers) {
+        ColumnHelper.execute(columnHelpers).forEach(this::addSelectTableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> insert(ColumnHelper<?>... columnHelpers) {
+        ColumnHelper.execute(columnHelpers).forEach(this::addInsertTableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> update(ColumnHelper<?>... columnHelpers) {
+        ColumnHelper.execute(columnHelpers).forEach(this::addUpdateTableColumnDatum);
+        return this;
+    }
+
+    @Override
     public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addSelectTableColumnDatum(tableColumnDatum);
         this.addInsertTableColumnDatum(tableColumnDatum);
+        this.addUpdateTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> select(ColumnCallback<TC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> insert(ColumnCallback<TC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addInsertTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> update(ColumnCallback<TC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addUpdateTableColumnDatum(tableColumnDatum);
         return this;
     }
@@ -118,6 +153,19 @@ public final class SqlHelperEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, 
         this.addSelectTableColumnDatum(tableColumnDatum);
         this.addInsertTableColumnDatum(tableColumnDatum);
         this.addUpdateTableColumnDatum(tableColumnDatum);
+        return this;
+    }
+
+    @Override
+    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
+            SJ extends JoinHelper<SJ>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TJ, TC, TW, TG, TH, TS> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
         return this;
     }
 

@@ -52,29 +52,25 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
 
     @Override
     public <FC extends ColumnHelper<FC>> DefaultSqlEngine sqlColumn(SqlColumn<FC> sqlColumn) {
-        SqlColumn.execute(sqlColumn, this.sqlBuilderOptions).forEach(tableColumnDatum -> {
-            this.addSelectTableColumnDatum(tableColumnDatum);
-            this.addInsertTableColumnDatum(tableColumnDatum);
-            this.addUpdateTableColumnDatum(tableColumnDatum);
-        });
+        SqlColumn.execute(sqlColumn, this.sqlBuilderOptions, () -> this);
         return this;
     }
 
     @Override
     public <FW extends WhereHelper<FW>> DefaultSqlEngine sqlWhere(SqlWhere<FW> sqlWhere) {
-        SqlWhere.execute(sqlWhere, this.sqlBuilderOptions).forEach(this::addTableWhereDatum);
+        SqlWhere.execute(sqlWhere, this.sqlBuilderOptions, () -> this);
         return this;
     }
 
     @Override
     public <FG extends GroupHelper<FG>> DefaultSqlEngine sqlGroup(SqlGroup<FG> sqlGroup) {
-        SqlGroup.execute(sqlGroup, this.sqlBuilderOptions).forEach(this::addTableGroupDatum);
+        SqlGroup.execute(sqlGroup, this.sqlBuilderOptions, () -> this);
         return this;
     }
 
     @Override
     public <FS extends SortHelper<FS>> DefaultSqlEngine sqlSort(SqlSort<FS> sqlSort) {
-        SqlSort.execute(sqlSort, this.sqlBuilderOptions).forEach(this::addTableSortDatum);
+        SqlSort.execute(sqlSort, this.sqlBuilderOptions, () -> this);
         return this;
     }
 }
