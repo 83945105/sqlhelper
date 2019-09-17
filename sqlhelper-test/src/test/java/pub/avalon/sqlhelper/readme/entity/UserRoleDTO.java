@@ -214,11 +214,11 @@ public class UserRoleDTO {
             return new Join(tableAlias);
         }
 
-        public static Column select() {
+        public static Column column() {
             return new Column(TABLE_ALIAS);
         }
 
-        public static Column select(String tableAlias) {
+        public static Column column(String tableAlias) {
             return new Column(tableAlias);
         }
 
@@ -291,7 +291,7 @@ public class UserRoleDTO {
 
         @Override
         public Column newColumnHelper(String tableAlias) {
-            return select(tableAlias);
+            return column(tableAlias);
         }
 
         @Override
