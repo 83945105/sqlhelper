@@ -157,11 +157,11 @@ public class SysUserDTO {
             return new Join(tableAlias);
         }
 
-        public static Column column() {
+        public static Column select() {
             return new Column(TABLE_ALIAS);
         }
 
-        public static Column column(String tableAlias) {
+        public static Column select(String tableAlias) {
             return new Column(tableAlias);
         }
 
@@ -234,7 +234,7 @@ public class SysUserDTO {
 
         @Override
         public Column newColumnHelper(String tableAlias) {
-            return column(tableAlias);
+            return select(tableAlias);
         }
 
         @Override

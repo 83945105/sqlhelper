@@ -52,7 +52,11 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
 
     @Override
     public <FC extends ColumnHelper<FC>> DefaultSqlEngine sqlColumn(SqlColumn<FC> sqlColumn) {
-        SqlColumn.execute(sqlColumn, this.sqlBuilderOptions).forEach(this::addTableColumnDatum);
+        SqlColumn.execute(sqlColumn, this.sqlBuilderOptions).forEach(tableColumnDatum -> {
+            this.addSelectTableColumnDatum(tableColumnDatum);
+            this.addInsertTableColumnDatum(tableColumnDatum);
+            this.addUpdateTableColumnDatum(tableColumnDatum);
+        });
         return this;
     }
 

@@ -18,10 +18,10 @@ import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
 public class Test {
 
     public static void main(String[] args) {
-        RoleResourceDTO.Helper.Column column = RoleResourceDTO.Helper.column().id().id();
+        RoleResourceDTO.Helper.Column column = RoleResourceDTO.Helper.select().id().id();
         SysUserDTO.Helper.Join join = SysUserDTO.Helper.join().id().equalTo(column.resourceName());
 
-        SysUserDTO.Helper.Column joinColumn = SysUserDTO.Helper.column().userName().userName("");
+        SysUserDTO.Helper.Column joinColumn = SysUserDTO.Helper.select().userName().userName("");
         RoleResourceDTO.Helper.Where where = RoleResourceDTO.Helper.where().id().equalTo("1").id().like("");
         RoleResourceDTO.Helper.Group group = RoleResourceDTO.Helper.groupBy().id().id();
         SysUserDTO.Helper.Group joinGroup = SysUserDTO.Helper.groupBy().userName().userName();

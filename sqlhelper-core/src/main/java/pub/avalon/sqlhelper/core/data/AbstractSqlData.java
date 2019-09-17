@@ -8,7 +8,11 @@ import java.util.List;
  */
 public abstract class AbstractSqlData extends AbstractSqlDataCache {
 
-    private List<TableColumnDatum> tableColumnData;
+    private List<TableColumnDatum> selectTableColumnData;
+
+    private List<TableColumnDatum> insertTabColumnData;
+
+    private List<TableColumnDatum> updateTabColumnData;
 
     private List<TableWhereDatum> tableWhereData;
 
@@ -23,8 +27,18 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public List<TableColumnDatum> getTableColumnData() {
-        return this.tableColumnData;
+    public List<TableColumnDatum> getSelectTableColumnData() {
+        return this.selectTableColumnData;
+    }
+
+    @Override
+    public List<TableColumnDatum> getInsertTableColumnData() {
+        return this.insertTabColumnData;
+    }
+
+    @Override
+    public List<TableColumnDatum> getUpdateTableColumnData() {
+        return this.updateTabColumnData;
     }
 
     @Override
@@ -48,14 +62,36 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public void addTableColumnDatum(TableColumnDatum tableColumnDatum) {
+    public void addSelectTableColumnDatum(TableColumnDatum tableColumnDatum) {
         if (tableColumnDatum == null) {
             return;
         }
-        if (this.tableColumnData == null) {
-            this.tableColumnData = new ArrayList<>();
+        if (this.selectTableColumnData == null) {
+            this.selectTableColumnData = new ArrayList<>();
         }
-        this.tableColumnData.add(tableColumnDatum);
+        this.selectTableColumnData.add(tableColumnDatum);
+    }
+
+    @Override
+    public void addInsertTableColumnDatum(TableColumnDatum tableColumnDatum) {
+        if (tableColumnDatum == null) {
+            return;
+        }
+        if (this.insertTabColumnData == null) {
+            this.insertTabColumnData = new ArrayList<>();
+        }
+        this.insertTabColumnData.add(tableColumnDatum);
+    }
+
+    @Override
+    public void addUpdateTableColumnDatum(TableColumnDatum tableColumnDatum) {
+        if (tableColumnDatum == null) {
+            return;
+        }
+        if (this.updateTabColumnData == null) {
+            this.updateTabColumnData = new ArrayList<>();
+        }
+        this.updateTabColumnData.add(tableColumnDatum);
     }
 
     @Override

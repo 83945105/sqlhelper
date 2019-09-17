@@ -30,11 +30,25 @@ public interface SqlDataProducer {
     void addJoinTableDatum(JoinTableDatum joinTableDatum);
 
     /**
-     * add table column data
+     * add select table column data
      *
      * @param tableColumnDatum {@link TableColumnDatum}
      */
-    void addTableColumnDatum(TableColumnDatum tableColumnDatum);
+    void addSelectTableColumnDatum(TableColumnDatum tableColumnDatum);
+
+    /**
+     * add insert table column data
+     *
+     * @param tableColumnDatum {@link TableColumnDatum}
+     */
+    void addInsertTableColumnDatum(TableColumnDatum tableColumnDatum);
+
+    /**
+     * add update table column data
+     *
+     * @param tableColumnDatum {@link TableColumnDatum}
+     */
+    void addUpdateTableColumnDatum(TableColumnDatum tableColumnDatum);
 
     /**
      * add table where data

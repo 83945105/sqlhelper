@@ -21,8 +21,8 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     public final static DefaultMySqlPartBuilderTemplate DEFAULT_DEFAULT_MY_SQL_PART_BUILDER_TEMPLATE = new DefaultMySqlPartBuilderTemplate();
 
     @Override
-    public SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer) {
-        List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
+    public SqlBuilderResult buildSelectColumn(SqlDataConsumer sqlDataConsumer) {
+        List<TableColumnDatum> tableColumnData = sqlDataConsumer.getSelectTableColumnData();
         boolean hasC = tableColumnData != null && tableColumnData.size() != 0;
         StringBuilder sql = new StringBuilder(128);
         List<Object> args = new ArrayList<>(16);

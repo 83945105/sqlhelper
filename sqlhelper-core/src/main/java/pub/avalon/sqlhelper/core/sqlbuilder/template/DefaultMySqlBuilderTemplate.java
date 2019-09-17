@@ -70,9 +70,25 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 "' and table_schema = (select database())");
     }
 
-    private List<ColumnDatum> getOnlyTableDefaultColumnData(SqlDataConsumer sqlDataConsumer) {
+    private List<ColumnDatum> getOnlyInsertTableDefaultColumnData(SqlDataConsumer sqlDataConsumer) {
         List<ColumnDatum> columnData;
-        List<TableColumnDatum> tableColumnData = sqlDataConsumer.getTableColumnData();
+        List<TableColumnDatum> tableColumnData = sqlDataConsumer.getInsertTableColumnData();
+        if (tableColumnData == null || tableColumnData.size() == 0) {
+            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
+        }
+        if (tableColumnData.size() > 1) {
+            ExceptionUtils.multiTableColumnException();
+        }
+        columnData = tableColumnData.iterator().next().getColumnData();
+        if (columnData == null || columnData.size() == 0) {
+            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
+        }
+        return columnData;
+    }
+
+    private List<ColumnDatum> getOnlyUpdateTableDefaultColumnData(SqlDataConsumer sqlDataConsumer) {
+        List<ColumnDatum> columnData;
+        List<TableColumnDatum> tableColumnData = sqlDataConsumer.getUpdateTableColumnData();
         if (tableColumnData == null || tableColumnData.size() == 0) {
             return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
         }
@@ -94,7 +110,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` (");
         int i = 0;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyInsertTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             preparedStatementArgs.add(args[i]);
             if (i++ > 0) {
@@ -122,7 +138,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` (");
         int i = 0;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyInsertTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 preparedStatementSql.append(",");
@@ -151,7 +167,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 .append("` (");
         int i = 0;
         Object value;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyInsertTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             value = ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias());
             if (value == null) {
@@ -183,7 +199,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` (");
         int i = 0;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyInsertTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 preparedStatementSql.append(",");
@@ -271,7 +287,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
         sqlBuilderResult.appendSqlPart(" set ");
         int i = 0;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 sqlBuilderResult.appendSqlPart(",");
@@ -295,7 +311,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         sqlBuilderResult.appendSqlPart(" set ");
         int i = 0;
         Object value;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             value = ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias());
             if (value == null) {
@@ -320,7 +336,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
         String primaryKeyName = tableHelper.getPrimaryKeyName();
         int i = 0;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getColumnName().equals(primaryKeyName)) {
                 continue;
@@ -347,7 +363,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
         String primaryKeyName = tableHelper.getPrimaryKeyName();
         int i = 0;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getColumnName().equals(primaryKeyName)) {
                 continue;
@@ -375,7 +391,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         String primaryKeyName = tableHelper.getPrimaryKeyName();
         int i = 0;
         Object value;
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (columnDatum.getColumnName().equals(primaryKeyName)) {
                 continue;
@@ -415,7 +431,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         StringBuilder whenSql = new StringBuilder(128);
         StringBuilder inSql = new StringBuilder(32);
         List<Object> inArgs = new ArrayList<>(64);
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         // 遍历所有bean,计算出where条件的sql和参数
         // 计算出when条件sql
         for (Object javaBean : javaBeans) {
@@ -489,7 +505,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 .appendSqlPart(" (");
         int i = 0;
         StringBuilder onSql = new StringBuilder(64);
-        List<ColumnDatum> columnData = getOnlyTableDefaultColumnData(sqlDataConsumer);
+        List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
             if (i++ > 0) {
                 sqlBuilderResult.appendSqlPart(",");
@@ -525,7 +541,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
     public SelectSqlBuilderResult buildQuery(SqlDataConsumer sqlDataConsumer) {
         FinalSqlBuilderResult sqlBuilderResult = FinalSqlBuilderResult.init(new StringBuilder(1024), new ArrayList<>(32));
         sqlBuilderResult.appendSqlPart("select");
-        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildColumn(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildSelectColumn(sqlDataConsumer));
         sqlBuilderResult.appendSqlPart(" from `")
                 .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
                 .appendSqlPart("` ")
@@ -575,7 +591,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
     public SelectSqlBuilderResult buildQueryByPrimaryKey(SqlDataConsumer sqlDataConsumer, Object primaryKeyValue) {
         FinalSqlBuilderResult sqlBuilderResult = FinalSqlBuilderResult.init(new StringBuilder(128), Collections.singletonList(primaryKeyValue));
         sqlBuilderResult.appendSqlPart("select");
-        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildColumn(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildSelectColumn(sqlDataConsumer));
         sqlBuilderResult.appendSqlPart(" from `")
                 .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
                 .appendSqlPart("` ")

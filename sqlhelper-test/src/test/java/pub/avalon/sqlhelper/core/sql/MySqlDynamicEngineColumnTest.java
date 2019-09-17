@@ -31,7 +31,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_column() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id().loginName();
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.select().id().loginName();
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(column)
                 .query();
@@ -44,7 +44,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_column_assignTableName() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id().loginName();
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.select().id().loginName();
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
                 .column(column)
                 .query();
@@ -57,7 +57,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_column_assignTableAlias() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column("A").id().loginName();
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.select("A").id().loginName();
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class, "A")
                 .column(column)
                 .query();
@@ -70,7 +70,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_column_assignTableName_assignTableAlias() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column("A").id().loginName();
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.select("A").id().loginName();
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
                 .column(column)
                 .query();
@@ -83,7 +83,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_column_assignColumnAlias() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id("idAlias").loginName("loginNameAlias");
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.select().id("idAlias").loginName("loginNameAlias");
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(column)
                 .query();
@@ -96,9 +96,9 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_multiColumn_assignColumnAlias() {
-        SysUserDTO.Helper.Column column1 = SysUserDTO.Helper.column().id().loginName();
-        SysUserDTO.Helper.Column column2 = SysUserDTO.Helper.column().id("idAlias").loginName("loginNameAlias");
-        UserRoleDTO.Helper.Column column3 = UserRoleDTO.Helper.column().roleId().id("userRoleId");
+        SysUserDTO.Helper.Column column1 = SysUserDTO.Helper.select().id().loginName();
+        SysUserDTO.Helper.Column column2 = SysUserDTO.Helper.select().id("idAlias").loginName("loginNameAlias");
+        UserRoleDTO.Helper.Column column3 = UserRoleDTO.Helper.select().roleId().id("userRoleId");
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(column1, column2, column3)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -113,9 +113,9 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_multiColumn_assignTableAlias_assignColumnAlias() {
-        SysUserDTO.Helper.Column column1 = SysUserDTO.Helper.column("A").id().loginName();
-        SysUserDTO.Helper.Column column2 = SysUserDTO.Helper.column("A").id("idAlias").loginName("loginNameAlias");
-        UserRoleDTO.Helper.Column column3 = UserRoleDTO.Helper.column("B").roleId().id("userRoleId");
+        SysUserDTO.Helper.Column column1 = SysUserDTO.Helper.select("A").id().loginName();
+        SysUserDTO.Helper.Column column2 = SysUserDTO.Helper.select("A").id("idAlias").loginName("loginNameAlias");
+        UserRoleDTO.Helper.Column column3 = UserRoleDTO.Helper.select("B").roleId().id("userRoleId");
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
                 .column(column1, column2, column3)
                 .innerJoin(UserRoleDTO.Helper.class, "B", (on, joinTable, mainTable) -> on
@@ -130,7 +130,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_multiColumn_default() {
-        UserRoleDTO.Helper.Column column = UserRoleDTO.Helper.column();
+        UserRoleDTO.Helper.Column column = UserRoleDTO.Helper.select();
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(column)
                 .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
@@ -145,7 +145,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_columnHandler() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().id(GroupType.COUNT);
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.select().id(GroupType.COUNT);
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(column)
                 .query();
@@ -158,7 +158,7 @@ public class MySqlDynamicEngineColumnTest {
      */
     @Test
     void Test_sqlPartColumn() {
-        SysUserDTO.Helper.Column column = SysUserDTO.Helper.column().sqlPart("id `sqlPartColumn`");
+        SysUserDTO.Helper.Column column = SysUserDTO.Helper.select().sqlPart("id `sqlPartColumn`");
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(column)
                 .query();

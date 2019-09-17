@@ -33,11 +33,25 @@ public interface SqlDataConsumer {
     MainTableDatum getMainTableDatum();
 
     /**
-     * get table column data
+     * get select table column data
      *
      * @return {@link TableColumnDatum}
      */
-    List<TableColumnDatum> getTableColumnData();
+    List<TableColumnDatum> getSelectTableColumnData();
+
+    /**
+     * get insert table column data
+     *
+     * @return {@link TableColumnDatum}
+     */
+    List<TableColumnDatum> getInsertTableColumnData();
+
+    /**
+     * get update table column data
+     *
+     * @return {@link TableColumnDatum}
+     */
+    List<TableColumnDatum> getUpdateTableColumnData();
 
     /**
      * get join table alias and data

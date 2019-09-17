@@ -4,6 +4,7 @@ import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.engine.AbstractEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -49,7 +50,10 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
 
     @Override
     public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions));
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
+        this.addInsertTableColumnDatum(tableColumnDatum);
+        this.addUpdateTableColumnDatum(tableColumnDatum);
         return this;
     }
 
@@ -61,13 +65,19 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallbackEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions));
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
+        this.addInsertTableColumnDatum(tableColumnDatum);
+        this.addUpdateTableColumnDatum(tableColumnDatum);
         return this;
     }
 
     @Override
     public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallbackEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
+        this.addInsertTableColumnDatum(tableColumnDatum);
+        this.addUpdateTableColumnDatum(tableColumnDatum);
         return this;
     }
 
@@ -79,7 +89,10 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
-        this.addTableColumnDatum(ColumnCallbackEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions));
+        TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions);
+        this.addSelectTableColumnDatum(tableColumnDatum);
+        this.addInsertTableColumnDatum(tableColumnDatum);
+        this.addUpdateTableColumnDatum(tableColumnDatum);
         return this;
     }
 

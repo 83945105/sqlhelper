@@ -9,12 +9,12 @@ import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 public interface SqlPartBuilderTemplate {
 
     /**
-     * build column sql part result
+     * build select column sql part result
      *
      * @param sqlDataConsumer {@link SqlDataConsumer}
      * @return {@link SqlBuilderResult}
      */
-    SqlBuilderResult buildColumn(SqlDataConsumer sqlDataConsumer);
+    SqlBuilderResult buildSelectColumn(SqlDataConsumer sqlDataConsumer);
 
     /**
      * build join sql part result
