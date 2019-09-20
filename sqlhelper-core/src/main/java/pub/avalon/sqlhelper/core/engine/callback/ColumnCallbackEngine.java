@@ -195,12 +195,9 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             return null;
         }
         FC fc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper(tableAlias);
-        // 设置配置开始
         fc.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
         fc = columnCallback.apply(fc);
         List<ColumnDatum> columnData = fc.takeoutSqlPartData();
-        // 如果没设置列, 则跳过
         if (columnData == null || columnData.size() == 0) {
             return null;
         }
@@ -229,9 +226,7 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             return null;
         }
         FC fc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper(tableAlias);
-        // 设置配置开始
         fc.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
         SqlBuilderResult sqlBuilderResult = subQueryColumnCallback.apply(fc);
         return new TableColumnDatum(tableAlias, Collections.singletonList(new ColumnDatum(null, null, sqlBuilderResult, columnAlias)));
     }

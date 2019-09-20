@@ -11,6 +11,8 @@ public abstract class Helper {
         this.tableAlias = tableAlias;
     }
 
+    abstract public TableHelper getSingleTableHelper();
+
     public String getTableAlias() {
         return tableAlias;
     }

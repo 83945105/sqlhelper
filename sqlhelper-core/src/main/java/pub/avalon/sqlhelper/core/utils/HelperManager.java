@@ -41,7 +41,7 @@ public class HelperManager {
     public static <T extends TableHelper> T singleTableHelper(Class<?> clazz) {
         TableHelper singleTableHelper = SINGLE_TABLE_HELPER_CACHE.get(clazz);
         if (singleTableHelper == null) {
-            singleTableHelper = newTableHelper(clazz).getSingleHelper();
+            singleTableHelper = newTableHelper(clazz).getSingleInstance();
             SINGLE_TABLE_HELPER_CACHE.put(clazz, singleTableHelper);
         }
         return (T) singleTableHelper;

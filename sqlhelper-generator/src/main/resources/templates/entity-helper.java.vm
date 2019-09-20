@@ -1,100 +1,111 @@
-[# th:if="${setting.packagePath != null}"]
-package [[${setting.packagePath}]];
-[/]
-import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.builder.*;
+package pub.avalon.sqlhelper.readme.entity;
+
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
+import pub.avalon.sqlhelper.core.beans.TableColumn;
+import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-[# th:each="classPath : ${table.classPaths}"]
-import [(${classPath})];
-[/]
+#foreach($classPath in ${table.classPaths})
+import $!{classPath};
+#end
 
 @SuppressWarnings("all")
-public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
-[# th:if="${table.columns != null}"]
-    [# th:each="column : ${table.columns}"]
-        [# th:if="${table.generateOptions.entityFieldComment == true}"]
-            /**
-             * [(${column.comment})]
-             */
-        [/] private [(${table.getJavaType(column).className})] [(${table.getColumnAlias(column)})];
-    [/]
-[/]
-[# th:if="${table.columns != null}"]
-    [# th:each="column : ${table.columns}"]
-        public [(${table.getJavaType(column).className})] [(${table.getGetterMethodName(column)})]() {
-            return this.[(${table.getColumnAlias(column)})];
-        }
-        [# th:switch="${table.generateOptions.entityChainStyle == true}"]
-            [# th:case="true"]
-                public [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] [(${table.getSetterMethodName(column)})]([(${table.getJavaType(column).className})] [(${table.getColumnAlias(column)})]) {
-                    this.[(${table.getColumnAlias(column)})] = [(${table.getColumnAlias(column)})];
-                    return this;
-                }
-            [/]
-            [# th:case="false"]
-                public void [(${table.getSetterMethodName(column)})]([(${table.getJavaType(column).className})] [(${table.getColumnAlias(column)})]) {
-                    this.[(${table.getColumnAlias(column)})] = [(${table.getColumnAlias(column)})];
-                }
-            [/]
-        [/]
-    [/]
-[/]
-    public final static class [(${table.generateOptions.helperClassName})] implements TableHelper<[(${table.generateOptions.helperClassName})], [(${table.generateOptions.helperClassName})].Join, [(${table.generateOptions.helperClassName})].Column, [(${table.generateOptions.helperClassName})].Where, [(${table.generateOptions.helperClassName})].Group, [(${table.generateOptions.helperClassName})].Having, [(${table.generateOptions.helperClassName})].Sort> {
+public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
 
-        public final static [(${table.generateOptions.helperClassName})] HELPER = new [(${table.generateOptions.helperClassName})]();
+    #foreach($column in ${table.columns})
+    #if(${table.generateOptions.entityFieldComment})
+    /**
+     * $!{column.comment}
+     */
+    #end
+    private $!{table.getJavaType(${column}).className} $!{table.getColumnAlias(${column})};
+    #end
 
-        [# th:if="${table.generateOptions.entityFieldComment == true}"]
-            /**
-             * 表名
-             */
-        [/] public final static String TABLE_NAME = "[(${table.tableName})]";
-        [# th:if="${table.generateOptions.entityFieldComment == true}"]
-            /**
-             * 表 - 别名
-             */
-        [/] public final static String TABLE_ALIAS = "[(${table.tableAlias})]";
-        [# th:if="${table.primaryKeyColumn != null && table.generateOptions.entityFieldComment == true}"]
-            /**
-             * 主键名
-             */
-        [/] public final static String PRIMARY_KEY_NAME = "[(${table.primaryKeyColumn.name})]";
-        [# th:if="${table.primaryKeyColumn != null && table.generateOptions.entityFieldComment == true}"]
-            /**
-             * 主键 - 别名
-             */
-        [/] public final static String PRIMARY_KEY_ALIAS = "[(${table.getColumnAlias(table.primaryKeyColumn)})]";
-        [# th:each="column : ${table.columns}"]
-            [# th:if="${table.generateOptions.entityFieldComment == true}"]
-                /**
-                 * [(${column.comment})]
-                 */
-            [/] public final static String [(${column.name.toUpperCase()})] = "[(${column.name})]";
-            [# th:if="${table.generateOptions.entityFieldComment == true}"]
-                /**
-                 * [(${column.comment})] - 别名
-                 */
-            [/] public final static String [(${column.name.toUpperCase()})]_ALIAS = "[(${table.getColumnAlias(column)})]";
-        [/]
-        [# th:if="${table.generateOptions.entityFieldComment == true}"]
-            /**
-             * 表列数据
-             */
-        [/] public final static Set<TableColumn> TABLE_COLUMNS;
+    #foreach($column in ${table.columns})
+    public $!{table.getJavaType(${column}).className} $!{table.getGetterMethodName(${column})}() {
+        return this.$!{table.getColumnAlias(${column})};
+    }
+    #if(${table.generateOptions.entityChainStyle})
+    public $!{table.tableAlias}$!{table.generateOptions.entitySuffix} $!{table.getSetterMethodName(${column})}($!{table.getJavaType(${column}).className} $!{table.getColumnAlias(${column})}) {
+        this.$!{table.getColumnAlias(${column})} = $!{table.getColumnAlias(${column})};
+        return this;
+    }
+    #else
+    public void $!{table.getSetterMethodName(${column})}($!{table.getJavaType(${column}).className} $!{table.getColumnAlias(${column})}) {
+        this.$!{table.getColumnAlias(${column})} = $!{table.getColumnAlias(${column})};
+    }
+    #end
+    #end
+
+    public final static class ${table.generateOptions.helperClassName} implements TableHelper<${table.generateOptions.helperClassName}, ${table.generateOptions.helperClassName}.Join, ${table.generateOptions.helperClassName}.Column, ${table.generateOptions.helperClassName}.Where, ${table.generateOptions.helperClassName}.Group, ${table.generateOptions.helperClassName}.Having, ${table.generateOptions.helperClassName}.Sort> {
+
+        public final static ${table.generateOptions.helperClassName} HELPER = new ${table.generateOptions.helperClassName}();
+
+        #if(${table.generateOptions.entityFieldComment})
+        /**
+         * table name
+         */
+        #end
+        public final static String TABLE_NAME = "${table.tableName}";
+        #if(${table.generateOptions.entityFieldComment})
+        /**
+         * table alias
+         */
+        public final static String TABLE_ALIAS = "${table.tableAlias}";
+        #end
+        #if(${table.primaryKeyColumn})
+        #if(${table.generateOptions.entityFieldComment})
+        /**
+         * primary key name
+         */
+        #end
+        public final static String PRIMARY_KEY_NAME = "${table.primaryKeyColumn.name}";
+        #if(${table.generateOptions.entityFieldComment})
+        /**
+         * primary key alias
+         */
+        #end
+        public final static String PRIMARY_KEY_ALIAS = "${table.getColumnAlias(${table.primaryKeyColumn})}";
+        #end
+
+        #foreach(${column} in ${table.columns})
+        #if(${table.generateOptions.entityFieldComment})
+        /**
+         * ${column.comment}
+         */
+        #end
+        public final static String ${column.name.toUpperCase()} = "${column.name}";
+        #if(${table.generateOptions.entityFieldComment})
+        /**
+         * ${column.comment} alias
+         */
+        #end
+        public final static String ${column.name.toUpperCase()}_ALIAS = "${table.getColumnAlias(${column})}";
+        #end
+
+        #if(${table.generateOptions.entityFieldComment})
+        /**
+         * table columns
+         */
+        #end
+        public final static Set<TableColumn> TABLE_COLUMNS;
 
         static {
-            TABLE_COLUMNS = new LinkedHashSet<>([(${table.columns.size()})]);
+            TABLE_COLUMNS = new LinkedHashSet<>($!{table.columns.size()});
             TableColumn primaryKeyTableColumn = new TableColumn(PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, TABLE_NAME, TABLE_ALIAS, null, TABLE_COLUMNS);
             primaryKeyTableColumn.setPrimaryKeyColumnInfo(primaryKeyTableColumn);
-            [# th:each="column : ${table.columns}"]
-                TABLE_COLUMNS.add(new TableColumn([(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-            [/]
+            #foreach($column in ${table.columns})
+            TABLE_COLUMNS.add(new TableColumn($!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+            #end
         }
 
-        public static Helper helper() {
-            return new Helper();
+        public static ${table.generateOptions.helperClassName} newInstance() {
+            return new ${table.generateOptions.helperClassName}();
         }
 
         public static Join join() {
@@ -171,7 +182,7 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
         }
 
         @Override
-        public Helper getSingleHelper() {
+        public $!{table.generateOptions.helperClassName} getSingleInstance() {
             return HELPER;
         }
 
@@ -215,6 +226,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            @Override
+            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -223,12 +239,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            [# th:each="column : ${table.columns}"]
-                public JoinSqlPartDatumBuilder<Join> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
-                }
-            [/]
-
+            #foreach($column in ${table.columns})
+            public JoinSqlPartDatumBuilder<Join> $!{table.getColumnAlias(${column})}() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS);
+            }
+            #end
         }
 
         public final static class Column extends ColumnHelper<Column> {
@@ -242,8 +257,13 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
             }
 
             @Override
+            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
+            @Override
             public Set<TableColumn> getTableDefaultColumns() {
-                return [(${table.generateOptions.helperClassName})].HELPER.getTableColumns();
+                return $!{table.generateOptions.helperClassName}.HELPER.getTableColumns();
             }
 
             public Column sqlPart(String sqlPart) {
@@ -266,24 +286,23 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, alias, columnHandlers).getHelper();
             }
 
-            [# th:each="column : ${table.columns}"]
-                public Column [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS).getHelper();
-                }
+            #foreach($column in ${table.columns})
+            public Column $!{table.getColumnAlias(${column})}() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS).getHelper();
+            }
 
-                public Column [(${table.getColumnAlias(column)})](ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS, columnHandlers).getHelper();
-                }
+            public Column $!{table.getColumnAlias(${column})}(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column [(${table.getColumnAlias(column)})](String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, alias).getHelper();
-                }
+            public Column $!{table.getColumnAlias(${column})}(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, alias).getHelper();
+            }
 
-                public Column [(${table.getColumnAlias(column)})](String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, alias, columnHandlers).getHelper();
-                }
-            [/]
-
+            public Column $!{table.getColumnAlias(${column})}(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, alias, columnHandlers).getHelper();
+            }
+            #end
         }
 
         public final static class Where extends WhereHelper<Where> {
@@ -296,6 +315,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            @Override
+            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -304,12 +328,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            [# th:each="column : ${table.columns}"]
-                public WhereSqlPartDatumBuilder<Where> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
-                }
-            [/]
-
+            #foreach($column in ${table.columns})
+            public WhereSqlPartDatumBuilder<Where> $!{table.getColumnAlias(${column})}() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS);
+            }
+            #end
         }
 
         public final static class Group extends GroupHelper<Group> {
@@ -322,6 +345,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            @Override
+            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public Group sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart).getHelper();
             }
@@ -330,12 +358,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS).getHelper();
             }
 
-            [# th:each="column : ${table.columns}"]
-                public Group [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS).getHelper();
-                }
-            [/]
-
+            #foreach($column in ${table.columns})
+            public Group $!{table.getColumnAlias(${column})}() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS).getHelper();
+            }
+            #end
         }
 
         public final static class Having extends HavingHelper<Having> {
@@ -346,6 +373,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
 
             public Having(String tableAlias) {
                 super(tableAlias);
+            }
+
+            @Override
+            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
+                return HELPER.getSingleInstance();
             }
 
             public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
@@ -360,16 +392,15 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS, columnHandlers);
             }
 
-            [# th:each="column : ${table.columns}"]
-                public HavingSqlPartDatumBuilder<Having> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
-                }
+            #foreach($column in ${table.columns})
+            public HavingSqlPartDatumBuilder<Having> $!{table.getColumnAlias(${column})}() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> [(${table.getColumnAlias(column)})](ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS, columnHandlers);
-                }
-            [/]
-
+            public HavingSqlPartDatumBuilder<Having> ${table.getColumnAlias(${column})}(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS, columnHandlers);
+            }
+            #end
         }
 
         public final static class Sort extends SortHelper<Sort> {
@@ -382,6 +413,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
 
+            @Override
+            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -390,12 +426,11 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            [# th:each="column : ${table.columns}"]
-                public SortSqlPartDatumBuilder<Sort> [(${table.getColumnAlias(column)})]() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, [(${column.name.toUpperCase()})], [(${column.name.toUpperCase()})]_ALIAS, [(${column.name.toUpperCase()})]_ALIAS);
-                }
-            [/]
-
+            #foreach($column in ${table.columns})
+            public SortSqlPartDatumBuilder<Sort> $!{table.getColumnAlias(${column})}() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS);
+            }
+            #end
         }
 
         public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
@@ -460,7 +495,5 @@ public class [[${table.tableAlias}+${table.generateOptions.entitySuffix}]] {
                 super(tableAlias);
             }
         }
-
     }
-
 }

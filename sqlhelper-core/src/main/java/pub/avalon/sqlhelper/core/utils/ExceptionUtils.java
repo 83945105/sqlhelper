@@ -34,10 +34,12 @@ public final class ExceptionUtils {
         throw new RuntimeException("Cannot use columns from multiple tables.");
     }
 
-
     public static void columnHelperNullException() {
         throw new RuntimeException("columnHelper is null.");
     }
+
+
+
 
     public static void groupHelperNullException() {
         throw new RuntimeException("groupHelper is null.");

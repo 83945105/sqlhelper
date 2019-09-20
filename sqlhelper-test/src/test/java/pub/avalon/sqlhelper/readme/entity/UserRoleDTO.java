@@ -1,208 +1,157 @@
-
 package pub.avalon.sqlhelper.readme.entity;
 
-import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.builder.*;
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
+import pub.avalon.sqlhelper.core.beans.TableColumn;
+import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import java.lang.String;
 import java.lang.Long;
-
 
 @SuppressWarnings("all")
 public class UserRoleDTO {
 
-    
-        
             /**
-             * 
-             */
-         private String id;
-        
+     * 
+     */
+        private String id;
             /**
-             * 
-             */
-         private String userId;
-        
+     * 
+     */
+        private String userId;
             /**
-             * 
-             */
-         private String roleId;
-        
+     * 
+     */
+        private String roleId;
             /**
-             * 
-             */
-         private String roleName;
-        
+     * 
+     */
+        private String roleName;
             /**
-             * 
-             */
-         private Long sortIndex;
-    
-
-
+     * 
+     */
+        private Long sortIndex;
     
         public String getId() {
-            return this.id;
-        }
+        return this.id;
+    }
+        public UserRoleDTO setId(String id) {
+        this.id = id;
+        return this;
+    }
+            public String getUserId() {
+        return this.userId;
+    }
+        public UserRoleDTO setUserId(String userId) {
+        this.userId = userId;
+        return this;
+    }
+            public String getRoleId() {
+        return this.roleId;
+    }
+        public UserRoleDTO setRoleId(String roleId) {
+        this.roleId = roleId;
+        return this;
+    }
+            public String getRoleName() {
+        return this.roleName;
+    }
+        public UserRoleDTO setRoleName(String roleName) {
+        this.roleName = roleName;
+        return this;
+    }
+            public Long getSortIndex() {
+        return this.sortIndex;
+    }
+        public UserRoleDTO setSortIndex(Long sortIndex) {
+        this.sortIndex = sortIndex;
+        return this;
+    }
         
-            
-                public UserRoleDTO setId(String id) {
-                    this.id = id;
-                    return this;
-                }
-            
-            
-        
-        public String getUserId() {
-            return this.userId;
-        }
-        
-            
-                public UserRoleDTO setUserId(String userId) {
-                    this.userId = userId;
-                    return this;
-                }
-            
-            
-        
-        public String getRoleId() {
-            return this.roleId;
-        }
-        
-            
-                public UserRoleDTO setRoleId(String roleId) {
-                    this.roleId = roleId;
-                    return this;
-                }
-            
-            
-        
-        public String getRoleName() {
-            return this.roleName;
-        }
-        
-            
-                public UserRoleDTO setRoleName(String roleName) {
-                    this.roleName = roleName;
-                    return this;
-                }
-            
-            
-        
-        public Long getSortIndex() {
-            return this.sortIndex;
-        }
-        
-            
-                public UserRoleDTO setSortIndex(Long sortIndex) {
-                    this.sortIndex = sortIndex;
-                    return this;
-                }
-            
-            
-        
-    
-
     public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
 
         public final static Helper HELPER = new Helper();
 
+                /**
+         * table name
+         */
+                public final static String TABLE_NAME = "user_role";
+                /**
+         * table alias
+         */
+        public final static String TABLE_ALIAS = "UserRole";
+                                /**
+         * primary key name
+         */
+                public final static String PRIMARY_KEY_NAME = "id";
+                /**
+         * primary key alias
+         */
+                public final static String PRIMARY_KEY_ALIAS = "id";
         
-            /**
-             * 表名
-             */
-         public final static String TABLE_NAME = "user_role";
+                        /**
+         * 
+         */
+                public final static String ID = "id";
+                /**
+         *  alias
+         */
+                public final static String ID_ALIAS = "id";
+                        /**
+         * 
+         */
+                public final static String USER_ID = "user_id";
+                /**
+         *  alias
+         */
+                public final static String USER_ID_ALIAS = "userId";
+                        /**
+         * 
+         */
+                public final static String ROLE_ID = "role_id";
+                /**
+         *  alias
+         */
+                public final static String ROLE_ID_ALIAS = "roleId";
+                        /**
+         * 
+         */
+                public final static String ROLE_NAME = "role_name";
+                /**
+         *  alias
+         */
+                public final static String ROLE_NAME_ALIAS = "roleName";
+                        /**
+         * 
+         */
+                public final static String SORT_INDEX = "sort_index";
+                /**
+         *  alias
+         */
+                public final static String SORT_INDEX_ALIAS = "sortIndex";
         
-            /**
-             * 表 - 别名
-             */
-         public final static String TABLE_ALIAS = "UserRole";
-        
-            /**
-             * 主键名
-             */
-         public final static String PRIMARY_KEY_NAME = "id";
-        
-            /**
-             * 主键 - 别名
-             */
-         public final static String PRIMARY_KEY_ALIAS = "id";
-        
-            
                 /**
-                 * 
-                 */
-             public final static String ID = "id";
-            
-                /**
-                 *  - 别名
-                 */
-             public final static String ID_ALIAS = "id";
-            
-                /**
-                 * 
-                 */
-             public final static String USER_ID = "user_id";
-            
-                /**
-                 *  - 别名
-                 */
-             public final static String USER_ID_ALIAS = "userId";
-            
-                /**
-                 * 
-                 */
-             public final static String ROLE_ID = "role_id";
-            
-                /**
-                 *  - 别名
-                 */
-             public final static String ROLE_ID_ALIAS = "roleId";
-            
-                /**
-                 * 
-                 */
-             public final static String ROLE_NAME = "role_name";
-            
-                /**
-                 *  - 别名
-                 */
-             public final static String ROLE_NAME_ALIAS = "roleName";
-            
-                /**
-                 * 
-                 */
-             public final static String SORT_INDEX = "sort_index";
-            
-                /**
-                 *  - 别名
-                 */
-             public final static String SORT_INDEX_ALIAS = "sortIndex";
-        
-        
-            /**
-             * 表列数据
-             */
-         public final static Set<TableColumn> TABLE_COLUMNS;
+         * table columns
+         */
+                public final static Set<TableColumn> TABLE_COLUMNS;
 
         static {
             TABLE_COLUMNS = new LinkedHashSet<>(5);
             TableColumn primaryKeyTableColumn = new TableColumn(PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, TABLE_NAME, TABLE_ALIAS, null, TABLE_COLUMNS);
             primaryKeyTableColumn.setPrimaryKeyColumnInfo(primaryKeyTableColumn);
-            
-                TABLE_COLUMNS.add(new TableColumn(ID, ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-                TABLE_COLUMNS.add(new TableColumn(USER_ID, USER_ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-                TABLE_COLUMNS.add(new TableColumn(ROLE_ID, ROLE_ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-                TABLE_COLUMNS.add(new TableColumn(ROLE_NAME, ROLE_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-                TABLE_COLUMNS.add(new TableColumn(SORT_INDEX, SORT_INDEX_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-            
-        }
+                        TABLE_COLUMNS.add(new TableColumn(ID, ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                        TABLE_COLUMNS.add(new TableColumn(USER_ID, USER_ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                        TABLE_COLUMNS.add(new TableColumn(ROLE_ID, ROLE_ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                        TABLE_COLUMNS.add(new TableColumn(ROLE_NAME, ROLE_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                        TABLE_COLUMNS.add(new TableColumn(SORT_INDEX, SORT_INDEX_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                    }
 
-        public static Helper helper() {
+        public static Helper newInstance() {
             return new Helper();
         }
 
@@ -280,7 +229,7 @@ public class UserRoleDTO {
         }
 
         @Override
-        public Helper getSingleHelper() {
+        public Helper getSingleInstance() {
             return HELPER;
         }
 
@@ -324,6 +273,11 @@ public class UserRoleDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -332,25 +286,22 @@ public class UserRoleDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            
-                public JoinSqlPartDatumBuilder<Join> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
-                public JoinSqlPartDatumBuilder<Join> userId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
-                }
-                public JoinSqlPartDatumBuilder<Join> roleId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
-                }
-                public JoinSqlPartDatumBuilder<Join> roleName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
-                }
-                public JoinSqlPartDatumBuilder<Join> sortIndex() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
-                }
-            
-
-        }
+                        public JoinSqlPartDatumBuilder<Join> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
+                        public JoinSqlPartDatumBuilder<Join> userId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
+            }
+                        public JoinSqlPartDatumBuilder<Join> roleId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
+            }
+                        public JoinSqlPartDatumBuilder<Join> roleName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
+            }
+                        public JoinSqlPartDatumBuilder<Join> sortIndex() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
+            }
+                    }
 
         public final static class Column extends ColumnHelper<Column> {
 
@@ -360,6 +311,11 @@ public class UserRoleDTO {
 
             public Column(String tableAlias) {
                 super(tableAlias);
+            }
+
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
             }
 
             @Override
@@ -387,85 +343,82 @@ public class UserRoleDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, alias, columnHandlers).getHelper();
             }
 
-            
-                public Column id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
-                }
+                        public Column id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
+            }
 
-                public Column id(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers).getHelper();
-                }
+            public Column id(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column id(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias).getHelper();
-                }
+            public Column id(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias).getHelper();
+            }
 
-                public Column id(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias, columnHandlers).getHelper();
-                }
-                public Column userId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS).getHelper();
-                }
+            public Column id(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias, columnHandlers).getHelper();
+            }
+                        public Column userId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS).getHelper();
+            }
 
-                public Column userId(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS, columnHandlers).getHelper();
-                }
+            public Column userId(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column userId(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, alias).getHelper();
-                }
+            public Column userId(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, alias).getHelper();
+            }
 
-                public Column userId(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, alias, columnHandlers).getHelper();
-                }
-                public Column roleId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS).getHelper();
-                }
+            public Column userId(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, alias, columnHandlers).getHelper();
+            }
+                        public Column roleId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS).getHelper();
+            }
 
-                public Column roleId(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS, columnHandlers).getHelper();
-                }
+            public Column roleId(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column roleId(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, alias).getHelper();
-                }
+            public Column roleId(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, alias).getHelper();
+            }
 
-                public Column roleId(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, alias, columnHandlers).getHelper();
-                }
-                public Column roleName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS).getHelper();
-                }
+            public Column roleId(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, alias, columnHandlers).getHelper();
+            }
+                        public Column roleName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS).getHelper();
+            }
 
-                public Column roleName(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS, columnHandlers).getHelper();
-                }
+            public Column roleName(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column roleName(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, alias).getHelper();
-                }
+            public Column roleName(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, alias).getHelper();
+            }
 
-                public Column roleName(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, alias, columnHandlers).getHelper();
-                }
-                public Column sortIndex() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS).getHelper();
-                }
+            public Column roleName(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, alias, columnHandlers).getHelper();
+            }
+                        public Column sortIndex() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS).getHelper();
+            }
 
-                public Column sortIndex(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS, columnHandlers).getHelper();
-                }
+            public Column sortIndex(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column sortIndex(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, alias).getHelper();
-                }
+            public Column sortIndex(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, alias).getHelper();
+            }
 
-                public Column sortIndex(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, alias, columnHandlers).getHelper();
-                }
-            
-
-        }
+            public Column sortIndex(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, alias, columnHandlers).getHelper();
+            }
+                    }
 
         public final static class Where extends WhereHelper<Where> {
 
@@ -477,6 +430,11 @@ public class UserRoleDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -485,25 +443,22 @@ public class UserRoleDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            
-                public WhereSqlPartDatumBuilder<Where> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
-                public WhereSqlPartDatumBuilder<Where> userId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
-                }
-                public WhereSqlPartDatumBuilder<Where> roleId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
-                }
-                public WhereSqlPartDatumBuilder<Where> roleName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
-                }
-                public WhereSqlPartDatumBuilder<Where> sortIndex() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
-                }
-            
-
-        }
+                        public WhereSqlPartDatumBuilder<Where> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
+                        public WhereSqlPartDatumBuilder<Where> userId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
+            }
+                        public WhereSqlPartDatumBuilder<Where> roleId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
+            }
+                        public WhereSqlPartDatumBuilder<Where> roleName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
+            }
+                        public WhereSqlPartDatumBuilder<Where> sortIndex() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
+            }
+                    }
 
         public final static class Group extends GroupHelper<Group> {
 
@@ -515,6 +470,11 @@ public class UserRoleDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public Group sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart).getHelper();
             }
@@ -523,25 +483,22 @@ public class UserRoleDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS).getHelper();
             }
 
-            
-                public Group id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
-                }
-                public Group userId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS).getHelper();
-                }
-                public Group roleId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS).getHelper();
-                }
-                public Group roleName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS).getHelper();
-                }
-                public Group sortIndex() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS).getHelper();
-                }
-            
-
-        }
+                        public Group id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
+            }
+                        public Group userId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS).getHelper();
+            }
+                        public Group roleId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS).getHelper();
+            }
+                        public Group roleName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS).getHelper();
+            }
+                        public Group sortIndex() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS).getHelper();
+            }
+                    }
 
         public final static class Having extends HavingHelper<Having> {
 
@@ -551,6 +508,11 @@ public class UserRoleDTO {
 
             public Having(String tableAlias) {
                 super(tableAlias);
+            }
+
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
             }
 
             public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
@@ -565,45 +527,42 @@ public class UserRoleDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS, columnHandlers);
             }
 
-            
-                public HavingSqlPartDatumBuilder<Having> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
+                        public HavingSqlPartDatumBuilder<Having> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> id(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers);
-                }
-                public HavingSqlPartDatumBuilder<Having> userId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
-                }
+            public HavingSqlPartDatumBuilder<Having> id(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers);
+            }
+                        public HavingSqlPartDatumBuilder<Having> userId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> userId(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS, columnHandlers);
-                }
-                public HavingSqlPartDatumBuilder<Having> roleId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
-                }
+            public HavingSqlPartDatumBuilder<Having> userId(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS, columnHandlers);
+            }
+                        public HavingSqlPartDatumBuilder<Having> roleId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> roleId(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS, columnHandlers);
-                }
-                public HavingSqlPartDatumBuilder<Having> roleName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
-                }
+            public HavingSqlPartDatumBuilder<Having> roleId(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS, columnHandlers);
+            }
+                        public HavingSqlPartDatumBuilder<Having> roleName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> roleName(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS, columnHandlers);
-                }
-                public HavingSqlPartDatumBuilder<Having> sortIndex() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
-                }
+            public HavingSqlPartDatumBuilder<Having> roleName(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS, columnHandlers);
+            }
+                        public HavingSqlPartDatumBuilder<Having> sortIndex() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> sortIndex(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS, columnHandlers);
-                }
-            
-
-        }
+            public HavingSqlPartDatumBuilder<Having> sortIndex(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS, columnHandlers);
+            }
+                    }
 
         public final static class Sort extends SortHelper<Sort> {
 
@@ -615,6 +574,11 @@ public class UserRoleDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -623,25 +587,22 @@ public class UserRoleDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            
-                public SortSqlPartDatumBuilder<Sort> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
-                public SortSqlPartDatumBuilder<Sort> userId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
-                }
-                public SortSqlPartDatumBuilder<Sort> roleId() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
-                }
-                public SortSqlPartDatumBuilder<Sort> roleName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
-                }
-                public SortSqlPartDatumBuilder<Sort> sortIndex() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
-                }
-            
-
-        }
+                        public SortSqlPartDatumBuilder<Sort> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
+                        public SortSqlPartDatumBuilder<Sort> userId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
+            }
+                        public SortSqlPartDatumBuilder<Sort> roleId() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
+            }
+                        public SortSqlPartDatumBuilder<Sort> roleName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
+            }
+                        public SortSqlPartDatumBuilder<Sort> sortIndex() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
+            }
+                    }
 
         public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
             public Sql() {
@@ -705,7 +666,5 @@ public class UserRoleDTO {
                 super(tableAlias);
             }
         }
-
     }
-
 }

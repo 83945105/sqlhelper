@@ -1,151 +1,116 @@
-
 package pub.avalon.sqlhelper.readme.entity;
 
-import pub.avalon.sqlhelper.core.beans.*;
-import pub.avalon.sqlhelper.core.builder.*;
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
+import pub.avalon.sqlhelper.core.beans.TableColumn;
+import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-
 import java.lang.String;
-
 
 @SuppressWarnings("all")
 public class SysUserDTO {
 
-    
-        
             /**
-             * 
-             */
-         private String id;
-        
+     * 
+     */
+        private String id;
             /**
-             * 
-             */
-         private String userName;
-        
+     * 
+     */
+        private String userName;
             /**
-             * 
-             */
-         private String loginName;
-    
-
-
+     * 
+     */
+        private String loginName;
     
         public String getId() {
-            return this.id;
-        }
+        return this.id;
+    }
+        public SysUserDTO setId(String id) {
+        this.id = id;
+        return this;
+    }
+            public String getUserName() {
+        return this.userName;
+    }
+        public SysUserDTO setUserName(String userName) {
+        this.userName = userName;
+        return this;
+    }
+            public String getLoginName() {
+        return this.loginName;
+    }
+        public SysUserDTO setLoginName(String loginName) {
+        this.loginName = loginName;
+        return this;
+    }
         
-            
-                public SysUserDTO setId(String id) {
-                    this.id = id;
-                    return this;
-                }
-            
-            
-        
-        public String getUserName() {
-            return this.userName;
-        }
-        
-            
-                public SysUserDTO setUserName(String userName) {
-                    this.userName = userName;
-                    return this;
-                }
-            
-            
-        
-        public String getLoginName() {
-            return this.loginName;
-        }
-        
-            
-                public SysUserDTO setLoginName(String loginName) {
-                    this.loginName = loginName;
-                    return this;
-                }
-            
-            
-        
-    
-
     public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
 
         public final static Helper HELPER = new Helper();
 
-        
-            /**
-             * 表名
-             */
-         public final static String TABLE_NAME = "sys_user";
-        
-            /**
-             * 表 - 别名
-             */
-         public final static String TABLE_ALIAS = "SysUser";
-        
-            /**
-             * 主键名
-             */
-         public final static String PRIMARY_KEY_NAME = "id";
-        
-            /**
-             * 主键 - 别名
-             */
-         public final static String PRIMARY_KEY_ALIAS = "id";
-        
-            
                 /**
-                 * 
-                 */
-             public final static String ID = "id";
-            
+         * table name
+         */
+                public final static String TABLE_NAME = "sys_user";
                 /**
-                 *  - 别名
-                 */
-             public final static String ID_ALIAS = "id";
-            
+         * table alias
+         */
+        public final static String TABLE_ALIAS = "SysUser";
+                                /**
+         * primary key name
+         */
+                public final static String PRIMARY_KEY_NAME = "id";
                 /**
-                 * 
-                 */
-             public final static String USER_NAME = "user_name";
-            
-                /**
-                 *  - 别名
-                 */
-             public final static String USER_NAME_ALIAS = "userName";
-            
-                /**
-                 * 
-                 */
-             public final static String LOGIN_NAME = "login_name";
-            
-                /**
-                 *  - 别名
-                 */
-             public final static String LOGIN_NAME_ALIAS = "loginName";
+         * primary key alias
+         */
+                public final static String PRIMARY_KEY_ALIAS = "id";
         
+                        /**
+         * 
+         */
+                public final static String ID = "id";
+                /**
+         *  alias
+         */
+                public final static String ID_ALIAS = "id";
+                        /**
+         * 
+         */
+                public final static String USER_NAME = "user_name";
+                /**
+         *  alias
+         */
+                public final static String USER_NAME_ALIAS = "userName";
+                        /**
+         * 
+         */
+                public final static String LOGIN_NAME = "login_name";
+                /**
+         *  alias
+         */
+                public final static String LOGIN_NAME_ALIAS = "loginName";
         
-            /**
-             * 表列数据
-             */
-         public final static Set<TableColumn> TABLE_COLUMNS;
+                /**
+         * table columns
+         */
+                public final static Set<TableColumn> TABLE_COLUMNS;
 
         static {
             TABLE_COLUMNS = new LinkedHashSet<>(3);
             TableColumn primaryKeyTableColumn = new TableColumn(PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, TABLE_NAME, TABLE_ALIAS, null, TABLE_COLUMNS);
             primaryKeyTableColumn.setPrimaryKeyColumnInfo(primaryKeyTableColumn);
-            
-                TABLE_COLUMNS.add(new TableColumn(ID, ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-                TABLE_COLUMNS.add(new TableColumn(USER_NAME, USER_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-                TABLE_COLUMNS.add(new TableColumn(LOGIN_NAME, LOGIN_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
-            
-        }
+                        TABLE_COLUMNS.add(new TableColumn(ID, ID_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                        TABLE_COLUMNS.add(new TableColumn(USER_NAME, USER_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                        TABLE_COLUMNS.add(new TableColumn(LOGIN_NAME, LOGIN_NAME_ALIAS, TABLE_NAME, TABLE_ALIAS, primaryKeyTableColumn, TABLE_COLUMNS));
+                    }
 
-        public static Helper helper() {
+        public static Helper newInstance() {
             return new Helper();
         }
 
@@ -223,7 +188,7 @@ public class SysUserDTO {
         }
 
         @Override
-        public Helper getSingleHelper() {
+        public Helper getSingleInstance() {
             return HELPER;
         }
 
@@ -267,6 +232,11 @@ public class SysUserDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -275,19 +245,16 @@ public class SysUserDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            
-                public JoinSqlPartDatumBuilder<Join> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
-                public JoinSqlPartDatumBuilder<Join> userName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
-                }
-                public JoinSqlPartDatumBuilder<Join> loginName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
-                }
-            
-
-        }
+                        public JoinSqlPartDatumBuilder<Join> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
+                        public JoinSqlPartDatumBuilder<Join> userName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
+            }
+                        public JoinSqlPartDatumBuilder<Join> loginName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
+            }
+                    }
 
         public final static class Column extends ColumnHelper<Column> {
 
@@ -297,6 +264,11 @@ public class SysUserDTO {
 
             public Column(String tableAlias) {
                 super(tableAlias);
+            }
+
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
             }
 
             @Override
@@ -324,55 +296,52 @@ public class SysUserDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, alias, columnHandlers).getHelper();
             }
 
-            
-                public Column id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
-                }
+                        public Column id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
+            }
 
-                public Column id(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers).getHelper();
-                }
+            public Column id(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column id(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias).getHelper();
-                }
+            public Column id(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias).getHelper();
+            }
 
-                public Column id(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias, columnHandlers).getHelper();
-                }
-                public Column userName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS).getHelper();
-                }
+            public Column id(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, alias, columnHandlers).getHelper();
+            }
+                        public Column userName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS).getHelper();
+            }
 
-                public Column userName(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS, columnHandlers).getHelper();
-                }
+            public Column userName(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column userName(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, alias).getHelper();
-                }
+            public Column userName(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, alias).getHelper();
+            }
 
-                public Column userName(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, alias, columnHandlers).getHelper();
-                }
-                public Column loginName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS).getHelper();
-                }
+            public Column userName(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, alias, columnHandlers).getHelper();
+            }
+                        public Column loginName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS).getHelper();
+            }
 
-                public Column loginName(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS, columnHandlers).getHelper();
-                }
+            public Column loginName(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS, columnHandlers).getHelper();
+            }
 
-                public Column loginName(String alias) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, alias).getHelper();
-                }
+            public Column loginName(String alias) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, alias).getHelper();
+            }
 
-                public Column loginName(String alias, ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, alias, columnHandlers).getHelper();
-                }
-            
-
-        }
+            public Column loginName(String alias, ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, alias, columnHandlers).getHelper();
+            }
+                    }
 
         public final static class Where extends WhereHelper<Where> {
 
@@ -384,6 +353,11 @@ public class SysUserDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -392,19 +366,16 @@ public class SysUserDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            
-                public WhereSqlPartDatumBuilder<Where> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
-                public WhereSqlPartDatumBuilder<Where> userName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
-                }
-                public WhereSqlPartDatumBuilder<Where> loginName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
-                }
-            
-
-        }
+                        public WhereSqlPartDatumBuilder<Where> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
+                        public WhereSqlPartDatumBuilder<Where> userName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
+            }
+                        public WhereSqlPartDatumBuilder<Where> loginName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
+            }
+                    }
 
         public final static class Group extends GroupHelper<Group> {
 
@@ -416,6 +387,11 @@ public class SysUserDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public Group sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart).getHelper();
             }
@@ -424,19 +400,16 @@ public class SysUserDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS).getHelper();
             }
 
-            
-                public Group id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
-                }
-                public Group userName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS).getHelper();
-                }
-                public Group loginName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS).getHelper();
-                }
-            
-
-        }
+                        public Group id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS).getHelper();
+            }
+                        public Group userName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS).getHelper();
+            }
+                        public Group loginName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS).getHelper();
+            }
+                    }
 
         public final static class Having extends HavingHelper<Having> {
 
@@ -446,6 +419,11 @@ public class SysUserDTO {
 
             public Having(String tableAlias) {
                 super(tableAlias);
+            }
+
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
             }
 
             public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
@@ -460,31 +438,28 @@ public class SysUserDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS, columnHandlers);
             }
 
-            
-                public HavingSqlPartDatumBuilder<Having> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
+                        public HavingSqlPartDatumBuilder<Having> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> id(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers);
-                }
-                public HavingSqlPartDatumBuilder<Having> userName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
-                }
+            public HavingSqlPartDatumBuilder<Having> id(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS, columnHandlers);
+            }
+                        public HavingSqlPartDatumBuilder<Having> userName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> userName(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS, columnHandlers);
-                }
-                public HavingSqlPartDatumBuilder<Having> loginName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
-                }
+            public HavingSqlPartDatumBuilder<Having> userName(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS, columnHandlers);
+            }
+                        public HavingSqlPartDatumBuilder<Having> loginName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
+            }
 
-                public HavingSqlPartDatumBuilder<Having> loginName(ColumnHandler... columnHandlers) {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS, columnHandlers);
-                }
-            
-
-        }
+            public HavingSqlPartDatumBuilder<Having> loginName(ColumnHandler... columnHandlers) {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS, columnHandlers);
+            }
+                    }
 
         public final static class Sort extends SortHelper<Sort> {
 
@@ -496,6 +471,11 @@ public class SysUserDTO {
                 super(tableAlias);
             }
 
+            @Override
+            public Helper getSingleTableHelper() {
+                return HELPER.getSingleInstance();
+            }
+
             public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
@@ -504,19 +484,16 @@ public class SysUserDTO {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-            
-                public SortSqlPartDatumBuilder<Sort> id() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
-                }
-                public SortSqlPartDatumBuilder<Sort> userName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
-                }
-                public SortSqlPartDatumBuilder<Sort> loginName() {
-                    return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
-                }
-            
-
-        }
+                        public SortSqlPartDatumBuilder<Sort> id() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
+            }
+                        public SortSqlPartDatumBuilder<Sort> userName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
+            }
+                        public SortSqlPartDatumBuilder<Sort> loginName() {
+                return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
+            }
+                    }
 
         public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
             public Sql() {
@@ -580,7 +557,5 @@ public class SysUserDTO {
                 super(tableAlias);
             }
         }
-
     }
-
 }
