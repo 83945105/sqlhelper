@@ -42,21 +42,21 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
     #end
     #end
 
-    public final static class ${table.generateOptions.helperClassName} implements TableHelper<${table.generateOptions.helperClassName}, ${table.generateOptions.helperClassName}.Join, ${table.generateOptions.helperClassName}.Column, ${table.generateOptions.helperClassName}.Where, ${table.generateOptions.helperClassName}.Group, ${table.generateOptions.helperClassName}.Having, ${table.generateOptions.helperClassName}.Sort> {
+    public final static class $!{table.generateOptions.helperClassName} implements TableHelper<$!{table.generateOptions.helperClassName}, $!{table.generateOptions.helperClassName}.Join, $!{table.generateOptions.helperClassName}.Column, $!{table.generateOptions.helperClassName}.Where, $!{table.generateOptions.helperClassName}.Group, $!{table.generateOptions.helperClassName}.Having, $!{table.generateOptions.helperClassName}.Sort> {
 
-        public final static ${table.generateOptions.helperClassName} HELPER = new ${table.generateOptions.helperClassName}();
+        public final static $!{table.generateOptions.helperClassName} DEFAULT_INSTANCE = new $!{table.generateOptions.helperClassName}();
 
         #if(${table.generateOptions.entityFieldComment})
         /**
          * table name
          */
         #end
-        public final static String TABLE_NAME = "${table.tableName}";
+        public final static String TABLE_NAME = "$!{table.tableName}";
         #if(${table.generateOptions.entityFieldComment})
         /**
          * table alias
          */
-        public final static String TABLE_ALIAS = "${table.tableAlias}";
+        public final static String TABLE_ALIAS = "$!{table.tableAlias}";
         #end
         #if(${table.primaryKeyColumn})
         #if(${table.generateOptions.entityFieldComment})
@@ -64,28 +64,28 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
          * primary key name
          */
         #end
-        public final static String PRIMARY_KEY_NAME = "${table.primaryKeyColumn.name}";
+        public final static String PRIMARY_KEY_NAME = "$!{table.primaryKeyColumn.name}";
         #if(${table.generateOptions.entityFieldComment})
         /**
          * primary key alias
          */
         #end
-        public final static String PRIMARY_KEY_ALIAS = "${table.getColumnAlias(${table.primaryKeyColumn})}";
+        public final static String PRIMARY_KEY_ALIAS = "$!{table.getColumnAlias(${table.primaryKeyColumn})}";
         #end
 
         #foreach(${column} in ${table.columns})
         #if(${table.generateOptions.entityFieldComment})
         /**
-         * ${column.comment}
+         * $!{column.comment}
          */
         #end
-        public final static String ${column.name.toUpperCase()} = "${column.name}";
+        public final static String $!{column.name.toUpperCase()} = "$!{column.name}";
         #if(${table.generateOptions.entityFieldComment})
         /**
-         * ${column.comment} alias
+         * $!{column.comment} alias
          */
         #end
-        public final static String ${column.name.toUpperCase()}_ALIAS = "${table.getColumnAlias(${column})}";
+        public final static String $!{column.name.toUpperCase()}_ALIAS = "$!{table.getColumnAlias(${column})}";
         #end
 
         #if(${table.generateOptions.entityFieldComment})
@@ -104,8 +104,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             #end
         }
 
-        public static ${table.generateOptions.helperClassName} newInstance() {
-            return new ${table.generateOptions.helperClassName}();
+        public static $!{table.generateOptions.helperClassName} newInstance() {
+            return new $!{table.generateOptions.helperClassName}();
         }
 
         public static Join join() {
@@ -182,8 +182,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
         }
 
         @Override
-        public $!{table.generateOptions.helperClassName} getSingleInstance() {
-            return HELPER;
+        public $!{table.generateOptions.helperClassName} getDefaultInstance() {
+            return DEFAULT_INSTANCE;
         }
 
         @Override
@@ -227,8 +227,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             }
 
             @Override
-            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public $!{table.generateOptions.helperClassName} getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
@@ -257,13 +257,13 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             }
 
             @Override
-            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public $!{table.generateOptions.helperClassName} getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             @Override
             public Set<TableColumn> getTableDefaultColumns() {
-                return $!{table.generateOptions.helperClassName}.HELPER.getTableColumns();
+                return DEFAULT_INSTANCE.getTableColumns();
             }
 
             public Column sqlPart(String sqlPart) {
@@ -316,8 +316,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             }
 
             @Override
-            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public $!{table.generateOptions.helperClassName} getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
@@ -346,8 +346,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             }
 
             @Override
-            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public $!{table.generateOptions.helperClassName} getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public Group sqlPart(String sqlPart) {
@@ -376,8 +376,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             }
 
             @Override
-            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public $!{table.generateOptions.helperClassName} getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
@@ -397,7 +397,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS);
             }
 
-            public HavingSqlPartDatumBuilder<Having> ${table.getColumnAlias(${column})}(ColumnHandler... columnHandlers) {
+            public HavingSqlPartDatumBuilder<Having> $!{table.getColumnAlias(${column})}(ColumnHandler... columnHandlers) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS, columnHandlers);
             }
             #end
@@ -414,8 +414,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             }
 
             @Override
-            public $!{table.generateOptions.helperClassName} getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public $!{table.generateOptions.helperClassName} getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {
@@ -433,7 +433,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             #end
         }
 
-        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<$!{table.generateOptions.helperClassName}, Join, Column, Where, Group, Having, Sort> {
             public Sql() {
                 super(TABLE_ALIAS);
             }

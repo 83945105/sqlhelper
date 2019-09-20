@@ -71,4 +71,35 @@ public class TemplateEngineTest {
         Assertions.assertFalse(file2.exists());
         Assertions.assertFalse(file3.exists());
     }
+
+    @Test
+    void Test_generateClassFile_customGenerateOptions_deleteFiles() {
+        JdbcTemplate jdbcTemplate = JdbcTemplateBuilder.newJdbcTemplateBuilder()
+                .setDriverClassName("com.mysql.cj.jdbc.Driver")
+                .setJdbcUrl("jdbc:mysql://localhost:3306/sqlhelper?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false")
+                .setUsername("root")
+                .setPassword("root")
+                .build();
+        TemplateEngineBuilder.newTemplateEngineBuilder()
+                .setJdbcTemplate(jdbcTemplate)
+                .build()
+                .setDefaultGenerateOptions(new GenerateOptions()
+                        .setPackagePath("pub.avalon.sqlhelper.readme.entity")
+                        .setEntitySuffix("Model")
+                        .setHelperClassName("Model"))
+                .addTable("sys_user", "SysUser")
+                .addTable("role_resource", "RoleResource")
+                .addTable("user_role", "UserRole")
+                .generateClassFiles(new OutputOptions("D://generateFiles"));
+        File file1 = new File("D://generateFiles\\pub\\avalon\\sqlhelper\\readme\\entity\\SysUserModel.class");
+        Assertions.assertTrue(file1.exists());
+        File file2 = new File("D://generateFiles\\pub\\avalon\\sqlhelper\\readme\\entity\\RoleResourceModel.class");
+        Assertions.assertTrue(file2.exists());
+        File file3 = new File("D://generateFiles\\pub\\avalon\\sqlhelper\\readme\\entity\\UserRoleModel.class");
+        Assertions.assertTrue(file3.exists());
+        TemplateEngine.deleteAllFiles(new File("D://generateFiles"));
+        Assertions.assertFalse(file1.exists());
+        Assertions.assertFalse(file2.exists());
+        Assertions.assertFalse(file3.exists());
+    }
 }

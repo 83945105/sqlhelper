@@ -52,7 +52,7 @@ public class SysUserDTO {
         
     public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
 
-        public final static Helper HELPER = new Helper();
+        public final static Helper DEFAULT_INSTANCE = new Helper();
 
                 /**
          * table name
@@ -188,8 +188,8 @@ public class SysUserDTO {
         }
 
         @Override
-        public Helper getSingleInstance() {
-            return HELPER;
+        public Helper getDefaultInstance() {
+            return DEFAULT_INSTANCE;
         }
 
         @Override
@@ -233,8 +233,8 @@ public class SysUserDTO {
             }
 
             @Override
-            public Helper getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public Helper getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
@@ -267,13 +267,13 @@ public class SysUserDTO {
             }
 
             @Override
-            public Helper getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public Helper getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             @Override
             public Set<TableColumn> getTableDefaultColumns() {
-                return Helper.HELPER.getTableColumns();
+                return DEFAULT_INSTANCE.getTableColumns();
             }
 
             public Column sqlPart(String sqlPart) {
@@ -354,8 +354,8 @@ public class SysUserDTO {
             }
 
             @Override
-            public Helper getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public Helper getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public WhereSqlPartDatumBuilder<Where> sqlPart(String sqlPart) {
@@ -388,8 +388,8 @@ public class SysUserDTO {
             }
 
             @Override
-            public Helper getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public Helper getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public Group sqlPart(String sqlPart) {
@@ -422,8 +422,8 @@ public class SysUserDTO {
             }
 
             @Override
-            public Helper getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public Helper getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public HavingSqlPartDatumBuilder<Having> sqlPart(String sqlPart) {
@@ -472,8 +472,8 @@ public class SysUserDTO {
             }
 
             @Override
-            public Helper getSingleTableHelper() {
-                return HELPER.getSingleInstance();
+            public Helper getDefaultTableHelper() {
+                return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
             public SortSqlPartDatumBuilder<Sort> sqlPart(String sqlPart) {

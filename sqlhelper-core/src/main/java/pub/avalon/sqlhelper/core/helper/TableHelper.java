@@ -55,7 +55,7 @@ public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
      *
      * @return extends {@link Helper} single object
      */
-    T getSingleInstance();
+    T getDefaultInstance();
 
     /**
      * create new extends {@link JoinHelper} class object
