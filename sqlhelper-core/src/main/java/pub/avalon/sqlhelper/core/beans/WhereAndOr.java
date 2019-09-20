@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.callback.WhereLinkerCallback;
 import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.data.WhereDatum;
 import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,7 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
         if (whereJoinLinkerCallback == null) {
             return this;
         }
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         WhereLinker<TW> whereLinker = whereJoinLinkerCallback.apply(new WhereAndOr<>(), sw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
@@ -137,7 +138,7 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
         if (whereJoinLinkerCallback == null) {
             return this;
         }
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         WhereLinker<TW> whereLinker = whereJoinLinkerCallback.apply(new WhereAndOr<>(), sw);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();

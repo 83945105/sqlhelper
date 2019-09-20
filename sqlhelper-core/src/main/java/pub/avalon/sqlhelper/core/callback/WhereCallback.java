@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.WhereAndOr;
 import pub.avalon.sqlhelper.core.beans.WhereLinker;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
@@ -8,6 +7,7 @@ import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.List;
 
@@ -29,7 +29,8 @@ public interface WhereCallback<TW extends WhereHelper<TW>> {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        TW tw = BeanUtils.tableHelper(tableHelperClass).newWhereHelper(tableAlias);
+        T t = HelperManager.defaultTableHelper(tableHelperClass);
+        TW tw = t.newWhereHelper(tableAlias);
         return execute(tw, whereCallback, sqlBuilderOptions);
     }
 
@@ -40,9 +41,7 @@ public interface WhereCallback<TW extends WhereHelper<TW>> {
         if (whereCallback == null) {
             return null;
         }
-        // 设置配置开始
         whereHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
         WhereLinker<TW> whereLinker = whereCallback.apply(new WhereAndOr<>(), whereHelper);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {

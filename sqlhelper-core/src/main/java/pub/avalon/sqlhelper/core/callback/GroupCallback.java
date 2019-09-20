@@ -1,11 +1,11 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.GroupDatum;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface GroupCallback<T extends GroupHelper<T>> {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        T t = BeanUtils.tableHelper(tableHelperClass);
+        T t = HelperManager.defaultTableHelper(tableHelperClass);
         TG tg = t.newGroupHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
         return execute(tg, groupCallback, sqlBuilderOptions);
     }

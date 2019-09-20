@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.engine;
 
 import pub.avalon.beans.DataBaseType;
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -9,6 +8,7 @@ import pub.avalon.sqlhelper.core.sqlbuilder.AbstractSqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.SqlBuilder;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.*;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.Collection;
 
@@ -44,7 +44,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
             ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableHelper = HelperManager.newTableHelper(tableHelperClass);
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
@@ -59,7 +59,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
             ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableHelper = HelperManager.newTableHelper(tableHelperClass);
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
@@ -74,7 +74,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
             ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableHelper = HelperManager.newTableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
@@ -89,7 +89,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
             ExceptionUtils.tableHelperClassNullException();
         }
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableHelper = HelperManager.newTableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = this.tableHelper.getTableAlias();
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
@@ -107,7 +107,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
             ExceptionUtils.tableAliasNullException();
         }
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableHelper = HelperManager.newTableHelper(tableHelperClass);
         this.tableName = this.tableHelper.getTableName();
         this.tableAlias = tableAlias;
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
@@ -125,7 +125,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
             ExceptionUtils.tableAliasNullException();
         }
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableHelper = HelperManager.newTableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = tableAlias;
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);
@@ -143,7 +143,7 @@ public abstract class AbstractEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH
             ExceptionUtils.tableAliasNullException();
         }
         this.tableHelperClass = tableHelperClass;
-        this.tableHelper = BeanUtils.tableHelper(tableHelperClass);
+        this.tableHelper = HelperManager.newTableHelper(tableHelperClass);
         this.tableName = tableName;
         this.tableAlias = tableAlias;
         this.mainTableDatum = new MainTableDatum(tableHelperClass, this.tableName, this.tableAlias);

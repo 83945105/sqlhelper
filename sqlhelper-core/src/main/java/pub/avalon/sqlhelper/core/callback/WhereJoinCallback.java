@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.WhereAndOr;
 import pub.avalon.sqlhelper.core.beans.WhereLinker;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
@@ -8,6 +7,7 @@ import pub.avalon.sqlhelper.core.data.WhereDataLinker;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.List;
 
@@ -35,7 +35,8 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
         if (mainTableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        FW fw = BeanUtils.tableHelper(mainTableHelperClass).newWhereHelper(mainTableAlias);
+        F f = HelperManager.defaultTableHelper(mainTableHelperClass);
+        FW fw = f.newWhereHelper(mainTableAlias);
         return execute(fw, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
     }
 
@@ -50,15 +51,11 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
         if (whereJoinCallback == null) {
             return null;
         }
-        // 设置配置开始
         mainWhereHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
-        E e = BeanUtils.tableHelper(joinTableHelperClass);
+        E e = HelperManager.defaultTableHelper(joinTableHelperClass);
         joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
         EW ew = e.newWhereHelper(joinTableAlias);
-        // 设置配置开始
         ew.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
         WhereLinker<FW> whereLinker = whereJoinCallback.apply(new WhereAndOr<>(), ew, mainWhereHelper);
         List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {

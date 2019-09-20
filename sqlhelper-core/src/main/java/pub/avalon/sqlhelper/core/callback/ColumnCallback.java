@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -28,7 +27,7 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        T t = HelperManager.singleTableHelper(tableHelperClass);
+        T t = HelperManager.defaultTableHelper(tableHelperClass);
         TC tc = t.newColumnHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
         return execute(tc, columnCallback, sqlBuilderOptions);
     }
@@ -44,7 +43,7 @@ public interface ColumnCallback<TC extends ColumnHelper<TC>> {
         columnHelper = columnCallback.apply(columnHelper);
         List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
-            columnData = BeanUtils.getColumnData(columnHelper);
+            columnData = HelperManager.defaultColumnData(columnHelper);
         }
         return new TableColumnDatum(columnHelper.getTableAlias(), columnData);
     }

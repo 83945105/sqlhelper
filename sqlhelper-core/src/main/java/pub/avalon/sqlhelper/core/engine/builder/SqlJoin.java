@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.JoinCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableDatum;
@@ -10,6 +9,7 @@ import pub.avalon.sqlhelper.core.engine.builder.beans.SqlJoinBean;
 import pub.avalon.sqlhelper.core.engine.callback.JoinCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<S
     private String tableAlias;
 
     {
-        this.joinHelper = BeanUtils.getJoinHelper(this);
+        this.joinHelper = HelperManager.findExpectAncestorsJoinHelperClassGenricType(this);
     }
 
     public SqlJoin() {

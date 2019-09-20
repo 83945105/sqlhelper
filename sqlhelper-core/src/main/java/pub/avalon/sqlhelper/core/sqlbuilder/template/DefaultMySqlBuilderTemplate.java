@@ -251,7 +251,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         preparedStatementSql.append("delete from `")
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` where `")
-                .append(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
+                .append(HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass()).getPrimaryKeyName())
                 .append("` = ?");
         return FinalSqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
     }
@@ -263,7 +263,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         preparedStatementSql.append("delete from `")
                 .append(sqlDataConsumer.getMainTableDatum().getTableName())
                 .append("` where `")
-                .append(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
+                .append(HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass()).getPrimaryKeyName())
                 .append("` in (");
         int size = primaryKeyValues.length;
         for (int i = 0; i < size; i++) {
@@ -333,8 +333,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         sqlBuilderResult.appendSqlPart("update `")
                 .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
                 .appendSqlPart("` set ");
-        TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
-        String primaryKeyName = tableHelper.getPrimaryKeyName();
+        String primaryKeyName = HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass()).getPrimaryKeyName();
         int i = 0;
         List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
@@ -360,8 +359,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         sqlBuilderResult.appendSqlPart("update `")
                 .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
                 .appendSqlPart("` set ");
-        TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
-        String primaryKeyName = tableHelper.getPrimaryKeyName();
+        String primaryKeyName = HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass()).getPrimaryKeyName();
         int i = 0;
         List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
@@ -387,8 +385,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         sqlBuilderResult.appendSqlPart("update `")
                 .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableName())
                 .appendSqlPart("` set ");
-        TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
-        String primaryKeyName = tableHelper.getPrimaryKeyName();
+        String primaryKeyName = HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass()).getPrimaryKeyName();
         int i = 0;
         Object value;
         List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
@@ -424,7 +421,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
         sqlBuilderResult.appendSqlPart(" set ");
         int i = 0;
-        TableHelper tableHelper = BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum());
+        TableHelper tableHelper = HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
         String primaryKeyName = tableHelper.getPrimaryKeyName();
         String primaryKeyAlias = tableHelper.getPrimaryKeyAlias();
         Object keyValue;
@@ -565,7 +562,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
             sqlBuilderResult.appendSqlPart("select count(1) from (select ")
                     .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableAlias())
                     .appendSqlPart(".`")
-                    .appendSqlPart(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
+                    .appendSqlPart(HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass()).getPrimaryKeyName())
                     .appendSqlPart("` from `");
         } else {
             sqlBuilderResult.appendSqlPart("select count(1) from `");
@@ -599,7 +596,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 .appendSqlPart(" where ")
                 .appendSqlPart(sqlDataConsumer.getMainTableDatum().getTableAlias())
                 .appendSqlPart(".`")
-                .appendSqlPart(BeanUtils.tableHelper(sqlDataConsumer.getMainTableDatum()).getPrimaryKeyName())
+                .appendSqlPart(HelperManager.defaultTableHelper(sqlDataConsumer.getMainTableDatum().getTableHelperClass()).getPrimaryKeyName())
                 .appendSqlPart("` = ?");
         return sqlBuilderResult;
     }

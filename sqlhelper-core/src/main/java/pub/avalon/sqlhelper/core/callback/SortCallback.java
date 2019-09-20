@@ -1,11 +1,11 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.SortDatum;
 import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface SortCallback<T extends SortHelper<T>> {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        F f = BeanUtils.tableHelper(tableHelperClass);
+        F f = HelperManager.defaultTableHelper(tableHelperClass);
         tableAlias = tableAlias == null ? f.getTableAlias() : tableAlias;
         FS fs = f.newSortHelper(tableAlias);
         return execute(fs, sortCallback, sqlBuilderOptions);
@@ -40,9 +40,7 @@ public interface SortCallback<T extends SortHelper<T>> {
         if (sortCallback == null) {
             return null;
         }
-        // 设置配置开始
         sortHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        // 设置配置结束
         sortHelper = sortCallback.apply(sortHelper);
         List<SortDatum> sortData = sortHelper.takeoutSqlPartData();
         if (sortData == null || sortData.size() == 0) {

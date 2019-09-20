@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.engine.callback;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
@@ -11,6 +10,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.Collections;
 import java.util.List;
@@ -194,7 +194,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
         if (columnCallback == null) {
             return null;
         }
-        FC fc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper(tableAlias);
+        F f = HelperManager.defaultTableHelper(tableHelperClass);
+        FC fc = f.newColumnHelper(tableAlias);
         fc.setSqlBuilderOptions(sqlBuilderOptions);
         fc = columnCallback.apply(fc);
         List<ColumnDatum> columnData = fc.takeoutSqlPartData();
@@ -225,7 +226,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
         if (columnAlias == null) {
             return null;
         }
-        FC fc = BeanUtils.tableHelper(tableHelperClass).newColumnHelper(tableAlias);
+        F f = HelperManager.defaultTableHelper(tableHelperClass);
+        FC fc = f.newColumnHelper(tableAlias);
         fc.setSqlBuilderOptions(sqlBuilderOptions);
         SqlBuilderResult sqlBuilderResult = subQueryColumnCallback.apply(fc);
         return new TableColumnDatum(tableAlias, Collections.singletonList(new ColumnDatum(null, null, sqlBuilderResult, columnAlias)));

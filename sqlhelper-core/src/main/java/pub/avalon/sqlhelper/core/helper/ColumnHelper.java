@@ -1,12 +1,12 @@
 package pub.avalon.sqlhelper.core.helper;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.TableColumn;
 import pub.avalon.sqlhelper.core.builder.ColumnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,7 +64,7 @@ public abstract class ColumnHelper<T extends ColumnHelper<T>> extends Helper {
     public static TableColumnDatum execute(ColumnHelper<?> columnHelper) {
         List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
-            columnData = BeanUtils.getColumnData(columnHelper);
+            columnData = HelperManager.defaultColumnData(columnHelper);
         }
         return new TableColumnDatum(columnHelper.getTableAlias(), columnData);
     }

@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.builder;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
 import pub.avalon.sqlhelper.core.beans.OnType;
@@ -11,6 +10,7 @@ import pub.avalon.sqlhelper.core.data.OnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -395,7 +395,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
@@ -416,7 +416,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
@@ -437,7 +437,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
@@ -458,7 +458,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
@@ -479,7 +479,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
@@ -500,7 +500,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
-        S s = BeanUtils.tableHelper(tableHelperClass);
+        S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {

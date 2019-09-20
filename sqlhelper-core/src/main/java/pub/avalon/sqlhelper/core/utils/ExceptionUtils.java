@@ -38,9 +38,6 @@ public final class ExceptionUtils {
         throw new RuntimeException("columnHelper is null.");
     }
 
-
-
-
     public static void groupHelperNullException() {
         throw new RuntimeException("groupHelper is null.");
     }
@@ -56,6 +53,9 @@ public final class ExceptionUtils {
     public static void tableAliasNullException() {
         throw new RuntimeException("tableAlias is null.");
     }
+
+
+
 
     public static void comparisonRuleNotSupportException() {
         throw new RuntimeException("ComparisonRule's enumeration value is not supported for the time being.");

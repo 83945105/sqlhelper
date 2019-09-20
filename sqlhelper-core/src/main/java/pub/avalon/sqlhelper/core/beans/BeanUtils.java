@@ -19,53 +19,6 @@ public final class BeanUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends TableHelper> T tableHelper(Class<T> clazz) {
-        Object obj = org.springframework.beans.BeanUtils.instantiateClass(clazz);
-        return (T) obj;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends TableHelper> T tableHelper(TableDatum tableDatum) {
-        Object obj = org.springframework.beans.BeanUtils.instantiateClass(tableDatum.getTableHelperClass());
-        return (T) obj;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static List<ColumnDatum> getColumnData(ColumnHelper columnHelper) {
-        List<ColumnDatum> columnData = new ArrayList<>();
-        Set<TableColumn> tableColumns = columnHelper.getTableDefaultColumns();
-        if (tableColumns == null) {
-            return columnData;
-        }
-        for (TableColumn tableColumn : tableColumns) {
-            columnData.add(new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias(), tableColumn.getAlias()));
-        }
-        return columnData;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends JoinHelper<T>> Class<T> getJoinHelperClass(SqlJoin<T> sqlJoin) {
-        return GenericsUtils.getExpectAncestorsClassGenricType(sqlJoin.getClass(), JoinHelper.class);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends JoinHelper<T>> T getJoinHelper(SqlJoin<T> sqlJoin) {
-        Object obj = org.springframework.beans.BeanUtils.instantiateClass(getJoinHelperClass(sqlJoin));
-        return (T) obj;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends ColumnHelper<T>> Class<T> getColumnHelperClass(SqlColumn<T> sqlColumn) {
-        return GenericsUtils.getExpectAncestorsClassGenricType(sqlColumn.getClass(), ColumnHelper.class);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T extends ColumnHelper<T>> T getColumnHelper(SqlColumn<T> sqlColumn) {
-        Object obj = org.springframework.beans.BeanUtils.instantiateClass(getColumnHelperClass(sqlColumn));
-        return (T) obj;
-    }
-
-    @SuppressWarnings("unchecked")
     public static <T extends WhereHelper<T>> Class<T> getWhereHelperClass(SqlWhere<T> sqlWhere) {
         return GenericsUtils.getExpectAncestorsClassGenricType(sqlWhere.getClass(), WhereHelper.class);
     }

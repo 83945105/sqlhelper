@@ -1,6 +1,5 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
@@ -12,6 +11,7 @@ import pub.avalon.sqlhelper.core.engine.builder.beans.SqlColumnBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.ColumnCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     private String tableAlias;
 
     {
-        this.columnHelper = BeanUtils.getColumnHelper(this);
+        this.columnHelper = HelperManager.findExpectAncestorsColumnHelperClassGenricType(this);
     }
 
     public SqlColumn() {
