@@ -103,8 +103,8 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -118,8 +118,8 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -141,8 +141,8 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

@@ -19,13 +19,13 @@ import java.util.List;
 /**
  * @author baichao
  */
-public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {
+public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPartDatumBuilder<T, OnDatum> implements OnComparisonOperator<T> {
 
     private OnDatum onDatum;
 
     private SqlBuilderOptions sqlBuilderOptions = SqlBuilderOptions.DEFAULT_SQL_BUILDER_OPTIONS;
 
-    public JoinSqlPartDatumBuilder(String tableAlias, T helper) {
+    public OnSqlPartDatumBuilder(String tableAlias, T helper) {
         super(tableAlias, helper);
     }
 
@@ -334,7 +334,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public T equalTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
+    public T equalTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
         this.addSqlPartDatum(this.onDatum
                 .setOnType(OnType.EQUAL)
                 .setType(OnDatum.Type.JOIN_ON)
@@ -343,7 +343,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public T notEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
+    public T notEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
         this.addSqlPartDatum(this.onDatum
                 .setOnType(OnType.NOT_EQUAL)
                 .setType(OnDatum.Type.JOIN_ON)
@@ -352,7 +352,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public T greaterThan(JoinSqlPartDatumBuilder onSqlDataBuilder) {
+    public T greaterThan(OnSqlPartDatumBuilder onSqlDataBuilder) {
         this.addSqlPartDatum(this.onDatum
                 .setOnType(OnType.GREATER)
                 .setType(OnDatum.Type.JOIN_ON)
@@ -361,7 +361,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public T greaterThanAndEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
+    public T greaterThanAndEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
         this.addSqlPartDatum(this.onDatum
                 .setOnType(OnType.GREATER_EQUAL)
                 .setType(OnDatum.Type.JOIN_ON)
@@ -370,7 +370,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public T lessThan(JoinSqlPartDatumBuilder onSqlDataBuilder) {
+    public T lessThan(OnSqlPartDatumBuilder onSqlDataBuilder) {
         this.addSqlPartDatum(this.onDatum
                 .setOnType(OnType.LESS)
                 .setType(OnDatum.Type.JOIN_ON)
@@ -379,7 +379,7 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public T lessThanAndEqualTo(JoinSqlPartDatumBuilder onSqlDataBuilder) {
+    public T lessThanAndEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
         this.addSqlPartDatum(this.onDatum
                 .setOnType(OnType.LESS_EQUAL)
                 .setType(OnDatum.Type.JOIN_ON)
@@ -388,8 +388,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -409,8 +409,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -430,8 +430,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -451,8 +451,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -472,8 +472,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -493,8 +493,8 @@ public final class JoinSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

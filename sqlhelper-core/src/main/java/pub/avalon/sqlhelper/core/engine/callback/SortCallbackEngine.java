@@ -27,8 +27,8 @@ public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine
      * @param sortCallback     {@link SortCallback}
      * @return R
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -42,8 +42,8 @@ public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine
      * @param sortCallback     {@link SortCallback}
      * @return R
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -52,8 +52,8 @@ public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine
         return orderBy(tableHelperClass, null, sortCallback);
     }
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,

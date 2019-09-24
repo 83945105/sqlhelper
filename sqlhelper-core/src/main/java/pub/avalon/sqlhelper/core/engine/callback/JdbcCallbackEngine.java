@@ -5,7 +5,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 /**
  * @author baichao
  */
-public interface JdbcCallbackEngine<TJ extends JoinHelper<TJ>,
+public interface JdbcCallbackEngine<TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
@@ -13,7 +13,7 @@ public interface JdbcCallbackEngine<TJ extends JoinHelper<TJ>,
         TS extends SortHelper<TS>,
         R> extends
         ColumnCallbackEngine<TC, R>,
-        JoinCallbackEngine<TJ, R>,
+        JoinCallbackEngine<TO, R>,
         WhereCallbackEngine<TW, R>,
         GroupCallbackEngine<TG, R>,
         HavingCallbackEngine<TH, R>,

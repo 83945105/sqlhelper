@@ -28,8 +28,8 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
      * @param whereCallback    {@link WhereCallback}
      * @return R
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -43,8 +43,8 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
      * @param whereCallback    {@link WhereCallback}
      * @return R
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -53,8 +53,8 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
         return where(tableHelperClass, null, whereCallback);
     }
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
@@ -63,15 +63,15 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
         return WhereCallback.execute(tableHelperClass, tableAlias, whereCallback, sqlBuilderOptions);
     }
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>,
             E extends TableHelper<E, EJ, EC, EW, EG, EH, ES>,
-            EJ extends JoinHelper<EJ>,
+            EJ extends OnHelper<EJ>,
             EC extends ColumnHelper<EC>,
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,

@@ -56,8 +56,8 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -128,8 +128,8 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
      * @param whereJoinLinkerCallback {@link WhereJoinLinkerCallback}
      * @return {@link WhereAndOr}
      */
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -158,8 +158,8 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
      * @param whereJoinLinkerCallback {@link WhereJoinLinkerCallback}
      * @return {@link WhereAndOr}
      */
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

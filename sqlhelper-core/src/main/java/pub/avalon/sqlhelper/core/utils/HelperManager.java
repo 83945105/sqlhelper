@@ -75,8 +75,8 @@ public class HelperManager {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends JoinHelper<T>> T findJoinHelperClassFromAncestorsGenericType(SqlJoin<T> sqlJoin) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlJoin.getClass(), JoinHelper.class));
+    public static <T extends OnHelper<T>> T findJoinHelperClassFromAncestorsGenericType(SqlJoin<T> sqlJoin) {
+        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlJoin.getClass(), OnHelper.class));
     }
 
     @SuppressWarnings("unchecked")

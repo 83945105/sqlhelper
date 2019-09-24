@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.readme.entity;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.TableColumn;
 import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -216,7 +216,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             return orderBy(tableAlias);
         }
 
-        public final static class Join extends JoinHelper<Join> {
+        public final static class Join extends OnHelper<Join> {
 
             public Join() {
                 super(TABLE_ALIAS);
@@ -231,16 +231,16 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
                 return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
-            public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
+            public OnSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
-            public JoinSqlPartDatumBuilder<Join> primaryKey() {
+            public OnSqlPartDatumBuilder<Join> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
             #foreach($column in ${table.columns})
-            public JoinSqlPartDatumBuilder<Join> $!{table.getColumnAlias(${column})}() {
+            public OnSqlPartDatumBuilder<Join> $!{table.getColumnAlias(${column})}() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS);
             }
             #end

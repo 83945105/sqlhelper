@@ -8,13 +8,13 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 /**
  * @author baichao
  */
-public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
-        TJ extends JoinHelper<TJ>,
+public final class DefaultSqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+        TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> extends AbstractEngine<T, TJ, TC, TW, TG, TH, TS> implements SqlEngine<DefaultSqlEngine> {
+        TS extends SortHelper<TS>> extends AbstractEngine<T, TO, TC, TW, TG, TH, TS> implements SqlEngine<DefaultSqlEngine> {
 
     public DefaultSqlEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         super(dataBaseType, tableHelperClass);
@@ -45,7 +45,7 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH,
     }
 
     @Override
-    public <FJ extends JoinHelper<FJ>> DefaultSqlEngine sqlJoin(SqlJoin<FJ> sqlJoin) {
+    public <FO extends OnHelper<FO>> DefaultSqlEngine sqlJoin(SqlJoin<FO> sqlJoin) {
         SqlJoin.execute(sqlJoin, this.sqlBuilderOptions).forEach(this::addJoinTableDatum);
         return this;
     }

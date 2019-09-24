@@ -43,8 +43,8 @@ public interface WhereLinker<TW extends WhereHelper<TW>> {
      * @param whereJoinLinkerCallback {@link WhereJoinLinkerCallback}
      * @return {@link WhereAndOr}
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -58,8 +58,8 @@ public interface WhereLinker<TW extends WhereHelper<TW>> {
      * @param whereJoinLinkerCallback {@link WhereJoinLinkerCallback}
      * @return {@link WhereAndOr}
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

@@ -11,15 +11,15 @@ import pub.avalon.sqlhelper.core.helper.*;
 /**
  * @author baichao
  */
-public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
-        TJ extends JoinHelper<TJ>,
+public abstract class Sql<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+        TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> implements JdbcEngine<Sql<T, TJ, TC, TW, TG, TH, TS>>, JdbcCallbackEngine<TJ, TC, TW, TG, TH, TS, Sql<T, TJ, TC, TW, TG, TH, TS>> {
+        TS extends SortHelper<TS>> implements JdbcEngine<Sql<T, TO, TC, TW, TG, TH, TS>>, JdbcCallbackEngine<TO, TC, TW, TG, TH, TS, Sql<T, TO, TC, TW, TG, TH, TS>> {
 
-    private TJ joinHelper;
+    private TO onHelper;
     private TC columnHelper;
     private TW whereHelper;
     private TG groupHelper;
@@ -36,184 +36,184 @@ public abstract class Sql<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> column(ColumnHelper<?>... columnHelpers) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> column(ColumnHelper<?>... columnHelpers) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> select(ColumnHelper<?>... columnHelpers) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> select(ColumnHelper<?>... columnHelpers) {
         return null;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> insert(ColumnHelper<?>... columnHelpers) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> insert(ColumnHelper<?>... columnHelpers) {
         return null;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> update(ColumnHelper<?>... columnHelpers) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> update(ColumnHelper<?>... columnHelpers) {
         return null;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> select(ColumnCallback<TC> columnCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> select(ColumnCallback<TC> columnCallback) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> insert(ColumnCallback<TC> columnCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> insert(ColumnCallback<TC> columnCallback) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> update(ColumnCallback<TC> columnCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> update(ColumnCallback<TC> columnCallback) {
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> virtualColumn(Object columnValue, String columnAlias) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> virtualColumn(Object columnValue, String columnAlias) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback) {
         return null;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> groupBy(GroupHelper<?>... groupHelpers) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> groupBy(GroupHelper<?>... groupHelpers) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> groupBy(GroupCallback<TG> groupCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> groupBy(GroupCallback<TG> groupCallback) {
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, JoinCallback<TJ, SJ> joinCallback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, JoinCallback<TO, SO> joinCallback) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> limitTop(Long num) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> limitTop(Long num) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> limitOne() {
+    public Sql<T, TO, TC, TW, TG, TH, TS> limitOne() {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> limit(LimitSql limit) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> limit(LimitSql limit) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> limit(Long total, Long currentPage, Long pageSize) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> limit(Long total, Long currentPage, Long pageSize) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> orderBy(SortHelper<?>... sortHelpers) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> orderBy(SortHelper<?>... sortHelpers) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> orderBy(SortCallback<TS> sortCallback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> orderBy(SortCallback<TS> sortCallback) {
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> where(WhereHelper<?>... whereHelpers) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> where(WhereHelper<?>... whereHelpers) {
         return this;
     }
 
     @Override
-    public Sql<T, TJ, TC, TW, TG, TH, TS> where(WhereCallback<TW> callback) {
+    public Sql<T, TO, TC, TW, TG, TH, TS> where(WhereCallback<TW> callback) {
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TJ, TC, TW, TG, TH, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> callback) {
         return this;
     }
 

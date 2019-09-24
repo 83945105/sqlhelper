@@ -2,14 +2,14 @@ package pub.avalon.sqlhelper.core.beans;
 
 import pub.avalon.sqlhelper.core.callback.OnLinkerCallback;
 import pub.avalon.sqlhelper.core.data.OnDataLinker;
-import pub.avalon.sqlhelper.core.helper.JoinHelper;
+import pub.avalon.sqlhelper.core.helper.OnHelper;
 
 import java.util.List;
 
 /**
  * @author baichao
  */
-public interface OnLinker<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> {
+public interface OnLinker<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
 
     /**
      * Clean up after each takeout.
@@ -21,10 +21,10 @@ public interface OnLinker<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> 
     /**
      * and
      *
-     * @param joinHelper {@link JoinHelper}
+     * @param onHelper {@link OnHelper}
      * @return {@link OnAndOr}
      */
-    OnAndOr<TJ, SJ> and(JoinHelper<?> joinHelper);
+    OnAndOr<TO, SO> and(OnHelper<?> onHelper);
 
     /**
      * and
@@ -32,5 +32,5 @@ public interface OnLinker<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> 
      * @param onLinkerCallback {@link OnLinkerCallback}
      * @return {@link OnAndOr}
      */
-    OnAndOr<TJ, SJ> and(OnLinkerCallback<TJ, SJ> onLinkerCallback);
+    OnAndOr<TO, SO> and(OnLinkerCallback<TO, SO> onLinkerCallback);
 }

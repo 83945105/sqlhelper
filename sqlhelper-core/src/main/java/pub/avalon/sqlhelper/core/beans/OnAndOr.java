@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.beans;
 import pub.avalon.sqlhelper.core.callback.OnLinkerCallback;
 import pub.avalon.sqlhelper.core.data.OnDataLinker;
 import pub.avalon.sqlhelper.core.data.OnDatum;
-import pub.avalon.sqlhelper.core.helper.JoinHelper;
+import pub.avalon.sqlhelper.core.helper.OnHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author baichao
  */
-public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>> implements OnLinker<TJ, SJ> {
+public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> implements OnLinker<TO, SO> {
 
     private List<OnDataLinker> onDataLinkers = new ArrayList<>();
 
@@ -23,12 +23,12 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
     }
 
     @Override
-    public OnAndOr<TJ, SJ> and(JoinHelper<?> joinHelper) {
-        if (joinHelper == null) {
+    public OnAndOr<TO, SO> and(OnHelper<?> onHelper) {
+        if (onHelper == null) {
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.AND);
-        List<OnDatum> onData = joinHelper.takeoutSqlPartData();
+        List<OnDatum> onData = onHelper.takeoutSqlPartData();
         if (onData == null || onData.size() == 0) {
             return this;
         }
@@ -38,11 +38,11 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
     }
 
     @Override
-    public OnAndOr<TJ, SJ> and(OnLinkerCallback<TJ, SJ> onLinkerCallback) {
+    public OnAndOr<TO, SO> and(OnLinkerCallback<TO, SO> onLinkerCallback) {
         if (onLinkerCallback == null) {
             return this;
         }
-        OnLinker<TJ, SJ> onLinker = onLinkerCallback.apply(new OnAndOr<>());
+        OnLinker<TO, SO> onLinker = onLinkerCallback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
@@ -56,15 +56,15 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
     /**
      * or
      *
-     * @param joinHelper {@link JoinHelper}
+     * @param onHelper {@link OnHelper}
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TJ, SJ> or(JoinHelper<?> joinHelper) {
-        if (joinHelper == null) {
+    public OnAndOr<TO, SO> or(OnHelper<?> onHelper) {
+        if (onHelper == null) {
             return this;
         }
         OnDataLinker onDataLinker = new OnDataLinker(LinkType.OR);
-        List<OnDatum> onData = joinHelper.takeoutSqlPartData();
+        List<OnDatum> onData = onHelper.takeoutSqlPartData();
         if (onData == null || onData.size() == 0) {
             return this;
         }
@@ -79,11 +79,11 @@ public final class OnAndOr<TJ extends JoinHelper<TJ>, SJ extends JoinHelper<SJ>>
      * @param onLinkerCallback {@link OnLinkerCallback}
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TJ, SJ> or(OnLinkerCallback<TJ, SJ> onLinkerCallback) {
+    public OnAndOr<TO, SO> or(OnLinkerCallback<TO, SO> onLinkerCallback) {
         if (onLinkerCallback == null) {
             return this;
         }
-        OnLinker<TJ, SJ> onLinker = onLinkerCallback.apply(new OnAndOr<>());
+        OnLinker<TO, SO> onLinker = onLinkerCallback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;

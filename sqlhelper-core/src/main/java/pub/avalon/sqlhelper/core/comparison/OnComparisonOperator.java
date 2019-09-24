@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.comparison;
 
-import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.callback.OnColumnCallback;
 import pub.avalon.sqlhelper.core.helper.*;
 
@@ -12,50 +12,50 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
     /**
      * equal to
      *
-     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
+     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
      * @return extends {@link Helper} object
      */
-    T equalTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
+    T equalTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
 
     /**
      * not equal to
      *
-     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
+     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
      * @return extends {@link Helper} object
      */
-    T notEqualTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
+    T notEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
 
     /**
      * greater than
      *
-     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
+     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
      * @return extends {@link Helper} object
      */
-    T greaterThan(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
+    T greaterThan(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
 
     /**
      * greater than or equal to
      *
-     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
+     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
      * @return extends {@link Helper} object
      */
-    T greaterThanAndEqualTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
+    T greaterThanAndEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
 
     /**
      * less than
      *
-     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
+     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
      * @return extends {@link Helper} object
      */
-    T lessThan(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
+    T lessThan(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
 
     /**
      * less than or equal to
      *
-     * @param joinSqlPartDatumBuilder {@link JoinSqlPartDatumBuilder}
+     * @param onSqlPartDatumBuilder {@link OnSqlPartDatumBuilder}
      * @return extends {@link Helper} object
      */
-    T lessThanAndEqualTo(JoinSqlPartDatumBuilder joinSqlPartDatumBuilder);
+    T lessThanAndEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder);
 
     /**
      * equal to
@@ -65,8 +65,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -80,8 +80,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -98,8 +98,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -113,8 +113,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -131,8 +131,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -146,8 +146,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -164,8 +164,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -179,8 +179,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -197,8 +197,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -212,8 +212,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -230,8 +230,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -245,8 +245,8 @@ public interface OnComparisonOperator<T> extends ComparisonOperator<T> {
      * @param onColumnCallback {@link OnColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

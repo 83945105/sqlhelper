@@ -19,8 +19,8 @@ public interface WhereCallback<TW extends WhereHelper<TW>> {
 
     WhereLinker<TW> apply(WhereLinker<TW> condition, TW mainTable);
 
-    static <T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
-            TJ extends JoinHelper<TJ>,
+    static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+            TO extends OnHelper<TO>,
             TC extends ColumnHelper<TC>,
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,

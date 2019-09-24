@@ -107,8 +107,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -122,8 +122,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -148,8 +148,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -163,8 +163,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -189,8 +189,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -204,8 +204,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -230,8 +230,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -245,8 +245,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -271,8 +271,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -286,8 +286,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -312,8 +312,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -327,8 +327,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -353,8 +353,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -368,8 +368,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -394,8 +394,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -409,8 +409,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -435,8 +435,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -450,8 +450,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -476,8 +476,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -491,8 +491,8 @@ public interface WhereComparisonOperator<T> extends ComparisonOperator<T> {
      * @param whereColumnCallback {@link WhereColumnCallback}
      * @return extends {@link Helper} object
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,

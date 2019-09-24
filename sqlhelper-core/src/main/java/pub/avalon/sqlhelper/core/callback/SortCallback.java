@@ -17,8 +17,8 @@ public interface SortCallback<T extends SortHelper<T>> {
 
     T apply(T table);
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,

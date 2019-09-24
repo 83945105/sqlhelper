@@ -18,15 +18,15 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
 
     WhereLinker<TW> apply(WhereLinker<TW> condition, SW joinTable, TW mainTable);
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>,
             E extends TableHelper<E, EJ, EC, EW, EG, EH, ES>,
-            EJ extends JoinHelper<EJ>,
+            EJ extends OnHelper<EJ>,
             EC extends ColumnHelper<EC>,
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,
@@ -42,7 +42,7 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
 
     static <FW extends WhereHelper<FW>,
             E extends TableHelper<E, EJ, EC, EW, EG, EH, ES>,
-            EJ extends JoinHelper<EJ>,
+            EJ extends OnHelper<EJ>,
             EC extends ColumnHelper<EC>,
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,

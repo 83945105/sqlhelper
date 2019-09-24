@@ -12,10 +12,10 @@ public interface SqlEngine<R> {
      * add join sql data
      *
      * @param sqlJoin extends {@link SqlJoin} object
-     * @param <FJ>    extends {@link JoinHelper} object
+     * @param <FO>    extends {@link OnHelper} object
      * @return extends {@link AbstractEngine} object
      */
-    <FJ extends JoinHelper<FJ>> R sqlJoin(SqlJoin<FJ> sqlJoin);
+    <FO extends OnHelper<FO>> R sqlJoin(SqlJoin<FO> sqlJoin);
 
     /**
      * add column sql data

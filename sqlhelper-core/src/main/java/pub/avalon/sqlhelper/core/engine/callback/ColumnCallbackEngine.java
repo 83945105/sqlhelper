@@ -60,8 +60,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
      * @param columnCallback   {@link ColumnCallback}
      * @return R
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -76,8 +76,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
      * @param columnCallback   {@link ColumnCallback}
      * @return R
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -91,8 +91,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
      * @param columnCallback   {@link ColumnCallback}
      * @return R
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -108,8 +108,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
      * @param columnCallback   {@link ColumnCallback}
      * @return R
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -136,8 +136,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
      * @param columnCallback   {@link ColumnCallback}
      * @return R
      */
-    <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -152,8 +152,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
      * @param columnCallback   {@link ColumnCallback}
      * @return R
      */
-    default <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
@@ -171,8 +171,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
      */
     R subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback);
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
@@ -181,8 +181,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
         return ColumnCallback.execute(tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
     }
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
@@ -206,8 +206,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
         return new TableColumnDatum(tableAlias, columnData);
     }
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,
@@ -216,8 +216,8 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
         return columnAlias == null ? null : new TableColumnDatum(tableAlias, Collections.singletonList(new ColumnDatum(null, null, columnValue, columnAlias)));
     }
 
-    static <F extends TableHelper<F, FJ, FC, FW, FG, FH, FS>,
-            FJ extends JoinHelper<FJ>,
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
             FC extends ColumnHelper<FC>,
             FW extends WhereHelper<FW>,
             FG extends GroupHelper<FG>,

@@ -18,35 +18,35 @@ import java.util.stream.Collectors;
 /**
  * @author baichao
  */
-public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<SqlJoin<TJ>>, JoinCallbackEngine<TJ, SqlJoin<TJ>> {
+public abstract class SqlJoin<TO extends OnHelper<TO>> implements JoinEngine<SqlJoin<TO>>, JoinCallbackEngine<TO, SqlJoin<TO>> {
 
-    private TJ joinHelper;
+    private TO onHelper;
     private String tableAlias;
 
     {
-        this.joinHelper = HelperManager.findJoinHelperClassFromAncestorsGenericType(this);
+        this.onHelper = HelperManager.findJoinHelperClassFromAncestorsGenericType(this);
     }
 
     public SqlJoin() {
-        this.tableAlias = this.joinHelper.getTableAlias();
+        this.tableAlias = this.onHelper.getTableAlias();
     }
 
     public SqlJoin(String tableAlias) {
-        this.joinHelper.setTableAlias(tableAlias);
+        this.onHelper.setTableAlias(tableAlias);
         this.tableAlias = tableAlias;
     }
 
     private List<AbstractSqlJoinBean> sqlJoinBeans = new ArrayList<>(1);
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlJoin<TJ> join(JoinType joinType, String joinTableName, Class<S> joinTableHelperClass, String joinTableAlias, JoinCallback<TJ, SJ> joinCallback) {
-        this.sqlJoinBeans.add(new SqlJoinBean<>(this.joinHelper, joinType, joinTableName, joinTableHelperClass, joinTableAlias, joinCallback));
+            SS extends SortHelper<SS>> SqlJoin<TO> join(JoinType joinType, String joinTableName, Class<S> joinTableHelperClass, String joinTableAlias, JoinCallback<TO, SO> joinCallback) {
+        this.sqlJoinBeans.add(new SqlJoinBean<>(this.onHelper, joinType, joinTableName, joinTableHelperClass, joinTableAlias, joinCallback));
         return this;
     }
 
@@ -62,7 +62,7 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<S
         return execute(this, sqlBuilderOptions);
     }
 
-    public static <FJ extends JoinHelper<FJ>> List<JoinTableDatum> execute(SqlJoin<FJ> sqlJoin, SqlBuilderOptions sqlBuilderOptions) {
+    public static <FO extends OnHelper<FO>> List<JoinTableDatum> execute(SqlJoin<FO> sqlJoin, SqlBuilderOptions sqlBuilderOptions) {
         return sqlJoin.getSqlJoinBeans().stream().map(sqlJoinBean -> sqlJoinBean.execute(sqlBuilderOptions)).collect(Collectors.toList());
     }
 }

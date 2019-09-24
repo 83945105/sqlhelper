@@ -7,8 +7,8 @@ import java.util.Set;
 /**
  * @author baichao
  */
-public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
-        TJ extends JoinHelper<TJ>,
+public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+        TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
@@ -58,12 +58,12 @@ public interface TableHelper<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
     T getDefaultInstance();
 
     /**
-     * create new extends {@link JoinHelper} class object
+     * create new extends {@link OnHelper} class object
      *
      * @param tableAlias table alias
-     * @return extends {@link JoinHelper} class object
+     * @return extends {@link OnHelper} class object
      */
-    TJ newJoinHelper(String tableAlias);
+    TO newJoinHelper(String tableAlias);
 
     /**
      * create new extends {@link ColumnHelper} class object

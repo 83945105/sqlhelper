@@ -1,7 +1,6 @@
 package pub.avalon.sqlhelper.core.sqlbuilder.template;
 
 import pub.avalon.holygrail.utils.ClassUtil;
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.SqlDataConsumer;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;

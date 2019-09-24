@@ -12,13 +12,13 @@ import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 /**
  * @author baichao
  */
-public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW, TG, TH, TS>,
-        TJ extends JoinHelper<TJ>,
+public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+        TO extends OnHelper<TO>,
         TC extends ColumnHelper<TC>,
         TW extends WhereHelper<TW>,
         TG extends GroupHelper<TG>,
         TH extends HavingHelper<TH>,
-        TS extends SortHelper<TS>> extends AbstractEngine<T, TJ, TC, TW, TG, TH, TS> implements JdbcCallbackEngine<TJ, TC, TW, TG, TH, TS, DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS>> {
+        TS extends SortHelper<TS>> extends AbstractEngine<T, TO, TC, TW, TG, TH, TS> implements JdbcCallbackEngine<TO, TC, TW, TG, TH, TS, DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS>> {
 
     public DefaultJdbcCallbackEngine(DataBaseType dataBaseType, Class<T> tableHelperClass) {
         super(dataBaseType, tableHelperClass);
@@ -49,7 +49,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> column(ColumnCallback<TC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addSelectTableColumnDatum(tableColumnDatum);
         this.addInsertTableColumnDatum(tableColumnDatum);
@@ -58,34 +58,34 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> select(ColumnCallback<TC> columnCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> select(ColumnCallback<TC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addSelectTableColumnDatum(tableColumnDatum);
         return this;
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> insert(ColumnCallback<TC> columnCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> insert(ColumnCallback<TC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addInsertTableColumnDatum(tableColumnDatum);
         return this;
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> update(ColumnCallback<TC> columnCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> update(ColumnCallback<TC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(this.tableHelperClass, this.tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addUpdateTableColumnDatum(tableColumnDatum);
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> column(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addSelectTableColumnDatum(tableColumnDatum);
         this.addInsertTableColumnDatum(tableColumnDatum);
@@ -94,20 +94,20 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> select(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeColumn(tableHelperClass, tableAlias, columnCallback, this.sqlBuilderOptions);
         this.addSelectTableColumnDatum(tableColumnDatum);
         return this;
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> groupColumn(GroupType groupType, ColumnCallback<TC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeGroupColumn(this.tableHelperClass, this.tableAlias, groupType, columnCallback, this.sqlBuilderOptions);
         this.addSelectTableColumnDatum(tableColumnDatum);
         this.addInsertTableColumnDatum(tableColumnDatum);
@@ -116,13 +116,13 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> groupColumn(Class<S> tableHelperClass, String tableAlias, GroupType groupType, ColumnCallback<SC> columnCallback) {
         TableColumnDatum tableColumnDatum = ColumnCallbackEngine.executeGroupColumn(tableHelperClass, tableAlias, groupType, columnCallback, this.sqlBuilderOptions);
         this.addSelectTableColumnDatum(tableColumnDatum);
         this.addInsertTableColumnDatum(tableColumnDatum);
@@ -131,72 +131,72 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TJ, TC, TW
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> subQueryColumn(String columnAlias, SubQueryColumnCallback<TC> subQueryColumnCallback) {
         return null;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, JoinCallback<TJ, SJ> joinCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, JoinCallback<TO, SO> joinCallback) {
         this.addJoinTableDatum(JoinCallbackEngine.execute(joinType, this.tableHelperClass, this.tableAlias, tableName, tableHelperClass, tableAlias, joinCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> where(WhereCallback<TW> whereCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> where(WhereCallback<TW> whereCallback) {
         this.addTableWhereDatum(WhereCallbackEngine.execute(this.tableHelperClass, this.tableAlias, whereCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback) {
         this.addTableWhereDatum(WhereCallbackEngine.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, whereCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupBy(GroupCallback<TG> groupCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> groupBy(GroupCallback<TG> groupCallback) {
         this.addTableGroupDatum(GroupCallbackEngine.execute(this.tableHelperClass, this.tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> groupBy(Class<S> tableHelperClass, String tableAlias, GroupCallback<SG> groupCallback) {
         this.addTableGroupDatum(GroupCallbackEngine.execute(tableHelperClass, tableAlias, groupCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
-    public DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> orderBy(SortCallback<TS> sortCallback) {
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> orderBy(SortCallback<TS> sortCallback) {
         this.addTableSortDatum(SortCallbackEngine.execute(this.tableHelperClass, this.tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }
 
     @Override
-    public <S extends TableHelper<S, SJ, SC, SW, SG, SH, SS>,
-            SJ extends JoinHelper<SJ>,
+    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
             SC extends ColumnHelper<SC>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TJ, TC, TW, TG, TH, TS> orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
+            SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> orderBy(Class<S> tableHelperClass, String tableAlias, SortCallback<SS> sortCallback) {
         this.addTableSortDatum(SortCallbackEngine.execute(tableHelperClass, tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }

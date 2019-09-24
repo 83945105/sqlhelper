@@ -3,14 +3,13 @@ package pub.avalon.sqlhelper.readme.entity;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.TableColumn;
 import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.JoinSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.lang.String;
 
 @SuppressWarnings("all")
 public class SysUserDTO {
@@ -222,7 +221,7 @@ public class SysUserDTO {
             return orderBy(tableAlias);
         }
 
-        public final static class Join extends JoinHelper<Join> {
+        public final static class Join extends OnHelper<Join> {
 
             public Join() {
                 super(TABLE_ALIAS);
@@ -237,21 +236,21 @@ public class SysUserDTO {
                 return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
-            public JoinSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
+            public OnSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
-            public JoinSqlPartDatumBuilder<Join> primaryKey() {
+            public OnSqlPartDatumBuilder<Join> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-                        public JoinSqlPartDatumBuilder<Join> id() {
+                        public OnSqlPartDatumBuilder<Join> id() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
             }
-                        public JoinSqlPartDatumBuilder<Join> userName() {
+                        public OnSqlPartDatumBuilder<Join> userName() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
             }
-                        public JoinSqlPartDatumBuilder<Join> loginName() {
+                        public OnSqlPartDatumBuilder<Join> loginName() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
             }
                     }
