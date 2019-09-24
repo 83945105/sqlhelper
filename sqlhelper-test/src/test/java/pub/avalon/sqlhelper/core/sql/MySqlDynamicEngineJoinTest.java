@@ -28,6 +28,22 @@ public class MySqlDynamicEngineJoinTest {
     }
 
     /**
+     * 测试join - 两次
+     */
+    @Test
+    void Test_join_twice() {
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+                .column(table -> table)
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.userId().equalTo(mainTable.id())))
+                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                        .and(joinTable.roleId().equalTo(mainTable.id())))
+                .query();
+        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+    }
+
+    /**
      * 测试join - 指定表名 & 指定表别名
      */
 //    @Test
