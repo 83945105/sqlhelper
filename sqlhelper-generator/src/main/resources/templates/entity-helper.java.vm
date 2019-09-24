@@ -42,7 +42,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
     #end
     #end
 
-    public final static class $!{table.generateOptions.helperClassName} implements TableHelper<$!{table.generateOptions.helperClassName}, $!{table.generateOptions.helperClassName}.Join, $!{table.generateOptions.helperClassName}.Column, $!{table.generateOptions.helperClassName}.Where, $!{table.generateOptions.helperClassName}.Group, $!{table.generateOptions.helperClassName}.Having, $!{table.generateOptions.helperClassName}.Sort> {
+    public final static class $!{table.generateOptions.helperClassName} implements TableHelper<$!{table.generateOptions.helperClassName}, $!{table.generateOptions.helperClassName}.On, $!{table.generateOptions.helperClassName}.Column, $!{table.generateOptions.helperClassName}.Where, $!{table.generateOptions.helperClassName}.Group, $!{table.generateOptions.helperClassName}.Having, $!{table.generateOptions.helperClassName}.Sort> {
 
         public final static $!{table.generateOptions.helperClassName} DEFAULT_INSTANCE = new $!{table.generateOptions.helperClassName}();
 
@@ -108,12 +108,12 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             return new $!{table.generateOptions.helperClassName}();
         }
 
-        public static Join join() {
-            return new Join(TABLE_ALIAS);
+        public static On on() {
+            return new On(TABLE_ALIAS);
         }
 
-        public static Join join(String tableAlias) {
-            return new Join(tableAlias);
+        public static On on(String tableAlias) {
+            return new On(tableAlias);
         }
 
         public static Column column() {
@@ -187,8 +187,8 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
         }
 
         @Override
-        public Join newOnHelper(String tableAlias) {
-            return join(tableAlias);
+        public On newOnHelper(String tableAlias) {
+            return on(tableAlias);
         }
 
         @Override
@@ -216,13 +216,13 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             return orderBy(tableAlias);
         }
 
-        public final static class Join extends OnHelper<Join> {
+        public final static class On extends OnHelper<On> {
 
-            public Join() {
+            public On() {
                 super(TABLE_ALIAS);
             }
 
-            public Join(String tableAlias) {
+            public On(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -231,16 +231,16 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
                 return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
-            public OnSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
+            public OnSqlPartDatumBuilder<On> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
-            public OnSqlPartDatumBuilder<Join> primaryKey() {
+            public OnSqlPartDatumBuilder<On> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
             #foreach($column in ${table.columns})
-            public OnSqlPartDatumBuilder<Join> $!{table.getColumnAlias(${column})}() {
+            public OnSqlPartDatumBuilder<On> $!{table.getColumnAlias(${column})}() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, $!{column.name.toUpperCase()}, $!{column.name.toUpperCase()}_ALIAS, $!{column.name.toUpperCase()}_ALIAS);
             }
             #end
@@ -433,7 +433,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             #end
         }
 
-        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<$!{table.generateOptions.helperClassName}, Join, Column, Where, Group, Having, Sort> {
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<$!{table.generateOptions.helperClassName}, On, Column, Where, Group, Having, Sort> {
             public Sql() {
                 super(TABLE_ALIAS);
             }
@@ -442,7 +442,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.entitySuffix} {
             }
         }
 
-        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<Join> {
+        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<On> {
             public SqlJoin() {
                 super(TABLE_ALIAS);
             }

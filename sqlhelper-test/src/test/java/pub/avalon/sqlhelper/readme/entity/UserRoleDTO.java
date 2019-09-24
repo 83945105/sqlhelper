@@ -10,6 +10,8 @@ import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.lang.String;
+import java.lang.Long;
 
 @SuppressWarnings("all")
 public class UserRoleDTO {
@@ -71,7 +73,7 @@ public class UserRoleDTO {
         return this;
     }
         
-    public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
+    public final static class Helper implements TableHelper<Helper, Helper.On, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
 
         public final static Helper DEFAULT_INSTANCE = new Helper();
 
@@ -153,12 +155,12 @@ public class UserRoleDTO {
             return new Helper();
         }
 
-        public static Join join() {
-            return new Join(TABLE_ALIAS);
+        public static On on() {
+            return new On(TABLE_ALIAS);
         }
 
-        public static Join join(String tableAlias) {
-            return new Join(tableAlias);
+        public static On on(String tableAlias) {
+            return new On(tableAlias);
         }
 
         public static Column column() {
@@ -232,8 +234,8 @@ public class UserRoleDTO {
         }
 
         @Override
-        public Join newOnHelper(String tableAlias) {
-            return join(tableAlias);
+        public On newOnHelper(String tableAlias) {
+            return on(tableAlias);
         }
 
         @Override
@@ -261,13 +263,13 @@ public class UserRoleDTO {
             return orderBy(tableAlias);
         }
 
-        public final static class Join extends OnHelper<Join> {
+        public final static class On extends OnHelper<On> {
 
-            public Join() {
+            public On() {
                 super(TABLE_ALIAS);
             }
 
-            public Join(String tableAlias) {
+            public On(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -276,27 +278,27 @@ public class UserRoleDTO {
                 return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
-            public OnSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
+            public OnSqlPartDatumBuilder<On> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
-            public OnSqlPartDatumBuilder<Join> primaryKey() {
+            public OnSqlPartDatumBuilder<On> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-                        public OnSqlPartDatumBuilder<Join> id() {
+                        public OnSqlPartDatumBuilder<On> id() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
             }
-                        public OnSqlPartDatumBuilder<Join> userId() {
+                        public OnSqlPartDatumBuilder<On> userId() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, USER_ID, USER_ID_ALIAS, USER_ID_ALIAS);
             }
-                        public OnSqlPartDatumBuilder<Join> roleId() {
+                        public OnSqlPartDatumBuilder<On> roleId() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_ID, ROLE_ID_ALIAS, ROLE_ID_ALIAS);
             }
-                        public OnSqlPartDatumBuilder<Join> roleName() {
+                        public OnSqlPartDatumBuilder<On> roleName() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, ROLE_NAME, ROLE_NAME_ALIAS, ROLE_NAME_ALIAS);
             }
-                        public OnSqlPartDatumBuilder<Join> sortIndex() {
+                        public OnSqlPartDatumBuilder<On> sortIndex() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, SORT_INDEX, SORT_INDEX_ALIAS, SORT_INDEX_ALIAS);
             }
                     }
@@ -602,7 +604,7 @@ public class UserRoleDTO {
             }
                     }
 
-        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, On, Column, Where, Group, Having, Sort> {
             public Sql() {
                 super(TABLE_ALIAS);
             }
@@ -611,7 +613,7 @@ public class UserRoleDTO {
             }
         }
 
-        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<Join> {
+        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<On> {
             public SqlJoin() {
                 super(TABLE_ALIAS);
             }

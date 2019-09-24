@@ -10,6 +10,7 @@ import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.lang.String;
 
 @SuppressWarnings("all")
 public class SysUserDTO {
@@ -49,7 +50,7 @@ public class SysUserDTO {
         return this;
     }
         
-    public final static class Helper implements TableHelper<Helper, Helper.Join, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
+    public final static class Helper implements TableHelper<Helper, Helper.On, Helper.Column, Helper.Where, Helper.Group, Helper.Having, Helper.Sort> {
 
         public final static Helper DEFAULT_INSTANCE = new Helper();
 
@@ -113,12 +114,12 @@ public class SysUserDTO {
             return new Helper();
         }
 
-        public static Join join() {
-            return new Join(TABLE_ALIAS);
+        public static On on() {
+            return new On(TABLE_ALIAS);
         }
 
-        public static Join join(String tableAlias) {
-            return new Join(tableAlias);
+        public static On on(String tableAlias) {
+            return new On(tableAlias);
         }
 
         public static Column column() {
@@ -192,8 +193,8 @@ public class SysUserDTO {
         }
 
         @Override
-        public Join newOnHelper(String tableAlias) {
-            return join(tableAlias);
+        public On newOnHelper(String tableAlias) {
+            return on(tableAlias);
         }
 
         @Override
@@ -221,13 +222,13 @@ public class SysUserDTO {
             return orderBy(tableAlias);
         }
 
-        public final static class Join extends OnHelper<Join> {
+        public final static class On extends OnHelper<On> {
 
-            public Join() {
+            public On() {
                 super(TABLE_ALIAS);
             }
 
-            public Join(String tableAlias) {
+            public On(String tableAlias) {
                 super(tableAlias);
             }
 
@@ -236,21 +237,21 @@ public class SysUserDTO {
                 return DEFAULT_INSTANCE.getDefaultInstance();
             }
 
-            public OnSqlPartDatumBuilder<Join> sqlPart(String sqlPart) {
+            public OnSqlPartDatumBuilder<On> sqlPart(String sqlPart) {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, sqlPart);
             }
 
-            public OnSqlPartDatumBuilder<Join> primaryKey() {
+            public OnSqlPartDatumBuilder<On> primaryKey() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, PRIMARY_KEY_NAME, PRIMARY_KEY_ALIAS, PRIMARY_KEY_ALIAS);
             }
 
-                        public OnSqlPartDatumBuilder<Join> id() {
+                        public OnSqlPartDatumBuilder<On> id() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, ID, ID_ALIAS, ID_ALIAS);
             }
-                        public OnSqlPartDatumBuilder<Join> userName() {
+                        public OnSqlPartDatumBuilder<On> userName() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, USER_NAME, USER_NAME_ALIAS, USER_NAME_ALIAS);
             }
-                        public OnSqlPartDatumBuilder<Join> loginName() {
+                        public OnSqlPartDatumBuilder<On> loginName() {
                 return this.apply(TABLE_NAME, TABLE_ALIAS, LOGIN_NAME, LOGIN_NAME_ALIAS, LOGIN_NAME_ALIAS);
             }
                     }
@@ -494,7 +495,7 @@ public class SysUserDTO {
             }
                     }
 
-        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, Join, Column, Where, Group, Having, Sort> {
+        public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<Helper, On, Column, Where, Group, Having, Sort> {
             public Sql() {
                 super(TABLE_ALIAS);
             }
@@ -503,7 +504,7 @@ public class SysUserDTO {
             }
         }
 
-        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<Join> {
+        public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<On> {
             public SqlJoin() {
                 super(TABLE_ALIAS);
             }
