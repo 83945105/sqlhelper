@@ -1,7 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.callback.JoinCallback;
+import pub.avalon.sqlhelper.core.callback.OnCallback;
 import pub.avalon.sqlhelper.core.data.JoinTableDatum;
 import pub.avalon.sqlhelper.core.engine.JoinEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlJoinBean;
@@ -24,7 +24,7 @@ public abstract class SqlJoin<TO extends OnHelper<TO>> implements JoinEngine<Sql
     private String tableAlias;
 
     {
-        this.onHelper = HelperManager.findJoinHelperClassFromAncestorsGenericType(this);
+        this.onHelper = HelperManager.findOnHelperClassFromAncestorsGenericType(this);
     }
 
     public SqlJoin() {
@@ -45,8 +45,8 @@ public abstract class SqlJoin<TO extends OnHelper<TO>> implements JoinEngine<Sql
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlJoin<TO> join(JoinType joinType, String joinTableName, Class<S> joinTableHelperClass, String joinTableAlias, JoinCallback<TO, SO> joinCallback) {
-        this.sqlJoinBeans.add(new SqlJoinBean<>(this.onHelper, joinType, joinTableName, joinTableHelperClass, joinTableAlias, joinCallback));
+            SS extends SortHelper<SS>> SqlJoin<TO> join(JoinType joinType, String joinTableName, Class<S> joinTableHelperClass, String joinTableAlias, OnCallback<TO, SO> onCallback) {
+        this.sqlJoinBeans.add(new SqlJoinBean<>(this.onHelper, joinType, joinTableName, joinTableHelperClass, joinTableAlias, onCallback));
         return this;
     }
 

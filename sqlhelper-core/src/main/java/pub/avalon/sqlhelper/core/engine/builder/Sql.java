@@ -151,7 +151,7 @@ public abstract class Sql<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, JoinCallback<TO, SO> joinCallback) {
+            SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
         return this;
     }
 

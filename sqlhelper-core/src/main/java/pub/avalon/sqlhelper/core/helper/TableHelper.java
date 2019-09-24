@@ -63,7 +63,7 @@ public interface TableHelper<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
      * @param tableAlias table alias
      * @return extends {@link OnHelper} class object
      */
-    TO newJoinHelper(String tableAlias);
+    TO newOnHelper(String tableAlias);
 
     /**
      * create new extends {@link ColumnHelper} class object

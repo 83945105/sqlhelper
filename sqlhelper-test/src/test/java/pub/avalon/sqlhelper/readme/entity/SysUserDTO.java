@@ -192,7 +192,7 @@ public class SysUserDTO {
         }
 
         @Override
-        public Join newJoinHelper(String tableAlias) {
+        public Join newOnHelper(String tableAlias) {
             return join(tableAlias);
         }
 
