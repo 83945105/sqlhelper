@@ -54,6 +54,9 @@ public final class ExceptionUtils {
         throw new RuntimeException("tableAlias is null.");
     }
 
+    public static void inconsistentAliasException() {
+        throw new RuntimeException("inconsistent alias.");
+    }
 
 
 

@@ -27,4 +27,16 @@ public final class JoinTableDatum extends AbstractTableDatum {
     public void setTableOnDatum(TableOnDatum tableOnDatum) {
         this.tableOnDatum = tableOnDatum;
     }
+
+    public JoinTableDatum merge(JoinTableDatum joinTableDatum) {
+        if (joinTableDatum == null) {
+            return this;
+        }
+        if (this.tableOnDatum == null) {
+            this.setTableOnDatum(joinTableDatum.getTableOnDatum());
+            return this;
+        }
+        this.tableOnDatum.merge(joinTableDatum.getTableOnDatum());
+        return this;
+    }
 }

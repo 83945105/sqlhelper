@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,5 +28,25 @@ public final class TableOnDatum {
 
     public List<OnDataLinker> getOnDataLinkers() {
         return onDataLinkers;
+    }
+
+    public void merge(TableOnDatum tableOnDatum) {
+        if (tableOnDatum == null) {
+            return;
+        }
+        if (!this.getTableAlias().equals(tableOnDatum.getTableAlias())) {
+            ExceptionUtils.inconsistentAliasException();
+        }
+        this.addAllOnDataLinkers(tableOnDatum.getOnDataLinkers());
+    }
+
+    public void addAllOnDataLinkers(List<OnDataLinker> onDataLinkers) {
+        if (onDataLinkers == null || onDataLinkers.size() == 0) {
+            return;
+        }
+        if (this.onDataLinkers == null) {
+            this.onDataLinkers = new ArrayList<>(onDataLinkers.size());
+        }
+        this.onDataLinkers.addAll(onDataLinkers);
     }
 }
