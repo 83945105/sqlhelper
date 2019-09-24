@@ -1,10 +1,8 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
 import pub.avalon.sqlhelper.core.data.SqlDataProducer;
-import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.engine.WhereEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlWhereBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlWhereBean;
@@ -12,6 +10,7 @@ import pub.avalon.sqlhelper.core.engine.builder.beans.SqlWhereBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.WhereCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ public abstract class SqlWhere<TW extends WhereHelper<TW>> implements WhereEngin
     private String tableAlias;
 
     {
-        this.whereHelper = BeanUtils.getWhereHelper(this);
+        this.whereHelper = HelperManager.findWhereHelperClassFromAncestorsGenericType(this);
     }
 
     public SqlWhere() {

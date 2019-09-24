@@ -24,7 +24,7 @@ public abstract class SqlJoin<TJ extends JoinHelper<TJ>> implements JoinEngine<S
     private String tableAlias;
 
     {
-        this.joinHelper = HelperManager.findExpectAncestorsJoinHelperClassGenricType(this);
+        this.joinHelper = HelperManager.findJoinHelperClassFromAncestorsGenericType(this);
     }
 
     public SqlJoin() {

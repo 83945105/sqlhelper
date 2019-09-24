@@ -26,7 +26,7 @@ public abstract class SqlColumn<TC extends ColumnHelper<TC>> implements ColumnEn
     private String tableAlias;
 
     {
-        this.columnHelper = HelperManager.findExpectAncestorsColumnHelperClassGenricType(this);
+        this.columnHelper = HelperManager.findColumnHelperClassFromAncestorsGenericType(this);
     }
 
     public SqlColumn() {

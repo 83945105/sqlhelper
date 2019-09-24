@@ -1,9 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
-import pub.avalon.sqlhelper.core.beans.BeanUtils;
 import pub.avalon.sqlhelper.core.callback.SortCallback;
 import pub.avalon.sqlhelper.core.data.SqlDataProducer;
-import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.engine.SortEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlSortBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlSortBean;
@@ -11,6 +9,7 @@ import pub.avalon.sqlhelper.core.engine.builder.beans.SqlSortBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.SortCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class SqlSort<TS extends SortHelper<TS>> implements SortEngine<SqlSort<TS
     private String tableAlias;
 
     {
-        this.sortHelper = BeanUtils.getSortHelper(this);
+        this.sortHelper = HelperManager.findSortHelperClassFromAncestorsGenericType(this);
     }
 
     public SqlSort() {
