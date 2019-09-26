@@ -4,8 +4,9 @@ import pub.avalon.sqlhelper.core.beans.OnAndOr;
 import pub.avalon.sqlhelper.core.beans.OnLinker;
 import pub.avalon.sqlhelper.core.data.OnDataLinker;
 import pub.avalon.sqlhelper.core.data.TableOnDatum;
-import pub.avalon.sqlhelper.core.helper.OnHelper;
+import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.List;
 
@@ -16,6 +17,27 @@ import java.util.List;
 public interface OnCallback<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
 
     OnLinker<TO, SO> apply(OnLinker<TO, SO> on, SO joinTable, TO mainTable);
+
+    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
+            FO extends OnHelper<FO>,
+            FC extends ColumnHelper<FC>,
+            FW extends WhereHelper<FW>,
+            FG extends GroupHelper<FG>,
+            FH extends HavingHelper<FH>,
+            FS extends SortHelper<FS>,
+            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
+            EO extends OnHelper<EO>,
+            EC extends ColumnHelper<EC>,
+            EW extends WhereHelper<EW>,
+            EG extends GroupHelper<EG>,
+            EH extends HavingHelper<EH>,
+            ES extends SortHelper<ES>> TableOnDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, OnCallback<FO, EO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
+        F f = HelperManager.newTableHelper(mainTableHelperClass);
+        FO fo = f.newOnHelper(mainTableAlias);
+        E e = HelperManager.newTableHelper(joinTableHelperClass);
+        EO eo = e.newOnHelper(joinTableAlias);
+        return execute(fo, eo, onCallback, sqlBuilderOptions);
+    }
 
     static <FO extends OnHelper<FO>,
             EO extends OnHelper<EO>> TableOnDatum execute(FO mainOnHelper, EO joinOnHelper, OnCallback<FO, EO> onCallback, SqlBuilderOptions sqlBuilderOptions) {

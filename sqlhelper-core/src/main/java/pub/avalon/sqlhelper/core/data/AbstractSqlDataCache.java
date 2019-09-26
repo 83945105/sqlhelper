@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.data;
 
 import pub.avalon.beans.DataBaseType;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
 import java.util.LinkedHashMap;
 
@@ -66,5 +67,17 @@ public abstract class AbstractSqlDataCache implements SqlData {
             return;
         }
         cache.merge(joinTableDatum);
+    }
+
+    @Override
+    public void addTableOnDatum(TableOnDatum tableOnDatum) {
+        if (tableOnDatum == null) {
+            return;
+        }
+        JoinTableDatum joinTableDatum = this.aliasJoinTableData.get(tableOnDatum.getTableAlias());
+        if (joinTableDatum == null) {
+            ExceptionUtils.notJoinException(tableOnDatum.getTableAlias());
+        }
+        joinTableDatum.appendTableOnDatum(tableOnDatum);
     }
 }

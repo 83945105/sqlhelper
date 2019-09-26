@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
+import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.engine.AbstractEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -155,6 +156,7 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TO, TC, TW
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> on(Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
+        this.addTableOnDatum(OnCallback.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, onCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -211,5 +213,4 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TO, TC, TW
         this.addTableSortDatum(SortCallbackEngine.execute(tableHelperClass, tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;
     }
-
 }

@@ -278,6 +278,11 @@ public abstract class AbstractEngine<T extends TableHelper<T, TO, TC, TW, TG, TH
     }
 
     @Override
+    public void addTableOnDatum(TableOnDatum tableOnDatum) {
+        this.sqlData.addTableOnDatum(tableOnDatum);
+    }
+
+    @Override
     public void addSelectTableColumnDatum(TableColumnDatum tableColumnDatum) {
         this.sqlData.addSelectTableColumnDatum(tableColumnDatum);
     }

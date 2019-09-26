@@ -58,6 +58,11 @@ public final class ExceptionUtils {
         throw new RuntimeException("inconsistent alias.");
     }
 
+    public static void notJoinException(String alias) {
+        throw new RuntimeException("Can not find Alias " + alias + " join class.");
+    }
+
+
 
 
     public static void comparisonRuleNotSupportException() {

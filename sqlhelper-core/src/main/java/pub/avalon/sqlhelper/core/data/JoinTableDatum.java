@@ -28,15 +28,22 @@ public final class JoinTableDatum extends AbstractTableDatum {
         this.tableOnDatum = tableOnDatum;
     }
 
+    public JoinTableDatum appendTableOnDatum(TableOnDatum tableOnDatum) {
+        if (tableOnDatum == null) {
+            return this;
+        }
+        if (this.tableOnDatum == null) {
+            this.setTableOnDatum(tableOnDatum);
+            return this;
+        }
+        this.tableOnDatum.merge(tableOnDatum);
+        return this;
+    }
+
     public JoinTableDatum merge(JoinTableDatum joinTableDatum) {
         if (joinTableDatum == null) {
             return this;
         }
-        if (this.tableOnDatum == null) {
-            this.setTableOnDatum(joinTableDatum.getTableOnDatum());
-            return this;
-        }
-        this.tableOnDatum.merge(joinTableDatum.getTableOnDatum());
-        return this;
+        return appendTableOnDatum(joinTableDatum.getTableOnDatum());
     }
 }
