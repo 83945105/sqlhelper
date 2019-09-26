@@ -25,8 +25,8 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>,
-            E extends TableHelper<E, EJ, EC, EW, EG, EH, ES>,
-            EJ extends OnHelper<EJ>,
+            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
+            EO extends OnHelper<EO>,
             EC extends ColumnHelper<EC>,
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,
@@ -41,8 +41,8 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
     }
 
     static <FW extends WhereHelper<FW>,
-            E extends TableHelper<E, EJ, EC, EW, EG, EH, ES>,
-            EJ extends OnHelper<EJ>,
+            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
+            EO extends OnHelper<EO>,
             EC extends ColumnHelper<EC>,
             EW extends WhereHelper<EW>,
             EG extends GroupHelper<EG>,

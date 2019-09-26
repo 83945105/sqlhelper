@@ -14,6 +14,7 @@ public interface JdbcCallbackEngine<TO extends OnHelper<TO>,
         R> extends
         ColumnCallbackEngine<TC, R>,
         JoinCallbackEngine<TO, R>,
+        OnCallbackEngine<TO, R>,
         WhereCallbackEngine<TW, R>,
         GroupCallbackEngine<TG, R>,
         HavingCallbackEngine<TH, R>,
