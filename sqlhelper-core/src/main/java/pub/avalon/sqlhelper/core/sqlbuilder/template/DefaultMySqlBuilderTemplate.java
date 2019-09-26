@@ -73,14 +73,14 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         List<ColumnDatum> columnData;
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getInsertTableColumnData();
         if (tableColumnData == null || tableColumnData.size() == 0) {
-            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
+            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass(), sqlDataConsumer.getMainTableDatum().getTableAlias());
         }
         if (tableColumnData.size() > 1) {
             ExceptionUtils.multiTableColumnException();
         }
         columnData = tableColumnData.iterator().next().getColumnData();
         if (columnData == null || columnData.size() == 0) {
-            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
+            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass(), sqlDataConsumer.getMainTableDatum().getTableAlias());
         }
         return columnData;
     }
@@ -89,14 +89,14 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         List<ColumnDatum> columnData;
         List<TableColumnDatum> tableColumnData = sqlDataConsumer.getUpdateTableColumnData();
         if (tableColumnData == null || tableColumnData.size() == 0) {
-            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
+            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass(), sqlDataConsumer.getMainTableDatum().getTableAlias());
         }
         if (tableColumnData.size() > 1) {
             ExceptionUtils.multiTableColumnException();
         }
         columnData = tableColumnData.iterator().next().getColumnData();
         if (columnData == null || columnData.size() == 0) {
-            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass());
+            return HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass(), sqlDataConsumer.getMainTableDatum().getTableAlias());
         }
         return columnData;
     }

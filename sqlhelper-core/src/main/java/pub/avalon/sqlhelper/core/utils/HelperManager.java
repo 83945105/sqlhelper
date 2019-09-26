@@ -11,29 +11,26 @@ import pub.avalon.sqlhelper.core.engine.builder.*;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.spi.cache.Cache;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author baichao
  */
 public class HelperManager {
 
-    private final static String DEFAULT_TABLE_HELPER_CACHE_NAME = "DEFAULT_TABLE_HELPER_CACHE_NAME";
-    private final static String DEFAULT_COLUMN_DATA_CACHE_NAME = "DEFAULT_COLUMN_DATA_CACHE_NAME";
+    private final static String DEFAULT_TABLE_HELPER_CACHE_NAME = "DEFAULT_TABLE_HELPER_CACHE";
+    private final static String DEFAULT_COLUMN_DATA_CACHE_NAME = "DEFAULT_COLUMN_DATA_CACHE";
 
     private final static Cache<Class, TableHelper> DEFAULT_TABLE_HELPER_CACHE;
 
-    private final static Cache<Class, ColumnDatumList> DEFAULT_COLUMN_DATA_CACHE;
+    private final static Cache<Class, ColumnDataCache> DEFAULT_COLUMN_DATA_CACHE;
 
     static {
         CacheManager cacheManager = CacheManagerBuilder.newCacheManagerBuilder().build();
         DEFAULT_TABLE_HELPER_CACHE = cacheManager
                 .createCache(DEFAULT_TABLE_HELPER_CACHE_NAME, CacheConfigurationBuilder.newCacheConfigurationBuilder(Class.class, TableHelper.class));
         DEFAULT_COLUMN_DATA_CACHE = cacheManager
-                .createCache(DEFAULT_COLUMN_DATA_CACHE_NAME, CacheConfigurationBuilder.newCacheConfigurationBuilder(Class.class, ColumnDatumList.class));
+                .createCache(DEFAULT_COLUMN_DATA_CACHE_NAME, CacheConfigurationBuilder.newCacheConfigurationBuilder(Class.class, ColumnDataCache.class));
     }
 
     private HelperManager() {
@@ -55,8 +52,12 @@ public class HelperManager {
     }
 
     @SuppressWarnings("unchecked")
-    public static List<ColumnDatum> defaultColumnData(Class<?> clazz) {
-        List<ColumnDatum> columnData = DEFAULT_COLUMN_DATA_CACHE.get(clazz);
+    public static List<ColumnDatum> defaultColumnData(Class<?> clazz, String tableAlias) {
+        ColumnDataCache columnDataCache = DEFAULT_COLUMN_DATA_CACHE.get(clazz);
+        if (columnDataCache == null) {
+            columnDataCache = new ColumnDataCache();
+        }
+        ColumnDatumList columnData = columnDataCache.get(tableAlias);
         if (columnData == null) {
             Set<TableColumn> tableColumns = defaultTableHelper(clazz).getTableColumns();
             if (tableColumns == null) {
@@ -64,14 +65,17 @@ public class HelperManager {
             }
             columnData = new ColumnDatumList(tableColumns.size());
             for (TableColumn tableColumn : tableColumns) {
-                columnData.add(new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias(), tableColumn.getAlias()));
+                ColumnDatum columnDatum = new ColumnDatum(tableColumn.getTableName(), tableColumn.getTableAlias(), tableColumn.getName(), tableColumn.getAlias(), tableColumn.getAlias());
+                columnDatum.setTableAlias(tableAlias);
+                columnData.add(columnDatum);
             }
+            columnDataCache.put(tableAlias, columnData);
         }
         return columnData;
     }
 
     public static List<ColumnDatum> defaultColumnData(ColumnHelper columnHelper) {
-        return defaultColumnData(columnHelper.getDefaultTableHelper().getClass());
+        return defaultColumnData(columnHelper.getDefaultTableHelper().getClass(), columnHelper.getTableAlias());
     }
 
     @SuppressWarnings("unchecked")
@@ -107,6 +111,78 @@ public class HelperManager {
     private final static class ColumnDatumList extends ArrayList<ColumnDatum> {
         private ColumnDatumList(int initialCapacity) {
             super(initialCapacity);
+        }
+    }
+
+    private final static class ColumnDataCache implements Cache<String, ColumnDatumList> {
+
+        private final static String COLUMN_DATA_CACHE_NAME = "COLUMN_DATA_CACHE";
+
+        private final Cache<String, ColumnDatumList> columnDataCache;
+
+        public ColumnDataCache() {
+            columnDataCache = CacheManagerBuilder.newCacheManagerBuilder().build()
+                    .createCache(COLUMN_DATA_CACHE_NAME, CacheConfigurationBuilder.newCacheConfigurationBuilder(String.class, ColumnDatumList.class));
+        }
+
+        @Override
+        public ColumnDatumList get(String key) {
+            return columnDataCache.get(key);
+        }
+
+        @Override
+        public void put(String key, ColumnDatumList value) {
+            columnDataCache.put(key, value);
+        }
+
+        @Override
+        public boolean containsKey(String key) {
+            return columnDataCache.containsKey(key);
+        }
+
+        @Override
+        public void remove(String key) {
+            columnDataCache.remove(key);
+        }
+
+        @Override
+        public Map<String, ColumnDatumList> getAll(Set<? extends String> keys) {
+            return columnDataCache.getAll(keys);
+        }
+
+        @Override
+        public void putAll(Map<? extends String, ? extends ColumnDatumList> entries) {
+            columnDataCache.putAll(entries);
+        }
+
+        @Override
+        public void removeAll(Set<? extends String> keys) {
+            columnDataCache.removeAll(keys);
+        }
+
+        @Override
+        public void clear() {
+            columnDataCache.clear();
+        }
+
+        @Override
+        public ColumnDatumList putIfAbsent(String key, ColumnDatumList value) {
+            return columnDataCache.putIfAbsent(key, value);
+        }
+
+        @Override
+        public boolean remove(String key, ColumnDatumList value) {
+            return columnDataCache.remove(key, value);
+        }
+
+        @Override
+        public ColumnDatumList replace(String key, ColumnDatumList value) {
+            return columnDataCache.replace(key, value);
+        }
+
+        @Override
+        public boolean replace(String key, ColumnDatumList oldValue, ColumnDatumList newValue) {
+            return columnDataCache.replace(key, oldValue, newValue);
         }
     }
 }

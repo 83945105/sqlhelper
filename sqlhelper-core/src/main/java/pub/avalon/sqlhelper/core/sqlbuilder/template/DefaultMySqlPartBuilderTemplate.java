@@ -34,13 +34,13 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                 ExceptionUtils.selectColumnNullException();
             }
             if (selectAllColumnForMainTable) {
-                this.appendColumnSqlArgs(sql, args, HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass()));
+                this.appendColumnSqlArgs(sql, args, HelperManager.defaultColumnData(sqlDataConsumer.getMainTableDatum().getTableHelperClass(), sqlDataConsumer.getMainTableDatum().getTableAlias()));
             }
             if (selectAllColumnForJoinTable) {
                 LinkedHashMap<String, JoinTableDatum> aliasJoinTableData = sqlDataConsumer.getAliasJoinTableData();
                 if (aliasJoinTableData != null && aliasJoinTableData.size() > 0) {
                     for (Map.Entry<String, JoinTableDatum> entry : aliasJoinTableData.entrySet()) {
-                        this.appendColumnSqlArgs(sql, args, HelperManager.defaultColumnData(entry.getValue().getTableHelperClass()));
+                        this.appendColumnSqlArgs(sql, args, HelperManager.defaultColumnData(entry.getValue().getTableHelperClass(), entry.getKey()));
                     }
                 }
             }

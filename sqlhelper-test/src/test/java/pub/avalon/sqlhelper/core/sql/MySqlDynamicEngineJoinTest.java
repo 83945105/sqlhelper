@@ -46,13 +46,14 @@ public class MySqlDynamicEngineJoinTest {
     /**
      * 测试join - 指定表名 & 指定表别名
      */
-//    @Test
+    @Test
     void Test_join_assignTableName_assignTableAlias() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class, "A")
+                .column(table -> table)
                 .join(JoinType.INNER, "user_role_custom", UserRoleDTO.Helper.class, "B", (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .query();
-        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertEquals("select A.`id` `id`,A.`user_name` `userName`,A.`login_name` `loginName` from `sys_user_custom` A inner join `user_role_custom` B on B.`user_id` = A.`id`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 }
