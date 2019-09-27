@@ -157,7 +157,7 @@ public abstract class Sql<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
 
     @Override
     public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>, SO extends OnHelper<SO>, SC extends ColumnHelper<SC>, SW extends WhereHelper<SW>, SG extends GroupHelper<SG>, SH extends HavingHelper<SH>, SS extends SortHelper<SS>> Sql<T, TO, TC, TW, TG, TH, TS> on(Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
-        return null;
+        return this;
     }
 
     @Override

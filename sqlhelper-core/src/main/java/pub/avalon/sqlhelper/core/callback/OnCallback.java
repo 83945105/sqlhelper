@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.data.OnDataLinker;
 import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 import java.util.List;
@@ -32,10 +33,16 @@ public interface OnCallback<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
             EG extends GroupHelper<EG>,
             EH extends HavingHelper<EH>,
             ES extends SortHelper<ES>> TableOnDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, OnCallback<FO, EO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (mainTableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
+        if (joinTableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
         F f = HelperManager.newTableHelper(mainTableHelperClass);
-        FO fo = f.newOnHelper(mainTableAlias);
+        FO fo = f.newOnHelper(mainTableAlias == null ? f.getTableAlias() : mainTableAlias);
         E e = HelperManager.newTableHelper(joinTableHelperClass);
-        EO eo = e.newOnHelper(joinTableAlias);
+        EO eo = e.newOnHelper(joinTableAlias == null ? e.getTableAlias() : joinTableAlias);
         return execute(fo, eo, onCallback, sqlBuilderOptions);
     }
 

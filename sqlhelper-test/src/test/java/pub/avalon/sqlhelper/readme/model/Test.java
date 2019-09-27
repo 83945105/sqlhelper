@@ -50,7 +50,6 @@ public class Test {
 
                 .sqlJoin(new SqlJoin<SysUserDTO.Helper.On>() {{
 
-
                 }})
 
                 .column(table -> table.id().sqlPart("").resourceId())

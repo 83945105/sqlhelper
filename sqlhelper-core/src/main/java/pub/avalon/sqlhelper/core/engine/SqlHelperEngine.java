@@ -223,6 +223,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, 
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> on(Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
+        this.addTableOnDatum(OnCallback.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, onCallback, this.sqlBuilderOptions));
         return this;
     }
 
