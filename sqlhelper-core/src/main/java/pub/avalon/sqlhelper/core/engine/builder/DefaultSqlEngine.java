@@ -51,6 +51,12 @@ public final class DefaultSqlEngine<T extends TableHelper<T, TO, TC, TW, TG, TH,
     }
 
     @Override
+    public <FO extends OnHelper<FO>> DefaultSqlEngine sqlOn(SqlOn<FO> sqlOn) {
+        SqlOn.execute(sqlOn, this.sqlBuilderOptions, () -> this);
+        return this;
+    }
+
+    @Override
     public <FC extends ColumnHelper<FC>> DefaultSqlEngine sqlColumn(SqlColumn<FC> sqlColumn) {
         SqlColumn.execute(sqlColumn, this.sqlBuilderOptions, () -> this);
         return this;

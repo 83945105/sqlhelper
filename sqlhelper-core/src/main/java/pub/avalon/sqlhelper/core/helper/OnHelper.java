@@ -1,10 +1,16 @@
 package pub.avalon.sqlhelper.core.helper;
 
+import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.data.OnDataLinker;
 import pub.avalon.sqlhelper.core.data.OnDatum;
+import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author baichao
@@ -40,5 +46,25 @@ public abstract class OnHelper<T extends OnHelper<T>> extends Helper {
 
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.onSqlPartDatumBuilder.setSqlBuilderOptions(sqlBuilderOptions);
+    }
+
+    public TableOnDatum execute() {
+        return execute(this);
+    }
+
+    public static TableOnDatum execute(OnHelper<?> onHelper) {
+        List<OnDatum> onData = onHelper.takeoutSqlPartData();
+        if (onData == null || onData.size() == 0) {
+            return null;
+        }
+        return new TableOnDatum(onHelper.getTableAlias(),
+                Collections.singletonList(new OnDataLinker(LinkType.AND).setOnData(onData)));
+    }
+
+    public static List<TableOnDatum> execute(OnHelper<?>... onHelpers) {
+        if (onHelpers == null || onHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(onHelpers).map(onHelper -> OnHelper.execute(onHelper)).collect(Collectors.toList());
     }
 }

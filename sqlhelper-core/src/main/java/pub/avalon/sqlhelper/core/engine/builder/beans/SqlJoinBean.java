@@ -40,9 +40,6 @@ public final class SqlJoinBean<TO extends OnHelper<TO>,
 
     @Override
     public JoinTableDatum execute(SqlBuilderOptions sqlBuilderOptions) {
-        if (this.onCallback != null) {
-            return JoinCallbackEngine.execute(this.joinType, this.mainOnHelper, this.joinTableName, this.joinTableHelperClass, this.tableAlias, this.onCallback, sqlBuilderOptions);
-        }
-        return new JoinTableDatum(this.joinType, this.joinTableHelperClass, this.joinTableName, this.tableAlias);
+        return JoinCallbackEngine.execute(this.joinType, this.mainOnHelper, this.joinTableName, this.joinTableHelperClass, this.tableAlias, this.onCallback, sqlBuilderOptions);
     }
 }

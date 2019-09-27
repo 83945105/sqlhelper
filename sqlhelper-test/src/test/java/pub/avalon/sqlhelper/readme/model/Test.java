@@ -6,6 +6,7 @@ import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.engine.SqlHelperEngine;
 import pub.avalon.sqlhelper.core.engine.builder.SqlColumn;
 import pub.avalon.sqlhelper.core.engine.builder.SqlJoin;
+import pub.avalon.sqlhelper.core.engine.builder.SqlOn;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.factory.SqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
@@ -49,6 +50,11 @@ public class Test {
                 }})
 
                 .sqlJoin(new SqlJoin<SysUserDTO.Helper.On>() {{
+
+                }})
+
+                .sqlOn(new SqlOn<SysUserDTO.Helper.On>() {{
+
 
                 }})
 

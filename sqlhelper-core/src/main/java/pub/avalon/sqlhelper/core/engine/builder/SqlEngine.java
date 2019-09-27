@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
 import pub.avalon.sqlhelper.core.engine.AbstractEngine;
+import pub.avalon.sqlhelper.core.engine.builder.beans.SqlOnBean;
 import pub.avalon.sqlhelper.core.helper.*;
 
 /**
@@ -16,6 +17,15 @@ public interface SqlEngine<R> {
      * @return extends {@link AbstractEngine} object
      */
     <FO extends OnHelper<FO>> R sqlJoin(SqlJoin<FO> sqlJoin);
+
+    /**
+     * add on sql data
+     *
+     * @param sqlOn extends {@link SqlOn} object
+     * @param <FO>  extends {@link OnHelper} object
+     * @return extends {@link AbstractEngine} object
+     */
+    <FO extends OnHelper<FO>> R sqlOn(SqlOn<FO> sqlOn);
 
     /**
      * add column sql data

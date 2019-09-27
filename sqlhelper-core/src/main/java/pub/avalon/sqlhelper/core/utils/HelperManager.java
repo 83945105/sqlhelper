@@ -84,6 +84,11 @@ public class HelperManager {
     }
 
     @SuppressWarnings("unchecked")
+    public static <T extends OnHelper<T>> T findOnHelperClassFromAncestorsGenericType(SqlOn<T> sqlOn) {
+        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlOn.getClass(), OnHelper.class));
+    }
+
+    @SuppressWarnings("unchecked")
     public static <T extends ColumnHelper<T>> T findColumnHelperClassFromAncestorsGenericType(SqlColumn<T> sqlColumn) {
         return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlColumn.getClass(), ColumnHelper.class));
     }

@@ -36,7 +36,7 @@ public interface WhereJoinCallback<TW extends WhereHelper<TW>, SW extends WhereH
             ExceptionUtils.tableHelperClassNullException();
         }
         F f = HelperManager.defaultTableHelper(mainTableHelperClass);
-        FW fw = f.newWhereHelper(mainTableAlias);
+        FW fw = f.newWhereHelper(mainTableAlias == null ? f.getTableAlias() : mainTableAlias);
         return execute(fw, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
     }
 

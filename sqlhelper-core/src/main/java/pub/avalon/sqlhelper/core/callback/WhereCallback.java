@@ -30,7 +30,7 @@ public interface WhereCallback<TW extends WhereHelper<TW>> {
             ExceptionUtils.tableHelperClassNullException();
         }
         T t = HelperManager.defaultTableHelper(tableHelperClass);
-        TW tw = t.newWhereHelper(tableAlias);
+        TW tw = t.newWhereHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
         return execute(tw, whereCallback, sqlBuilderOptions);
     }
 

@@ -28,8 +28,7 @@ public interface SortCallback<T extends SortHelper<T>> {
             ExceptionUtils.tableHelperClassNullException();
         }
         F f = HelperManager.defaultTableHelper(tableHelperClass);
-        tableAlias = tableAlias == null ? f.getTableAlias() : tableAlias;
-        FS fs = f.newSortHelper(tableAlias);
+        FS fs = f.newSortHelper(tableAlias == null ? f.getTableAlias() : tableAlias);
         return execute(fs, sortCallback, sqlBuilderOptions);
     }
 

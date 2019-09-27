@@ -60,6 +60,12 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, 
     }
 
     @Override
+    public <FO extends OnHelper<FO>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> sqlOn(SqlOn<FO> sqlOn) {
+        SqlOn.execute(sqlOn, this.sqlBuilderOptions, () -> this);
+        return this;
+    }
+
+    @Override
     public <FC extends ColumnHelper<FC>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> sqlColumn(SqlColumn<FC> sqlColumn) {
         SqlColumn.execute(sqlColumn, this.sqlBuilderOptions, () -> this);
         return this;

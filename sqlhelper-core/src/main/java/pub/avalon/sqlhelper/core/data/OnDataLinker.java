@@ -27,15 +27,17 @@ public final class OnDataLinker {
         return onData;
     }
 
-    public void setOnData(List<OnDatum> onData) {
+    public OnDataLinker setOnData(List<OnDatum> onData) {
         this.onData = onData;
+        return this;
     }
 
     public List<OnDataLinker> getOnDataLinkers() {
         return onDataLinkers;
     }
 
-    public void setOnDataLinkers(List<OnDataLinker> onDataLinkers) {
+    public OnDataLinker setOnDataLinkers(List<OnDataLinker> onDataLinkers) {
         this.onDataLinkers = onDataLinkers;
+        return this;
     }
 }
