@@ -394,10 +394,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPa
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -415,10 +415,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPa
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -436,10 +436,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPa
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -457,10 +457,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPa
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -478,10 +478,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPa
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
@@ -499,10 +499,10 @@ public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPa
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> callback) {
+            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = callback.apply(sc).takeoutSqlPartData();
+        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }

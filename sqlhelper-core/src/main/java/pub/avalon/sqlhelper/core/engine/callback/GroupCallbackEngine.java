@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.callback;
 
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -59,6 +60,6 @@ public interface GroupCallbackEngine<TG extends GroupHelper<TG>, R> extends Engi
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>> TableGroupDatum execute(Class<F> tableHelperClass, String tableAlias, GroupCallback<FG> callback, SqlBuilderOptions sqlBuilderOptions) {
-        return GroupCallback.execute(tableHelperClass, tableAlias, callback, sqlBuilderOptions);
+        return CallbackExecutor.execute(tableHelperClass, tableAlias, callback, sqlBuilderOptions);
     }
 }

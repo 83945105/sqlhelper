@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder.beans;
 
 import pub.avalon.sqlhelper.core.callback.OnCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.helper.OnHelper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -46,7 +47,7 @@ public class SqlOnBean<TO extends OnHelper<TO>, SO extends OnHelper<SO>> extends
             }
         }
         if (this.onCallback != null) {
-            tableOnData.add(OnCallback.execute(this.mainOnHelper, this.joinOnHelper, this.onCallback, sqlBuilderOptions));
+            tableOnData.add(CallbackExecutor.execute(this.mainOnHelper, this.joinOnHelper, this.onCallback, sqlBuilderOptions));
         }
         return tableOnData;
     }

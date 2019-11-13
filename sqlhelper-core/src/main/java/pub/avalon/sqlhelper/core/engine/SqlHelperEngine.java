@@ -5,6 +5,7 @@ import pub.avalon.beans.LimitSql;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.*;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.LimitDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.engine.builder.*;
@@ -229,7 +230,7 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, 
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> on(Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
-        this.addTableOnDatum(OnCallback.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, onCallback, this.sqlBuilderOptions));
+        this.addTableOnDatum(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, onCallback, this.sqlBuilderOptions));
         return this;
     }
 

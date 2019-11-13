@@ -134,6 +134,7 @@ public class Test {
 
                         })))
                 .where((condition, mainTable) -> condition.and(where))
+                .where(where)
                 .groupBy(table -> table.id().id())
                 .groupBy(SysUserDTO.Helper.class, table -> table.userName().userName())
                 .groupBy(table -> group)

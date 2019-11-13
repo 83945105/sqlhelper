@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder.beans;
 
 import pub.avalon.sqlhelper.core.callback.SortCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -31,6 +32,6 @@ public final class SqlSortBeanJoin<T extends TableHelper<T, TO, TC, TW, TG, TH, 
 
     @Override
     public List<TableSortDatum> execute(SqlBuilderOptions sqlBuilderOptions) {
-        return Collections.singletonList(SortCallback.execute(this.tableHelperClass, this.tableAlias, this.sortCallback, sqlBuilderOptions));
+        return Collections.singletonList(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, this.sortCallback, sqlBuilderOptions));
     }
 }

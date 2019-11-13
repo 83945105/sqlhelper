@@ -42,6 +42,10 @@ public final class ExceptionUtils {
         throw new RuntimeException("groupHelper is null.");
     }
 
+    public static void onHelperNullException() {
+        throw new RuntimeException("onHelper is null.");
+    }
+
     public static void sortHelperNullException() {
         throw new RuntimeException("sortHelper is null.");
     }
@@ -61,8 +65,6 @@ public final class ExceptionUtils {
     public static void notJoinException(String alias) {
         throw new RuntimeException("Can not find Alias " + alias + " join class.");
     }
-
-
 
 
     public static void comparisonRuleNotSupportException() {

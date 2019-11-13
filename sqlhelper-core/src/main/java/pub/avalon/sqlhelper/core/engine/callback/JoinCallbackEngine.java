@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.engine.callback;
 
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.OnCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.JoinTableDatum;
 import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.engine.Engine;
@@ -621,7 +622,7 @@ public interface JoinCallbackEngine<TO extends OnHelper<TO>, R> extends Engine {
         if (onCallback == null) {
             return joinTableDatum;
         }
-        TableOnDatum tableOnDatum = OnCallback.execute(mainOnHelper, ej, onCallback, sqlBuilderOptions);
+        TableOnDatum tableOnDatum = CallbackExecutor.execute(mainOnHelper, ej, onCallback, sqlBuilderOptions);
         if (tableOnDatum == null) {
             return joinTableDatum;
         }

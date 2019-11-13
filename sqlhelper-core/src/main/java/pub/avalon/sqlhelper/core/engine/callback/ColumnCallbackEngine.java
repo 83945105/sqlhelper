@@ -3,6 +3,7 @@ package pub.avalon.sqlhelper.core.engine.callback;
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
 import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.ColumnDatum;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.engine.Engine;
@@ -178,7 +179,7 @@ public interface ColumnCallbackEngine<TC extends ColumnHelper<TC>, R> extends En
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>> TableColumnDatum executeColumn(Class<F> tableHelperClass, String tableAlias, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return ColumnCallback.execute(tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
+        return CallbackExecutor.execute(tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
     }
 
     static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,

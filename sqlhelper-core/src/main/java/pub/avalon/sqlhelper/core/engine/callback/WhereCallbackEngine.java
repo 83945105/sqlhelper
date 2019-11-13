@@ -2,6 +2,7 @@ package pub.avalon.sqlhelper.core.engine.callback;
 
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
 import pub.avalon.sqlhelper.core.callback.WhereJoinCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -60,7 +61,7 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
             FG extends GroupHelper<FG>,
             FH extends HavingHelper<FH>,
             FS extends SortHelper<FS>> TableWhereDatum execute(Class<F> tableHelperClass, String tableAlias, WhereCallback<FW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return WhereCallback.execute(tableHelperClass, tableAlias, whereCallback, sqlBuilderOptions);
+        return CallbackExecutor.execute(tableHelperClass, tableAlias, whereCallback, sqlBuilderOptions);
     }
 
     static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
@@ -77,6 +78,6 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
             EG extends GroupHelper<EG>,
             EH extends HavingHelper<EH>,
             ES extends SortHelper<ES>> TableWhereDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<FW, EW> whereJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return WhereJoinCallback.execute(mainTableHelperClass, mainTableAlias, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
+        return CallbackExecutor.execute(mainTableHelperClass, mainTableAlias, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
     }
 }

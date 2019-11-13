@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder.beans;
 
 import pub.avalon.sqlhelper.core.callback.ColumnCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.TableColumnDatum;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -43,7 +44,7 @@ public final class SqlColumnBean<TC extends ColumnHelper<TC>> extends AbstractSq
             }
         }
         if (this.columnCallback != null) {
-            tableColumnData.add(ColumnCallback.execute(this.columnHelper, this.columnCallback, sqlBuilderOptions));
+            tableColumnData.add(CallbackExecutor.execute(this.columnHelper, this.columnCallback, sqlBuilderOptions));
         }
         return tableColumnData;
     }

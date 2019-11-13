@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder.beans;
 
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.helper.GroupHelper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -43,7 +44,7 @@ public final class SqlGroupBean<TG extends GroupHelper<TG>> extends AbstractSqlG
             }
         }
         if (this.groupCallback != null) {
-            tableGroupData.add(GroupCallback.execute(this.groupHelper, this.groupCallback, sqlBuilderOptions));
+            tableGroupData.add(CallbackExecutor.execute(this.groupHelper, this.groupCallback, sqlBuilderOptions));
         }
         return tableGroupData;
     }

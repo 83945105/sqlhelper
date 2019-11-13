@@ -1,13 +1,6 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.data.ColumnDatum;
-import pub.avalon.sqlhelper.core.data.TableColumnDatum;
-import pub.avalon.sqlhelper.core.helper.*;
-import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
-import pub.avalon.sqlhelper.core.utils.HelperManager;
-
-import java.util.List;
+import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 
 /**
  * @author baichao
@@ -16,35 +9,4 @@ import java.util.List;
 public interface ColumnCallback<TC extends ColumnHelper<TC>> {
 
     TC apply(TC table);
-
-    static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
-            TO extends OnHelper<TO>,
-            TC extends ColumnHelper<TC>,
-            TW extends WhereHelper<TW>,
-            TG extends GroupHelper<TG>,
-            TH extends HavingHelper<TH>,
-            TS extends SortHelper<TS>> TableColumnDatum execute(Class<T> tableHelperClass, String tableAlias, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (tableHelperClass == null) {
-            ExceptionUtils.tableHelperClassNullException();
-        }
-        T t = HelperManager.defaultTableHelper(tableHelperClass);
-        TC tc = t.newColumnHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
-        return execute(tc, columnCallback, sqlBuilderOptions);
-    }
-
-    static <TC extends ColumnHelper<TC>> TableColumnDatum execute(TC columnHelper, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (columnHelper == null) {
-            ExceptionUtils.columnHelperNullException();
-        }
-        if (columnCallback == null) {
-            return null;
-        }
-        columnHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        columnHelper = columnCallback.apply(columnHelper);
-        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            columnData = HelperManager.defaultColumnData(columnHelper);
-        }
-        return new TableColumnDatum(columnHelper.getTableAlias(), columnData);
-    }
 }

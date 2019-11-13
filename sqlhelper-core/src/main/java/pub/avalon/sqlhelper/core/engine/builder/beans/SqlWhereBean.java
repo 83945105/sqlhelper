@@ -1,6 +1,7 @@
 package pub.avalon.sqlhelper.core.engine.builder.beans;
 
 import pub.avalon.sqlhelper.core.callback.WhereCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.TableWhereDatum;
 import pub.avalon.sqlhelper.core.helper.WhereHelper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -43,7 +44,7 @@ public final class SqlWhereBean<TW extends WhereHelper<TW>> extends AbstractSqlW
             }
         }
         if (this.whereCallback != null) {
-            tableWhereData.add(WhereCallback.execute(this.whereHelper, this.whereCallback, sqlBuilderOptions));
+            tableWhereData.add(CallbackExecutor.execute(this.whereHelper, this.whereCallback, sqlBuilderOptions));
         }
         return tableWhereData;
     }
