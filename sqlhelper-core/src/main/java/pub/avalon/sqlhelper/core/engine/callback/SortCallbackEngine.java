@@ -1,11 +1,8 @@
 package pub.avalon.sqlhelper.core.engine.callback;
 
 import pub.avalon.sqlhelper.core.callback.SortCallback;
-import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
-import pub.avalon.sqlhelper.core.data.TableSortDatum;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
-import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
  * @author baichao
@@ -51,15 +48,5 @@ public interface SortCallbackEngine<TS extends SortHelper<TS>, R> extends Engine
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R orderBy(Class<S> tableHelperClass, SortCallback<SS> sortCallback) {
         return orderBy(tableHelperClass, null, sortCallback);
-    }
-
-    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableSortDatum execute(Class<F> tableHelperClass, String tableAlias, SortCallback<FS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return CallbackExecutor.execute(tableHelperClass, tableAlias, sortCallback, sqlBuilderOptions);
     }
 }

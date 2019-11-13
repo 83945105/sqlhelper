@@ -1,11 +1,8 @@
 package pub.avalon.sqlhelper.core.engine.callback;
 
 import pub.avalon.sqlhelper.core.callback.GroupCallback;
-import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
-import pub.avalon.sqlhelper.core.data.TableGroupDatum;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
-import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
  * @author baichao
@@ -51,15 +48,5 @@ public interface GroupCallbackEngine<TG extends GroupHelper<TG>, R> extends Engi
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R groupBy(Class<S> tableHelperClass, GroupCallback<SG> groupCallback) {
         return groupBy(tableHelperClass, null, groupCallback);
-    }
-
-    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableGroupDatum execute(Class<F> tableHelperClass, String tableAlias, GroupCallback<FG> callback, SqlBuilderOptions sqlBuilderOptions) {
-        return CallbackExecutor.execute(tableHelperClass, tableAlias, callback, sqlBuilderOptions);
     }
 }

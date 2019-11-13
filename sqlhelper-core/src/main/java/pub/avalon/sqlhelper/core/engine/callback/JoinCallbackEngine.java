@@ -2,13 +2,8 @@ package pub.avalon.sqlhelper.core.engine.callback;
 
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.callback.OnJoinCallback;
-import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
-import pub.avalon.sqlhelper.core.data.JoinTableDatum;
-import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
-import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-import pub.avalon.sqlhelper.core.utils.HelperManager;
 
 /**
  * @author baichao
@@ -579,99 +574,5 @@ public interface JoinCallbackEngine<TO extends OnHelper<TO>, R> extends Engine {
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> R rightJoin(Class<S> tableHelperClass) {
         return join(JoinType.RIGHT, null, tableHelperClass, null, null);
-    }
-
-/*    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>,
-            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
-            EO extends OnHelper<EO>,
-            EC extends ColumnHelper<EC>,
-            EW extends WhereHelper<EW>,
-            EG extends GroupHelper<EG>,
-            EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, Class<F> mainTableHelperClass, String mainTableAlias, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, OnCallback<FO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (mainTableHelperClass == null) {
-            ExceptionUtils.tableHelperClassNullException();
-        }
-        F f = HelperManager.defaultTableHelper(mainTableHelperClass);
-        FO fj = f.newOnHelper(mainTableAlias);
-        return execute(joinType, fj, joinTableName, joinTableHelperClass, joinTableAlias, onCallback, sqlBuilderOptions);
-    }*/
-
-/*    static <FO extends OnHelper<FO>,
-            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
-            EO extends OnHelper<EO>,
-            EC extends ColumnHelper<EC>,
-            EW extends WhereHelper<EW>,
-            EG extends GroupHelper<EG>,
-            EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, FO mainOnHelper, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, OnCallback<FO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
-        E e = HelperManager.defaultTableHelper(joinTableHelperClass);
-        joinTableName = joinTableName == null ? e.getTableName() : joinTableName;
-        joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
-        JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, joinTableHelperClass, joinTableName, joinTableAlias);
-        EO ej = e.newOnHelper(joinTableAlias);
-        ej.setSqlBuilderOptions(sqlBuilderOptions);
-        mainOnHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        if (onCallback == null) {
-            return joinTableDatum;
-        }
-        TableOnDatum tableOnDatum = CallbackExecutor.execute(mainOnHelper, ej, onCallback, sqlBuilderOptions);
-        if (tableOnDatum == null) {
-            return joinTableDatum;
-        }
-        joinTableDatum.setTableOnDatum(tableOnDatum);
-        return joinTableDatum;
-    }*/
-
-    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>,
-            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
-            EO extends OnHelper<EO>,
-            EC extends ColumnHelper<EC>,
-            EW extends WhereHelper<EW>,
-            EG extends GroupHelper<EG>,
-            EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, FO mainOnHelper, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, OnJoinCallback<FO, EO> onJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
-        E e = HelperManager.defaultTableHelper(joinTableHelperClass);
-        joinTableName = joinTableName == null ? e.getTableName() : joinTableName;
-        joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
-        JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, joinTableHelperClass, joinTableName, joinTableAlias);
-        TableOnDatum tableOnDatum = CallbackExecutor.execute(mainOnHelper, joinTableHelperClass, joinTableAlias, onJoinCallback, sqlBuilderOptions);
-        joinTableDatum.setTableOnDatum(tableOnDatum);
-        return joinTableDatum;
-    }
-
-    static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>,
-            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
-            EO extends OnHelper<EO>,
-            EC extends ColumnHelper<EC>,
-            EW extends WhereHelper<EW>,
-            EG extends GroupHelper<EG>,
-            EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> JoinTableDatum execute(JoinType joinType, Class<F> mainTableHelperClass, String mainTableAlias, String joinTableName, Class<E> joinTableHelperClass, String joinTableAlias, OnJoinCallback<FO, EO> onJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
-        E e = HelperManager.defaultTableHelper(joinTableHelperClass);
-        joinTableName = joinTableName == null ? e.getTableName() : joinTableName;
-        joinTableAlias = joinTableAlias == null ? e.getTableAlias() : joinTableAlias;
-        JoinTableDatum joinTableDatum = new JoinTableDatum(joinType, joinTableHelperClass, joinTableName, joinTableAlias);
-        TableOnDatum tableOnDatum = CallbackExecutor.execute(mainTableHelperClass, mainTableAlias, joinTableHelperClass, joinTableAlias, onJoinCallback, sqlBuilderOptions);
-        joinTableDatum.setTableOnDatum(tableOnDatum);
-        return joinTableDatum;
     }
 }

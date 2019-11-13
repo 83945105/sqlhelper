@@ -16,7 +16,10 @@ import java.util.List;
 /**
  * @author baichao
  */
-public class CallbackExecutor {
+public final class CallbackExecutor {
+
+    private CallbackExecutor() {
+    }
 
     public static <TC extends ColumnHelper<TC>> TableColumnDatum execute(TC columnHelper, ColumnCallback<TC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
         if (columnHelper == null) {
