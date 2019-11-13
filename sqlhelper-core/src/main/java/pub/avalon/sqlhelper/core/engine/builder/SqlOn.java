@@ -5,6 +5,7 @@ import pub.avalon.sqlhelper.core.callback.OnJoinCallback;
 import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.engine.OnEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlOnBean;
+import pub.avalon.sqlhelper.core.engine.builder.beans.SqlOnBean;
 import pub.avalon.sqlhelper.core.engine.builder.beans.SqlOnBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.OnCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -40,13 +41,13 @@ public abstract class SqlOn<TO extends OnHelper<TO>> implements OnEngine<SqlOn<T
 
     @Override
     public SqlOn<TO> on(OnHelper<?>... onHelpers) {
-        //TODO xx
-//        this.sqlOnBeans.add(new SqlOnBean<>());
+        this.sqlOnBeans.add(new SqlOnBean<>(this.onHelper, this.tableAlias).setOnHelpers(onHelpers));
         return this;
     }
 
     @Override
     public SqlOn<TO> on(OnCallback<TO> onCallback) {
+        this.sqlOnBeans.add(new SqlOnBean<>(this.onHelper, this.tableAlias).setOnCallback(onCallback));
         return this;
     }
 

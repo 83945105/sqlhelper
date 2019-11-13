@@ -58,6 +58,10 @@ public class Test {
 
                 }})
 
+                .column(
+
+
+                )
                 .column(table -> table.id().sqlPart("").resourceId())
                 .column(table -> table.id().id().id(""))
                 .column(SysUserDTO.Helper.class, table -> table.userName().userName("").id(GroupType.COUNT))
@@ -84,6 +88,7 @@ public class Test {
                         .or(joinTable.userName().equalTo("")))
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(SysUserDTO.Helper.class, table -> table.userName().userName())))
+                .join(JoinType.INNER, UserRoleDTO.Helper.class)
                 .on(join)
                 .on(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.roleId())))
@@ -142,8 +147,6 @@ public class Test {
                 .groupBy(table -> group)
                 .groupBy(SysUserDTO.Helper.class, table -> joinGroup)
                 .groupBy(group, joinGroup)
-
-
                 .orderBy(table -> table.id().asc().id().desc())
                 .orderBy(SysUserDTO.Helper.class, table -> table.userName().asc().userName().desc())
                 .orderBy(table -> sort)

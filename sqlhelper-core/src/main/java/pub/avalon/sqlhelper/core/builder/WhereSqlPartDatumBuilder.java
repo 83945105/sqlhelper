@@ -701,11 +701,6 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
 
     @Override
     public T equalToSubQuery(SubQueryCallback subQueryCallback) {
-/*        SqlBuilder sqlBuilder = SubQueryCallback.execute(this.getModel().getSqlData(), tableName, modelClass, alias, callback);
-        this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);*/
         return this.getHelper();
     }
 
@@ -748,97 +743,4 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     public T notInSubQuery(SubQueryCallback subQueryCallback) {
         return null;
     }
-
-   /* @Override
-
-    @Override
-    public <T extends Model<T>> T equalToSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T notEqualToSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.NOT_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T greaterThanSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.GREATER);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T greaterThanAndEqualToSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.GREATER_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T lessThanSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.LESS);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T lessThanAndEqualToSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.LESS_EQUAL);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T likeSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.LIKE);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T inSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.IN);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }
-
-    @Override
-    public <T extends Model<T>, TC extends ColumnModel<T>, TO extends OnModel<T>, TW extends WhereModel<T>, TS extends SortModel<T>, TG extends GroupModel<T, TC, TO, TW, TS, TG>> T notInSubQuery(String tableName, Class<T> modelClass, String alias, SubQuery<T, MC, MO, T, MS, MG, T, TC, TO, TW, TS, TG> subQuery) {
-        SqlBuilder sqlBuilder = SubQuery.execute(this.getModel().getSqlData(), tableName, modelClass, alias, subQuery);
-        this.whereDatum.setWhereType(WhereType.NOT_IN);
-        this.whereDatum.setWhereValueType(WhereValueType.SUB_QUERY);
-        this.whereDatum.setTargetSubQuery(sqlBuilder);
-        this.addSqlModelDatum(this.whereDatum);
-        return this.getSqlModel();
-    }*/
-
 }
