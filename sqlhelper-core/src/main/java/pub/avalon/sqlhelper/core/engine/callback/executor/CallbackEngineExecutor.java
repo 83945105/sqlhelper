@@ -2,9 +2,14 @@ package pub.avalon.sqlhelper.core.engine.callback.executor;
 
 import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.callback.*;
+import pub.avalon.sqlhelper.core.callback.ColumnCallback;
+import pub.avalon.sqlhelper.core.callback.OnJoinCallback;
+import pub.avalon.sqlhelper.core.callback.SubQueryColumnCallback;
 import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
-import pub.avalon.sqlhelper.core.data.*;
+import pub.avalon.sqlhelper.core.data.ColumnDatum;
+import pub.avalon.sqlhelper.core.data.JoinTableDatum;
+import pub.avalon.sqlhelper.core.data.TableColumnDatum;
+import pub.avalon.sqlhelper.core.data.TableOnDatum;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
@@ -20,16 +25,6 @@ import java.util.List;
 public class CallbackEngineExecutor {
 
     private CallbackEngineExecutor() {
-    }
-
-    public static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableColumnDatum executeColumn(Class<F> tableHelperClass, String tableAlias, ColumnCallback<FC> columnCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return CallbackExecutor.execute(tableHelperClass, tableAlias, columnCallback, sqlBuilderOptions);
     }
 
     public static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
@@ -84,17 +79,6 @@ public class CallbackEngineExecutor {
         return new TableColumnDatum(tableAlias, Collections.singletonList(new ColumnDatum(null, null, sqlBuilderResult, columnAlias)));
     }
 
-
-    public static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableGroupDatum execute(Class<F> tableHelperClass, String tableAlias, GroupCallback<FG> callback, SqlBuilderOptions sqlBuilderOptions) {
-        return CallbackExecutor.execute(tableHelperClass, tableAlias, callback, sqlBuilderOptions);
-    }
-
     public static <FO extends OnHelper<FO>,
             E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
             EO extends OnHelper<EO>,
@@ -133,42 +117,5 @@ public class CallbackEngineExecutor {
         TableOnDatum tableOnDatum = CallbackExecutor.execute(mainTableHelperClass, mainTableAlias, joinTableHelperClass, joinTableAlias, onJoinCallback, sqlBuilderOptions);
         joinTableDatum.setTableOnDatum(tableOnDatum);
         return joinTableDatum;
-    }
-
-    public static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableSortDatum execute(Class<F> tableHelperClass, String tableAlias, SortCallback<FS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return CallbackExecutor.execute(tableHelperClass, tableAlias, sortCallback, sqlBuilderOptions);
-    }
-
-    public static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>> TableWhereDatum execute(Class<F> tableHelperClass, String tableAlias, WhereCallback<FW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return CallbackExecutor.execute(tableHelperClass, tableAlias, whereCallback, sqlBuilderOptions);
-    }
-
-    public static <F extends TableHelper<F, FO, FC, FW, FG, FH, FS>,
-            FO extends OnHelper<FO>,
-            FC extends ColumnHelper<FC>,
-            FW extends WhereHelper<FW>,
-            FG extends GroupHelper<FG>,
-            FH extends HavingHelper<FH>,
-            FS extends SortHelper<FS>,
-            E extends TableHelper<E, EO, EC, EW, EG, EH, ES>,
-            EO extends OnHelper<EO>,
-            EC extends ColumnHelper<EC>,
-            EW extends WhereHelper<EW>,
-            EG extends GroupHelper<EG>,
-            EH extends HavingHelper<EH>,
-            ES extends SortHelper<ES>> TableWhereDatum execute(Class<F> mainTableHelperClass, String mainTableAlias, Class<E> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<FW, EW> whereJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
-        return CallbackExecutor.execute(mainTableHelperClass, mainTableAlias, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
     }
 }

@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
+import pub.avalon.sqlhelper.core.callback.OnCallback;
 import pub.avalon.sqlhelper.core.callback.OnJoinCallback;
 import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.engine.OnEngine;
@@ -42,6 +43,11 @@ public abstract class SqlOn<TO extends OnHelper<TO>> implements OnEngine<SqlOn<T
         //TODO xx
 //        this.sqlOnBeans.add(new SqlOnBean<>());
         return this;
+    }
+
+    @Override
+    public SqlOn<TO> on(OnCallback<TO> onCallback) {
+        return null;
     }
 
     @Override

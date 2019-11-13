@@ -1,5 +1,6 @@
 package pub.avalon.sqlhelper.core.engine.callback;
 
+import pub.avalon.sqlhelper.core.callback.OnCallback;
 import pub.avalon.sqlhelper.core.callback.OnJoinCallback;
 import pub.avalon.sqlhelper.core.engine.Engine;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -8,6 +9,14 @@ import pub.avalon.sqlhelper.core.helper.*;
  * @author baichao
  */
 public interface OnCallbackEngine<TO extends OnHelper<TO>, R> extends Engine {
+
+    /**
+     * use callback to add where sql data
+     *
+     * @param onCallback {@link OnCallback}
+     * @return R
+     */
+    R on(OnCallback<TO> onCallback);
 
     /**
      * use callback to add assign class on sql data
