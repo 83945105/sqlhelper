@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author baichao
  */
-public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> implements OnLinker<TO, SO> {
+public final class OnAndOr<TO extends OnHelper<TO>> implements OnLinker<TO> {
 
     private List<OnDataLinker> onDataLinkers = new ArrayList<>();
 
@@ -23,7 +23,7 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
     }
 
     @Override
-    public OnAndOr<TO, SO> and(OnHelper<?> onHelper) {
+    public OnAndOr<TO> and(OnHelper<?> onHelper) {
         if (onHelper == null) {
             return this;
         }
@@ -38,11 +38,11 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
     }
 
     @Override
-    public OnAndOr<TO, SO> and(OnLinkerCallback<TO, SO> onLinkerCallback) {
+    public OnAndOr<TO> and(OnLinkerCallback<TO> onLinkerCallback) {
         if (onLinkerCallback == null) {
             return this;
         }
-        OnLinker<TO, SO> onLinker = onLinkerCallback.apply(new OnAndOr<>());
+        OnLinker<TO> onLinker = onLinkerCallback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;
@@ -59,7 +59,7 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
      * @param onHelper {@link OnHelper}
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TO, SO> or(OnHelper<?> onHelper) {
+    public OnAndOr<TO> or(OnHelper<?> onHelper) {
         if (onHelper == null) {
             return this;
         }
@@ -79,11 +79,11 @@ public final class OnAndOr<TO extends OnHelper<TO>, SO extends OnHelper<SO>> imp
      * @param onLinkerCallback {@link OnLinkerCallback}
      * @return {@link OnAndOr}
      */
-    public OnAndOr<TO, SO> or(OnLinkerCallback<TO, SO> onLinkerCallback) {
+    public OnAndOr<TO> or(OnLinkerCallback<TO> onLinkerCallback) {
         if (onLinkerCallback == null) {
             return this;
         }
-        OnLinker<TO, SO> onLinker = onLinkerCallback.apply(new OnAndOr<>());
+        OnLinker<TO> onLinker = onLinkerCallback.apply(new OnAndOr<>());
         List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return this;

@@ -7,7 +7,7 @@ import pub.avalon.sqlhelper.core.helper.OnHelper;
  * @author baichao
  */
 @FunctionalInterface
-public interface OnCallback<TW extends OnHelper<TW>> {
+public interface OnJoinCallback<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
 
-    OnLinker<TW> apply(OnLinker<TW> on, TW mainTable);
+    OnLinker<TO> apply(OnLinker<TO> on, SO joinTable, TO mainTable);
 }

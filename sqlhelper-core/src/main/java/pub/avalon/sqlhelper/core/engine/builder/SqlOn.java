@@ -1,10 +1,10 @@
 package pub.avalon.sqlhelper.core.engine.builder;
 
-import pub.avalon.sqlhelper.core.callback.OnCallback;
+import pub.avalon.sqlhelper.core.callback.OnJoinCallback;
 import pub.avalon.sqlhelper.core.data.SqlDataProducer;
 import pub.avalon.sqlhelper.core.engine.OnEngine;
 import pub.avalon.sqlhelper.core.engine.builder.beans.AbstractSqlOnBean;
-import pub.avalon.sqlhelper.core.engine.builder.beans.SqlOnBean;
+import pub.avalon.sqlhelper.core.engine.builder.beans.SqlOnBeanJoin;
 import pub.avalon.sqlhelper.core.engine.callback.OnCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
@@ -51,8 +51,9 @@ public abstract class SqlOn<TO extends OnHelper<TO>> implements OnEngine<SqlOn<T
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlOn<TO> on(Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
-        return null;
+            SS extends SortHelper<SS>> SqlOn<TO> on(Class<S> tableHelperClass, String tableAlias, OnJoinCallback<TO, SO> onJoinCallback) {
+        this.sqlOnBeans.add(new SqlOnBeanJoin<>(this.onHelper, tableHelperClass, tableAlias, onJoinCallback));
+        return this;
     }
 
     public String getTableAlias() {

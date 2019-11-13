@@ -12,28 +12,25 @@ import java.util.List;
 /**
  * @author baichao
  */
-public class SqlOnBean<TO extends OnHelper<TO>, SO extends OnHelper<SO>> extends AbstractSqlOnBean {
+public final class SqlOnBean<TO extends OnHelper<TO>> extends AbstractSqlOnBean {
 
-    private TO mainOnHelper;
-
-    private SO joinOnHelper;
+    private TO onHelper;
 
     private OnHelper<?>[] onHelpers;
 
-    private OnCallback<TO, SO> onCallback;
+    private OnCallback<TO> onCallback;
 
-    public SqlOnBean(TO mainOnHelper, SO joinOnHelper, String tableAlias) {
+    public SqlOnBean(TO onHelper, String tableAlias) {
         super(tableAlias);
-        this.mainOnHelper = mainOnHelper;
-        this.joinOnHelper = joinOnHelper;
+        this.onHelper = onHelper;
     }
 
-    public SqlOnBean<TO, SO> setOnHelpers(OnHelper<?>[] onHelpers) {
+    public SqlOnBean<TO> setOnHelpers(OnHelper<?>[] onHelpers) {
         this.onHelpers = onHelpers;
         return this;
     }
 
-    public SqlOnBean<TO, SO> setOnCallback(OnCallback<TO, SO> onCallback) {
+    public SqlOnBean<TO> setOnCallback(OnCallback<TO> onCallback) {
         this.onCallback = onCallback;
         return this;
     }
@@ -47,7 +44,7 @@ public class SqlOnBean<TO extends OnHelper<TO>, SO extends OnHelper<SO>> extends
             }
         }
         if (this.onCallback != null) {
-            tableOnData.add(CallbackExecutor.execute(this.mainOnHelper, this.joinOnHelper, this.onCallback, sqlBuilderOptions));
+            tableOnData.add(CallbackExecutor.execute(this.onHelper, this.onCallback, sqlBuilderOptions));
         }
         return tableOnData;
     }

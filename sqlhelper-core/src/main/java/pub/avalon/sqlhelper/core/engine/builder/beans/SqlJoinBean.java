@@ -1,7 +1,8 @@
 package pub.avalon.sqlhelper.core.engine.builder.beans;
 
 import pub.avalon.sqlhelper.core.beans.JoinType;
-import pub.avalon.sqlhelper.core.callback.OnCallback;
+import pub.avalon.sqlhelper.core.callback.OnJoinCallback;
+import pub.avalon.sqlhelper.core.callback.executor.CallbackExecutor;
 import pub.avalon.sqlhelper.core.data.JoinTableDatum;
 import pub.avalon.sqlhelper.core.engine.callback.JoinCallbackEngine;
 import pub.avalon.sqlhelper.core.helper.*;
@@ -27,19 +28,19 @@ public final class SqlJoinBean<TO extends OnHelper<TO>,
 
     private Class<S> joinTableHelperClass;
 
-    private OnCallback<TO, SO> onCallback;
+    private OnJoinCallback<TO, SO> onJoinCallback;
 
-    public SqlJoinBean(TO mainOnHelper, JoinType joinType, String joinTableName, Class<S> joinTableHelperClass, String joinTableAlias, OnCallback<TO, SO> onCallback) {
+    public SqlJoinBean(TO mainOnHelper, JoinType joinType, String joinTableName, Class<S> joinTableHelperClass, String joinTableAlias, OnJoinCallback<TO, SO> onJoinCallback) {
         super(joinTableAlias);
         this.mainOnHelper = mainOnHelper;
         this.joinType = joinType;
         this.joinTableName = joinTableName;
         this.joinTableHelperClass = joinTableHelperClass;
-        this.onCallback = onCallback;
+        this.onJoinCallback = onJoinCallback;
     }
 
     @Override
     public JoinTableDatum execute(SqlBuilderOptions sqlBuilderOptions) {
-        return JoinCallbackEngine.execute(this.joinType, this.mainOnHelper, this.joinTableName, this.joinTableHelperClass, this.tableAlias, this.onCallback, sqlBuilderOptions);
+        return JoinCallbackEngine.execute(this.joinType, this.mainOnHelper, this.joinTableName, this.joinTableHelperClass, this.tableAlias, this.onJoinCallback, sqlBuilderOptions);
     }
 }

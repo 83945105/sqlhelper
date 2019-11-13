@@ -50,27 +50,6 @@ public class CallbackExecutor {
         return new TableGroupDatum(groupHelper.getTableAlias(), groupData);
     }
 
-    public static <TO extends OnHelper<TO>,
-            SO extends OnHelper<SO>> TableOnDatum execute(TO mainOnHelper, SO joinOnHelper, OnCallback<TO, SO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (mainOnHelper == null) {
-            ExceptionUtils.onHelperNullException();
-        }
-        if (joinOnHelper == null) {
-            ExceptionUtils.onHelperNullException();
-        }
-        if (onCallback == null) {
-            return null;
-        }
-        mainOnHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        joinOnHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        OnLinker<TO, SO> onLinker = onCallback.apply(new OnAndOr<>(), joinOnHelper, mainOnHelper);
-        List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
-        if (onDataLinkers == null || onDataLinkers.size() == 0) {
-            return null;
-        }
-        return new TableOnDatum(joinOnHelper.getTableAlias(), onDataLinkers);
-    }
-
     public static <TS extends SortHelper<TS>> TableSortDatum execute(TS sortHelper, SortCallback<TS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
         if (sortHelper == null) {
             ExceptionUtils.sortHelperNullException();
@@ -85,6 +64,49 @@ public class CallbackExecutor {
             return null;
         }
         return new TableSortDatum(sortHelper.getTableAlias(), sortData);
+    }
+
+    public static <TO extends OnHelper<TO>> TableOnDatum execute(TO onHelper, OnCallback<TO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (onHelper == null) {
+            ExceptionUtils.onHelperNullException();
+        }
+        if (onCallback == null) {
+            return null;
+        }
+        onHelper.setSqlBuilderOptions(sqlBuilderOptions);
+        OnLinker<TO> onLinker = onCallback.apply(new OnAndOr<>(), onHelper);
+        List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
+        if (onDataLinkers == null || onDataLinkers.size() == 0) {
+            return null;
+        }
+        return new TableOnDatum(onHelper.getTableAlias(), onDataLinkers);
+    }
+
+    public static <TO extends OnHelper<TO>,
+            S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> TableOnDatum execute(TO mainOnHelper, Class<S> joinTableHelperClass, String joinTableAlias, OnJoinCallback<TO, SO> onJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (mainOnHelper == null) {
+            ExceptionUtils.onHelperNullException();
+        }
+        if (onJoinCallback == null) {
+            return null;
+        }
+        mainOnHelper.setSqlBuilderOptions(sqlBuilderOptions);
+        S s = HelperManager.defaultTableHelper(joinTableHelperClass);
+        joinTableAlias = joinTableAlias == null ? s.getTableAlias() : joinTableAlias;
+        SO so = s.newOnHelper(joinTableAlias);
+        so.setSqlBuilderOptions(sqlBuilderOptions);
+        OnLinker<TO> onLinker = onJoinCallback.apply(new OnAndOr<>(), so, mainOnHelper);
+        List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
+        if (onDataLinkers == null || onDataLinkers.size() == 0) {
+            return null;
+        }
+        return new TableOnDatum(joinTableAlias, onDataLinkers);
     }
 
     public static <TW extends WhereHelper<TW>> TableWhereDatum execute(TW whereHelper, WhereCallback<TW> whereCallback, SqlBuilderOptions sqlBuilderOptions) {
@@ -111,6 +133,9 @@ public class CallbackExecutor {
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
             SS extends SortHelper<SS>> TableWhereDatum execute(TW mainWhereHelper, Class<S> joinTableHelperClass, String joinTableAlias, WhereJoinCallback<TW, SW> whereJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (mainWhereHelper == null) {
+            ExceptionUtils.whereHelperNullException();
+        }
         if (whereJoinCallback == null) {
             return null;
         }
@@ -163,25 +188,13 @@ public class CallbackExecutor {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TH extends HavingHelper<TH>,
-            TS extends SortHelper<TS>,
-            S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
-            SO extends OnHelper<SO>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> TableOnDatum execute(Class<T> mainTableHelperClass, String mainTableAlias, Class<S> joinTableHelperClass, String joinTableAlias, OnCallback<TO, SO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (mainTableHelperClass == null) {
+            TS extends SortHelper<TS>> TableSortDatum execute(Class<T> tableHelperClass, String tableAlias, SortCallback<TS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
-        if (joinTableHelperClass == null) {
-            ExceptionUtils.tableHelperClassNullException();
-        }
-        T t = HelperManager.newTableHelper(mainTableHelperClass);
-        TO to = t.newOnHelper(mainTableAlias == null ? t.getTableAlias() : mainTableAlias);
-        S s = HelperManager.newTableHelper(joinTableHelperClass);
-        SO so = s.newOnHelper(joinTableAlias == null ? s.getTableAlias() : joinTableAlias);
-        return execute(to, so, onCallback, sqlBuilderOptions);
+        T t = HelperManager.defaultTableHelper(tableHelperClass);
+        TS ts = t.newSortHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
+        return execute(ts, sortCallback, sqlBuilderOptions);
     }
 
     public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
@@ -190,13 +203,35 @@ public class CallbackExecutor {
             TW extends WhereHelper<TW>,
             TG extends GroupHelper<TG>,
             TH extends HavingHelper<TH>,
-            TS extends SortHelper<TS>> TableSortDatum execute(Class<T> tableHelperClass, String tableAlias, SortCallback<TS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
+            TS extends SortHelper<TS>> TableOnDatum execute(Class<T> tableHelperClass, String tableAlias, OnCallback<TO> onCallback, SqlBuilderOptions sqlBuilderOptions) {
         if (tableHelperClass == null) {
             ExceptionUtils.tableHelperClassNullException();
         }
         T t = HelperManager.defaultTableHelper(tableHelperClass);
-        TS ts = t.newSortHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
-        return execute(ts, sortCallback, sqlBuilderOptions);
+        TO to = t.newOnHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
+        return execute(to, onCallback, sqlBuilderOptions);
+    }
+
+    public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+            TO extends OnHelper<TO>,
+            TC extends ColumnHelper<TC>,
+            TW extends WhereHelper<TW>,
+            TG extends GroupHelper<TG>,
+            TH extends HavingHelper<TH>,
+            TS extends SortHelper<TS>,
+            S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> TableOnDatum execute(Class<T> mainTableHelperClass, String mainTableAlias, Class<S> joinTableHelperClass, String joinTableAlias, OnJoinCallback<TO, SO> onJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (mainTableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
+        T t = HelperManager.newTableHelper(mainTableHelperClass);
+        TO to = t.newOnHelper(mainTableAlias == null ? t.getTableAlias() : mainTableAlias);
+        return execute(to, joinTableHelperClass, joinTableAlias, onJoinCallback, sqlBuilderOptions);
     }
 
     public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,

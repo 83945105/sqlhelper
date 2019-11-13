@@ -217,8 +217,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, 
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
-        this.addJoinTableDatum(JoinCallbackEngine.execute(joinType, this.tableHelperClass, this.tableAlias, tableName, tableHelperClass, tableAlias, onCallback, this.sqlBuilderOptions));
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> join(JoinType joinType, String tableName, Class<S> tableHelperClass, String tableAlias, OnJoinCallback<TO, SO> onJoinCallback) {
+        this.addJoinTableDatum(JoinCallbackEngine.execute(joinType, this.tableHelperClass, this.tableAlias, tableName, tableHelperClass, tableAlias, onJoinCallback, this.sqlBuilderOptions));
         return this;
     }
 
@@ -229,8 +229,8 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, 
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> on(Class<S> tableHelperClass, String tableAlias, OnCallback<TO, SO> onCallback) {
-        this.addTableOnDatum(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, onCallback, this.sqlBuilderOptions));
+            SS extends SortHelper<SS>> SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> on(Class<S> tableHelperClass, String tableAlias, OnJoinCallback<TO, SO> onJoinCallback) {
+        this.addTableOnDatum(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, tableHelperClass, tableAlias, onJoinCallback, this.sqlBuilderOptions));
         return this;
     }
 

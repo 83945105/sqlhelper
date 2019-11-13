@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * @author baichao
  */
-public interface OnLinker<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
+public interface OnLinker<TO extends OnHelper<TO>> {
 
     /**
      * Clean up after each takeout.
@@ -24,7 +24,7 @@ public interface OnLinker<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
      * @param onHelper {@link OnHelper}
      * @return {@link OnAndOr}
      */
-    OnAndOr<TO, SO> and(OnHelper<?> onHelper);
+    OnAndOr<TO> and(OnHelper<?> onHelper);
 
     /**
      * and
@@ -32,5 +32,5 @@ public interface OnLinker<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
      * @param onLinkerCallback {@link OnLinkerCallback}
      * @return {@link OnAndOr}
      */
-    OnAndOr<TO, SO> and(OnLinkerCallback<TO, SO> onLinkerCallback);
+    OnAndOr<TO> and(OnLinkerCallback<TO> onLinkerCallback);
 }

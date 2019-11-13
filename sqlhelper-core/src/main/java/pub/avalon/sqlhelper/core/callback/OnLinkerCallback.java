@@ -7,7 +7,7 @@ import pub.avalon.sqlhelper.core.helper.OnHelper;
  * @author baichao
  */
 @FunctionalInterface
-public interface OnLinkerCallback<TO extends OnHelper<TO>, SO extends OnHelper<SO>> {
+public interface OnLinkerCallback<TO extends OnHelper<TO>> {
 
-    OnLinker<TO, SO> apply(OnLinker<TO, SO> on);
+    OnLinker<TO> apply(OnLinker<TO> on);
 }
