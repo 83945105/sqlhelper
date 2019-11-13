@@ -84,8 +84,10 @@ public class Test {
                         .or(joinTable.userName().equalTo("")))
                 .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(SysUserDTO.Helper.class, table -> table.userName().userName())))
+                .on(join)
                 .on(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.roleId())))
+                .on((on, mainTable) -> on.and(mainTable.id().equalTo("")))
                 .innerJoin(SysUserDTO.Helper.class, (on, joinTable, mainTable) -> on
                         .and(o -> o
                                 .and(joinTable.userName().equalTo(mainTable.id()))

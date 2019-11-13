@@ -6,10 +6,10 @@ package pub.avalon.sqlhelper.core.engine;
 public interface JdbcEngine<R> extends
         ColumnEngine<R>,
         JoinEngine<R>,
+        OnEngine<R>,
         WhereEngine<R>,
         GroupEngine<R>,
         HavingEngine<R>,
         SortEngine<R>,
         LimitEngine<R> {
-
 }

@@ -47,7 +47,7 @@ public abstract class SqlOn<TO extends OnHelper<TO>> implements OnEngine<SqlOn<T
 
     @Override
     public SqlOn<TO> on(OnCallback<TO> onCallback) {
-        return null;
+        return this;
     }
 
     @Override

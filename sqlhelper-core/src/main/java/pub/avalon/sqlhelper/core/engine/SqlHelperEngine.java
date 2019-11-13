@@ -216,6 +216,12 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, 
     }
 
     @Override
+    public SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> on(OnHelper<?>... onHelpers) {
+        OnHelper.execute(onHelpers).forEach(this::addTableOnDatum);
+        return this;
+    }
+
+    @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> on(OnCallback<TO> onCallback) {
         this.addTableOnDatum(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, onCallback, this.sqlBuilderOptions));
         return this;
