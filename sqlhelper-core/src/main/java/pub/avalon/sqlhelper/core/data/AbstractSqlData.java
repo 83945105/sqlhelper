@@ -18,6 +18,8 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
 
     private List<TableGroupDatum> tableGroupData;
 
+    private List<TableHavingDatum> tableHavingData;
+
     private List<TableSortDatum> tableSortData;
 
     private LimitDatum limitDatum;
@@ -49,6 +51,11 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     @Override
     public List<TableGroupDatum> getTableGroupData() {
         return this.tableGroupData;
+    }
+
+    @Override
+    public List<TableHavingDatum> getTableHavingData() {
+        return this.tableHavingData;
     }
 
     @Override
@@ -114,6 +121,17 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
             this.tableGroupData = new ArrayList<>();
         }
         this.tableGroupData.add(tableGroupDatum);
+    }
+
+    @Override
+    public void addTableHavingDatum(TableHavingDatum tableHavingDatum) {
+        if (tableHavingDatum == null) {
+            return;
+        }
+        if (this.tableHavingData == null) {
+            this.tableHavingData = new ArrayList<>();
+        }
+        this.tableHavingData.add(tableHavingDatum);
     }
 
     @Override

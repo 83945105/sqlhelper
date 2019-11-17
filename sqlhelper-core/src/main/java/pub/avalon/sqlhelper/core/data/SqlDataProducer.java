@@ -72,6 +72,13 @@ public interface SqlDataProducer {
     void addTableGroupDatum(TableGroupDatum tableGroupDatum);
 
     /**
+     * add table having data
+     *
+     * @param tableHavingDatum {@link TableHavingDatum}
+     */
+    void addTableHavingDatum(TableHavingDatum tableHavingDatum);
+
+    /**
      * add table sort data
      *
      * @param tableSortDatum {@link TableSortDatum}

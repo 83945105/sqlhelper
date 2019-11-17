@@ -42,6 +42,10 @@ public final class ExceptionUtils {
         throw new RuntimeException("groupHelper is null.");
     }
 
+    public static void havingHelperNullException() {
+        throw new RuntimeException("havingHelper is null.");
+    }
+
     public static void onHelperNullException() {
         throw new RuntimeException("onHelper is null.");
     }

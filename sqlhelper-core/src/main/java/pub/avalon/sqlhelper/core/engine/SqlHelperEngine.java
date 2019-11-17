@@ -288,6 +288,12 @@ public final class SqlHelperEngine<T extends TableHelper<T, TO, TC, TW, TG, TH, 
     }
 
     @Override
+    public SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> having(HavingCallback<TH> havingCallback) {
+        this.addTableHavingDatum(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, havingCallback, this.sqlBuilderOptions));
+        return this;
+    }
+
+    @Override
     public SqlHelperEngine<T, TO, TC, TW, TG, TH, TS> orderBy(SortHelper<?>... sortHelpers) {
         SortHelper.execute(sortHelpers).forEach(this::addTableSortDatum);
         return this;

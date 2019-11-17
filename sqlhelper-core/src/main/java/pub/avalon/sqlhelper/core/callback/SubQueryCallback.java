@@ -1,6 +1,6 @@
 package pub.avalon.sqlhelper.core.callback;
 
-import pub.avalon.sqlhelper.core.sqlbuilder.SelectSqlBuilder;
+import pub.avalon.sqlhelper.core.sqlbuilder.beans.SelectSqlBuilderResult;
 
 /**
  * @author baichao
@@ -8,5 +8,5 @@ import pub.avalon.sqlhelper.core.sqlbuilder.SelectSqlBuilder;
 @FunctionalInterface
 public interface SubQueryCallback {
 
-    SelectSqlBuilder apply();
+    SelectSqlBuilderResult apply();
 }

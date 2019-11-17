@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.data;
 /**
  * @author baichao
  */
-public abstract class AbstractSqlPartDatum<R extends AbstractSqlPartDatum<R>> implements SqlPartDatum {
+public abstract class AbstractSqlPartDatum<T extends AbstractSqlPartDatum<T>> implements SqlPartDatum {
 
     private String templateTableName;
 
@@ -44,27 +44,27 @@ public abstract class AbstractSqlPartDatum<R extends AbstractSqlPartDatum<R>> im
     }
 
     @SuppressWarnings("unchecked")
-    public R setTableName(String tableName) {
+    public T setTableName(String tableName) {
         this.tableName = tableName;
-        return (R) this;
+        return (T) this;
     }
 
     @SuppressWarnings("unchecked")
-    public R setTableAlias(String tableAlias) {
+    public T setTableAlias(String tableAlias) {
         this.tableAlias = tableAlias;
-        return (R) this;
+        return (T) this;
     }
 
     @SuppressWarnings("unchecked")
-    public R setColumnName(String columnName) {
+    public T setColumnName(String columnName) {
         this.columnName = columnName;
-        return (R) this;
+        return (T) this;
     }
 
     @SuppressWarnings("unchecked")
-    public R setColumnAlias(String columnAlias) {
+    public T setColumnAlias(String columnAlias) {
         this.columnAlias = columnAlias;
-        return (R) this;
+        return (T) this;
     }
 
     public String getTemplateTableName() {

@@ -308,6 +308,11 @@ public abstract class AbstractEngine<T extends TableHelper<T, TO, TC, TW, TG, TH
     }
 
     @Override
+    public void addTableHavingDatum(TableHavingDatum tableHavingDatum) {
+        this.sqlData.addTableHavingDatum(tableHavingDatum);
+    }
+
+    @Override
     public void addTableSortDatum(TableSortDatum tableSortDatum) {
         this.sqlData.addTableSortDatum(tableSortDatum);
     }

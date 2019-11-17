@@ -17,6 +17,8 @@ public final class SqlPartDatumBuilderOptions {
 
     private ComparisonRule defaultOnComparisonRule = ComparisonRule.NULL_SKIP;
 
+    private ComparisonRule defaultHavingComparisonRule = ComparisonRule.NULL_SKIP;
+
     public ComparisonRule getDefaultWhereComparisonRule() {
         return defaultWhereComparisonRule;
     }
@@ -33,6 +35,14 @@ public final class SqlPartDatumBuilderOptions {
     public SqlPartDatumBuilderOptions setDefaultOnComparisonRule(ComparisonRule defaultOnComparisonRule) {
         this.defaultOnComparisonRule = defaultOnComparisonRule;
         return this;
+    }
+
+    public ComparisonRule getDefaultHavingComparisonRule() {
+        return defaultHavingComparisonRule;
+    }
+
+    public void setDefaultHavingComparisonRule(ComparisonRule defaultHavingComparisonRule) {
+        this.defaultHavingComparisonRule = defaultHavingComparisonRule;
     }
 
     public boolean isSelectAllColumnForMainTable() {

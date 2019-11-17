@@ -1,0 +1,24 @@
+package pub.avalon.sqlhelper.core.rules;
+
+import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
+import pub.avalon.sqlhelper.core.data.WhereDatum;
+import pub.avalon.sqlhelper.core.helper.Helper;
+import pub.avalon.sqlhelper.core.rules.impl.BaseComparisonOperatorImpl;
+import pub.avalon.sqlhelper.core.rules.impl.ToColumnCallbackComparisonOperatorImpl;
+import pub.avalon.sqlhelper.core.rules.impl.ToColumnComparisonOperatorImpl;
+import pub.avalon.sqlhelper.core.rules.impl.ToSubQueryComparisonOperatorImpl;
+
+/**
+ * @author baichao
+ */
+public interface WhereComparisonOperator<T extends Helper> extends BaseComparisonOperator<T>,
+        BaseComparisonOperatorImpl<T, WhereDatum>,
+        ToColumnComparisonOperator<T>,
+        ToColumnComparisonOperatorImpl<T, WhereDatum>,
+        ToColumnCallbackComparisonOperator<T>,
+        ToColumnCallbackComparisonOperatorImpl<T>,
+        ToSubQueryComparisonOperator<T>,
+        ToSubQueryComparisonOperatorImpl<T, WhereDatum>,
+        ToSqlPartBuilderComparisonOperator<T, WhereSqlPartDatumBuilder> {
+
+}

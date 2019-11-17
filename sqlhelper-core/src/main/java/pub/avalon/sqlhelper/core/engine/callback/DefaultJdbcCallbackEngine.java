@@ -204,6 +204,12 @@ public final class DefaultJdbcCallbackEngine<T extends TableHelper<T, TO, TC, TW
     }
 
     @Override
+    public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> having(HavingCallback<TH> havingCallback) {
+        this.addTableHavingDatum(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, havingCallback, this.sqlBuilderOptions));
+        return this;
+    }
+
+    @Override
     public DefaultJdbcCallbackEngine<T, TO, TC, TW, TG, TH, TS> orderBy(SortCallback<TS> sortCallback) {
         this.addTableSortDatum(CallbackExecutor.execute(this.tableHelperClass, this.tableAlias, sortCallback, this.sqlBuilderOptions));
         return this;

@@ -90,5 +90,4 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
         }
         return Arrays.stream(whereHelpers).map(whereHelper -> WhereHelper.execute(whereHelper)).collect(Collectors.toList());
     }
-
 }

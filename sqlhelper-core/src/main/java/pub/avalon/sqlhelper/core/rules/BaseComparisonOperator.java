@@ -1,4 +1,4 @@
-package pub.avalon.sqlhelper.core.comparison;
+package pub.avalon.sqlhelper.core.rules;
 
 import pub.avalon.sqlhelper.core.beans.ComparisonRule;
 import pub.avalon.sqlhelper.core.helper.Helper;
@@ -8,7 +8,7 @@ import java.util.Collection;
 /**
  * @author baichao
  */
-public interface ComparisonOperator<T> {
+public interface BaseComparisonOperator<T> {
 
     /**
      * get default comparison rule.
@@ -16,6 +16,14 @@ public interface ComparisonOperator<T> {
      * @return {@link ComparisonRule}
      */
     ComparisonRule getDefaultComparisonRule();
+
+    /**
+     * custom sql
+     *
+     * @param targetSqlPart sql part
+     * @return extends {@link Helper} object
+     */
+    T sqlPart(String targetSqlPart);
 
     /**
      * is null

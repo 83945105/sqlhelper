@@ -1,20 +1,17 @@
 package pub.avalon.sqlhelper.core.builder;
 
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
-import pub.avalon.sqlhelper.core.beans.ComparisonRule;
-import pub.avalon.sqlhelper.core.beans.OnType;
-import pub.avalon.sqlhelper.core.callback.OnColumnCallback;
-import pub.avalon.sqlhelper.core.comparison.OnComparisonOperator;
-import pub.avalon.sqlhelper.core.data.ColumnDatum;
+import pub.avalon.sqlhelper.core.data.AbstractComparisonSqlPartDatum;
+import pub.avalon.sqlhelper.core.data.ComparisonType;
 import pub.avalon.sqlhelper.core.data.OnDatum;
-import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
-import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
-import pub.avalon.sqlhelper.core.utils.HelperManager;
+import pub.avalon.sqlhelper.core.rules.OnComparisonOperator;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author baichao
@@ -47,469 +44,75 @@ public final class OnSqlPartDatumBuilder<T extends Helper> extends AbstractSqlPa
     }
 
     @Override
-    public ComparisonRule getDefaultComparisonRule() {
-        return this.sqlBuilderOptions.getSqlPartDatumBuilderOptions().getDefaultOnComparisonRule();
-    }
-
-    @Override
-    public T isNull() {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.IS_NULL)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(0));
+    public T equalTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.EQUAL, Collections.singletonList(onSqlPartDatumBuilder.onDatum)));
         return this.getHelper();
     }
 
     @Override
-    public T isNotNull() {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.IS_NOT_NULL)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(0));
+    public T notEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.NOT_EQUAL, Collections.singletonList(onSqlPartDatumBuilder.onDatum)));
         return this.getHelper();
     }
 
     @Override
-    public T equalTo(Object value, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "equalTo", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.EQUAL)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(1)
-                .setTargetValue(value));
+    public T greaterThan(OnSqlPartDatumBuilder onSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.GREATER, Collections.singletonList(onSqlPartDatumBuilder.onDatum)));
         return this.getHelper();
     }
 
     @Override
-    public T notEqualTo(Object value, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "notEqualTo", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.NOT_EQUAL)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(1)
-                .setTargetValue(value));
+    public T greaterThanAndEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.GREATER_EQUAL, Collections.singletonList(onSqlPartDatumBuilder.onDatum)));
         return this.getHelper();
     }
 
     @Override
-    public T greaterThan(Object value, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "greaterThan", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.GREATER)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(1)
-                .setTargetValue(value));
+    public T lessThan(OnSqlPartDatumBuilder onSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.LESS, Collections.singletonList(onSqlPartDatumBuilder.onDatum)));
         return this.getHelper();
     }
 
     @Override
-    public T greaterThanAndEqualTo(Object value, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "greaterThanAndEqualTo", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.GREATER_EQUAL)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(1)
-                .setTargetValue(value));
+    public T lessThanAndEqualTo(OnSqlPartDatumBuilder onSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.LESS_EQUAL, Collections.singletonList(onSqlPartDatumBuilder.onDatum)));
         return this.getHelper();
     }
 
     @Override
-    public T lessThan(Object value, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "lessThan", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.LESS)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(1)
-                .setTargetValue(value));
+    public T between(OnSqlPartDatumBuilder onSqlPartDatumBuilder, OnSqlPartDatumBuilder secondOnSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.BETWEEN, new ArrayList<OnDatum>(2) {{
+            add(onSqlPartDatumBuilder.onDatum);
+            add(secondOnSqlPartDatumBuilder.onDatum);
+        }}));
         return this.getHelper();
     }
 
     @Override
-    public T lessThanAndEqualTo(Object value, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "lessThanAndEqualTo", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.LESS_EQUAL)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(1)
-                .setTargetValue(value));
+    public T like(OnSqlPartDatumBuilder onSqlPartDatumBuilder) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.LIKE, Collections.singletonList(onSqlPartDatumBuilder.onDatum)));
         return this.getHelper();
     }
 
     @Override
-    public T between(Object value, Object secondValue, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "between", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        if (secondValue == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "between", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.BETWEEN)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(2)
-                .setTargetValue(value)
-                .setTargetSecondValue(secondValue));
+    public T in(OnSqlPartDatumBuilder... onSqlPartDatumBuilders) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.IN, Arrays.stream(onSqlPartDatumBuilders).map(onSqlPartDatumBuilder -> onSqlPartDatumBuilder.onDatum).collect(Collectors.toList())));
         return this.getHelper();
     }
 
     @Override
-    public T like(Object value, ComparisonRule comparisonRule) {
-        if (value == null) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "like", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.LIKE)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(1)
-                .setTargetValue(value));
+    public T notIn(OnSqlPartDatumBuilder... onSqlPartDatumBuilders) {
+        this.addSqlPartDatum(this.onDatum.setTargetOnData(ComparisonType.NOT_IN, Arrays.stream(onSqlPartDatumBuilders).map(onSqlPartDatumBuilder -> onSqlPartDatumBuilder.onDatum).collect(Collectors.toList())));
         return this.getHelper();
     }
 
     @Override
-    public T in(Object[] values, ComparisonRule comparisonRule) {
-        if (values == null || values.length == 0) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "in", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.IN)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(values.length)
-                .setTargetValue(values));
-        return this.getHelper();
+    public AbstractComparisonSqlPartDatum<OnDatum> getAbstractComparisonSqlPartDatum() {
+        return this.onDatum;
     }
 
     @Override
-    public T in(Collection<Object> values, ComparisonRule comparisonRule) {
-        if (values == null || values.size() == 0) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "in", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.IN)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(values.size())
-                .setTargetValue(values));
-        return this.getHelper();
-    }
-
-    @Override
-    public T notIn(Object[] values, ComparisonRule comparisonRule) {
-        if (values == null || values.length == 0) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "notIn", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.NOT_IN)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(values.length)
-                .setTargetValue(values));
-        return this.getHelper();
-    }
-
-    @Override
-    public T notIn(Collection<Object> values, ComparisonRule comparisonRule) {
-        if (values == null || values.size() == 0) {
-            switch (comparisonRule) {
-                case NULL_SKIP:
-                    return this.getHelper();
-                case NULL_THROW_EXCEPTION:
-                    ExceptionUtils.comparisonRuleNullException(WhereSqlPartDatumBuilder.class, "notIn", this.onDatum.getTableName(), this.onDatum.getTableAlias(), this.onDatum.getColumnName(), this.onDatum.getColumnAlias());
-                    break;
-                default:
-                    ExceptionUtils.comparisonRuleNotSupportException();
-            }
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.NOT_IN)
-                .setType(OnDatum.Type.VALUE)
-                .setValueCount(values.size())
-                .setTargetValue(values));
-        return this.getHelper();
-    }
-
-    @Override
-    public T equalTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.EQUAL)
-                .setType(OnDatum.Type.JOIN_ON)
-                .setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum)));
-        return this.getHelper();
-    }
-
-    @Override
-    public T notEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.NOT_EQUAL)
-                .setType(OnDatum.Type.JOIN_ON)
-                .setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum)));
-        return this.getHelper();
-    }
-
-    @Override
-    public T greaterThan(OnSqlPartDatumBuilder onSqlDataBuilder) {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.GREATER)
-                .setType(OnDatum.Type.JOIN_ON)
-                .setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum)));
-        return this.getHelper();
-    }
-
-    @Override
-    public T greaterThanAndEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.GREATER_EQUAL)
-                .setType(OnDatum.Type.JOIN_ON)
-                .setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum)));
-        return this.getHelper();
-    }
-
-    @Override
-    public T lessThan(OnSqlPartDatumBuilder onSqlDataBuilder) {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.LESS)
-                .setType(OnDatum.Type.JOIN_ON)
-                .setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum)));
-        return this.getHelper();
-    }
-
-    @Override
-    public T lessThanAndEqualTo(OnSqlPartDatumBuilder onSqlDataBuilder) {
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.LESS_EQUAL)
-                .setType(OnDatum.Type.JOIN_ON)
-                .setTargetOnData(Collections.singletonList(onSqlDataBuilder.onDatum)));
-        return this.getHelper();
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
-            SO extends OnHelper<SO>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T equalTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
-        S s = HelperManager.defaultTableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.EQUAL)
-                .setType(OnDatum.Type.JOIN_COLUMN)
-                .setTargetColumnData(columnData));
-        return this.getHelper();
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
-            SO extends OnHelper<SO>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T notEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
-        S s = HelperManager.defaultTableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.NOT_EQUAL)
-                .setType(OnDatum.Type.JOIN_COLUMN)
-                .setTargetColumnData(columnData));
-        return this.getHelper();
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
-            SO extends OnHelper<SO>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
-        S s = HelperManager.defaultTableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.GREATER)
-                .setType(OnDatum.Type.JOIN_COLUMN)
-                .setTargetColumnData(columnData));
-        return this.getHelper();
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
-            SO extends OnHelper<SO>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T greaterThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
-        S s = HelperManager.defaultTableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.GREATER_EQUAL)
-                .setType(OnDatum.Type.JOIN_COLUMN)
-                .setTargetColumnData(columnData));
-        return this.getHelper();
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
-            SO extends OnHelper<SO>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThan(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
-        S s = HelperManager.defaultTableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.LESS)
-                .setType(OnDatum.Type.JOIN_COLUMN)
-                .setTargetColumnData(columnData));
-        return this.getHelper();
-    }
-
-    @Override
-    public <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
-            SO extends OnHelper<SO>,
-            SC extends ColumnHelper<SC>,
-            SW extends WhereHelper<SW>,
-            SG extends GroupHelper<SG>,
-            SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T lessThanAndEqualTo(Class<S> tableHelperClass, String tableAlias, OnColumnCallback<SC> onColumnCallback) {
-        S s = HelperManager.defaultTableHelper(tableHelperClass);
-        SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
-        List<ColumnDatum> columnData = onColumnCallback.apply(sc).takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
-        }
-        this.addSqlPartDatum(this.onDatum
-                .setOnType(OnType.LESS_EQUAL)
-                .setType(OnDatum.Type.JOIN_COLUMN)
-                .setTargetColumnData(columnData));
-        return this.getHelper();
+    public SqlBuilderOptions getSqlBuilderOptions() {
+        return this.sqlBuilderOptions;
     }
 }

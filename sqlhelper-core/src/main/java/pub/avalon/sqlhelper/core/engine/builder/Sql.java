@@ -230,4 +230,9 @@ public abstract class Sql<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
     public Sql<T, TO, TC, TW, TG, TH, TS> on(OnHelper<?>... onHelpers) {
         return null;
     }
+
+    @Override
+    public Sql<T, TO, TC, TW, TG, TH, TS> having(HavingCallback<TH> havingCallback) {
+        return null;
+    }
 }

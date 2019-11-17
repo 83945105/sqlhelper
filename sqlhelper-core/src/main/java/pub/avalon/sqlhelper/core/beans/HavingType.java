@@ -3,7 +3,7 @@ package pub.avalon.sqlhelper.core.beans;
 /**
  * @author baichao
  */
-public enum WhereType {
+public enum HavingType {
     /**
      * is null
      */

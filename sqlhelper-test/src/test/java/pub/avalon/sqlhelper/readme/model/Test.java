@@ -102,7 +102,7 @@ public class Test {
                                 .or(mainTable.id().equalTo(joinTable.userName()))))
                 .where((condition, mainTable) -> condition
                         .and(where)
-                        .and(mainTable.id().equalTo("")
+                        .and(mainTable.sqlPart("").sqlPart("").id().equalTo("")
                                 .id().greaterThan("")))
                 .where((condition, mainTable) -> condition
                         .and(cd -> cd
@@ -136,7 +136,8 @@ public class Test {
 
                             return MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                                     .where((cd, mt) -> cd
-                                            .and(mt.id().equalTo("")));
+                                            .and(mt.id().equalTo("")))
+                                    .query();
 
 
                         })))
@@ -147,6 +148,7 @@ public class Test {
                 .groupBy(table -> group)
                 .groupBy(SysUserDTO.Helper.class, table -> joinGroup)
                 .groupBy(group, joinGroup)
+                .having(table -> table.id().max().equalTo("").id().avg().isNotNull())
                 .orderBy(table -> table.id().asc().id().desc())
                 .orderBy(SysUserDTO.Helper.class, table -> table.userName().asc().userName().desc())
                 .orderBy(table -> sort)

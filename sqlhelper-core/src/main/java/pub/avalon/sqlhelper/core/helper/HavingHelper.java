@@ -3,9 +3,13 @@ package pub.avalon.sqlhelper.core.helper;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.HavingDatum;
+import pub.avalon.sqlhelper.core.data.TableHavingDatum;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author baichao
@@ -46,5 +50,24 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
 
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.havingSqlPartDatumBuilder.setSqlBuilderOptions(sqlBuilderOptions);
+    }
+
+    public TableHavingDatum execute() {
+        return execute(this);
+    }
+
+    public static TableHavingDatum execute(HavingHelper<?> havingHelper) {
+        List<HavingDatum> havingData = havingHelper.takeoutSqlPartData();
+        if (havingData == null || havingData.size() == 0) {
+            return null;
+        }
+        return new TableHavingDatum(havingHelper.getTableAlias(), havingData);
+    }
+
+    public static List<TableHavingDatum> execute(HavingHelper<?>... havingHelpers) {
+        if (havingHelpers == null || havingHelpers.length == 0) {
+            return Collections.emptyList();
+        }
+        return Arrays.stream(havingHelpers).map(havingHelper -> HavingHelper.execute(havingHelper)).collect(Collectors.toList());
     }
 }

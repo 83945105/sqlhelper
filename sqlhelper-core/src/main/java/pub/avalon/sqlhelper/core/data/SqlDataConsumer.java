@@ -75,6 +75,13 @@ public interface SqlDataConsumer {
     List<TableGroupDatum> getTableGroupData();
 
     /**
+     * get table having data
+     *
+     * @return {@link TableHavingDatum}
+     */
+    List<TableHavingDatum> getTableHavingData();
+
+    /**
      * get table sort data
      *
      * @return {@link TableSortDatum}
