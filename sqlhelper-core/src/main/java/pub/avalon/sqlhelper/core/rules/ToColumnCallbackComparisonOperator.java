@@ -209,9 +209,10 @@ public interface ToColumnCallbackComparisonOperator<T> {
     /**
      * between ... and ...
      *
-     * @param tableHelperClass extends {@link TableHelper} class
-     * @param tableAlias       table alias
-     * @param columnCallback   {@link ColumnCallback}
+     * @param tableHelperClass     extends {@link TableHelper} class
+     * @param tableAlias           table alias
+     * @param columnCallback       {@link ColumnCallback}
+     * @param secondColumnCallback {@link ColumnCallback}
      * @return extends {@link Helper} object
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
@@ -220,13 +221,14 @@ public interface ToColumnCallbackComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback);
+            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback, ColumnCallback<SC> secondColumnCallback);
 
     /**
      * between ... and ...
      *
-     * @param tableHelperClass extends {@link TableHelper} class
-     * @param columnCallback   {@link ColumnCallback}
+     * @param tableHelperClass     extends {@link TableHelper} class
+     * @param columnCallback       {@link ColumnCallback}
+     * @param secondColumnCallback {@link ColumnCallback}
      * @return extends {@link Helper} object
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
@@ -235,8 +237,8 @@ public interface ToColumnCallbackComparisonOperator<T> {
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, ColumnCallback<SC> columnCallback) {
-        return between(tableHelperClass, null, columnCallback);
+            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, ColumnCallback<SC> columnCallback, ColumnCallback<SC> secondColumnCallback) {
+        return between(tableHelperClass, null, columnCallback, secondColumnCallback);
     }
 
     /**

@@ -102,11 +102,13 @@ public interface ToColumnCallbackComparisonOperatorImpl<T> extends ToColumnCallb
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback) {
+            SS extends SortHelper<SS>> T between(Class<S> tableHelperClass, String tableAlias, ColumnCallback<SC> columnCallback, ColumnCallback<SC> secondColumnCallback) {
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SC sc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         sc = columnCallback.apply(sc);
-        return between(sc);
+        SC secondSc = s.newColumnHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
+        secondSc = secondColumnCallback.apply(secondSc);
+        return between(sc, secondSc);
     }
 
     @Override

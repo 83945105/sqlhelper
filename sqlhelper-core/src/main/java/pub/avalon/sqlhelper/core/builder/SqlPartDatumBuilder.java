@@ -76,6 +76,13 @@ public interface SqlPartDatumBuilder<T extends Helper, S extends SqlPartDatum> {
     void accept(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias, String mappingFieldName, ColumnHandler... columnHandlers);
 
     /**
+     * get sql builder options
+     *
+     * @return {@link SqlBuilderOptions}
+     */
+    SqlBuilderOptions getSqlBuilderOptions();
+
+    /**
      * set sql builder options
      *
      * @param sqlBuilderOptions {@link SqlBuilderOptions}

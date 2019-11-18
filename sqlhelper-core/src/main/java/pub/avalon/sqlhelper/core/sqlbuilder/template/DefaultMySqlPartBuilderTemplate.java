@@ -4,6 +4,9 @@ import pub.avalon.beans.Pagination;
 import pub.avalon.sqlhelper.core.beans.ColumnHandler;
 import pub.avalon.sqlhelper.core.beans.LinkType;
 import pub.avalon.sqlhelper.core.data.*;
+import pub.avalon.sqlhelper.core.data.beans.ColumnType;
+import pub.avalon.sqlhelper.core.data.beans.Type;
+import pub.avalon.sqlhelper.core.data.beans.ValueType;
 import pub.avalon.sqlhelper.core.exception.SqlException;
 import pub.avalon.sqlhelper.core.option.SqlBuilderOptions;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.FinalSqlBuilderResult;
@@ -81,7 +84,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             List<OnDataLinker> onDataLinkers = joinTableDatum.getTableOnDatum().getOnDataLinkers();
             if (onDataLinkers != null && onDataLinkers.size() > 0) {
                 sql.append(" on ");
-                this.appendOnDataLinkersSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
+                this.appendOnDataLinkerListSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
             }
         }
         return FinalSqlBuilderResult.newInstance(sql.toString(), args);
@@ -309,130 +312,191 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendOnDataSqlArgs(StringBuilder sql, List<Object> args, List<OnDatum> onData, LinkType linkType) {
-        if (onData == null || onData.size() == 0) {
+    private void appendType(StringBuilder sql, AbstractComparisonSqlPartDatum sqlPartDatum) {
+        Type type = sqlPartDatum.getType();
+        switch (type) {
+            case DEFAULT:
+                return;
+            case SQL_PART:
+                sql.append(sqlPartDatum.getSqlPart());
+                return;
+            default:
+                ExceptionUtils.unsupportedTypeException(type);
+        }
+    }
+
+    private void appendColumnType(StringBuilder sql, AbstractComparisonSqlPartDatum sqlPartDatum) {
+        ColumnType columnType = sqlPartDatum.getColumnType();
+        switch (columnType) {
+            case DEFAULT:
+                sql.append(sqlPartDatum.getTableAlias())
+                        .append(".`")
+                        .append(sqlPartDatum.getColumnName())
+                        .append("`");
+                return;
+            case HANDLER:
+                return;
+            default:
+                ExceptionUtils.unsupportedColumnTypeException(columnType);
+        }
+    }
+
+    private void appendComparisonType(StringBuilder sql, AbstractComparisonSqlPartDatum sqlPartDatum) {
+        ComparisonType comparisonType = sqlPartDatum.getComparisonType();
+        switch (comparisonType) {
+            case NONE:
+                return;
+            case IS_NULL:
+                sql.append(" is null");
+                return;
+            case IS_NOT_NULL:
+                sql.append(" is not null");
+                return;
+            case EQUAL:
+                sql.append(" = ");
+                return;
+            case NOT_EQUAL:
+                sql.append(" != ");
+                return;
+            case GREATER:
+                sql.append(" > ");
+                return;
+            case GREATER_EQUAL:
+                sql.append(" >= ");
+                return;
+            case LESS:
+                sql.append(" < ");
+                return;
+            case LESS_EQUAL:
+                sql.append(" <= ");
+                return;
+            case BETWEEN:
+                sql.append(" between ");
+                return;
+            case LIKE:
+                sql.append(" like ");
+                return;
+            case IN:
+                sql.append(" in ");
+                return;
+            case NOT_IN:
+                sql.append(" not in ");
+                return;
+            default:
+                ExceptionUtils.unsupportedComparisonTypeException(comparisonType);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private void appendValueType(StringBuilder sql, List<Object> args, AbstractComparisonSqlPartDatum sqlPartDatum) {
+        ValueType valueType = sqlPartDatum.getValueType();
+        switch (valueType) {
+            case NONE_VALUE:
+                return;
+            case SINGLE_VALUE:
+                sql.append("?");
+                args.add(sqlPartDatum.getTargetValue());
+                return;
+            case PAIR_VALUE:
+                sql.append("? and ?");
+                args.add(sqlPartDatum.getTargetValue());
+                args.add(sqlPartDatum.getTargetSecondValue());
+                return;
+            case MULTI_VALUE:
+                Object value = sqlPartDatum.getTargetValue();
+                sql.append("(");
+                int i = 0;
+                if (value instanceof Collection) {
+                    for (Object val : (Collection) value) {
+                        if (i++ > 0) {
+                            sql.append(",");
+                        }
+                        sql.append("?");
+                        args.add(val);
+                    }
+                } else if (value.getClass().isArray()) {
+                    for (Object val : (Object[]) value) {
+                        if (i++ > 0) {
+                            sql.append(",");
+                        }
+                        sql.append("?");
+                        args.add(val);
+                    }
+                } else {
+                    ExceptionUtils.errorValueTypeException(value);
+                }
+                sql.append(")");
+                return;
+            case SUB_QUERY:
+                SqlBuilderResult sqlBuilderResult = sqlPartDatum.getTargetSubQuery();
+                sql.append("(").append(sqlBuilderResult.getPreparedStatementSql()).append(")");
+                args.addAll(sqlBuilderResult.getPreparedStatementArgs());
+                return;
+            case SQL_PART:
+                sql.append(sqlPartDatum.getTargetSqlPart());
+                return;
+            case SINGLE_SQL_PART_DATUM:
+                AbstractSqlPartDatum targetSqlPartDatum = sqlPartDatum.getTargetSqlPartDatum();
+                sql.append(targetSqlPartDatum.getTableAlias())
+                        .append(".`")
+                        .append(targetSqlPartDatum.getColumnName())
+                        .append("`");
+                return;
+            case PAIR_SQL_PART_DATUM:
+                targetSqlPartDatum = sqlPartDatum.getTargetSqlPartDatum();
+                AbstractSqlPartDatum targetSecondSqlPartDatum = sqlPartDatum.getTargetSecondSqlPartDatum();
+                sql.append(targetSqlPartDatum.getTableAlias())
+                        .append(".`")
+                        .append(targetSqlPartDatum.getColumnName())
+                        .append("` and ")
+                        .append(targetSecondSqlPartDatum.getTableAlias())
+                        .append(".`")
+                        .append(targetSecondSqlPartDatum.getColumnName())
+                        .append("`");
+                return;
+            case MULTI_SQL_PART_DATUM:
+                List<AbstractSqlPartDatum> sqlPartData = sqlPartDatum.getTargetMultiSqlPartDatum();
+                sql.append("(");
+                int j = 0;
+                for (AbstractSqlPartDatum spd : sqlPartData) {
+                    if (j++ > 0) {
+                        sql.append(",");
+                    }
+                    sql.append(spd.getTableAlias())
+                            .append(".`")
+                            .append(spd.getColumnName())
+                            .append("`");
+                }
+                sql.append(")");
+                return;
+            default:
+                ExceptionUtils.unsupportedValueTypeException(valueType);
+        }
+    }
+
+    private void appendSqlPartData(StringBuilder sql, List<Object> args, List<? extends AbstractComparisonSqlPartDatum> sqlPartData, LinkType linkType) {
+        if (sqlPartData == null || sqlPartData.size() == 0) {
             return;
         }
-        if (linkType == LinkType.OR && onData.size() > 1) {
+        if (linkType == LinkType.OR && sqlPartData.size() > 1) {
             sql.append("(");
         }
         int i = 0;
-        for (OnDatum onDatum : onData) {
+        for (AbstractComparisonSqlPartDatum sqlPartDatum : sqlPartData) {
             if (i++ > 0) {
                 sql.append(" and ");
             }
-            sql.append(onDatum.getTableAlias())
-                    .append(".`")
-                    .append(onDatum.getColumnName())
-                    .append("`");
-            switch (onDatum.getOnType()) {
-                case IS_NULL:
-                    sql.append(" is null");
-                    continue;
-                case IS_NOT_NULL:
-                    sql.append(" is not null");
-                    continue;
-                case EQUAL:
-                    sql.append(" = ");
-                    break;
-                case NOT_EQUAL:
-                    sql.append(" != ");
-                    break;
-                case GREATER:
-                    sql.append(" > ");
-                    break;
-                case GREATER_EQUAL:
-                    sql.append(" >= ");
-                    break;
-                case LESS:
-                    sql.append(" < ");
-                    break;
-                case LESS_EQUAL:
-                    sql.append(" <= ");
-                    break;
-                case BETWEEN:
-                    sql.append(" between ? and ?");
-                    args.add(onDatum.getTargetValue());
-                    args.add(onDatum.getTargetSecondValue());
-                    continue;
-                case LIKE:
-                    sql.append(" like ?");
-                    args.add(onDatum.getTargetValue());
-                    continue;
-                case IN:
-                    int count = onDatum.getValueCount();
-                    sql.append(" in (");
-                    for (; count > 0; count--) {
-                        if (count == 1) {
-                            sql.append("?");
-                        } else {
-                            sql.append("?,");
-                        }
-                    }
-                    sql.append(")");
-                    Object value = onDatum.getTargetValue();
-                    if (value instanceof Collection) {
-                        args.addAll((Collection) value);
-                    } else if (value.getClass().isArray()) {
-                        args.addAll(Arrays.asList((Object[]) value));
-                    } else {
-                        throw new SqlException("the value type can only be Array or Collection.");
-                    }
-                    continue;
-                case NOT_IN:
-                    count = onDatum.getValueCount();
-                    sql.append(" not in (");
-                    for (; count > 0; count--) {
-                        if (count == 1) {
-                            sql.append("?");
-                        } else {
-                            sql.append("?,");
-                        }
-                    }
-                    sql.append(")");
-                    value = onDatum.getTargetValue();
-                    if (value instanceof Collection) {
-                        args.addAll((Collection) value);
-                    } else if (value.getClass().isArray()) {
-                        args.addAll(Arrays.asList((Object[]) value));
-                    } else {
-                        throw new SqlException("the value type can only be Array or Collection.");
-                    }
-                    continue;
-                default:
-                    throw new SqlException("the WhereType is wrong.");
-            }
-            switch (onDatum.getType()) {
-                case VALUE:
-                    sql.append("?");
-                    args.add(onDatum.getTargetValue());
-                    continue;
-                case JOIN_ON:
-                    List<OnDatum> onDatumList = onDatum.getTargetOnData();
-                    // TODO 暂时只支持单个对象条件
-                    sql.append(onDatumList.get(0).getTableAlias())
-                            .append(".`")
-                            .append(onDatumList.get(0).getColumnName())
-                            .append("`");
-                    continue;
-                case JOIN_COLUMN:
-                    List<ColumnDatum> columnData = onDatum.getTargetColumnData();
-                    // TODO 暂时只支持单个对象条件
-                    sql.append(columnData.get(0).getTableAlias())
-                            .append(".`")
-                            .append(columnData.get(0).getColumnName())
-                            .append("`");
-                    continue;
-                default:
-                    throw new SqlException("the OnValueType is wrong.");
-            }
+            appendType(sql, sqlPartDatum);
+            appendColumnType(sql, sqlPartDatum);
+            appendComparisonType(sql, sqlPartDatum);
+            appendValueType(sql, args, sqlPartDatum);
         }
-        if (linkType == LinkType.OR && onData.size() > 1) {
+        if (linkType == LinkType.OR && sqlPartData.size() > 1) {
             sql.append(")");
         }
     }
 
-    private void appendOnDataLinkersSqlArgs(StringBuilder sql, List<Object> args, List<OnDataLinker> onDataLinkers, LinkType linkType, boolean checkBrackets) {
+    private void appendOnDataLinkerListSqlArgs(StringBuilder sql, List<Object> args, List<OnDataLinker> onDataLinkers, LinkType linkType, boolean checkBrackets) {
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return;
         }
@@ -449,14 +513,14 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendOnDataSqlArgs(sql, args, onData, LinkType.AND);
+                        this.appendSqlPartData(sql, args, onData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataSqlArgs(sql, args, onData, LinkType.OR);
+                        this.appendSqlPartData(sql, args, onData, LinkType.OR);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -467,14 +531,14 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendOnDataLinkersSqlArgs(sql, args, childOnDataLinkers, LinkType.AND, true);
+                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataLinkersSqlArgs(sql, args, childOnDataLinkers, LinkType.OR, true);
+                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.OR, true);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");
@@ -489,456 +553,6 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             return;
         }
         sql.insert(length, "(").append(")");
-    }
-
-    private void appendWhereDataValueSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        switch (whereDatum.getWhereType()) {
-            case IS_NULL:
-                sql.append(" is null");
-                break;
-            case IS_NOT_NULL:
-                sql.append(" is not null");
-                break;
-            case EQUAL:
-                sql.append(" = ?");
-                args.add(whereDatum.getTargetValue());
-                break;
-            case NOT_EQUAL:
-                sql.append(" != ?");
-                args.add(whereDatum.getTargetValue());
-                break;
-            case GREATER:
-                sql.append(" > ?");
-                args.add(whereDatum.getTargetValue());
-                break;
-            case GREATER_EQUAL:
-                sql.append(" >= ?");
-                args.add(whereDatum.getTargetValue());
-                break;
-            case LESS:
-                sql.append(" < ?");
-                args.add(whereDatum.getTargetValue());
-                break;
-            case LESS_EQUAL:
-                sql.append(" <= ?");
-                args.add(whereDatum.getTargetValue());
-                break;
-            case BETWEEN:
-                sql.append(" between ? and ?");
-                args.add(whereDatum.getTargetValue());
-                args.add(whereDatum.getTargetSecondValue());
-                break;
-            case LIKE:
-                sql.append(" like ?");
-                args.add(whereDatum.getTargetValue());
-                break;
-            case IN:
-                sql.append(" in (");
-                int count = whereDatum.getValueCount();
-                for (; count > 0; count--) {
-                    if (count == 1) {
-                        sql.append("?");
-                    } else {
-                        sql.append("?,");
-                    }
-                }
-                sql.append(")");
-                Object value = whereDatum.getTargetValue();
-                if (value instanceof Collection) {
-                    args.addAll((Collection) value);
-                } else if (value.getClass().isArray()) {
-                    args.addAll(Arrays.asList((Object[]) value));
-                } else {
-                    throw new SqlException("the value type can only be Array or Collection.");
-                }
-                break;
-            case NOT_IN:
-                sql.append(" not in (");
-                count = whereDatum.getValueCount();
-                for (; count > 0; count--) {
-                    if (count == 1) {
-                        sql.append("?");
-                    } else {
-                        sql.append("?,");
-                    }
-                }
-                sql.append(")");
-                value = whereDatum.getTargetValue();
-                if (value instanceof Collection) {
-                    args.addAll((Collection) value);
-                } else if (value.getClass().isArray()) {
-                    args.addAll(Arrays.asList((Object[]) value));
-                } else {
-                    throw new SqlException("the value type can only be Array or Collection.");
-                }
-                break;
-            default:
-                throw new SqlException("the WhereType is wrong.");
-        }
-    }
-
-    private void appendWhereDataJoinWhereSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        List<WhereDatum> targetWhereData = whereDatum.getTargetWhereData();
-        switch (whereDatum.getWhereType()) {
-            case IS_NULL:
-                sql.append(" is null");
-                break;
-            case IS_NOT_NULL:
-                sql.append(" is not null");
-                break;
-            case EQUAL:
-                sql.append(" = ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("`");
-                break;
-            case NOT_EQUAL:
-                sql.append(" != ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("`");
-                break;
-            case GREATER:
-                sql.append(" > ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("`");
-                break;
-            case GREATER_EQUAL:
-                sql.append(" >= ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("`");
-                break;
-            case LESS:
-                sql.append(" < ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("`");
-                break;
-            case LESS_EQUAL:
-                sql.append(" <= ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("`");
-                break;
-            case BETWEEN:
-                sql.append(" between ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("` and ")
-                        .append(targetWhereData.get(1).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(1).getColumnName())
-                        .append("`");
-                break;
-            case LIKE:
-                sql.append(" like ")
-                        .append(targetWhereData.get(0).getTableAlias())
-                        .append(".`")
-                        .append(targetWhereData.get(0).getColumnName())
-                        .append("`");
-                break;
-            case IN:
-                sql.append(" in (");
-                for (int i = 0; i < targetWhereData.size(); i++) {
-                    if (i > 0) {
-                        sql.append(",");
-                    }
-                    sql.append(targetWhereData.get(i).getTableAlias())
-                            .append(".`")
-                            .append(targetWhereData.get(i).getColumnName())
-                            .append("`");
-                }
-                sql.append(")");
-                break;
-            case NOT_IN:
-                sql.append(" not in (");
-                for (int i = 0; i < targetWhereData.size(); i++) {
-                    if (i > 0) {
-                        sql.append(",");
-                    }
-                    sql.append(targetWhereData.get(i).getTableAlias())
-                            .append(".`")
-                            .append(targetWhereData.get(i).getColumnName())
-                            .append("`");
-                }
-                sql.append(")");
-                break;
-            default:
-                throw new SqlException("the WhereType is wrong.");
-        }
-    }
-
-    private void appendWhereDataJoinColumnSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        List<ColumnDatum> columnData = whereDatum.getTargetColumnData();
-        if (columnData == null || columnData.size() == 0) {
-            return;
-        }
-        int i = 0;
-        switch (whereDatum.getWhereType()) {
-            case IS_NULL:
-                sql.append(" is null");
-                break;
-            case IS_NOT_NULL:
-                sql.append(" is not null");
-                break;
-            case EQUAL:
-                sql.append(" = ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                break;
-            case NOT_EQUAL:
-                sql.append(" != ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                break;
-            case GREATER:
-                sql.append(" > ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                break;
-            case GREATER_EQUAL:
-                sql.append(" >= ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                break;
-            case LESS:
-                sql.append(" < ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                break;
-            case LESS_EQUAL:
-                sql.append(" <= ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                break;
-            case BETWEEN:
-                sql.append(" between ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                    if (i >= 2) {
-                        break;
-                    }
-                }
-                break;
-            case LIKE:
-                sql.append(" like ");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(" and ");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                break;
-            case IN:
-                sql.append(" in (");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(",");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                sql.append(")");
-                break;
-            case NOT_IN:
-                sql.append(" not in (");
-                for (ColumnDatum columnDatum : columnData) {
-                    if (i++ > 0) {
-                        sql.append(",");
-                    }
-                    sql.append(columnDatum.getTableAlias())
-                            .append(".`")
-                            .append(columnDatum.getColumnName())
-                            .append("`");
-                }
-                sql.append(")");
-                break;
-            default:
-                throw new SqlException("the WhereType is wrong.");
-        }
-    }
-
-    private void appendWhereDataSubQuerySqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        switch (whereDatum.getWhereType()) {
-            case IS_NULL:
-                sql.append(" is null");
-                break;
-            case IS_NOT_NULL:
-                sql.append(" is not null");
-                break;
-            case BETWEEN:
-                sql.append(" between ? and ?");
-                // TODO 后续添加
-                throw new SqlException("暂不支持");
-                // TODO 别忘记break
-            case EQUAL:
-                sql.append(" = (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case NOT_EQUAL:
-                sql.append(" != (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case GREATER:
-                sql.append(" > (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case GREATER_EQUAL:
-                sql.append(" >= (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case LESS:
-                sql.append(" < (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case LESS_EQUAL:
-                sql.append(" <= (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case LIKE:
-                sql.append(" like (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case IN:
-                sql.append(" in (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            case NOT_IN:
-                sql.append(" not in (")
-                        .append(whereDatum.getTargetSubQuery().getPreparedStatementSql())
-                        .append(")");
-                args.addAll(whereDatum.getTargetSubQuery().getPreparedStatementArgs());
-                break;
-            default:
-                throw new SqlException("the WhereType is wrong.");
-        }
-    }
-
-    private void appendWhereDataSqlPartSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        sql.append(" ").append(whereDatum.getSqlPart());
-    }
-
-    private void appendWhereDataSqlArgs(StringBuilder sql, List<Object> args, WhereDatum whereDatum) {
-        switch (whereDatum.getType()) {
-            case VALUE:
-                this.appendWhereDataValueSqlArgs(sql, args, whereDatum);
-                break;
-            case JOIN_WHERE:
-                this.appendWhereDataJoinWhereSqlArgs(sql, args, whereDatum);
-                break;
-            case JOIN_COLUMN:
-                this.appendWhereDataJoinColumnSqlArgs(sql, args, whereDatum);
-                break;
-            case SUB_QUERY:
-                this.appendWhereDataSubQuerySqlArgs(sql, args, whereDatum);
-                break;
-            case SQL_PART:
-                this.appendWhereDataSqlPartSqlArgs(sql, args, whereDatum);
-                break;
-            default:
-                throw new SqlException("the WhereValueType is wrong.");
-        }
-    }
-
-    private void appendWhereDataListSqlArgs(StringBuilder sql, List<Object> args, List<WhereDatum> whereData, LinkType linkType) {
-        if (whereData == null || whereData.size() == 0) {
-            return;
-        }
-        if (linkType == LinkType.OR && whereData.size() > 1) {
-            sql.append("(");
-        }
-        int i = 0;
-        for (WhereDatum whereDatum : whereData) {
-            if (i++ > 0) {
-                sql.append(" and ");
-            }
-            sql.append(whereDatum.getTableAlias())
-                    .append(".`")
-                    .append(whereDatum.getColumnName())
-                    .append("`");
-            this.appendWhereDataSqlArgs(sql, args, whereDatum);
-        }
-        if (linkType == LinkType.OR && whereData.size() > 1) {
-            sql.append(")");
-        }
     }
 
     private void appendWhereDataLinkerListSqlArgs(StringBuilder sql, List<Object> args, List<WhereDataLinker> whereDataLinkerList, LinkType linkType, boolean checkBrackets) {
@@ -958,14 +572,14 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendWhereDataListSqlArgs(sql, args, whereData, LinkType.AND);
+                        this.appendSqlPartData(sql, args, whereData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendWhereDataListSqlArgs(sql, args, whereData, LinkType.OR);
+                        this.appendSqlPartData(sql, args, whereData, LinkType.OR);
                         continue;
                     default:
                         throw new SqlException("the LinkType is wrong.");

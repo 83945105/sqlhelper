@@ -32,6 +32,11 @@ public final class SortSqlPartDatumBuilder<T extends Helper> extends AbstractSql
     }
 
     @Override
+    public SqlBuilderOptions getSqlBuilderOptions() {
+        return this.sqlBuilderOptions;
+    }
+
+    @Override
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.sqlBuilderOptions = sqlBuilderOptions;
     }

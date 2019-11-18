@@ -2,15 +2,13 @@ package pub.avalon.sqlhelper.core.rules;
 
 import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
 import pub.avalon.sqlhelper.core.data.HavingDatum;
-import pub.avalon.sqlhelper.core.rules.impl.BaseComparisonOperatorImpl;
-import pub.avalon.sqlhelper.core.rules.impl.ToColumnCallbackComparisonOperatorImpl;
-import pub.avalon.sqlhelper.core.rules.impl.ToColumnComparisonOperatorImpl;
-import pub.avalon.sqlhelper.core.rules.impl.ToSubQueryComparisonOperatorImpl;
+import pub.avalon.sqlhelper.core.helper.Helper;
+import pub.avalon.sqlhelper.core.rules.impl.*;
 
 /**
  * @author baichao
  */
-public interface HavingComparisonOperator<T> extends BaseComparisonOperator<T>,
+public interface HavingComparisonOperator<T extends Helper> extends BaseComparisonOperator<T>,
         BaseComparisonOperatorImpl<T, HavingDatum>,
         ToColumnComparisonOperator<T>,
         ToColumnComparisonOperatorImpl<T, HavingDatum>,
@@ -18,6 +16,7 @@ public interface HavingComparisonOperator<T> extends BaseComparisonOperator<T>,
         ToColumnCallbackComparisonOperatorImpl<T>,
         ToSubQueryComparisonOperator<T>,
         ToSubQueryComparisonOperatorImpl<T, HavingDatum>,
-        ToSqlPartBuilderComparisonOperator<T, HavingSqlPartDatumBuilder> {
+        ToSqlPartBuilderComparisonOperator<T, HavingDatum, HavingSqlPartDatumBuilder<T>>,
+        ToSqlPartBuilderComparisonOperatorImpl<T, HavingDatum, HavingSqlPartDatumBuilder<T>> {
 
 }

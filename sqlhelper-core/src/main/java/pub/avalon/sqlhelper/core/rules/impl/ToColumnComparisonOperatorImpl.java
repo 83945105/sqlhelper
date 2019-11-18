@@ -1,13 +1,12 @@
 package pub.avalon.sqlhelper.core.rules.impl;
 
-import pub.avalon.sqlhelper.core.data.AbstractComparisonSqlPartDatum;
-import pub.avalon.sqlhelper.core.data.ColumnDatum;
-import pub.avalon.sqlhelper.core.data.ComparisonType;
-import pub.avalon.sqlhelper.core.data.SqlPartDatum;
+import pub.avalon.sqlhelper.core.data.*;
 import pub.avalon.sqlhelper.core.helper.ColumnHelper;
 import pub.avalon.sqlhelper.core.helper.Helper;
 import pub.avalon.sqlhelper.core.rules.ToColumnComparisonOperator;
+import pub.avalon.sqlhelper.core.utils.ExceptionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +41,9 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.EQUAL, columnData));
+        for (ColumnDatum columnDatum : columnData) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.EQUAL, columnDatum));
+        }
         return this.getHelper();
     }
 
@@ -52,7 +53,9 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.NOT_EQUAL, columnData));
+        for (ColumnDatum columnDatum : columnData) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.NOT_EQUAL, columnDatum));
+        }
         return this.getHelper();
     }
 
@@ -62,7 +65,9 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.GREATER, columnData));
+        for (ColumnDatum columnDatum : columnData) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.GREATER, columnDatum));
+        }
         return this.getHelper();
     }
 
@@ -72,7 +77,9 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.GREATER_EQUAL, columnData));
+        for (ColumnDatum columnDatum : columnData) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.GREATER_EQUAL, columnDatum));
+        }
         return this.getHelper();
     }
 
@@ -82,7 +89,9 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.LESS, columnData));
+        for (ColumnDatum columnDatum : columnData) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LESS, columnDatum));
+        }
         return this.getHelper();
     }
 
@@ -92,20 +101,26 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.LESS_EQUAL, columnData));
+        for (ColumnDatum columnDatum : columnData) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LESS_EQUAL, columnDatum));
+        }
         return this.getHelper();
     }
 
     @Override
-    default T between(ColumnHelper<?> columnHelper) {
+    default T between(ColumnHelper<?> columnHelper, ColumnHelper<?> secondColumnHelper) {
         List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
+        List<ColumnDatum> secondColumnData = secondColumnHelper.takeoutSqlPartData();
+        if (columnData == null || columnData.size() == 0 || secondColumnData == null || secondColumnData.size() == 0) {
             return this.getHelper();
         }
-        if (columnData.size() != 2) {
-            throw new RuntimeException("ColumnData size must be 2 in between.");
+        if (columnData.size() != secondColumnData.size()) {
+            ExceptionUtils.columnDataSizeNotEqualException();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.BETWEEN, columnData));
+        int size = columnData.size();
+        for (int i = 0; i < size; i++) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetPairSqlPartDatum(ComparisonType.BETWEEN, columnData.get(i), secondColumnData.get(i)));
+        }
         return this.getHelper();
     }
 
@@ -115,27 +130,37 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         if (columnData == null || columnData.size() == 0) {
             return this.getHelper();
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.LIKE, columnData));
+        for (ColumnDatum columnDatum : columnData) {
+            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LIKE, columnDatum));
+        }
         return this.getHelper();
     }
 
     @Override
-    default T in(ColumnHelper<?> columnHelper) {
-        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
+    default T in(ColumnHelper<?>... columnHelpers) {
+        List<AbstractSqlPartDatum> sqlPartData = new ArrayList<>(columnHelpers.length * 2);
+        for (ColumnHelper<?> columnHelper : columnHelpers) {
+            List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
+            if (columnData == null || columnData.size() == 0) {
+                continue;
+            }
+            sqlPartData.addAll(columnData);
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.IN, columnData));
+        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiSqlPartDatum(ComparisonType.IN, sqlPartData));
         return this.getHelper();
     }
 
     @Override
-    default T notIn(ColumnHelper<?> columnHelper) {
-        List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
-        if (columnData == null || columnData.size() == 0) {
-            return this.getHelper();
+    default T notIn(ColumnHelper<?>... columnHelpers) {
+        List<AbstractSqlPartDatum> sqlPartData = new ArrayList<>(columnHelpers.length * 2);
+        for (ColumnHelper<?> columnHelper : columnHelpers) {
+            List<ColumnDatum> columnData = columnHelper.takeoutSqlPartData();
+            if (columnData == null || columnData.size() == 0) {
+                continue;
+            }
+            sqlPartData.addAll(columnData);
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetColumnData(ComparisonType.NOT_IN, columnData));
+        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiSqlPartDatum(ComparisonType.NOT_IN, sqlPartData));
         return this.getHelper();
     }
 }

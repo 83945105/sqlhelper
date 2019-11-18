@@ -29,6 +29,11 @@ public final class GroupSqlPartDatumBuilder<T extends Helper> extends AbstractSq
     }
 
     @Override
+    public SqlBuilderOptions getSqlBuilderOptions() {
+        return this.sqlBuilderOptions;
+    }
+
+    @Override
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.sqlBuilderOptions = sqlBuilderOptions;
     }

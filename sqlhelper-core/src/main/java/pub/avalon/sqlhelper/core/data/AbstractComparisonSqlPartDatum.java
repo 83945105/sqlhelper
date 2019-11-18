@@ -1,5 +1,9 @@
 package pub.avalon.sqlhelper.core.data;
 
+import pub.avalon.sqlhelper.core.beans.ColumnHandler;
+import pub.avalon.sqlhelper.core.data.beans.ColumnType;
+import pub.avalon.sqlhelper.core.data.beans.Type;
+import pub.avalon.sqlhelper.core.data.beans.ValueType;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
 import java.util.List;
@@ -9,27 +13,31 @@ import java.util.List;
  */
 public abstract class AbstractComparisonSqlPartDatum<T extends AbstractComparisonSqlPartDatum<T>> extends AbstractSqlPartDatum<T> {
 
-    protected Type type = TypeEnum.DEFAULT;
+    protected Type type = Type.DEFAULT;
 
     protected String sqlPart;
 
-    protected ColumnType columnType = ColumnTypeEnum.DEFAULT;
+    protected ColumnType columnType = ColumnType.DEFAULT;
 
-    protected ValueType valueType = ValueTypeEnum.VALUE;
+    protected ColumnHandler columnHandler;
 
     protected ComparisonType comparisonType = ComparisonType.NONE;
+
+    protected ValueType valueType = ValueType.SINGLE_VALUE;
 
     protected Object targetValue;
 
     protected Object targetSecondValue;
 
-    protected long targetValueCount;
-
     protected SqlBuilderResult targetSubQuery;
 
     protected String targetSqlPart;
 
-    protected List<ColumnDatum> targetColumnData;
+    protected AbstractSqlPartDatum targetSqlPartDatum;
+
+    protected AbstractSqlPartDatum targetSecondSqlPartDatum;
+
+    protected List<AbstractSqlPartDatum> targetMultiSqlPartDatum;
 
     public AbstractComparisonSqlPartDatum(String templateTableName, String templateTableAlias, String templateColumnName, String templateColumnAlias) {
         super(templateTableName, templateTableAlias, templateColumnName, templateColumnAlias);
@@ -46,51 +54,88 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
 
     @SuppressWarnings("unchecked")
     public T setSqlPart(String sqlPart) {
-        this.type = TypeEnum.SQL_PART;
+        this.type = Type.SQL_PART;
         this.sqlPart = sqlPart;
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
-    public T setTargetValue(ComparisonType comparisonType, Object targetValue, long targetValueCount) {
-        this.valueType = ValueTypeEnum.VALUE;
-        this.comparisonType = comparisonType;
-        this.targetValue = targetValue;
-        this.targetValueCount = targetValueCount;
+    public T setColumnHandler(ColumnHandler columnHandler) {
+        this.columnType = ColumnType.HANDLER;
+        this.columnHandler = columnHandler;
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
-    public T setTargetValue(ComparisonType comparisonType, Object targetValue, Object targetSecondValue) {
-        this.valueType = ValueTypeEnum.VALUE;
+    public T setTargetNoneValue(ComparisonType comparisonType) {
         this.comparisonType = comparisonType;
+        this.valueType = ValueType.NONE_VALUE;
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setTargetSingleValue(ComparisonType comparisonType, Object targetValue) {
+        this.comparisonType = comparisonType;
+        this.valueType = ValueType.SINGLE_VALUE;
+        this.targetValue = targetValue;
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setTargetPairValue(ComparisonType comparisonType, Object targetValue, Object targetSecondValue) {
+        this.comparisonType = comparisonType;
+        this.valueType = ValueType.PAIR_VALUE;
         this.targetValue = targetValue;
         this.targetSecondValue = targetSecondValue;
-        this.targetValueCount = 2;
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setTargetMultiValue(ComparisonType comparisonType, Object targetValue) {
+        this.comparisonType = comparisonType;
+        this.valueType = ValueType.MULTI_VALUE;
+        this.targetValue = targetValue;
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T setTargetSubQuery(ComparisonType comparisonType, SqlBuilderResult targetSubQuery) {
-        this.valueType = ValueTypeEnum.SUB_QUERY;
         this.comparisonType = comparisonType;
+        this.valueType = ValueType.SUB_QUERY;
         this.targetSubQuery = targetSubQuery;
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
     public T setTargetSqlPart(String targetSqlPart) {
-        this.valueType = ValueTypeEnum.SQL_PART;
         this.comparisonType = ComparisonType.NONE;
+        this.valueType = ValueType.SQL_PART;
         this.targetSqlPart = targetSqlPart;
         return (T) this;
     }
 
     @SuppressWarnings("unchecked")
-    public T setTargetColumnData(ComparisonType comparisonType, List<ColumnDatum> targetColumnData) {
-        this.valueType = ValueTypeEnum.JOIN_COLUMN;
+    public T setTargetSingleSqlPartDatum(ComparisonType comparisonType, AbstractSqlPartDatum targetSqlPartDatum) {
         this.comparisonType = comparisonType;
-        this.targetColumnData = targetColumnData;
+        this.valueType = ValueType.SINGLE_SQL_PART_DATUM;
+        this.targetSqlPartDatum = targetSqlPartDatum;
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setTargetPairSqlPartDatum(ComparisonType comparisonType, AbstractSqlPartDatum targetSqlPartDatum, AbstractSqlPartDatum targetSecondSqlPartDatum) {
+        this.comparisonType = comparisonType;
+        this.valueType = ValueType.PAIR_SQL_PART_DATUM;
+        this.targetSqlPartDatum = targetSqlPartDatum;
+        this.targetSecondSqlPartDatum = targetSecondSqlPartDatum;
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T setTargetMultiSqlPartDatum(ComparisonType comparisonType, List<AbstractSqlPartDatum> targetMultiSqlPartDatum) {
+        this.comparisonType = comparisonType;
+        this.valueType = ValueType.MULTI_SQL_PART_DATUM;
+        this.targetMultiSqlPartDatum = targetMultiSqlPartDatum;
         return (T) this;
     }
 
@@ -106,12 +151,16 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
         return columnType;
     }
 
-    public ValueType getValueType() {
-        return valueType;
+    public ColumnHandler getColumnHandler() {
+        return columnHandler;
     }
 
     public ComparisonType getComparisonType() {
         return comparisonType;
+    }
+
+    public ValueType getValueType() {
+        return valueType;
     }
 
     public Object getTargetValue() {
@@ -122,10 +171,6 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
         return targetSecondValue;
     }
 
-    public long getTargetValueCount() {
-        return targetValueCount;
-    }
-
     public SqlBuilderResult getTargetSubQuery() {
         return targetSubQuery;
     }
@@ -134,48 +179,15 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
         return targetSqlPart;
     }
 
-    public List<ColumnDatum> getTargetColumnData() {
-        return targetColumnData;
+    public AbstractSqlPartDatum getTargetSqlPartDatum() {
+        return targetSqlPartDatum;
     }
 
-    public enum TypeEnum implements Type {
-        /**
-         * default type
-         */
-        DEFAULT,
-        /**
-         * custom sql
-         */
-        SQL_PART
+    public AbstractSqlPartDatum getTargetSecondSqlPartDatum() {
+        return targetSecondSqlPartDatum;
     }
 
-    public enum ColumnTypeEnum implements ColumnType {
-        /**
-         * default type
-         */
-        DEFAULT
-    }
-
-    public enum ValueTypeEnum implements ValueType {
-        /**
-         * specific value
-         */
-        VALUE,
-        /**
-         * sub query value
-         */
-        SUB_QUERY,
-        /**
-         * custom sql value
-         */
-        SQL_PART,
-        /**
-         * join other {@link WhereDatum}
-         */
-        JOIN_WHERE,
-        /**
-         * join other {@link ColumnDatum}
-         */
-        JOIN_COLUMN
+    public List<AbstractSqlPartDatum> getTargetMultiSqlPartDatum() {
+        return targetMultiSqlPartDatum;
     }
 }

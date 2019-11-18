@@ -59,10 +59,11 @@ public interface ToColumnComparisonOperator<T> {
     /**
      * between ... and ...
      *
-     * @param columnHelper extends {@link ColumnHelper} object
+     * @param columnHelper       extends {@link ColumnHelper} object
+     * @param secondColumnHelper extends {@link ColumnHelper} object
      * @return extends {@link Helper} object
      */
-    T between(ColumnHelper<?> columnHelper);
+    T between(ColumnHelper<?> columnHelper, ColumnHelper<?> secondColumnHelper);
 
     /**
      * like
@@ -75,16 +76,16 @@ public interface ToColumnComparisonOperator<T> {
     /**
      * in
      *
-     * @param columnHelper extends {@link ColumnHelper} object
+     * @param columnHelpers extends {@link ColumnHelper} objects
      * @return extends {@link Helper} object
      */
-    T in(ColumnHelper<?> columnHelper);
+    T in(ColumnHelper<?>... columnHelpers);
 
     /**
      * not in
      *
-     * @param columnHelper extends {@link ColumnHelper} object
+     * @param columnHelpers extends {@link ColumnHelper} objects
      * @return extends {@link Helper} object
      */
-    T notIn(ColumnHelper<?> columnHelper);
+    T notIn(ColumnHelper<?>... columnHelpers);
 }

@@ -1,5 +1,9 @@
 package pub.avalon.sqlhelper.core.utils;
 
+import pub.avalon.sqlhelper.core.data.ComparisonType;
+import pub.avalon.sqlhelper.core.data.beans.ColumnType;
+import pub.avalon.sqlhelper.core.data.beans.Type;
+import pub.avalon.sqlhelper.core.data.beans.ValueType;
 import pub.avalon.sqlhelper.core.exception.ComparisonRuleNullException;
 
 /**
@@ -68,6 +72,34 @@ public final class ExceptionUtils {
 
     public static void notJoinException(String alias) {
         throw new RuntimeException("Can not find Alias " + alias + " join class.");
+    }
+
+    public static void unsupportedTypeException(Type type) {
+        throw new RuntimeException("unsupported type " + type.getClass());
+    }
+
+    public static void unsupportedColumnTypeException(ColumnType columnType) {
+        throw new RuntimeException("unsupported columnType " + columnType.getClass());
+    }
+
+    public static void unsupportedValueTypeException(ValueType valueType) {
+        throw new RuntimeException("unsupported valueType " + valueType.getClass());
+    }
+
+    public static void errorValueTypeException(Object value) {
+        throw new RuntimeException("error valueType " + value.getClass());
+    }
+
+    public static void unsupportedComparisonTypeException(ComparisonType comparisonType) {
+        throw new RuntimeException("unsupported comparisonType " + comparisonType.getClass());
+    }
+
+    public static void valueCountException(long valueCount) {
+        throw new RuntimeException("valueCount must be greater than 0, but the actual is " + valueCount);
+    }
+
+    public static void columnDataSizeNotEqualException() {
+        throw new RuntimeException("columnData size must be equal.");
     }
 
 
