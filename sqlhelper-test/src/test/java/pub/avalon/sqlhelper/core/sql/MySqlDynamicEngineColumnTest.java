@@ -366,13 +366,13 @@ public class MySqlDynamicEngineColumnTest {
     void Test_sqlColumn_logicalConditions() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
                 .sqlColumn(new SqlColumn<SysUserDTO.Helper.Column>("A") {{
-                    if(true) {
+                    if (true) {
                         column(table -> table.id("id"));
                     }
-                    if(false) {
+                    if (false) {
                         column(table -> table.userName("userName"));
                     }
-                    if(true) {
+                    if (true) {
                         column(table -> table.loginName("loginName"));
                     }
                 }})

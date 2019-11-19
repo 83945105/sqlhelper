@@ -8,7 +8,7 @@ import pub.avalon.sqlhelper.core.helper.Helper;
 /**
  * @author baichao
  */
-public interface ToSqlPartBuilderComparisonOperator<T extends Helper, S extends AbstractComparisonSqlPartDatum<S>, SB extends AbstractComparisonSqlPartDatumBuilder<T, S>> {
+public interface ToSqlPartBuilderComparisonOperator<T extends Helper, SB extends AbstractComparisonSqlPartDatumBuilder> {
 
     /**
      * equal to

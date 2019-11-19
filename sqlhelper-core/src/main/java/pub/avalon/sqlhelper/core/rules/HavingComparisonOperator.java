@@ -16,7 +16,7 @@ public interface HavingComparisonOperator<T extends Helper> extends BaseComparis
         ToColumnCallbackComparisonOperatorImpl<T>,
         ToSubQueryComparisonOperator<T>,
         ToSubQueryComparisonOperatorImpl<T, HavingDatum>,
-        ToSqlPartBuilderComparisonOperator<T, HavingDatum, HavingSqlPartDatumBuilder<T>>,
-        ToSqlPartBuilderComparisonOperatorImpl<T, HavingDatum, HavingSqlPartDatumBuilder<T>> {
+        ToSqlPartBuilderComparisonOperator<T, HavingSqlPartDatumBuilder>,
+        ToSqlPartBuilderComparisonOperatorImpl<T, HavingDatum, HavingSqlPartDatumBuilder> {
 
 }

@@ -16,7 +16,7 @@ public interface WhereComparisonOperator<T extends Helper> extends BaseCompariso
         ToColumnCallbackComparisonOperatorImpl<T>,
         ToSubQueryComparisonOperator<T>,
         ToSubQueryComparisonOperatorImpl<T, WhereDatum>,
-        ToSqlPartBuilderComparisonOperator<T, WhereDatum, WhereSqlPartDatumBuilder<T>>,
-        ToSqlPartBuilderComparisonOperatorImpl<T, WhereDatum, WhereSqlPartDatumBuilder<T>> {
+        ToSqlPartBuilderComparisonOperator<T, WhereSqlPartDatumBuilder>,
+        ToSqlPartBuilderComparisonOperatorImpl<T, WhereDatum, WhereSqlPartDatumBuilder> {
 
 }

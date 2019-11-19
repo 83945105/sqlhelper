@@ -16,7 +16,7 @@ public interface OnComparisonOperator<T extends Helper> extends BaseComparisonOp
         ToColumnCallbackComparisonOperatorImpl<T>,
         ToSubQueryComparisonOperator<T>,
         ToSubQueryComparisonOperatorImpl<T, OnDatum>,
-        ToSqlPartBuilderComparisonOperator<T, OnDatum, OnSqlPartDatumBuilder<T>>,
-        ToSqlPartBuilderComparisonOperatorImpl<T, OnDatum, OnSqlPartDatumBuilder<T>> {
+        ToSqlPartBuilderComparisonOperator<T, OnSqlPartDatumBuilder>,
+        ToSqlPartBuilderComparisonOperatorImpl<T, OnDatum, OnSqlPartDatumBuilder> {
 
 }

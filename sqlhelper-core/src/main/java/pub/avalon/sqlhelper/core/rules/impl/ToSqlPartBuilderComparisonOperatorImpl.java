@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * @author baichao
  */
-public interface ToSqlPartBuilderComparisonOperatorImpl<T extends Helper, S extends AbstractComparisonSqlPartDatum<S>, SB extends AbstractComparisonSqlPartDatumBuilder<T, S>> extends ToSqlPartBuilderComparisonOperator<T, S, SB> {
+public interface ToSqlPartBuilderComparisonOperatorImpl<T extends Helper, S extends AbstractComparisonSqlPartDatum<S>, SB extends AbstractComparisonSqlPartDatumBuilder> extends ToSqlPartBuilderComparisonOperator<T, SB> {
 
     /**
      * get helper
