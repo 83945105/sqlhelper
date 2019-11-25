@@ -123,4 +123,28 @@ public final class ColumnDatum extends AbstractSqlPartDatum<ColumnDatum> {
          */
         SQL_PART
     }
+
+    @Override
+    public ColumnDatum setTableName(String tableName) {
+        super.setTableName(tableName);
+        return this;
+    }
+
+    @Override
+    public ColumnDatum setTableAlias(String tableAlias) {
+        super.setTableAlias(tableAlias);
+        return this;
+    }
+
+    @Override
+    public ColumnDatum setColumnName(String columnName) {
+        super.setColumnName(columnName);
+        return this;
+    }
+
+    @Override
+    public ColumnDatum setColumnAlias(String columnAlias) {
+        super.setColumnAlias(columnAlias);
+        return this;
+    }
 }

@@ -38,6 +38,11 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractCo
     }
 
     @Override
+    public void addAbstractComparisonSqlPartDatum(AbstractComparisonSqlPartDatum<WhereDatum> abstractComparisonSqlPartDatum) {
+        super.addSqlPartDatum((WhereDatum) abstractComparisonSqlPartDatum);
+    }
+
+    @Override
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.sqlBuilderOptions = sqlBuilderOptions;
     }
@@ -45,5 +50,10 @@ public final class WhereSqlPartDatumBuilder<T extends Helper> extends AbstractCo
     @Override
     public AbstractComparisonSqlPartDatum<WhereDatum> getAbstractComparisonSqlPartDatum() {
         return this.whereDatum;
+    }
+
+    @Override
+    public AbstractComparisonSqlPartDatum<WhereDatum> getCloneComparisonSqlPartDatum() {
+        return this.whereDatum.getCloneComparisonSqlPartDatum();
     }
 }

@@ -39,6 +39,11 @@ public final class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractC
     }
 
     @Override
+    public void addAbstractComparisonSqlPartDatum(AbstractComparisonSqlPartDatum<HavingDatum> abstractComparisonSqlPartDatum) {
+        super.addSqlPartDatum((HavingDatum) abstractComparisonSqlPartDatum);
+    }
+
+    @Override
     public void setSqlBuilderOptions(SqlBuilderOptions sqlBuilderOptions) {
         this.sqlBuilderOptions = sqlBuilderOptions;
     }
@@ -46,6 +51,11 @@ public final class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractC
     @Override
     public AbstractComparisonSqlPartDatum<HavingDatum> getAbstractComparisonSqlPartDatum() {
         return this.havingDatum;
+    }
+
+    @Override
+    public AbstractComparisonSqlPartDatum<HavingDatum> getCloneComparisonSqlPartDatum() {
+        return this.havingDatum.getCloneComparisonSqlPartDatum();
     }
 
     @Override

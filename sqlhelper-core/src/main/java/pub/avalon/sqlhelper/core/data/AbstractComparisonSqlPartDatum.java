@@ -52,91 +52,113 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
         this.setSqlPart(sqlPart);
     }
 
-    @SuppressWarnings("unchecked")
-    public T setSqlPart(String sqlPart) {
+    public AbstractComparisonSqlPartDatum<T> setSqlPart(String sqlPart) {
+        if (sqlPart == null) {
+            return this;
+        }
         this.type = Type.SQL_PART;
         this.sqlPart = sqlPart;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setColumnHandler(ColumnHandler columnHandler) {
+    public AbstractComparisonSqlPartDatum<T> setColumnHandler(ColumnHandler columnHandler) {
+        if (columnHandler == null) {
+            return this;
+        }
         this.columnType = ColumnType.HANDLER;
         this.columnHandler = columnHandler;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetNoneValue(ComparisonType comparisonType) {
+    public AbstractComparisonSqlPartDatum<T> setTargetNoneValue(ComparisonType comparisonType) {
+        if (comparisonType == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.NONE_VALUE;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetSingleValue(ComparisonType comparisonType, Object targetValue) {
+    public AbstractComparisonSqlPartDatum<T> setTargetSingleValue(ComparisonType comparisonType, Object targetValue) {
+        if (comparisonType == null || targetValue == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.SINGLE_VALUE;
         this.targetValue = targetValue;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetPairValue(ComparisonType comparisonType, Object targetValue, Object targetSecondValue) {
+    public AbstractComparisonSqlPartDatum<T> setTargetPairValue(ComparisonType comparisonType, Object targetValue, Object targetSecondValue) {
+        if (comparisonType == null || targetValue == null || targetSecondValue == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.PAIR_VALUE;
         this.targetValue = targetValue;
         this.targetSecondValue = targetSecondValue;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetMultiValue(ComparisonType comparisonType, Object targetValue) {
+    public AbstractComparisonSqlPartDatum<T> setTargetMultiValue(ComparisonType comparisonType, Object targetValue) {
+        if (comparisonType == null || targetValue == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.MULTI_VALUE;
         this.targetValue = targetValue;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetSubQuery(ComparisonType comparisonType, SqlBuilderResult targetSubQuery) {
+    public AbstractComparisonSqlPartDatum<T> setTargetSubQuery(ComparisonType comparisonType, SqlBuilderResult targetSubQuery) {
+        if (comparisonType == null || targetSubQuery == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.SUB_QUERY;
         this.targetSubQuery = targetSubQuery;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetSqlPart(String targetSqlPart) {
+    public AbstractComparisonSqlPartDatum<T> setTargetSqlPart(String targetSqlPart) {
+        if (targetSqlPart == null) {
+            return this;
+        }
         this.comparisonType = ComparisonType.NONE;
         this.valueType = ValueType.SQL_PART;
         this.targetSqlPart = targetSqlPart;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetSingleSqlPartDatum(ComparisonType comparisonType, AbstractSqlPartDatum targetSqlPartDatum) {
+    public AbstractComparisonSqlPartDatum<T> setTargetSingleSqlPartDatum(ComparisonType comparisonType, AbstractSqlPartDatum targetSqlPartDatum) {
+        if (comparisonType == null || targetSqlPartDatum == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.SINGLE_SQL_PART_DATUM;
         this.targetSqlPartDatum = targetSqlPartDatum;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetPairSqlPartDatum(ComparisonType comparisonType, AbstractSqlPartDatum targetSqlPartDatum, AbstractSqlPartDatum targetSecondSqlPartDatum) {
+    public AbstractComparisonSqlPartDatum<T> setTargetPairSqlPartDatum(ComparisonType comparisonType, AbstractSqlPartDatum targetSqlPartDatum, AbstractSqlPartDatum targetSecondSqlPartDatum) {
+        if (comparisonType == null || targetSqlPartDatum == null || targetSecondSqlPartDatum == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.PAIR_SQL_PART_DATUM;
         this.targetSqlPartDatum = targetSqlPartDatum;
         this.targetSecondSqlPartDatum = targetSecondSqlPartDatum;
-        return (T) this;
+        return this;
     }
 
-    @SuppressWarnings("unchecked")
-    public T setTargetMultiSqlPartDatum(ComparisonType comparisonType, List<AbstractSqlPartDatum> targetMultiSqlPartDatum) {
+    public AbstractComparisonSqlPartDatum<T> setTargetMultiSqlPartDatum(ComparisonType comparisonType, List<AbstractSqlPartDatum> targetMultiSqlPartDatum) {
+        if (comparisonType == null || targetMultiSqlPartDatum == null) {
+            return this;
+        }
         this.comparisonType = comparisonType;
         this.valueType = ValueType.MULTI_SQL_PART_DATUM;
         this.targetMultiSqlPartDatum = targetMultiSqlPartDatum;
-        return (T) this;
+        return this;
     }
 
     public Type getType() {

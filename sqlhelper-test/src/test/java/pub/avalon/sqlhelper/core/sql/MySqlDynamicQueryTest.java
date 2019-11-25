@@ -818,7 +818,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.loginName().sqlPart("=NOW()")))
+                        .and(mainTable.loginName().sqlPart(" =NOW()")))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`login_name` =NOW()");
     }

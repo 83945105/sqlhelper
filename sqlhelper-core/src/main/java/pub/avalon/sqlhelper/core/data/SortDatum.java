@@ -59,4 +59,29 @@ public final class SortDatum extends AbstractSqlPartDatum<SortDatum> {
          */
         SQL_PART
     }
+
+
+    @Override
+    public SortDatum setTableName(String tableName) {
+        super.setTableName(tableName);
+        return this;
+    }
+
+    @Override
+    public SortDatum setTableAlias(String tableAlias) {
+        super.setTableAlias(tableAlias);
+        return this;
+    }
+
+    @Override
+    public SortDatum setColumnName(String columnName) {
+        super.setColumnName(columnName);
+        return this;
+    }
+
+    @Override
+    public SortDatum setColumnAlias(String columnAlias) {
+        super.setColumnAlias(columnAlias);
+        return this;
+    }
 }

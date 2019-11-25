@@ -22,18 +22,18 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
     T getHelper();
 
     /**
-     * get abstract comparison sql part datum
+     * get clone comparison sql part datum
      *
      * @return extends {@link AbstractComparisonSqlPartDatum}
      */
-    AbstractComparisonSqlPartDatum<S> getAbstractComparisonSqlPartDatum();
+    AbstractComparisonSqlPartDatum<S> getCloneComparisonSqlPartDatum();
 
     /**
-     * add sql part datum
+     * Add abstract comparison sql part datum.
      *
-     * @param sqlPartDatum implements {@link SqlPartDatum} object
+     * @param abstractComparisonSqlPartDatum Implements {@link AbstractComparisonSqlPartDatum} object.
      */
-    void addSqlPartDatum(S sqlPartDatum);
+    void addAbstractComparisonSqlPartDatum(AbstractComparisonSqlPartDatum<S> abstractComparisonSqlPartDatum);
 
     @Override
     default T equalTo(ColumnHelper<?> columnHelper) {
@@ -42,7 +42,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             return this.getHelper();
         }
         for (ColumnDatum columnDatum : columnData) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.EQUAL, columnDatum));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.EQUAL, columnDatum));
         }
         return this.getHelper();
     }
@@ -54,7 +54,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             return this.getHelper();
         }
         for (ColumnDatum columnDatum : columnData) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.NOT_EQUAL, columnDatum));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.NOT_EQUAL, columnDatum));
         }
         return this.getHelper();
     }
@@ -66,7 +66,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             return this.getHelper();
         }
         for (ColumnDatum columnDatum : columnData) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.GREATER, columnDatum));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.GREATER, columnDatum));
         }
         return this.getHelper();
     }
@@ -78,7 +78,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             return this.getHelper();
         }
         for (ColumnDatum columnDatum : columnData) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.GREATER_EQUAL, columnDatum));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.GREATER_EQUAL, columnDatum));
         }
         return this.getHelper();
     }
@@ -90,7 +90,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             return this.getHelper();
         }
         for (ColumnDatum columnDatum : columnData) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LESS, columnDatum));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LESS, columnDatum));
         }
         return this.getHelper();
     }
@@ -102,7 +102,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             return this.getHelper();
         }
         for (ColumnDatum columnDatum : columnData) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LESS_EQUAL, columnDatum));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LESS_EQUAL, columnDatum));
         }
         return this.getHelper();
     }
@@ -119,7 +119,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
         }
         int size = columnData.size();
         for (int i = 0; i < size; i++) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetPairSqlPartDatum(ComparisonType.BETWEEN, columnData.get(i), secondColumnData.get(i)));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetPairSqlPartDatum(ComparisonType.BETWEEN, columnData.get(i), secondColumnData.get(i)));
         }
         return this.getHelper();
     }
@@ -131,7 +131,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             return this.getHelper();
         }
         for (ColumnDatum columnDatum : columnData) {
-            this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LIKE, columnDatum));
+            this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetSingleSqlPartDatum(ComparisonType.LIKE, columnDatum));
         }
         return this.getHelper();
     }
@@ -146,7 +146,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             }
             sqlPartData.addAll(columnData);
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiSqlPartDatum(ComparisonType.IN, sqlPartData));
+        this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetMultiSqlPartDatum(ComparisonType.IN, sqlPartData));
         return this.getHelper();
     }
 
@@ -160,7 +160,7 @@ public interface ToColumnComparisonOperatorImpl<T, S extends AbstractComparisonS
             }
             sqlPartData.addAll(columnData);
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiSqlPartDatum(ComparisonType.NOT_IN, sqlPartData));
+        this.addAbstractComparisonSqlPartDatum(this.getCloneComparisonSqlPartDatum().setTargetMultiSqlPartDatum(ComparisonType.NOT_IN, sqlPartData));
         return this.getHelper();
     }
 }

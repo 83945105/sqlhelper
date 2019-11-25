@@ -28,63 +28,63 @@ public interface ToSubQueryComparisonOperatorImpl<T, S extends AbstractCompariso
     AbstractComparisonSqlPartDatum<S> getAbstractComparisonSqlPartDatum();
 
     /**
-     * add sql part datum
+     * Add abstract comparison sql part datum.
      *
-     * @param sqlPartDatum implements {@link SqlPartDatum} object
+     * @param abstractComparisonSqlPartDatum Implements {@link AbstractComparisonSqlPartDatum} object.
      */
-    void addSqlPartDatum(S sqlPartDatum);
+    void addAbstractComparisonSqlPartDatum(AbstractComparisonSqlPartDatum<S> abstractComparisonSqlPartDatum);
 
     @Override
     default T equalToSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.EQUAL, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.EQUAL, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T notEqualToSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.NOT_EQUAL, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.NOT_EQUAL, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T greaterThanSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.GREATER, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.GREATER, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T greaterThanAndEqualToSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.GREATER_EQUAL, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.GREATER_EQUAL, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T lessThanSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.LESS, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.LESS, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T lessThanAndEqualToSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.LESS_EQUAL, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.LESS_EQUAL, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T likeSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.LIKE, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.LIKE, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T inSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.IN, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.IN, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 
     @Override
     default T notInSubQuery(SubQueryCallback subQueryCallback) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.NOT_IN, CallbackExecutor.execute(subQueryCallback)));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSubQuery(ComparisonType.NOT_IN, CallbackExecutor.execute(subQueryCallback)));
         return this.getHelper();
     }
 }

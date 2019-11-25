@@ -38,11 +38,11 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
     SqlBuilderOptions getSqlBuilderOptions();
 
     /**
-     * add sql part datum
+     * Add abstract comparison sql part datum.
      *
-     * @param sqlPartDatum implements {@link SqlPartDatum} object
+     * @param abstractComparisonSqlPartDatum Implements {@link AbstractComparisonSqlPartDatum} object.
      */
-    void addSqlPartDatum(S sqlPartDatum);
+    void addAbstractComparisonSqlPartDatum(AbstractComparisonSqlPartDatum<S> abstractComparisonSqlPartDatum);;
 
     @Override
     default ComparisonRule getDefaultComparisonRule() {
@@ -51,20 +51,20 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
 
     @Override
     default T sqlPart(String targetSqlPart) {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum()
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum()
                 .setTargetSqlPart(targetSqlPart));
         return this.getHelper();
     }
 
     @Override
     default T isNull() {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetNoneValue(ComparisonType.IS_NULL));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetNoneValue(ComparisonType.IS_NULL));
         return this.getHelper();
     }
 
     @Override
     default T isNotNull() {
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetNoneValue(ComparisonType.IS_NOT_NULL));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetNoneValue(ComparisonType.IS_NOT_NULL));
         return this.getHelper();
     }
 
@@ -81,7 +81,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.EQUAL, value));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.EQUAL, value));
         return this.getHelper();
     }
 
@@ -98,7 +98,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.NOT_EQUAL, value));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.NOT_EQUAL, value));
         return this.getHelper();
     }
 
@@ -115,7 +115,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.GREATER, value));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.GREATER, value));
         return this.getHelper();
     }
 
@@ -132,7 +132,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.GREATER_EQUAL, value));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.GREATER_EQUAL, value));
         return this.getHelper();
     }
 
@@ -149,7 +149,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.LESS, value));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.LESS, value));
         return this.getHelper();
     }
 
@@ -166,7 +166,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.LESS_EQUAL, value));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.LESS_EQUAL, value));
         return this.getHelper();
     }
 
@@ -194,7 +194,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetPairValue(ComparisonType.BETWEEN, value, secondValue));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetPairValue(ComparisonType.BETWEEN, value, secondValue));
         return this.getHelper();
     }
 
@@ -211,7 +211,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.LIKE, value));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetSingleValue(ComparisonType.LIKE, value));
         return this.getHelper();
     }
 
@@ -228,7 +228,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.IN, values));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.IN, values));
         return this.getHelper();
     }
 
@@ -245,7 +245,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.IN, values));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.IN, values));
         return this.getHelper();
     }
 
@@ -262,7 +262,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.NOT_IN, values));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.NOT_IN, values));
         return this.getHelper();
     }
 
@@ -279,7 +279,7 @@ public interface BaseComparisonOperatorImpl<T, S extends AbstractComparisonSqlPa
                     ExceptionUtils.comparisonRuleNotSupportException();
             }
         }
-        this.addSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.NOT_IN, values));
+        this.addAbstractComparisonSqlPartDatum(this.getAbstractComparisonSqlPartDatum().setTargetMultiValue(ComparisonType.NOT_IN, values));
         return this.getHelper();
     }
 }
