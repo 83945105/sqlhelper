@@ -1,9 +1,9 @@
 package pub.avalon.sqlhelper.spring.beans;
 
 import pub.avalon.beans.Pagination;
-import pub.avalon.sqlhelper.core.data.LimitDatum;
-import pub.avalon.sqlhelper.core.engine.AbstractEngine;
-import pub.avalon.sqlhelper.core.sqlbuilder.*;
+import pub.avalonframework.sqlhelper.core.data.LimitDatum;
+import pub.avalonframework.sqlhelper.core.engine.AbstractEngine;
+import pub.avalonframework.sqlhelper.core.sqlbuilder.*;
 import pub.avalon.sqlhelper.spring.core.SpringJdbcEngine;
 
 import java.util.ArrayList;
@@ -115,7 +115,7 @@ public interface JdbcEngine {
      * <p>若查询不到对应数据,返回 {@code null}
      *
      * @param keyValue         主键值
-     * @param selectSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 查询结果注入Map返回, key-属性名(驼峰命名法) value-属性值
      */
     Map<String, Object> queryByPrimaryKey(Object keyValue, SelectSqlBuilder selectSqlBuilder);
@@ -127,7 +127,7 @@ public interface JdbcEngine {
      *
      * @param keyValue         主键值
      * @param returnType       返回容器类型,用于接收查询结果
-     * @param selectSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果注入指定的returnType对象
      */
@@ -147,7 +147,7 @@ public interface JdbcEngine {
      * <p>若查询不到对应数据,返回 {@code null}
      * <p>若查询到多条数据,抛异常 {@link org.springframework.dao.IncorrectResultSizeDataAccessException}
      *
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 查询结果注入Map返回, key-属性名(驼峰命名法) value-属性值
      */
     Map<String, Object> queryOne(SelectSqlBuilder selectSqlBuilder);
@@ -170,7 +170,7 @@ public interface JdbcEngine {
      * <p>注意,用于接收数据的容器必须具备对应查询字段(驼峰命名法)的setter方法
      *
      * @param returnType       返回容器类型,用于接收查询结果
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果注入指定的returnType对象
      */
@@ -189,7 +189,7 @@ public interface JdbcEngine {
      * 查询多条数据
      * <p>若查询不到对应数据,返回长度为0的空集合
      *
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 查询结果注入Map装入ArrayList返回, key-属性名(驼峰命名法) value-属性值
      */
     List<Map<String, Object>> queryList(SelectSqlBuilder selectSqlBuilder);
@@ -211,7 +211,7 @@ public interface JdbcEngine {
      * <p>注意,用于接收数据的容器必须具备对应查询字段(驼峰命名法)的setter方法
      *
      * @param returnType       返回容器类型,用于接收查询结果
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果注入指定的returnType对象装入ArrayList返回
      */
@@ -231,7 +231,7 @@ public interface JdbcEngine {
      * <p>若查询不到对应数据,抛异常 {@link org.springframework.dao.EmptyResultDataAccessException}
      * <p>若查询到多条数据,抛异常 {@link org.springframework.dao.IncorrectResultSizeDataAccessException}
      *
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 总数
      */
     long queryCount(SelectSqlBuilder selectSqlBuilder);
@@ -240,12 +240,12 @@ public interface JdbcEngine {
      * 分页查询
      * <p>默认方法,内部先调用 {@link #queryCount(SelectSqlBuilder)} 查询总数
      * <p>若总数为0,则直接返回结果
-     * <p>若总数不为0,则根据参数构建分页对象 {@link pub.avalon.beans.LimitSql} 并获取分页起始号
+     * <p>若总数不为0,则根据参数构建分页对象 {@link pub.avalonframework.beans.LimitSql} 并获取分页起始号
      * <p>最后调用 {@link #queryList(SelectSqlBuilder)} 查询数据
      *
      * @param currentPage    当前页号
      * @param pageSize       每页显示条数
-     * @param abstractEngine 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param abstractEngine 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 分页结果 {@link PageResultForMap}
      */
     default PageResultForMap pageQueryList(long currentPage, long pageSize, AbstractEngine abstractEngine) {
@@ -272,7 +272,7 @@ public interface JdbcEngine {
      * @param returnType     返回容器类型,用于接收查询结果
      * @param currentPage    当前页号
      * @param pageSize       每页显示条数
-     * @param abstractEngine 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param abstractEngine 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>            与returnType指定数据类型一致
      * @return 分页结果 {@link PageResultForBean}
      */
@@ -310,7 +310,7 @@ public interface JdbcEngine {
      *
      * @param keyIndex         作为key的列下标(从1开始)
      * @param valueIndex       作为value的列下标(从1开始)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @param <V>              作为value的列值类型
      * @return 查询结果注入Map返回
@@ -337,7 +337,7 @@ public interface JdbcEngine {
      *
      * @param keyColumnName    作为key的列字段名(驼峰命名法)
      * @param valueColumnName  作为value的列字段名(驼峰命名法)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @param <V>              作为value的列值类型
      * @return 查询结果注入Map返回
@@ -362,7 +362,7 @@ public interface JdbcEngine {
      * <p>注意,由于Map集合特性,作为key的列值,若重复出现,则会覆盖前者数据
      *
      * @param keyIndex         作为key的列下标(从1开始)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @return 查询结果注入Map返回
      */
@@ -386,7 +386,7 @@ public interface JdbcEngine {
      * <p>注意,由于Map集合特性,作为key的列值,若重复出现,则会覆盖前者数据
      *
      * @param keyColumnName    作为key的列字段名(驼峰命名法)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @return 查询结果注入Map返回
      */
@@ -413,7 +413,7 @@ public interface JdbcEngine {
      *
      * @param keyIndex         作为key的列下标(从1开始)
      * @param returnType       返回容器类型,用于接收查询结果
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果注入Map返回
@@ -441,7 +441,7 @@ public interface JdbcEngine {
      *
      * @param keyColumnName    作为key的列字段名(驼峰命名法)
      * @param returnType       返回容器类型,用于接收查询结果
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果注入Map返回
@@ -465,7 +465,7 @@ public interface JdbcEngine {
      * <p>你可以使用该方法将某列值指定为key,然后所有拥有改列值的结果数据作为value,结果集注入Map中
      *
      * @param keyIndex         作为key的列下标(从1开始)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @return 查询结果进入Key值分组注入Map返回
      */
@@ -488,7 +488,7 @@ public interface JdbcEngine {
      * <p>你可以使用该方法将某列值指定为key,然后所有拥有改列值的结果数据作为value,结果集注入Map中
      *
      * @param keyColumnName    作为key的列字段名(驼峰命名法)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @return 查询结果进入Key值分组注入Map返回
      */
@@ -514,7 +514,7 @@ public interface JdbcEngine {
      *
      * @param keyIndex         作为key的列下标(从1开始)
      * @param returnType       返回容器类型,用于接收查询结果
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果进入Key值分组注入Map返回
@@ -541,7 +541,7 @@ public interface JdbcEngine {
      *
      * @param keyColumnName    作为key的列字段名(驼峰命名法)
      * @param returnType       返回容器类型,用于接收查询结果
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <K>              作为key的列值类型
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果进入Key值分组注入Map返回
@@ -564,7 +564,7 @@ public interface JdbcEngine {
      * <p>若查询到多条数据,抛异常 {@link org.springframework.dao.IncorrectResultSizeDataAccessException}
      *
      * @param columnIndex      列下标(从1开始)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 查询结果
      */
     Object queryColumnOne(int columnIndex, SelectSqlBuilder selectSqlBuilder);
@@ -585,7 +585,7 @@ public interface JdbcEngine {
      * <p>若查询到多条数据,抛异常 {@link org.springframework.dao.IncorrectResultSizeDataAccessException}
      *
      * @param columnName       列字段名(驼峰命名法)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 查询结果
      */
     Object queryColumnOne(String columnName, SelectSqlBuilder selectSqlBuilder);
@@ -609,7 +609,7 @@ public interface JdbcEngine {
      *
      * @param columnIndex      列下标(从1开始)
      * @param columnType       列类型
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果
      */
@@ -634,7 +634,7 @@ public interface JdbcEngine {
      *
      * @param columnName       列字段名(驼峰命名法)
      * @param columnType       列类型
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果
      */
@@ -655,7 +655,7 @@ public interface JdbcEngine {
      * <p>若查询不到对应数据,返回长度为0的空集合
      *
      * @param columnIndex      列下标(从1开始)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 查询结果装入ArrayList
      */
     List<Object> queryColumnList(int columnIndex, SelectSqlBuilder selectSqlBuilder);
@@ -675,7 +675,7 @@ public interface JdbcEngine {
      * <p>若查询不到对应数据,返回长度为0的空集合
      *
      * @param columnName       列字段名(驼峰命名法)
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 查询结果装入ArrayList
      */
     List<Object> queryColumnList(String columnName, SelectSqlBuilder selectSqlBuilder);
@@ -698,7 +698,7 @@ public interface JdbcEngine {
      *
      * @param columnIndex      列下标(从1开始)
      * @param columnType       列类型
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果装入ArrayList
      */
@@ -722,7 +722,7 @@ public interface JdbcEngine {
      *
      * @param columnName       列字段名(驼峰命名法)
      * @param columnType       列类型
-     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param selectSqlBuilder 用于构建SQL的引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @param <T>              与returnType指定数据类型一致
      * @return 查询结果装入ArrayList
      */
@@ -733,7 +733,7 @@ public interface JdbcEngine {
      * <p>列顺序必须和参数顺序一致
      *
      * @param args             参数
-     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int insertArgs(Collection<?> args, InsertSqlBuilder insertSqlBuilder);
@@ -744,7 +744,7 @@ public interface JdbcEngine {
      * <p>数据容器与列名使用驼峰命名法进行映射
      *
      * @param javaBean         数据容器
-     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int insertJavaBean(Object javaBean, InsertSqlBuilder insertSqlBuilder);
@@ -755,7 +755,7 @@ public interface JdbcEngine {
      * <p>数据容器与列名使用驼峰命名法进行映射
      *
      * @param javaBean         数据容器
-     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int insertJavaBeanSelective(Object javaBean, InsertSqlBuilder insertSqlBuilder);
@@ -766,7 +766,7 @@ public interface JdbcEngine {
      * <p>数据容器与列名使用驼峰命名法进行映射
      *
      * @param javaBeans        数据容器
-     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param insertSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int batchInsertJavaBeans(Collection<?> javaBeans, InsertSqlBuilder insertSqlBuilder);
@@ -777,7 +777,7 @@ public interface JdbcEngine {
      *
      * @param keyValue         主键值
      * @param args             参数
-     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int updateArgsByPrimaryKey(Object keyValue, Collection<?> args, UpdateSqlBuilder updateSqlBuilder);
@@ -789,7 +789,7 @@ public interface JdbcEngine {
      *
      * @param keyValue         主键值
      * @param javaBean         数据容器
-     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int updateJavaBeanByPrimaryKey(Object keyValue, Object javaBean, UpdateSqlBuilder updateSqlBuilder);
@@ -801,7 +801,7 @@ public interface JdbcEngine {
      *
      * @param keyValue         主键值
      * @param javaBean         数据容器
-     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int updateJavaBeanByPrimaryKeySelective(Object keyValue, Object javaBean, UpdateSqlBuilder updateSqlBuilder);
@@ -812,7 +812,7 @@ public interface JdbcEngine {
      * <p>数据容器与列名使用驼峰命名法进行映射
      *
      * @param javaBean         数据容器
-     * @param updateSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param updateSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int updateJavaBean(Object javaBean, UpdateSqlBuilder updateSqlBuilder);
@@ -823,7 +823,7 @@ public interface JdbcEngine {
      * <p>数据容器与列名使用驼峰命名法进行映射
      *
      * @param javaBean         数据容器
-     * @param updateSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param updateSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int updateJavaBeanSelective(Object javaBean, UpdateSqlBuilder updateSqlBuilder);
@@ -833,7 +833,7 @@ public interface JdbcEngine {
      * <p>数据容器对应的主键字段值不能为空
      *
      * @param javaBeans        数据容器
-     * @param updateSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param updateSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int batchUpdateJavaBeansByPrimaryKeys(Collection<?> javaBeans, UpdateSqlBuilder updateSqlBuilder);
@@ -844,7 +844,7 @@ public interface JdbcEngine {
      * <p>每个参数为数据容器数组或数据容器集合
      *
      * @param javaBeans        数据容器
-     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param updateSqlBuilder 用于构建SQL的字段引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int updateOrInsertJavaBeans(Collection<?> javaBeans, UpdateSqlBuilder updateSqlBuilder);
@@ -853,7 +853,7 @@ public interface JdbcEngine {
      * 根据主键删除数据
      *
      * @param keyValue         主键值
-     * @param deleteSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param deleteSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int deleteByPrimaryKey(Object keyValue, DeleteSqlBuilder deleteSqlBuilder);
@@ -862,7 +862,7 @@ public interface JdbcEngine {
      * 根据多个主键批量删除数据
      *
      * @param keyValues        主键值
-     * @param deleteSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param deleteSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int batchDeleteByPrimaryKeys(Collection<?> keyValues, DeleteSqlBuilder deleteSqlBuilder);
@@ -870,7 +870,7 @@ public interface JdbcEngine {
     /**
      * 删除数据
      *
-     * @param deleteSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalon.sqlhelper.factory.MySqlDynamicEngine}
+     * @param deleteSqlBuilder 用于构建SQL的条件引擎 {@link pub.avalonframework.sqlhelper.factory.MySqlDynamicEngine}
      * @return 影响的行数
      */
     int delete(DeleteSqlBuilder deleteSqlBuilder);

@@ -1,1 +1,1 @@
-pub.avalon.sqlhelper.core.cache.spi.service.impl.SelfCache
+pub.avalonframework.sqlhelper.core.cache.spi.service.impl.SelfCache

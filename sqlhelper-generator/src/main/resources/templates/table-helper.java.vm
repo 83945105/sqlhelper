@@ -1,12 +1,12 @@
 package $!{setting.packagePath};
 
-import pub.avalon.sqlhelper.core.beans.ColumnHandler;
-import pub.avalon.sqlhelper.core.beans.TableColumn;
-import pub.avalon.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.OnSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.SortSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
-import pub.avalon.sqlhelper.core.helper.*;
+import pub.avalonframework.sqlhelper.core.beans.ColumnHandler;
+import pub.avalonframework.sqlhelper.core.beans.TableColumn;
+import pub.avalonframework.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
+import pub.avalonframework.sqlhelper.core.builder.OnSqlPartDatumBuilder;
+import pub.avalonframework.sqlhelper.core.builder.SortSqlPartDatumBuilder;
+import pub.avalonframework.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
+import pub.avalonframework.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -403,7 +403,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.cla
         #end
     }
 
-    public static class Sql extends pub.avalon.sqlhelper.core.engine.builder.Sql<$!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.classNameSuffix}, On, Column, Where, Group, Having, Sort> {
+    public static class Sql extends pub.avalonframework.sqlhelper.core.engine.builder.Sql<$!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.classNameSuffix}, On, Column, Where, Group, Having, Sort> {
         public Sql() {
             super(TABLE_ALIAS);
         }
@@ -412,7 +412,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.cla
         }
     }
 
-    public static class SqlJoin extends pub.avalon.sqlhelper.core.engine.builder.SqlJoin<On> {
+    public static class SqlJoin extends pub.avalonframework.sqlhelper.core.engine.builder.SqlJoin<On> {
         public SqlJoin() {
             super(TABLE_ALIAS);
         }
@@ -421,7 +421,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.cla
         }
     }
 
-    public static class SqlColumn extends pub.avalon.sqlhelper.core.engine.builder.SqlColumn<Column> {
+    public static class SqlColumn extends pub.avalonframework.sqlhelper.core.engine.builder.SqlColumn<Column> {
         public SqlColumn() {
             super(TABLE_ALIAS);
         }
@@ -430,7 +430,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.cla
         }
     }
 
-    public static class SqlWhere extends pub.avalon.sqlhelper.core.engine.builder.SqlWhere<Where> {
+    public static class SqlWhere extends pub.avalonframework.sqlhelper.core.engine.builder.SqlWhere<Where> {
         public SqlWhere() {
             super(TABLE_ALIAS);
         }
@@ -439,7 +439,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.cla
         }
     }
 
-    public static class SqlGroup extends pub.avalon.sqlhelper.core.engine.builder.SqlGroup<Group> {
+    public static class SqlGroup extends pub.avalonframework.sqlhelper.core.engine.builder.SqlGroup<Group> {
         public SqlGroup() {
             super(TABLE_ALIAS);
         }
@@ -448,7 +448,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.cla
         }
     }
 
-    public static class SqlHaving extends pub.avalon.sqlhelper.core.engine.builder.SqlHaving<Having> {
+    public static class SqlHaving extends pub.avalonframework.sqlhelper.core.engine.builder.SqlHaving<Having> {
         public SqlHaving() {
             super(TABLE_ALIAS);
         }
@@ -457,7 +457,7 @@ public class $!{table.tableAlias}$!{table.generateOptions.tableHelperOptions.cla
         }
     }
 
-    public static class SqlSort extends pub.avalon.sqlhelper.core.engine.builder.SqlSort<Sort> {
+    public static class SqlSort extends pub.avalonframework.sqlhelper.core.engine.builder.SqlSort<Sort> {
         public SqlSort() {
             super(TABLE_ALIAS);
         }

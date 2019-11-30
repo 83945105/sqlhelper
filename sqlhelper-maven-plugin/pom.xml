@@ -94,21 +94,21 @@
                                     <tableName>sys_user</tableName>
                                     <tableAlias>SysUser</tableAlias>
                                     <generateOptions>
-                                        <packagePath>pub.avalon.test.beans</packagePath>
+                                        <packagePath>pub.avalonframework.test.beans</packagePath>
                                     </generateOptions>
                                 </table>
                                 <table>
                                     <tableName>role_resource</tableName>
                                     <tableAlias>RoleResource</tableAlias>
                                     <generateOptions>
-                                        <packagePath>pub.avalon.test.beans</packagePath>
+                                        <packagePath>pub.avalonframework.test.beans</packagePath>
                                     </generateOptions>
                                 </table>
                                 <table>
                                     <tableName>user_role</tableName>
                                     <tableAlias>UserRole</tableAlias>
                                     <generateOptions>
-                                        <packagePath>pub.avalon.test.beans</packagePath>
+                                        <packagePath>pub.avalonframework.test.beans</packagePath>
                                     </generateOptions>
                                 </table>
                             </tables>

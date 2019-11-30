@@ -87,21 +87,21 @@
                                     <tableName>sys_user</tableName>
                                     <tableAlias>SysUser</tableAlias>
                                     <generateOptions>
-                                        <packagePath>pub.avalon.sqlhelper.readme.entity</packagePath>
+                                        <packagePath>pub.avalonframework.sqlhelper.readme.entity</packagePath>
                                     </generateOptions>
                                 </table>
                                 <table>
                                     <tableName>role_resource</tableName>
                                     <tableAlias>RoleResource</tableAlias>
                                     <generateOptions>
-                                        <packagePath>pub.avalon.sqlhelper.readme.entity</packagePath>
+                                        <packagePath>pub.avalonframework.sqlhelper.readme.entity</packagePath>
                                     </generateOptions>
                                 </table>
                                 <table>
                                     <tableName>user_role</tableName>
                                     <tableAlias>UserRole</tableAlias>
                                     <generateOptions>
-                                        <packagePath>pub.avalon.sqlhelper.readme.entity</packagePath>
+                                        <packagePath>pub.avalonframework.sqlhelper.readme.entity</packagePath>
                                     </generateOptions>
                                 </table>
                             </tables>
