@@ -10,9 +10,9 @@ import pub.avalon.sqlhelper.core.beans.GroupType;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import pub.avalon.sqlhelper.readme.entity.RoleResourceDTO;
-import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
-import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
+import pub.avalon.sqlhelper.readme.entity.RoleResourceHelper;
+import pub.avalon.sqlhelper.readme.entity.SysUserHelper;
+import pub.avalon.sqlhelper.readme.entity.UserRoleHelper;
 
 import java.util.Arrays;
 
@@ -26,7 +26,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -37,7 +37,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignTableName() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user_custom` SysUser", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -48,7 +48,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignTableAlias() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class, "A")
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class, "A")
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user` A", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -59,7 +59,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_allWhere() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .where((condition, mainTable) -> condition
                         .and(mainTable
                                 .id().isNull()
@@ -139,8 +139,8 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignJoin() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .join(JoinType.INNER, UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -152,8 +152,8 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignTableName_assignJoin() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
-                .join(JoinType.INNER, "user_role_custom", UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
+                .join(JoinType.INNER, "user_role_custom", UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user_custom` SysUser inner join `user_role_custom` UserRole on UserRole.`role_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -165,8 +165,8 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignTableName_assignTableAlias_assignJoin() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class, "A")
-                .join(JoinType.INNER, "user_role_custom", UserRoleDTO.Helper.class, "B", (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class, "A")
+                .join(JoinType.INNER, "user_role_custom", UserRoleHelper.class, "B", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user_custom` A inner join `user_role_custom` B on B.`role_id` = A.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -178,8 +178,8 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_join_allOn() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .join(JoinType.INNER, UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable
                                 .id().isNull()
 
@@ -259,8 +259,8 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignInnerJoin() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -272,8 +272,8 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignLeftJoin() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .leftJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .leftJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user` SysUser left join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -285,8 +285,8 @@ public class MySqlDynamicQueryTest extends AbstractTest {
      */
     @Test
     void Test_count_assignRightJoin() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .rightJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .rightJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .queryCount();
         Assertions.assertEquals("select count(1) from `sys_user` SysUser right join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -295,7 +295,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestColumn01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser where SysUser.`id` = ?");
@@ -303,15 +303,15 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestColumn02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .column(SysUserDTO.Helper.Column::id)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .column(SysUserHelper.Column::id)
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id` from `sys_user` SysUser where SysUser.`id` = ?");
     }
 
     @Test
     void TestColumn03() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table.loginName().userName("AA"))
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilderResult, "select SysUser.`login_name` `loginName`,SysUser.`user_name` `AA` from `sys_user` SysUser where SysUser.`id` = ?");
@@ -319,7 +319,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestVirtualColumn01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .virtualColumn("1", "AA")
                 .virtualColumn(1, "BB")
                 .virtualColumn(1L, "CC")
@@ -330,7 +330,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestColumnAndVirtualColumn01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .virtualColumn(1, "AA")
                 .column(table -> table)
                 .queryByPrimaryKey(arg());
@@ -339,16 +339,16 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestGroupColumn01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .groupColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .groupColumn(GroupType.COUNT, SysUserHelper.Column::id)
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilderResult, "select count(SysUser.`id`) `id` from `sys_user` SysUser where SysUser.`id` = ?");
     }
 
     @Test
     void TestGroupColumnAndVirtualColumn01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .groupColumn(GroupType.COUNT, SysUserDTO.Helper.Column::id)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .groupColumn(GroupType.COUNT, SysUserHelper.Column::id)
                 .virtualColumn(1, "AA")
                 .queryByPrimaryKey(arg());
         setSqlBuilder(sqlBuilderResult, "select count(SysUser.`id`) `id`,1 `AA` from `sys_user` SysUser where SysUser.`id` = ?");
@@ -356,7 +356,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestGroupColumnAndVirtualColumnAndColumn01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .groupColumn(GroupType.COUNT, table -> table.id("idCount"))
                 .virtualColumn(1, "AA")
                 .column(table -> table)
@@ -366,7 +366,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhere01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())))
@@ -376,7 +376,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhere02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())
@@ -387,7 +387,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhere03() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())
@@ -399,7 +399,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhere04() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())
@@ -413,7 +413,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhere05() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(cd -> cd
@@ -430,7 +430,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhere06() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(cd -> cd
@@ -451,9 +451,9 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoin01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id`");
@@ -461,9 +461,9 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoin02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ?");
@@ -471,11 +471,11 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoin03() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
-                .leftJoin(RoleResourceDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .leftJoin(RoleResourceHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id`");
@@ -483,13 +483,13 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoin04() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
-                .leftJoin(RoleResourceDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .leftJoin(RoleResourceHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .rightJoin(UserRoleDTO.Helper.class, "UR", (on, joinTable, mainTable) -> on
+                .rightJoin(UserRoleHelper.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` right join `user_role` UR on UR.`role_id` = SysUser.`id`");
@@ -497,11 +497,11 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoinAndWhere01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
+                .where(UserRoleHelper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().like(arg())))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where UserRole.`role_name` like ?");
@@ -510,15 +510,15 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoinAndWhere02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())
                                 .roleName().equalTo(arg())))
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().notEqualTo(arg()))
                         .or(mainTable.loginName().equalTo(arg())))
-                .where(UserRoleDTO.Helper.class, (condition, table, mainTable) -> condition
+                .where(UserRoleHelper.class, (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? where (SysUser.`user_name` != ? or SysUser.`login_name` = ?) and UserRole.`role_name` = ?");
@@ -526,30 +526,30 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoinAndWhere03() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()).roleName().equalTo(arg())))
-                .leftJoin(RoleResourceDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .leftJoin(RoleResourceHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id()))
-                        .and(joinTable.roleId().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::roleId)))
+                        .and(joinTable.roleId().equalTo(UserRoleHelper.class, UserRoleHelper.Column::roleId)))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` = UserRole.`role_id`");
     }
 
     @Test
     void TestJoinAndWhere04() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())
                                 .roleName().equalTo(arg())))
-                .rightJoin(UserRoleDTO.Helper.class, "UR", (on, joinTable, mainTable) -> on
+                .rightJoin(UserRoleHelper.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .leftJoin(RoleResourceDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .leftJoin(RoleResourceHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())
-                                .roleId().lessThan(UserRoleDTO.Helper.class, "UR", UserRoleDTO.Helper.Column::roleId)))
-                .where(UserRoleDTO.Helper.class, "UR", (condition, table, mainTable) -> condition
+                                .roleId().lessThan(UserRoleHelper.class, "UR", UserRoleHelper.Column::roleId)))
+                .where(UserRoleHelper.class, "UR", (condition, table, mainTable) -> condition
                         .and(table.roleName().equalTo(arg())))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` and UserRole.`role_name` = ? right join `user_role` UR on UR.`role_id` = SysUser.`id` left join `role_resource` RoleResource on RoleResource.`role_id` = SysUser.`id` and RoleResource.`role_id` < UR.`role_id` where UR.`role_name` = ?");
@@ -557,17 +557,17 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoinWhereAndOr01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())
                                 .roleName().equalTo(arg())))
-                .rightJoin(UserRoleDTO.Helper.class, "UR", (on, joinTable, mainTable) -> on
+                .rightJoin(UserRoleHelper.class, "UR", (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
-                .leftJoin(RoleResourceDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .leftJoin(RoleResourceHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())
-                                .roleId().lessThan(UserRoleDTO.Helper.class, "UR", UserRoleDTO.Helper.Column::roleId)))
-                .where(UserRoleDTO.Helper.class, "UR", (condition, table, mainTable) -> condition
+                                .roleId().lessThan(UserRoleHelper.class, "UR", UserRoleHelper.Column::roleId)))
+                .where(UserRoleHelper.class, "UR", (condition, table, mainTable) -> condition
                         .and(cd -> cd
                                 .and(table.roleName().equalTo(arg()))
                                 .or(table.roleId().equalTo(arg())))
@@ -578,9 +578,9 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestGroup01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .groupBy(SysUserDTO.Helper.Group::userName)
+                .groupBy(SysUserHelper.Group::userName)
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser group by SysUser.`user_name`");
 
@@ -588,7 +588,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestGroup02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .groupBy(table -> table.userName().id())
                 .query();
@@ -597,7 +597,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestGroupAndJoinAndWhere01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())))
@@ -609,21 +609,21 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestGroupAndJoinAndWhere02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())))
                 .groupBy(table -> table.userName().id())
-                .groupBy(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Group::roleId)
+                .groupBy(UserRoleHelper.class, UserRoleHelper.Group::roleId)
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`user_name` = ? group by SysUser.`user_name`,SysUser.`id`,UserRole.`role_id`");
     }
 
     @Test
     void TestSort01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .orderBy(table -> table.id().asc())
                 .query();
@@ -632,7 +632,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestSort02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .orderBy(table -> table.id().asc().userName().desc())
                 .query();
@@ -641,7 +641,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestSort03() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_201903", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_201903", SysUserHelper.class)
                 .column(table -> table)
                 .orderBy(table -> table.id().asc().userName().desc())
                 .query();
@@ -650,19 +650,19 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestSort04() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, "UserRoleAlias", (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, "UserRoleAlias", (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .orderBy(table -> table.id().asc().userName().desc())
-                .orderBy(UserRoleDTO.Helper.class, "UserRoleAlias", table -> table.sortIndex().desc())
+                .orderBy(UserRoleHelper.class, "UserRoleAlias", table -> table.sortIndex().desc())
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRoleAlias on UserRoleAlias.`user_id` = SysUser.`id` order by SysUser.`id` asc,SysUser.`user_name` desc,UserRoleAlias.`sort_index` desc");
     }
 
     @Test
     void TestSortAndJoinAndWhere01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.userName().equalTo(arg())))
@@ -674,20 +674,20 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestSortAndJoinAndWhere02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .where((condition, mainTable) -> condition
                         .and(mainTable.id().equalTo(arg())))
-                .orderBy(UserRoleDTO.Helper.class, table -> table.id().desc())
+                .orderBy(UserRoleHelper.class, table -> table.id().desc())
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`role_id` = SysUser.`id` where SysUser.`id` = ? order by UserRole.`id` desc");
     }
 
     @Test
     void TestLimit02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .limit(200L, 10L, 20L)
                 .query();
@@ -699,9 +699,9 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoinOn01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(o -> o
                                 .and(joinTable.id().equalTo(mainTable.userName()))
                                 .or(joinTable.roleName().equalTo(mainTable.primaryKey())))
@@ -713,9 +713,9 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestJoinOn02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(o -> o
                                 .and(joinTable.id().equalTo(mainTable.userName()).roleId().equalTo(arg()))
                                 .or(joinTable.roleName().equalTo(mainTable.loginName()))
@@ -730,46 +730,46 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhereJoin01() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(o -> o
                                 .and(joinTable.id().equalTo(mainTable.userName()))
                                 .or(joinTable.roleName().equalTo(mainTable.primaryKey())))
                         .or(joinTable.id().equalTo(mainTable.loginName())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.userName().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::roleName)))
+                        .and(mainTable.userName().equalTo(UserRoleHelper.class, UserRoleHelper.Column::roleName)))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name` where SysUser.`user_name` = UserRole.`role_name`");
     }
 
     @Test
     void TestWhereJoin02() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .innerJoin("user_role_20190413", UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .innerJoin("user_role_20190413", UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(o -> o
                                 .and(joinTable.id().equalTo(mainTable.userName()))
                                 .or(joinTable.roleName().equalTo(mainTable.primaryKey())))
                         .or(joinTable.id().equalTo(mainTable.loginName())))
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.userName().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::id)))
+                        .and(mainTable.userName().equalTo(UserRoleHelper.class, UserRoleHelper.Column::id)))
                 .query();
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role_20190413` UserRole on (UserRole.`id` = SysUser.`user_name` or UserRole.`role_name` = SysUser.`id`) or UserRole.`id` = SysUser.`login_name` where SysUser.`user_name` = UserRole.`id`");
     }
 
 /*    @Test
     void TestSubQuery() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
-                .subQuery(UserRoleDTO.Helper.class, "AA", (mainTable, query) -> query
-                        .column(UserRoleDTO.Helper.Column::id)
+                .subQuery(UserRoleHelper.class, "AA", (mainTable, query) -> query
+                        .column(UserRoleHelper.Column::id)
                         .where((cd, mt) -> cd
                                 .and(mt.roleId().equalTo(arg())
                                         .roleName().equalTo(mainTable.userName()))
                                 .and(mainTable.id().equalTo(mt.id()))
-                                .and(mt.sortIndex().equalTo(UserRoleDTO.Helper.class, UserRoleDTO.Helper.Column::id)))
+                                .and(mt.sortIndex().equalTo(UserRoleHelper.class, UserRoleHelper.Column::id)))
                         .limit(arg(1), arg(1)).table(), "subQuery")
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
@@ -780,13 +780,13 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
 /*    @Test
     void TestWhereSubQuery() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.userName().likeSubQuery(UserRoleDTO.Helper.class, (mt, query) -> query
-                                .column(UserRoleDTO.Helper.Column::id)
+                        .and(mainTable.userName().likeSubQuery(UserRoleHelper.class, (mt, query) -> query
+                                .column(UserRoleHelper.Column::id)
                                 .where((ct, m) -> ct
                                         .and(m.roleName().equalTo(arg())))
                                 .limitOne()
@@ -796,13 +796,13 @@ public class MySqlDynamicQueryTest extends AbstractTest {
         arg(1);
         setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` where SysUser.`user_name` like (select UserRole.`id` `id` from `user_role` UserRole where UserRole.`role_name` = ? limit ?,?)");
 
-        sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
-                .innerJoin(UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+        sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
+                .innerJoin(UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
-                        .and(mainTable.userName().likeSubQuery(UserRoleDTO.Helper.class, (mt, query) -> query
-                                .column(UserRoleDTO.Helper.Column::id)
+                        .and(mainTable.userName().likeSubQuery(UserRoleHelper.class, (mt, query) -> query
+                                .column(UserRoleHelper.Column::id)
                                 .where((ct, m) -> ct
                                         .and(m.userId().between(arg(), arg())))
                                 .limitOne()
@@ -815,7 +815,7 @@ public class MySqlDynamicQueryTest extends AbstractTest {
 
     @Test
     void TestWhereSqlPart() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
                 .where((condition, mainTable) -> condition
                         .and(mainTable.loginName().sqlPart(" =NOW()")))

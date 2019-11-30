@@ -5,8 +5,9 @@ import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
+import pub.avalon.sqlhelper.readme.entity.SysUserHelper;
 import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
+import pub.avalon.sqlhelper.readme.entity.UserRoleHelper;
 
 /**
  * MySql动态引擎 - 列测试
@@ -18,9 +19,9 @@ public class MySqlDynamicEngineJoinTest {
      */
     @Test
     void Test_join_default() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .join(JoinType.INNER, UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .query();
         Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -32,11 +33,11 @@ public class MySqlDynamicEngineJoinTest {
      */
     @Test
     void Test_join_twice() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .join(JoinType.INNER, UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
-                .join(JoinType.INNER, UserRoleDTO.Helper.class, (on, joinTable, mainTable) -> on
+                .join(JoinType.INNER, UserRoleHelper.class, (on, joinTable, mainTable) -> on
                         .and(joinTable.roleId().equalTo(mainTable.id())))
                 .query();
         Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser inner join `user_role` UserRole on UserRole.`user_id` = SysUser.`id` and UserRole.`role_id` = SysUser.`id`", sqlBuilderResult.getPreparedStatementSql());
@@ -48,9 +49,9 @@ public class MySqlDynamicEngineJoinTest {
      */
     @Test
     void Test_join_assignTableName_assignTableAlias() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class, "A")
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class, "A")
                 .column(table -> table)
-                .join(JoinType.INNER, "user_role_custom", UserRoleDTO.Helper.class, "B", (on, joinTable, mainTable) -> on
+                .join(JoinType.INNER, "user_role_custom", UserRoleHelper.class, "B", (on, joinTable, mainTable) -> on
                         .and(joinTable.userId().equalTo(mainTable.id())))
                 .query();
         Assertions.assertEquals("select A.`id` `id`,A.`user_name` `userName`,A.`login_name` `loginName` from `sys_user_custom` A inner join `user_role_custom` B on B.`user_id` = A.`id`", sqlBuilderResult.getPreparedStatementSql());

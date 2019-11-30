@@ -1,0 +1,33 @@
+package $!{setting.packagePath};
+
+#foreach($classPath in ${table.classPaths})
+import $!{classPath};
+#end
+
+public class $!{table.tableAlias}$!{table.generateOptions.entityOptions.classNameSuffix} {
+
+    #foreach($column in ${table.columns})
+    #if(${table.generateOptions.entityOptions.fieldComment})
+    /**
+     * $!{column.comment}
+     */
+    #end
+    private $!{table.getJavaType(${column}).className} $!{table.getColumnAlias(${column})};
+    #end
+
+    #foreach($column in ${table.columns})
+    public $!{table.getJavaType(${column}).className} $!{table.getGetterMethodName(${column})}(){
+        return this.$!{table.getColumnAlias(${column})};
+    }
+    #if(${table.generateOptions.entityOptions.chainStyle})
+    public $!{table.tableAlias}$!{table.generateOptions.entityOptions.classNameSuffix} $!{table.getSetterMethodName(${column})}($!{table.getJavaType(${column}).className} $!{table.getColumnAlias(${column})}){
+        this.$!{table.getColumnAlias(${column})} = $!{table.getColumnAlias(${column})};
+        return this;
+    }
+    #else
+    public void $!{table.getSetterMethodName(${column})}($!{table.getJavaType(${column}).className} $!{table.getColumnAlias(${column})}){
+        this.$!{table.getColumnAlias(${column})} = $!{table.getColumnAlias(${column})};
+    }
+    #end
+    #end
+}

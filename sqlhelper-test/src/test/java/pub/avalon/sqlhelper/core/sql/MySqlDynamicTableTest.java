@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
+import pub.avalon.sqlhelper.readme.entity.SysUserHelper;
 
 /**
  * MySql动态引擎 - 表
@@ -16,7 +16,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_copyTable() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .copyTable("copyTable", false);
         Assertions.assertEquals("create table `copyTable` like `sys_user`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -27,7 +27,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_copyTable_assignTableName() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
                 .copyTable("copyTable", false);
         Assertions.assertEquals("create table `copyTable` like `sys_user_custom`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -38,7 +38,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_copyTable_copyData() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .copyTable("copyTable", true);
         Assertions.assertEquals("create table `copyTable` like `sys_user`; insert into `copyTable` select * from `sys_user`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -49,7 +49,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_copyTable_assignTableName_copyData() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
                 .copyTable("copyTable", true);
         Assertions.assertEquals("create table `copyTable` like `sys_user_custom`; insert into `copyTable` select * from `sys_user_custom`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -60,7 +60,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_deleteTable() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .deleteTable();
         Assertions.assertEquals("drop table `sys_user`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -71,7 +71,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_deleteTable_assignTableName() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
                 .deleteTable();
         Assertions.assertEquals("drop table `sys_user_custom`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -82,7 +82,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_renameTable() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .renameTable("newTableName");
         Assertions.assertEquals("rename table `sys_user` to `newTableName`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -93,7 +93,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_renameTable_assignTableName() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
                 .renameTable("newTableName");
         Assertions.assertEquals("rename table `sys_user_custom` to `newTableName`", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -104,7 +104,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_isTableExist() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .isTableExist();
         Assertions.assertEquals("select table_name from information_schema.TABLES where table_name = 'sys_user' and table_schema = (select database())", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
@@ -115,7 +115,7 @@ public class MySqlDynamicTableTest {
      */
     @Test
     void Test_isTableExist_assignTableName() {
-        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserDTO.Helper.class)
+        SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
                 .isTableExist();
         Assertions.assertEquals("select table_name from information_schema.TABLES where table_name = 'sys_user_custom' and table_schema = (select database())", sqlBuilderResult.getPreparedStatementSql());
         Assertions.assertArrayEquals(new String[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
