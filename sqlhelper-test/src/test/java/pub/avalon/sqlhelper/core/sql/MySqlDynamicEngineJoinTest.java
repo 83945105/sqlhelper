@@ -6,7 +6,6 @@ import pub.avalon.sqlhelper.core.beans.JoinType;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
 import pub.avalon.sqlhelper.readme.entity.SysUserHelper;
-import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
 import pub.avalon.sqlhelper.readme.entity.UserRoleHelper;
 
 /**

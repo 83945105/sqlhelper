@@ -4,9 +4,8 @@ import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.AbstractTest;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
+import pub.avalon.sqlhelper.readme.entity.SysUser;
 import pub.avalon.sqlhelper.readme.entity.SysUserHelper;
-import pub.avalon.sqlhelper.readme.entity.UserRoleDTO;
 import pub.avalon.sqlhelper.readme.entity.UserRoleHelper;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateJavaBeanByPrimaryKey01() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         arg(javaBean.getUserName());
         arg(javaBean.getLoginName());
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
@@ -49,7 +48,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateJavaBeanByPrimaryKey02() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         arg(javaBean.getUserName());
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(SysUserHelper.Column::userName)
@@ -59,7 +58,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateJavaBeanByPrimaryKeySelective01() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("666");
         javaBean.setUserName(arg());
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
@@ -69,7 +68,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateJavaBeanByPrimaryKeySelective02() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("666");
         javaBean.setUserName(arg());
         javaBean.setLoginName("233");
@@ -81,21 +80,21 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestBatchUpdateJavaBeansByPrimaryKeys01() {
-        List<SysUserDTO> javaBeans = new ArrayList<>();
+        List<SysUser> javaBeans = new ArrayList<>();
 
-        SysUserDTO sysUser = new SysUserDTO();
+        SysUser sysUser = new SysUser();
         sysUser.setId("1");
         sysUser.setUserName("1-1");
         sysUser.setLoginName("1-2");
         javaBeans.add(sysUser);
 
-        sysUser = new SysUserDTO();
+        sysUser = new SysUser();
         sysUser.setId("2");
         sysUser.setUserName("2-1");
         sysUser.setLoginName("2-2");
         javaBeans.add(sysUser);
 
-        sysUser = new SysUserDTO();
+        sysUser = new SysUser();
         sysUser.setId("3");
         sysUser.setUserName("3-1");
         sysUser.setLoginName("3-2");
@@ -120,7 +119,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateJavaBean01() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId(arg());
         javaBean.setUserName(arg());
         arg(null);
@@ -133,7 +132,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateJavaBeanAndJoinAndWhere01() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("666");
         javaBean.setUserName("1");
         arg("1");
@@ -151,7 +150,7 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateJavaBeanAndJoinAndWhereSelective01() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setUserName(arg());
 
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
@@ -165,18 +164,18 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateOrInsertJavaBeans01() {
-        List<SysUserDTO> javaBeans = new ArrayList<>();
-        SysUserDTO sysUser = new SysUserDTO();
+        List<SysUser> javaBeans = new ArrayList<>();
+        SysUser sysUser = new SysUser();
         arg(sysUser.getId());
         sysUser.setUserName(arg());
         arg(sysUser.getLoginName());
         javaBeans.add(sysUser);
-        sysUser = new SysUserDTO();
+        sysUser = new SysUser();
         arg(sysUser.getId());
         sysUser.setUserName(arg());
         arg(sysUser.getLoginName());
         javaBeans.add(sysUser);
-        sysUser = new SysUserDTO();
+        sysUser = new SysUser();
         arg(sysUser.getId());
         sysUser.setUserName(arg());
         arg(sysUser.getLoginName());
@@ -189,16 +188,16 @@ public class MySqlDynamicUpdateTest extends AbstractTest {
 
     @Test
     void TestUpdateOrInsertJavaBeans02() {
-        List<SysUserDTO> javaBeans = new ArrayList<>();
-        SysUserDTO sysUser = new SysUserDTO();
+        List<SysUser> javaBeans = new ArrayList<>();
+        SysUser sysUser = new SysUser();
         javaBeans.add(sysUser);
         sysUser.setUserName(arg());
 
-        sysUser = new SysUserDTO();
+        sysUser = new SysUser();
         sysUser.setUserName(arg());
         javaBeans.add(sysUser);
 
-        sysUser = new SysUserDTO();
+        sysUser = new SysUser();
         sysUser.setUserName(arg());
         javaBeans.add(sysUser);
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)

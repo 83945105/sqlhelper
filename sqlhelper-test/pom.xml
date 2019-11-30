@@ -80,7 +80,7 @@
                             <username>root</username>
                             <password>root</password>
                             <defaultOutputOptions>
-                                <folderPath>D:\git_store\sqlhelper\sqlhelper-test\src\test\java</folderPath>
+                                <folderPath>D:\git_repertory\sqlhelper\sqlhelper-test\src\test\java</folderPath>
                             </defaultOutputOptions>
                             <tables>
                                 <table>

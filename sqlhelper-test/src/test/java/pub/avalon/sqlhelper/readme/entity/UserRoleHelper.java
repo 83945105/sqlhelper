@@ -10,8 +10,6 @@ import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.lang.String;
-import java.lang.Long;
 
 @SuppressWarnings("all")
 public class UserRoleHelper implements TableHelper<UserRoleHelper, UserRoleHelper.On, UserRoleHelper.Column, UserRoleHelper.Where, UserRoleHelper.Group, UserRoleHelper.Having, UserRoleHelper.Sort> {

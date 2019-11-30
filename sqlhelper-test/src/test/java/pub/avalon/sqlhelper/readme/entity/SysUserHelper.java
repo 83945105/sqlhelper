@@ -10,7 +10,6 @@ import pub.avalon.sqlhelper.core.helper.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.lang.String;
 
 @SuppressWarnings("all")
 public class SysUserHelper implements TableHelper<SysUserHelper, SysUserHelper.On, SysUserHelper.Column, SysUserHelper.Where, SysUserHelper.Group, SysUserHelper.Having, SysUserHelper.Sort> {

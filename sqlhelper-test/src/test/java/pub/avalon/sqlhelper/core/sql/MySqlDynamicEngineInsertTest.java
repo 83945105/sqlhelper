@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import pub.avalon.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 import pub.avalon.sqlhelper.factory.MySqlDynamicEngine;
-import pub.avalon.sqlhelper.readme.entity.SysUserDTO;
+import pub.avalon.sqlhelper.readme.entity.SysUser;
 import pub.avalon.sqlhelper.readme.entity.SysUserHelper;
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBean() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setLoginName("3");
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
@@ -80,7 +80,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBean_assignTableName() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setLoginName("3");
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table("sys_user_custom", SysUserHelper.class)
@@ -94,7 +94,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBean_assignColumns() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName("3");
@@ -110,7 +110,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBean_assignTableName_assignColumns() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName("3");
@@ -126,7 +126,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBeanSelective() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
@@ -141,7 +141,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBeanSelective_assignTableName() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
@@ -156,7 +156,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBeanSelective_assignColumns() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
@@ -172,7 +172,7 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_insertJavaBeanSelective_assignTableName_assignColumns() {
-        SysUserDTO javaBean = new SysUserDTO();
+        SysUser javaBean = new SysUser();
         javaBean.setId("1");
         javaBean.setUserName("2");
         javaBean.setLoginName(null);
@@ -188,15 +188,15 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_batchInsertJavaBeans() {
-        List<SysUserDTO> javaBeans = new ArrayList<>();
+        List<SysUser> javaBeans = new ArrayList<>();
 
-        SysUserDTO javaBean1 = new SysUserDTO();
+        SysUser javaBean1 = new SysUser();
         javaBean1.setId(null);
         javaBean1.setUserName(null);
         javaBean1.setLoginName("3");
         javaBeans.add(javaBean1);
 
-        SysUserDTO javaBean2 = new SysUserDTO();
+        SysUser javaBean2 = new SysUser();
         javaBean2.setId("1");
         javaBean2.setUserName("2");
         javaBean2.setLoginName(null);
@@ -213,15 +213,15 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_batchInsertJavaBeans_assignTableName() {
-        List<SysUserDTO> javaBeans = new ArrayList<>();
+        List<SysUser> javaBeans = new ArrayList<>();
 
-        SysUserDTO javaBean1 = new SysUserDTO();
+        SysUser javaBean1 = new SysUser();
         javaBean1.setId(null);
         javaBean1.setUserName(null);
         javaBean1.setLoginName("3");
         javaBeans.add(javaBean1);
 
-        SysUserDTO javaBean2 = new SysUserDTO();
+        SysUser javaBean2 = new SysUser();
         javaBean2.setId("1");
         javaBean2.setUserName("2");
         javaBean2.setLoginName(null);
@@ -238,15 +238,15 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_batchInsertJavaBeans_assignColumns() {
-        List<SysUserDTO> javaBeans = new ArrayList<>();
+        List<SysUser> javaBeans = new ArrayList<>();
 
-        SysUserDTO javaBean1 = new SysUserDTO();
+        SysUser javaBean1 = new SysUser();
         javaBean1.setId(null);
         javaBean1.setUserName(null);
         javaBean1.setLoginName("3");
         javaBeans.add(javaBean1);
 
-        SysUserDTO javaBean2 = new SysUserDTO();
+        SysUser javaBean2 = new SysUser();
         javaBean2.setId("1");
         javaBean2.setUserName("2");
         javaBean2.setLoginName(null);
@@ -264,15 +264,15 @@ public class MySqlDynamicEngineInsertTest {
      */
     @Test
     void Test_batchInsertJavaBeans_assignTableName_assignColumns() {
-        List<SysUserDTO> javaBeans = new ArrayList<>();
+        List<SysUser> javaBeans = new ArrayList<>();
 
-        SysUserDTO javaBean1 = new SysUserDTO();
+        SysUser javaBean1 = new SysUser();
         javaBean1.setId(null);
         javaBean1.setUserName(null);
         javaBean1.setLoginName("3");
         javaBeans.add(javaBean1);
 
-        SysUserDTO javaBean2 = new SysUserDTO();
+        SysUser javaBean2 = new SysUser();
         javaBean2.setId("1");
         javaBean2.setUserName("2");
         javaBean2.setLoginName(null);
