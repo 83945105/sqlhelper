@@ -11,21 +11,21 @@ public final class TableHavingDatum {
 
     private String tableAlias;
 
-    private List<HavingDataLinker> havingDataLinkers;
+    private List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers;
 
-    public TableHavingDatum(String tableAlias, List<HavingDataLinker> havingDataLinkers) {
+    public TableHavingDatum(String tableAlias, List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
-        this.havingDataLinkers = havingDataLinkers;
+        this.comparisonSqlPartDataLinkers = comparisonSqlPartDataLinkers;
     }
 
     public String getTableAlias() {
         return tableAlias;
     }
 
-    public List<HavingDataLinker> getHavingDataLinkers() {
-        return havingDataLinkers;
+    public List<ComparisonSqlPartDataLinker> getComparisonSqlPartDataLinkers() {
+        return comparisonSqlPartDataLinkers;
     }
 }

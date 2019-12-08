@@ -30,14 +30,8 @@ public final class HavingDatum extends AbstractComparisonSqlPartDatum<HavingDatu
     }
 
     @Override
-    public HavingDatum setColumnHandlers(List<ColumnHandler> columnHandlers) {
-        super.setColumnHandlers(columnHandlers);
-        return this;
-    }
-
-    @Override
-    public HavingDatum addColumnHandler(ColumnHandler columnHandler) {
-        super.addColumnHandler(columnHandler);
+    public HavingDatum setColumnHandler(ColumnHandler columnHandler) {
+        super.setColumnHandler(columnHandler);
         return this;
     }
 

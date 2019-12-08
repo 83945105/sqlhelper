@@ -2,7 +2,7 @@ package pub.avalonframework.sqlhelper.core.helper;
 
 import pub.avalonframework.sqlhelper.core.beans.LinkType;
 import pub.avalonframework.sqlhelper.core.builder.OnSqlPartDatumBuilder;
-import pub.avalonframework.sqlhelper.core.data.OnDataLinker;
+import pub.avalonframework.sqlhelper.core.data.ComparisonSqlPartDataLinker;
 import pub.avalonframework.sqlhelper.core.data.OnDatum;
 import pub.avalonframework.sqlhelper.core.data.TableOnDatum;
 import pub.avalonframework.sqlhelper.core.option.SqlBuilderOptions;
@@ -58,7 +58,7 @@ public abstract class OnHelper<T extends OnHelper<T>> extends Helper {
             return null;
         }
         return new TableOnDatum(onHelper.getTableAlias(),
-                Collections.singletonList(new OnDataLinker(LinkType.AND).setOnData(onData)));
+                Collections.singletonList(new ComparisonSqlPartDataLinker(LinkType.AND).setComparisonSqlPartData(onData)));
     }
 
     public static List<TableOnDatum> execute(OnHelper<?>... onHelpers) {

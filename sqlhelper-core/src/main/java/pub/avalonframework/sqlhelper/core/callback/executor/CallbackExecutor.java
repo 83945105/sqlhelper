@@ -78,7 +78,7 @@ public final class CallbackExecutor {
         }
         onHelper.setSqlBuilderOptions(sqlBuilderOptions);
         OnLinker<TO> onLinker = onCallback.apply(new OnAndOr<>(), onHelper);
-        List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
+        List<ComparisonSqlPartDataLinker> onDataLinkers = onLinker.takeoutComparisonSqlPartDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return null;
         }
@@ -105,7 +105,7 @@ public final class CallbackExecutor {
         SO so = s.newOnHelper(joinTableAlias);
         so.setSqlBuilderOptions(sqlBuilderOptions);
         OnLinker<TO> onLinker = onJoinCallback.apply(new OnAndOr<>(), so, mainOnHelper);
-        List<OnDataLinker> onDataLinkers = onLinker.takeoutOnDataLinkers();
+        List<ComparisonSqlPartDataLinker> onDataLinkers = onLinker.takeoutComparisonSqlPartDataLinkers();
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return null;
         }
@@ -121,7 +121,7 @@ public final class CallbackExecutor {
         }
         whereHelper.setSqlBuilderOptions(sqlBuilderOptions);
         WhereLinker<TW> whereLinker = whereCallback.apply(new WhereAndOr<>(), whereHelper);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
+        List<ComparisonSqlPartDataLinker> whereDataLinkers = whereLinker.takeoutComparisonSqlPartDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return null;
         }
@@ -148,7 +148,7 @@ public final class CallbackExecutor {
         SW sw = s.newWhereHelper(joinTableAlias);
         sw.setSqlBuilderOptions(sqlBuilderOptions);
         WhereLinker<TW> whereLinker = whereJoinCallback.apply(new WhereAndOr<>(), sw, mainWhereHelper);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
+        List<ComparisonSqlPartDataLinker> whereDataLinkers = whereLinker.takeoutComparisonSqlPartDataLinkers();
         if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
             return null;
         }
@@ -164,7 +164,7 @@ public final class CallbackExecutor {
         }
         havingHelper.setSqlBuilderOptions(sqlBuilderOptions);
         HavingLinker<TH> havingLinker = havingCallback.apply(new HavingAndOr<>(), havingHelper);
-        List<HavingDataLinker> havingDataLinkers = havingLinker.takeoutHavingDataLinkers();
+        List<ComparisonSqlPartDataLinker> havingDataLinkers = havingLinker.takeoutComparisonSqlPartDataLinkers();
         if (havingDataLinkers == null || havingDataLinkers.size() == 0) {
             return null;
         }
@@ -191,7 +191,7 @@ public final class CallbackExecutor {
         SH sh = s.newHavingHelper(joinTableAlias);
         sh.setSqlBuilderOptions(sqlBuilderOptions);
         HavingLinker<TH> havingLinker = havingJoinCallback.apply(new HavingAndOr<>(), sh, mainHavingHelper);
-        List<HavingDataLinker> havingDataLinkers = havingLinker.takeoutHavingDataLinkers();
+        List<ComparisonSqlPartDataLinker> havingDataLinkers = havingLinker.takeoutComparisonSqlPartDataLinkers();
         if (havingDataLinkers == null || havingDataLinkers.size() == 0) {
             return null;
         }

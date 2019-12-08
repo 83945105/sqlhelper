@@ -11,21 +11,21 @@ public final class TableWhereDatum {
 
     private String tableAlias;
 
-    private List<WhereDataLinker> whereDataLinkers;
+    private List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers;
 
-    public TableWhereDatum(String tableAlias, List<WhereDataLinker> whereDataLinkers) {
+    public TableWhereDatum(String tableAlias, List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
-        this.whereDataLinkers = whereDataLinkers;
+        this.comparisonSqlPartDataLinkers = comparisonSqlPartDataLinkers;
     }
 
     public String getTableAlias() {
         return tableAlias;
     }
 
-    public List<WhereDataLinker> getWhereDataLinkers() {
-        return whereDataLinkers;
+    public List<ComparisonSqlPartDataLinker> getComparisonSqlPartDataLinkers() {
+        return comparisonSqlPartDataLinkers;
     }
 }

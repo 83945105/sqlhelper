@@ -81,10 +81,10 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                     .append(joinTableDatum.getTableName())
                     .append("` ")
                     .append(joinTableDatum.getTableAlias());
-            List<OnDataLinker> onDataLinkers = joinTableDatum.getTableOnDatum().getOnDataLinkers();
-            if (onDataLinkers != null && onDataLinkers.size() > 0) {
+            List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers = joinTableDatum.getTableOnDatum().getComparisonSqlPartDataLinkers();
+            if (comparisonSqlPartDataLinkers != null && comparisonSqlPartDataLinkers.size() > 0) {
                 sql.append(" on ");
-                this.appendOnDataLinkerListSqlArgs(sql, args, onDataLinkers, LinkType.AND, false);
+                this.appendComparisonSqlPartDataLinkersSqlArgs(sql, args, comparisonSqlPartDataLinkers, LinkType.AND, false);
             }
         }
         return FinalSqlBuilderResult.newInstance(sql.toString(), args);
@@ -104,7 +104,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
             if (i++ > 0) {
                 sql.append(" and ");
             }
-            this.appendWhereDataLinkerListSqlArgs(sql, args, tableWhereDatum.getWhereDataLinkers(), LinkType.AND, tableWhereData.size() > 1);
+            this.appendComparisonSqlPartDataLinkersSqlArgs(sql, args, tableWhereDatum.getComparisonSqlPartDataLinkers(), LinkType.AND, tableWhereData.size() > 1);
         }
         return FinalSqlBuilderResult.newInstance(sql.toString(), args);
     }
@@ -139,7 +139,21 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
 
     @Override
     public SqlBuilderResult buildHaving(SqlDataConsumer sqlDataConsumer) {
-        return null;
+        List<TableHavingDatum> tableHavingData = sqlDataConsumer.getTableHavingData();
+        if (tableHavingData == null || tableHavingData.size() == 0) {
+            return FinalSqlBuilderResult.NONE;
+        }
+        StringBuilder sql = new StringBuilder(128);
+        List<Object> args = new ArrayList<>(16);
+        sql.append(" having ");
+        int i = 0;
+        for (TableHavingDatum tableHavingDatum : tableHavingData) {
+            if (i++ > 0) {
+                sql.append(" and ");
+            }
+            this.appendComparisonSqlPartDataLinkersSqlArgs(sql, args, tableHavingDatum.getComparisonSqlPartDataLinkers(), LinkType.AND, tableHavingData.size() > 1);
+        }
+        return FinalSqlBuilderResult.newInstance(sql.toString(), args);
     }
 
     @Override
@@ -340,6 +354,7 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
                         .append("`");
                 return;
             case HANDLER:
+                sql.append(sqlPartDatum.getColumnHandler().execute(sqlPartDatum.getTableAlias() + ".`" + sqlPartDatum.getColumnName() + "`"));
                 return;
             default:
                 ExceptionUtils.unsupportedColumnTypeException(columnType);
@@ -501,110 +516,53 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
         }
     }
 
-    private void appendOnDataLinkerListSqlArgs(StringBuilder sql, List<Object> args, List<OnDataLinker> onDataLinkers, LinkType linkType, boolean checkBrackets) {
+    private void appendComparisonSqlPartDataLinkersSqlArgs(StringBuilder sql, List<Object> args, List<ComparisonSqlPartDataLinker> onDataLinkers, LinkType linkType, boolean checkBrackets) {
         if (onDataLinkers == null || onDataLinkers.size() == 0) {
             return;
         }
         int length = sql.length();
-        List<OnDatum> onData;
+        List<? extends AbstractComparisonSqlPartDatum> comparisonSqlPartData;
         int i = 0;
         boolean brackets = false;
-        for (OnDataLinker onDataLinker : onDataLinkers) {
-            onData = onDataLinker.getOnData();
-            List<OnDataLinker> childOnDataLinkers = onDataLinker.getOnDataLinkers();
-            if (onData != null && onData.size() > 0) {
-                switch (onDataLinker.getLinkType()) {
+        for (ComparisonSqlPartDataLinker comparisonSqlPartDataLinker : onDataLinkers) {
+            comparisonSqlPartData = comparisonSqlPartDataLinker.getComparisonSqlPartData();
+            List<ComparisonSqlPartDataLinker> childComparisonSqlPartDataLinkers = comparisonSqlPartDataLinker.getComparisonSqlPartDataLinkers();
+            if (comparisonSqlPartData != null && comparisonSqlPartData.size() > 0) {
+                switch (comparisonSqlPartDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendSqlPartData(sql, args, onData, LinkType.AND);
+                        this.appendSqlPartData(sql, args, comparisonSqlPartData, LinkType.AND);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendSqlPartData(sql, args, onData, LinkType.OR);
+                        this.appendSqlPartData(sql, args, comparisonSqlPartData, LinkType.OR);
                         continue;
                     default:
+                        //TODO
                         throw new SqlException("the LinkType is wrong.");
                 }
-            } else if (childOnDataLinkers != null && childOnDataLinkers.size() > 0) {
-                switch (onDataLinker.getLinkType()) {
+            } else if (childComparisonSqlPartDataLinkers != null && childComparisonSqlPartDataLinkers.size() > 0) {
+                switch (comparisonSqlPartDataLinker.getLinkType()) {
                     case AND:
                         if (i++ > 0) {
                             sql.append(" and ");
                         }
-                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.AND, true);
+                        this.appendComparisonSqlPartDataLinkersSqlArgs(sql, args, childComparisonSqlPartDataLinkers, LinkType.AND, true);
                         continue;
                     case OR:
                         if (i++ > 0) {
                             sql.append(" or ");
                             brackets = checkBrackets;
                         }
-                        this.appendOnDataLinkerListSqlArgs(sql, args, childOnDataLinkers, LinkType.OR, true);
+                        this.appendComparisonSqlPartDataLinkersSqlArgs(sql, args, childComparisonSqlPartDataLinkers, LinkType.OR, true);
                         continue;
                     default:
-                        throw new SqlException("the LinkType is wrong.");
-                }
-            }
-        }
-        if (!checkBrackets) {
-            return;
-        }
-        brackets = brackets || linkType == LinkType.OR && i > 1;
-        if (!brackets) {
-            return;
-        }
-        sql.insert(length, "(").append(")");
-    }
-
-    private void appendWhereDataLinkerListSqlArgs(StringBuilder sql, List<Object> args, List<WhereDataLinker> whereDataLinkerList, LinkType linkType, boolean checkBrackets) {
-        if (whereDataLinkerList == null || whereDataLinkerList.size() == 0) {
-            return;
-        }
-        int length = sql.length();
-        List<WhereDatum> whereData;
-        int i = 0;
-        boolean brackets = false;
-        for (WhereDataLinker whereDataLinker : whereDataLinkerList) {
-            whereData = whereDataLinker.getWhereData();
-            List<WhereDataLinker> childWhereDataLinkers = whereDataLinker.getWhereDataLinkers();
-            if (whereData != null && whereData.size() > 0) {
-                switch (whereDataLinker.getLinkType()) {
-                    case AND:
-                        if (i++ > 0) {
-                            sql.append(" and ");
-                        }
-                        this.appendSqlPartData(sql, args, whereData, LinkType.AND);
-                        continue;
-                    case OR:
-                        if (i++ > 0) {
-                            sql.append(" or ");
-                            brackets = checkBrackets;
-                        }
-                        this.appendSqlPartData(sql, args, whereData, LinkType.OR);
-                        continue;
-                    default:
-                        throw new SqlException("the LinkType is wrong.");
-                }
-            } else if (childWhereDataLinkers != null && childWhereDataLinkers.size() > 0) {
-                switch (whereDataLinker.getLinkType()) {
-                    case AND:
-                        if (i++ > 0) {
-                            sql.append(" and ");
-                        }
-                        this.appendWhereDataLinkerListSqlArgs(sql, args, childWhereDataLinkers, LinkType.AND, true);
-                        continue;
-                    case OR:
-                        if (i++ > 0) {
-                            sql.append(" or ");
-                            brackets = checkBrackets;
-                        }
-                        this.appendWhereDataLinkerListSqlArgs(sql, args, childWhereDataLinkers, LinkType.OR, true);
-                        continue;
-                    default:
+                        //TODO
                         throw new SqlException("the LinkType is wrong.");
                 }
             }

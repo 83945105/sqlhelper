@@ -3,7 +3,7 @@ package pub.avalonframework.sqlhelper.core.helper;
 import pub.avalonframework.sqlhelper.core.beans.ColumnHandler;
 import pub.avalonframework.sqlhelper.core.beans.LinkType;
 import pub.avalonframework.sqlhelper.core.builder.HavingSqlPartDatumBuilder;
-import pub.avalonframework.sqlhelper.core.data.HavingDataLinker;
+import pub.avalonframework.sqlhelper.core.data.ComparisonSqlPartDataLinker;
 import pub.avalonframework.sqlhelper.core.data.HavingDatum;
 import pub.avalonframework.sqlhelper.core.data.TableHavingDatum;
 import pub.avalonframework.sqlhelper.core.option.SqlBuilderOptions;
@@ -64,7 +64,7 @@ public abstract class HavingHelper<T extends HavingHelper<T>> extends Helper {
             return null;
         }
         return new TableHavingDatum(havingHelper.getTableAlias(),
-                Collections.singletonList(new HavingDataLinker(LinkType.AND).setHavingData(havingData)));
+                Collections.singletonList(new ComparisonSqlPartDataLinker(LinkType.AND).setComparisonSqlPartData(havingData)));
     }
 
     public static List<TableHavingDatum> execute(HavingHelper<?>... havingHelpers) {

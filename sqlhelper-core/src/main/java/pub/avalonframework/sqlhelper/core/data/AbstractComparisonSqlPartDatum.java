@@ -6,7 +6,6 @@ import pub.avalonframework.sqlhelper.core.data.beans.Type;
 import pub.avalonframework.sqlhelper.core.data.beans.ValueType;
 import pub.avalonframework.sqlhelper.core.sqlbuilder.beans.SqlBuilderResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +19,8 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
 
     protected ColumnType columnType = ColumnType.DEFAULT;
 
-    protected List<ColumnHandler> columnHandlers;
+    // 已经尝试过ColumnHandler[] columnHandlers, 这么做后面解析过于麻烦, 放弃
+    protected ColumnHandler columnHandler;
 
     protected ComparisonType comparisonType = ComparisonType.NONE;
 
@@ -62,21 +62,12 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
         return this;
     }
 
-    public AbstractComparisonSqlPartDatum<T> setColumnHandlers(List<ColumnHandler> columnHandlers) {
-        if (columnHandlers == null || columnHandlers.size() == 0) {
+    public AbstractComparisonSqlPartDatum<T> setColumnHandler(ColumnHandler columnHandler) {
+        if (columnHandler == null) {
             return this;
         }
         this.columnType = ColumnType.HANDLER;
-        this.columnHandlers = columnHandlers;
-        return this;
-    }
-
-    public AbstractComparisonSqlPartDatum<T> addColumnHandler(ColumnHandler columnHandler) {
-        if (this.columnHandlers == null) {
-            this.columnType = ColumnType.HANDLER;
-            this.columnHandlers = new ArrayList<>(1);
-        }
-        this.columnHandlers.add(columnHandler);
+        this.columnHandler = columnHandler;
         return this;
     }
 
@@ -183,8 +174,8 @@ public abstract class AbstractComparisonSqlPartDatum<T extends AbstractCompariso
         return columnType;
     }
 
-    public List<ColumnHandler> getColumnHandlers() {
-        return columnHandlers;
+    public ColumnHandler getColumnHandler() {
+        return columnHandler;
     }
 
     public ComparisonType getComparisonType() {

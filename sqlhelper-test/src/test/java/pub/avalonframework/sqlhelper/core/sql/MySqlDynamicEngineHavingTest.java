@@ -23,8 +23,8 @@ public class MySqlDynamicEngineHavingTest {
                 .column(SysUserHelper.Column::id)
                 .having((having, mainTable) -> having.and(mainTable.id().max().equalTo("1")))
                 .query();
-        Assertions.assertEquals("select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser", sqlBuilderResult.getPreparedStatementSql());
-        Assertions.assertArrayEquals(new Object[]{}, sqlBuilderResult.getPreparedStatementArgs().toArray());
+        Assertions.assertEquals("select SysUser.`id` `id` from `sys_user` SysUser having max(SysUser.`id`) = ?", sqlBuilderResult.getPreparedStatementSql());
+        Assertions.assertArrayEquals(new Object[]{"1"}, sqlBuilderResult.getPreparedStatementArgs().toArray());
     }
 
 }

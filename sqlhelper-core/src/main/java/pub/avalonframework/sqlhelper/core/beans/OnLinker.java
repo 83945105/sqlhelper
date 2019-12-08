@@ -1,7 +1,7 @@
 package pub.avalonframework.sqlhelper.core.beans;
 
 import pub.avalonframework.sqlhelper.core.callback.OnLinkerCallback;
-import pub.avalonframework.sqlhelper.core.data.OnDataLinker;
+import pub.avalonframework.sqlhelper.core.data.ComparisonSqlPartDataLinker;
 import pub.avalonframework.sqlhelper.core.helper.OnHelper;
 
 import java.util.List;
@@ -14,9 +14,9 @@ public interface OnLinker<TO extends OnHelper<TO>> {
     /**
      * Clean up after each takeout.
      *
-     * @return list {@link OnDataLinker}
+     * @return list {@link ComparisonSqlPartDataLinker}
      */
-    List<OnDataLinker> takeoutOnDataLinkers();
+    List<ComparisonSqlPartDataLinker> takeoutComparisonSqlPartDataLinkers();
 
     /**
      * and

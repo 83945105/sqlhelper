@@ -12,22 +12,22 @@ public final class TableOnDatum {
 
     private String tableAlias;
 
-    private List<OnDataLinker> onDataLinkers;
+    private List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers;
 
-    public TableOnDatum(String tableAlias, List<OnDataLinker> onDataLinkers) {
+    public TableOnDatum(String tableAlias, List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers) {
         if (tableAlias == null) {
             ExceptionUtils.tableAliasNullException();
         }
         this.tableAlias = tableAlias;
-        this.onDataLinkers = onDataLinkers;
+        this.comparisonSqlPartDataLinkers = comparisonSqlPartDataLinkers;
     }
 
     public String getTableAlias() {
         return tableAlias;
     }
 
-    public List<OnDataLinker> getOnDataLinkers() {
-        return onDataLinkers;
+    public List<ComparisonSqlPartDataLinker> getComparisonSqlPartDataLinkers() {
+        return comparisonSqlPartDataLinkers;
     }
 
     public void merge(TableOnDatum tableOnDatum) {
@@ -37,16 +37,16 @@ public final class TableOnDatum {
         if (!this.getTableAlias().equals(tableOnDatum.getTableAlias())) {
             ExceptionUtils.inconsistentAliasException();
         }
-        this.addAllOnDataLinkers(tableOnDatum.getOnDataLinkers());
+        this.addAllComparisonSqlPartDataLinkers(tableOnDatum.getComparisonSqlPartDataLinkers());
     }
 
-    public void addAllOnDataLinkers(List<OnDataLinker> onDataLinkers) {
-        if (onDataLinkers == null || onDataLinkers.size() == 0) {
+    public void addAllComparisonSqlPartDataLinkers(List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers) {
+        if (comparisonSqlPartDataLinkers == null || comparisonSqlPartDataLinkers.size() == 0) {
             return;
         }
-        if (this.onDataLinkers == null) {
-            this.onDataLinkers = new ArrayList<>(onDataLinkers.size());
+        if (this.comparisonSqlPartDataLinkers == null) {
+            this.comparisonSqlPartDataLinkers = new ArrayList<>(comparisonSqlPartDataLinkers.size());
         }
-        this.onDataLinkers.addAll(onDataLinkers);
+        this.comparisonSqlPartDataLinkers.addAll(comparisonSqlPartDataLinkers);
     }
 }

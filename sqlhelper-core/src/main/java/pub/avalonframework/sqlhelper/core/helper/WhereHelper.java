@@ -3,8 +3,8 @@ package pub.avalonframework.sqlhelper.core.helper;
 import pub.avalonframework.sqlhelper.core.beans.LinkType;
 import pub.avalonframework.sqlhelper.core.builder.SqlPartDatumBuilder;
 import pub.avalonframework.sqlhelper.core.builder.WhereSqlPartDatumBuilder;
+import pub.avalonframework.sqlhelper.core.data.ComparisonSqlPartDataLinker;
 import pub.avalonframework.sqlhelper.core.data.TableWhereDatum;
-import pub.avalonframework.sqlhelper.core.data.WhereDataLinker;
 import pub.avalonframework.sqlhelper.core.data.WhereDatum;
 import pub.avalonframework.sqlhelper.core.option.SqlBuilderOptions;
 
@@ -81,7 +81,7 @@ public abstract class WhereHelper<T extends WhereHelper<T>> extends Helper {
             return null;
         }
         return new TableWhereDatum(whereHelper.getTableAlias(),
-                Collections.singletonList(new WhereDataLinker(LinkType.AND).setWhereData(whereData)));
+                Collections.singletonList(new ComparisonSqlPartDataLinker(LinkType.AND).setComparisonSqlPartData(whereData)));
     }
 
     public static List<TableWhereDatum> execute(WhereHelper<?>... whereHelpers) {

@@ -30,14 +30,8 @@ public final class WhereDatum extends AbstractComparisonSqlPartDatum<WhereDatum>
     }
 
     @Override
-    public WhereDatum setColumnHandlers(List<ColumnHandler> columnHandlers) {
-        super.setColumnHandlers(columnHandlers);
-        return this;
-    }
-
-    @Override
-    public WhereDatum addColumnHandler(ColumnHandler columnHandler) {
-        super.addColumnHandler(columnHandler);
+    public WhereDatum setColumnHandler(ColumnHandler columnHandler) {
+        super.setColumnHandler(columnHandler);
         return this;
     }
 

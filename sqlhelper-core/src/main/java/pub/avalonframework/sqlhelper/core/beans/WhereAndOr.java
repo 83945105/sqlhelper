@@ -2,7 +2,7 @@ package pub.avalonframework.sqlhelper.core.beans;
 
 import pub.avalonframework.sqlhelper.core.callback.WhereJoinLinkerCallback;
 import pub.avalonframework.sqlhelper.core.callback.WhereLinkerCallback;
-import pub.avalonframework.sqlhelper.core.data.WhereDataLinker;
+import pub.avalonframework.sqlhelper.core.data.ComparisonSqlPartDataLinker;
 import pub.avalonframework.sqlhelper.core.data.WhereDatum;
 import pub.avalonframework.sqlhelper.core.helper.*;
 import pub.avalonframework.sqlhelper.core.utils.HelperManager;
@@ -15,13 +15,13 @@ import java.util.List;
  */
 public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker<TW> {
 
-    private List<WhereDataLinker> whereDataLinkers = new ArrayList<>();
+    private List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers = new ArrayList<>();
 
     @Override
-    public List<WhereDataLinker> takeoutWhereDataLinkers() {
-        List<WhereDataLinker> whereDataLinkers = this.whereDataLinkers;
-        this.whereDataLinkers = new ArrayList<>();
-        return whereDataLinkers;
+    public List<ComparisonSqlPartDataLinker> takeoutComparisonSqlPartDataLinkers() {
+        List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers = this.comparisonSqlPartDataLinkers;
+        this.comparisonSqlPartDataLinkers = new ArrayList<>();
+        return comparisonSqlPartDataLinkers;
     }
 
     @Override
@@ -29,13 +29,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
         if (whereHelper == null) {
             return this;
         }
-        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
+        ComparisonSqlPartDataLinker comparisonSqlPartDataLinker = new ComparisonSqlPartDataLinker(LinkType.AND);
         List<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
         if (whereData == null || whereData.size() == 0) {
             return this;
         }
-        whereDataLinker.setWhereData(whereData);
-        this.whereDataLinkers.add(whereDataLinker);
+        comparisonSqlPartDataLinker.setComparisonSqlPartData(whereData);
+        this.comparisonSqlPartDataLinkers.add(comparisonSqlPartDataLinker);
         return this;
     }
 
@@ -45,13 +45,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
             return this;
         }
         WhereLinker<TW> whereLinker = whereLinkerCallback.apply(new WhereAndOr<>());
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
+        List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers = whereLinker.takeoutComparisonSqlPartDataLinkers();
+        if (comparisonSqlPartDataLinkers == null || comparisonSqlPartDataLinkers.size() == 0) {
             return this;
         }
-        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
-        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
-        this.whereDataLinkers.add(whereDataLinker);
+        ComparisonSqlPartDataLinker whereDataLinker = new ComparisonSqlPartDataLinker(LinkType.AND);
+        whereDataLinker.setComparisonSqlPartDataLinkers(comparisonSqlPartDataLinkers);
+        this.comparisonSqlPartDataLinkers.add(whereDataLinker);
         return this;
     }
 
@@ -69,13 +69,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         WhereLinker<TW> whereLinker = whereJoinLinkerCallback.apply(new WhereAndOr<>(), sw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
+        List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers = whereLinker.takeoutComparisonSqlPartDataLinkers();
+        if (comparisonSqlPartDataLinkers == null || comparisonSqlPartDataLinkers.size() == 0) {
             return this;
         }
-        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.AND);
-        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
-        this.whereDataLinkers.add(whereDataLinker);
+        ComparisonSqlPartDataLinker whereDataLinker = new ComparisonSqlPartDataLinker(LinkType.AND);
+        whereDataLinker.setComparisonSqlPartDataLinkers(comparisonSqlPartDataLinkers);
+        this.comparisonSqlPartDataLinkers.add(whereDataLinker);
         return this;
     }
 
@@ -89,13 +89,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
         if (whereHelper == null) {
             return this;
         }
-        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
+        ComparisonSqlPartDataLinker whereDataLinker = new ComparisonSqlPartDataLinker(LinkType.OR);
         List<WhereDatum> whereData = whereHelper.takeoutSqlPartData();
         if (whereData == null || whereData.size() == 0) {
             return this;
         }
-        whereDataLinker.setWhereData(whereData);
-        this.whereDataLinkers.add(whereDataLinker);
+        whereDataLinker.setComparisonSqlPartData(whereData);
+        this.comparisonSqlPartDataLinkers.add(whereDataLinker);
         return this;
     }
 
@@ -110,13 +110,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
             return this;
         }
         WhereLinker<TW> whereLinker = whereLinkerCallback.apply(new WhereAndOr<>());
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
+        List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers = whereLinker.takeoutComparisonSqlPartDataLinkers();
+        if (comparisonSqlPartDataLinkers == null || comparisonSqlPartDataLinkers.size() == 0) {
             return this;
         }
-        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
-        this.whereDataLinkers.add(whereDataLinker);
+        ComparisonSqlPartDataLinker whereDataLinker = new ComparisonSqlPartDataLinker(LinkType.OR);
+        whereDataLinker.setComparisonSqlPartDataLinkers(comparisonSqlPartDataLinkers);
+        this.comparisonSqlPartDataLinkers.add(whereDataLinker);
         return this;
     }
 
@@ -141,13 +141,13 @@ public final class WhereAndOr<TW extends WhereHelper<TW>> implements WhereLinker
         S s = HelperManager.defaultTableHelper(tableHelperClass);
         SW sw = s.newWhereHelper(tableAlias == null ? s.getTableAlias() : tableAlias);
         WhereLinker<TW> whereLinker = whereJoinLinkerCallback.apply(new WhereAndOr<>(), sw);
-        List<WhereDataLinker> whereDataLinkers = whereLinker.takeoutWhereDataLinkers();
-        if (whereDataLinkers == null || whereDataLinkers.size() == 0) {
+        List<ComparisonSqlPartDataLinker> comparisonSqlPartDataLinkers = whereLinker.takeoutComparisonSqlPartDataLinkers();
+        if (comparisonSqlPartDataLinkers == null || comparisonSqlPartDataLinkers.size() == 0) {
             return this;
         }
-        WhereDataLinker whereDataLinker = new WhereDataLinker(LinkType.OR);
-        whereDataLinker.setWhereDataLinkers(whereDataLinkers);
-        this.whereDataLinkers.add(whereDataLinker);
+        ComparisonSqlPartDataLinker whereDataLinker = new ComparisonSqlPartDataLinker(LinkType.OR);
+        whereDataLinker.setComparisonSqlPartDataLinkers(comparisonSqlPartDataLinkers);
+        this.comparisonSqlPartDataLinkers.add(whereDataLinker);
         return this;
     }
 
