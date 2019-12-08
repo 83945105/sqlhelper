@@ -41,6 +41,14 @@ public interface SqlPartBuilderTemplate {
     SqlBuilderResult buildGroup(SqlDataConsumer sqlDataConsumer);
 
     /**
+     * build having sql part result
+     *
+     * @param sqlDataConsumer {@link SqlDataConsumer}er
+     * @return {@link SqlBuilderResult}
+     */
+    SqlBuilderResult buildHaving(SqlDataConsumer sqlDataConsumer);
+
+    /**
      * build sort sql part result
      *
      * @param sqlDataConsumer {@link SqlDataConsumer}

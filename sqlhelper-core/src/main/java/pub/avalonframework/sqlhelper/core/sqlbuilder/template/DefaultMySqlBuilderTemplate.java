@@ -545,6 +545,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildJoin(sqlDataConsumer));
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildWhere(sqlDataConsumer));
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildGroup(sqlDataConsumer));
+        sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildHaving(sqlDataConsumer));
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildSort(sqlDataConsumer));
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildLimit(sqlDataConsumer));
         return sqlBuilderResult;

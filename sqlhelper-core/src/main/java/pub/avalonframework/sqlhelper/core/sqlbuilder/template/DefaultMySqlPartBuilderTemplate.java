@@ -138,6 +138,11 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
     }
 
     @Override
+    public SqlBuilderResult buildHaving(SqlDataConsumer sqlDataConsumer) {
+        return null;
+    }
+
+    @Override
     public SqlBuilderResult buildSort(SqlDataConsumer sqlDataConsumer) {
         List<TableSortDatum> tableSortData = sqlDataConsumer.getTableSortData();
         if (tableSortData == null || tableSortData.size() == 0) {

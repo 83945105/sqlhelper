@@ -61,37 +61,43 @@ public final class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractC
 
     @Override
     public HavingSqlPartDatumBuilder<T> min() {
-        this.havingDatum.setColumnHandler(GroupType.MIN);
-        return null;
+        this.havingDatum.addColumnHandler(GroupType.MIN);
+        return this;
     }
 
     @Override
     public HavingSqlPartDatumBuilder<T> max() {
-        return null;
+        this.havingDatum.addColumnHandler(GroupType.MAX);
+        return this;
     }
 
     @Override
     public HavingSqlPartDatumBuilder<T> count() {
-        return null;
+        this.havingDatum.addColumnHandler(GroupType.COUNT);
+        return this;
     }
 
     @Override
     public HavingSqlPartDatumBuilder<T> sum() {
-        return null;
+        this.havingDatum.addColumnHandler(GroupType.SUM);
+        return this;
     }
 
     @Override
     public HavingSqlPartDatumBuilder<T> avg() {
-        return null;
+        this.havingDatum.addColumnHandler(GroupType.AVG);
+        return this;
     }
 
     @Override
     public HavingSqlPartDatumBuilder<T> stddev() {
-        return null;
+        this.havingDatum.addColumnHandler(GroupType.STDDEV);
+        return this;
     }
 
     @Override
     public HavingSqlPartDatumBuilder<T> variance() {
-        return null;
+        this.havingDatum.addColumnHandler(GroupType.VARIANCE);
+        return this;
     }
 }

@@ -30,8 +30,14 @@ public final class OnDatum extends AbstractComparisonSqlPartDatum<OnDatum> {
     }
 
     @Override
-    public OnDatum setColumnHandler(ColumnHandler columnHandler) {
-        super.setColumnHandler(columnHandler);
+    public OnDatum setColumnHandlers(List<ColumnHandler> columnHandlers) {
+        super.setColumnHandlers(columnHandlers);
+        return this;
+    }
+
+    @Override
+    public OnDatum addColumnHandler(ColumnHandler columnHandler) {
+        super.addColumnHandler(columnHandler);
         return this;
     }
 
