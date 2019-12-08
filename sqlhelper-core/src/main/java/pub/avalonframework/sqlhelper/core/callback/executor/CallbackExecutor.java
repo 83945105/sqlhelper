@@ -1,9 +1,6 @@
 package pub.avalonframework.sqlhelper.core.callback.executor;
 
-import pub.avalonframework.sqlhelper.core.beans.OnAndOr;
-import pub.avalonframework.sqlhelper.core.beans.OnLinker;
-import pub.avalonframework.sqlhelper.core.beans.WhereAndOr;
-import pub.avalonframework.sqlhelper.core.beans.WhereLinker;
+import pub.avalonframework.sqlhelper.core.beans.*;
 import pub.avalonframework.sqlhelper.core.callback.*;
 import pub.avalonframework.sqlhelper.core.data.*;
 import pub.avalonframework.sqlhelper.core.helper.*;
@@ -54,22 +51,6 @@ public final class CallbackExecutor {
             return null;
         }
         return new TableGroupDatum(groupHelper.getTableAlias(), groupData);
-    }
-
-    public static <TH extends HavingHelper<TH>> TableHavingDatum execute(TH havingHelper, HavingCallback<TH> havingCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (havingHelper == null) {
-            ExceptionUtils.havingHelperNullException();
-        }
-        if (havingCallback == null) {
-            return null;
-        }
-        havingHelper.setSqlBuilderOptions(sqlBuilderOptions);
-        havingHelper = havingCallback.apply(havingHelper);
-        List<HavingDatum> havingData = havingHelper.takeoutSqlPartData();
-        if (havingData == null || havingData.size() == 0) {
-            return null;
-        }
-        return new TableHavingDatum(havingHelper.getTableAlias(), havingData);
     }
 
     public static <TS extends SortHelper<TS>> TableSortDatum execute(TS sortHelper, SortCallback<TS> sortCallback, SqlBuilderOptions sqlBuilderOptions) {
@@ -174,6 +155,49 @@ public final class CallbackExecutor {
         return new TableWhereDatum(joinTableAlias, whereDataLinkers);
     }
 
+    public static <TH extends HavingHelper<TH>> TableHavingDatum execute(TH havingHelper, HavingCallback<TH> havingCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (havingHelper == null) {
+            ExceptionUtils.havingHelperNullException();
+        }
+        if (havingCallback == null) {
+            return null;
+        }
+        havingHelper.setSqlBuilderOptions(sqlBuilderOptions);
+        HavingLinker<TH> havingLinker = havingCallback.apply(new HavingAndOr<>(), havingHelper);
+        List<HavingDataLinker> havingDataLinkers = havingLinker.takeoutHavingDataLinkers();
+        if (havingDataLinkers == null || havingDataLinkers.size() == 0) {
+            return null;
+        }
+        return new TableHavingDatum(havingHelper.getTableAlias(), havingDataLinkers);
+    }
+
+    public static <TH extends HavingHelper<TH>,
+            S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> TableHavingDatum execute(TH mainHavingHelper, Class<S> joinTableHelperClass, String joinTableAlias, HavingJoinCallback<TH, SH> havingJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (mainHavingHelper == null) {
+            ExceptionUtils.havingHelperNullException();
+        }
+        if (havingJoinCallback == null) {
+            return null;
+        }
+        mainHavingHelper.setSqlBuilderOptions(sqlBuilderOptions);
+        S s = HelperManager.defaultTableHelper(joinTableHelperClass);
+        joinTableAlias = joinTableAlias == null ? s.getTableAlias() : joinTableAlias;
+        SH sh = s.newHavingHelper(joinTableAlias);
+        sh.setSqlBuilderOptions(sqlBuilderOptions);
+        HavingLinker<TH> havingLinker = havingJoinCallback.apply(new HavingAndOr<>(), sh, mainHavingHelper);
+        List<HavingDataLinker> havingDataLinkers = havingLinker.takeoutHavingDataLinkers();
+        if (havingDataLinkers == null || havingDataLinkers.size() == 0) {
+            return null;
+        }
+        return new TableHavingDatum(joinTableAlias, havingDataLinkers);
+    }
+
     public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
             TO extends OnHelper<TO>,
             TC extends ColumnHelper<TC>,
@@ -202,21 +226,6 @@ public final class CallbackExecutor {
         T t = HelperManager.defaultTableHelper(tableHelperClass);
         TG tg = t.newGroupHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
         return execute(tg, groupCallback, sqlBuilderOptions);
-    }
-
-    public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
-            TO extends OnHelper<TO>,
-            TC extends ColumnHelper<TC>,
-            TW extends WhereHelper<TW>,
-            TG extends GroupHelper<TG>,
-            TH extends HavingHelper<TH>,
-            TS extends SortHelper<TS>> TableHavingDatum execute(Class<T> tableHelperClass, String tableAlias, HavingCallback<TH> havingCallback, SqlBuilderOptions sqlBuilderOptions) {
-        if (tableHelperClass == null) {
-            ExceptionUtils.tableHelperClassNullException();
-        }
-        T t = HelperManager.defaultTableHelper(tableHelperClass);
-        TH th = t.newHavingHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
-        return execute(th, havingCallback, sqlBuilderOptions);
     }
 
     public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
@@ -306,6 +315,43 @@ public final class CallbackExecutor {
         T t = HelperManager.defaultTableHelper(mainTableHelperClass);
         TW tw = t.newWhereHelper(mainTableAlias == null ? t.getTableAlias() : mainTableAlias);
         return execute(tw, joinTableHelperClass, joinTableAlias, whereJoinCallback, sqlBuilderOptions);
+    }
+
+    public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+            TO extends OnHelper<TO>,
+            TC extends ColumnHelper<TC>,
+            TW extends WhereHelper<TW>,
+            TG extends GroupHelper<TG>,
+            TH extends HavingHelper<TH>,
+            TS extends SortHelper<TS>> TableHavingDatum execute(Class<T> tableHelperClass, String tableAlias, HavingCallback<TH> havingCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (tableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
+        T t = HelperManager.defaultTableHelper(tableHelperClass);
+        TH th = t.newHavingHelper(tableAlias == null ? t.getTableAlias() : tableAlias);
+        return execute(th, havingCallback, sqlBuilderOptions);
+    }
+
+    public static <T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
+            TO extends OnHelper<TO>,
+            TC extends ColumnHelper<TC>,
+            TW extends WhereHelper<TW>,
+            TG extends GroupHelper<TG>,
+            TH extends HavingHelper<TH>,
+            TS extends SortHelper<TS>,
+            S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
+            SO extends OnHelper<SO>,
+            SC extends ColumnHelper<SC>,
+            SW extends WhereHelper<SW>,
+            SG extends GroupHelper<SG>,
+            SH extends HavingHelper<SH>,
+            SS extends SortHelper<SS>> TableHavingDatum execute(Class<T> mainTableHelperClass, String mainTableAlias, Class<S> joinTableHelperClass, String joinTableAlias, HavingJoinCallback<TH, SH> havingJoinCallback, SqlBuilderOptions sqlBuilderOptions) {
+        if (mainTableHelperClass == null) {
+            ExceptionUtils.tableHelperClassNullException();
+        }
+        T t = HelperManager.defaultTableHelper(mainTableHelperClass);
+        TH th = t.newHavingHelper(mainTableAlias == null ? t.getTableAlias() : mainTableAlias);
+        return execute(th, joinTableHelperClass, joinTableAlias, havingJoinCallback, sqlBuilderOptions);
     }
 
     public static SqlBuilderResult execute(SubQueryCallback subQueryCallback) {

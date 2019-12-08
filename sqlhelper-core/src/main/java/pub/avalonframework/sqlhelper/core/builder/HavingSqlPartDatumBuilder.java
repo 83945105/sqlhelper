@@ -1,6 +1,7 @@
 package pub.avalonframework.sqlhelper.core.builder;
 
 import pub.avalonframework.sqlhelper.core.beans.ColumnHandler;
+import pub.avalonframework.sqlhelper.core.beans.GroupType;
 import pub.avalonframework.sqlhelper.core.data.AbstractComparisonSqlPartDatum;
 import pub.avalonframework.sqlhelper.core.data.HavingDatum;
 import pub.avalonframework.sqlhelper.core.helper.Helper;
@@ -60,6 +61,7 @@ public final class HavingSqlPartDatumBuilder<T extends Helper> extends AbstractC
 
     @Override
     public HavingSqlPartDatumBuilder<T> min() {
+        this.havingDatum.setColumnHandler(GroupType.MIN);
         return null;
     }
 

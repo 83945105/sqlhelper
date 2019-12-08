@@ -12,25 +12,25 @@ import java.util.List;
 /**
  * @author baichao
  */
-public final class SqlHavingBean<TW extends HavingHelper<TW>> extends AbstractSqlHavingBean {
+public final class SqlHavingBean<TH extends HavingHelper<TH>> extends AbstractSqlHavingBean {
 
-    private TW havingHelper;
+    private TH havingHelper;
 
     private HavingHelper<?>[] havingHelpers;
 
-    private HavingCallback<TW> havingCallback;
+    private HavingCallback<TH> havingCallback;
 
-    public SqlHavingBean(TW havingHelper, String tableAlias) {
+    public SqlHavingBean(TH havingHelper, String tableAlias) {
         super(tableAlias);
         this.havingHelper = havingHelper;
     }
 
-    public SqlHavingBean<TW> setHavingHelpers(HavingHelper<?>[] havingHelpers) {
+    public SqlHavingBean<TH> setHavingHelpers(HavingHelper<?>[] havingHelpers) {
         this.havingHelpers = havingHelpers;
         return this;
     }
 
-    public SqlHavingBean<TW> setHavingCallback(HavingCallback<TW> havingCallback) {
+    public SqlHavingBean<TH> setHavingCallback(HavingCallback<TH> havingCallback) {
         this.havingCallback = havingCallback;
         return this;
     }

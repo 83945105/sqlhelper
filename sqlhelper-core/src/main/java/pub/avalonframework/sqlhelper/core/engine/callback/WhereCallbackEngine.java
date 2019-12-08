@@ -21,9 +21,9 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
     /**
      * use callback to add assign class where sql data
      *
-     * @param tableHelperClass extends {@link TableHelper} class
-     * @param tableAlias       table alias
-     * @param whereCallback    {@link WhereCallback}
+     * @param tableHelperClass  extends {@link TableHelper} class
+     * @param tableAlias        table alias
+     * @param whereJoinCallback {@link WhereJoinCallback}
      * @return R
      */
     <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
@@ -32,13 +32,13 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereCallback);
+            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, String tableAlias, WhereJoinCallback<TW, SW> whereJoinCallback);
 
     /**
      * use callback to add assign class where sql data
      *
-     * @param tableHelperClass extends {@link TableHelper} class
-     * @param whereCallback    {@link WhereCallback}
+     * @param tableHelperClass  extends {@link TableHelper} class
+     * @param whereJoinCallback {@link WhereJoinCallback}
      * @return R
      */
     default <S extends TableHelper<S, SO, SC, SW, SG, SH, SS>,
@@ -47,7 +47,7 @@ public interface WhereCallbackEngine<TW extends WhereHelper<TW>, R> extends Engi
             SW extends WhereHelper<SW>,
             SG extends GroupHelper<SG>,
             SH extends HavingHelper<SH>,
-            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, WhereJoinCallback<TW, SW> whereCallback) {
-        return where(tableHelperClass, null, whereCallback);
+            SS extends SortHelper<SS>> R where(Class<S> tableHelperClass, WhereJoinCallback<TW, SW> whereJoinCallback) {
+        return where(tableHelperClass, null, whereJoinCallback);
     }
 }

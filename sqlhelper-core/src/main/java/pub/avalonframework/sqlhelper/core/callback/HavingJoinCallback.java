@@ -6,8 +6,7 @@ import pub.avalonframework.sqlhelper.core.helper.HavingHelper;
 /**
  * @author baichao
  */
-@FunctionalInterface
-public interface HavingCallback<TH extends HavingHelper<TH>> {
+public interface HavingJoinCallback<TW extends HavingHelper<TW>, SW extends HavingHelper<SW>> {
 
-    HavingLinker<TH> apply(HavingLinker<TH> having, TH mainTable);
+    HavingLinker<TW> apply(HavingLinker<TW> having, SW joinTable, TW mainTable);
 }
