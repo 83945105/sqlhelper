@@ -1,6 +1,6 @@
 package pub.avalonframework.sqlhelper.core.data;
 
-import pub.avalon.beans.DataBaseType;
+import pub.avalonframework.core.beans.DataBaseType;
 import pub.avalonframework.sqlhelper.core.option.SqlBuilderOptions;
 
 /**
@@ -88,7 +88,14 @@ public interface SqlDataProducer {
     /**
      * set limit data
      *
-     * @param limitDatum {@link LimitDatum}
+     * @param limit The limit data
      */
-    void setLimitDatum(LimitDatum limitDatum);
+    void setLimit(Long limit);
+
+    /**
+     * set offset data
+     *
+     * @param offset The offset data
+     */
+    void setOffset(Long offset);
 }

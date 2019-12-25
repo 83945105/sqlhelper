@@ -1,6 +1,6 @@
 package pub.avalonframework.sqlhelper.core.engine.builder;
 
-import pub.avalon.beans.DataBaseType;
+import pub.avalonframework.core.beans.DataBaseType;
 import pub.avalonframework.sqlhelper.core.engine.AbstractEngine;
 import pub.avalonframework.sqlhelper.core.helper.*;
 import pub.avalonframework.sqlhelper.core.option.SqlBuilderOptions;

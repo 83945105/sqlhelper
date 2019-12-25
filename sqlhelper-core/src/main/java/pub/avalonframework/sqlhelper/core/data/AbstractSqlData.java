@@ -22,7 +22,9 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
 
     private List<TableSortDatum> tableSortData;
 
-    private LimitDatum limitDatum;
+    private Long limit;
+
+    private Long offset;
 
     public AbstractSqlData(MainTableDatum mainTableDatum) {
         super(mainTableDatum);
@@ -64,8 +66,13 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public LimitDatum getLimitDatum() {
-        return this.limitDatum;
+    public Long getLimit() {
+        return this.limit;
+    }
+
+    @Override
+    public Long getOffset() {
+        return this.offset;
     }
 
     @Override
@@ -146,10 +153,18 @@ public abstract class AbstractSqlData extends AbstractSqlDataCache {
     }
 
     @Override
-    public void setLimitDatum(LimitDatum limitDatum) {
-        if (limitDatum == null) {
+    public void setLimit(Long limit) {
+        if (limit == null) {
             return;
         }
-        this.limitDatum = limitDatum;
+        this.limit = limit;
+    }
+
+    @Override
+    public void setOffset(Long offset) {
+        if (offset == null) {
+            return;
+        }
+        this.offset = offset;
     }
 }

@@ -1,6 +1,5 @@
 package pub.avalonframework.sqlhelper.core.engine.builder;
 
-import pub.avalon.beans.LimitSql;
 import pub.avalonframework.sqlhelper.core.beans.GroupType;
 import pub.avalonframework.sqlhelper.core.beans.JoinType;
 import pub.avalonframework.sqlhelper.core.callback.*;
@@ -144,25 +143,14 @@ public abstract class Sql<T extends TableHelper<T, TO, TC, TW, TG, TH, TS>,
         return this;
     }
 
-
     @Override
-    public Sql<T, TO, TC, TW, TG, TH, TS> limitTop(Long num) {
-        return this;
+    public Sql<T, TO, TC, TW, TG, TH, TS> limit(Long limit) {
+        return null;
     }
 
     @Override
-    public Sql<T, TO, TC, TW, TG, TH, TS> limitOne() {
-        return this;
-    }
-
-    @Override
-    public Sql<T, TO, TC, TW, TG, TH, TS> limit(LimitSql limit) {
-        return this;
-    }
-
-    @Override
-    public Sql<T, TO, TC, TW, TG, TH, TS> limit(Long total, Long currentPage, Long pageSize) {
-        return this;
+    public Sql<T, TO, TC, TW, TG, TH, TS> offset(Long offset) {
+        return null;
     }
 
     @Override

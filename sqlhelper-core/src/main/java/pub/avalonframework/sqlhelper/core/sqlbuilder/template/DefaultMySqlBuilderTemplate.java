@@ -1,6 +1,6 @@
 package pub.avalonframework.sqlhelper.core.sqlbuilder.template;
 
-import pub.avalon.holygrail.utils.ClassUtil;
+import pub.avalonframework.common.utils.BeanUtils;
 import pub.avalonframework.sqlhelper.core.data.ColumnDatum;
 import pub.avalonframework.sqlhelper.core.data.SqlDataConsumer;
 import pub.avalonframework.sqlhelper.core.data.TableColumnDatum;
@@ -143,7 +143,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 preparedStatementSql.append(",");
             }
             preparedStatementSql.append("`").append(columnDatum.getColumnName()).append("`");
-            preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+            preparedStatementArgs.add(BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias()));
         }
         preparedStatementSql.append(") values (");
         for (; i > 0; i--) {
@@ -168,7 +168,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         Object value;
         List<ColumnDatum> columnData = getOnlyInsertTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
-            value = ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias());
+            value = BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias());
             if (value == null) {
                 continue;
             }
@@ -220,7 +220,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
             }
             preparedStatementSql.append(valPart.toString());
             for (ColumnDatum columnDatum : columnData) {
-                preparedStatementArgs.add(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+                preparedStatementArgs.add(BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias()));
             }
         }
         return FinalSqlBuilderResult.newInstance(preparedStatementSql.toString(), preparedStatementArgs);
@@ -292,7 +292,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 sqlBuilderResult.appendSqlPart(",");
             }
             sqlBuilderResult.appendSqlPart(tableAlias).appendSqlPart(".`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`").appendSqlPart(" = ?");
-            sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+            sqlBuilderResult.appendArg(BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias()));
         }
         sqlBuilderResult.append(this.sqlPartBuilderTemplate.buildWhere(sqlDataConsumer));
         return sqlBuilderResult;
@@ -312,7 +312,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
         Object value;
         List<ColumnDatum> columnData = getOnlyUpdateTableDefaultColumnData(sqlDataConsumer);
         for (ColumnDatum columnDatum : columnData) {
-            value = ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias());
+            value = BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias());
             if (value == null) {
                 continue;
             }
@@ -369,7 +369,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 sqlBuilderResult.appendSqlPart(",");
             }
             sqlBuilderResult.appendSqlPart("`").appendSqlPart(columnDatum.getColumnName()).appendSqlPart("`").appendSqlPart(" = ?");
-            sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+            sqlBuilderResult.appendArg(BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias()));
         }
         sqlBuilderResult.appendSqlPart(" where `")
                 .appendSqlPart(primaryKeyName)
@@ -392,7 +392,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
             if (columnDatum.getColumnName().equals(primaryKeyName)) {
                 continue;
             }
-            value = ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias());
+            value = BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias());
             if (value == null) {
                 continue;
             }
@@ -439,7 +439,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 inSql.append("?");
                 inArgs.add(keyValue);
             } else {
-                keyValue = ClassUtil.getProperty(javaBean, primaryKeyAlias);
+                keyValue = BeanUtils.getProperty(javaBean, primaryKeyAlias);
                 if (i++ > 0) {
                     inSql.append(",");
                 }
@@ -477,7 +477,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
                 if (javaBean instanceof Map) {
                     sqlBuilderResult.appendArg(((Map) javaBean).get(columnDatum.getColumnAlias()));
                 } else {
-                    sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+                    sqlBuilderResult.appendArg(BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias()));
                 }
             }
         }
@@ -526,7 +526,7 @@ public final class DefaultMySqlBuilderTemplate implements MySqlBuilderTemplate {
             }
             sqlBuilderResult.appendSqlPart(valueSql.toString());
             for (ColumnDatum columnDatum : columnData) {
-                sqlBuilderResult.appendArg(ClassUtil.getProperty(javaBean, columnDatum.getColumnAlias()));
+                sqlBuilderResult.appendArg(BeanUtils.getProperty(javaBean, columnDatum.getColumnAlias()));
             }
         }
         sqlBuilderResult.appendSqlPart(" on duplicate key update ").appendSqlPart(onSql.toString());

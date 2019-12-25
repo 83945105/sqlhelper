@@ -1,6 +1,6 @@
 package pub.avalonframework.sqlhelper.core.data;
 
-import pub.avalon.beans.DataBaseType;
+import pub.avalonframework.core.beans.DataBaseType;
 import pub.avalonframework.sqlhelper.core.option.SqlBuilderOptions;
 
 import java.util.LinkedHashMap;
@@ -63,7 +63,7 @@ public interface SqlDataConsumer {
     /**
      * get table where data
      *
-     * @return {@link WhereDataLinker}
+     * @return {@link TableWhereDatum}
      */
     List<TableWhereDatum> getTableWhereData();
 
@@ -91,7 +91,14 @@ public interface SqlDataConsumer {
     /**
      * get limit data
      *
-     * @return {@link LimitDatum}
+     * @return The Limit data
      */
-    LimitDatum getLimitDatum();
+    Long getLimit();
+
+    /**
+     * get offset data
+     *
+     * @return The offset data
+     */
+    Long getOffset();
 }

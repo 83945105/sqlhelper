@@ -1,13 +1,14 @@
 package pub.avalon.sqlhelper.spring.beans;
 
 import pub.avalon.beans.Pagination;
+import pub.avalon.sqlhelper.spring.core.SpringJdbcEngine;
+import pub.avalonframework.core.beans.Pagination;
 import pub.avalonframework.sqlhelper.core.data.LimitDatum;
 import pub.avalonframework.sqlhelper.core.engine.AbstractEngine;
 import pub.avalonframework.sqlhelper.core.sqlbuilder.*;
-import pub.avalon.sqlhelper.spring.core.SpringJdbcEngine;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -250,14 +251,16 @@ public interface JdbcEngine {
      */
     default PageResultForMap pageQueryList(long currentPage, long pageSize, AbstractEngine abstractEngine) {
         long count = this.queryCount(abstractEngine);
-        Pagination pagination = new Pagination(abstractEngine.getDataBaseType(), count, currentPage, pageSize);
+        Pagination pagination = new Pagination(count, currentPage, pageSize);
         PageResultForMap pageResult = new PageResultForMap();
         pageResult.setLimit(pagination);
         if (count == 0) {
-            pageResult.setResult(new ArrayList<>());
+            pageResult.setResult(Collections.emptyList());
             return pageResult;
         }
         abstractEngine.setLimitDatum(new LimitDatum(count, currentPage, pageSize));
+        abstractEngine.setLimit(pagination.getm);
+        abstractEngine.setOffset();
         pageResult.setResult(this.queryList(abstractEngine));
         return pageResult;
     }
@@ -282,7 +285,7 @@ public interface JdbcEngine {
         PageResultForBean<T> pageResult = new PageResultForBean<>();
         pageResult.setLimit(pagination);
         if (count == 0) {
-            pageResult.setResult(new ArrayList<>());
+            pageResult.setResult(Collections.emptyList());
             return pageResult;
         }
         abstractEngine.setLimitDatum(new LimitDatum(count, currentPage, pageSize));

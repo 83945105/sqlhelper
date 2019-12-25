@@ -2,8 +2,6 @@ package pub.avalonframework.sqlhelper.core.sql;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import pub.avalon.beans.DataBaseType;
-import pub.avalon.beans.Pagination;
 import pub.avalonframework.sqlhelper.AbstractTest;
 import pub.avalonframework.sqlhelper.core.beans.ComparisonRule;
 import pub.avalonframework.sqlhelper.core.beans.GroupType;
@@ -689,12 +687,10 @@ public class MySqlDynamicQueryTest extends AbstractTest {
     void TestLimit02() {
         SqlBuilderResult sqlBuilderResult = MySqlDynamicEngine.table(SysUserHelper.class)
                 .column(table -> table)
-                .limit(200L, 10L, 20L)
+                .limit(arg(10L))
+                .offset(arg(20L))
                 .query();
-        Pagination pagination = new Pagination(DataBaseType.MYSQL, 200L, 10L, 20L);
-        arg(pagination.getLimitStartNum());
-        arg(pagination.getLimitEndNum());
-        setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ?,?");
+        setSqlBuilder(sqlBuilderResult, "select SysUser.`id` `id`,SysUser.`user_name` `userName`,SysUser.`login_name` `loginName` from `sys_user` SysUser limit ? offset ?");
     }
 
     @Test

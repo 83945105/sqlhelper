@@ -1,6 +1,5 @@
 package pub.avalonframework.sqlhelper.core.sqlbuilder.template;
 
-import pub.avalon.beans.Pagination;
 import pub.avalonframework.sqlhelper.core.beans.ColumnHandler;
 import pub.avalonframework.sqlhelper.core.beans.LinkType;
 import pub.avalonframework.sqlhelper.core.data.*;
@@ -196,12 +195,15 @@ public final class DefaultMySqlPartBuilderTemplate implements MySqlPartBuilderTe
 
     @Override
     public SqlBuilderResult buildLimit(SqlDataConsumer sqlDataConsumer) {
-        LimitDatum limitDatum = sqlDataConsumer.getLimitDatum();
-        if (limitDatum == null) {
+        Long limit = sqlDataConsumer.getLimit();
+        Long offset = sqlDataConsumer.getOffset();
+        if (limit == null) {
             return FinalSqlBuilderResult.NONE;
         }
-        Pagination pagination = new Pagination(sqlDataConsumer.getDataBaseType(), limitDatum.getTotal(), limitDatum.getCurrentPage(), limitDatum.getPageSize());
-        return FinalSqlBuilderResult.newInstance(" limit ?,?", Arrays.asList(pagination.getLimitStartNum(), pagination.getLimitEndNum()));
+        if (offset == null) {
+            return FinalSqlBuilderResult.newInstance(" limit ?", Collections.singletonList(limit));
+        }
+        return FinalSqlBuilderResult.newInstance(" limit ? offset ?", Arrays.asList(limit, offset));
     }
 
     private void appendColumnSqlArgs(StringBuilder sql, List<Object> args, List<ColumnDatum> columnData) {

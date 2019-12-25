@@ -1,6 +1,5 @@
 package pub.avalonframework.sqlhelper.core.utils;
 
-import pub.avalon.holygrail.utils.GenericsUtils;
 import pub.avalonframework.sqlhelper.core.beans.TableColumn;
 import pub.avalonframework.sqlhelper.core.cache.ClassCacheManager;
 import pub.avalonframework.sqlhelper.core.cache.core.CacheConfigurationBuilder;
@@ -11,6 +10,8 @@ import pub.avalonframework.sqlhelper.core.engine.builder.*;
 import pub.avalonframework.sqlhelper.core.helper.*;
 import pub.avalonframework.sqlhelper.core.spi.cache.Cache;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -80,37 +81,56 @@ public class HelperManager {
 
     @SuppressWarnings("unchecked")
     public static <T extends OnHelper<T>> T findOnHelperClassFromAncestorsGenericType(SqlJoin<T> sqlJoin) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlJoin.getClass(), OnHelper.class));
+        return (T) ClassCacheManager.getInstance().newInstance(getExpectAncestorsClassGenricType(sqlJoin.getClass(), OnHelper.class));
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends OnHelper<T>> T findOnHelperClassFromAncestorsGenericType(SqlOn<T> sqlOn) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlOn.getClass(), OnHelper.class));
+        return (T) ClassCacheManager.getInstance().newInstance(getExpectAncestorsClassGenricType(sqlOn.getClass(), OnHelper.class));
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends ColumnHelper<T>> T findColumnHelperClassFromAncestorsGenericType(SqlColumn<T> sqlColumn) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlColumn.getClass(), ColumnHelper.class));
+        return (T) ClassCacheManager.getInstance().newInstance(getExpectAncestorsClassGenricType(sqlColumn.getClass(), ColumnHelper.class));
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends WhereHelper<T>> T findWhereHelperClassFromAncestorsGenericType(SqlWhere<T> sqlWhere) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlWhere.getClass(), WhereHelper.class));
+        return (T) ClassCacheManager.getInstance().newInstance(getExpectAncestorsClassGenricType(sqlWhere.getClass(), WhereHelper.class));
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends GroupHelper<T>> T findGroupHelperClassFromAncestorsGenericType(SqlGroup<T> sqlGroup) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlGroup.getClass(), GroupHelper.class));
+        return (T) ClassCacheManager.getInstance().newInstance(getExpectAncestorsClassGenricType(sqlGroup.getClass(), GroupHelper.class));
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends HavingHelper<T>> T findHavingHelperClassFromAncestorsGenericType(SqlHaving<T> sqlHaving) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlHaving.getClass(), HavingHelper.class));
+        return (T) ClassCacheManager.getInstance().newInstance(getExpectAncestorsClassGenricType(sqlHaving.getClass(), HavingHelper.class));
     }
 
     @SuppressWarnings("unchecked")
     public static <T extends SortHelper<T>> T findSortHelperClassFromAncestorsGenericType(SqlSort<T> sqlSort) {
-        return (T) ClassCacheManager.getInstance().newInstance(GenericsUtils.getExpectAncestorsClassGenricType(sqlSort.getClass(), SortHelper.class));
+        return (T) ClassCacheManager.getInstance().newInstance(getExpectAncestorsClassGenricType(sqlSort.getClass(), SortHelper.class));
+    }
+
+    private static Class getExpectAncestorsClassGenricType(Class clazz, Class<?> expectClass) {
+        if (clazz == Object.class) {
+            return null;
+        }
+        Type genType = clazz.getGenericSuperclass();
+        if (genType instanceof ParameterizedType) {
+            Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+            for (Type param : params) {
+                if (param instanceof Class) {
+                    if (expectClass.isAssignableFrom((Class<?>) param)) {
+                        return (Class) param;
+                    }
+                }
+            }
+
+        }
+        return getExpectAncestorsClassGenricType(clazz.getSuperclass(), expectClass);
     }
 
     private final static class ColumnDatumList extends ArrayList<ColumnDatum> {

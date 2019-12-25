@@ -41,7 +41,7 @@
         <module>sqlhelper-core</module>
         <module>sqlhelper-generator</module>
         <module>sqlhelper-maven-plugin</module>
-        <module>sqlhelper-spring</module>
+        <!--<module>sqlhelper-spring</module>-->
         <module>sqlhelper-test</module>
     </modules>
 
@@ -56,7 +56,6 @@
 
         <sqlhelper.version>${project.version}</sqlhelper.version>
 
-        <holygrail.version>0.6.0-SNAPSHOT</holygrail.version>
         <velocity.version>1.7</velocity.version>
         <slf4j.version>1.7.25</slf4j.version>
         <jansi.version>1.11</jansi.version>
@@ -115,17 +114,6 @@
                 <version>6.0.6</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.github.83945105</groupId>
-                <artifactId>holygrail</artifactId>
-                <version>${holygrail.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>commons-codec</artifactId>
-                        <groupId>commons-codec</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>org.apache.velocity</groupId>
                 <artifactId>velocity</artifactId>

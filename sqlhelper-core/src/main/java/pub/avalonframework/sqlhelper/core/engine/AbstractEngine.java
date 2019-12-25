@@ -1,6 +1,6 @@
 package pub.avalonframework.sqlhelper.core.engine;
 
-import pub.avalon.beans.DataBaseType;
+import pub.avalonframework.core.beans.DataBaseType;
 import pub.avalonframework.sqlhelper.core.data.*;
 import pub.avalonframework.sqlhelper.core.helper.*;
 import pub.avalonframework.sqlhelper.core.option.SqlBuilderOptions;
@@ -318,7 +318,12 @@ public abstract class AbstractEngine<T extends TableHelper<T, TO, TC, TW, TG, TH
     }
 
     @Override
-    public void setLimitDatum(LimitDatum limitDatum) {
-        this.sqlData.setLimitDatum(limitDatum);
+    public void setLimit(Long limit) {
+        this.sqlData.setLimit(limit);
+    }
+
+    @Override
+    public void setOffset(Long offset) {
+        this.sqlData.setOffset(offset);
     }
 }

@@ -1,6 +1,6 @@
 package pub.avalonframework.sqlhelper.readme.model;
 
-import pub.avalon.beans.DataBaseType;
+import pub.avalonframework.core.beans.DataBaseType;
 import pub.avalonframework.sqlhelper.core.beans.GroupType;
 import pub.avalonframework.sqlhelper.core.beans.JoinType;
 import pub.avalonframework.sqlhelper.core.engine.SqlHelperEngine;
@@ -154,7 +154,8 @@ public class Test {
                 .orderBy(table -> sort)
                 .orderBy(SysUserHelper.class, table -> joinSort)
                 .orderBy(sort, joinSort)
-                .limitOne();
+                .limit(1L)
+                .offset(2L);
 
 
         sqlEngine.query();
