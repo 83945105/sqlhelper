@@ -50,7 +50,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <jansi.version>1.11</jansi.version>
         <spring-beans.version>5.0.8.RELEASE</spring-beans.version>
-        <com.alibaba.fastjson.version>1.2.31</com.alibaba.fastjson.version>
+        <com.alibaba.fastjson.version>1.2.83</com.alibaba.fastjson.version>
     </properties>
 
     <dependencies>
